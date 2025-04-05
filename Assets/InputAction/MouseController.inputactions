@@ -1,0 +1,76 @@
+{
+    "name": "MouseController",
+    "maps": [
+        {
+            "name": "Mouse",
+            "id": "cd07ec2c-4430-4c9a-a62e-182697194e03",
+            "actions": [
+                {
+                    "name": "Position",
+                    "type": "Value",
+                    "id": "e816b498-5d14-44ac-8195-8a313ecf3d09",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Pressed",
+                    "type": "Button",
+                    "id": "37865caf-df50-48b9-aad2-5b944d3b5bf4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a4e07bd7-e47b-4b9a-b5ad-b583fb5967eb",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91c77236-57f1-4155-8f39-26e98bec4d26",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1c95da3-99ff-4a8e-b11a-c306ba664bee",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcccf4b2-63c7-4c70-b378-612758713078",
+                    "path": "<Mouse>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

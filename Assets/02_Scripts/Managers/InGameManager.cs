@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InGameManager : MonoBehaviour
+public class InGameManager : Singleton<InGameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    public CharacterManager CharacterManager {  get; private set; }
+
+    private void Awake()
     {
-        
+        DontDestroyOnLoad(gameObject);
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Init()
     {
-        
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if(currentScene == "Character_SHJ_Sene")
+        {
+            CharacterManager = new();
+            CharacterManager.Init();
+        }
     }
 }

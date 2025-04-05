@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class Character : MonoBehaviour
+public class Character
 {
     public Player player {  get; private set; }
 
@@ -8,6 +6,7 @@ public class Character : MonoBehaviour
     {
         player = _player;
     }
+
     public void GetExp(float exp)
     {
         player.exp += exp;

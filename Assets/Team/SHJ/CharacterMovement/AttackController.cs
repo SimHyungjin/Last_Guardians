@@ -1,10 +1,10 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public interface IAttackBehavior
 {
-    void Attack(Vector2 targetPos);
+    void Init(AttackController _controller);
+    void Attack(Vector2 targetPos, float damage);
 }
 
 /// <summary>
@@ -13,16 +13,16 @@ public interface IAttackBehavior
 /// </summary>
 public class AttackController : MonoBehaviour
 {
-    public Character character { get; set; }
-
-    private bool isAttacking = false;
+    public  Character character {  get; private set; }
     private GameObject target;
     private Coroutine attackCoroutine;
-
+    private bool isAttacking = false;
     private const float targetCheckTime = 0.2f;
 
+    private IAttackBehavior attackBehavior;
     /// <summary>
-    /// 캐릭터 데이터를 주입하고 자동 공격을 시작합니다.
+    /// 캐릭터 데이터를 주입하고 공격 모드를 근거리 정면 공격으로 변경합니다.
+    /// 자동 공격을 시작합니다.
     /// </summary>
     public void Init(Character _character)
     {
@@ -97,6 +97,15 @@ public class AttackController : MonoBehaviour
     }
 
     /// <summary>
+    /// 공격 형태를 변경합니다.
+    /// </summary>
+    public void SetAttackBehavior(IAttackBehavior behavior)
+    {
+        attackBehavior = behavior;
+        behavior.Init(this);
+    }
+
+    /// <summary>
     /// 공격을 수행하며, 감지된 몬스터를 거리순으로 정렬 후 처리합니다.
     /// </summary>
     private void Attack(Vector2 targetPosition)
@@ -104,21 +113,9 @@ public class AttackController : MonoBehaviour
         if (isAttacking) return;
         isAttacking = true;
 
-        Vector2 forward = transform.right;
-        Vector2 boxCenter = (Vector2)transform.position + forward * character.player.attackRange;
-        Vector2 boxSize = new Vector2(2f, character.player.attackRange);
-
-        var hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0f, LayerMask.GetMask("Monster"))
-            .Where(h => h != null && h.gameObject.activeInHierarchy)
-            .OrderBy(h => Vector2.Distance(transform.position, h.transform.position))
-            .ToArray();
-
-        foreach (var hit in hits)
-        {
-            // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
-            Debug.Log("공격");
-        }
-
+        if (attackBehavior == null)
+            SetAttackBehavior(new AttackMeleeFront());
+        attackBehavior.Attack(targetPosition, CalculateDamage());
         StartCoroutine(AttackDelay());
     }
 

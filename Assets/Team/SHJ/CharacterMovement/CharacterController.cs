@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
-    public Character character;
-    public AttackController attackController;
-    public MoveController moveController;
+    public Character character {  get; private set; }
+    public AttackController attackController { get; private set; }
+    public MoveController moveController { get; private set; }
 
     // TODO: 임시용 키보드 입력
     public KeyboardMoveTest keyboardMoveTest;

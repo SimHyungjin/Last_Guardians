@@ -29,11 +29,12 @@ public class EffectIndicator : MonoBehaviour, IPoolable
         }
     }
 
-    public void ChangeSpriteBox(string effectSpriteName, Vector2 cneter, float sizeX, float sizeY)
+    public void ChangeSpriteSquare(string effectSpriteName, Vector2 cneter, float sizeX, float sizeY)
     {
         Sprite sprite = Resources.Load<Sprite>(effectSpriteName);
         if (sprite == null)
         {
+            // TODO:
             Debug.LogWarning("스프라이트 로드 실패: " + effectSpriteName);
             return;
         }
@@ -48,6 +49,7 @@ public class EffectIndicator : MonoBehaviour, IPoolable
         Sprite sprite = Resources.Load<Sprite>(effectSpriteName);
         if (sprite == null)
         {
+            // TODO:
             Debug.LogWarning("스프라이트 로드 실패: " + effectSpriteName);
             return;
         }

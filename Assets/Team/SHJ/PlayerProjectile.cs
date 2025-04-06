@@ -61,11 +61,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
 
         rb.velocity = direction * speed;
     }
-    /// <summary>
-    /// time후에 투사체 제거
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
+
     IEnumerator DespawnProjectile(float time = 0)
     {
         yield return new WaitForSeconds(time);

@@ -18,7 +18,7 @@ public class AttackController : MonoBehaviour
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
-    private const float targetCheckTime = 0.2f;
+    private const float targetCheckTime = 0.01f;
     public float rangeX { get; private set; } = 2f;
 
     private IAttackBehavior attackBehavior;

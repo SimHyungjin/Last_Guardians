@@ -12,7 +12,7 @@ public class AttackMeleeCircle : IAttackBehavior
 
     public void Attack(Vector2 targetPos, float damage)
     {   
-        var hits = Physics2D.OverlapCircleAll(attackController.transform.position, attackController.player.playerData.attackRange, LayerMask.GetMask("Monster"))
+        var hits = Physics2D.OverlapCircleAll(attackController.transform.position, attackController.player.playerData.attackRange * 2, LayerMask.GetMask("Monster"))
             .Where(h => h != null && h.gameObject.activeInHierarchy)
             .OrderBy(h => Vector2.Distance(attackController.transform.position, h.transform.position))
             .ToArray();

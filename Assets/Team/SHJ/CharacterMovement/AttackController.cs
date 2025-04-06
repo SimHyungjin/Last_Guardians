@@ -155,5 +155,24 @@ public class AttackController : MonoBehaviour
         // 감지 범위 (빨간 원)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, player.playerData.attackRange * 2);
+
+        Gizmos.color = new Color(1f, 0f, 0f, 0.4f); // 반투명 빨간색
+
+        Vector2 forward = transform.right;
+        float range = player.playerData.attackRange;
+        float width = rangeX; // AttackController에 public float rangeX;
+
+        Vector2 boxCenter = (Vector2)transform.position + forward * range;
+        Vector2 boxSize = new Vector2(width, range);
+        float angle = transform.eulerAngles.z;
+
+        // 회전된 박스를 제대로 그리기 위한 행렬 설정
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(boxCenter, Quaternion.Euler(0, 0, angle), Vector3.one);
+        Gizmos.matrix = rotationMatrix;
+
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
+
+        // 매트릭스 초기화 (다음 Gizmos에 영향 안 주게)
+        Gizmos.matrix = Matrix4x4.identity;
     }
 }

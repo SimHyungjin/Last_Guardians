@@ -85,9 +85,10 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
             EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
             EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
-            effectIndicator.ChangeSpriteCircle("Effect/Circle", collision.ClosestPoint(transform.position), multiSpread);
+            Vector2 hitPoint = collision.ClosestPoint(transform.position);
+            effectIndicator.ChangeSpriteCircle("Effect/Circle", hitPoint, multiSpread);
 
-            var hits = Physics2D.OverlapCircleAll(transform.position, multiSpread, LayerMask.GetMask("Monster"));
+            var hits = Physics2D.OverlapCircleAll(hitPoint, multiSpread * 0.5f, LayerMask.GetMask("Monster"));
             foreach (var hit in hits)
             {
                 // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
@@ -104,6 +105,4 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
         }
         PoolManager.Instance.Despawn(this);
     }
-
-
 }

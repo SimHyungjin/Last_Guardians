@@ -19,4 +19,9 @@ public class AttackRangedMulti : IAttackBehavior
         // TODO:
         Debug.Log("멀티 타겟 원거리 공격");
     }
+
+    public void ShowRange()
+    {
+        
+    }
 }

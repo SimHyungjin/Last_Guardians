@@ -5,6 +5,7 @@ public interface IAttackBehavior
 {
     void Init(AttackController _controller);
     void Attack(Vector2 targetPos, float damage);
+    void ShowRange();
 }
 
 /// <summary>
@@ -18,6 +19,7 @@ public class AttackController : MonoBehaviour
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
     private const float targetCheckTime = 0.2f;
+    public float rangeX { get; private set; } = 2f;
 
     private IAttackBehavior attackBehavior;
     /// <summary>
@@ -116,6 +118,7 @@ public class AttackController : MonoBehaviour
         if (attackBehavior == null)
             SetAttackBehavior(new AttackMeleeFront());
         attackBehavior.Attack(targetPosition, CalculateDamage());
+        attackBehavior.ShowRange();
         StartCoroutine(AttackDelay());
     }
 
@@ -152,17 +155,5 @@ public class AttackController : MonoBehaviour
         // 감지 범위 (빨간 원)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, player.playerData.attackRange * 2);
-
-        // 공격 사각형 (초록 박스)
-        Vector3 forward = transform.right;
-        float distance = player.playerData.attackRange;
-        Vector3 center = transform.position + forward * distance;
-        Vector2 size = new Vector2(2f, player.playerData.attackRange);
-
-        Gizmos.color = Color.green;
-        Matrix4x4 rotMatrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 0, transform.eulerAngles.z), Vector3.one);
-        Gizmos.matrix = rotMatrix;
-        Gizmos.DrawWireCube(Vector3.zero, size);
-        Gizmos.matrix = Matrix4x4.identity;
     }
 }

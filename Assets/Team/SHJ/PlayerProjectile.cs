@@ -82,6 +82,11 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
 
         if (isMulti)
         {
+            EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
+            EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
+
+            effectIndicator.ChangeSpriteCircle("Effect/Circle", collision.ClosestPoint(transform.position), multiSpread);
+
             var hits = Physics2D.OverlapCircleAll(transform.position, multiSpread, LayerMask.GetMask("Monster"));
             foreach (var hit in hits)
             {

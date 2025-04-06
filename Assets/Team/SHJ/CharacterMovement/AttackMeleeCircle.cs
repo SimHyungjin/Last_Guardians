@@ -25,4 +25,11 @@ public class AttackMeleeCircle : IAttackBehavior
         }
 
     }
+    public void ShowRange()
+    {
+        EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
+        EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
+
+        effectIndicator.ChangeSpriteCircle("Effect/Circle", attackController.transform.position, attackController.player.playerData.attackRange * 4);
+    }
 }

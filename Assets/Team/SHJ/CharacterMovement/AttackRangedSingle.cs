@@ -19,4 +19,8 @@ public class AttackRangedSingle : IAttackBehavior
         // TODO:
         Debug.Log("단일 타겟 원거리 공격");
     }
+    public void ShowRange()
+    {
+
+    }
 }

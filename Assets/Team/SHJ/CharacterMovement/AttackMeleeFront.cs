@@ -14,7 +14,7 @@ public class AttackMeleeFront : IAttackBehavior
     {
         Vector2 forward = attackController.transform.right;
         Vector2 boxCenter = (Vector2)attackController.transform.position + forward * attackController.player.playerData.attackRange;
-        Vector2 boxSize = new Vector2(2f, attackController.player.playerData.attackRange);
+        Vector2 boxSize = new Vector2(attackController.rangeX, attackController.player.playerData.attackRange);
 
         var hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0f, LayerMask.GetMask("Monster"))
             .Where(h => h != null && h.gameObject.activeInHierarchy)
@@ -28,5 +28,19 @@ public class AttackMeleeFront : IAttackBehavior
             Debug.Log("정면 근접 공격");
         }
 
+    }
+    public void ShowRange()
+    {
+        EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
+        EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
+
+        float width = attackController.rangeX;
+        float height = attackController.player.playerData.attackRange;
+
+        Vector2 forward = attackController.transform.right;
+        Vector2 center = (Vector2)attackController.transform.position + forward * height;
+
+        effectIndicator.ChangeSpriteBox("Effect/Square", center, width, height);
+        effectIndicator.transform.rotation = attackController.transform.rotation;
     }
 }

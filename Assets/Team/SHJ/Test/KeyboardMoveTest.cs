@@ -6,11 +6,11 @@ using UnityEngine;
 /// </summary>
 public class KeyboardMoveTest : MonoBehaviour
 {
-    private Character character;
+    private Player player;
 
-    public void Init(Character _character)
+    public void Init(Player _player)
     {
-        character = _character;
+        player = _player;
     }
 
     private void Update()
@@ -25,7 +25,7 @@ public class KeyboardMoveTest : MonoBehaviour
             inputDir = inputDir.normalized;
 
             // 이동
-            transform.position += (Vector3)(inputDir * character.player.moveSpeed * Time.deltaTime);
+            transform.position += (Vector3)(inputDir * player.playerData.moveSpeed * Time.deltaTime);
 
             // 회전 (방향 쪽으로만 보정)
             float targetAngle = Mathf.Atan2(inputDir.y, inputDir.x) * Mathf.Rad2Deg;

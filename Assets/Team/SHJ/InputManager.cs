@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : Singleton<InputManager>
 {
-    public MouseController mouseInput { get; private set; }
-    public MouseController.MouseActions mouseActions { get; private set; }
+    private PointerInput pointerInput;
+    private PointerInput.PointerActions pointerAction;
 
     private void Awake()
     {
@@ -15,22 +15,22 @@ public class InputManager : Singleton<InputManager>
 
     public void Init()
     {
-        mouseInput = new MouseController();
-        mouseActions = mouseInput.Mouse;
-        mouseInput.Enable();
+        pointerInput = new PointerInput();
+        pointerAction = pointerInput.Pointer;
+        pointerInput.Enable();
     }
 
     public Vector2 GetTouchWorldPosition()
     {
-        Vector3 screenPos = mouseInput.Mouse.Position.ReadValue<Vector2>();
+        Vector3 screenPos = pointerInput.Pointer.Position.ReadValue<Vector2>();
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         return new Vector2(worldPos.x, worldPos.y);
     }
 
-    public void BindTouch(Action<InputAction.CallbackContext> onStart, Action<InputAction.CallbackContext> onEnd)
+    public void BindTouchPressed(Action<InputAction.CallbackContext> onStart, Action<InputAction.CallbackContext> onEnd)
     {
-        mouseActions.Pressed.started += onStart;
-        mouseActions.Pressed.canceled += onEnd;
+        pointerAction.Pressed.started += onStart;
+        pointerAction.Pressed.canceled += onEnd;
     }
 
     public void BindStart(InputAction action, Action<InputAction.CallbackContext> callback) => action.started += callback;
@@ -41,12 +41,12 @@ public class InputManager : Singleton<InputManager>
     public void UnBindPerformed(InputAction action, Action<InputAction.CallbackContext> callback) => action.performed -= callback;
     public void UnBindCanceled(InputAction action, Action<InputAction.CallbackContext> callback) => action.canceled -= callback;
 
-    public void TouchEnable()
+    public void EnablePointer()
     {
-        mouseInput.Enable();
+        pointerInput.Enable();
     }
-    public void TouchDisable()
+    public void DisablePointer()
     {
-        mouseInput.Disable();
+        pointerInput.Disable();
     }
 }

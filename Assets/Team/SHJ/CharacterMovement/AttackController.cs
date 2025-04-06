@@ -13,7 +13,7 @@ public interface IAttackBehavior
 /// </summary>
 public class AttackController : MonoBehaviour
 {
-    public  Character character {  get; private set; }
+    public  Player player {  get; private set; }
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
@@ -24,9 +24,9 @@ public class AttackController : MonoBehaviour
     /// 캐릭터 데이터를 주입하고 공격 모드를 근거리 정면 공격으로 변경합니다.
     /// 자동 공격을 시작합니다.
     /// </summary>
-    public void Init(Character _character)
+    public void Init(Player _player)
     {
-        character = _character;
+        player = _player;
         AutoAttackStart();
     }
 
@@ -58,7 +58,7 @@ public class AttackController : MonoBehaviour
 
         while (true)
         {
-            var hits = Physics2D.OverlapCircleAll(transform.position, character.player.attackRange * 2, layerMask);
+            var hits = Physics2D.OverlapCircleAll(transform.position, player.playerData.attackRange * 2, layerMask);
 
             if (hits.Length == 0)
             {
@@ -124,7 +124,7 @@ public class AttackController : MonoBehaviour
     /// </summary>
     private IEnumerator AttackDelay()
     {
-        yield return new WaitForSeconds(character.player.attackSpeed);
+        yield return new WaitForSeconds(player.playerData.attackSpeed);
         isAttacking = false;
     }
 
@@ -133,11 +133,11 @@ public class AttackController : MonoBehaviour
     /// </summary>
     private float CalculateDamage()
     {
-        float damage = character.player.attackPower;
+        float damage = player.playerData.attackPower;
         float randomFloat = Random.Range(0, 100);
 
-        if (randomFloat <= character.player.criticalChance)
-            damage *= character.player.criticalDamage;
+        if (randomFloat <= player.playerData.criticalChance)
+            damage *= player.playerData.criticalDamage;
 
         return damage;
     }
@@ -147,17 +147,17 @@ public class AttackController : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos()
     {
-        if (character == null) return;
+        if (player == null) return;
 
         // 감지 범위 (빨간 원)
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, character.player.attackRange * 2);
+        Gizmos.DrawWireSphere(transform.position, player.playerData.attackRange * 2);
 
         // 공격 사각형 (초록 박스)
         Vector3 forward = transform.right;
-        float distance = character.player.attackRange;
+        float distance = player.playerData.attackRange;
         Vector3 center = transform.position + forward * distance;
-        Vector2 size = new Vector2(2f, character.player.attackRange);
+        Vector2 size = new Vector2(2f, player.playerData.attackRange);
 
         Gizmos.color = Color.green;
         Matrix4x4 rotMatrix = Matrix4x4.TRS(center, Quaternion.Euler(0, 0, transform.eulerAngles.z), Vector3.one);

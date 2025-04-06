@@ -1,8 +1,8 @@
 {
-    "name": "MouseController",
+    "name": "PointerInput",
     "maps": [
         {
-            "name": "Mouse",
+            "name": "Pointer",
             "id": "cd07ec2c-4430-4c9a-a62e-182697194e03",
             "actions": [
                 {

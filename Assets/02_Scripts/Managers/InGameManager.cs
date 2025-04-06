@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InGameManager : Singleton<InGameManager>
 {
-    public CharacterManager CharacterManager {  get; private set; }
+    public PlayerManager playerManager {  get; private set; }
 
     private void Awake()
     {
@@ -15,8 +15,8 @@ public class InGameManager : Singleton<InGameManager>
         string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         if(currentScene == "Character_SHJ_Sene")
         {
-            CharacterManager = new();
-            CharacterManager.Init();
+            playerManager = new();
+            playerManager.Init();
         }
     }
 }

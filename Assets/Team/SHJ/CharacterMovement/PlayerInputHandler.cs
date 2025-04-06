@@ -6,16 +6,16 @@ using UnityEngine.InputSystem;
 /// 이 스크립트는 캐릭터의 입력 처리를 담당합니다.
 /// 터치 또는 마우스 입력을 받아 캐릭터 이동 컨트롤러에 연결합니다.
 /// </summary>
-public class CharacterInputHandler : MonoBehaviour
+public class PlayerInputHandler : MonoBehaviour
 {
-    private CharacterController characterController;
+    private PlayerController playercontroller;
 
     /// <summary>
     /// 컴포넌트 참조를 초기화합니다.
     /// </summary>
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        playercontroller = GetComponent<PlayerController>();
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class CharacterInputHandler : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        InputManager.Instance?.BindTouch(OnTouchStart, OnTouchEnd);
+        InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class CharacterInputHandler : MonoBehaviour
         if (Input.touchCount > 0 && EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
 #endif
-        characterController.moveController.SwipeStart();
+        playercontroller.moveController.SwipeStart();
     }
 
     /// <summary>
@@ -47,6 +47,6 @@ public class CharacterInputHandler : MonoBehaviour
     /// <param name="ctx">입력 컨텍스트</param>
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
-        characterController.moveController.SwipeStop();
+        playercontroller.moveController.SwipeStop();
     }
 }

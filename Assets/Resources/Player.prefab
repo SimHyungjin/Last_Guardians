@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: -6332791989440045632}
   - component: {fileID: -3792329101876344576}
   - component: {fileID: 118492336451323200}
-  - component: {fileID: -5523773098352694419}
+  - component: {fileID: 2198008271053869776}
   - component: {fileID: 2832262191407596026}
   - component: {fileID: 6735863269675108490}
   - component: {fileID: 638856036678479071}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Mouse
+  m_DefaultActionMap: Pointer
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &118492336451323200
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d517e38e1ba552444b7286aac0f35b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-5523773098352694419
+--- !u!114 &2198008271053869776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,12 +141,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5034850976616026692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12f44328658b48c45a079e1e9d1cd48a, type: 3}
+  m_Script: {fileID: 11500000, guid: 73accf938edfddb48b7225d2b96027e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackController: {fileID: 0}
-  moveController: {fileID: 0}
-  keyboardMoveTest: {fileID: 0}
 --- !u!114 &2832262191407596026
 MonoBehaviour:
   m_ObjectHideFlags: 0

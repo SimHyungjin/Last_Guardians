@@ -12,8 +12,8 @@ public class TestChangeAttackType : MonoBehaviour
         attackController = FindObjectOfType<AttackController>();
         CreateAttackButton("근거리 정면", () => attackController.SetAttackBehavior(new AttackMeleeFront()));
         CreateAttackButton("근거리 원형", () => attackController.SetAttackBehavior(new AttackMeleeCircle()));
-        CreateAttackButton("원거리 단일", () => attackController.SetAttackBehavior(new AttackSingleRanged()));
-        CreateAttackButton("원거리 범위", () => attackController.SetAttackBehavior(new AttackMultiRanged()));
+        CreateAttackButton("원거리 단일", () => attackController.SetAttackBehavior(new AttackRangedSingle()));
+        CreateAttackButton("원거리 범위", () => attackController.SetAttackBehavior(new AttackRangedMulti()));
     }
 
     void CreateAttackButton(string label, UnityEngine.Events.UnityAction onClickAction)

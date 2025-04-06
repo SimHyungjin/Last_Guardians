@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3613139710485051823}
   - component: {fileID: 2440621775039782248}
-  - component: {fileID: 6771980751644438092}
   - component: {fileID: -7300664269403745724}
   - component: {fileID: -763619662805951608}
+  - component: {fileID: 795441112745944206}
   m_Layer: 0
-  m_Name: CharacterProjectile
+  m_Name: PlayerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,18 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6771980751644438092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3516978156834824891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e670fb4604e9f46813eb3f981ba3c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &-7300664269403745724
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -161,3 +149,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &795441112745944206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3516978156834824891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9c906d238d64e44b02a33bc7e5e291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

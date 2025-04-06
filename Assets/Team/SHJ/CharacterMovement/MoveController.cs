@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class MoveController : MonoBehaviour
 {
-    private Character character;
+    private Player player;
 
     private float responsiveness = 0.5f;
     private Vector2 startPos;
@@ -14,15 +14,15 @@ public class MoveController : MonoBehaviour
 
     private Coroutine dragCoroutine;
 
-    // UI가 완성되기 전까지 사용하는 테스트용 시각화 오브젝트
+    // TODO: UI가 완성되기 전까지 사용하는 테스트용 시각화 오브젝트
     private GameObject testObj;
 
     /// <summary>
     /// 캐릭터 데이터를 주입합니다.
     /// </summary>
-    public void Init(Character _character)
+    public void Init(Player _player)
     {
-        character = _character;
+        player = _player;
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class MoveController : MonoBehaviour
         startPos = InputManager.Instance.GetTouchWorldPosition();
         isSwiping = true;
 
-        // test용: 터치 시작 지점에 테스트 오브젝트 표시
+        // TODO: 터치 시작 지점에 테스트 오브젝트 표시
         testObj = new GameObject("MouseTestObj");
         var sr = testObj.AddComponent<SpriteRenderer>();
         sr.color = Color.white;
@@ -46,7 +46,7 @@ public class MoveController : MonoBehaviour
         else
             Debug.LogWarning("MouseTest 스프라이트를 찾을 수 없습니다.");
         testObj.transform.position = startPos;
-        //
+        // TODO: 끝
 
         dragCoroutine = StartCoroutine(DragLoop());
     }
@@ -94,7 +94,7 @@ public class MoveController : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
 
                 // 이동
-                transform.position += (Vector3)dir * character.player.moveSpeed * speedFactor * Time.deltaTime;
+                transform.position += (Vector3)dir * player.playerData.moveSpeed * speedFactor * Time.deltaTime;
             }
 
             yield return null;

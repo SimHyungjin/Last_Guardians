@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public Character character {  get; private set; }
+    public Player player {  get; private set; }
     public AttackController attackController { get; private set; }
     public MoveController moveController { get; private set; }
 
     // TODO: 임시용 키보드 입력
-    public KeyboardMoveTest keyboardMoveTest;
+    private KeyboardMoveTest keyboardMoveTest;
 
     private void Awake()
     {
@@ -19,13 +19,13 @@ public class CharacterController : MonoBehaviour
 
     }
 
-    public void Init(Character _character)
+    public void Init(Player _player)
     {
-        character = _character;
-        attackController.Init(character);
-        moveController.Init(character);
+        player = _player;
+        attackController.Init(player);
+        moveController.Init(player);
 
         // TODO: 임시용 키보드 입력
-        keyboardMoveTest.Init(character);
+        keyboardMoveTest.Init(player);
     }
 }

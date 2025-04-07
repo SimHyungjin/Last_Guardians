@@ -38,7 +38,8 @@ public class PlayerInputHandler : MonoBehaviour
 
         Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
 
-        playercontroller.moveController.SwipeStart();
+        if(Physics2D.OverlapPoint(curPos,LayerMask.GetMask("Player")))
+            playercontroller.moveController.SwipeStart();
     }
 
     private void OnTouchEnd(InputAction.CallbackContext ctx)

@@ -23,6 +23,7 @@ public class InputManager : Singleton<InputManager>
     public Vector2 GetTouchWorldPosition()
     {
         Vector3 screenPos = pointerInput.Pointer.Position.ReadValue<Vector2>();
+        screenPos.z = Mathf.Abs(Camera.main.transform.position.z);
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         return new Vector2(worldPos.x, worldPos.y);
     }

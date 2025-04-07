@@ -35,6 +35,9 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.touchCount > 0 && EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
 #endif
+
+        Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
+
         playercontroller.moveController.SwipeStart();
     }
 

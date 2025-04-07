@@ -7,6 +7,8 @@ public class EffectChangeMesh : MonoBehaviour
     private MeshRenderer meshRenderer;
     private MeshFilter meshFilter;
 
+    private int sortingOrder = 10;
+
     private void Awake()
     {
         meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -45,6 +47,7 @@ public class EffectChangeMesh : MonoBehaviour
             }
         }
         meshRenderer.material.color = new Color(1f, 0f, 0f, 0.5f);
+        meshRenderer.sortingOrder = sortingOrder;
         mesh.SetVertices(vertices);
         mesh.SetTriangles(triangles, 0);
         mesh.RecalculateNormals();

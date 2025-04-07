@@ -18,7 +18,7 @@ public enum Item_attackType
     Area
 }
 
-public enum Item_Grade
+public enum Item_grade
 {
     Normal,
     Rare,
@@ -27,7 +27,6 @@ public enum Item_Grade
     Legend
 }
 
-
 [CreateAssetMenu(menuName = "Data/EquipmentData", fileName = "NewEquipmentData")]
 public class EquipmentData : ScriptableObject
 {
@@ -35,7 +34,7 @@ public class EquipmentData : ScriptableObject
     public string itemName;
     public ItemType itemType;
     public Item_attackType attackType;
-    public Item_Grade grade;
+    public Item_grade grade;
     public Sprite icon;
 
     [Header("스탯 정보")]

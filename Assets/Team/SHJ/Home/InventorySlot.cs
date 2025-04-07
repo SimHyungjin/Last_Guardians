@@ -1,13 +1,26 @@
+using UnityEngine.UI;
 using UnityEngine;
 
 public class InventorySlot : MonoBehaviour
 {
-    private SpriteRenderer sr;
-    private EquipmentData data;
+    [SerializeField] private Image icon;
+    [SerializeField] private EquipmentData data;
 
     private void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        icon = GetComponent<Image>();
+    }
+
+    public void SetData(EquipmentData newData)
+    {
+        data = newData;
+        UpdateSlotUI();
+    }
+
+    public void ClearData()
+    {
+        data = null; 
+        UpdateSlotUI();
     }
 
     public void SetSelected()
@@ -20,11 +33,11 @@ public class InventorySlot : MonoBehaviour
     {
         if (data == null)
         {
-            sr.sprite = null;
+            icon.sprite = null;
         }
         else
         {
-            sr.sprite = data.icon;
+            icon.sprite = data.icon;
         }
     }
 }

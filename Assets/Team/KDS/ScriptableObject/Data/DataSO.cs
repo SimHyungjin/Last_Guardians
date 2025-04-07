@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewData", menuName = "Scriptable Object/Test Data", order = int.MaxValue)]
+[CreateAssetMenu(fileName = "NewData", menuName = "Data/Test Data", order = int.MaxValue)]
 public class DataSO : ScriptableObject
 {
     [SerializeField] private int index;

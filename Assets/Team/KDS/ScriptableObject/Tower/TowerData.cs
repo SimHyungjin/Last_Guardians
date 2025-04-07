@@ -10,7 +10,10 @@ public enum TowerType
 
 [CreateAssetMenu(fileName = "NewTower", menuName = "Data/Tower Data", order = 1)]
 public class TowerData: ScriptableObject
-{ 
+{
+    [Header("Å¸¿ö ÇÁ¸®ÆÕ")]
+    [SerializeField] public GameObject towerGhostPrefab;
+
     [Header("Å¸¿ö ½ºÅÝ")]
     [SerializeField] private int towerIndex;
     [SerializeField] private string towerName;

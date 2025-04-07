@@ -40,7 +40,7 @@ public class MoveController : MonoBehaviour
         testObj = new GameObject("MouseTestObj");
         var sr = testObj.AddComponent<SpriteRenderer>();
         sr.color = Color.white;
-        var sprite = Resources.Load<Sprite>("MouseTest");
+        var sprite = Resources.Load<Sprite>("Effect/Circle");
         if (sprite != null)
             sr.sprite = sprite;
         else

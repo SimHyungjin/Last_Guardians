@@ -1,0 +1,45 @@
+{
+    "name": "TowerInput",
+    "maps": [
+        {
+            "name": "Tower",
+            "id": "07243127-bc8f-4edb-8881-93a0b626eba2",
+            "actions": [
+                {
+                    "name": "ClickTower",
+                    "type": "Button",
+                    "id": "425fee53-de6f-4c84-b4db-82e5d50b32a4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ecfbe4d0-c9f8-4fff-9d08-86e119d8c3ae",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c2f9dab-59e0-4cad-8c6b-9fcf9b64c418",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClickTower",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

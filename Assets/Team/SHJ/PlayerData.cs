@@ -6,7 +6,6 @@ public class PlayerData
     public float criticalChance;
     public float criticalDamage;
     public float attackRange;
-    //public int[] multiTarget;
     public float penetration;
     public float elementalDamage;
     public float cooldownReduction;

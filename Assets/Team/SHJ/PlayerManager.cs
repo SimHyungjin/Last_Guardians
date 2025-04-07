@@ -9,7 +9,7 @@ public class PlayerManager
     public void Init()
     {
         if (playerData == null)
-            playerData = new(10,10,0.01f,10,10,1,10,10,10,10,10);
+            playerData = new(10,10,1f,10,10,1,10,10,10,10,10);
         if (player == null)
             player = new();
 

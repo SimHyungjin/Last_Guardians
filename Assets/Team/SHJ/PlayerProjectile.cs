@@ -82,7 +82,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
             EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
             Vector2 hitPoint = collision.ClosestPoint(transform.position);
-            effectIndicator.ChangeSpriteCircle("Effect/Circle", hitPoint, multiSpread);
+            effectIndicator.effectChangeSprite.ShowCircle("Effect/Circle", hitPoint, multiSpread);
 
             var hits = Physics2D.OverlapCircleAll(hitPoint, multiSpread * 0.5f, LayerMask.GetMask("Monster"));
             foreach (var hit in hits)

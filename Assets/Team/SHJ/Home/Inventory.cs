@@ -13,7 +13,7 @@ public class Inventory : MonoBehaviour
 
     public void EuqipmentTypeSort()
     {
-        inventory = inventory.OrderBy(x => x.equipmentType).ToList();
+        //inventory = inventory.OrderBy(x => x.equipmentType).ToList();
     }
 
 }

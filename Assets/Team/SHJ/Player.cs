@@ -6,9 +6,4 @@ public class Player
     {
         playerData = _playerData;
     }
-
-    public void GetExp(float exp)
-    {
-        playerData.exp += exp;
-    }
 }

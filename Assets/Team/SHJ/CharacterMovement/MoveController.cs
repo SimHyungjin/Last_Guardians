@@ -6,20 +6,10 @@ using UnityEngine;
 /// </summary>
 public class MoveController : MonoBehaviour
 {
-    private Player player;
-
     private Vector2 endPos;
     private bool isSwiping = false;
 
     private Coroutine moveCoroutine;
-
-    /// <summary>
-    /// 캐릭터 데이터를 주입합니다.
-    /// </summary>
-    public void Init(Player _player)
-    {
-        player = _player;
-    }
 
     /// <summary>
     /// 드래그 입력이 시작될 때 호출됩니다.
@@ -35,7 +25,6 @@ public class MoveController : MonoBehaviour
             moveCoroutine = null;
         }
     }
-
     /// <summary>
     /// 드래그 입력이 끝날 때 호출됩니다.
     /// </summary>
@@ -60,7 +49,7 @@ public class MoveController : MonoBehaviour
                 Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
-            transform.position = Vector2.MoveTowards(transform.position, endPos, player.playerData.moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, endPos, InGameManager.Instance.playerManager.playerData.moveSpeed * Time.deltaTime);
             yield return null;
         }
         transform.position = endPos;

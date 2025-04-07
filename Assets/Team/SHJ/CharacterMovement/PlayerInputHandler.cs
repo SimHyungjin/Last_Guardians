@@ -10,9 +10,6 @@ public class PlayerInputHandler : MonoBehaviour
 {
     private PlayerController playercontroller;
 
-    /// <summary>
-    /// 컴포넌트 참조를 초기화합니다.
-    /// </summary>
     private void Awake()
     {
         playercontroller = GetComponent<PlayerController>();
@@ -27,7 +24,7 @@ public class PlayerInputHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// 터치 또는 클릭 시작 시 호출됩니다. UI 위가 아니라면 캐릭터 이동 시작을 호출합니다.
+    /// UI 위가 아니라면 캐릭터 이동 시작을 호출합니다.
     /// </summary>
     /// <param name="ctx">입력 컨텍스트</param>
     private void OnTouchStart(InputAction.CallbackContext ctx)
@@ -41,10 +38,6 @@ public class PlayerInputHandler : MonoBehaviour
         playercontroller.moveController.SwipeStart();
     }
 
-    /// <summary>
-    /// 터치 또는 클릭 종료 시 호출됩니다. 캐릭터 이동을 멈춥니다.
-    /// </summary>
-    /// <param name="ctx">입력 컨텍스트</param>
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
         playercontroller.moveController.SwipeStop();

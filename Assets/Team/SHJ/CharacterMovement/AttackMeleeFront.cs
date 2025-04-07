@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -21,12 +22,19 @@ public class AttackMeleeFront : IAttackBehavior
 
         float angle = attackController.transform.eulerAngles.z;
 
-        var hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle, LayerMask.GetMask("Monster"))
-        .Where(h => h != null && h.gameObject.activeInHierarchy)
-        .OrderBy(h => Vector2.Distance(attackController.transform.position, h.transform.position))
-        .ToArray();
+        var rawHits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle, LayerMask.GetMask("Monster"));
 
-        foreach (var hit in hits)
+        List<Collider2D> validHits = new();
+        foreach (var hit in rawHits)
+        {
+            if (hit != null && hit.gameObject.activeInHierarchy)
+            {
+                validHits.Add(hit);
+            }
+        }
+        validHits.Sort((a, b) => Vector2.Distance(attackController.transform.position, a.transform.position).CompareTo(Vector2.Distance(attackController.transform.position, b.transform.position)));
+
+        foreach (var hit in validHits)
         {
             // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
             // TODO:

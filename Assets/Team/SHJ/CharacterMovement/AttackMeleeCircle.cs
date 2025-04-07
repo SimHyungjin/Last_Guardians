@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackMeleeCircle : IAttackBehavior
@@ -11,13 +11,20 @@ public class AttackMeleeCircle : IAttackBehavior
     }
 
     public void Attack(Vector2 targetPos, float damage)
-    {   
-        var hits = Physics2D.OverlapCircleAll(attackController.transform.position, attackController.player.playerData.attackRange * 2, LayerMask.GetMask("Monster"))
-            .Where(h => h != null && h.gameObject.activeInHierarchy)
-            .OrderBy(h => Vector2.Distance(attackController.transform.position, h.transform.position))
-            .ToArray();
+    {
+        var rawHits = Physics2D.OverlapCircleAll(attackController.transform.position, attackController.player.playerData.attackRange * 2, LayerMask.GetMask("Monster"));
 
-        foreach (var hit in hits)
+        List<Collider2D> validHits = new();
+        foreach (var hit in rawHits)
+        {
+            if (hit != null && hit.gameObject.activeInHierarchy)
+            {
+                validHits.Add(hit);
+            }
+        }
+        validHits.Sort((a, b) => Vector2.Distance(attackController.transform.position, a.transform.position).CompareTo(Vector2.Distance(attackController.transform.position, b.transform.position)));
+
+        foreach (var hit in validHits)
         {
             // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
             // TODO:

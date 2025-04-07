@@ -16,7 +16,6 @@ public class Tower : MonoBehaviour
     {
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         color = GetComponent<SpriteRenderer>();
-        color.material = new Material(Shader.Find("Sprites/Default"));
     }
 
     private void Update()
@@ -27,6 +26,7 @@ public class Tower : MonoBehaviour
             towerGhost.transform.position = curPos;
         }
     }
+
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
@@ -44,8 +44,6 @@ public class Tower : MonoBehaviour
             MoveTowerStart();
         }
     }
-
-
 
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
@@ -70,13 +68,11 @@ public class Tower : MonoBehaviour
         {
             if (collider != currentCollider) 
             {
-                Debug.Log("타워가 겹쳤습니다!");
                 color.color = new Color(color.color.r, color.color.g, color.color.b, 1f);
                 Destroy(towerGhost);
                 return;
             }
         }
-        Debug.Log("타워가 겹치지 않았습니다.");
         color.color = new Color(color.color.r, color.color.g, color.color.b, 1f);
         Destroy(towerGhost);
         towerGhost = null;

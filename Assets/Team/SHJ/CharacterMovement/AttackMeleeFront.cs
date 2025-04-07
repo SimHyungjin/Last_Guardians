@@ -52,7 +52,7 @@ public class AttackMeleeFront : IAttackBehavior
         Vector2 forward = attackController.transform.right;
         Vector2 center = (Vector2)attackController.transform.position + forward * height;
 
-        effectIndicator.ChangeSpriteSquare("Effect/Square", center, width, height);
+        effectIndicator.effectChangeSprite.ShowSquare("Effect/Square", center, width, height);
         effectIndicator.transform.rotation = attackController.transform.rotation;
     }
 }

@@ -18,13 +18,12 @@ public class AttackController : MonoBehaviour
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
-    private const float targetCheckTime = 0.1f;
+    private const float targetCheckTime = 0.05f;
     public float rangeX { get; private set; } = 2f;
 
     private IAttackBehavior attackBehavior;
     /// <summary>
-    /// 캐릭터 데이터를 주입하고 공격 모드를 근거리 정면 공격으로 변경합니다.
-    /// 자동 공격을 시작합니다.
+    /// 캐릭터 데이터를 주입하고 자동 공격을 시작합니다.
     /// </summary>
     public void Init(Player _player)
     {
@@ -116,7 +115,7 @@ public class AttackController : MonoBehaviour
         isAttacking = true;
 
         if (attackBehavior == null)
-            SetAttackBehavior(new AttackMeleeFront());
+            SetAttackBehavior(new AttackMeleeFan());
         attackBehavior.Attack(targetPosition, CalculateDamage());
         attackBehavior.ShowRange();
         StartCoroutine(AttackDelay());

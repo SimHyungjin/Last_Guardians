@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class HandCardLayout : MonoBehaviour
 {
     public List<Card> cards = new List<Card>();
-    [SerializeField] private Card[] cardPrefab;
+    [SerializeField] private Card cardPrefab;
     private float radius = 2f; 
     public float maxAngle = 30f;
 
@@ -42,7 +42,6 @@ public class HandCardLayout : MonoBehaviour
             if (sr != null)
             {
                 sr.sortingOrder = 100+i;
-                cards[i].Text.sortingOrder = 100 + i;
             }
         }
     }
@@ -56,36 +55,43 @@ public class HandCardLayout : MonoBehaviour
         Debug.Log("Card Clicked End: " + card.TowerIndex);
     }
 
-    public void AddCard(Card addCard)
+    public void AddCard(int index)
     {
         foreach (Card card in cards)
         {
-            if (card.TowerIndex == addCard.TowerIndex)
+            if (card.TowerIndex == index)
             {
                 card.AddStack(); 
+                card.ShowStack();
                 return;
             }
         }
-        addCard = Instantiate(cardPrefab[addCard.TowerIndex], transform);
+        Card addCard=Instantiate(cardPrefab, transform);
+        addCard.Init(index);
         cards.Add(addCard);
         addCard.onClicked += MoveCardStart;
         addCard.transform.SetParent(transform); 
         UpdateLayout();
     }
 
-    public void UseCard(Card usedCard)
+    public void UseCard(int index)
     {
         foreach (Card card in cards)
         {
-            if (card.TowerIndex == usedCard.TowerIndex && card.Stack > 1)
+            if (card.TowerIndex == index && card.Stack > 1)
             {
                 card.subtractStack();
+                card.ShowStack();
+                return;
+            }
+            else if (card.TowerIndex == index && card.Stack == 1)
+            {
+                cards.Remove(card);
+                Destroy(card.gameObject);
+                card.onClickEnd += MoveCardEnd;
+                UpdateLayout();
                 return;
             }
         }
-        cards.Remove(usedCard);
-        Destroy(usedCard.gameObject);
-        usedCard.onClickEnd += MoveCardEnd;
-        UpdateLayout();
     }
 }

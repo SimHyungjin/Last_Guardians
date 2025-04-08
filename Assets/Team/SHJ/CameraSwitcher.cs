@@ -13,7 +13,7 @@ public class CameraSwitcher : MonoBehaviour
 
     private void Start()
     {
-        focusCam.Follow = InGameManager.Instance.playerManager.playerController.gameObject.transform;
+        //focusCam.Follow = InGameManager.Instance.playerManager.playerController.gameObject.transform;
         focusCam.Priority = 0;
         freeCam.Priority = 10;
     }
@@ -24,15 +24,17 @@ public class CameraSwitcher : MonoBehaviour
 
         if (isFocused)
         {
+            focusCam.transform.position = InGameManager.Instance.playerManager.playerController.gameObject.transform.position;
+            freeCamBoundary.InvalidateCache();
             focusCam.Priority = 10;
             freeCam.Priority = 0;
         }
         else
         {
+            freeCam.transform.position = Camera.main.transform.position;
+            freeCamBoundary.InvalidateCache();
             focusCam.Priority = 0;
             freeCam.Priority = 10;
-
-            freeCamBoundary.InvalidateCache();
         }
     }
 

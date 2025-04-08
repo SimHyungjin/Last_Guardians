@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,6 +48,7 @@ public class Card : MonoBehaviour
     public void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
+        if (!gameObject.activeInHierarchy) return;
         screenPos = InputManager.Instance.GetTouchPosition();
         // UI용 레이캐스트
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
@@ -66,6 +68,7 @@ public class Card : MonoBehaviour
             }
         }
     }
+
     public void OnTouchEnd(InputAction.CallbackContext ctx)
     {
         if (isMoving)
@@ -74,6 +77,13 @@ public class Card : MonoBehaviour
             onClickEnd?.Invoke(this);
         }
     }
+    public void OnDestroy()
+    {
+        InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        onClicked = null;
+        onClickEnd = null;
+    }
+
     public void ShowStack()
     {
         if (stack > 1)

@@ -1,9 +1,11 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TestButton : MonoBehaviour
 {
     [SerializeField] private Inventory inventory;
+    [SerializeField] private CameraSwitcher virtualCamera;
 
     [Header("장비 타입별 테스트 버튼")]
     [SerializeField] private Button weaponButton;
@@ -12,6 +14,9 @@ public class TestButton : MonoBehaviour
     [SerializeField] private Button ringButton;
     [SerializeField] private Button shoesButton;
     [SerializeField] private Button ALLButton;
+
+    [Header("카메라 테스트 버튼")]
+    [SerializeField] private Button zoomBtn;
 
 
     private void Start()
@@ -34,9 +39,15 @@ public class TestButton : MonoBehaviour
         if (ALLButton != null)
             ALLButton.onClick.AddListener(() => SetType(ItemType.Count));
 
+        if(zoomBtn != null)
+            zoomBtn.onClick.AddListener(ZoomTest);
+
 
     }
-
+    private void ZoomTest()
+    {
+        virtualCamera.ToggleFocus();
+    }
     private void SetType(ItemType type)
     {
         inventory.SetInventoryType(type);

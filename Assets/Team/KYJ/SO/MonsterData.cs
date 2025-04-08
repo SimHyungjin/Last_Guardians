@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MonsterType
+{
+    normal,
+    boss,
+    bounty
+}
+
 [CreateAssetMenu(fileName = "Monster Data",menuName = "Data/Monster Data")]
 public class MonsterData : ScriptableObject
 {
@@ -18,6 +25,6 @@ public class MonsterData : ScriptableObject
     [Header("몬스터 설정")]
     public string monsterName;
     public string monsterDescription;
-
+    public MonsterType monsterType;
 
 }

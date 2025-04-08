@@ -7,6 +7,7 @@ public class BossMonster : BaseMonster
 
     protected override void Attack()
     {
+        base.Attack();
         Debug.Log("보스공격");
         attackTimer = attackDelay;
     }

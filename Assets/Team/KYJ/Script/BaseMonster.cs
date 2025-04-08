@@ -12,8 +12,9 @@ public class BaseMonster : MonoBehaviour
     public float DefModifier { get; set; } = 1f;
     protected float attackDelay = 3f;
     protected float attackTimer = 0f;
-    protected bool isAttack = false;
+    private bool isAttack = false;
     protected float skillTimer = 0f;
+    [SerializeField] private float attackRange = 0.5f;
 
     public LayerMask targetLayer;
     public Transform target;
@@ -30,8 +31,6 @@ public class BaseMonster : MonoBehaviour
     private Coroutine sturnCorutine;
     private float sturnDuration;
     private bool isSturn = false;
-
-
 
     private void Awake()
     {
@@ -89,20 +88,22 @@ public class BaseMonster : MonoBehaviour
         else
             spriteRenderer.flipX = true;
 
-        Move();
+        if(!isAttack)
+            Move();
 
         if(!isAttack)
         {
-            //레이캐스트 쏘기 사거리는 임시값
-            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, 1, targetLayer);
-            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, 1, targetLayer);
-            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, 1, targetLayer);
-            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, 1, targetLayer);
+            //레이캐스트 쏘기
+            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, attackRange, targetLayer);
+            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, attackRange, targetLayer);
+            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, attackRange, targetLayer);
+            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, attackRange, targetLayer);
             foreach (var hit in hit)
             {
                 if (hit.collider != null)
                 {
                     isAttack = true;
+                    break;
                 }
             }
         }
@@ -116,6 +117,9 @@ public class BaseMonster : MonoBehaviour
 
     protected virtual void Attack()
     {
+        agent.isStopped = true;
+        agent.ResetPath();
+        agent.speed = 0f;
         //타입별 몬스터에서 구현
     }
 
@@ -205,6 +209,11 @@ public class BaseMonster : MonoBehaviour
         sturnDuration = 0f;
         agent.speed = monsterData.speed;
         isSturn = false;
+    }
+
+    public int GetMonsterID()
+    {
+        return monsterData.monsterID;
     }
 
 }

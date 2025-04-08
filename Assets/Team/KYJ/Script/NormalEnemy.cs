@@ -6,6 +6,7 @@ public class NormalEnemy : BaseMonster
 {
     protected override void Attack()
     {
+        base.Attack();
         Debug.Log("노말공격");
         attackTimer = attackDelay;
     }

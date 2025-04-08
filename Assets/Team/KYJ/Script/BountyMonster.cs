@@ -6,6 +6,7 @@ public class BountyMonster : BaseMonster
 {
     protected override void Attack()
     {
+        base.Attack();
         Debug.Log("현상금몬스터공격");
         attackTimer = attackDelay;
     }

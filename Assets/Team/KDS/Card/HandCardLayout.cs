@@ -204,7 +204,6 @@ public class HandCardLayout : MonoBehaviour
                 cards[targetIndex].AddStack();
                 cards[targetIndex].ShowStack();
                 Destroy(highlightedCard.gameObject);
-
                 ResetHighlightState();
             });
         }
@@ -222,32 +221,7 @@ public class HandCardLayout : MonoBehaviour
         highlightedIndex = -1;
         highlightedOrder = -1;
     }
-    //public void UnHighlightCard()
-    //{
-    //    RectTransform handRect = GetComponent<RectTransform>();
-    //    handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
-    //    foreach (Card card in cards)
-    //    {
-    //        if (card.TowerIndex == highlightedIndex)
-    //        {
-    //            highlightedCard.onClicked -= MoveCardStart;
-    //            highlightedCard.onClickEnd -= MoveCardEnd;
-    //            card.AddStack();
-    //            card.ShowStack();
-    //            RectTransform rect =highlightedCard.GetComponent<RectTransform>();
-    //            Destroy(highlightedCard.gameObject);
-    //            highlightedCard = null;
-    //            highlightedIndex = -1;
-    //            highlightedOrder = -1;
-    //            return;
-    //        }
-    //    }
-    //    cards.Insert(highlightedOrder, highlightedCard);
-    //    UpdateLayout();
-    //    highlightedCard = null;
-    //    highlightedIndex = -1;
-    //    highlightedOrder = -1;
-    //}
+
     public void UseCard(int index)
     {
         foreach (Card card in cards)

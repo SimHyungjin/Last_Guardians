@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5992411269577774399}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.4, y: 0.04, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -173,10 +173,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: 0f9e7acc73f935147bc013d3499c3841, type: 2}
+  skillData: {fileID: 0}
+  attackRange: 0.5
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  target: {fileID: 0}
 --- !u!195 &9192829552925082777
 NavMeshAgent:
   m_ObjectHideFlags: 0

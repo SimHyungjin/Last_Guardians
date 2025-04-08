@@ -37,7 +37,7 @@ public class PoolManager : Singleton<PoolManager>
         else
         {
             Transform spawnParent = parent != null ? parent : poolParents[type];
-            obj = Instantiate(prefab, spawnParent);
+            obj = Instantiate(prefab, spawnParent.position,spawnParent.rotation,spawnParent);
         }
 
         obj.gameObject.SetActive(true);

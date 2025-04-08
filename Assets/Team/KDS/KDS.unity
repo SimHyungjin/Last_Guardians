@@ -206,13 +206,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: AddCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: AddThree
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1976980969069748599, guid: 70c926cd6abc83249b830bc56697ced4, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -256,6 +256,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69854612}
   m_CullTransparentMesh: 1
+--- !u!1 &72288410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 72288414}
+  - component: {fileID: 72288413}
+  - component: {fileID: 72288412}
+  - component: {fileID: 72288411}
+  m_Layer: 5
+  m_Name: DeckCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &72288411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72288410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &72288412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72288410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 2340, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &72288413
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72288410}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &72288414
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72288410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1424342129}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &81206218
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,13 +575,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: AddCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: AddOne
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 5374982509466446160, guid: 327f45706a2b90a43af10f5e01b95473, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -671,7 +773,7 @@ GameObject:
   - component: {fileID: 282573336}
   - component: {fileID: 282573335}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: TestButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -730,10 +832,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2340, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1163,13 +1265,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: UseCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: SubThree
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1976980969069748599, guid: 70c926cd6abc83249b830bc56697ced4, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1296,13 +1398,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: UseCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: SubTwo
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 7162884653887926388, guid: 8123d77762735ba4e8aba8970e1052a7, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1429,13 +1531,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: UseCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: SubFour
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 5544598022263934265, guid: 618078954e205064e8ad0f0822449581, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1562,13 +1664,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: UseCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: SubOen
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 5374982509466446160, guid: 327f45706a2b90a43af10f5e01b95473, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1612,58 +1714,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059366873}
   m_CullTransparentMesh: 1
---- !u!1 &1077509091
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1077509092}
-  - component: {fileID: 1077509093}
-  m_Layer: 0
-  m_Name: Hand
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1077509092
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077509091}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1077509093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077509091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03d7029780ac0ce4a960a96e56e02017, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cards: []
-  cardPrefab:
-  - {fileID: 8629130629025213512, guid: 327f45706a2b90a43af10f5e01b95473, type: 3}
-  - {fileID: 3571140834720520447, guid: 8123d77762735ba4e8aba8970e1052a7, type: 3}
-  - {fileID: 8658792754914802399, guid: 70c926cd6abc83249b830bc56697ced4, type: 3}
-  - {fileID: 5142647060647263392, guid: 618078954e205064e8ad0f0822449581, type: 3}
-  - {fileID: 619908630168556904, guid: 0f6933ae8dc44394c99dff0626bb14de, type: 3}
-  maxAngle: 30
 --- !u!1 &1093675545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,13 +1797,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: AddCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: AddTwo
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 7162884653887926388, guid: 8123d77762735ba4e8aba8970e1052a7, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1880,13 +1930,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: AddCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: AddFour
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 5544598022263934265, guid: 618078954e205064e8ad0f0822449581, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2415,13 +2465,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: UseCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: SubFive
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 4399019864285606436, guid: 0f6933ae8dc44394c99dff0626bb14de, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2465,6 +2515,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1376885526}
   m_CullTransparentMesh: 1
+--- !u!1 &1424342128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1424342129}
+  - component: {fileID: 1424342130}
+  m_Layer: 5
+  m_Name: Hands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1424342129
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424342128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 72288414}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1424342130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424342128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d7029780ac0ce4a960a96e56e02017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards: []
+  cardPrefab: {fileID: 379576597443618463, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
+  maxAngle: 30
 --- !u!1 &1476999891
 GameObject:
   m_ObjectHideFlags: 0
@@ -3124,13 +3225,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1077509093}
-        m_TargetAssemblyTypeName: HandCardLayout, Assembly-CSharp
-        m_MethodName: AddCard
-        m_Mode: 2
+      - m_Target: {fileID: 1883519252}
+        m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
+        m_MethodName: AddFive
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 4399019864285606436, guid: 0f6933ae8dc44394c99dff0626bb14de, type: 3}
-          m_ObjectArgumentAssemblyTypeName: Card, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3376,6 +3477,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1883519251
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1883519253}
+  - component: {fileID: 1883519252}
+  m_Layer: 0
+  m_Name: CardEditer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1883519252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883519251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79f7b6ab6cc9074d8dbf7c38551cdb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handCardLayout: {fileID: 1424342130}
+--- !u!4 &1883519253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883519251}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &671732199759684707
 Transform:
   m_ObjectHideFlags: 0
@@ -3552,70 +3698,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1001 &8523884287064164689
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 363616686004348482, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2532262379180349095, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: cardImage
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2765988864424999511, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      propertyPath: m_Name
-      value: CardDummy
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1108084980042128974, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
 --- !u!4 &8567197263669150517
 Transform:
   m_ObjectHideFlags: 0
@@ -3668,7 +3750,7 @@ SceneRoots:
   - {fileID: 671732199759684707}
   - {fileID: 1494837602}
   - {fileID: 565686242}
-  - {fileID: 1077509092}
   - {fileID: 282573339}
   - {fileID: 1775138574}
-  - {fileID: 8523884287064164689}
+  - {fileID: 1883519253}
+  - {fileID: 72288414}

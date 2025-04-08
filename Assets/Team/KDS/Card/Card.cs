@@ -13,22 +13,19 @@ public class Card : MonoBehaviour
     [SerializeField] public CardData cardData;
     [SerializeField] private int towerIndex;
     [SerializeField] private int stack;
-    [SerializeField] private SpriteRenderer cardImage;
+    [SerializeField] private Image cardImage;
 
     public GameObject towerGhostPrefab;
 
     public event Action<Card> onClicked;
     public event Action<Card> onClickEnd;
-    public TextMeshPro Text;
+    public TextMeshProUGUI Text;
     private bool isMoving = false;
+    Vector2 screenPos;
     Vector2 curPos;
     public int TowerIndex => towerIndex;
     public int Stack => stack;
 
-    public void OnEnable()
-    {
-        Init(2);
-    }
     public void Init(int index)
     {
 
@@ -37,7 +34,7 @@ public class Card : MonoBehaviour
         //cardData = Resources.Load<CardData>($"ScriptalbeObject/CardData{index}");
         string path = $"Assets/Team/KDS/ScriptableObject/Card/CardData{index}.asset";
         cardData = AssetDatabase.LoadAssetAtPath<CardData>(path);
-        cardImage = GetComponent<SpriteRenderer>();
+        cardImage = GetComponent<Image>();
         if (cardData != null)
         {
             towerIndex = cardData.TowerIndex;
@@ -49,12 +46,24 @@ public class Card : MonoBehaviour
     }
     public void OnTouchStart(InputAction.CallbackContext ctx)
     {
-        curPos = InputManager.Instance.GetTouchWorldPosition();
-        Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Card"));
-        if (hit != null && hit.gameObject == this.gameObject&& !isMoving)
+        if (!ctx.started) return;
+        screenPos = InputManager.Instance.GetTouchPosition();
+        // UI용 레이캐스트
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        pointerData.position = screenPos;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        GraphicRaycaster raycaster = GetComponentInParent<Canvas>().GetComponent<GraphicRaycaster>();
+        raycaster.Raycast(pointerData, raycastResults);
+
+        foreach (RaycastResult result in raycastResults)
         {
-            isMoving = true;
-            onClicked?.Invoke(this);
+            if (result.gameObject == this.gameObject && !isMoving)
+            {
+                isMoving = true;
+                onClicked?.Invoke(this);
+                break;
+            }
         }
     }
     public void OnTouchEnd(InputAction.CallbackContext ctx)

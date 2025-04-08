@@ -17,7 +17,7 @@ public class BaseMonster : MonoBehaviour
     [SerializeField] private float attackRange = 0.5f;
 
     public LayerMask targetLayer;
-    public Transform target;
+    public Transform Target { get; set; }
 
     private SpriteRenderer spriteRenderer;
     protected NavMeshAgent agent;
@@ -112,7 +112,7 @@ public class BaseMonster : MonoBehaviour
 
     private void Move()
     {
-        agent.SetDestination(target.position);
+        agent.SetDestination(Target.position);
     }
 
     protected virtual void Attack()

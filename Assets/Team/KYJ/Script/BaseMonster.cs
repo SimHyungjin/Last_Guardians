@@ -21,7 +21,17 @@ public class BaseMonster : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     protected NavMeshAgent agent;
     private RaycastHit2D[] hit;
-    
+
+    //도트데미지 관련 필드
+    private float dotDuration = 0f;
+    private float dotDamage = 0f;
+    private Coroutine dotDamageCorutine;
+    //스턴 관련 필드
+    private Coroutine sturnCorutine;
+    private float sturnDuration;
+    private bool isSturn = false;
+
+
 
     private void Awake()
     {
@@ -31,12 +41,10 @@ public class BaseMonster : MonoBehaviour
     }
     private void Start()
     {
-        //첫 로컬스케일 저장
         spriteRenderer = GetComponent<SpriteRenderer>();
         hit = new RaycastHit2D[4];
         if(skillData!=null)
             skillTimer = skillData.skillCoolTime;
-        Debug.Log(skillTimer);
     }
 
     private void OnEnable()
@@ -63,8 +71,10 @@ public class BaseMonster : MonoBehaviour
 
         if(skillData != null)
         {
-            skillTimer -= Time.deltaTime;
-            if(skillTimer <= 0)
+            if (!isSturn)
+                skillTimer -= Time.deltaTime;
+
+            if (skillTimer <= 0)
             {
                 MonsterSkill();
             }
@@ -123,9 +133,78 @@ public class BaseMonster : MonoBehaviour
     //데미지 받을 떄 호출되는 함수
     public void TakeDamage(float amount)
     {
+        //데미지 관련 공식 들어가야 함
         CurrentHP -= amount;
         if(CurrentHP <= 0)
             Death();
+    }
+
+    //도트 데미지 구현
+    public void DotDamage(float dotdamage, float duration)
+    {
+        if (dotDamageCorutine != null)
+        {
+            dotDuration = Mathf.Max(dotDuration, duration);
+            dotDamage = Mathf.Min(dotDamage, dotdamage);
+        }
+
+        else
+        {
+            dotDuration = duration;
+            dotDamage = dotdamage;
+            dotDamageCorutine = StartCoroutine(InflictDamageOverTime());
+        }
+    }
+
+    private IEnumerator InflictDamageOverTime()
+    {
+        while (dotDuration < 0)
+        {
+            //데미지 관련 공식 나오면 수정
+            TakeDamage(dotDamage);
+
+            yield return new WaitForSeconds(1f);
+
+            dotDuration -= 1f;
+        }
+
+        dotDamageCorutine = null;
+        dotDamage = 0f;
+        dotDuration = 0f;
+    }
+
+    //스턴 구현
+    public void ApplySturn(float amount, float duration)
+    {
+        TakeDamage(amount);
+        if (sturnCorutine != null)
+        {
+            sturnDuration = Mathf.Max(sturnDuration, duration);
+        }
+
+        else
+        {
+            sturnDuration = duration;
+            dotDamageCorutine = StartCoroutine(SturnOverTime());
+        }
+    }
+
+    private IEnumerator SturnOverTime()
+    {
+        isSturn = true;
+        while (sturnDuration < 0)
+        {
+            agent.speed = 0f;
+
+            yield return new WaitForSeconds(0.1f);
+
+            sturnDuration -= 0.1f;
+        }
+
+        sturnCorutine = null;
+        sturnDuration = 0f;
+        agent.speed = monsterData.speed;
+        isSturn = false;
     }
 
 }

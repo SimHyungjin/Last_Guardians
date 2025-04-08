@@ -9,17 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
-  m_Name: TestTower
+  m_Script: {fileID: 11500000, guid: 1e73aaa95c2328e4996a2f81c48a8e49, type: 3}
+  m_Name: CardData4
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
-  towerIndex: 0
-  towerName: "\uD14C\uC2A4\uD2B8\uD0C0\uC6CC0"
-  attackPower: 5
-  attackSpeed: 5
-  attackRange: 5
-  towerType: 1
-  specialEffect: "\uC77C\uBC18\uACF5\uACA9"
-  effectPower: 2
-  synergy: 
-  projectileType: 99
+  towerIndex: 4
+  cardImage: {fileID: 21300000, guid: 8e31242b42576574b9ef2ab468c49c32, type: 3}

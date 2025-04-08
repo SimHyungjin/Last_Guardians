@@ -28,6 +28,10 @@ public class InputManager : Singleton<InputManager>
         return new Vector2(worldPos.x, worldPos.y);
     }
 
+    public Vector2 GetTouchPosition()
+    {
+        return pointerInput.Pointer.Position.ReadValue<Vector2>();
+    }
     public void BindTouchPressed(Action<InputAction.CallbackContext> onStart, Action<InputAction.CallbackContext> onEnd)
     {
         pointerAction.Pressed.started += onStart;

@@ -7,10 +7,20 @@ public class EquipmentManager
 {
     public static EquipmentManager Instance;
 
+    public EquipmentData curEquipeedData;
+
     // 현재 장착된 장비를 장비 타입 별로 저장
-    public Dictionary<EquipmentType, EquipmentData> equipped = new();
-    // 현재 장비들로부터 누적된 스탯 값 저장
-    public Dictionary<EquipmentValueType, float> equippedStats = new();
+    public Dictionary<ItemType, EquipmentData> equipped = new();
+
+    public float totalAttack { get;private set; }
+    public float totalAttackSpeed { get; private set; }
+    public float totalAttackRange { get; private set; }
+    public float totalCriticalChance { get; private set; }
+    public float totalCriticalDamage { get; private set; }
+    public float totalPenetration { get; private set; }
+    public float totalMoveSpeed { get; private set; }
+
+
 
     /// <summary>
     /// 장비를 장착합니다. 같은 타입의 장비가 있다면 먼저 해제하고 새로 장착합니다.
@@ -19,12 +29,12 @@ public class EquipmentManager
     public void Equip(EquipmentData data)
     {
         if (data == null) return;
-        if (equipped.TryGetValue(data.equipmentType, out var currentEquip))
+        if (equipped.TryGetValue(data.itemType, out var currentEquip))
         {
             UnEquip(currentEquip);
         }
         AddStats(data);
-        equipped[data.equipmentType] = data;
+        equipped[data.itemType] = data;
     }
 
     /// <summary>
@@ -35,7 +45,7 @@ public class EquipmentManager
     {
         if (data == null) return;
         SubstractStats(data);
-        equipped[data.equipmentType] = null;
+        equipped[data.itemType] = null;
     }
 
     /// <summary>
@@ -45,17 +55,14 @@ public class EquipmentManager
     void AddStats(EquipmentData data)
     {
         if (data == null) return;
-        foreach (var stat in data.stats)
-        {
-            if (equippedStats.ContainsKey(stat.type))
-            {
-                equippedStats[stat.type] += stat.value;
-            }
-            else
-            {
-                equippedStats[stat.type] = stat.value;
-            }
-        }
+
+        totalAttack += data.item_attack;
+        totalAttackSpeed += data.item_attackSpeed;
+        totalAttackRange += data.item_attackRange;
+        totalCriticalChance += data.item_criticalChance;
+        totalCriticalDamage += data.item_criticalDamage;
+        totalPenetration += data.item_pentration;
+        totalMoveSpeed += data.item_moveSpeed;
     }
 
     /// <summary>
@@ -65,22 +72,17 @@ public class EquipmentManager
     void SubstractStats(EquipmentData data)
     {
         if (data == null) return;
-        foreach (var stat in data.stats)
-        {
-            if (equippedStats.ContainsKey(stat.type))
-            {
-                equippedStats[stat.type] -= stat.value;
-            }
-        }
+
+        totalAttack -= data.item_attack;
+        totalAttackSpeed -= data.item_attackSpeed;
+        totalAttackRange -= data.item_attackRange;
+        totalCriticalChance -= data.item_criticalChance;
+        totalCriticalDamage -= data.item_criticalDamage;
+        totalPenetration -= data.item_pentration;
+        totalMoveSpeed -= data.item_moveSpeed;
+
     }
-    /// <summary>
-    /// 스텟을 반환하고 EquipmentValueType이 null이면 0을 반환합니다.
-    /// </summary>
-    /// <param name="type">스텟 타입</param>
-    /// <returns></returns>
-    public float GetStat(EquipmentValueType type)
-    {
-        return equippedStats.TryGetValue(type, out var stat) ? stat : 0;
-    }
+
+
 
 }

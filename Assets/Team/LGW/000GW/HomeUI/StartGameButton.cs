@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class StartGameButton : MonoBehaviour
 {
+    public FadeManager fadeManager;
     public void OnClickStart()
     {
-        SceneManager.LoadScene("GWGameSceneUI");
+        fadeManager.sceneToLoad = "GWGameSceneUI";
+        fadeManager.StartFadeAndLoad();
     }
 }
 

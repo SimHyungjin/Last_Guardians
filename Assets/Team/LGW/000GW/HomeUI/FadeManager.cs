@@ -11,6 +11,7 @@ public class FadeManager : MonoBehaviour
 
     private bool isTransitioning = false;
 
+    
     public void StartFadeAndLoad()
     {
         if (!isTransitioning)

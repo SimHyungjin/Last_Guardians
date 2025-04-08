@@ -633,6 +633,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187370126}
   m_CullTransparentMesh: 1
+--- !u!1 &273735923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 273735924}
+  - component: {fileID: 273735926}
+  - component: {fileID: 273735925}
+  m_Layer: 5
+  m_Name: FadeImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &273735924
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273735923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 462955172}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &273735925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273735923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 7482667652216324306, guid: abb0e4404132b76439bf737cd5575ab0, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &273735926
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273735923}
+  m_CullTransparentMesh: 1
 --- !u!1 &283241090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,6 +1257,7 @@ RectTransform:
   m_Children:
   - {fileID: 1728897393}
   - {fileID: 391677349}
+  - {fileID: 273735924}
   - {fileID: 163485881}
   - {fileID: 1452921418}
   - {fileID: 489045829}
@@ -4094,6 +4170,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188975368}
   m_CullTransparentMesh: 1
+--- !u!1001 &1215258390
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1979612038087270669, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: fadeImage
+      value: 
+      objectReference: {fileID: 273735925}
+    - target: {fileID: 1979612038087270669, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: sceneToLoad
+      value: GWGameSceneUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403899252860795760, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_Name
+      value: FadeManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 783.68195
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 703.0187
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.03031
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5181722435357034180, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+--- !u!114 &1215258391 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1979612038087270669, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+  m_PrefabInstance: {fileID: 1215258390}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ee9001a4112dd4ea5ecf9a7b89e619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1216247538
 GameObject:
   m_ObjectHideFlags: 0
@@ -4651,7 +4803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8812681659760fb4c845afd2feae3ff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeController: {fileID: 0}
+  fadeManager: {fileID: 1215258391}
 --- !u!1 &1309480494
 GameObject:
   m_ObjectHideFlags: 0
@@ -7141,3 +7293,4 @@ SceneRoots:
   - {fileID: 462955172}
   - {fileID: 1259182653}
   - {fileID: 1216247540}
+  - {fileID: 1215258390}

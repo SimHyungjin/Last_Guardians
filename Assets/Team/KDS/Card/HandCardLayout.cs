@@ -12,31 +12,56 @@ public class HandCardLayout : MonoBehaviour
     [SerializeField] private Card cardPrefab;
     private float radius = 500f;
     public float maxAngle = 30f;
+    public Vector2 dragStartPos;
+    public Vector2 dragEndPos;
+    float dragDistance;
 
+    [SerializeField] private Card highlightedCard = null;
     private bool isHighlighting = false;
     private int highlightedIndex = -1;
     private int highlightedOrder = -1;
-    [SerializeField]private Card highlightedCard = null;
 
+    private bool isDragging = false;
+
+    private GameObject ghostTower;
     public bool IsHighlighting => isHighlighting;
     public Card HighlightedCard => highlightedCard;
-    void UpdateLayout()
+
+    private void Update()
+    {
+        if (isDragging)
+        {
+            highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
+            Vector2 dragEndPos = InputManager.Instance.GetTouchPosition();
+            dragDistance = Vector2.Distance(dragStartPos, dragEndPos);
+            if (dragDistance > 200f)
+            {
+                if (ghostTower == null)
+                {
+                    highlightedCard.gameObject.SetActive(false);
+
+                    ghostTower = Instantiate(highlightedCard.towerGhostPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
+                }
+                else
+                {
+                    ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
+                }
+            }
+            else
+            {
+            }
+        }
+    }
+    
+    private void UpdateLayout()
     {
         int count = cards.Count;
         if (count == 0) return;
 
         for (int i = 0; i < count; i++)
         {
-            (Vector2 pos, float angle) = GetCardLayout(i, count);
-
             RectTransform rect = cards[i].GetComponent<RectTransform>();
-            if (rect != null)
-            {
-                rect.DOAnchorPos(pos, 0.5f).SetEase(Ease.OutCubic);
-                rect.DOLocalRotate(new Vector3(0, 0, angle), 0.5f).SetEase(Ease.OutCubic);
-                rect.SetSiblingIndex(i);
-            }
-
+            GetCardLayout(i, count, rect);
             SpriteRenderer sr = cards[i].GetComponent<SpriteRenderer>();
             if (sr != null)
             {
@@ -50,6 +75,10 @@ public class HandCardLayout : MonoBehaviour
         if (isHighlighting)
         {
             Debug.Log("하이라이트 중인 카드 클릭 " + card.TowerIndex);
+
+            isDragging = true;
+            dragStartPos = InputManager.Instance.GetTouchPosition();
+            dragDistance = 0;
         }
         else
         {
@@ -61,11 +90,26 @@ public class HandCardLayout : MonoBehaviour
     {
         if(isHighlighting)
         {
-            Debug.Log("하이라이트 중인 카드 클릭 해제 " + card.TowerIndex);
+            isHighlighting = false;
+            isDragging = false;
+            if (dragDistance < 200f)
+            {
+                Debug.Log(dragDistance);
+                Debug.Log("하이라이트해제~");
+                dragEndPos = InputManager.Instance.GetTouchPosition();
+                UnHighlightCard();
+            }
+            else 
+            { 
+                Destroy(ghostTower);
+                ghostTower = null;
+                highlightedCard.gameObject.SetActive(true);
+                highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
+                UnHighlightCard();
+            }
         }
         else
         {
-
             HighlightCard(card);
             Debug.Log("Card Clicked End: " + card.TowerIndex);
         }
@@ -96,11 +140,7 @@ public class HandCardLayout : MonoBehaviour
         cardRect.localScale = Vector3.one * 1.2f;
 
         (int cardIndex, int total) = (cards.Count - 1, cards.Count);
-        (Vector2 targetPos, float angle) = GetCardLayout(cardIndex, total);
-
-        cardRect.DOAnchorPos(targetPos, 0.5f).SetEase(Ease.OutCubic);
-        cardRect.DOLocalRotate(new Vector3(0, 0, angle), 0.5f).SetEase(Ease.OutCubic);
-        cardRect.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+        GetCardLayout(cardIndex, total, cardRect);
     }
 
     public void HighlightCard(Card card)
@@ -131,8 +171,6 @@ public class HandCardLayout : MonoBehaviour
             rect = highlightClone.GetComponent<RectTransform>();
         }
 
-       
-
         rect.SetAsLastSibling();
 
         Vector2 centerBottom = new Vector2(0f, 650f);
@@ -142,10 +180,74 @@ public class HandCardLayout : MonoBehaviour
 
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
-
     }
 
+    public void UnHighlightCard()
+    {
+        RectTransform handRect = GetComponent<RectTransform>();
+        handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
 
+        int targetIndex = highlightedIndex;
+        bool stackExists = targetIndex >= 0;
+
+        RectTransform rect = highlightedCard.GetComponent<RectTransform>();
+
+        if (stackExists)
+        {
+            RectTransform targetRect = cards[targetIndex].GetComponent<RectTransform>();
+            Vector2 endPos = targetRect.anchoredPosition;
+
+            rect.DOAnchorPos(endPos, 0.3f).SetEase(Ease.OutCubic).OnComplete(() =>
+            {
+                highlightedCard.onClicked -= MoveCardStart;
+                highlightedCard.onClickEnd -= MoveCardEnd;
+                cards[targetIndex].AddStack();
+                cards[targetIndex].ShowStack();
+                Destroy(highlightedCard.gameObject);
+
+                ResetHighlightState();
+            });
+        }
+        else
+        {
+            cards.Insert(highlightedOrder, highlightedCard);
+            UpdateLayout();
+            ResetHighlightState();
+        }
+    }
+
+    private void ResetHighlightState()
+    {
+        highlightedCard = null;
+        highlightedIndex = -1;
+        highlightedOrder = -1;
+    }
+    //public void UnHighlightCard()
+    //{
+    //    RectTransform handRect = GetComponent<RectTransform>();
+    //    handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
+    //    foreach (Card card in cards)
+    //    {
+    //        if (card.TowerIndex == highlightedIndex)
+    //        {
+    //            highlightedCard.onClicked -= MoveCardStart;
+    //            highlightedCard.onClickEnd -= MoveCardEnd;
+    //            card.AddStack();
+    //            card.ShowStack();
+    //            RectTransform rect =highlightedCard.GetComponent<RectTransform>();
+    //            Destroy(highlightedCard.gameObject);
+    //            highlightedCard = null;
+    //            highlightedIndex = -1;
+    //            highlightedOrder = -1;
+    //            return;
+    //        }
+    //    }
+    //    cards.Insert(highlightedOrder, highlightedCard);
+    //    UpdateLayout();
+    //    highlightedCard = null;
+    //    highlightedIndex = -1;
+    //    highlightedOrder = -1;
+    //}
     public void UseCard(int index)
     {
         foreach (Card card in cards)
@@ -170,7 +272,7 @@ public class HandCardLayout : MonoBehaviour
         }
     }
 
-    (Vector2 position, float angle) GetCardLayout(int index, int totalCount)
+    private void GetCardLayout(int index, int totalCount,RectTransform rect)
     {
         float dynamicMaxAngle = Mathf.Min(9f * (totalCount - 1), 36f);
         float angleStep = (totalCount > 1) ? (dynamicMaxAngle * 2) / (totalCount - 1) : 0f;
@@ -178,6 +280,19 @@ public class HandCardLayout : MonoBehaviour
         float angle = dynamicMaxAngle - angleStep * index;
         float rad = angle * Mathf.Deg2Rad;
         Vector2 pos = new Vector2(-Mathf.Sin(rad), Mathf.Cos(rad)) * radius;
-        return (pos, angle);
+        rect.DOAnchorPos(pos, 0.5f).SetEase(Ease.OutCubic);
+        rect.DOLocalRotate(new Vector3(0, 0, angle), 0.5f).SetEase(Ease.OutCubic);
+        rect.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
     }
+    //(Vector2 position, float angle) GetCardLayout(int index, int totalCount, RectTransform rect)
+    //{
+    //    float dynamicMaxAngle = Mathf.Min(9f * (totalCount - 1), 36f);
+    //    float angleStep = (totalCount > 1) ? (dynamicMaxAngle * 2) / (totalCount - 1) : 0f;
+
+    //    float angle = dynamicMaxAngle - angleStep * index;
+    //    float rad = angle * Mathf.Deg2Rad;
+    //    Vector2 pos = new Vector2(-Mathf.Sin(rad), Mathf.Cos(rad)) * radius;
+
+    //    return (pos, angle);
+    //}
 }

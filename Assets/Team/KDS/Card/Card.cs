@@ -16,6 +16,7 @@ public class Card : MonoBehaviour
     [SerializeField] private int stack;
     [SerializeField] private Image cardImage;
 
+
     public GameObject towerGhostPrefab;
 
     public event Action<Card> onClicked;
@@ -73,7 +74,6 @@ public class Card : MonoBehaviour
             }
         }
     }
-
     public void OnTouchEnd(InputAction.CallbackContext ctx)
     {
         if (isMoving)
@@ -99,9 +99,6 @@ public class Card : MonoBehaviour
         {
             Text.text = "";
         }
-    }
-    public void MoveCardStart()
-    {
     }
     public void AddStack()
     {

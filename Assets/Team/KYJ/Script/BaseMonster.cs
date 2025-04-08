@@ -1,63 +1,112 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BaseMonster : MonoBehaviour
 {
-    public MonsterData monsterData;
+    [SerializeField] private MonsterData monsterData;
+    [SerializeField] protected MonsterSkillData skillData;
     public float CurrentHP { get; set; }
     public float SpeedModifier { get; set; } = 1f;
     public float DefModifier { get; set; } = 1f;
-    protected float skillTimer;
-    public LayerMask targetLayer;
-    private Vector3 localScale;
-    private SpriteRenderer spriteRenderer;
-    private RaycastHit2D hit;
+    protected float attackDelay = 3f;
+    protected float attackTimer = 0f;
+    protected bool isAttack = false;
+    protected float skillTimer = 0f;
 
+    public LayerMask targetLayer;
+    public Transform target;
+
+    private SpriteRenderer spriteRenderer;
+    protected NavMeshAgent agent;
+    private RaycastHit2D[] hit;
+    
+
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
     private void Start()
     {
         //첫 로컬스케일 저장
-        localScale = transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        hit = new RaycastHit2D[4];
+        if(skillData!=null)
+            skillTimer = skillData.skillCoolTime;
+        Debug.Log(skillTimer);
     }
 
     private void OnEnable()
     {
         //현재체력 초기화
         CurrentHP = monsterData.maxHP;
+        agent.speed = monsterData.speed;
     }
 
     private void Update()
     {
         Debug.DrawRay(this.transform.position, Vector2.left, Color.red);
+        Debug.DrawRay(this.transform.position, Vector2.up, Color.red);
+        Debug.DrawRay(this.transform.position, Vector2.right, Color.red);
+        Debug.DrawRay(this.transform.position, Vector2.down, Color.red);
+
+        if(isAttack)
+            attackTimer -= Time.deltaTime;
+
+        if (isAttack && attackTimer <= 0)
+        {
+            Attack();
+        }
+
+        if(skillData != null)
+        {
+            skillTimer -= Time.deltaTime;
+            if(skillTimer <= 0)
+            {
+                MonsterSkill();
+            }
+        }
     }
 
     private void FixedUpdate()
     {
         //왼쪽 오른쪽 뒤집기
         if (transform.position.x > 0)
-            transform.localScale = new Vector3(-localScale.x, localScale.y, localScale.z);
+            spriteRenderer.flipX = false;
         else
-            transform.localScale = new Vector3(localScale.x,localScale.y,localScale.z);
+            spriteRenderer.flipX = true;
 
         Move();
 
-        //레이캐스트 쏘기 사거리는 임시값
-        hit = Physics2D.Raycast(this.transform.position, Vector2.left, 1, targetLayer);
-        if(hit.collider != null)
+        if(!isAttack)
         {
-            Attack();
+            //레이캐스트 쏘기 사거리는 임시값
+            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, 1, targetLayer);
+            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, 1, targetLayer);
+            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, 1, targetLayer);
+            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, 1, targetLayer);
+            foreach (var hit in hit)
+            {
+                if (hit.collider != null)
+                {
+                    isAttack = true;
+                }
+            }
         }
+        
     }
 
     private void Move()
     {
-
+        agent.SetDestination(target.position);
     }
 
-    private void Attack()
+    protected virtual void Attack()
     {
-        //정지 후 공격 애니메이션 재생 후 플레이어의 체력을 깎기
+        //타입별 몬스터에서 구현
     }
 
     private void Death()
@@ -66,14 +115,9 @@ public class BaseMonster : MonoBehaviour
         PoolManager.Instance.Despawn(this);
     }
 
-    protected virtual void MonsterSkill(MonsterData monsterData)
+    protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
-    }
-
-    private void PathFind()
-    {
-
     }
 
     //데미지 받을 떄 호출되는 함수

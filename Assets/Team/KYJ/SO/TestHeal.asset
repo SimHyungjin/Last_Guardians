@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TestHeal
   m_EditorClassIdentifier: 
   skillID: 0
-  skillName: 
-  skillDescription: 
+  skillName: "\uD14C\uC2A4\uD2B8\uD790"
+  skillDescription: "\uD14C\uC2A4\uD2B8\uD790"
   skillRange: 0
-  skillCoolTime: 0
+  skillCoolTime: 5
   healGain: 0

@@ -12,10 +12,6 @@ public class MonsterManager : Singleton<MonsterManager>
     private float SpawnTimer = 0f;
     private float SpawnDelay = 5f;
 
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -27,14 +23,24 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void SpawnMonster()
     {
-        SpawnNormalMonster(spawnPoint[Random.Range(0, 2)]);
+        SpawnMonster(spawnPoint[Random.Range(0, 2)],"Normal","Enemy");
     }
 
-    private void SpawnNormalMonster(Transform point)
+    private void SpawnMonster(Transform point,string grade ,string name)
     {
-        NormalEnemy prefab = Resources.Load<NormalEnemy>("Enemy/Normal/Enemy");
-        NormalEnemy normalEnemy = PoolManager.Instance.Spawn(prefab, point);
-        normalEnemy.Target = target;
+        BaseMonster prefab = Resources.Load<NormalEnemy>($"Enemy/{grade}/{name}");
+        BaseMonster monster = PoolManager.Instance.Spawn(prefab, point);
+        monster.Target = target;
         SpawnTimer = SpawnDelay;
+    }
+
+    public void TestKill()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach(GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.TakeDamage(1000);
+        }
     }
 }

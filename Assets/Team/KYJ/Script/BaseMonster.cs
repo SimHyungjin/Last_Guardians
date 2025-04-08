@@ -48,9 +48,11 @@ public class BaseMonster : MonoBehaviour
 
     private void OnEnable()
     {
-        //현재체력 초기화
+        //오프젝트 풀에서 다시 꺼내졌을때 초기화
         CurrentHP = monsterData.maxHP;
+        agent.isStopped = false;
         agent.speed = monsterData.speed;
+        isAttack = false;
     }
 
     private void Update()
@@ -118,7 +120,6 @@ public class BaseMonster : MonoBehaviour
     protected virtual void Attack()
     {
         agent.isStopped = true;
-        agent.ResetPath();
         agent.speed = 0f;
         //타입별 몬스터에서 구현
     }

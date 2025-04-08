@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: TestData
   m_EditorClassIdentifier: 
   monsterID: 0
-  maxHP: 10
+  maxHP: 100
   speed: 1.5
   def: 0
   exp: 0
   damage: 1
   monsterName: "\uD14C\uC2A4\uD2B8\uC6A9"
   monsterDescription: "\uD14C\uC2A4\uD2B8\uC6A9"
+  monsterType: 0

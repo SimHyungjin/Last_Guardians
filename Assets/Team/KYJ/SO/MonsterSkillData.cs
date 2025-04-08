@@ -13,5 +13,18 @@ public abstract class MonsterSkillData : ScriptableObject
     public float skillRange;
     public float skillCoolTime;
 
+    [Header("힐 수치")]
+    public float healGain;
+
+    [Header("방어력 증가")]
+    public float defGain;
+
+    [Header("몬스터 소환")]
+    public int monsterID;
+    public int monsterNum;
+
+    [Header("주변 타워 스턴")]
+    public float sturnDuration;
+
     public abstract void UseSkill();
 }

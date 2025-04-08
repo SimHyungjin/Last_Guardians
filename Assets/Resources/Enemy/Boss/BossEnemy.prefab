@@ -177,7 +177,7 @@ MonoBehaviour:
   attackRange: 0.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16
 --- !u!195 &6118364301313954780
 NavMeshAgent:
   m_ObjectHideFlags: 0

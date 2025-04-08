@@ -23,12 +23,12 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void SpawnMonster()
     {
-        SpawnMonster(spawnPoint[Random.Range(0, 2)],"Normal","Enemy");
+        SpawnMonster(spawnPoint[Random.Range(0, 2)],"Boss","BossEnemy");
     }
 
     private void SpawnMonster(Transform point,string grade ,string name)
     {
-        BaseMonster prefab = Resources.Load<NormalEnemy>($"Enemy/{grade}/{name}");
+        BaseMonster prefab = Resources.Load<BaseMonster>($"Enemy/{grade}/{name}");
         BaseMonster monster = PoolManager.Instance.Spawn(prefab, point);
         monster.Target = target;
         SpawnTimer = SpawnDelay;
@@ -41,6 +41,26 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
             ba.TakeDamage(1000);
+        }
+    }
+
+    public void TestDot()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.DotDamage(5, 10f);
+        }
+    }
+
+    public void TestSturn()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplySturn(10f, 5f);
         }
     }
 }

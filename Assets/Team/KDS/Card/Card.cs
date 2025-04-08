@@ -48,7 +48,12 @@ public class Card : MonoBehaviour
     public void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
-        if (!gameObject.activeInHierarchy) return;
+        if (DeckManager.Instance.hand.IsHighlighting &&
+            DeckManager.Instance.hand.HighlightedCard != this)
+        {
+            return;
+        }
+        //if (!gameObject.activeInHierarchy) return;
         screenPos = InputManager.Instance.GetTouchPosition();
         // UI용 레이캐스트
         PointerEventData pointerData = new PointerEventData(EventSystem.current);

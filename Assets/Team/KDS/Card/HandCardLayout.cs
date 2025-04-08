@@ -16,7 +16,10 @@ public class HandCardLayout : MonoBehaviour
     private bool isHighlighting = false;
     private int highlightedIndex = -1;
     private int highlightedOrder = -1;
-    private Card highlightedCard = null;
+    [SerializeField]private Card highlightedCard = null;
+
+    public bool IsHighlighting => isHighlighting;
+    public Card HighlightedCard => highlightedCard;
     void UpdateLayout()
     {
         int count = cards.Count;
@@ -44,20 +47,28 @@ public class HandCardLayout : MonoBehaviour
 
     public void MoveCardStart(Card card)
     {
-        Debug.Log("Card Clicked: " + card.TowerIndex);
         if (isHighlighting)
         {
-        
+            Debug.Log("하이라이트 중인 카드 클릭 " + card.TowerIndex);
         }
         else
         {
-            HighlightCard(card);
+            Debug.Log("Card Clicked: " + card.TowerIndex);
         }
     }
 
     public void MoveCardEnd(Card card)
     {
-        Debug.Log("Card Clicked End: " + card.TowerIndex);
+        if(isHighlighting)
+        {
+            Debug.Log("하이라이트 중인 카드 클릭 해제 " + card.TowerIndex);
+        }
+        else
+        {
+
+            HighlightCard(card);
+            Debug.Log("Card Clicked End: " + card.TowerIndex);
+        }
     }
 
     public void AddCard(int index)
@@ -100,25 +111,28 @@ public class HandCardLayout : MonoBehaviour
         highlightedIndex = card.TowerIndex;
         highlightedOrder = cards.IndexOf(card);
         highlightedCard = card;
-
+        RectTransform rect;
         if (card.Stack == 1)
         {
             cards.Remove(card);
             UpdateLayout();
+            rect = card.GetComponent<RectTransform>();
         }
         else 
         {
             card.subtractStack();
             card.ShowStack();
+            Card highlightClone = Instantiate(cardPrefab, transform);
+            highlightClone.Init(card.TowerIndex);
+            highlightClone.onClicked += MoveCardStart;
+            highlightClone.onClickEnd += MoveCardEnd;
+            highlightClone.GetComponent<RectTransform>().anchoredPosition = card.GetComponent<RectTransform>().anchoredPosition;
+            highlightedCard = highlightClone;
+            rect = highlightClone.GetComponent<RectTransform>();
         }
 
        
-        Card highlightClone = Instantiate(cardPrefab, transform);
-        highlightClone.Init(card.TowerIndex); 
-        highlightClone.GetComponent<RectTransform>().anchoredPosition = card.GetComponent<RectTransform>().anchoredPosition;
 
-
-        RectTransform rect = highlightClone.GetComponent<RectTransform>();
         rect.SetAsLastSibling();
 
         Vector2 centerBottom = new Vector2(0f, 650f);
@@ -128,7 +142,7 @@ public class HandCardLayout : MonoBehaviour
 
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
-        highlightedCard = highlightClone;
+
     }
 
 

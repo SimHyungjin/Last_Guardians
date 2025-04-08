@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a5e7ab69022154684d19c45eb57cdc, type: 3}
+  m_Name: NewEquipmentData 2
+  m_EditorClassIdentifier: 
+  itemName: 11111111
+  itemType: 1
+  attackType: 0
+  grade: 0
+  icon: {fileID: 1042619004, guid: 5d3f3f11dd6cf4c4ba02810d9df0c066, type: 3}
+  item_attack: 0
+  item_attackSpeed: 0
+  item_attackRange: 0
+  item_criticalChance: 0
+  item_criticalDamage: 0
+  item_pentration: 0
+  item_moveSpeed: 0

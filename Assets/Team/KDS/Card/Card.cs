@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ public class Card : MonoBehaviour
     [SerializeField] private int towerIndex;
     [SerializeField] private int stack;
     [SerializeField] private Image cardImage;
+
 
     public GameObject towerGhostPrefab;
 
@@ -47,6 +49,12 @@ public class Card : MonoBehaviour
     public void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
+        if (DeckManager.Instance.hand.IsHighlighting &&
+            DeckManager.Instance.hand.HighlightedCard != this)
+        {
+            return;
+        }
+        //if (!gameObject.activeInHierarchy) return;
         screenPos = InputManager.Instance.GetTouchPosition();
         // UI용 레이캐스트
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
@@ -74,6 +82,13 @@ public class Card : MonoBehaviour
             onClickEnd?.Invoke(this);
         }
     }
+    public void OnDestroy()
+    {
+        InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        onClicked = null;
+        onClickEnd = null;
+    }
+
     public void ShowStack()
     {
         if (stack > 1)
@@ -84,9 +99,6 @@ public class Card : MonoBehaviour
         {
             Text.text = "";
         }
-    }
-    public void MoveCardStart()
-    {
     }
     public void AddStack()
     {

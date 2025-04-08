@@ -37,7 +37,11 @@ public class InputManager : Singleton<InputManager>
         pointerAction.Pressed.started += onStart;
         pointerAction.Pressed.canceled += onEnd;
     }
-
+    public void UnBindTouchPressed(Action<InputAction.CallbackContext> onStart, Action<InputAction.CallbackContext> onEnd)
+    {
+        pointerAction.Pressed.started -= onStart;
+        pointerAction.Pressed.canceled -= onEnd;
+    }
     public void BindStart(InputAction action, Action<InputAction.CallbackContext> callback) => action.started += callback;
     public void BindPerformed(InputAction action, Action<InputAction.CallbackContext> callback) => action.performed += callback;
     public void BindCanceled(InputAction action, Action<InputAction.CallbackContext> callback) => action.canceled += callback;

@@ -1315,6 +1315,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 611932863}
   m_CullTransparentMesh: 1
+--- !u!1 &842584916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842584918}
+  - component: {fileID: 842584917}
+  m_Layer: 0
+  m_Name: DeckManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &842584917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842584916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d614154a27a8834995d552318af1461, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hand: {fileID: 1424342130}
+--- !u!4 &842584918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842584916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919285711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2548,7 +2593,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1424342130
@@ -2566,6 +2611,9 @@ MonoBehaviour:
   cards: []
   cardPrefab: {fileID: 379576597443618463, guid: 40eaf72a4f63ffb40b92edd06a8f1733, type: 3}
   maxAngle: 30
+  dragStartPos: {x: 0, y: 0}
+  dragEndPos: {x: 0, y: 0}
+  highlightedCard: {fileID: 0}
 --- !u!1 &1476999891
 GameObject:
   m_ObjectHideFlags: 0
@@ -3725,7 +3773,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c105faa76f74841b3aacb5dd80276a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityDataSO: []
+  abilityDataSO:
+  - {fileID: 11400000, guid: 4a120442fa3d04f45854a0fe08e15a46, type: 2}
+  - {fileID: 11400000, guid: 506b7a57a22687349b97d41a8f8273c3, type: 2}
+  - {fileID: 11400000, guid: f055433e240bc784288302a77584868f, type: 2}
+  - {fileID: 11400000, guid: a378fcbf4f0f5bb4fbb130f3160a53d9, type: 2}
+  - {fileID: 11400000, guid: 9b33610a0bd83c24e803e37d680cafe5, type: 2}
+  towerCombinationData: {fileID: 11400000, guid: 416b2068da773df41a56cdcc2cb8fee7, type: 2}
 --- !u!114 &8975813167120580065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3753,4 +3807,5 @@ SceneRoots:
   - {fileID: 282573339}
   - {fileID: 1775138574}
   - {fileID: 1883519253}
+  - {fileID: 842584918}
   - {fileID: 72288414}

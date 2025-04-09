@@ -8,14 +8,14 @@ public class BossMonster : BaseMonster
     protected override void Attack()
     {
         base.Attack();
-        Debug.Log("보스공격");
+        Debug.Log($"보스몬스터 {monsterData.name} 공격");
         attackTimer = attackDelay;
     }
 
     protected override void MonsterSkill()
     {
-        Debug.Log($"보스몬스터 {skillData.name} 사용");
-        skillTimer = skillData.skillCoolTime;
+        Debug.Log($"{monsterData.name} {skillData.name} 사용");
+        skillTimer = skillData.SkillCoolTime;
     }
 
 }

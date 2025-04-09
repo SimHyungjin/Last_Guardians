@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,14 +11,29 @@ public class Tower : MonoBehaviour
     public GameObject towerGhost;
     public bool isMoving;
 
-    private SpriteRenderer color;
+    private SpriteRenderer sprite;
     Vector2 curPos;
     private void OnEnable()
     {
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        color = GetComponent<SpriteRenderer>();
+        sprite = GetComponent<SpriteRenderer>();
     }
-
+    public void Init(int index)
+    {
+        Debug.Log("Init");
+        string path = $"Assets/Team/KDS/ScriptableObject/Tower/TestTower{index}.asset";
+        towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
+        Debug.Log(towerdata.TowerName);
+        InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
+        //나중에 리소스로 옮길것
+        //towerdata = Resources.Load<CardData>($"ScriptalbeObject/Towerdata{index}");
+        sprite = GetComponent<SpriteRenderer>();
+        if (towerdata != null)
+        {
+            sprite.sprite = towerdata.towerSprite;
+            towerGhost = towerdata.towerGhostPrefab;
+        }
+    }
     private void Update()
     {
         if (isMoving)
@@ -57,7 +73,8 @@ public class Tower : MonoBehaviour
     {
         isMoving = true;
         towerGhost = Instantiate(towerdata.towerGhostPrefab, curPos, Quaternion.identity);
-        color.color = new Color(color.color.r, color.color.g, color.color.b, 0.3f);
+        towerGhost.GetComponent<SpriteRenderer>().sprite = towerdata.towerSprite;
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);
     }
     public void MoveTowerEnd()
     {
@@ -66,16 +83,23 @@ public class Tower : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapPointAll(curPos, LayerMask.GetMask("Tower"));
         foreach (Collider2D collider in colliders)
         {
-            if (collider != currentCollider) 
+            if (collider != currentCollider)
             {
-                color.color = new Color(color.color.r, color.color.g, color.color.b, 1f);
+                Tower targetTower = collider.GetComponent<Tower>();
+                //TowerManager.Instance.towerConstructer.TowerCombine(this, targetTower);
+                sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
                 Destroy(towerGhost);
                 return;
             }
         }
-        color.color = new Color(color.color.r, color.color.g, color.color.b, 1f);
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
         Destroy(towerGhost);
         towerGhost = null;
+    }
+    private void OnDestroy()
+    {
+        InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        isMoving = false;
     }
 }
 

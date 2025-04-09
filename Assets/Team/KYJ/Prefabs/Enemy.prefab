@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2522084805266883770}
   - component: {fileID: 6986157115480444599}
   - component: {fileID: 9192829552925082777}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
   attackRange: 0.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!195 &9192829552925082777
 NavMeshAgent:
   m_ObjectHideFlags: 0

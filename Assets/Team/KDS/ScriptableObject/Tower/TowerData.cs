@@ -11,8 +11,9 @@ public enum TowerType
 [CreateAssetMenu(fileName = "NewTower", menuName = "Data/Tower Data", order = 1)]
 public class TowerData: ScriptableObject
 {
-    [Header("타워 프리팹")]
+    [Header("타워 외관")]
     [SerializeField] public GameObject towerGhostPrefab;
+    [SerializeField] public Sprite towerSprite;
 
     [Header("타워 스텟")]
     [SerializeField] private int towerIndex;

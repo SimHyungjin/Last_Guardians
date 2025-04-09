@@ -36,7 +36,6 @@ public class DeckHandler : MonoBehaviour
             highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
             Vector2 dragEndPos = InputManager.Instance.GetTouchPosition();
             dragDistance = Vector2.Distance(dragStartPos, dragEndPos);
-            Debug.Log("드래그 거리: " + dragDistance);
             if (dragDistance > 200f)
             {
                 if (ghostTower == null)

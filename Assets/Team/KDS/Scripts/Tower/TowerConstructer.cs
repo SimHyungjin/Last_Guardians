@@ -21,6 +21,15 @@ public class TowerConstructer : MonoBehaviour
         if (result == -1) return false;
         return true;
     }
+
+    public void TowerToTowerCombine()
+    {
+
+    }
+    public void CardToTowerCombine()
+    {
+
+    }
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
     {
         Vector2 constructPos = PostionArray(curPos);

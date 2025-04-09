@@ -2,14 +2,24 @@ using UnityEngine;
 
 public class HomeManager : Singleton<HomeManager>
 {
-    public Inventory Inventory;
-    public Equipment Equipment;
+    public GameObject canvas;
+    public Inventory inventory;
+    public Equipment equipment;
+
+    public Slot selectedSlot;
 
     private void Awake()
     {
-        GameObject canvas = Utils.InstantiatePrefabFromResource("UI/Canvas");
-        Inventory = Utils.InstantiateComponentFromResource<Inventory>("UI/Inventory", canvas.transform);
-        Equipment ??= new();
-        Utils.InstantiatePrefabFromResource("UI/Equipment",canvas.transform);
+        canvas = Utils.InstantiatePrefabFromResource("UI/Canvas", this.transform);
+
+        inventory = Utils.InstantiateComponentFromResource<Inventory>("UI/Inventory", canvas.transform);
+
+        equipment ??= new();
+        equipment.Init();
+    }
+
+    public void SetSelectedItem(Slot slot)
+    {
+        selectedSlot = slot;
     }
 }

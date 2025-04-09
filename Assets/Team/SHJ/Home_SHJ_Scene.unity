@@ -420,7 +420,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbfc1bb47e86a3145b9b92cf490751e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inventory: {fileID: 0}
+  canvas: {fileID: 0}
+  inventory: {fileID: 0}
+  selectedSlot: {fileID: 0}
 --- !u!4 &1619176276
 Transform:
   m_ObjectHideFlags: 0

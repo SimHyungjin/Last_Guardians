@@ -4,12 +4,15 @@ using UnityEngine;
 public class AttackMeleeFan : IAttackBehavior
 {
     private AttackController attackController;
+    private Player player;
+
     float angle;
     float radius;
     Vector2 targetPos;
 
     public void Init(AttackController _attackController)
     {
+        player = InGameManager.Instance.playerManager.player;
         attackController = _attackController;
     }
 
@@ -20,7 +23,7 @@ public class AttackMeleeFan : IAttackBehavior
         Vector2 direction = (targetPos - origin).normalized;
 
         angle = 60f;
-        radius = attackController.player.playerData.attackRange * 2;
+        radius = player.playerData.attackRange * 2;
         var rawHits = Physics2D.OverlapCircleAll(origin, radius, LayerMask.GetMask("Monster"));
 
         List<Collider2D> validHits = new();
@@ -57,6 +60,6 @@ public class AttackMeleeFan : IAttackBehavior
         EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
         Vector2 direction = (targetPos -(Vector2)attackController.transform.position).normalized;
-        effectIndicator.effectChangeMesh.ShowFan(attackController.transform.position, direction, attackController.player.playerData.attackRange * 4, angle);
+        effectIndicator.effectChangeMesh.ShowFan(attackController.transform.position, direction, player.playerData.attackRange * 4, angle);
     }
 }

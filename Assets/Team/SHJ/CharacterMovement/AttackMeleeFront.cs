@@ -5,16 +5,18 @@ using UnityEngine;
 public class AttackMeleeFront : IAttackBehavior
 {
     private AttackController attackController;
+    private Player player;
 
     public void Init(AttackController _attackController)
     {
+        player = InGameManager.Instance.playerManager.player;
         attackController = _attackController;
     }
 
     public void Attack(Vector2 targetPos, float damage)
     {
         Vector2 forward = attackController.transform.right;
-        float range = attackController.player.playerData.attackRange;
+        float range = player.playerData.attackRange;
         float width = attackController.rangeX;
 
         Vector2 boxCenter = (Vector2)attackController.transform.position + forward * range;
@@ -47,7 +49,7 @@ public class AttackMeleeFront : IAttackBehavior
         EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
         float width = attackController.rangeX;
-        float height = attackController.player.playerData.attackRange;
+        float height = player.playerData.attackRange;
 
         Vector2 forward = attackController.transform.right;
         Vector2 center = (Vector2)attackController.transform.position + forward * height;

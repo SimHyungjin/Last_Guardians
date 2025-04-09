@@ -2,12 +2,10 @@ using System.Collections.Generic;
 
 public class Equipment
 {
-    private static Equipment _instance;
-    public static Equipment Instance => _instance ??= new Equipment();
+    public EquipemntData curEquippedData;
+    public EquipmentSlotContainer equipmentSlotContainer;
 
-    public EquipmentData curEquippedData;
-
-    private Dictionary<ItemType, EquipmentData> equipped = new();
+    private Dictionary<EquipType, EquipemntData> equipped = new();
 
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
@@ -16,25 +14,42 @@ public class Equipment
     public float totalCriticalDamage { get; private set; }
     public float totalPenetration { get; private set; }
     public float totalMoveSpeed { get; private set; }
+    public float totalDefense { get; private set; }
+    public List<int> specialEffectIDs { get; private set; } = new();
 
-    public void Equip(EquipmentData data)
+    public void Init()
+    {
+        equipmentSlotContainer = Utils.InstantiateComponentFromResource<EquipmentSlotContainer>("UI/Equipment", HomeManager.Instance.canvas.transform);
+    }
+
+    public void Equip(EquipemntData data)
     {
         if (data == null) return;
 
-        if (equipped.TryGetValue(data.itemType, out var currentEquip))
+        if (equipped.TryGetValue(data.equipType, out var currentEquip))
         {
             UnEquip(currentEquip);
         }
 
-        equipped[data.itemType] = data;
+        equipped[data.equipType] = data;
+        HomeManager.Instance.selectedSlot.EffectEnable();
         RecalculateStats();
     }
 
-    public void UnEquip(EquipmentData data)
+    public void UnEquip(EquipemntData data)
     {
         if (data == null) return;
 
-        equipped.Remove(data.itemType);
+        equipped.Remove(data.equipType);
+        var slots = HomeManager.Instance.inventory.GetSlotContainer().GetSlots();
+        foreach (var slot in slots)
+        {
+            if (slot.Getdata() == data)
+            {
+                slot.EffectDisable();
+                break;
+            }
+        }
         RecalculateStats();
     }
 
@@ -47,17 +62,40 @@ public class Equipment
         totalCriticalDamage = 0;
         totalPenetration = 0;
         totalMoveSpeed = 0;
+        totalDefense = 0;
+        specialEffectIDs.Clear();
 
-        foreach (var kv in equipped.Values)
+        foreach (var data in equipped.Values)
         {
-            if (kv == null) continue;
-            totalAttack += kv.item_attack;
-            totalAttackSpeed += kv.item_attackSpeed;
-            totalAttackRange += kv.item_attackRange;
-            totalCriticalChance += kv.item_criticalChance;
-            totalCriticalDamage += kv.item_criticalDamage;
-            totalPenetration += kv.item_penetration;
-            totalMoveSpeed += kv.item_moveSpeed;
+            if (data == null) continue;
+
+            totalAttack += data.attackPower;
+            totalAttackSpeed += data.attackSpeed;
+            totalAttackRange += data.attackRange;
+            totalCriticalChance += data.criticalChance;
+            totalCriticalDamage += data.criticalDamage;
+            totalPenetration += data.penetration;
+            totalMoveSpeed += data.moveSpeed;
+            totalDefense += data.defense;
+
+            if (data.specialEffectID != 0)
+                specialEffectIDs.Add(data.specialEffectID);
         }
     }
+
+    public EquipemntData GetEquipped(EquipType type)
+    {
+        equipped.TryGetValue(type, out var data);
+        return data;
+    }
+
+    public bool IsEquipped(EquipemntData data)
+    {
+        if (data == null) return false;
+
+        var equippedData = GetEquipped(data.equipType);
+        return equippedData == data;
+    }
+
+    public IReadOnlyDictionary<EquipType, EquipemntData> GetAllEquipped() => equipped;
 }

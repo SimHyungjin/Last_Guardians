@@ -1,17 +1,18 @@
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image icon;
-    [SerializeField] private EquipmentData data;
+    [SerializeField] private ItemData data;
 
     private void Awake()
     {
         icon = GetComponent<Image>();
     }
 
-    public void SetData(EquipmentData newData)
+    public void SetData(ItemData newData)
     {
         data = newData;
         UpdateSlotUI();
@@ -21,12 +22,6 @@ public class Slot : MonoBehaviour
     {
         data = null; 
         UpdateSlotUI();
-    }
-
-    public void SelectEquip()
-    {
-        if (data == null) return;
-        Equipment.Instance.curEquippedData = data;
     }
 
     public void UpdateSlotUI()
@@ -40,4 +35,22 @@ public class Slot : MonoBehaviour
             icon.sprite = data.icon;
         }
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (data == null) return;
+        HomeManager.Instance.SetSelectedItem(this);
+    }
+
+    public void EffectEnable()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void EffectDisable()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public ItemData Getdata() => data;
 }

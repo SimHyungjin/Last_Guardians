@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class EquipmentSlotContainer : MonoBehaviour
@@ -10,27 +11,25 @@ public class EquipmentSlotContainer : MonoBehaviour
     [SerializeField] private Transform armorSlot;
     [SerializeField] private Transform shoesSlot;
 
-    public Dictionary<ItemType, Slot> slotMap = new();
+    public Dictionary<EquipType, Slot> slotMap = new();
 
     private void Awake()
     {
-        slotMap[ItemType.Weapon] = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", weaponSlot);
-        slotMap[ItemType.Ring] = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", ringSlot);
-        slotMap[ItemType.Necklace] = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", necklaceSlot);
-        slotMap[ItemType.Helmet] = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", helmetSlot);
-        slotMap[ItemType.Armor] = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", armorSlot);
-        slotMap[ItemType.Shoes] = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", shoesSlot);
+        slotMap[EquipType.Weapon] = CreateSlot(EquipType.Weapon, weaponSlot);
+        slotMap[EquipType.Ring] = CreateSlot(EquipType.Ring, ringSlot);
+        slotMap[EquipType.Necklace] = CreateSlot(EquipType.Necklace, necklaceSlot);
+        slotMap[EquipType.Helmet] = CreateSlot(EquipType.Helmet, helmetSlot);
+        slotMap[EquipType.Armor] = CreateSlot(EquipType.Armor, armorSlot);
+        slotMap[EquipType.Shoes] = CreateSlot(EquipType.Shoes, shoesSlot);
     }
 
-    public void RegisterSlot(ItemType type, Slot slot)
+    private Slot CreateSlot(EquipType type, Transform parent)
     {
-        if (!slotMap.ContainsKey(type))
-        {
-            slotMap[type] = slot;
-        }
+        var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", parent);
+        return slot;
     }
 
-    public void BindEquipment(ItemType type, EquipmentData data)
+    public void BindEquipment(EquipType type, EquipemntData data)
     {
         if (slotMap.TryGetValue(type, out var slot))
         {
@@ -38,7 +37,7 @@ public class EquipmentSlotContainer : MonoBehaviour
         }
     }
 
-    public void ClearSlot(ItemType type)
+    public void ClearSlot(EquipType type)
     {
         if (slotMap.TryGetValue(type, out var slot))
         {

@@ -15,17 +15,17 @@ public class InventoryUIButton : MonoBehaviour
     [field: SerializeField] public Button ringBtn { get; private set; }
     [field: SerializeField] public Button necklaceBtn { get; private set; }
 
-    public UnityEvent<ItemType> bindInventoryBtn;
+    public UnityEvent<EquipType> bindInventoryBtn;
 
     private void Awake()
     {
-        allBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Count));
-        weaponBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Weapon));
-        helmetBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Helmet));
-        armorBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Armor));
-        shoesBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Shoes));
-        ringBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Ring));
-        necklaceBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(ItemType.Necklace));
+        allBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Count));
+        weaponBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Weapon));
+        helmetBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Helmet));
+        armorBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Armor));
+        shoesBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Shoes));
+        ringBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Ring));
+        necklaceBtn.onClick.AddListener(() => bindInventoryBtn?.Invoke(EquipType.Necklace));
     }
 
 }

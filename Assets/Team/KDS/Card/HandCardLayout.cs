@@ -20,7 +20,7 @@ public class HandCardLayout : MonoBehaviour
     private bool isHighlighting = false;
     private int highlightedIndex = -1;
     private int highlightedOrder = -1;
-
+    private int originalSiblingIndex;
     private bool isDragging = false;
 
     private GameObject ghostTower;
@@ -72,7 +72,7 @@ public class HandCardLayout : MonoBehaviour
 
     public void MoveCardStart(Card card)
     {
-        if (isHighlighting)
+        if (isHighlighting&&card.TowerIndex==highlightedIndex)
         {
             Debug.Log("하이라이트 중인 카드 클릭 " + card.TowerIndex);
 
@@ -88,14 +88,12 @@ public class HandCardLayout : MonoBehaviour
 
     public void MoveCardEnd(Card card)
     {
-        if(isHighlighting)
+        if(isHighlighting && card.TowerIndex == highlightedIndex)
         {
-            isHighlighting = false;
-            isDragging = false;
+
             if (dragDistance < 200f)
             {
-                Debug.Log(dragDistance);
-                Debug.Log("하이라이트해제~");
+                Debug.Log("하이라이트해제~"+ card.TowerIndex);
                 dragEndPos = InputManager.Instance.GetTouchPosition();
                 UnHighlightCard();
             }
@@ -107,10 +105,13 @@ public class HandCardLayout : MonoBehaviour
                 highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
                 UnHighlightCard();
             }
+            isHighlighting = false;
+            isDragging = false;
         }
         else
         {
             HighlightCard(card);
+            Debug.Log("하이라이트시작: " + card.TowerIndex);
             Debug.Log("Card Clicked End: " + card.TowerIndex);
         }
     }
@@ -146,8 +147,8 @@ public class HandCardLayout : MonoBehaviour
     public void HighlightCard(Card card)
     {
         if (isHighlighting) return;
-
         isHighlighting = true;
+
         highlightedIndex = card.TowerIndex;
         highlightedOrder = cards.IndexOf(card);
         highlightedCard = card;
@@ -170,9 +171,8 @@ public class HandCardLayout : MonoBehaviour
             highlightedCard = highlightClone;
             rect = highlightClone.GetComponent<RectTransform>();
         }
-
+        originalSiblingIndex = card.transform.GetSiblingIndex();
         rect.SetAsLastSibling();
-
         Vector2 centerBottom = new Vector2(0f, 650f);
         rect.DOAnchorPos(centerBottom, 0.3f).SetEase(Ease.OutCubic);
         rect.DORotate(Vector3.zero, 0.3f).SetEase(Ease.OutCubic);
@@ -186,23 +186,29 @@ public class HandCardLayout : MonoBehaviour
     {
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
-
-        int targetIndex = highlightedIndex;
-        bool stackExists = targetIndex >= 0;
+        bool stackExists=false;
+        foreach (Card card in cards)
+        {
+            if (card.TowerIndex == highlightedIndex)
+            {
+                stackExists = true;
+                break;
+            }
+        }
 
         RectTransform rect = highlightedCard.GetComponent<RectTransform>();
-
+        rect.SetSiblingIndex(originalSiblingIndex);
         if (stackExists)
         {
-            RectTransform targetRect = cards[targetIndex].GetComponent<RectTransform>();
+            RectTransform targetRect = cards[highlightedOrder].GetComponent<RectTransform>();
             Vector2 endPos = targetRect.anchoredPosition;
 
             rect.DOAnchorPos(endPos, 0.3f).SetEase(Ease.OutCubic).OnComplete(() =>
             {
                 highlightedCard.onClicked -= MoveCardStart;
                 highlightedCard.onClickEnd -= MoveCardEnd;
-                cards[targetIndex].AddStack();
-                cards[targetIndex].ShowStack();
+                cards[highlightedOrder].AddStack();
+                cards[highlightedOrder].ShowStack();
                 Destroy(highlightedCard.gameObject);
                 ResetHighlightState();
             });

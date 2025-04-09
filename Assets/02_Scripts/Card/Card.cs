@@ -35,7 +35,7 @@ public class Card : MonoBehaviour
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         //나중에 리소스로 옮길것
         //cardData = Resources.Load<CardData>($"ScriptalbeObject/CardData{index}");
-        string path = $"Assets/Team/KDS/ScriptableObject/Card/CardData{index}.asset";
+        string path = $"Assets/90_SO/Card/CardData{index}.asset";
         cardData = AssetDatabase.LoadAssetAtPath<CardData>(path);
         cardImage = GetComponent<Image>();
         if (cardData != null)

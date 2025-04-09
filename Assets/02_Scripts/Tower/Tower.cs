@@ -17,7 +17,7 @@ public class Tower : MonoBehaviour
     public void Init(int index)
     {
         Debug.Log("Init");
-        string path = $"Assets/Team/KDS/ScriptableObject/Tower/TestTower{index}.asset";
+        string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
         towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
         Debug.Log(towerdata.TowerName);
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);

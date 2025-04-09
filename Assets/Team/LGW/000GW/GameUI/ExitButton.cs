@@ -9,6 +9,7 @@ public class ExitButton : MonoBehaviour
     public void OnClickExit()
     {
         SceneManager.LoadScene("00GWUI");
+        Time.timeScale = 1;
     }
 
 }

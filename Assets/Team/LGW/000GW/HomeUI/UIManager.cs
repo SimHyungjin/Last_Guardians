@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OptionUIController : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     public GameObject optionPanel;
     public GameObject equipmentPanel;
+    public GameObject bookPanel;
 
     public void OpenOption()
     {
-        optionPanel.SetActive(true);
+        optionPanel.SetActive(!optionPanel.activeSelf);
     }
 
     public void CloseOption()
@@ -24,5 +25,14 @@ public class OptionUIController : MonoBehaviour
     public void OpenEquipmentPanel()
     {
         equipmentPanel.SetActive(true);
+    }
+
+    public void OpenBookPanel()
+    {
+        bookPanel.SetActive(true);
+    }
+    public void CloseBookPanel()
+    {
+        bookPanel.SetActive(false);
     }
 }

@@ -55,7 +55,7 @@ public class BaseMonster : MonoBehaviour
 
     private void init()
     {
-        meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.ranged ? 2f : 0.5f;
+        meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
         CurrentHP = monsterData.MonsterHP;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;

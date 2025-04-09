@@ -27,6 +27,11 @@ public class SheetDownButton : Editor
         {
             fnc.StartCombinationDataDownload(true);
         }
+
+        if (GUILayout.Button("Download MonsterData"))
+        {
+            fnc.StartMonsterDataDownload(true);
+        }
     }
 }
 
@@ -34,6 +39,7 @@ public class SheetDownButton : Editor
 public class DataDownLoader : MonoBehaviour
 {
     [SerializeField] private List<DataSO> abilityDataSO = new List<DataSO>();
+    [SerializeField] private List<MonsterData> monsterDataSO = new List<MonsterData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
     const string URL_DataSheet = "https://docs.google.com/spreadsheets/d/11uh3qkFXuMsowtu7qrmO66nYMx46C2P9UHh3c1eHVu4/export?format=tsv&range=A1:F6";
 
@@ -52,33 +58,33 @@ public class DataDownLoader : MonoBehaviour
             string tsvText = www.downloadHandler.text;
             string json = ConvertTSVToJson(tsvText);
 
-            JArray jsonData = JArray.Parse(json); // JSON ¹®ÀÚ¿­À» JArray·Î º¯È¯
+            JArray jsonData = JArray.Parse(json); // JSON ë¬¸ìì—´ì„ JArrayë¡œ ë³€í™˜
             ApplyDataToSO(jsonData, renameFiles);
         }
         else
         {
-            Debug.LogError("µ¥ÀÌÅÍ °¡Á®¿À±â ½ÇÆĞ: " + www.error);
+            Debug.LogError("ë°ì´í„° ê°€ì ¸ì˜¤ê¸° ì‹¤íŒ¨: " + www.error);
         }
     }
 
 
     string ConvertTSVToJson(string tsv)
     {
-        string[] lines = tsv.Split('\n'); // ÁÙ ´ÜÀ§·Î ºĞ¸®
-        if (lines.Length < 2) return "[]"; // µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é ºó JSON ¹è¿­ ¹İÈ¯
+        string[] lines = tsv.Split('\n'); // ì¤„ ë‹¨ìœ„ë¡œ ë¶„ë¦¬
+        if (lines.Length < 2) return "[]"; // ë°ì´í„°ê°€ ì—†ìœ¼ë©´ ë¹ˆ JSON ë°°ì—´ ë°˜í™˜
 
-        string[] headers = lines[0].Split('\t'); // Ã¹ ¹øÂ° ÁÙÀ» Çì´õ·Î »ç¿ë
+        string[] headers = lines[0].Split('\t'); // ì²« ë²ˆì§¸ ì¤„ì„ í—¤ë”ë¡œ ì‚¬ìš©
         JArray jsonArray = new JArray();
 
         for (int i = 1; i < lines.Length; i++)
         {
-            string[] values = lines[i].Split('\t'); // µ¥ÀÌÅÍ °ª ºĞ¸®
+            string[] values = lines[i].Split('\t'); // ë°ì´í„° ê°’ ë¶„ë¦¬
             JObject jsonObject = new JObject();
 
             for (int j = 0; j < headers.Length && j < values.Length; j++)
             {
                 string cleanValue = values[j].Trim();
-                jsonObject[headers[j].Trim()] = cleanValue; // `+` ÀÎÄÚµù ¾È ÇÔ
+                jsonObject[headers[j].Trim()] = cleanValue; // `+` ì¸ì½”ë”© ì•ˆ í•¨
             }
 
             jsonArray.Add(jsonObject);
@@ -110,7 +116,7 @@ public class DataDownLoader : MonoBehaviour
 
             for (int j = startCol; j <= lastCol && j < values.Length; j++)
             {
-                // headers[j - startCol]À» »ç¿ëÇØ ¹üÀ§¿¡ ¸Â´Â header¸¦ ÂüÁ¶
+                // headers[j - startCol]ì„ ì‚¬ìš©í•´ ë²”ìœ„ì— ë§ëŠ” headerë¥¼ ì°¸ì¡°
                 jsonObject[headers[j - startCol]] = values[j].Trim();
             }
 
@@ -140,14 +146,14 @@ public class DataDownLoader : MonoBehaviour
 
             DataSO data = ScriptableObject.CreateInstance<DataSO>();
 
-            // ±âÁ¸ SO °³¼ö°¡ ºÎÁ·ÇÏ¸é »õ·Î »ı¼º
+            // ê¸°ì¡´ SO ê°œìˆ˜ê°€ ë¶€ì¡±í•˜ë©´ ìƒˆë¡œ ìƒì„±
             if (i < abilityDataSO.Count)
             {
                 data = abilityDataSO[i];
             }
             else
             {
-                data = CreateNewDataSO(dataname); // »õ·Î¿î SO »ı¼º
+                data = CreateNewDataSO(dataname); // ìƒˆë¡œìš´ SO ìƒì„±
                 abilityDataSO.Add(data);
             }
 
@@ -173,7 +179,7 @@ public class DataDownLoader : MonoBehaviour
         {
             AssetDatabase.RenameAsset(path, newFileName);
 
-            // Áï½Ã ÀúÀåÇÏ¿© ¹İ¿µ
+            // ì¦‰ì‹œ ì €ì¥í•˜ì—¬ ë°˜ì˜
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
@@ -181,7 +187,7 @@ public class DataDownLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ Æú´õ ³»ÀÇ ¸ğµç ScriptableObject(AbilityDataSO) ÆÄÀÏÀ» »èÁ¦ÇÏ´Â ÇÔ¼ö.
+    /// ì§€ì •ëœ í´ë” ë‚´ì˜ ëª¨ë“  ScriptableObject(AbilityDataSO) íŒŒì¼ì„ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜.
     /// </summary>
     private void ClearAllDataSO()
     {
@@ -189,7 +195,7 @@ public class DataDownLoader : MonoBehaviour
 
         if (!Directory.Exists(folderPath))
         {
-            Debug.LogWarning("SO Æú´õ°¡ Á¸ÀçÇÏÁö ¾ÊÀ½");
+            Debug.LogWarning("SO í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
             return;
         }
 
@@ -229,10 +235,10 @@ public class DataDownLoader : MonoBehaviour
         return newSO;
     }
 
-    /////////////////////////////////////////////////////////±âº»ÅÛÇÃ¸´///////////////////////////////////////////
+    /////////////////////////////////////////////////////////ê¸°ë³¸í…œí”Œë¦¿///////////////////////////////////////////
     ///
 
-    /////////////////////////////////°áÇÕÁ¤º¸Å×ÀÌºí//////////////////////////////////////////////////////////////
+    /////////////////////////////////ê²°í•©ì •ë³´í…Œì´ë¸”//////////////////////////////////////////////////////////////
     const string URL_CombinationData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=695451767";
 
     public void StartCombinationDataDownload(bool renameFiles)
@@ -248,12 +254,12 @@ public class DataDownLoader : MonoBehaviour
         {
             string tsvText = www.downloadHandler.text;
             string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 98, startCol: 0, endCol: 3);
-            JArray jsonData = JArray.Parse(json); // JSON ¹®ÀÚ¿­À» JArray·Î º¯È¯
+            JArray jsonData = JArray.Parse(json); // JSON ë¬¸ìì—´ì„ JArrayë¡œ ë³€í™˜
             ApplyCombinationDataToSO(jsonData, renameFiles);
         }
         else
         {
-            Debug.LogError("µ¥ÀÌÅÍ °¡Á®¿À±â ½ÇÆĞ: " + www.error);
+            Debug.LogError("ë°ì´í„° ê°€ì ¸ì˜¤ê¸° ì‹¤íŒ¨: " + www.error);
         }
     }
 
@@ -281,4 +287,138 @@ public class DataDownLoader : MonoBehaviour
 #endif
     }
 
+    /////////////////////////////////ëª¬ìŠ¤í„°í…Œì´ë¸”//////////////////////////////////////////////////////////////
+    const string URL_MonsterData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=1602775567";
+
+    public void StartMonsterDataDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadMonsternData(renameFiles));
+    }
+
+    private IEnumerator DownloadMonsternData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_MonsterData);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 3, endRow: 11, startCol: 0, endCol: 11);
+            JArray jsonData = JArray.Parse(json); // JSON ë¬¸ìì—´ì„ JArrayë¡œ ë³€í™˜
+            ApplyMonsterDataToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("ë°ì´í„° ê°€ì ¸ì˜¤ê¸° ì‹¤íŒ¨: " + www.error);
+        }
+    }
+
+    public void ApplyMonsterDataToSO(JArray jsonData, bool renameFiles)
+    {
+        ClearAllMonsterDataSO();
+        monsterDataSO.Clear();
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            JObject row = (JObject)jsonData[i];
+
+            int index = int.TryParse(row["monsterIndex"]?.ToString(), out int parsedindex) ? parsedindex : default;
+            string dataname = row["monsterName"]?.ToString() ?? "";
+            int HP = int.TryParse(row["monsterHP"]?.ToString(), out int parsedHP) ? parsedHP : default;
+            int damage = int.TryParse(row["monsterDamage"]?.ToString(), out int parseDamage) ? parseDamage : default;
+            int Speed = int.TryParse(row["monsterSpeed"]?.ToString(), out int parsedAttackSpeed) ? parsedAttackSpeed : default;
+            int Def = int.TryParse(row["Def"]?.ToString(), out int parsedDefSpeed) ? parsedDefSpeed : default;
+            int exp = int.TryParse(row["exp"]?.ToString(), out int parsedexpSpeed) ? parsedexpSpeed : default;
+            MonType monType = Enum.TryParse(row["monsterType"]?.ToString(), out MonType type) ? type : MonType.Standard;
+            string description = row["monsterDescription"]?.ToString() ?? "";
+            bool hasSkill = bool.TryParse(row["hasSkill"]?.ToString(), out bool result) ? result : false;
+            int monsterSkillID = int.TryParse(row["monsterSkillID"]?.ToString(), out int parsedmonsterSkillID) ? parsedmonsterSkillID : default;
+            MonAttackPattern pattern = Enum.TryParse(row["attackPattern"]?.ToString(), out MonAttackPattern mobpattern) ? mobpattern : MonAttackPattern.Melee;
+
+            MonsterData data = ScriptableObject.CreateInstance<MonsterData>();
+
+            // ê¸°ì¡´ SO ê°œìˆ˜ê°€ ë¶€ì¡±í•˜ë©´ ìƒˆë¡œ ìƒì„±
+            if (i < monsterDataSO.Count)
+            {
+                data = monsterDataSO[i];
+            }
+            else
+            {
+                data = CreateMonsterDataSO(dataname); // ìƒˆë¡œìš´ SO ìƒì„±
+                monsterDataSO.Add(data);
+            }
+
+            if (renameFiles)
+            {
+                RenameMonsterDataScriptableObjectFile(data, dataname);
+            }
+
+            data.SetData(index,dataname,Speed,damage,Def,exp,description,monType,hasSkill,monsterSkillID,pattern);
+            EditorUtility.SetDirty(data);
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private void ClearAllMonsterDataSO()
+    {
+        string folderPath = "Assets/Team/KYJ/SO/SOData";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.LogWarning("SO í´ë”ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
+            return;
+        }
+
+        string[] files = Directory.GetFiles(folderPath, "*.asset");
+
+        foreach (string file in files)
+        {
+            AssetDatabase.DeleteAsset(file);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private MonsterData CreateMonsterDataSO(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = "DefaultData";
+        }
+
+        MonsterData newSO = ScriptableObject.CreateInstance<MonsterData>();
+
+#if UNITY_EDITOR
+        string folderPath = "Assets/Team/KYJ/SO/SOData";
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string assetPath = $"{folderPath}/{fileName}.asset";
+        AssetDatabase.CreateAsset(newSO, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+#endif
+        return newSO;
+    }
+
+    private void RenameMonsterDataScriptableObjectFile(MonsterData so, string newFileName)
+    {
+#if UNITY_EDITOR
+        string path = AssetDatabase.GetAssetPath(so);
+        string newPath = Path.GetDirectoryName(path) + "/" + newFileName + ".asset";
+
+        if (path != newPath)
+        {
+            AssetDatabase.RenameAsset(path, newFileName);
+
+            // ì¦‰ì‹œ ì €ì¥í•˜ì—¬ ë°˜ì˜
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+#endif
+    }
 }

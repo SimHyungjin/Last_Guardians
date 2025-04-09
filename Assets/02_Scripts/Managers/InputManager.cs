@@ -10,11 +10,6 @@ public class InputManager : Singleton<InputManager>
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        Init();
-    }
-
-    public void Init()
-    {
         pointerInput = new PointerInput();
         pointerAction = pointerInput.Pointer;
         pointerInput.Enable();

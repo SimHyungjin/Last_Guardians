@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardEditer : MonoBehaviour
 {
-    public HandCardLayout handCardLayout;
+    public DeckHandler handCardLayout;
 
     public void AddOne()
     {handCardLayout.AddCard(1); }

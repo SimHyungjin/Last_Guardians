@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6177497468293706030}
   - component: {fileID: 4903622547020826876}
   - component: {fileID: 6445840645015023595}
+  - component: {fileID: 6788347057862089353}
   m_Layer: 7
   m_Name: TestTower
   m_TagString: Untagged
@@ -174,3 +175,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!208 &6788347057862089353
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3515763323643818898}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.05, y: 0.05, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

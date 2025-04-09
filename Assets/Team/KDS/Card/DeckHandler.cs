@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static UnityEditor.PlayerSettings;
 
-public class HandCardLayout : MonoBehaviour
+public class DeckHandler : MonoBehaviour
 {
     public List<Card> cards = new List<Card>();
     [SerializeField] private Card cardPrefab;
@@ -114,6 +114,7 @@ public class HandCardLayout : MonoBehaviour
                 if (TowerManager.Instance.towerConstructer.CanConstruct(InputManager.Instance.GetTouchWorldPosition()))
                 {
                     TowerManager.Instance.towerConstructer.TowerConstruct(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex);
+                    UseCard();
                 }
                 //else if (TowerManager.Instance.towerConstructer.CanCombine(card.TowerIndex, highlightedIndex))
                 //{
@@ -122,13 +123,12 @@ public class HandCardLayout : MonoBehaviour
                 else
                 {
                     Debug.Log("건설 불가");
-                }
-                    Destroy(ghostTower);
-                    ghostTower = null;
                     highlightedCard.gameObject.SetActive(true);
                     highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
                     UnHighlightCard();
-
+                }
+                    Destroy(ghostTower);
+                    ghostTower = null;
             }
 
             //isHighlighting = false;
@@ -276,6 +276,8 @@ public class HandCardLayout : MonoBehaviour
     }
     public void UseCard()
     {
+        RectTransform handRect = GetComponent<RectTransform>();
+        handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
         highlightedCard.onClicked -= MoveCardStart;
         highlightedCard.onClickEnd -= MoveCardEnd;
         Destroy(highlightedCard.gameObject);

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class BaseMonster : MonoBehaviour
 {
-    [SerializeField] private MonsterData monsterData;
+    [SerializeField] protected MonsterData monsterData;
     [SerializeField] protected MonsterSkillData skillData;
 
     //몬스터 스탯관련
@@ -54,14 +54,14 @@ public class BaseMonster : MonoBehaviour
 
     private void init()
     {
-        CurrentHP = monsterData.maxHP;
+        CurrentHP = monsterData.MonsterHP;
         agent.isStopped = false;
-        agent.speed = monsterData.speed;
+        agent.speed = monsterData.MonsterSpeed;
         isAttack = false;
         dotDuration = 0f;
         sturnDuration = 0f;
         if (skillData != null)
-            skillTimer = skillData.skillCoolTime;
+            skillTimer = skillData.SkillCoolTime;
     }
 
     private void Update()
@@ -74,7 +74,7 @@ public class BaseMonster : MonoBehaviour
         if(isAttack)
             attackTimer -= Time.deltaTime;
 
-        if (isAttack && attackTimer <= 0 && !isSturn)
+        if (isAttack && !isSturn && attackTimer <= 0)
         {
             Attack();
         }
@@ -150,7 +150,7 @@ public class BaseMonster : MonoBehaviour
 
     public int GetMonsterID()
     {
-        return monsterData.monsterID;
+        return monsterData.MonsterIndex;
     }
 
     //데미지 받을 떄 호출되는 함수
@@ -205,7 +205,6 @@ public class BaseMonster : MonoBehaviour
         {
             sturnDuration = Mathf.Max(sturnDuration, duration);
         }
-
         else
         {
             sturnDuration = duration;
@@ -218,7 +217,6 @@ public class BaseMonster : MonoBehaviour
     private IEnumerator SturnOverTime()
     {
         isSturn = true;
-        Debug.Log("SturnOverTime");
         while (sturnDuration > 0)
         {
             agent.speed = 0f;
@@ -230,7 +228,7 @@ public class BaseMonster : MonoBehaviour
 
         sturnCorutine = null;
         sturnDuration = 0f;
-        agent.speed = monsterData.speed;
+        agent.speed = monsterData.MonsterSpeed;
         isSturn = false;
     }
 

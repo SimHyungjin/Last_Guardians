@@ -13043,6 +13043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f8bcb211d24a1418914cdf7bbc6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildBlockMask:
+    serializedVersion: 2
+    m_Bits: 1152
   towerPrefab: {fileID: 3515763323643818898, guid: a536b6560daefe44ead0c1fb09ee0982, type: 3}
   spawnPoint:
   - {fileID: 48209079}

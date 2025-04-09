@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class TowerConstructer : MonoBehaviour
-{   
+{
+    [SerializeField] private LayerMask buildBlockMask;
     private TowerCombinationData towerCombinationData;
     public GameObject towerPrefab;
 
@@ -79,7 +80,7 @@ public class TowerConstructer : MonoBehaviour
 
     public bool IsAnyObjectOnTile(Vector2 tilePos)
     {
-        Collider2D hit = Physics2D.OverlapPoint(tilePos);
+        Collider2D hit = Physics2D.OverlapPoint(tilePos, buildBlockMask);
         Debug.Log(hit);
         return hit != null;
     }

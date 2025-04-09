@@ -20,7 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        //InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
+        InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
     }
 
     /// <summary>

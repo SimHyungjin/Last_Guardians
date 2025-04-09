@@ -4,16 +4,15 @@ using UnityEngine;
 
 public enum MonType
 {
-    normal,
-    boss,
-    bounty
+    Standard,
+    Boss,
 }
 
 public enum MonAttackPattern
 {
-    melee,
-    ranged,
-    support
+    Melee,
+    Ranged,
+    Support
 }
 
 [CreateAssetMenu(fileName = "New Monster Data",menuName = "Data/Monster Data")]

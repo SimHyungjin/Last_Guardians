@@ -14,7 +14,7 @@ public class BaseMonster : MonoBehaviour
     public float DefModifier { get; set; } = 1f;
 
     //몬스터 공격관련
-    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private float meleeAttackRange;
     protected float attackDelay = 3f;
     protected float attackTimer = 0f;
     private bool isAttack = false;
@@ -49,11 +49,13 @@ public class BaseMonster : MonoBehaviour
     private void OnEnable()
     {
         //오프젝트 풀에서 다시 꺼내졌을때 초기화
+
         init();
     }
 
     private void init()
     {
+        meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.ranged ? 2f : 0.5f;
         CurrentHP = monsterData.MonsterHP;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
@@ -105,10 +107,10 @@ public class BaseMonster : MonoBehaviour
         if(!isAttack)
         {
             //레이캐스트 쏘기
-            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, attackRange, targetLayer);
-            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, attackRange, targetLayer);
-            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, attackRange, targetLayer);
-            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, attackRange, targetLayer);
+            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, meleeAttackRange, targetLayer);
+            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, meleeAttackRange, targetLayer);
+            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, meleeAttackRange, targetLayer);
+            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, meleeAttackRange, targetLayer);
             foreach (var hit in hit)
             {
                 if (hit.collider != null)

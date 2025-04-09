@@ -16,7 +16,7 @@ public enum MonAttackPattern
     support
 }
 
-[CreateAssetMenu(fileName = "Monster Data",menuName = "Data/Monster Data")]
+[CreateAssetMenu(fileName = "New Monster Data",menuName = "Data/Monster Data")]
 public class MonsterData : ScriptableObject
 {
     [SerializeField] private int monsterIndex;

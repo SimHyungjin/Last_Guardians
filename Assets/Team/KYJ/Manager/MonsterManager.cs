@@ -7,6 +7,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
     [SerializeField] private Transform[] spawnPoint;
     [SerializeField] private Transform target;
+    [SerializeField] private MonsterWaveData[] datas;
 
     private BaseMonster monster;
     private float SpawnTimer = 0f;

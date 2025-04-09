@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b484b7857f378444b0be21e7043d212, type: 3}
   m_Name: TestData
   m_EditorClassIdentifier: 
-  monsterID: 0
-  maxHP: 100
-  speed: 1.5
-  def: 0
-  exp: 0
-  damage: 1
+  monsterIndex: 1
   monsterName: "\uD14C\uC2A4\uD2B8\uC6A9"
+  monsterHP: 50
+  monsterSpeed: 2
+  monsterDamage: 10
+  monsterDef: 5
+  exp: 10
   monsterDescription: "\uD14C\uC2A4\uD2B8\uC6A9"
   monsterType: 0
+  hasSkill: 0
+  monsterSkillID: 0
+  monsterAttackPattern: 0

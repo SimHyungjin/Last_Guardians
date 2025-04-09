@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b484b7857f378444b0be21e7043d212, type: 3}
   m_Name: TestBoss
   m_EditorClassIdentifier: 
-  monsterIndex: 100
+  monsterIndex: 101
   monsterName: "\uD14C\uC2A4\uD2B8\uBCF4\uC2A4"
   monsterHP: 300
   monsterSpeed: 10

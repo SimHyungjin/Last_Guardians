@@ -4819,6 +4819,10 @@ MonoBehaviour:
   - {fileID: 1696716490}
   - {fileID: 1717158655}
   target: {fileID: 9215535207849829975}
+  datas:
+  - {fileID: 11400000, guid: d083ca696eb917c4eb38cd2f5b5c1159, type: 2}
+  - {fileID: 11400000, guid: 87192a4b855ded24c85e48bea83e9b56, type: 2}
+  - {fileID: 11400000, guid: edb5fac78a77e5c4997fb7f5e5327cd2, type: 2}
 --- !u!4 &552994281
 Transform:
   m_ObjectHideFlags: 0

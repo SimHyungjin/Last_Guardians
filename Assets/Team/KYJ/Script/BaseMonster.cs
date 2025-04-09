@@ -141,8 +141,8 @@ public class BaseMonster : MonoBehaviour
         StopAllCoroutines();
         sturnCorutine = null;
         dotDamageCorutine = null;
-        PoolManager.Instance.Despawn(this);
-        
+        MonsterManager.Instance.OnMonsterDeath();
+        PoolManager.Instance.Despawn(this);   
     }
 
     protected virtual void MonsterSkill()

@@ -19,7 +19,6 @@ public class Tower : MonoBehaviour
         Debug.Log("Init");
         string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
         towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
-        Debug.Log(towerdata.TowerName);
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         //나중에 리소스로 옮길것
         //towerdata = Resources.Load<CardData>($"ScriptalbeObject/Towerdata{index}");

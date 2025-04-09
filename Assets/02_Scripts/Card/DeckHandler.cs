@@ -26,10 +26,6 @@ public class DeckHandler : MonoBehaviour
     private bool isDragging = false;
     public GameObject ghostTowerPrefab;
     private GameObject ghostTower;
-
-    private float checkInterval = 0.3f;
-    private float checkTimer = 0f;
-
     public bool IsHighlighting => isHighlighting;
     public Card HighlightedCard => highlightedCard;
     private void Update()

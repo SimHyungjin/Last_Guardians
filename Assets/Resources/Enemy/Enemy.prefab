@@ -174,10 +174,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: 0f9e7acc73f935147bc013d3499c3841, type: 2}
   skillData: {fileID: 0}
-  attackRange: 0.5
+  meleeAttackRange: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 80
+    m_Bits: 0
 --- !u!195 &9192829552925082777
 NavMeshAgent:
   m_ObjectHideFlags: 0

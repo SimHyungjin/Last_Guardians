@@ -367,7 +367,7 @@ public class DataDownLoader : MonoBehaviour
 
     private void ClearAllMonsterDataSO()
     {
-        string folderPath = "Assets/Team/KYJ/SO/SOData";
+        string folderPath = "Assets/90_SO/Monster/MonsterSOData";
 
         if (!Directory.Exists(folderPath))
         {
@@ -396,7 +396,7 @@ public class DataDownLoader : MonoBehaviour
         MonsterData newSO = ScriptableObject.CreateInstance<MonsterData>();
 
 #if UNITY_EDITOR
-        string folderPath = "Assets/Team/KYJ/SO/SOData";
+        string folderPath = "Assets/90_SO/Monster/MonsterSOData";
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);
@@ -502,7 +502,7 @@ public class DataDownLoader : MonoBehaviour
 
     private void ClearAllMonsterSkillDataSO()
     {
-        string folderPath = "Assets/Team/KYJ/SO/SkillSOData";
+        string folderPath = "Assets/90_SO/Monster/SkillSOData";
 
         if (!Directory.Exists(folderPath))
         {
@@ -531,7 +531,7 @@ public class DataDownLoader : MonoBehaviour
         MonsterSkillData newSO = ScriptableObject.CreateInstance<MonsterSkillData>();
 
 #if UNITY_EDITOR
-        string folderPath = "Assets/Team/KYJ/SO/SkillSOData";
+        string folderPath = "Assets/90_SO/Monster/SkillSOData";
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);

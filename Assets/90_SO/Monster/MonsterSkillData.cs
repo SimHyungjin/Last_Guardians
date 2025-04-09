@@ -53,5 +53,9 @@ public class MonsterSkillData : ScriptableObject
         this.skillCoolTime = monsterskillCoolTime;
     }
 
-    //public abstract void UseSkill();
+    public void UseSkill()
+    {
+
+    }
 }
+

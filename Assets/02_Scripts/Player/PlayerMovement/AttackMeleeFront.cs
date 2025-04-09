@@ -20,7 +20,7 @@ public class AttackMeleeFront : IAttackBehavior
         float width = attackController.rangeX;
 
         Vector2 boxCenter = (Vector2)attackController.transform.position + forward * range;
-        Vector2 boxSize = new Vector2(width, range);
+        Vector2 boxSize = new Vector2(range * 2, width);
 
         float angle = attackController.transform.eulerAngles.z;
 
@@ -49,12 +49,12 @@ public class AttackMeleeFront : IAttackBehavior
         EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
         float width = attackController.rangeX;
-        float height = player.playerData.attackRange;
+        float range = player.playerData.attackRange;
 
         Vector2 forward = attackController.transform.right;
-        Vector2 center = (Vector2)attackController.transform.position + forward * height;
+        Vector2 center = (Vector2)attackController.transform.position + forward * range;
 
-        effectIndicator.effectChangeSprite.ShowSquare("Effect/Square", center, width, height);
+        effectIndicator.effectChangeSprite.ShowSquare("Effect/Square", center, range * 2, width);
         effectIndicator.transform.rotation = attackController.transform.rotation;
     }
 }

@@ -18,6 +18,7 @@ public class Card : MonoBehaviour
 
 
     public GameObject towerGhostPrefab;
+    
 
     public event Action<Card> onClicked;
     public event Action<Card> onClickEnd;
@@ -41,7 +42,6 @@ public class Card : MonoBehaviour
         {
             towerIndex = cardData.TowerIndex;
             cardImage.sprite= cardData.CardImage;
-            towerGhostPrefab = cardData.towerGhostPrefab;
         }
         stack = 1;
         ShowStack();
@@ -49,14 +49,12 @@ public class Card : MonoBehaviour
     public void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
-        if (DeckManager.Instance.hand.IsHighlighting &&
-            DeckManager.Instance.hand.HighlightedCard != this)
+        if (TowerManager.Instance.hand.IsHighlighting &&
+            TowerManager.Instance.hand.HighlightedCard != this)
         {
             return;
         }
-        //if (!gameObject.activeInHierarchy) return;
         screenPos = InputManager.Instance.GetTouchPosition();
-        // UI용 레이캐스트
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
         pointerData.position = screenPos;
 

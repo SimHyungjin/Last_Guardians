@@ -33,11 +33,12 @@ public class PoolManager : Singleton<PoolManager>
         if (pools[type].Count > 0)
         {
             obj = pools[type].Dequeue() as T;
+            obj.transform.position = parent != null ? parent.transform.position : obj.transform.position;
         }
         else
         {
             Transform spawnParent = parent != null ? parent : poolParents[type];
-            obj = Instantiate(prefab, spawnParent.position,spawnParent.rotation,spawnParent);
+            obj = Instantiate(prefab, spawnParent.position,spawnParent.rotation, parent);
         }
 
         obj.gameObject.SetActive(true);

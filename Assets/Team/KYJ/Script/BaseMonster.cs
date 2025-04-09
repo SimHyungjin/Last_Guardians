@@ -5,19 +5,24 @@ using UnityEngine.AI;
 
 public class BaseMonster : MonoBehaviour
 {
-    [SerializeField] private MonsterData monsterData;
+    [SerializeField] protected MonsterData monsterData;
     [SerializeField] protected MonsterSkillData skillData;
+
+    //몬스터 스탯관련
     public float CurrentHP { get; set; }
     public float SpeedModifier { get; set; } = 1f;
     public float DefModifier { get; set; } = 1f;
+
+    //몬스터 공격관련
+    [SerializeField] private float meleeAttackRange;
     protected float attackDelay = 3f;
     protected float attackTimer = 0f;
     private bool isAttack = false;
     protected float skillTimer = 0f;
-    [SerializeField] private float attackRange = 0.5f;
 
+    //목표지점 관련
     public LayerMask targetLayer;
-    public Transform Target { get; set; }
+    public Transform Target { get; set; } // 목표지점
 
     private SpriteRenderer spriteRenderer;
     protected NavMeshAgent agent;
@@ -37,20 +42,28 @@ public class BaseMonster : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-    }
-    private void Start()
-    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         hit = new RaycastHit2D[4];
-        if(skillData!=null)
-            skillTimer = skillData.skillCoolTime;
     }
 
     private void OnEnable()
     {
-        //현재체력 초기화
-        CurrentHP = monsterData.maxHP;
-        agent.speed = monsterData.speed;
+        //오프젝트 풀에서 다시 꺼내졌을때 초기화
+
+        init();
+    }
+
+    private void init()
+    {
+        meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.ranged ? 2f : 0.5f;
+        CurrentHP = monsterData.MonsterHP;
+        agent.isStopped = false;
+        agent.speed = monsterData.MonsterSpeed;
+        isAttack = false;
+        dotDuration = 0f;
+        sturnDuration = 0f;
+        if (skillData != null)
+            skillTimer = skillData.SkillCoolTime;
     }
 
     private void Update()
@@ -63,7 +76,7 @@ public class BaseMonster : MonoBehaviour
         if(isAttack)
             attackTimer -= Time.deltaTime;
 
-        if (isAttack && attackTimer <= 0)
+        if (isAttack && !isSturn && attackTimer <= 0)
         {
             Attack();
         }
@@ -94,10 +107,10 @@ public class BaseMonster : MonoBehaviour
         if(!isAttack)
         {
             //레이캐스트 쏘기
-            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, attackRange, targetLayer);
-            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, attackRange, targetLayer);
-            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, attackRange, targetLayer);
-            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, attackRange, targetLayer);
+            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, meleeAttackRange, targetLayer);
+            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, meleeAttackRange, targetLayer);
+            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, meleeAttackRange, targetLayer);
+            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, meleeAttackRange, targetLayer);
             foreach (var hit in hit)
             {
                 if (hit.collider != null)
@@ -118,7 +131,6 @@ public class BaseMonster : MonoBehaviour
     protected virtual void Attack()
     {
         agent.isStopped = true;
-        agent.ResetPath();
         agent.speed = 0f;
         //타입별 몬스터에서 구현
     }
@@ -126,12 +138,21 @@ public class BaseMonster : MonoBehaviour
     private void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기
-        PoolManager.Instance.Despawn(this);
+        StopAllCoroutines();
+        sturnCorutine = null;
+        dotDamageCorutine = null;
+        MonsterManager.Instance.OnMonsterDeath();
+        PoolManager.Instance.Despawn(this);   
     }
 
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
+    }
+
+    public int GetMonsterID()
+    {
+        return monsterData.MonsterIndex;
     }
 
     //데미지 받을 떄 호출되는 함수
@@ -156,17 +177,18 @@ public class BaseMonster : MonoBehaviour
         {
             dotDuration = duration;
             dotDamage = dotdamage;
-            dotDamageCorutine = StartCoroutine(InflictDamageOverTime());
+            if (gameObject.activeSelf)
+                dotDamageCorutine = StartCoroutine(InflictDamageOverTime());
         }
     }
 
     private IEnumerator InflictDamageOverTime()
     {
-        while (dotDuration < 0)
+        while (dotDuration > 0)
         {
             //데미지 관련 공식 나오면 수정
             TakeDamage(dotDamage);
-
+            Debug.Log($"도트데미지 적용 {dotDamage} 남은체력 : {CurrentHP} 남은 시간 : {dotDuration}");
             yield return new WaitForSeconds(1f);
 
             dotDuration -= 1f;
@@ -178,28 +200,29 @@ public class BaseMonster : MonoBehaviour
     }
 
     //스턴 구현
-    public void ApplySturn(float amount, float duration)
+    public void ApplySturn(float duration, float amount = 0)
     {
         TakeDamage(amount);
         if (sturnCorutine != null)
         {
             sturnDuration = Mathf.Max(sturnDuration, duration);
         }
-
         else
         {
             sturnDuration = duration;
-            dotDamageCorutine = StartCoroutine(SturnOverTime());
+            Debug.Log(sturnDuration);
+            if(gameObject.activeSelf)
+                sturnCorutine = StartCoroutine(SturnOverTime());
         }
     }
 
     private IEnumerator SturnOverTime()
     {
         isSturn = true;
-        while (sturnDuration < 0)
+        while (sturnDuration > 0)
         {
             agent.speed = 0f;
-
+            Debug.Log($"스턴적용 남은시간 : {sturnDuration}");
             yield return new WaitForSeconds(0.1f);
 
             sturnDuration -= 0.1f;
@@ -207,13 +230,8 @@ public class BaseMonster : MonoBehaviour
 
         sturnCorutine = null;
         sturnDuration = 0f;
-        agent.speed = monsterData.speed;
+        agent.speed = monsterData.MonsterSpeed;
         isSturn = false;
-    }
-
-    public int GetMonsterID()
-    {
-        return monsterData.monsterID;
     }
 
 }

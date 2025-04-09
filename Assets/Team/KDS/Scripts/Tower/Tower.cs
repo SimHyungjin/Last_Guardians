@@ -99,10 +99,6 @@ public class Tower : MonoBehaviour
     private void OnDestroy()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
-        if (towerGhost != null)
-        {
-            Destroy(towerGhost);
-        }
         isMoving = false;
     }
 }

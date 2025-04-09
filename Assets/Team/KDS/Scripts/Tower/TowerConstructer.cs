@@ -1,11 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TowerConstructer : MonoBehaviour
 {   
     private TowerCombinationData towerCombinationData;
     public GameObject towerPrefab;
+
+    public Transform[] spawnPoint;
+    public Transform targetPosition;
     private void Awake()
     {
         towerCombinationData = TowerManager.Instance.towerCombinationData;
@@ -16,15 +21,31 @@ public class TowerConstructer : MonoBehaviour
         if (result == -1) return false;
         return true;
     }
-    public bool CanConstruct(Vector2 curPos)
+    public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
     {
         Vector2 constructPos = PostionArray(curPos);
         if (IsAnyObjectOnTile(constructPos))
         {
-            Debug.Log("무언가가 이미 이 자리에 있음");
-            return false;
+            callback?.Invoke(false);
+            yield break;
         }
-        return true;
+
+        GameObject dummyTower = Instantiate(towerPrefab, constructPos, Quaternion.identity);
+        yield return null;
+        bool allPathsExist = true;
+        NavMeshPath path = new NavMeshPath();
+
+        foreach (Transform spawn in spawnPoint)
+        {
+            bool pathValid = NavMesh.CalculatePath(spawn.position, targetPosition.position, NavMesh.AllAreas, path);
+            if (!pathValid || path.status != NavMeshPathStatus.PathComplete)
+            {
+                allPathsExist = false;
+                break;
+            }
+        }
+        Destroy(dummyTower);
+        callback?.Invoke(allPathsExist);
     }
 
     public void TowerConstruct(Vector2 curPos,int TowerIndex)

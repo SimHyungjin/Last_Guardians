@@ -98,7 +98,7 @@ public class DeckHandler : MonoBehaviour
 
     public void MoveCardEnd(Card card)
     {
-        if(isHighlighting && card.TowerIndex == highlightedIndex)
+        if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
 
             if (dragDistance < 200f)
@@ -106,32 +106,38 @@ public class DeckHandler : MonoBehaviour
                 dragEndPos = InputManager.Instance.GetTouchPosition();
                 UnHighlightCard();
             }
-            else 
-            { 
-                
+            else
+            {
+
                 Destroy(ghostTower);
                 ghostTower = null;
-                if (TowerManager.Instance.towerConstructer.CanConstruct(InputManager.Instance.GetTouchWorldPosition()))
-                {
-                    TowerManager.Instance.towerConstructer.TowerConstruct(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex);
-                    UseCard();
-                }
-                //else if (TowerManager.Instance.towerConstructer.CanCombine(card.TowerIndex, highlightedIndex))
-                //{
-                //    Debug.Log("합성시작");
-                //}
-                else
-                {
-                    Debug.Log("건설 불가");
-                    highlightedCard.gameObject.SetActive(true);
-                    highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
-                    UnHighlightCard();
-                }
-                    Destroy(ghostTower);
-                    ghostTower = null;
+                StartCoroutine(TowerManager.Instance.towerConstructer.CanConstructCoroutine(
+                                InputManager.Instance.GetTouchWorldPosition(),
+                                (canPlace) =>
+                                {
+                                    if (canPlace)
+                                    {
+                                        TowerManager.Instance.towerConstructer.TowerConstruct(
+                                        InputManager.Instance.GetTouchWorldPosition(),
+                                        highlightedIndex
+                                    );
+                                        UseCard(); // 카드 사용 처리
+                                    }
+                                    //else if (TowerManager.Instance.towerConstructer.CanCombine(card.TowerIndex, highlightedIndex))
+                                    //{
+                                    //    Debug.Log("합성시작");
+                                    //}
+                                    else
+                                    {
+                                        Debug.Log("건설 불가");
+                                        highlightedCard.gameObject.SetActive(true);
+                                        highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
+                                        UnHighlightCard();
+                                    }
+                                    Destroy(ghostTower);
+                                    ghostTower = null;
+                                }));
             }
-
-            //isHighlighting = false;
             isDragging = false;
         }
         else
@@ -223,13 +229,13 @@ public class DeckHandler : MonoBehaviour
         rect.SetSiblingIndex(originalSiblingIndex);
         if (stackExists)
         {
+            highlightedCard.onClicked -= MoveCardStart;
+            highlightedCard.onClickEnd -= MoveCardEnd;
             RectTransform targetRect = cards[highlightedOrder].GetComponent<RectTransform>();
             Vector2 endPos = targetRect.anchoredPosition;
 
             rect.DOAnchorPos(endPos, 0.3f).SetEase(Ease.OutCubic).OnComplete(() =>
             {
-                highlightedCard.onClicked -= MoveCardStart;
-                highlightedCard.onClickEnd -= MoveCardEnd;
                 cards[highlightedOrder].AddStack();
                 cards[highlightedOrder].ShowStack();
                 Destroy(highlightedCard.gameObject);

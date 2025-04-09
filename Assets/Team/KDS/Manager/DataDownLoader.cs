@@ -40,6 +40,7 @@ public class DataDownLoader : MonoBehaviour
 {
     [SerializeField] private List<DataSO> abilityDataSO = new List<DataSO>();
     [SerializeField] private List<MonsterData> monsterDataSO = new List<MonsterData>();
+    [SerializeField] private List<MonsterSkillData> monsterSkillDataSO = new List<MonsterSkillData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
     const string URL_DataSheet = "https://docs.google.com/spreadsheets/d/11uh3qkFXuMsowtu7qrmO66nYMx46C2P9UHh3c1eHVu4/export?format=tsv&range=A1:F6";
 
@@ -326,7 +327,7 @@ public class DataDownLoader : MonoBehaviour
             int HP = int.TryParse(row["monsterHP"]?.ToString(), out int parsedHP) ? parsedHP : default;
             int damage = int.TryParse(row["monsterDamage"]?.ToString(), out int parseDamage) ? parseDamage : default;
             int Speed = int.TryParse(row["monsterSpeed"]?.ToString(), out int parsedAttackSpeed) ? parsedAttackSpeed : default;
-            int Def = int.TryParse(row["Def"]?.ToString(), out int parsedDefSpeed) ? parsedDefSpeed : default;
+            int Def = int.TryParse(row["monsterDef"]?.ToString(), out int parsedDefSpeed) ? parsedDefSpeed : default;
             int exp = int.TryParse(row["exp"]?.ToString(), out int parsedexpSpeed) ? parsedexpSpeed : default;
             MonType monType = Enum.TryParse(row["monsterType"]?.ToString(), out MonType type) ? type : MonType.Standard;
             string description = row["monsterDescription"]?.ToString() ?? "";
@@ -406,6 +407,141 @@ public class DataDownLoader : MonoBehaviour
     }
 
     private void RenameMonsterDataScriptableObjectFile(MonsterData so, string newFileName)
+    {
+#if UNITY_EDITOR
+        string path = AssetDatabase.GetAssetPath(so);
+        string newPath = Path.GetDirectoryName(path) + "/" + newFileName + ".asset";
+
+        if (path != newPath)
+        {
+            AssetDatabase.RenameAsset(path, newFileName);
+
+            // 즉시 저장하여 반영
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+#endif
+    }
+
+    /////////////////////////////////몬스터스킬테이블//////////////////////////////////////////////////////////////
+    const string URL_MonsterSkillData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=1602775567";
+
+    public void StartMonsterDataSkillDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadMonsternSkillData(renameFiles));
+    }
+
+    private IEnumerator DownloadMonsternSkillData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_MonsterData);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 3, endRow: 11, startCol: 0, endCol: 11);
+            JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
+            ApplyMonsterSkillDataToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("데이터 가져오기 실패: " + www.error);
+        }
+    }
+
+    public void ApplyMonsterSkillDataToSO(JArray jsonData, bool renameFiles)
+    {
+        ClearAllMonsterSkillDataSO();
+        monsterSkillDataSO.Clear();
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            JObject row = (JObject)jsonData[i];
+
+            int index = int.TryParse(row["monsterskillIndex"]?.ToString(), out int parsedindex) ? parsedindex : default;
+            string dataname = row["monsterskillName"]?.ToString() ?? "";
+            float range = float.TryParse(row["monsterskillRange"]?.ToString(), out float parseSkillRange) ? parseSkillRange : default;
+            int spawnMonsterID = int.TryParse(row["spawnMonsterID"]?.ToString(), out int parsedSpawnMonsterID) ? parsedSpawnMonsterID : default;
+            int spawnMonsterNum = int.TryParse(row["spawnMonsterNum"]?.ToString(), out int parsedSpawnMonsterNum) ? parsedSpawnMonsterNum : default;
+            float duration = float.TryParse(row["monsterskillDuration"]?.ToString(), out float parseduration) ? parseduration : default;
+            MonsterSkillType skillType = Enum.TryParse(row["monsterskillType"]?.ToString(), out MonsterSkillType type) ? type : MonsterSkillType.Buff;
+            string description = row["monsterskillDescripttion"]?.ToString() ?? "";
+            float effectValue = float.TryParse(row["monsterskillEffectValue"]?.ToString(), out float parseeffectValue) ? parseeffectValue : default;
+            float skillPro = float.TryParse(row["monsterskillProbablilty"]?.ToString(), out float parseskillPro) ? parseskillPro : default;
+            float skillCool = float.TryParse(row["monsterskillProbablilty"]?.ToString(), out float parseskillCool) ? parseskillCool : default;
+
+
+            MonsterSkillData data = ScriptableObject.CreateInstance<MonsterSkillData>();
+
+            // 기존 SO 개수가 부족하면 새로 생성
+            if (i < monsterSkillDataSO.Count)
+            {
+                data = monsterSkillDataSO[i];
+            }
+            else
+            {
+                data = CreateMonsterSkillDataSO(dataname); // 새로운 SO 생성
+                monsterSkillDataSO.Add(data);
+            }
+
+            if (renameFiles)
+            {
+                RenameMonsterSkillDataScriptableObjectFile(data, dataname);
+            }
+
+            data.SetData(index, dataname, skillType, range, spawnMonsterID, spawnMonsterNum, duration, effectValue, description, skillPro, skillCool);
+            EditorUtility.SetDirty(data);
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private void ClearAllMonsterSkillDataSO()
+    {
+        string folderPath = "Assets/Team/KYJ/SO/SkillSOData";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.LogWarning("SO 폴더가 존재하지 않음");
+            return;
+        }
+
+        string[] files = Directory.GetFiles(folderPath, "*.asset");
+
+        foreach (string file in files)
+        {
+            AssetDatabase.DeleteAsset(file);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private MonsterSkillData CreateMonsterSkillDataSO(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = "DefaultData";
+        }
+
+        MonsterSkillData newSO = ScriptableObject.CreateInstance<MonsterSkillData>();
+
+#if UNITY_EDITOR
+        string folderPath = "Assets/Team/KYJ/SO/SkillSOData";
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string assetPath = $"{folderPath}/{fileName}.asset";
+        AssetDatabase.CreateAsset(newSO, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+#endif
+        return newSO;
+    }
+
+    private void RenameMonsterSkillDataScriptableObjectFile(MonsterSkillData so, string newFileName)
     {
 #if UNITY_EDITOR
         string path = AssetDatabase.GetAssetPath(so);

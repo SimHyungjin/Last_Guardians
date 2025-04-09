@@ -7,7 +7,7 @@ using UnityEngine;
 public class MonsterManager : Singleton<MonsterManager>
 {
     [SerializeField] private Transform[] spawnPoint;
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform[] target;
     [SerializeField] private List<MonsterWaveData> datas;
 
     private List<BaseMonster> prefabs;
@@ -74,7 +74,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private void SpawnMonster(int monsterIndex, int waveLevel)
     {
         monster = PoolManager.Instance.Spawn(prefabs.Find(a => a.GetMonsterID() == monsterIndex), spawnPoint[waveLevel%2]);
-        monster.Target = target;
+        monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
         alliveCount++;
         spawnCount++;
     }

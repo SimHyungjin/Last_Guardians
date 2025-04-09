@@ -49,7 +49,6 @@ public class BaseMonster : MonoBehaviour
     private void OnEnable()
     {
         //오프젝트 풀에서 다시 꺼내졌을때 초기화
-
         init();
     }
 

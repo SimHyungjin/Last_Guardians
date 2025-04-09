@@ -7,8 +7,4 @@ public class TowerManager : Singleton<TowerManager>
     public DeckHandler hand;
     public TowerCombinationData towerCombinationData;
     public TowerConstructer towerConstructer;
-
-    public void Start()
-    {
-    }
 }

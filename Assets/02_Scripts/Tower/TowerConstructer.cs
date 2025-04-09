@@ -11,7 +11,7 @@ public class TowerConstructer : MonoBehaviour
 
     public Transform[] spawnPoint;
     public Transform targetPosition;
-    private void Awake()
+    private void Start()
     {
         towerCombinationData = TowerManager.Instance.towerCombinationData;
     }

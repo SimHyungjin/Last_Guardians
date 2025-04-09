@@ -49,7 +49,7 @@ public class MoveController : MonoBehaviour
                 Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
-            transform.position = Vector2.MoveTowards(transform.position, endPos, InGameManager.Instance.playerManager.playerData.moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, endPos, InGameManager.Instance.playerManager.player.playerData.moveSpeed * Time.deltaTime);
             yield return null;
         }
         transform.position = endPos;

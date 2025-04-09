@@ -18,7 +18,7 @@ public class KeyboardMoveTest : MonoBehaviour
             inputDir = inputDir.normalized;
 
             // 이동
-            transform.position += (Vector3)(inputDir * InGameManager.Instance.playerManager.playerData.moveSpeed * Time.deltaTime);
+            transform.position += (Vector3)(inputDir * InGameManager.Instance.playerManager.player.playerData.moveSpeed * Time.deltaTime);
 
             // 회전 (방향 쪽으로만 보정)
             float targetAngle = Mathf.Atan2(inputDir.y, inputDir.x) * Mathf.Rad2Deg;

@@ -8,15 +8,12 @@ public class PlayerManager
 
     public void Init()
     {
-        if (playerData == null)
-            playerData = new(10,10,0.05f,10,10,1,10,10,10,10,10);
-        if (player == null)
-            player = new();
+        if (player == null) player = new();
 
         playerController = Utils.InstantiatePrefabFromResource("Player").GetComponent<PlayerController>();
         playerHandler = playerController.GetComponent<PlayerInputHandler>();
 
-        player.Init(playerData);
+        player.Init();
         playerController.Init(player);
         playerHandler.Init();
     }

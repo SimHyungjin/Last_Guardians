@@ -2,8 +2,8 @@ public class Player
 {
     public PlayerData playerData {  get; private set; }
 
-    public void Init(PlayerData _playerData)
+    public void Init()
     {
-        playerData = _playerData;
+        if(playerData == null) playerData = new();
     }
 }

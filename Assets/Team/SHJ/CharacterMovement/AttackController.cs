@@ -81,7 +81,7 @@ public class AttackController : MonoBehaviour
                     }
                 }
 
-                if (target != null)
+                if (target != null && !isAttacking)
                 {
                     // 타겟 방향으로 회전
                     Vector2 direction = (target.transform.position - transform.position).normalized;
@@ -111,7 +111,6 @@ public class AttackController : MonoBehaviour
     /// </summary>
     private void Attack(Vector2 targetPosition)
     {
-        if (isAttacking) return;
         isAttacking = true;
 
         if (attackBehavior == null)

@@ -32,6 +32,11 @@ public class SheetDownButton : Editor
         {
             fnc.StartMonsterDataDownload(true);
         }
+
+        if (GUILayout.Button("Download MonsterSkillData"))
+        {
+            fnc.StartMonsterDataSkillDownload(true);
+        }
     }
 }
 
@@ -362,7 +367,7 @@ public class DataDownLoader : MonoBehaviour
 
     private void ClearAllMonsterDataSO()
     {
-        string folderPath = "Assets/Team/KYJ/SO/SOData";
+        string folderPath = "Assets/90_SO/Monster/MonsterSOData";
 
         if (!Directory.Exists(folderPath))
         {
@@ -391,7 +396,7 @@ public class DataDownLoader : MonoBehaviour
         MonsterData newSO = ScriptableObject.CreateInstance<MonsterData>();
 
 #if UNITY_EDITOR
-        string folderPath = "Assets/Team/KYJ/SO/SOData";
+        string folderPath = "Assets/90_SO/Monster/MonsterSOData";
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);
@@ -438,7 +443,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 3, endRow: 11, startCol: 0, endCol: 11);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 5, startCol: 14, endCol: 24);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyMonsterSkillDataToSO(jsonData, renameFiles);
         }
@@ -497,7 +502,7 @@ public class DataDownLoader : MonoBehaviour
 
     private void ClearAllMonsterSkillDataSO()
     {
-        string folderPath = "Assets/Team/KYJ/SO/SkillSOData";
+        string folderPath = "Assets/90_SO/Monster/SkillSOData";
 
         if (!Directory.Exists(folderPath))
         {
@@ -526,7 +531,7 @@ public class DataDownLoader : MonoBehaviour
         MonsterSkillData newSO = ScriptableObject.CreateInstance<MonsterSkillData>();
 
 #if UNITY_EDITOR
-        string folderPath = "Assets/Team/KYJ/SO/SkillSOData";
+        string folderPath = "Assets/90_SO/Monster/SkillSOData";
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);

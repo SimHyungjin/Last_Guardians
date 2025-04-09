@@ -11581,7 +11581,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: AddTwo
         m_Mode: 1
@@ -11733,7 +11733,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: SubThree
         m_Mode: 1
@@ -12147,7 +12147,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: SubFive
         m_Mode: 1
@@ -12250,6 +12250,7 @@ GameObject:
   - component: {fileID: 7258513424542780914}
   - component: {fileID: 9025724243452576437}
   - component: {fileID: 5050409431450184600}
+  - component: {fileID: 9025724243452576438}
   m_Layer: 5
   m_Name: TestButtons
   m_TagString: Untagged
@@ -12408,7 +12409,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: SubOen
         m_Mode: 1
@@ -12464,7 +12465,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: SubTwo
         m_Mode: 1
@@ -13113,7 +13114,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: AddFour
         m_Mode: 1
@@ -13317,7 +13318,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: SubFour
         m_Mode: 1
@@ -13527,7 +13528,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: AddThree
         m_Mode: 1
@@ -13611,7 +13612,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: AddOne
         m_Mode: 1
@@ -13859,7 +13860,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
         m_MethodName: AddFive
         m_Mode: 1
@@ -14000,6 +14001,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &9025724243452576438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165506863001823499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79f7b6ab6cc9074d8dbf7c38551cdb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handCardLayout: {fileID: 8019884509423294679}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

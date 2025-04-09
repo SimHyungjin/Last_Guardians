@@ -11,7 +11,8 @@ public enum MonsterSkillType
     Summon
 }
 
-public abstract class MonsterSkillData : ScriptableObject
+[CreateAssetMenu(fileName = "New Monster Skill Data", menuName = "Data/Monster Skill Data")]
+public class MonsterSkillData : ScriptableObject
 {
     [SerializeField] private int skillIndex;
     [SerializeField] private string skillName;
@@ -52,5 +53,9 @@ public abstract class MonsterSkillData : ScriptableObject
         this.skillCoolTime = monsterskillCoolTime;
     }
 
-    public abstract void UseSkill();
+    public void UseSkill()
+    {
+
+    }
 }
+

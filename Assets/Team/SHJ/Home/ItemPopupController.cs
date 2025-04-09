@@ -35,20 +35,27 @@ public class ItemPopupController : MonoBehaviour
         root.SetActive(true);
     }
 
-    public void Close()
+    public void OnClickEquip()
     {
-        root.SetActive(false);
+        if (currentData is EquipemntData equipData)
+        {
+            HomeManager.Instance.equipment.Equip(equipData);
+        }
+        Close();
     }
 
-    //public void OnClickEquip()
-    //{
-    //    HomeManager.Instance.equipment.Equip(currentData);
-    //    Close();
-    //}
+    public void OnClickUnEquip()
+    {
+        if (currentData is EquipemntData equipData)
+        {
+            HomeManager.Instance.equipment.UnEquip(equipData);
+        }
+        Close();
+    }
 
-    //public void OnClickUnEquip()
-    //{
-    //    Equipment.Instance.UnEquip(currentData);
-    //    Close();
-    //}
+    public void Close()
+    {
+        HomeManager.Instance.inventory.UpdateCurInventory();
+        root.SetActive(false);
+    }
 }

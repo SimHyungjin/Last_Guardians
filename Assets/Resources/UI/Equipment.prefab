@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 8486544336671110401}
   - component: {fileID: 8176558307858578836}
   m_Layer: 5
-  m_Name: EquipPanel
+  m_Name: EquipmentContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -274,9 +274,11 @@ public class DataDownLoader : MonoBehaviour
             Debug.Log($"result: {result}, ingredient1: {ingredient1}, ingredient2: {ingredient2}");
             towerCombinationData.SetData(result, ingredient1, ingredient2);
         }
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(towerCombinationData);
+        UnityEditor.AssetDatabase.SaveAssets();
+        UnityEditor.AssetDatabase.Refresh();
+#endif
     }
 
 }

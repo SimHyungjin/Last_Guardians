@@ -5,9 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardData", menuName = "Data" +"/CardData", order = 1)]
 public class CardData : ScriptableObject
 {
-
-    public GameObject towerGhostPrefab;
-
     [SerializeField] private int towerIndex;
     [SerializeField] private Sprite cardImage;
 

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   towerIndex: 3
-  cardImage: {fileID: 21300000, guid: 0a69f6c45a7aa4149aef15ed708cf1e3, type: 3}
+  cardImage: {fileID: 21300000, guid: 255c07fb1957fb14593fae3dc2feb910, type: 3}

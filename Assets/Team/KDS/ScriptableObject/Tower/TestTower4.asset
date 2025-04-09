@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
-  m_Name: TestTower 1
+  m_Name: TestTower4
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
-  towerIndex: 1
-  towerName: "\uD14C\uC2A4\uD2B8\uD0C0\uC6CC1"
+  towerSprite: {fileID: 21300000, guid: cf5d190925c4b1b42ae1f37900b9a73d, type: 3}
+  towerIndex: 4
+  towerName: "\uD14C\uC2A4\uD2B8\uD0C0\uC6CC4"
   attackPower: 5
   attackSpeed: 5
   attackRange: 5

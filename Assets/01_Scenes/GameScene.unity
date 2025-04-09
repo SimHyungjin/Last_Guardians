@@ -8183,6 +8183,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4208191871945561206, guid: 2deb3f60332350249910a58566d10f46, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6259179477166098515, guid: 2deb3f60332350249910a58566d10f46, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7299708669882226536, guid: 2deb3f60332350249910a58566d10f46, type: 3}
       propertyPath: m_Name
       value: MapTest

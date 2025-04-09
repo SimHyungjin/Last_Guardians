@@ -43,7 +43,7 @@ public class DeckHandler : MonoBehaviour
 
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
-                    string path = $"Assets/Team/KDS/ScriptableObject/Tower/TestTower{highlightedIndex}.asset";
+                    string path = $"Assets/90_SO/Tower/TestTower{highlightedIndex}.asset";
                     TowerData towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
                     ghostsprite.sprite = towerdata.towerSprite;
 

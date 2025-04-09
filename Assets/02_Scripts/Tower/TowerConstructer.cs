@@ -35,6 +35,7 @@ public class TowerConstructer : MonoBehaviour
         Vector2 constructPos = PostionArray(curPos);
         if (IsAnyObjectOnTile(constructPos))
         {
+            Debug.Log("타일에 충돌체있음");
             callback?.Invoke(false);
             yield break;
         }
@@ -49,6 +50,7 @@ public class TowerConstructer : MonoBehaviour
             bool pathValid = NavMesh.CalculatePath(spawn.position, targetPosition.position, NavMesh.AllAreas, path);
             if (!pathValid || path.status != NavMeshPathStatus.PathComplete)
             {
+                Debug.Log("경로가 없음");
                 allPathsExist = false;
                 break;
             }
@@ -78,6 +80,7 @@ public class TowerConstructer : MonoBehaviour
     public bool IsAnyObjectOnTile(Vector2 tilePos)
     {
         Collider2D hit = Physics2D.OverlapPoint(tilePos);
+        Debug.Log(hit);
         return hit != null;
     }
     public Vector2 PostionArray(Vector2 pos)

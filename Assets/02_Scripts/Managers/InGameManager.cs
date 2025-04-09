@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class InGameManager : Singleton<InGameManager>
 {
-    public PlayerManager playerManager {  get; private set; }
+    public PlayerManager playerManager { get; private set; }
 
     public int level;
     public int exp;
@@ -11,17 +11,11 @@ public class InGameManager : Singleton<InGameManager>
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        Init();
     }
-
-    void Init()
+    private void Start()
     {
-        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        if(currentScene == "Character_SHJ_Sene")
-        {
-            playerManager = new();
-            playerManager.Init();
-        }
+        playerManager = new();
+        playerManager.Init();
     }
 
     public void GetExp(int exp)

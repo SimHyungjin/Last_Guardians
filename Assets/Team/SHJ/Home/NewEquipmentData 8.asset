@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NewEquipmentData 8
   m_EditorClassIdentifier: 
   itemName: 11111111
-  itemType: 4
+  itemType: 1
   attackType: 0
   grade: 0
   icon: {fileID: -1298881426, guid: 5d3f3f11dd6cf4c4ba02810d9df0c066, type: 3}

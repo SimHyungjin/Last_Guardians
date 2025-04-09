@@ -1,7 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 
-public class InventorySlot : MonoBehaviour
+public class Slot : MonoBehaviour
 {
     [SerializeField] private Image icon;
     [SerializeField] private EquipmentData data;
@@ -23,10 +23,10 @@ public class InventorySlot : MonoBehaviour
         UpdateSlotUI();
     }
 
-    public void SetSelected()
+    public void SelectEquip()
     {
         if (data == null) return;
-        EquipmentManager.Instance.curEquipeedData = data;
+        Equipment.Instance.curEquippedData = data;
     }
 
     public void UpdateSlotUI()

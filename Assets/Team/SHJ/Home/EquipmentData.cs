@@ -7,7 +7,7 @@ public enum ItemType
     Armor,
     Shoes,
     Ring,
-    Neklace,
+    Necklace,
     Count
 }
 
@@ -43,6 +43,6 @@ public class EquipmentData : ScriptableObject
     public float item_attackRange;
     public float item_criticalChance;
     public float item_criticalDamage;
-    public float item_pentration;
+    public float item_penetration;
     public float item_moveSpeed;
 }

@@ -32,8 +32,8 @@ public class BaseMonster : MonoBehaviour
     private RaycastHit2D[] hit;
 
     //코루틴
-    WaitForSeconds zeropointone;
-    WaitForSeconds onesec;
+    private WaitForSeconds zeropointone;
+    private WaitForSeconds onesec;
 
     //상태이상관련
     //도트데미지 관련 필드
@@ -62,16 +62,18 @@ public class BaseMonster : MonoBehaviour
         onesec = new WaitForSeconds(1f);
     }
 
-    private void OnEnable()
+    public void Setup(MonsterData data, MonsterSkillData skillData = null)
     {
-        //오프젝트 풀에서 다시 꺼내졌을때 초기화
-        //init();
+        this.monsterData = data;
+        if (skillData != null)
+            this.skillData = skillData;
+        else this.skillData = null;
+        init();
     }
 
     private void init()
     {
         meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
-        Debug.Log(meleeAttackRange);
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         CurrentDef = monsterData.MonsterDef;
@@ -86,15 +88,6 @@ public class BaseMonster : MonoBehaviour
             skillData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.SkillIndex == monsterData.MonsterSkillID);
             skillTimer = skillData.SkillCoolTime;
         }   
-    }
-
-    public void Setup(MonsterData data, MonsterSkillData skillData = null)
-    {
-        this.monsterData = data;
-        if (skillData != null)
-            this.skillData = skillData;
-        else this.skillData = null;
-        init();
     }
 
     private void Update()
@@ -119,8 +112,9 @@ public class BaseMonster : MonoBehaviour
 
             if (skillTimer <= 0)
             {
-                MonsterSkill();
                 skillTimer = skillData.SkillCoolTime;
+                if (Random.Range(0f, 1f) <= skillData.MonsterskillProbablilty)
+                    MonsterSkill();
             }
         }
     }
@@ -138,7 +132,7 @@ public class BaseMonster : MonoBehaviour
         else
             spriteRenderer.flipX = true;
 
-        if(!isAttack)
+        if(!isAttack && !isSturn)
             Move();
 
         if(!isAttack && Physics2D.OverlapCircle(this.transform.position,meleeAttackRange,targetLayer))
@@ -162,10 +156,12 @@ public class BaseMonster : MonoBehaviour
 
     protected virtual void Death()
     {
-        //사망애니메이션 재생 후 오브젝트 풀에 반납하기
+        //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         StopAllCoroutines();
         sturnCorutine = null;
         dotDamageCorutine = null;
+        reduceDefCorutine = null;
+        slowDownCorutine = null;
         MonsterManager.Instance.OnMonsterDeath();
     }
 
@@ -242,18 +238,16 @@ public class BaseMonster : MonoBehaviour
     private IEnumerator SturnOverTime()
     {
         isSturn = true;
+        agent.SetDestination(this.transform.position);
+        Debug.Log($"스턴적용");
         while (sturnDuration > 0)
         {
-            agent.speed = 0f;
-            Debug.Log($"스턴적용 남은시간 : {sturnDuration}");
             yield return zeropointone;
 
             sturnDuration -= 0.1f;
         }
-
         sturnCorutine = null;
         sturnDuration = 0f;
-        agent.speed = monsterData.MonsterSpeed;
         isSturn = false;
     }
 
@@ -276,9 +270,9 @@ public class BaseMonster : MonoBehaviour
 
     private IEnumerator SlowDownOver(float amount)
     {
-        while(slowDownDuration > 0)
+        agent.speed = agent.speed * (1 - amount);
+        while (slowDownDuration > 0)
         {
-            agent.speed = agent.speed * (1 -  amount);
             Debug.Log($"슬로우적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
             yield return zeropointone;
 
@@ -308,9 +302,9 @@ public class BaseMonster : MonoBehaviour
 
     private IEnumerator DefDownOver(float amount)
     {
-        while(reducDefDuration > 0)
+        CurrentDef = CurrentDef * (1 - amount);
+        while (reducDefDuration > 0)
         {
-            CurrentDef = CurrentDef * (1 - amount);
             Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
             yield return zeropointone;
 

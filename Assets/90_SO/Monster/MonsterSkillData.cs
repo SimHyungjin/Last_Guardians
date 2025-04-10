@@ -60,13 +60,17 @@ public class MonsterSkillData : ScriptableObject
         switch (SkillType)
         {
             case MonsterSkillType.Summon:
-                //NormalEnemy prefab = MonsterManager.Instance.NormalPrefabs.Find(a => a.GetMonsterID() == MonsterID);
-                //for(int i = 0;i< MonsterNum;i++)
-                    //PoolManager.Instance.Spawn(prefab, SummonPoint);
                 break;
             case MonsterSkillType.Evasion:
                 break;
+            case MonsterSkillType.Buff:
+                break;
+            case MonsterSkillType.DeBuff:
+                break;
+            case MonsterSkillType.Disable:
+                break;
         }
+
     }
 }
 

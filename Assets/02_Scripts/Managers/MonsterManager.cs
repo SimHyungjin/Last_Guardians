@@ -151,4 +151,24 @@ public class MonsterManager : Singleton<MonsterManager>
             ba.ApplySturn(10f, 5f);
         }
     }
+
+    public void TestSlow()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplySlowdown(5f, 0.2f);
+        }
+    }
+
+    public void TestDef()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplyReducionDef(5f, 0.2f);
+        }
+    }
 }

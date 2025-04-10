@@ -14,6 +14,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public BossMonster BossPrefab { get; private set; }
     public BountyMonster BountyPrefab { get; private set; }
 
+    public EnemyProjectile ProjectilePrefab { get; private set; }
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillData> MonsterSkillDatas { get; private set; }
 
@@ -120,6 +121,7 @@ public class MonsterManager : Singleton<MonsterManager>
         MonsterDatas.Sort((a, b) => a.MonsterIndex.CompareTo(b.MonsterIndex));
         MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("Enemy/SkillSO").ToList();
         MonsterSkillDatas.Sort((a, b) => a.SkillIndex.CompareTo(b.SkillIndex));
+        ProjectilePrefab = Resources.Load<EnemyProjectile>("Enemy/EnemyProjectile/EnemyProjectile");
     }
 
     public void TestKill()

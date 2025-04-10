@@ -55,7 +55,7 @@ public class MonsterSkillData : ScriptableObject
         this.skillCoolTime = monsterskillCoolTime;
     }
 
-    public void UseSkill()
+    public void UseSkill(BaseMonster caster)
     {
         switch (SkillType)
         {
@@ -64,6 +64,7 @@ public class MonsterSkillData : ScriptableObject
             case MonsterSkillType.Evasion:
                 break;
             case MonsterSkillType.Buff:
+                //caster.
                 break;
             case MonsterSkillType.DeBuff:
                 break;

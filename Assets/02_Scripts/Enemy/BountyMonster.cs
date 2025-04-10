@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BountyMonster : BaseMonster
 {
-    protected override void Attack()
+    protected override void MeleeAttack()
     {
-        base.Attack();
+        base.MeleeAttack();
         Debug.Log("현상금몬스터공격");
         attackTimer = attackDelay;
     }
@@ -14,7 +14,7 @@ public class BountyMonster : BaseMonster
     protected override void MonsterSkill()
     {
         Debug.Log($"현상금몬스터 {skillData.name} 사용");
-        skillData.UseSkill();
+        skillData.UseSkill(this);
         skillTimer = skillData.SkillCoolTime;
     }
 

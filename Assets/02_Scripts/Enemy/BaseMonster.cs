@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class BaseMonster : MonoBehaviour
 
 
     //몬스터 공격관련
-    private float meleeAttackRange;
+    private float AttackRange;
     protected float attackDelay = 3f;
     protected float attackTimer = 0f;
     private bool isAttack = false;
@@ -50,6 +51,9 @@ public class BaseMonster : MonoBehaviour
     //방어력감소 필드
     private float reducDefDuration;
     private Coroutine reduceDefCorutine;
+    //버프관련
+    //방어력증가 필드
+    //private float 
 
     private void Awake()
     {
@@ -73,13 +77,14 @@ public class BaseMonster : MonoBehaviour
 
     private void init()
     {
-        meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
+        AttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         CurrentDef = monsterData.MonsterDef;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
         isAttack = false;
+        isSturn = false;
         dotDuration = 0f;
         sturnDuration = 0f;
         attackTimer = 0f;
@@ -102,7 +107,10 @@ public class BaseMonster : MonoBehaviour
 
         if (isAttack && !isSturn && attackTimer <= 0)
         {
-            Attack();
+            if (monsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
+                RangeAttack();
+            else
+                MeleeAttack();
         }
 
         if(skillData != null)
@@ -121,7 +129,7 @@ public class BaseMonster : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(this.transform.position, meleeAttackRange);
+        Gizmos.DrawWireSphere(this.transform.position, AttackRange);
     }
 
     private void FixedUpdate()
@@ -135,7 +143,7 @@ public class BaseMonster : MonoBehaviour
         if(!isAttack && !isSturn)
             Move();
 
-        if(!isAttack && Physics2D.OverlapCircle(this.transform.position,meleeAttackRange,targetLayer))
+        if(!isAttack && Physics2D.OverlapCircle(this.transform.position,AttackRange,targetLayer))
         {
             isAttack = true;
         }
@@ -147,7 +155,14 @@ public class BaseMonster : MonoBehaviour
         agent.SetDestination(Target.position);
     }
 
-    protected virtual void Attack()
+    protected virtual void MeleeAttack()
+    {
+        agent.isStopped = true;
+        agent.speed = 0f;
+        //타입별 몬스터에서 구현
+    }
+
+    protected virtual void RangeAttack()
     {
         agent.isStopped = true;
         agent.speed = 0f;
@@ -303,7 +318,6 @@ public class BaseMonster : MonoBehaviour
 
     private IEnumerator DefDownOver(float amount)
     {
-        
         while (reducDefDuration > 0)
         {
             CurrentDef = monsterData.MonsterDef * (1 - amount);
@@ -316,5 +330,19 @@ public class BaseMonster : MonoBehaviour
         CurrentDef = monsterData.MonsterDef;
         reduceDefCorutine = null;
         reducDefDuration = 0f;
+    }
+
+    public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
+    {
+        Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
+
+        Vector2 targetPosition = (Vector2)transform.position + direction * distance;
+
+        transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
+    }
+
+    public void ApplyDefBuff(float duration, float amount)
+    {
+
     }
 }

@@ -16,6 +16,14 @@ public class EquipmentSlotContainer : MonoBehaviour
         }
     }
 
+    public void Refresh()
+    {
+        foreach (var slot in slots.Values)
+        {
+            slot.Refresh();
+        }
+    }
+
     public void BindEquipment(EquipType type, EquipmentData data)
     {
         if (slots.TryGetValue(type, out var slot))

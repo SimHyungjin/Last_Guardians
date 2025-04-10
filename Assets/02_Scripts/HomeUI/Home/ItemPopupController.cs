@@ -9,6 +9,7 @@ public class ItemPopupController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private TextMeshProUGUI description;
 
+    [SerializeField] private Button upgradeButton;
     [SerializeField] private Button equipButton;
     [SerializeField] private Button unequipButton;
 
@@ -18,6 +19,7 @@ public class ItemPopupController : MonoBehaviour
     private void Start()
     {
         equipment = HomeManager.Instance.equipment;
+        upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
         root.SetActive(false);
@@ -43,11 +45,23 @@ public class ItemPopupController : MonoBehaviour
         itemName.text = currentData.itemName;
         description.text = currentData.itemDescription;
 
+        upgradeButton.gameObject.SetActive(currentData.itemGrade < ItemGrade.Legend);
         bool isEquipped = equipment.IsEquipped(currentData);
         equipButton.gameObject.SetActive(!isEquipped);
         unequipButton.gameObject.SetActive(isEquipped);
     }
 
+    public void OnClickUpgrade()
+    {
+        if (currentData != null)
+        {
+            HomeManager.Instance.upgrade.TryUpgarade(currentData);
+            HomeManager.Instance.inventory.UpdateFilteredView();
+            HomeManager.Instance.inventorySlotContainer.Refresh();
+            HomeManager.Instance.equipmentSlotContainer.Refresh();
+            UpdatePopupUI();
+        }
+    }
     public void OnClickEquip()
     {
         if (currentData != null)

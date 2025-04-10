@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class Equipment
 {
     private Dictionary<EquipType, EquipmentData> equipped = new();
-    public event Action OnEquipmentChanged;
 
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }

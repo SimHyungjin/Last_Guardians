@@ -36,7 +36,6 @@ public class Inventory : MonoBehaviour
         if (currentType == type) return;
         currentType = type;
 
-        // 탭 변경 시 선택 초기화
         HomeManager.Instance.selectionController.DeselectSlot();
 
         UpdateFilteredView();
@@ -44,9 +43,7 @@ public class Inventory : MonoBehaviour
 
     public void UpdateFilteredView()
     {
-        var viewList = currentType == EquipType.Count
-            ? new List<ItemData>(inventory)
-            : inventory.FindAll(x => x is EquipmentData y && y.equipType == currentType);
+        var viewList = currentType == EquipType.Count ? new List<ItemData>(inventory) : inventory.FindAll(x => x is EquipmentData y && y.equipType == currentType);
 
         viewList.Sort((a, b) => b.itemGrade.CompareTo(a.itemGrade));
         slotContainer.Display(viewList);

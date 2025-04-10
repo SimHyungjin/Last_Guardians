@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: NewEquipmentData 1
   m_EditorClassIdentifier: 
   itemIndex: 0
-  itemName: 3455634
-  itemDescription: 132123
+  itemName: 
+  itemDescription: 
   itemType: 0
   itemGrade: 0
   itemStackLimit: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   itemSellPrice: 0
   icon: {fileID: 21300000, guid: a908c1eb63cb4fe4280e510657114a3a, type: 3}
   equipIndex: 0
-  equipType: 1
+  equipType: 0
   attackType: 0
   attackPower: 0
   attackSpeed: 0

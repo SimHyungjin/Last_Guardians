@@ -15,6 +15,14 @@ public class InventorySlotContainer : MonoBehaviour
         }
     }
 
+    public void Refresh()
+    {
+        foreach (var slot in slots)
+        {
+            slot.Refresh();
+        }
+    }
+
     public void Display(List<ItemData> items)
     {
         for (int i = 0; i < slots.Count; i++)

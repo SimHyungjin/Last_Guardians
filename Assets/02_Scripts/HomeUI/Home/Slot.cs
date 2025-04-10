@@ -9,11 +9,13 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject equipEffect;
     [SerializeField] private GameObject gradeEffect;
 
+    private Image gradeEffectImage;
     private ItemData data;
 
     private void Awake()
     {
         icon = GetComponent<Image>();
+        gradeEffectImage = gradeEffect.GetComponent<Image>();
     }
 
     public void SetData(ItemData newData)
@@ -27,17 +29,30 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         SetData(null);
         SetSelected(false);
         SetEquipped(false);
-        SetGradeEffect(false);
+        SetGradeEffect();
     }
 
     public void SetSelected(bool selected) => selectedEffect?.SetActive(selected);
     public void SetEquipped(bool equipped) => equipEffect?.SetActive(equipped);
-
-    public void SetGradeEffect(bool isActive)
+    public void SetGradeEffect()
     {
-        if (gradeEffect == null || data == null) return;
+        if (gradeEffect != null) gradeEffect.SetActive(false);
+        if (data == null || gradeEffect == null) return;
         if ((int)data.itemGrade == 0) return;
-        gradeEffect.SetActive(isActive);
+
+        gradeEffect.SetActive(true);
+        float color = 0.2f * (int)data.itemGrade;
+        gradeEffectImage.color = new Color(color, 0, 0, 0.5f);
+    }
+
+    public void Refresh()
+    {
+        if (data == null)
+        {
+            Clear();
+            return;
+        }
+        SetGradeEffect();
     }
 
     public void OnPointerClick(PointerEventData eventData)

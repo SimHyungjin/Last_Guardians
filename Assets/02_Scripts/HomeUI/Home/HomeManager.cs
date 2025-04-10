@@ -4,6 +4,7 @@ public class HomeManager : Singleton<HomeManager>
 {
     public Inventory inventory;
     public Equipment equipment;
+    public Upgrade upgrade;
 
     public EquipmentSlotContainer equipmentSlotContainer;
     public InventorySlotContainer inventorySlotContainer;
@@ -14,6 +15,9 @@ public class HomeManager : Singleton<HomeManager>
     private void Awake()
     {
         equipment ??= new();
+        upgrade ??= new();
+
+        upgrade.Init();
 
         var canvas = Utils.InstantiatePrefabFromResource("UI/Canvas", this.transform);
         inventory = Utils.InstantiateComponentFromResource<Inventory>("UI/Inventory", canvas.transform);

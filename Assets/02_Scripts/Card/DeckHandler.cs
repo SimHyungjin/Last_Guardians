@@ -28,6 +28,7 @@ public class DeckHandler : MonoBehaviour
     private GameObject ghostTower;
     public bool IsHighlighting => isHighlighting;
     public Card HighlightedCard => highlightedCard;
+    public int HighlightedIndex => highlightedIndex;    
     private void Update()
     {
         if (isDragging)
@@ -39,8 +40,8 @@ public class DeckHandler : MonoBehaviour
             {
                 if (ghostTower == null)
                 {
+                    TowerManager.Instance.towerbuilder.ChangeCardMove();
                     highlightedCard.gameObject.SetActive(false);
-
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
                     string path = $"Assets/90_SO/Tower/TestTower{highlightedIndex}.asset";
@@ -55,6 +56,7 @@ public class DeckHandler : MonoBehaviour
             }
             else if(ghostTower != null)
             {
+                TowerManager.Instance.towerbuilder.ChangeCardMove();
                 highlightedCard.gameObject.SetActive(true);
                 Destroy(ghostTower);
             }
@@ -106,25 +108,27 @@ public class DeckHandler : MonoBehaviour
             }
             else
             {
-
+                TowerManager.Instance.towerbuilder.ChangeCardMove();
                 Destroy(ghostTower);
                 ghostTower = null;
-                StartCoroutine(TowerManager.Instance.towerConstructer.CanConstructCoroutine(
+                StartCoroutine(TowerManager.Instance.towerbuilder.CanConstructCoroutine(
                                 InputManager.Instance.GetTouchWorldPosition(),
                                 (canPlace) =>
                                 {
                                     if (canPlace)
                                     {
-                                        TowerManager.Instance.towerConstructer.TowerConstruct(
+                                        TowerManager.Instance.towerbuilder.TowerConstruct(
                                         InputManager.Instance.GetTouchWorldPosition(),
                                         highlightedIndex
                                     );
                                         UseCard(); // 카드 사용 처리
                                     }
-                                    //else if (TowerManager.Instance.towerConstructer.CanCombine(card.TowerIndex, highlightedIndex))
-                                    //{
-                                    //    Debug.Log("합성시작");
-                                    //}
+                                    else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))
+                                    {
+                                        Debug.Log("합성시작");
+                                        TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
+                                        UseCard();
+                                    }
                                     else
                                     {
                                         Debug.Log("건설 불가");

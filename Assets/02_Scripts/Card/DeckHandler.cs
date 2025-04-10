@@ -126,6 +126,7 @@ public class DeckHandler : MonoBehaviour
                                     else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))
                                     {
                                         Debug.Log("합성시작");
+                                        TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
                                         UseCard();
                                     }
                                     else

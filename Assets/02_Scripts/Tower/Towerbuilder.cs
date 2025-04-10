@@ -8,17 +8,22 @@ using UnityEngine.AI;
 
 public class Towerbuilder : MonoBehaviour
 {
+    [Header("타워 조합")]
     [SerializeField] private LayerMask buildBlockMask;
-    private TowerCombinationData towerCombinationData;
-    public GameObject dummytowerPrefab;
+    public Tower CheakedTower = null;
 
+    [Header("마우스이동")]
+    private TowerCombinationData towerCombinationData;
+    public GameObject towerPrefab;
     public GameObject ghostTowerPrefab;
     private GameObject ghostTower;
+    public bool isCardMoving;
 
+    [Header("이동경로파악")]
     public Transform[] spawnPoint;
     public Transform targetPosition;
 
-    public bool isCardMoving;
+
 
     private float lastCheckTime = 0f;
     private float checkCooldown = 0.2f;
@@ -35,10 +40,9 @@ public class Towerbuilder : MonoBehaviour
             if (ghostTower == null)
             {
                 ghostTower = Instantiate(ghostTowerPrefab);
+           
                 SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
-                string path = $"Assets/90_SO/Tower/TestTower{TowerManager.Instance.hand.HighlightedIndex}.asset";
-                TowerData towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
-                ghostsprite.sprite = towerdata.towerSprite;
+                GetSprite(TowerManager.Instance.hand.HighlightedIndex);
             }
             else
             {
@@ -46,9 +50,19 @@ public class Towerbuilder : MonoBehaviour
                 Vector2 currentTile = PostionArray(InputManager.Instance.GetTouchWorldPosition());
                 if (currentTile != lastCheckedTile)
                 {
+                    if (CheakedTower != null)
+                    {
+                        Color precolor = CheakedTower.GetComponent<SpriteRenderer>().color;
+                        precolor.a = 1.0f;
+                        CheakedTower.GetComponent<SpriteRenderer>().color = precolor;
+                        CheakedTower = null;
+                        GetSprite(TowerManager.Instance.hand.HighlightedIndex);
+                    }
+
                     lastCheckTime = Time.time;
                     lastCheckedTile = currentTile;
                     ghostTower.transform.position = currentTile;
+                    
                     StartCoroutine(CanConstructCoroutine(
                         currentTile,
                         (canPlace) =>
@@ -59,7 +73,13 @@ public class Towerbuilder : MonoBehaviour
                             }
                             else if(CanCardToTowerCombine(currentTile, TowerManager.Instance.hand.HighlightedIndex))
                             {
-                                Debug.Log("타워 조합 가능");
+                                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
+                                CheakedTower = hit.GetComponent<Tower>();
+                                Color precolor = CheakedTower.GetComponent<SpriteRenderer>().color;
+                                precolor.a = 0.0f;
+                                CheakedTower.GetComponent<SpriteRenderer>().color = precolor;
+                                GetSprite(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, CheakedTower.towerdata.TowerIndex));
+                                ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
                             }
                             else
                             {
@@ -83,23 +103,20 @@ public class Towerbuilder : MonoBehaviour
         Debug.Log("ChangeCardMove");
         isCardMoving = !isCardMoving;
     }
-    public int CanCombine(int ing1, int ing2)
-    {
-        int result = towerCombinationData.TryCombine(ing1, ing2);
-        Debug.Log($"result : {result}");
-        //if (result == -1) return false;
-        //return true;
-        return result;
-    }
-
     public void TowerToTowerCombine()
     {
 
     }
-    public void CardToTowerCombine()
+    public void CardToTowerCombine(Vector2 curPos)
     {
-
+        Vector2 CombinePos = PostionArray(curPos);
+        int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, CheakedTower.towerdata.TowerIndex);
+        Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
+        combineTower.Init(combineTowerIndex);
+        Destroy(TowerManager.Instance.towerbuilder.CheakedTower.gameObject);
+        TowerManager.Instance.towerbuilder.CheakedTower = null;
     }
+
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
     {
         Vector2 constructPos = PostionArray(curPos);
@@ -110,7 +127,7 @@ public class Towerbuilder : MonoBehaviour
             yield break;
         }
 
-        GameObject dummyTower = Instantiate(dummytowerPrefab, constructPos, Quaternion.identity);
+        GameObject dummyTower = Instantiate(towerPrefab, constructPos, Quaternion.identity);
         yield return null;
         bool allPathsExist = true;
         NavMeshPath path = new NavMeshPath();
@@ -132,19 +149,9 @@ public class Towerbuilder : MonoBehaviour
     public void TowerConstruct(Vector2 curPos,int TowerIndex)
     {
         Vector2 constructPos = PostionArray(curPos);
-        GameObject go = Instantiate(dummytowerPrefab, constructPos, Quaternion.identity);
+        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);
         Tower tower = go.GetComponent<Tower>();
         tower.Init(TowerIndex);
-    }
-
-    public void TowerCombine(Tower ing1, Tower ing2)
-    {
-        int result = towerCombinationData.TryCombine(ing1.towerdata.TowerIndex, ing2.towerdata.TowerIndex);
-        if (result == -1) return;
-        Vector2 combinePos = InputManager.Instance.GetTouchWorldPosition();
-        Vector2 constructPos = PostionArray(combinePos);
-        Destroy(ing1.gameObject);
-        Destroy(ing2.gameObject);
     }
 
     public bool IsAnyObjectOnTile(Vector2 tilePos)
@@ -159,11 +166,17 @@ public class Towerbuilder : MonoBehaviour
         int towerIndex;
         if (hit == null) return false;
         else towerIndex = hit.GetComponent<Tower>().towerdata.TowerIndex;
-        return hit != null?CanCombine(towerIndex, cardIndex)!=-1:false;
-        //return hit != null;
+        return hit != null? towerCombinationData.TryCombine(towerIndex, cardIndex)!=-1:false;
     }
     public Vector2 PostionArray(Vector2 pos)
     {
         return new Vector2(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
+    }
+
+    private void GetSprite(int index)
+    {
+        string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
+        TowerData towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
+        ghostTower.GetComponent<SpriteRenderer>().sprite = towerdata.towerSprite;
     }
 }

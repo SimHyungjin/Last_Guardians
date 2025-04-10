@@ -115,6 +115,7 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         NormalPrefab = Resources.Load<NormalEnemy>("Enemy/Normal/NormalMonster");
         BossPrefab = Resources.Load<BossMonster>("Enemy/Boss/BossMonster");
+        BountyPrefab = Resources.Load<BountyMonster>("Enemy/Bounty/BountyMonster");
         MonsterDatas = Resources.LoadAll<MonsterData>("Enemy/MonsterSO").ToList();
         MonsterDatas.Sort((a, b) => a.MonsterIndex.CompareTo(b.MonsterIndex));
         MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("Enemy/SkillSO").ToList();

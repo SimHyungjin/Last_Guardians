@@ -12,7 +12,9 @@ public class BaseMonster : MonoBehaviour
     //몬스터 스탯관련
     public float CurrentHP { get; set; }
     public float SpeedModifier { get; set; } = 1f;
+    public float CurrentDef { get; set; }
     public float DefModifier { get; set; } = 1f;
+
 
     //몬스터 공격관련
     private float meleeAttackRange;
@@ -29,6 +31,11 @@ public class BaseMonster : MonoBehaviour
     protected NavMeshAgent agent;
     private RaycastHit2D[] hit;
 
+    //코루틴
+    WaitForSeconds zeropointone;
+    WaitForSeconds onesec;
+
+    //상태이상관련
     //도트데미지 관련 필드
     private float dotDuration = 0f;
     private float dotDamage = 0f;
@@ -37,6 +44,12 @@ public class BaseMonster : MonoBehaviour
     private Coroutine sturnCorutine;
     private float sturnDuration;
     private bool isSturn = false;
+    //이속저하 필드
+    private float slowDownDuration;
+    private Coroutine slowDownCorutine;
+    //방어력감소 필드
+    private float reducDefDuration;
+    private Coroutine reduceDefCorutine;
 
     private void Awake()
     {
@@ -45,6 +58,8 @@ public class BaseMonster : MonoBehaviour
         agent.updateUpAxis = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         hit = new RaycastHit2D[4];
+        zeropointone = new WaitForSeconds(0.1f);
+        onesec = new WaitForSeconds(1f);
     }
 
     private void OnEnable()
@@ -59,6 +74,7 @@ public class BaseMonster : MonoBehaviour
         Debug.Log(meleeAttackRange);
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
+        CurrentDef = monsterData.MonsterDef;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
         isAttack = false;
@@ -197,7 +213,7 @@ public class BaseMonster : MonoBehaviour
             //데미지 관련 공식 나오면 수정
             TakeDamage(dotDamage);
             Debug.Log($"도트데미지 적용 {dotDamage} 남은체력 : {CurrentHP} 남은 시간 : {dotDuration}");
-            yield return new WaitForSeconds(1f);
+            yield return onesec;
 
             dotDuration -= 1f;
         }
@@ -218,7 +234,6 @@ public class BaseMonster : MonoBehaviour
         else
         {
             sturnDuration = duration;
-            Debug.Log(sturnDuration);
             if(gameObject.activeSelf)
                 sturnCorutine = StartCoroutine(SturnOverTime());
         }
@@ -231,7 +246,7 @@ public class BaseMonster : MonoBehaviour
         {
             agent.speed = 0f;
             Debug.Log($"스턴적용 남은시간 : {sturnDuration}");
-            yield return new WaitForSeconds(0.1f);
+            yield return zeropointone;
 
             sturnDuration -= 0.1f;
         }
@@ -242,5 +257,68 @@ public class BaseMonster : MonoBehaviour
         isSturn = false;
     }
 
-    
+    //슬로우 적용
+    public void ApplySlowdown(float duration, float amount)
+    {
+        if(slowDownCorutine != null)
+        {
+            slowDownDuration = Mathf.Max(slowDownDuration, duration);
+            SpeedModifier = Mathf.Max(SpeedModifier, amount);
+        }
+        else
+        {
+            slowDownDuration = duration;
+            SpeedModifier = amount;
+            if (gameObject.activeSelf)
+                slowDownCorutine = StartCoroutine(SlowDownOver(SpeedModifier));
+        }
+    }
+
+    private IEnumerator SlowDownOver(float amount)
+    {
+        while(slowDownDuration > 0)
+        {
+            agent.speed = agent.speed * (1 -  amount);
+            Debug.Log($"슬로우적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
+            yield return zeropointone;
+
+            slowDownDuration -= 0.1f;
+        }
+        agent.speed = monsterData.MonsterSpeed;
+        slowDownCorutine = null;
+        slowDownDuration = 0f;
+    }
+
+    //방어력 감소 적용
+    public void ApplyReducionDef(float duration, float amount)
+    {
+        if(reduceDefCorutine != null)
+        {
+            reducDefDuration = Mathf.Max(reducDefDuration, duration);
+            DefModifier = Mathf.Max(DefModifier, amount);
+        }
+        else
+        {
+            duration = reducDefDuration;
+            DefModifier = amount;
+            if (gameObject.activeSelf)
+                reduceDefCorutine = StartCoroutine(DefDownOver(DefModifier));
+        }
+    }
+
+    private IEnumerator DefDownOver(float amount)
+    {
+        while(reducDefDuration > 0)
+        {
+            CurrentDef = CurrentDef * (1 - amount);
+            Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
+            yield return zeropointone;
+
+            reducDefDuration -= 0.1f;
+        }
+
+        CurrentDef = monsterData.MonsterDef;
+        reduceDefCorutine = null;
+        reducDefDuration = 0f;
+    }
 }

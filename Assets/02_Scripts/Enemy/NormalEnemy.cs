@@ -10,4 +10,10 @@ public class NormalEnemy : BaseMonster
         Debug.Log("노말공격");
         attackTimer = attackDelay;
     }
+
+    protected override void Death()
+    {
+        base.Death();
+        PoolManager.Instance.Despawn(this);
+    }
 }

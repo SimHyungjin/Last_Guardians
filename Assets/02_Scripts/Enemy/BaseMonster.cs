@@ -49,12 +49,13 @@ public class BaseMonster : MonoBehaviour
     private void OnEnable()
     {
         //오프젝트 풀에서 다시 꺼내졌을때 초기화
-        init();
+        //init();
     }
 
     private void init()
     {
         meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
+        spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
@@ -63,6 +64,15 @@ public class BaseMonster : MonoBehaviour
         sturnDuration = 0f;
         if (skillData != null)
             skillTimer = skillData.SkillCoolTime;
+    }
+
+    public void Setup(BaseMonster monster)
+    {
+        this.monsterData = monster.monsterData;
+        if(skillData != null)
+            this.skillData = monster.skillData;
+        else this.skillData = null;
+        init();
     }
 
     private void Update()
@@ -134,14 +144,13 @@ public class BaseMonster : MonoBehaviour
         //타입별 몬스터에서 구현
     }
 
-    private void Death()
+    protected virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기
         StopAllCoroutines();
         sturnCorutine = null;
         dotDamageCorutine = null;
         MonsterManager.Instance.OnMonsterDeath();
-        PoolManager.Instance.Despawn(this);   
     }
 
     protected virtual void MonsterSkill()
@@ -233,4 +242,5 @@ public class BaseMonster : MonoBehaviour
         isSturn = false;
     }
 
+    
 }

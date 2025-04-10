@@ -16,4 +16,10 @@ public class BountyMonster : BaseMonster
         Debug.Log($"현상금몬스터 {skillData.name} 사용");
         skillTimer = skillData.SkillCoolTime;
     }
+
+    protected override void Death()
+    {
+        base.Death();
+        PoolManager.Instance.Despawn(this);
+    }
 }

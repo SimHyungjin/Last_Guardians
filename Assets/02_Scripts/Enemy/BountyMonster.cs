@@ -18,6 +18,12 @@ public class BountyMonster : BaseMonster
         skillTimer = skillData.SkillCoolTime;
     }
 
+    protected override void RangeAttack()
+    {
+        base.RangeAttack();
+        EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
+        projectile.Lauch(Target);
+    }
     protected override void Death()
     {
         base.Death();

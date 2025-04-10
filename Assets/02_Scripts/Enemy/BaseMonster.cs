@@ -12,9 +12,11 @@ public class BaseMonster : MonoBehaviour
 
     //몬스터 스탯관련
     public float CurrentHP { get; set; }
-    public float SpeedModifier { get; set; } = 1f;
+    public float DeBuffSpeedModifier { get; set; } = 1f;
+    public float BuffSpeedModifier {  get; set; } = 1f;
     public float CurrentDef { get; set; }
-    public float DefModifier { get; set; } = 1f;
+    public float DeBuffDefModifier { get; set; } = 1f;
+    public float BuffDefModifier { get; set; } = 1f;
 
 
     //몬스터 공격관련
@@ -30,7 +32,6 @@ public class BaseMonster : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     protected NavMeshAgent agent;
-    private RaycastHit2D[] hit;
 
     //코루틴
     private WaitForSeconds zeropointone;
@@ -53,7 +54,8 @@ public class BaseMonster : MonoBehaviour
     private Coroutine reduceDefCorutine;
     //버프관련
     //방어력증가 필드
-    //private float 
+    private float buffDefDuration;
+    private Coroutine buffDefCorutine;
 
     private void Awake()
     {
@@ -61,7 +63,6 @@ public class BaseMonster : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        hit = new RaycastHit2D[4];
         zeropointone = new WaitForSeconds(0.1f);
         onesec = new WaitForSeconds(1f);
     }
@@ -272,29 +273,30 @@ public class BaseMonster : MonoBehaviour
         if(slowDownCorutine != null)
         {
             slowDownDuration = Mathf.Max(slowDownDuration, duration);
-            SpeedModifier = Mathf.Max(SpeedModifier, amount);
+            DeBuffSpeedModifier = Mathf.Max(DeBuffSpeedModifier, amount);
         }
         else
         {
             slowDownDuration = duration;
-            SpeedModifier = amount;
+            DeBuffSpeedModifier = amount;
             if (gameObject.activeSelf)
-                slowDownCorutine = StartCoroutine(SlowDownOver(SpeedModifier));
+                slowDownCorutine = StartCoroutine(SlowDownOver());
         }
     }
 
-    private IEnumerator SlowDownOver(float amount)
+    private IEnumerator SlowDownOver()
     {
         
         while (slowDownDuration > 0)
         {
-            agent.speed = monsterData.MonsterSpeed * (1 - amount);
+            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
             Debug.Log($"슬로우적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
             yield return zeropointone;
 
             slowDownDuration -= 0.1f;
         }
-        agent.speed = monsterData.MonsterSpeed;
+        DeBuffDefModifier = 1f;
+        agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
         slowDownCorutine = null;
         slowDownDuration = 0f;
     }
@@ -305,29 +307,30 @@ public class BaseMonster : MonoBehaviour
         if(reduceDefCorutine != null)
         {
             reducDefDuration = Mathf.Max(reducDefDuration, duration);
-            DefModifier = Mathf.Max(DefModifier, amount);
+            DeBuffDefModifier = Mathf.Max(DeBuffDefModifier, amount);
         }
         else
         {
             reducDefDuration = duration;
-            DefModifier = amount;
+            DeBuffDefModifier = amount;
             if (gameObject.activeSelf)
-                reduceDefCorutine = StartCoroutine(DefDownOver(DefModifier));
+                reduceDefCorutine = StartCoroutine(DefDownOver());
         }
     }
 
-    private IEnumerator DefDownOver(float amount)
+    private IEnumerator DefDownOver()
     {
         while (reducDefDuration > 0)
         {
-            CurrentDef = monsterData.MonsterDef * (1 - amount);
+            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
             Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
             yield return zeropointone;
 
             reducDefDuration -= 0.1f;
         }
 
-        CurrentDef = monsterData.MonsterDef;
+        DeBuffDefModifier = 1f;
+        CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
         reduceDefCorutine = null;
         reducDefDuration = 0f;
     }
@@ -341,8 +344,37 @@ public class BaseMonster : MonoBehaviour
         transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
     }
 
+    //방어력 버프
     public void ApplyDefBuff(float duration, float amount)
     {
+        if(buffDefCorutine != null)
+        {
+            buffDefDuration = Mathf.Max(buffDefDuration, duration);
+            BuffDefModifier = Mathf.Max(BuffDefModifier, amount);
+        }
+        else
+        {
+            buffDefDuration = duration;
+            BuffDefModifier = amount;
+            if (gameObject.activeSelf)
+                buffDefCorutine = StartCoroutine(DefBuffOver());
+        }
+    }
 
+    private IEnumerator DefBuffOver()
+    {
+        while(buffDefDuration > 0)
+        {
+            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+            Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
+            yield return zeropointone;
+
+            buffDefDuration -= 0.1f;
+        }
+
+        BuffDefModifier = 1f;
+        CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+        buffDefCorutine = null;
+        buffDefDuration = 0f;
     }
 }

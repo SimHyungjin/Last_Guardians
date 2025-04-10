@@ -235,13 +235,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d97be25e6c4ebc46b36abd1dd0e712e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotParents:
-  - {fileID: 1761347928001459433}
-  - {fileID: 677100195704251443}
-  - {fileID: 7835002754762398182}
-  - {fileID: 8765554830251813270}
-  - {fileID: 3876503048258967309}
-  - {fileID: 3814539430626252617}
+  weaponSlot: {fileID: 1761347928001459433}
+  ringSlot: {fileID: 677100195704251443}
+  necklaceSlot: {fileID: 7835002754762398182}
+  helmetSlot: {fileID: 8765554830251813270}
+  armorSlot: {fileID: 3876503048258967309}
+  shoesSlot: {fileID: 3814539430626252617}
 --- !u!1 &1990779375142137238
 GameObject:
   m_ObjectHideFlags: 0

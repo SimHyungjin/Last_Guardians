@@ -1,39 +1,47 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class EquipmentSlotContainer : MonoBehaviour
 {
-    [SerializeField] private Transform[] slotParents;
+    [SerializeField] private Transform weaponSlot;
+    [SerializeField] private Transform ringSlot;
+    [SerializeField] private Transform necklaceSlot;
+    [SerializeField] private Transform helmetSlot;
+    [SerializeField] private Transform armorSlot;
+    [SerializeField] private Transform shoesSlot;
 
-    private Dictionary<EquipType, Slot> slots = new();
+    public Dictionary<EquipType, Slot> slotMap = new();
 
     private void Awake()
     {
-        for(int i = 0; i < (int)EquipType.Count; i++)
-        {
-            var slot = CreateSlot(slotParents[i]);
-            slots.Add((EquipType)i, slot);
-        }
+        slotMap[EquipType.Weapon] = CreateSlot(EquipType.Weapon, weaponSlot);
+        slotMap[EquipType.Ring] = CreateSlot(EquipType.Ring, ringSlot);
+        slotMap[EquipType.Necklace] = CreateSlot(EquipType.Necklace, necklaceSlot);
+        slotMap[EquipType.Helmet] = CreateSlot(EquipType.Helmet, helmetSlot);
+        slotMap[EquipType.Armor] = CreateSlot(EquipType.Armor, armorSlot);
+        slotMap[EquipType.Shoes] = CreateSlot(EquipType.Shoes, shoesSlot);
     }
 
-    private Slot CreateSlot(Transform parent) => Utils.InstantiateComponentFromResource<Slot>("UI/Slot", parent);
-
-    public void BindEquipment(EquipType type, EquipmentData data)
+    private Slot CreateSlot(EquipType type, Transform parent)
     {
-        if (slots.TryGetValue(type, out var slot))
+        var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", parent);
+        return slot;
+    }
+
+    public void BindEquipment(EquipType type, EquipemntData data)
+    {
+        if (slotMap.TryGetValue(type, out var slot))
         {
             slot.SetData(data);
-            slot.SetGradeEffect(true);
         }
     }
 
     public void ClearSlot(EquipType type)
     {
-        if (slots.TryGetValue(type, out var slot))
+        if (slotMap.TryGetValue(type, out var slot))
         {
-            slot.Clear();
+            slot.ClearData();
         }
     }
-
-    public Dictionary<EquipType, Slot> GetSlots() => slots;
 }

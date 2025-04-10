@@ -25,6 +25,7 @@ public class MonsterSkillData : ScriptableObject
     [SerializeField] private float monsterskillProbablilty;
     [SerializeField] private int monsterID;
     [SerializeField] private int monsterNum;
+    private Transform summonPoint;
 
     public int SkillIndex => skillIndex;
     public string SkillName => skillName;
@@ -37,6 +38,7 @@ public class MonsterSkillData : ScriptableObject
     public float MonsterskillProbablilty => monsterskillProbablilty;
     public int MonsterID => monsterID;
     public int MonsterNum => monsterNum;
+    public Transform SummonPoint => summonPoint;
 
     public void SetData(int monsterskillIndex, string monsterskillName, MonsterSkillType monsterskillType, float monsterskillRange, int spawnMonsterID, int spawnMonsterNum, float monsterskillDuration, float monsterskillEffectValue, string monsterskillDescripttion, float monsterskillProbablilty, float monsterskillCoolTime)
     {
@@ -58,7 +60,11 @@ public class MonsterSkillData : ScriptableObject
         switch (SkillType)
         {
             case MonsterSkillType.Summon:
-                //PoolManager.Instance.Spawn(MonsterManager.Instance.NormalPrefabs)
+                //NormalEnemy prefab = MonsterManager.Instance.NormalPrefabs.Find(a => a.GetMonsterID() == MonsterID);
+                //for(int i = 0;i< MonsterNum;i++)
+                    //PoolManager.Instance.Spawn(prefab, SummonPoint);
+                break;
+            case MonsterSkillType.Evasion:
                 break;
         }
     }

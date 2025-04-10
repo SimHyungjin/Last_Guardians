@@ -8247,6 +8247,11 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &1798991445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6875391158364548719, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
+  m_PrefabInstance: {fileID: 5225889847857927535}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1830782635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8861,6 +8866,11 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &1943070379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6875391158364548719, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
+  m_PrefabInstance: {fileID: 2327815591404481794}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1976153933
 GameObject:
   m_ObjectHideFlags: 0
@@ -12005,7 +12015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hand: {fileID: 8019884509423294679}
   towerCombinationData: {fileID: 11400000, guid: 416b2068da773df41a56cdcc2cb8fee7, type: 2}
-  towerConstructer: {fileID: 7133658001447737705}
+  towerbuilder: {fileID: 0}
 --- !u!114 &1129514576058439632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14578,7 +14588,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6875391158364548719, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3360045662071807017}
   m_SourcePrefab: {fileID: 100100000, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
 --- !u!483693784 &2333697865611494902
 TilemapRenderer:
@@ -17367,6 +17380,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1076158311124332837, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
   m_PrefabInstance: {fileID: 2327815591404481794}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &3360045662071807017
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1943070379}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!4 &3363162506901069927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8029315675317078887, guid: 295546073aee1fa4a8ae1b5045d970d2, type: 3}
@@ -20766,6 +20824,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1076158311124332837, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
   m_PrefabInstance: {fileID: 5225889847857927535}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &5073691358447936588
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798991445}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &5101723976374153472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20939,7 +21042,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6875391158364548719, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5073691358447936588}
   m_SourcePrefab: {fileID: 100100000, guid: 201b1bd5d1449cf4787ac5e8eadaeacc, type: 3}
 --- !u!4 &5237061520926882476 stripped
 Transform:
@@ -24767,14 +24873,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f8bcb211d24a1418914cdf7bbc6d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildBlockMask:
-    serializedVersion: 2
-    m_Bits: 1152
-  towerPrefab: {fileID: 3515763323643818898, guid: a536b6560daefe44ead0c1fb09ee0982, type: 3}
-  spawnPoint:
-  - {fileID: 48209079}
-  - {fileID: 1018054542}
-  targetPosition: {fileID: 4918445805338994667}
 --- !u!4 &7134004687146442990 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8029315675317078887, guid: 295546073aee1fa4a8ae1b5045d970d2, type: 3}

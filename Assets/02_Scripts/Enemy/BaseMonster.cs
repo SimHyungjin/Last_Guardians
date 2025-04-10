@@ -65,15 +65,18 @@ public class BaseMonster : MonoBehaviour
         dotDuration = 0f;
         sturnDuration = 0f;
         attackTimer = 0f;
-        if (skillData != null)
+        if (monsterData.HasSkill)
+        {
+            skillData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.SkillIndex == monsterData.MonsterSkillID);
             skillTimer = skillData.SkillCoolTime;
+        }   
     }
 
-    public void Setup(BaseMonster monster)
+    public void Setup(MonsterData data, MonsterSkillData skillData = null)
     {
-        this.monsterData = monster.monsterData;
-        if(skillData != null)
-            this.skillData = monster.skillData;
+        this.monsterData = data;
+        if (skillData != null)
+            this.skillData = skillData;
         else this.skillData = null;
         init();
     }
@@ -101,6 +104,7 @@ public class BaseMonster : MonoBehaviour
             if (skillTimer <= 0)
             {
                 MonsterSkill();
+                skillTimer = skillData.SkillCoolTime;
             }
         }
     }

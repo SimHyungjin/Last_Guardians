@@ -14,6 +14,7 @@ public class BountyMonster : BaseMonster
     protected override void MonsterSkill()
     {
         Debug.Log($"현상금몬스터 {skillData.name} 사용");
+        skillData.UseSkill();
         skillTimer = skillData.SkillCoolTime;
     }
 

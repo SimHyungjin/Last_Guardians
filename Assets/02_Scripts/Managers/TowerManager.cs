@@ -6,5 +6,5 @@ public class TowerManager : Singleton<TowerManager>
 {
     public DeckHandler hand;
     public TowerCombinationData towerCombinationData;
-    public TowerConstructer towerConstructer;
+    public Towerbuilder towerbuilder;
 }

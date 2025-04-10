@@ -8,15 +8,15 @@ using UnityEngine.InputSystem;
 public class Tower : MonoBehaviour
 {
     public TowerData towerdata;
-    public GameObject towerGhost;
+    public GameObject towerGhostPrefab;
     public bool isMoving;
 
+    private GameObject towerGhost;
     private SpriteRenderer sprite;
     Vector2 curPos;
 
     public void Init(int index)
     {
-        Debug.Log("Init");
         string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
         towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
@@ -81,7 +81,7 @@ public class Tower : MonoBehaviour
             if (collider != currentCollider)
             {
                 Tower targetTower = collider.GetComponent<Tower>();
-                //TowerManager.Instance.towerConstructer.TowerCombine(this, targetTower);
+                //TowerManager.Instance.towerbuilder.TowerCombine(this, targetTower);
                 sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
                 Destroy(towerGhost);
                 return;

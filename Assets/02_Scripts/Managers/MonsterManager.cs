@@ -12,7 +12,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private List<BaseMonster> prefabs;
 
-    private BaseMonster monster;
+    //private BaseMonster monster;
     private int currentWaveIndex = 0;
 
     private int currentWaveMonsterCount = 0;
@@ -73,8 +73,9 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void SpawnMonster(int monsterIndex, int waveLevel)
     {
-        monster = PoolManager.Instance.Spawn(prefabs.Find(a => a.GetMonsterID() == monsterIndex), spawnPoint[waveLevel%2]);
+        BaseMonster monster = PoolManager.Instance.Spawn(prefabs.Find(a => a.GetMonsterID() == monsterIndex), spawnPoint[waveLevel%2]);
         monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+        Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         alliveCount++;
         spawnCount++;
     }

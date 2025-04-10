@@ -14,7 +14,7 @@ public class BaseMonster : MonoBehaviour
     public float DefModifier { get; set; } = 1f;
 
     //몬스터 공격관련
-    [SerializeField] private float meleeAttackRange;
+    private float meleeAttackRange;
     protected float attackDelay = 3f;
     protected float attackTimer = 0f;
     private bool isAttack = false;

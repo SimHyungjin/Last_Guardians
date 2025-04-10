@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6986157115480444599}
   - component: {fileID: 9192829552925082777}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: DemonicShieldbearer
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 8.9, y: 4.65}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -149,7 +149,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: abb0e4404132b76439bf737cd5575ab0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ed83f943d5a0366409bbc04a233c9458, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -172,12 +172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86feb34b3a30788439a9ea8aea2d78db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 0f9e7acc73f935147bc013d3499c3841, type: 2}
+  monsterData: {fileID: 11400000, guid: 7e7c9587a55ad634da98ffa3c515d10a, type: 2}
   skillData: {fileID: 0}
-  meleeAttackRange: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!195 &9192829552925082777
 NavMeshAgent:
   m_ObjectHideFlags: 0

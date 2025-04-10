@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b484b7857f378444b0be21e7043d212, type: 3}
   m_Name: "\uB9C8\uC871 \uD751\uB9C8\uBC95\uC0AC"
   m_EditorClassIdentifier: 
-  monsterIndex: 0
+  monsterIndex: 102
   monsterName: "\uB9C8\uC871 \uD751\uB9C8\uBC95\uC0AC"
-  monsterHP: 0
-  monsterSpeed: 0
+  monsterHP: 650
+  monsterSpeed: 0.9
   monsterDamage: 15
   monsterDef: 5
   exp: 120

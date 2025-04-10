@@ -56,6 +56,9 @@ public class BaseMonster : MonoBehaviour
     //방어력증가 필드
     private float buffDefDuration;
     private Coroutine buffDefCorutine;
+    //이동속도 증가 필드
+    private float buffSpeedDuration;
+    private Coroutine buffSpeedCorutine;
 
     private void Awake()
     {
@@ -82,13 +85,22 @@ public class BaseMonster : MonoBehaviour
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         CurrentDef = monsterData.MonsterDef;
+        BuffDefModifier = 1f;
+        BuffSpeedModifier = 1f;
+        DeBuffSpeedModifier = 1f;
+        DeBuffDefModifier = 1f;
+        buffDefDuration = 0f;
+        buffSpeedDuration = 0f;
+        reducDefDuration = 0f;
+        slowDownDuration = 0f;
+        dotDuration = 0f;
+        sturnDuration = 0f;
+        attackTimer = 0f;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
         isAttack = false;
         isSturn = false;
-        dotDuration = 0f;
-        sturnDuration = 0f;
-        attackTimer = 0f;
+        
         if (monsterData.HasSkill)
         {
             skillData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.SkillIndex == monsterData.MonsterSkillID);
@@ -295,7 +307,7 @@ public class BaseMonster : MonoBehaviour
 
             slowDownDuration -= 0.1f;
         }
-        DeBuffDefModifier = 1f;
+        DeBuffSpeedModifier = 1f;
         agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
         slowDownCorutine = null;
         slowDownDuration = 0f;
@@ -376,5 +388,40 @@ public class BaseMonster : MonoBehaviour
         CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
         buffDefCorutine = null;
         buffDefDuration = 0f;
+    }
+
+    //이동속도 버프
+    public void ApplySpeedBuff(float duration, float amount)
+    {
+
+        if (buffSpeedCorutine != null)
+        {
+            buffSpeedDuration = Mathf.Max(buffSpeedDuration, duration);
+            BuffSpeedModifier = Mathf.Max(BuffSpeedModifier, amount);
+        }
+        else
+        {
+            buffSpeedDuration = duration;
+            BuffSpeedModifier = amount;
+            if (gameObject.activeSelf)
+                buffSpeedCorutine = StartCoroutine(BuffSpeedOver());
+        }
+    }
+
+    private IEnumerator BuffSpeedOver()
+    {
+
+        while (buffSpeedDuration > 0)
+        {
+            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+            Debug.Log($"스피드버프적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
+            yield return zeropointone;
+
+            slowDownDuration -= 0.1f;
+        }
+        BuffSpeedModifier = 1f;
+        agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        buffSpeedCorutine = null;
+        buffSpeedDuration = 0f;
     }
 }

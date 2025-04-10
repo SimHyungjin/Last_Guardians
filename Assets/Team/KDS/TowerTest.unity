@@ -24729,14 +24729,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildBlockMask:
     serializedVersion: 2
-    m_Bits: 0
-  dummytowerPrefab: {fileID: 3515763323643818898, guid: a536b6560daefe44ead0c1fb09ee0982, type: 3}
+    m_Bits: 1152
+  CheakedTower: {fileID: 0}
+  towerPrefab: {fileID: 3515763323643818898, guid: a536b6560daefe44ead0c1fb09ee0982, type: 3}
   ghostTowerPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  isCardMoving: 0
   spawnPoint:
   - {fileID: 48209079}
   - {fileID: 1018054542}
   targetPosition: {fileID: 4918445805338994667}
-  isMoving: 0
 --- !u!4 &7134004687146442990 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8029315675317078887, guid: 295546073aee1fa4a8ae1b5045d970d2, type: 3}

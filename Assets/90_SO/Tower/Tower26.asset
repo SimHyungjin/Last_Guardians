@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
+  m_Name: Tower26
+  m_EditorClassIdentifier: 
+  towerGhostPrefab: {fileID: 0}
+  towerSprite: {fileID: 0}
+  towerIndex: 26
+  towerName: "\uD654\uC5FC \uAD81\uC218 \uD0C0\uC6CC"
+  attackPower: 27
+  attackSpeed: 1.2
+  attackRange: 4
+  towerType: 2
+  projectileType: 1
+  specialEffect: 0
+  effectChance: 0.2
+  effectDuration: 3
+  effectValue: 4
+  effectTarget: 0
+  effectTargetCount: 1
+  bossImmune: 0
+  upgradeLevel: 1
+  towerDescription: "3\uCD08 \uB3D9\uC548 20%\uC758 \uD655\uB960\uB85C \uD654\uC5FC
+    \uC9C0\uC18D \uD53C\uD574"

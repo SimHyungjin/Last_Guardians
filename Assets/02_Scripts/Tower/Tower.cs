@@ -10,9 +10,10 @@ public class Tower : MonoBehaviour
     public TowerData towerdata;
     public GameObject towerGhostPrefab;
     public bool isMoving;
+    public bool isCliked;
 
     private GameObject towerGhost;
-    private SpriteRenderer sprite;
+    public SpriteRenderer sprite;
     Vector2 curPos;
 
     public void Init(int index)
@@ -40,56 +41,29 @@ public class Tower : MonoBehaviour
 
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-#else
-    if (Input.touchCount > 0 && EventSystem.current != null &&
-        EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
-#endif
-
-        curPos = InputManager.Instance.GetTouchWorldPosition();
-
-        Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"));
-        if (hit != null && hit.gameObject == this.gameObject)
+        if (!isCliked)
         {
-            MoveTowerStart();
+            curPos = InputManager.Instance.GetTouchWorldPosition();
+            Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"));
+            if (hit != null && hit.gameObject == this.gameObject)
+            {
+                isCliked = true;
+                TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
+            }
         }
     }
 
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
-        if (isMoving)
+        if (isCliked)
         {
-            isMoving = false;
-            MoveTowerEnd();
-        }
-    }
-    public void MoveTowerStart()
-    {
-        isMoving = true;
-        towerGhost = Instantiate(towerdata.towerGhostPrefab, curPos, Quaternion.identity);
-        towerGhost.GetComponent<SpriteRenderer>().sprite = towerdata.towerSprite;
-        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.3f);
-    }
-    public void MoveTowerEnd()
-    {
-        curPos = InputManager.Instance.GetTouchWorldPosition();
-        Collider2D currentCollider = GetComponent<Collider2D>();
-        Collider2D[] colliders = Physics2D.OverlapPointAll(curPos, LayerMask.GetMask("Tower"));
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider != currentCollider)
+            isCliked = false;
+            TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
+            if (TowerManager.Instance.towerbuilder.CanTowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition()))
             {
-                Tower targetTower = collider.GetComponent<Tower>();
-                //TowerManager.Instance.towerbuilder.TowerCombine(this, targetTower);
-                sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
-                Destroy(towerGhost);
-                return;
+                TowerManager.Instance.towerbuilder.TowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
             }
         }
-        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
-        Destroy(towerGhost);
-        towerGhost = null;
     }
     private void OnDestroy()
     {

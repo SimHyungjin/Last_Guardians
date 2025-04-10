@@ -20,7 +20,6 @@ public class SelectionController : MonoBehaviour
         if (selectedSlot != null)
         {
             selectedSlot.SetSelected(false);
-            selectedSlot.Clear();
             selectedSlot = null;
         }
         itemPopupController.Close();

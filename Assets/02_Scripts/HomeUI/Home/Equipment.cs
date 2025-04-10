@@ -17,39 +17,18 @@ public class Equipment
     public float totalDefense { get; private set; }
     public List<int> specialEffectIDs { get; private set; } = new();
 
-    public void Init()
-    {
-        equipmentSlotContainer = Utils.InstantiateComponentFromResource<EquipmentSlotContainer>("UI/Equipment", HomeManager.Instance.canvas.transform);
-    }
 
     public void Equip(EquipmentData data)
     {
         if (data == null) return;
-
-        if (equipped.TryGetValue(data.equipType, out var currentEquip))
-        {
-            UnEquip(currentEquip);
-        }
-
         equipped[data.equipType] = data;
-        HomeManager.Instance.selectedSlot.EffectEnable();
         RecalculateStats();
     }
 
     public void UnEquip(EquipmentData data)
     {
         if (data == null) return;
-
         equipped.Remove(data.equipType);
-        var slots = HomeManager.Instance.inventory.GetSlotContainer().GetSlots();
-        foreach (var slot in slots)
-        {
-            if (slot.Getdata() == data)
-            {
-                slot.EffectDisable();
-                break;
-            }
-        }
         RecalculateStats();
     }
 

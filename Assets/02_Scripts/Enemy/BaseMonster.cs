@@ -121,24 +121,9 @@ public class BaseMonster : MonoBehaviour
         if(!isAttack)
             Move();
 
-        if(Physics2D.OverlapCircle(this.transform.position,meleeAttackRange,targetLayer))
+        if(!isAttack && Physics2D.OverlapCircle(this.transform.position,meleeAttackRange,targetLayer))
         {
             isAttack = true;
-            //레이캐스트 쏘기
-            /*hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, meleeAttackRange, targetLayer);
-            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, meleeAttackRange, targetLayer);
-            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, meleeAttackRange, targetLayer);
-            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, meleeAttackRange, targetLayer);
-            foreach (var hit in hit)
-            {
-                if (hit.collider != null)
-                {
-                    isAttack = true;
-                    break;
-                }
-            }*/
-
-            
         }
         
     }

@@ -55,7 +55,12 @@ public class MonsterSkillData : ScriptableObject
 
     public void UseSkill()
     {
-
+        switch (SkillType)
+        {
+            case MonsterSkillType.Summon:
+                //PoolManager.Instance.Spawn(MonsterManager.Instance.NormalPrefabs)
+                break;
+        }
     }
 }
 

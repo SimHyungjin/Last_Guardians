@@ -10,9 +10,9 @@ public class MonsterManager : Singleton<MonsterManager>
     [SerializeField] private Transform[] target;
     [SerializeField] private List<MonsterWaveData> datas;
 
-    private List<NormalEnemy> NormalPrefabs;
-    private List<BossMonster> BossPrefabs;
-    private List<BountyMonster> BountyPrefabs;
+    public List<NormalEnemy> NormalPrefabs { get; private set; }
+    public List<BossMonster> BossPrefabs { get; private set; }
+    public List<BountyMonster> BountyPrefabs { get; private set; }
 
     //private BaseMonster monster;
     private int currentWaveIndex = 0;

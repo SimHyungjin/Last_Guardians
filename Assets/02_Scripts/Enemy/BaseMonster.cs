@@ -270,9 +270,10 @@ public class BaseMonster : MonoBehaviour
 
     private IEnumerator SlowDownOver(float amount)
     {
-        agent.speed = agent.speed * (1 - amount);
+        
         while (slowDownDuration > 0)
         {
+            agent.speed = monsterData.MonsterSpeed * (1 - amount);
             Debug.Log($"슬로우적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
             yield return zeropointone;
 
@@ -293,7 +294,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            duration = reducDefDuration;
+            reducDefDuration = duration;
             DefModifier = amount;
             if (gameObject.activeSelf)
                 reduceDefCorutine = StartCoroutine(DefDownOver(DefModifier));
@@ -302,9 +303,10 @@ public class BaseMonster : MonoBehaviour
 
     private IEnumerator DefDownOver(float amount)
     {
-        CurrentDef = CurrentDef * (1 - amount);
+        
         while (reducDefDuration > 0)
         {
+            CurrentDef = monsterData.MonsterDef * (1 - amount);
             Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
             yield return zeropointone;
 

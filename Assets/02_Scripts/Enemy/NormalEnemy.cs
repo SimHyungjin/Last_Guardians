@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NormalEnemy : BaseMonster
+{
+    protected override void Attack()
+    {
+        base.Attack();
+        Debug.Log("노말공격");
+        attackTimer = attackDelay;
+    }
+
+    protected override void Death()
+    {
+        base.Death();
+        PoolManager.Instance.Despawn(this);
+    }
+}

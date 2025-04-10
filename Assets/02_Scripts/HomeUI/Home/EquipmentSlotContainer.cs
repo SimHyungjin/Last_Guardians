@@ -21,7 +21,6 @@ public class EquipmentSlotContainer : MonoBehaviour
         if (slots.TryGetValue(type, out var slot))
         {
             slot.SetData(data);
-            slot.SetEquipped(true);
         }
     }
 

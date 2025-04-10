@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 
 public class Equipment
 {
-    public EquipmentData curEquippedData;
-    public EquipmentSlotContainer equipmentSlotContainer;
-
     private Dictionary<EquipType, EquipmentData> equipped = new();
+    public event Action OnEquipmentChanged;
 
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
@@ -15,34 +14,31 @@ public class Equipment
     public float totalPenetration { get; private set; }
     public float totalMoveSpeed { get; private set; }
     public float totalDefense { get; private set; }
-    public List<int> specialEffectIDs { get; private set; } = new();
+    public float specialEffectIDs { get; private set; }
+    public int specialEffectCount { get; private set; }
 
+    public IReadOnlyDictionary<EquipType, EquipmentData> EquippedItems => equipped;
 
     public void Equip(EquipmentData data)
     {
         if (data == null) return;
+        if (equipped.TryGetValue(data.equipType, out var cur) && cur == data) return;
+
         equipped[data.equipType] = data;
         RecalculateStats();
     }
 
     public void UnEquip(EquipmentData data)
     {
-        if (data == null) return;
+        if (data == null || !equipped.ContainsKey(data.equipType)) return;
         equipped.Remove(data.equipType);
         RecalculateStats();
     }
 
     void RecalculateStats()
     {
-        totalAttack = 0;
-        totalAttackSpeed = 0;
-        totalAttackRange = 0;
-        totalCriticalChance = 0;
-        totalCriticalDamage = 0;
-        totalPenetration = 0;
-        totalMoveSpeed = 0;
-        totalDefense = 0;
-        specialEffectIDs.Clear();
+        totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
+            totalCriticalDamage = totalPenetration = totalMoveSpeed = totalDefense = 0;
 
         foreach (var data in equipped.Values)
         {
@@ -56,25 +52,10 @@ public class Equipment
             totalPenetration += data.penetration;
             totalMoveSpeed += data.moveSpeed;
             totalDefense += data.defense;
-
-            if (data.specialEffectID != 0)
-                specialEffectIDs.Add(data.specialEffectID);
+            specialEffectCount = data.specialEffectID > 0 ? 1 : 0;
         }
     }
 
-    public EquipmentData GetEquipped(EquipType type)
-    {
-        equipped.TryGetValue(type, out var data);
-        return data;
-    }
-
-    public bool IsEquipped(EquipmentData data)
-    {
-        if (data == null) return false;
-
-        var equippedData = GetEquipped(data.equipType);
-        return equippedData == data;
-    }
-
-    public IReadOnlyDictionary<EquipType, EquipmentData> GetAllEquipped() => equipped;
+    public bool IsEquipped(EquipmentData data) =>
+        data != null && equipped.TryGetValue(data.equipType, out var d) && d == data;
 }

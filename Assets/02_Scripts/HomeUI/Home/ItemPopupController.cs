@@ -20,6 +20,7 @@ public class ItemPopupController : MonoBehaviour
         equipment = HomeManager.Instance.equipment;
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
+        root.SetActive(false);
     }
 
     public void Open(Slot slot)

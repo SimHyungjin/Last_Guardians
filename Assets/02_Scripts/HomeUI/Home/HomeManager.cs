@@ -2,23 +2,26 @@ using UnityEngine;
 
 public class HomeManager : Singleton<HomeManager>
 {
-    public Inventory inventory { get; private set; }
-    public Equipment equipment { get; private set; }
-    public EquipmentSlotContainer equipmentSlotContainer { get; private set; }
-    public SelectionController selectionController { get; private set; }
+    public Inventory inventory;
+    public Equipment equipment;
+
+    public EquipmentSlotContainer equipmentSlotContainer;
+    public InventorySlotContainer inventorySlotContainer;
+
+    public SelectionController selectionController;
+    public ItemPopupController itemPopupController;
 
     private void Awake()
     {
-        var canvas = Utils.InstantiateComponentFromResource<Canvas>("UI/Canvas", transform);
+        equipment ??= new();
 
-        selectionController = Utils.InstantiateComponentFromResource<SelectionController>("UI/SelectionController", canvas.transform);
-        var popup = Utils.InstantiateComponentFromResource<ItemPopupController>("UI/ItemPopup", canvas.transform);
-        selectionController.GetType().GetField("itemPopupController", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            ?.SetValue(selectionController, popup);
-
-        equipment = new Equipment();
-        equipmentSlotContainer = Utils.InstantiateComponentFromResource<EquipmentSlotContainer>("UI/Equipment", canvas.transform);
-
+        var canvas = Utils.InstantiatePrefabFromResource("UI/Canvas", this.transform);
         inventory = Utils.InstantiateComponentFromResource<Inventory>("UI/Inventory", canvas.transform);
+        GameObject equipmentObj = Utils.InstantiatePrefabFromResource("UI/Equipment", canvas.transform);
+        GameObject itemConnecterObj = Utils.InstantiatePrefabFromResource("UI/ItemConnecter", canvas.transform);
+        selectionController = itemConnecterObj.GetComponentInChildren<SelectionController>();
+        itemPopupController = itemConnecterObj.GetComponentInChildren<ItemPopupController>();
+        equipmentSlotContainer = equipmentObj.GetComponentInChildren<EquipmentSlotContainer>();
+        inventorySlotContainer = inventory.GetComponentInChildren<InventorySlotContainer>();
     }
 }

@@ -11,6 +11,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     private ItemData data;
 
+    private void Awake()
+    {
+        icon = GetComponent<Image>();
+    }
+
     public void SetData(ItemData newData)
     {
         data = newData;

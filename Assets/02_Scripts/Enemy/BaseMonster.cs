@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class BaseMonster : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class BaseMonster : MonoBehaviour
     private void init()
     {
         meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
+        Debug.Log(meleeAttackRange);
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         agent.isStopped = false;
@@ -62,6 +64,7 @@ public class BaseMonster : MonoBehaviour
         isAttack = false;
         dotDuration = 0f;
         sturnDuration = 0f;
+        attackTimer = 0f;
         if (skillData != null)
             skillTimer = skillData.SkillCoolTime;
     }
@@ -102,6 +105,11 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(this.transform.position, meleeAttackRange);
+    }
+
     private void FixedUpdate()
     {
         //왼쪽 오른쪽 뒤집기
@@ -113,10 +121,11 @@ public class BaseMonster : MonoBehaviour
         if(!isAttack)
             Move();
 
-        if(!isAttack)
+        if(Physics2D.OverlapCircle(this.transform.position,meleeAttackRange,targetLayer))
         {
+            isAttack = true;
             //레이캐스트 쏘기
-            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, meleeAttackRange, targetLayer);
+            /*hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, meleeAttackRange, targetLayer);
             hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, meleeAttackRange, targetLayer);
             hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, meleeAttackRange, targetLayer);
             hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, meleeAttackRange, targetLayer);
@@ -127,7 +136,9 @@ public class BaseMonster : MonoBehaviour
                     isAttack = true;
                     break;
                 }
-            }
+            }*/
+
+            
         }
         
     }

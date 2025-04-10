@@ -10,9 +10,12 @@ public class MonsterManager : Singleton<MonsterManager>
     [SerializeField] private Transform[] target;
     [SerializeField] private List<MonsterWaveData> datas;
 
-    public List<NormalEnemy> NormalPrefabs { get; private set; }
-    public List<BossMonster> BossPrefabs { get; private set; }
-    public List<BountyMonster> BountyPrefabs { get; private set; }
+    public NormalEnemy NormalPrefab { get; private set; }
+    public BossMonster BossPrefab { get; private set; }
+    public BountyMonster BountyPrefab { get; private set; }
+
+    public List<MonsterData> MonsterDatas { get; private set; }
+    public List<MonsterSkillData> MonsterSkillDatas { get; private set; }
 
     //private BaseMonster monster;
     private int currentWaveIndex = 0;
@@ -77,17 +80,17 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         if(monsterIndex >=0 && monsterIndex <= 100)
         {
-            NormalEnemy prefab = NormalPrefabs.Find(a => a.GetMonsterID() == monsterIndex);
-            NormalEnemy monster = PoolManager.Instance.Spawn(prefab, spawnPoint[waveLevel % 2]);
-            monster.Setup(prefab);
+            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
+            NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
+            monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
         else if(monsterIndex >= 101 && monsterIndex <=200)
         {
-            BossMonster prefab = BossPrefabs.Find(a => a.GetMonsterID() == monsterIndex);
-            BossMonster monster = PoolManager.Instance.Spawn(prefab, spawnPoint[waveLevel % 2]);
-            monster.Setup(prefab);
+            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
+            BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
+            monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
@@ -110,12 +113,13 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void InitMonsters()
     {
-        NormalPrefabs = Resources.LoadAll<NormalEnemy>("Enemy/Normal").ToList();
-        NormalPrefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
-        BossPrefabs = Resources.LoadAll<BossMonster>("Enemy/Boss").ToList();
-        BossPrefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
-        BountyPrefabs = Resources.LoadAll<BountyMonster>("Enemy/Bounty").ToList();
-        BountyPrefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
+        NormalPrefab = Resources.Load<NormalEnemy>("Enemy/Normal/NormalMonster");
+        BossPrefab = Resources.Load<BossMonster>("Enemy/Boss/BossMonster");
+        BountyPrefab = Resources.Load<BountyMonster>("Enemy/Bounty/BountyMonster");
+        MonsterDatas = Resources.LoadAll<MonsterData>("Enemy/MonsterSO").ToList();
+        MonsterDatas.Sort((a, b) => a.MonsterIndex.CompareTo(b.MonsterIndex));
+        MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("Enemy/SkillSO").ToList();
+        MonsterSkillDatas.Sort((a, b) => a.SkillIndex.CompareTo(b.SkillIndex));
     }
 
     public void TestKill()
@@ -145,6 +149,26 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
             ba.ApplySturn(10f, 5f);
+        }
+    }
+
+    public void TestSlow()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplySlowdown(5f, 0.2f);
+        }
+    }
+
+    public void TestDef()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplyReducionDef(5f, 0.2f);
         }
     }
 }

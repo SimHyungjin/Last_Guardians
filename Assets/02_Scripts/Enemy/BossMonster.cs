@@ -14,6 +14,7 @@ public class BossMonster : BaseMonster
     protected override void MonsterSkill()
     {
         Debug.Log($"{monsterData.name} {skillData.name} 사용");
+        skillData.UseSkill();
         skillTimer = skillData.SkillCoolTime;
     }
 

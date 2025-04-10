@@ -5,12 +5,14 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.U2D;
 
 public class Towerbuilder : MonoBehaviour
 {
     [Header("타워 조합")]
     [SerializeField] private LayerMask buildBlockMask;
-    public Tower CheakedTower = null;
+    public Tower cheakedTower = null;
+    public Tower clikedTower = null;
 
     [Header("마우스이동")]
     private TowerCombinationData towerCombinationData;
@@ -18,6 +20,7 @@ public class Towerbuilder : MonoBehaviour
     public GameObject ghostTowerPrefab;
     private GameObject ghostTower;
     public bool isCardMoving;
+    public bool isTowerMoving;
 
     [Header("이동경로파악")]
     public Transform[] spawnPoint;
@@ -37,86 +40,50 @@ public class Towerbuilder : MonoBehaviour
     {
         if (isCardMoving)
         {
-            if (ghostTower == null)
-            {
-                ghostTower = Instantiate(ghostTowerPrefab);
-                ghostTower.transform.position = PostionArray(InputManager.Instance.GetTouchWorldPosition());
-                SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
-                GetSprite(TowerManager.Instance.hand.HighlightedIndex);
-            }
-            else
-            {
-                if (Time.time - lastCheckTime < checkCooldown) return;
-                Vector2 currentTile = PostionArray(InputManager.Instance.GetTouchWorldPosition());
-                if (currentTile != lastCheckedTile)
-                {
-                    if (CheakedTower != null)
-                    {
-                        Color precolor = CheakedTower.GetComponent<SpriteRenderer>().color;
-                        precolor.a = 1.0f;
-                        CheakedTower.GetComponent<SpriteRenderer>().color = precolor;
-                        CheakedTower = null;
-                        GetSprite(TowerManager.Instance.hand.HighlightedIndex);
-                    }
-
-                    lastCheckTime = Time.time;
-                    lastCheckedTile = currentTile;
-                    ghostTower.transform.position = currentTile;
-                    
-                    StartCoroutine(CanConstructCoroutine(
-                        currentTile,
-                        (canPlace) =>
-                        {
-                            if (canPlace)
-                            {
-                                ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
-                            }
-                            else if(CanCardToTowerCombine(currentTile, TowerManager.Instance.hand.HighlightedIndex))
-                            {
-                                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
-                                CheakedTower = hit.GetComponent<Tower>();
-                                Color precolor = CheakedTower.GetComponent<SpriteRenderer>().color;
-                                precolor.a = 0.0f;
-                                CheakedTower.GetComponent<SpriteRenderer>().color = precolor;
-                                GetSprite(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, CheakedTower.towerdata.TowerIndex));
-                                ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
-                            }
-                            else
-                            {
-                                ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.3f);
-                            }
-                        }));
-                }
-            }
+            HandCardMoving();
+        }
+        else if (isTowerMoving)
+        {
+            HandleTowerMovig();
         }
         else
         {
-            if (ghostTower != null)
-            {
-                Destroy(ghostTower);
-                ghostTower = null;
-            }
+            ResetMoving();
         }
     }
+
     public void ChangeCardMove()
     {
-        Debug.Log("ChangeCardMove");
         isCardMoving = !isCardMoving;
     }
-    public void TowerToTowerCombine()
-    {
 
+    public void ChangeTowerMove(Tower _cilkedTower)
+    {
+        clikedTower = _cilkedTower;
+        isTowerMoving = !isTowerMoving;
     }
+
+    public void TowerToTowerCombine(Vector2 curPos)
+    {
+        Vector2 CombinePos = PostionArray(curPos);
+        int combineTowerIndex = towerCombinationData.TryCombine(clikedTower.towerdata.TowerIndex, cheakedTower.towerdata.TowerIndex);
+        Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
+        combineTower.Init(combineTowerIndex);
+        Destroy(cheakedTower.gameObject);
+        cheakedTower = null;
+        Destroy(clikedTower.gameObject);
+        clikedTower = null;
+    }
+
     public void CardToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
-        int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, CheakedTower.towerdata.TowerIndex);
+        int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerdata.TowerIndex);
         Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
         combineTower.Init(combineTowerIndex);
-        Destroy(TowerManager.Instance.towerbuilder.CheakedTower.gameObject);
-        TowerManager.Instance.towerbuilder.CheakedTower = null;
+        Destroy(cheakedTower.gameObject);
+        cheakedTower = null;
     }
-
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
     {
         Vector2 constructPos = PostionArray(curPos);
@@ -160,6 +127,7 @@ public class Towerbuilder : MonoBehaviour
         Debug.Log(hit);
         return hit != null;
     }
+
     public bool CanCardToTowerCombine(Vector2 tilePos,int cardIndex)
     {
         Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
@@ -168,6 +136,32 @@ public class Towerbuilder : MonoBehaviour
         else towerIndex = hit.GetComponent<Tower>().towerdata.TowerIndex;
         return hit != null? towerCombinationData.TryCombine(towerIndex, cardIndex)!=-1:false;
     }
+
+    public bool CanTowerToTowerCombine(Vector2 tilePos)
+    {
+        Debug.Log("합성 테스트 시작");
+
+        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
+        if (hit == null)
+        {
+            return false;
+        }
+        Tower tower = hit.GetComponent<Tower>();
+        if (tower == null)
+        {
+            return false;
+        }
+        if (tower == clikedTower)
+        {
+            return false;
+        }
+        int towerIndex = tower.towerdata.TowerIndex;
+        Debug.Log(towerCombinationData.TryCombine(towerIndex, clikedTower.towerdata.TowerIndex));
+        return towerCombinationData.TryCombine(towerIndex, clikedTower.towerdata.TowerIndex) != -1;
+    }
+
+
+
     public Vector2 PostionArray(Vector2 pos)
     {
         return new Vector2(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
@@ -178,5 +172,113 @@ public class Towerbuilder : MonoBehaviour
         string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
         TowerData towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
         ghostTower.GetComponent<SpriteRenderer>().sprite = towerdata.towerSprite;
+    }
+
+    private void HandCardMoving()
+    {
+        if (ghostTower == null)
+        {
+            ghostTower = Instantiate(ghostTowerPrefab);
+            ghostTower.transform.position = PostionArray(InputManager.Instance.GetTouchWorldPosition());
+            SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
+            GetSprite(TowerManager.Instance.hand.HighlightedIndex);
+        }
+        else
+        {
+            if (Time.time - lastCheckTime < checkCooldown) return;
+            Vector2 currentTile = PostionArray(InputManager.Instance.GetTouchWorldPosition());
+            if (currentTile != lastCheckedTile)
+            {
+                if (cheakedTower != null)
+                {
+                    Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
+                    precolor.a = 1.0f;
+                    cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
+                    cheakedTower = null;
+                    GetSprite(TowerManager.Instance.hand.HighlightedIndex);
+                }
+
+                lastCheckTime = Time.time;
+                lastCheckedTile = currentTile;
+                ghostTower.transform.position = currentTile;
+
+                StartCoroutine(CanConstructCoroutine(
+                    currentTile,
+                    (canPlace) =>
+                    {
+                        if (canPlace)
+                        {
+                            ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+                        }
+                        else if (CanCardToTowerCombine(currentTile, TowerManager.Instance.hand.HighlightedIndex))
+                        {
+                            Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
+                            cheakedTower = hit.GetComponent<Tower>();
+                            Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
+                            precolor.a = 0.0f;
+                            cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
+                            GetSprite(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerdata.TowerIndex));
+                            ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+                        }
+                        else
+                        {
+                            ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.3f);
+                        }
+                    }));
+            }
+        }
+    }
+
+    private void HandleTowerMovig()
+    {
+        if (clikedTower != null && ghostTower == null)
+        {
+            ghostTower = Instantiate(ghostTowerPrefab);
+            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerdata.towerSprite;
+            clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 0.3f);
+        }
+        else
+        {
+            Vector2 currentTile = PostionArray(InputManager.Instance.GetTouchWorldPosition());
+            if (currentTile != lastCheckedTile)
+            {
+                if (cheakedTower != null)
+                {
+                    Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
+                    precolor.a = 1.0f;
+                    cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
+                    cheakedTower = null;
+                    GetSprite(clikedTower.towerdata.TowerIndex);
+                    ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
+                }
+            }
+            ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
+            Debug.Log(currentTile);
+            if (CanTowerToTowerCombine(currentTile))
+            {
+                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
+                cheakedTower = hit.GetComponent<Tower>();
+                Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
+                precolor.a = 0.0f;
+                cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
+                ghostTower.transform.position = currentTile;
+                GetSprite(towerCombinationData.TryCombine(clikedTower.towerdata.TowerIndex, cheakedTower.towerdata.TowerIndex));
+                ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+            }
+        }
+    }
+
+    private void ResetMoving()
+    {
+        if (clikedTower != null)
+        {
+            clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 1f);
+            clikedTower = null;
+        }
+        if (ghostTower != null)
+        {
+            Destroy(ghostTower);
+            ghostTower = null;
+        }
     }
 }

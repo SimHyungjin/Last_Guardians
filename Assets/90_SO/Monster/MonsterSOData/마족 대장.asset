@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b484b7857f378444b0be21e7043d212, type: 3}
   m_Name: "\uB9C8\uC871 \uB300\uC7A5"
   m_EditorClassIdentifier: 
-  monsterIndex: 0
+  monsterIndex: 101
   monsterName: "\uB9C8\uC871 \uB300\uC7A5"
-  monsterHP: 0
-  monsterSpeed: 0
+  monsterHP: 800
+  monsterSpeed: 1
   monsterDamage: 20
   monsterDef: 5
   exp: 100
@@ -25,3 +25,4 @@ MonoBehaviour:
   hasSkill: 1
   monsterSkillID: 1
   monsterAttackPattern: 0
+  image: {fileID: 21300000, guid: 0f2481bb37423d84a8728e9affbeec08, type: 3}

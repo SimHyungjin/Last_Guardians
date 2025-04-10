@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BossMonster : BaseMonster
 {
-
     protected override void Attack()
     {
         base.Attack();
@@ -18,4 +17,9 @@ public class BossMonster : BaseMonster
         skillTimer = skillData.SkillCoolTime;
     }
 
+    protected override void Death()
+    {
+        base.Death();
+        PoolManager.Instance.Despawn(this);
+    }
 }

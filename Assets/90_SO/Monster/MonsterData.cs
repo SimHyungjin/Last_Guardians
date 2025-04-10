@@ -30,6 +30,7 @@ public class MonsterData : ScriptableObject
     [SerializeField] private bool hasSkill;
     [SerializeField] private int monsterSkillID;
     [SerializeField] private MonAttackPattern monsterAttackPattern;
+    [SerializeField] private Sprite image;
 
     public int MonsterIndex => monsterIndex;
     public string MonsterName => monsterName;
@@ -43,11 +44,14 @@ public class MonsterData : ScriptableObject
     public bool HasSkill => hasSkill;
     public int MonsterSkillID => monsterSkillID;
     public MonAttackPattern MonsterAttackPattern => monsterAttackPattern;
+    public Sprite Image => image;
 
-    public void SetData(int monsterIndex, string monsterName, float monsterSpeed, int monsterDamage, float monsterDef, int exp, string monsterDescription, MonType monsterType, bool hasSkill, int monsterSkillID, MonAttackPattern attackPattern)
+
+    public void SetData(int monsterIndex, string monsterName, float monsterHP,float monsterSpeed, int monsterDamage, float monsterDef, int exp, string monsterDescription, MonType monsterType, bool hasSkill, int monsterSkillID, MonAttackPattern attackPattern)
     {
         this.monsterIndex = monsterIndex;
         this.monsterName = monsterName;
+        this.monsterHP = monsterHP;
         this.monsterSpeed = monsterSpeed;
         this.monsterDamage = monsterDamage;
         this.monsterDef = monsterDef;

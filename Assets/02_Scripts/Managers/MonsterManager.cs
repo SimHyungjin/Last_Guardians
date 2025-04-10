@@ -10,9 +10,11 @@ public class MonsterManager : Singleton<MonsterManager>
     [SerializeField] private Transform[] target;
     [SerializeField] private List<MonsterWaveData> datas;
 
-    private List<BaseMonster> prefabs;
+    public List<NormalEnemy> NormalPrefabs { get; private set; }
+    public List<BossMonster> BossPrefabs { get; private set; }
+    public List<BountyMonster> BountyPrefabs { get; private set; }
 
-    private BaseMonster monster;
+    //private BaseMonster monster;
     private int currentWaveIndex = 0;
 
     private int currentWaveMonsterCount = 0;
@@ -73,8 +75,23 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void SpawnMonster(int monsterIndex, int waveLevel)
     {
-        monster = PoolManager.Instance.Spawn(prefabs.Find(a => a.GetMonsterID() == monsterIndex), spawnPoint[waveLevel%2]);
-        monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+        if(monsterIndex >=0 && monsterIndex <= 100)
+        {
+            NormalEnemy prefab = NormalPrefabs.Find(a => a.GetMonsterID() == monsterIndex);
+            NormalEnemy monster = PoolManager.Instance.Spawn(prefab, spawnPoint[waveLevel % 2]);
+            monster.Setup(prefab);
+            monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
+        }
+        else if(monsterIndex >= 101 && monsterIndex <=200)
+        {
+            BossMonster prefab = BossPrefabs.Find(a => a.GetMonsterID() == monsterIndex);
+            BossMonster monster = PoolManager.Instance.Spawn(prefab, spawnPoint[waveLevel % 2]);
+            monster.Setup(prefab);
+            monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
+        }
+            
         alliveCount++;
         spawnCount++;
     }
@@ -93,8 +110,12 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void InitMonsters()
     {
-        prefabs = Resources.LoadAll<BaseMonster>("Enemy").ToList();
-        prefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
+        NormalPrefabs = Resources.LoadAll<NormalEnemy>("Enemy/Normal").ToList();
+        NormalPrefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
+        BossPrefabs = Resources.LoadAll<BossMonster>("Enemy/Boss").ToList();
+        BossPrefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
+        BountyPrefabs = Resources.LoadAll<BountyMonster>("Enemy/Bounty").ToList();
+        BountyPrefabs.Sort((a, b) => a.GetMonsterID().CompareTo(b.GetMonsterID()));
     }
 
     public void TestKill()

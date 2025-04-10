@@ -37,6 +37,11 @@ public class SheetDownButton : Editor
         {
             fnc.StartMonsterDataSkillDownload(true);
         }
+
+        if (GUILayout.Button("Download MonsterWaveData"))
+        {
+            fnc.StartMonsterDataWaveDownload(true);
+        }
     }
 }
 
@@ -46,6 +51,7 @@ public class DataDownLoader : MonoBehaviour
     [SerializeField] private List<DataSO> abilityDataSO = new List<DataSO>();
     [SerializeField] private List<MonsterData> monsterDataSO = new List<MonsterData>();
     [SerializeField] private List<MonsterSkillData> monsterSkillDataSO = new List<MonsterSkillData>();
+    [SerializeField] private List<MonsterWaveData> monsterWaveDataSO = new List<MonsterWaveData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
     const string URL_DataSheet = "https://docs.google.com/spreadsheets/d/11uh3qkFXuMsowtu7qrmO66nYMx46C2P9UHh3c1eHVu4/export?format=tsv&range=A1:F6";
 
@@ -308,7 +314,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 3, endRow: 11, startCol: 0, endCol: 11);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 11, startCol: 0, endCol: 11);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyMonsterDataToSO(jsonData, renameFiles);
         }
@@ -329,10 +335,10 @@ public class DataDownLoader : MonoBehaviour
 
             int index = int.TryParse(row["monsterIndex"]?.ToString(), out int parsedindex) ? parsedindex : default;
             string dataname = row["monsterName"]?.ToString() ?? "";
-            int HP = int.TryParse(row["monsterHP"]?.ToString(), out int parsedHP) ? parsedHP : default;
+            float HP = float.TryParse(row["monsterHP"]?.ToString(), out float parsedHP) ? parsedHP : default;
             int damage = int.TryParse(row["monsterDamage"]?.ToString(), out int parseDamage) ? parseDamage : default;
-            int Speed = int.TryParse(row["monsterSpeed"]?.ToString(), out int parsedAttackSpeed) ? parsedAttackSpeed : default;
-            int Def = int.TryParse(row["monsterDef"]?.ToString(), out int parsedDefSpeed) ? parsedDefSpeed : default;
+            float Speed = float.TryParse(row["monsterSpeed"]?.ToString(), out float parsedAttackSpeed) ? parsedAttackSpeed : default;
+            float Def = float.TryParse(row["monsterDef"]?.ToString(), out float parsedDefSpeed) ? parsedDefSpeed : default;
             int exp = int.TryParse(row["exp"]?.ToString(), out int parsedexpSpeed) ? parsedexpSpeed : default;
             MonType monType = Enum.TryParse(row["monsterType"]?.ToString(), out MonType type) ? type : MonType.Standard;
             string description = row["monsterDescription"]?.ToString() ?? "";
@@ -358,7 +364,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameMonsterDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(index,dataname,Speed,damage,Def,exp,description,monType,hasSkill,monsterSkillID,pattern);
+            data.SetData(index,dataname,HP,Speed,damage,Def,exp,description,monType,hasSkill,monsterSkillID,pattern);
             EditorUtility.SetDirty(data);
         }
         AssetDatabase.SaveAssets();
@@ -547,6 +553,144 @@ public class DataDownLoader : MonoBehaviour
     }
 
     private void RenameMonsterSkillDataScriptableObjectFile(MonsterSkillData so, string newFileName)
+    {
+#if UNITY_EDITOR
+        string path = AssetDatabase.GetAssetPath(so);
+        string newPath = Path.GetDirectoryName(path) + "/" + newFileName + ".asset";
+
+        if (path != newPath)
+        {
+            AssetDatabase.RenameAsset(path, newFileName);
+
+            // 즉시 저장하여 반영
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+#endif
+    }
+
+    /////////////////////////////////몬스터웨이브테이블//////////////////////////////////////////////////////////////
+    const string URL_MonsterWavelData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=64629251";
+
+    public void StartMonsterDataWaveDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadMonsternWaveData(renameFiles));
+    }
+
+    private IEnumerator DownloadMonsternWaveData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_MonsterWavelData);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 12, startCol: 0, endCol: 12);
+            JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
+            ApplyMonsterWaveDataToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("데이터 가져오기 실패: " + www.error);
+        }
+    }
+
+    public void ApplyMonsterWaveDataToSO(JArray jsonData, bool renameFiles)
+    {
+        ClearAllMonsterWaveDataSO();
+        monsterWaveDataSO.Clear();
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            JObject row = (JObject)jsonData[i];
+
+            int index = int.TryParse(row["waveIndex"]?.ToString(), out int parsedindex) ? parsedindex : default;
+            int level = int.TryParse(row["waveLevel"]?.ToString(), out int parsedlevel) ? parsedlevel : default;
+            bool isBoss = bool.TryParse(row["isBoss"]?.ToString(), out bool parseBoss) ? parseBoss : false;
+            float waveDelay = float.TryParse(row["waveDelay"]?.ToString(), out float parsewaveDelay) ? parsewaveDelay : default;
+            float spwanDelay = float.TryParse(row["monsterSpawnInterval"]?.ToString(), out float parsespawnDelay) ? parsespawnDelay : default;
+            int mon1ID = int.TryParse(row["monster1ID"]?.ToString(), out int parsemon1ID) ? parsemon1ID : default;
+            int monster1Value = int.TryParse(row["monster1Value"]?.ToString(), out int parsemon1Value) ? parsemon1Value : default;
+            int mon2ID = int.TryParse(row["monster2ID"]?.ToString(), out int parsemon2ID) ? parsemon2ID : default;
+            int monster2Value = int.TryParse(row["monster2Value"]?.ToString(), out int parsemon2Value) ? parsemon2Value : default;
+            int mon3ID = int.TryParse(row["monster3ID"]?.ToString(), out int parsemon3ID) ? parsemon3ID : default;
+            int monster3Value = int.TryParse(row["monster3Value"]?.ToString(), out int parsemon3Value) ? parsemon3Value : default;
+            int mon4ID = int.TryParse(row["monster4ID"]?.ToString(), out int parsemon4ID) ? parsemon4ID : default;
+            int monster4Value = int.TryParse(row["monster4Value"]?.ToString(), out int parsemon4Value) ? parsemon4Value : default;
+
+            string dataname = $"{index}wave";
+
+            MonsterWaveData data = ScriptableObject.CreateInstance<MonsterWaveData>();
+
+            // 기존 SO 개수가 부족하면 새로 생성
+            if (i < monsterWaveDataSO.Count)
+            {
+                data = monsterWaveDataSO[i];
+            }
+            else
+            {
+                data = CreateMonsterWaveDataSO(dataname); // 새로운 SO 생성
+                monsterWaveDataSO.Add(data);
+            }
+
+            if (renameFiles)
+            {
+                RenameMonsterWaveDataScriptableObjectFile(data, dataname);
+            }
+
+            data.SetData(index,level,isBoss,waveDelay,spwanDelay,mon1ID,monster1Value,mon2ID,monster2Value,mon3ID,monster3Value,mon4ID,monster4Value);
+            EditorUtility.SetDirty(data);
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private void ClearAllMonsterWaveDataSO()
+    {
+        string folderPath = "Assets/90_SO/Monster/MonsterWaveSOData";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.LogWarning("SO 폴더가 존재하지 않음");
+            return;
+        }
+
+        string[] files = Directory.GetFiles(folderPath, "*.asset");
+
+        foreach (string file in files)
+        {
+            AssetDatabase.DeleteAsset(file);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private MonsterWaveData CreateMonsterWaveDataSO(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = "DefaultData";
+        }
+
+        MonsterWaveData newSO = ScriptableObject.CreateInstance<MonsterWaveData>();
+
+#if UNITY_EDITOR
+        string folderPath = "Assets/90_SO/Monster/MonsterWaveSOData";
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string assetPath = $"{folderPath}/{fileName}.asset";
+        AssetDatabase.CreateAsset(newSO, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+#endif
+        return newSO;
+    }
+
+    private void RenameMonsterWaveDataScriptableObjectFile(MonsterWaveData so, string newFileName)
     {
 #if UNITY_EDITOR
         string path = AssetDatabase.GetAssetPath(so);

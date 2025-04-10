@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class BaseMonster : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class BaseMonster : MonoBehaviour
     public float DefModifier { get; set; } = 1f;
 
     //몬스터 공격관련
-    [SerializeField] private float meleeAttackRange;
+    private float meleeAttackRange;
     protected float attackDelay = 3f;
     protected float attackTimer = 0f;
     private bool isAttack = false;
@@ -49,20 +50,32 @@ public class BaseMonster : MonoBehaviour
     private void OnEnable()
     {
         //오프젝트 풀에서 다시 꺼내졌을때 초기화
-        init();
+        //init();
     }
 
     private void init()
     {
         meleeAttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
+        Debug.Log(meleeAttackRange);
+        spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
         isAttack = false;
         dotDuration = 0f;
         sturnDuration = 0f;
+        attackTimer = 0f;
         if (skillData != null)
             skillTimer = skillData.SkillCoolTime;
+    }
+
+    public void Setup(BaseMonster monster)
+    {
+        this.monsterData = monster.monsterData;
+        if(skillData != null)
+            this.skillData = monster.skillData;
+        else this.skillData = null;
+        init();
     }
 
     private void Update()
@@ -92,6 +105,11 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(this.transform.position, meleeAttackRange);
+    }
+
     private void FixedUpdate()
     {
         //왼쪽 오른쪽 뒤집기
@@ -103,21 +121,9 @@ public class BaseMonster : MonoBehaviour
         if(!isAttack)
             Move();
 
-        if(!isAttack)
+        if(!isAttack && Physics2D.OverlapCircle(this.transform.position,meleeAttackRange,targetLayer))
         {
-            //레이캐스트 쏘기
-            hit[0] = Physics2D.Raycast(this.transform.position, Vector2.left, meleeAttackRange, targetLayer);
-            hit[1] = Physics2D.Raycast(this.transform.position, Vector2.up, meleeAttackRange, targetLayer);
-            hit[2] = Physics2D.Raycast(this.transform.position, Vector2.down, meleeAttackRange, targetLayer);
-            hit[3] = Physics2D.Raycast(this.transform.position, Vector2.right, meleeAttackRange, targetLayer);
-            foreach (var hit in hit)
-            {
-                if (hit.collider != null)
-                {
-                    isAttack = true;
-                    break;
-                }
-            }
+            isAttack = true;
         }
         
     }
@@ -134,14 +140,13 @@ public class BaseMonster : MonoBehaviour
         //타입별 몬스터에서 구현
     }
 
-    private void Death()
+    protected virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기
         StopAllCoroutines();
         sturnCorutine = null;
         dotDamageCorutine = null;
         MonsterManager.Instance.OnMonsterDeath();
-        PoolManager.Instance.Despawn(this);   
     }
 
     protected virtual void MonsterSkill()
@@ -233,4 +238,5 @@ public class BaseMonster : MonoBehaviour
         isSturn = false;
     }
 
+    
 }

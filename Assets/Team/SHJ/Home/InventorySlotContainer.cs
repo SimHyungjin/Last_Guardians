@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InventorySlotContainer : MonoBehaviour
 {
-    [SerializeField] private int slotNum = 10;
+    [SerializeField] private int slotNum = 50;
     private List<Slot> slots = new();
 
     public void Init()
@@ -15,14 +15,26 @@ public class InventorySlotContainer : MonoBehaviour
         }
     }
 
-    public void UpdateSlots(List<EquipemntData> view)
+    public void Display(List<ItemData> items)
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i < view.Count)
-                slots[i].SetData(view[i]);
+            if (i < items.Count)
+            {
+                slots[i].SetData(items[i]);
+
+                if (items[i] is EquipmentData eq)
+                    slots[i].SetEquipped(HomeManager.Instance.equipment.IsEquipped(eq));
+                else
+                    slots[i].SetEquipped(false);
+            }
             else
-                slots[i].ClearData();
+            {
+                slots[i].Clear();
+                slots[i].SetSelected(false);
+                slots[i].SetEquipped(false);
+                slots[i].SetGradeEffect(false);
+            }
         }
     }
 

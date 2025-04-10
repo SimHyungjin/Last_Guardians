@@ -8,9 +8,9 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private InventorySlotContainer slotContainer;
-    [SerializeField] private List<EquipemntData> inventory;
 
-    [SerializeField] private EquipType curInventory = EquipType.Count;
+    [SerializeField] private List<ItemData> inventory;
+    [SerializeField] private EquipType currentType = EquipType.Count;
 
     private void Awake()
     {
@@ -20,45 +20,35 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         slotContainer.Init();
-        UpdateCurInventory();
+        UpdateFilteredView();
     }
 
-    public void AddItem(EquipemntData itemdata)
+    public void AddItem(ItemData itemdata)
     {
         inventory.Add(itemdata);
-        UpdateCurInventory();
+        UpdateFilteredView();
     }
 
-    public void RemoveItem(EquipemntData itemdata)
+    public void RemoveItem(ItemData itemdata)
     {
         inventory.Remove(itemdata);
-        UpdateCurInventory();
+        UpdateFilteredView();
     }
 
-    public void SetInventoryType(EquipType type)
+    public void SetType(EquipType type)
     {
-        if (curInventory == type) return;
-        curInventory = type;
-        UpdateCurInventory();
+        if (currentType == type) return;
+        currentType = type;
+        HomeManager.Instance.selectionController.DeselectSlot();
+        UpdateFilteredView();
     }
 
-    public void UpdateCurInventory()
+    public void UpdateFilteredView()
     {
-        List<EquipemntData> curView = GetFilteredInventory(curInventory);
-        slotContainer.UpdateSlots(curView);
+        var viewList = currentType == EquipType.Count ? new List<ItemData>(inventory) : inventory.FindAll(x => x is EquipmentData y && y.equipType == currentType);
+        viewList.Sort((a, b) => b.itemGrade.CompareTo(a.itemGrade));
+        slotContainer.Display(viewList);
     }
 
-    public List<EquipemntData> GetFilteredInventory(EquipType type)
-    {
-        if (type < EquipType.Count)
-        {
-            List<EquipemntData> result = inventory.FindAll(item => item.equipType == type);
-            result.Sort((a, b) => b.itemGrade.CompareTo(a.itemGrade));
-            return result;
-        }
-        return new List<EquipemntData>(inventory);
-    }
-
-    public List<EquipemntData> GetInventory() => inventory;
-    public InventorySlotContainer GetSlotContainer() => slotContainer;
+    public IReadOnlyList<ItemData> GetAll() => inventory;
 }

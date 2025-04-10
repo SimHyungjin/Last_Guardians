@@ -7,6 +7,6 @@ public class InventoryUIController : MonoBehaviour
 
     private void Start()
     {
-        inventoryUIButton.bindInventoryBtn.AddListener(inventory.SetInventoryType);
+        inventoryUIButton.bindInventoryBtn.AddListener(inventory.SetType);
     }
 }

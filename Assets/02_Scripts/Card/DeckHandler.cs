@@ -26,6 +26,7 @@ public class DeckHandler : MonoBehaviour
     private bool isDragging = false;
     public GameObject ghostTowerPrefab;
     private GameObject ghostTower;
+    private float Deadzone = 80f;
     public bool IsHighlighting => isHighlighting;
     public Card HighlightedCard => highlightedCard;
     public int HighlightedIndex => highlightedIndex;    
@@ -36,7 +37,7 @@ public class DeckHandler : MonoBehaviour
             highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
             Vector2 dragEndPos = InputManager.Instance.GetTouchPosition();
             dragDistance = Vector2.Distance(dragStartPos, dragEndPos);
-            if (dragDistance > 200f)
+            if (dragDistance > Deadzone)
             {
                 if (ghostTower == null)
                 {
@@ -101,7 +102,7 @@ public class DeckHandler : MonoBehaviour
         if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
 
-            if (dragDistance < 200f)
+            if (dragDistance < Deadzone)
             {
                 dragEndPos = InputManager.Instance.GetTouchPosition();
                 UnHighlightCard();

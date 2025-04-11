@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     {
         attackController = GetComponent<AttackController>();
         moveController = GetComponent<MoveController>();
+
+        gameObject.transform.position = new Vector3(0.5f, -2f, 0);
     }
 
     public void Init(Player _player)

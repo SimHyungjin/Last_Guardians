@@ -7,14 +7,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 [System.Serializable]
 public class Card : MonoBehaviour
 {
-    [SerializeField] public CardData cardData;
     [SerializeField] private int towerIndex;
     [SerializeField] private int stack;
-    [SerializeField] private Image cardImage;
+    [SerializeField] private SpriteAtlas atlas;
 
 
     public GameObject towerGhostPrefab;
@@ -31,18 +31,9 @@ public class Card : MonoBehaviour
 
     public void Init(int index)
     {
-
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        //나중에 리소스로 옮길것
-        //cardData = Resources.Load<CardData>($"ScriptalbeObject/CardData{index}");
-        string path = $"Assets/90_SO/Card/CardData{index}.asset";
-        cardData = AssetDatabase.LoadAssetAtPath<CardData>(path);
-        cardImage = GetComponent<Image>();
-        if (cardData != null)
-        {
-            towerIndex = cardData.TowerIndex;
-            cardImage.sprite= cardData.CardImage;
-        }
+        towerIndex = index;
+        GetComponent<Image>().sprite = atlas.GetSprite($"Card_{index}");
         stack = 1;
         ShowStack();
     }

@@ -798,7 +798,7 @@ public class DataDownLoader : MonoBehaviour
 
     private void ClearAllTowerDataSO()
     {
-        string folderPath = "Assets/90_SO/Tower";
+        string folderPath = "Assets/Resources/SO/Tower";
 
         if (!Directory.Exists(folderPath))
         {
@@ -827,7 +827,7 @@ public class DataDownLoader : MonoBehaviour
         TowerData newSO = ScriptableObject.CreateInstance<TowerData>();
 
 #if UNITY_EDITOR
-        string folderPath = "Assets/90_SO/Tower";
+        string folderPath = "Assets/Resources/SO/Tower";
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);

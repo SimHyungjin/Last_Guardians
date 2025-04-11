@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8703290648686292418}
   - component: {fileID: 7712700057578726674}
   m_Layer: 6
-  m_Name: TowerGhost
+  m_Name: TowerGhostPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

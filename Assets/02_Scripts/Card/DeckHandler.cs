@@ -2,10 +2,12 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.U2D;
 using static UnityEditor.PlayerSettings;
 
 public class DeckHandler : MonoBehaviour
@@ -45,9 +47,9 @@ public class DeckHandler : MonoBehaviour
                     highlightedCard.gameObject.SetActive(false);
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
-                    string path = $"Assets/90_SO/Tower/TestTower{highlightedIndex}.asset";
-                    TowerData towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
-                    ghostsprite.sprite = towerdata.towerSprite;
+                    TowerData towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{highlightedIndex}");
+                    int spriteIndex = (towerdata.TowerIndex > 49) ? towerdata.TowerIndex - 49 : towerdata.TowerIndex;          
+                    ghostsprite.sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
 
                 }
                 else

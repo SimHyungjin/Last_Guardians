@@ -103,10 +103,11 @@ public class Tower : MonoBehaviour
         {
             curPos = InputManager.Instance.GetTouchWorldPosition();
             Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"));
-            if (hit != null && hit.gameObject == this.gameObject)
+            if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
                 isCliked = true;
                 TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
+                TowerManager.Instance.StartInteraction(InteractionState.TowerMoving);
             }
         }
     }
@@ -117,6 +118,7 @@ public class Tower : MonoBehaviour
         {
             isCliked = false;
             TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
+            TowerManager.Instance.EndInteraction(InteractionState.TowerMoving);
             if (TowerManager.Instance.towerbuilder.CanTowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition()))
             {
                 TowerManager.Instance.towerbuilder.TowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition());

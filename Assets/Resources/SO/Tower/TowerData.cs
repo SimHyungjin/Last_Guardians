@@ -44,11 +44,11 @@ public enum EffectTarget
 [CreateAssetMenu(fileName = "NewTower", menuName = "Data/Tower Data", order = 1)]
 public class TowerData: ScriptableObject
 {
-    [Header("Å¸¿ö ¿Ü°ü")]
+    [Header("íƒ€ì›Œ ì™¸ê´€")]
     [SerializeField] public GameObject towerGhostPrefab;
     [SerializeField] public SpriteAtlas atlas;
 
-    [Header("Å¸¿ö ½ºÅÝ")]
+    [Header("íƒ€ì›Œ ìŠ¤í…Ÿ")]
     [SerializeField] private int towerIndex;
     [SerializeField] private string towerName;
     [SerializeField] private float attackPower;

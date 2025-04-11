@@ -18,15 +18,13 @@ public class Tower : MonoBehaviour
 
     public void Init(int index)
     {
-        string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
-        towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        //나중에 리소스로 옮길것
-        //towerdata = Resources.Load<CardData>($"ScriptalbeObject/Towerdata{index}");
+        towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
         sprite = GetComponent<SpriteRenderer>();
         if (towerdata != null)
         {
-            sprite.sprite = towerdata.towerSprite;
+            int spriteIndex = (towerdata.TowerIndex>49)? towerdata.TowerIndex-49: towerdata.TowerIndex;
+            sprite.sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
             towerGhost = towerdata.towerGhostPrefab;
         }
     }

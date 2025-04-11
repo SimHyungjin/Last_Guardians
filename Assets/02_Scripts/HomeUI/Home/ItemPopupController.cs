@@ -56,7 +56,8 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             HomeManager.Instance.upgrade.TryUpgarade(currentData);
-            HomeManager.Instance.inventory.UpdateFilteredView();
+            HomeManager.Instance.inventory.GetFilteredView();
+
             HomeManager.Instance.inventorySlotContainer.Refresh();
             HomeManager.Instance.equipmentSlotContainer.Refresh();
             UpdatePopupUI();
@@ -67,8 +68,13 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             equipment.Equip(currentData);
-            HomeManager.Instance.inventory.UpdateFilteredView();
+            HomeManager.Instance.inventory.GetFilteredView();
+
+            HomeManager.Instance.inventorySlotContainer.Refresh();
+            HomeManager.Instance.equipmentSlotContainer.Refresh();
+
             HomeManager.Instance.equipmentSlotContainer.BindEquipment(currentData.equipType, currentData);
+
             UpdatePopupUI();
         }
     }
@@ -78,7 +84,8 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             equipment.UnEquip(currentData);
-            HomeManager.Instance.inventory.UpdateFilteredView();
+            HomeManager.Instance.inventory.GetFilteredView();
+
             HomeManager.Instance.equipmentSlotContainer.ClearSlot(currentData.equipType);
             UpdatePopupUI();
         }

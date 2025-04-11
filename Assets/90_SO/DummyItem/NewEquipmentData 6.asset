@@ -16,7 +16,7 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   itemType: 0
-  itemGrade: 0
+  itemGrade: 4
   itemStackLimit: 0
   itemDropRate: 0
   itemSellPrice: 0

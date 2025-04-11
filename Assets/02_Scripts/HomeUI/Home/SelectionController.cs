@@ -3,7 +3,8 @@ using UnityEngine;
 public class SelectionController : MonoBehaviour
 {
     [SerializeField] private ItemPopupController itemPopupController;
-    private Slot selectedSlot;
+    public Slot selectedSlot { get; private set; } = null;
+    public ItemData selectedData { get; private set; } = null;
 
     public void SelectSlot(Slot slot)
     {
@@ -11,6 +12,7 @@ public class SelectionController : MonoBehaviour
             selectedSlot.SetSelected(false);
 
         selectedSlot = slot;
+        selectedData = slot.GetData();
         selectedSlot.SetSelected(true);
         itemPopupController.Open(slot);
     }
@@ -21,6 +23,7 @@ public class SelectionController : MonoBehaviour
         {
             selectedSlot.SetSelected(false);
             selectedSlot = null;
+            selectedData = null;
         }
         itemPopupController.Close();
     }

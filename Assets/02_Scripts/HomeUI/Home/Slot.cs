@@ -12,6 +12,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     private Image gradeEffectImage;
     private ItemData data;
 
+    public bool isSelected { get; private set; } = false;
+
     private void Awake()
     {
         icon = GetComponent<Image>();
@@ -32,8 +34,22 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         SetGradeEffect();
     }
 
-    public void SetSelected(bool selected) => selectedEffect?.SetActive(selected);
+    public void Refresh()
+    {
+        if (data == null)
+        {
+            Clear();
+            return;
+        }
+        SetGradeEffect();
+    }
+
     public void SetEquipped(bool equipped) => equipEffect?.SetActive(equipped);
+    public void SetSelected(bool selected)
+    {
+        isSelected = selected;
+        if (selectedEffect != null) selectedEffect.SetActive(selected);
+    }
     public void SetGradeEffect()
     {
         if (gradeEffect != null) gradeEffect.SetActive(false);
@@ -45,15 +61,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         gradeEffectImage.color = new Color(color, 0, 0, 0.5f);
     }
 
-    public void Refresh()
-    {
-        if (data == null)
-        {
-            Clear();
-            return;
-        }
-        SetGradeEffect();
-    }
+    
 
     public void OnPointerClick(PointerEventData eventData)
     {

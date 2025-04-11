@@ -6,26 +6,30 @@ public class HomeManager : Singleton<HomeManager>
     public Equipment equipment;
     public Upgrade upgrade;
 
-    public EquipmentSlotContainer equipmentSlotContainer;
     public InventorySlotContainer inventorySlotContainer;
+    public EquipmentSlotContainer equipmentSlotContainer;
 
     public SelectionController selectionController;
     public ItemPopupController itemPopupController;
 
     private void Awake()
     {
+        inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
 
-        upgrade.Init();
-
         var canvas = Utils.InstantiatePrefabFromResource("UI/Canvas", this.transform);
-        inventory = Utils.InstantiateComponentFromResource<Inventory>("UI/Inventory", canvas.transform);
-        GameObject equipmentObj = Utils.InstantiatePrefabFromResource("UI/Equipment", canvas.transform);
-        GameObject itemConnecterObj = Utils.InstantiatePrefabFromResource("UI/ItemConnecter", canvas.transform);
+        var inventoryObj = Utils.InstantiatePrefabFromResource("UI/Inventory", canvas.transform);
+        var equipmentObj = Utils.InstantiatePrefabFromResource("UI/Equipment", canvas.transform);
+        var itemConnecterObj = Utils.InstantiatePrefabFromResource("UI/ItemConnecter", canvas.transform);
+
+        inventorySlotContainer = inventoryObj.GetComponentInChildren<InventorySlotContainer>();
+        equipmentSlotContainer = equipmentObj.GetComponentInChildren<EquipmentSlotContainer>();
         selectionController = itemConnecterObj.GetComponentInChildren<SelectionController>();
         itemPopupController = itemConnecterObj.GetComponentInChildren<ItemPopupController>();
-        equipmentSlotContainer = equipmentObj.GetComponentInChildren<EquipmentSlotContainer>();
-        inventorySlotContainer = inventory.GetComponentInChildren<InventorySlotContainer>();
+
+        upgrade.Init();
+
+        inventorySlotContainer.Display(inventory.GetAll());
     }
 }

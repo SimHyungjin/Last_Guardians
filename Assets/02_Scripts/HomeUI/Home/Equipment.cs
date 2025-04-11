@@ -51,10 +51,15 @@ public class Equipment
             totalPenetration += data.penetration;
             totalMoveSpeed += data.moveSpeed;
             totalDefense += data.defense;
-            specialEffectCount = data.specialEffectID > 0 ? 1 : 0;
+            specialEffectCount = data.specialEffectID > 0 ? data.specialEffectID : 0;
         }
     }
 
-    public bool IsEquipped(EquipmentData data) =>
-        data != null && equipped.TryGetValue(data.equipType, out var d) && d == data;
+    public bool IsEquipped(EquipmentData data)
+    {
+        if (data == null) return false;
+        if (equipped.Count == 0) return false;
+        if (equipped.TryGetValue(data.equipType, out var d) && d == data) return true;
+        else return false;
+    }
 }

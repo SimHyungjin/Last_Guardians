@@ -78,7 +78,7 @@ public class MonsterSkillData : ScriptableObject
             case MonsterSkillType.DeBuff:
                 break;
             case MonsterSkillType.Disable:
-                Collider2D[] collider2Ds = Utils.OverlapCircleAllSorted((Vector2)caster.transform.position, skillRange, ~0);
+                Collider2D[] collider2Ds = Utils.OverlapCircleAllSorted((Vector2)caster.transform.position, skillRange, LayerMask.GetMask("Monster"));
                 foreach (Collider2D var in collider2Ds)
                 {
                     if (var.gameObject.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))

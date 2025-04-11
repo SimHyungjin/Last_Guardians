@@ -50,5 +50,18 @@ public class Utils
         return go;
     }
 
-   
+    /// <summary>
+    /// 주변 원 radius 범위에 buffer수만큼 layerMask에 해당하는 콜라이더를 검출하고 Collider2D 배열로 반환
+    /// </summary>
+    private static Collider2D[] buffer = new Collider2D[20];
+
+    public static Collider2D[] OverlapCircleAllSorted(Vector2 center, float radius, int layerMask)
+    {
+        int count = Physics2D.OverlapCircleNonAlloc(center, radius, buffer, layerMask);
+
+        return buffer
+            .Take(count) // 사용된 요소까지만 정렬
+            .ToArray();
+    }
+
 }

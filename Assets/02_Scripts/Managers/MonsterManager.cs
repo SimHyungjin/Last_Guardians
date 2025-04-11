@@ -13,7 +13,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public NormalEnemy NormalPrefab { get; private set; }
     public BossMonster BossPrefab { get; private set; }
     public BountyMonster BountyPrefab { get; private set; }
-
+    public EnemyProjectile ProjectilePrefab { get; private set; }
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillData> MonsterSkillDatas { get; private set; }
 
@@ -120,6 +120,7 @@ public class MonsterManager : Singleton<MonsterManager>
         MonsterDatas.Sort((a, b) => a.MonsterIndex.CompareTo(b.MonsterIndex));
         MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("Enemy/SkillSO").ToList();
         MonsterSkillDatas.Sort((a, b) => a.SkillIndex.CompareTo(b.SkillIndex));
+        ProjectilePrefab = Resources.Load<EnemyProjectile>("Enemy/EnemyProjectile/EnemyProjectile");
     }
 
     public void TestKill()
@@ -158,7 +159,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySlowdown(5f, 0.2f);
+            ba.ApplySlowdown(5f, 0.8f);
         }
     }
 
@@ -168,7 +169,27 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyReducionDef(5f, 0.2f);
+            ba.ApplyReducionDef(5f, 0.8f);
+        }
+    }
+
+    public void TestSpeedUP()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplySpeedBuff(5f, 1.2f);
+        }
+    }
+
+    public void TestDefBuff()
+    {
+        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (GameObject obj2 in obj)
+        {
+            BaseMonster ba = obj2.GetComponent<BaseMonster>();
+            ba.ApplyDefBuff(5f, 1.2f);
         }
     }
 }

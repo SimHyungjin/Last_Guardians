@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 884241243870721089}
   - component: {fileID: 8660885359627565553}
   - component: {fileID: 4844810432890590897}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BountyMonster
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &884241243870721089
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -148,7 +148,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: abb0e4404132b76439bf737cd5575ab0, type: 3}
   m_Color: {r: 0.26157403, g: 1, b: 0, a: 1}
   m_FlipX: 0
@@ -174,7 +174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: cf8de87b9a86c5e4e9d9f86cb1e70905, type: 2}
   skillData: {fileID: 11400000, guid: fca4653a10b0beb48acaadc3a13ba7c3, type: 2}
-  meleeAttackRange: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 0

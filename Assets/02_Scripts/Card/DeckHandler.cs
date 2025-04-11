@@ -145,9 +145,10 @@ public class DeckHandler : MonoBehaviour
             }
             isDragging = false;
         }
-        else
+        else if(TowerManager.Instance.CanStartInteraction())
         {
             HighlightCard(card);
+            TowerManager.Instance.StartInteraction(InteractionState.CardMoving);
         }
     }
 
@@ -261,6 +262,7 @@ public class DeckHandler : MonoBehaviour
         highlightedIndex = -1;
         highlightedOrder = -1;
         isHighlighting = false;
+        TowerManager.Instance.EndInteraction(InteractionState.CardMoving);
     }
     public void UseCard(int index)
     {

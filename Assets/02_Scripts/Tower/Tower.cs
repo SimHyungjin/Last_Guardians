@@ -82,7 +82,6 @@ public class Tower : MonoBehaviour
         }
 
         target = closest;
-        Debug.Log($"타겟 : {target}");
     }
 
     void Attack()
@@ -93,7 +92,11 @@ public class Tower : MonoBehaviour
         // projectile.Launch(target.position, towerdata.AttackPower, true); //요청한 방식 그대로
     }
 
-
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1f, 0f, 0f, 0.5f); 
+        Gizmos.DrawWireSphere(transform.position, towerdata.AttackRange);
+    }
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!isCliked)

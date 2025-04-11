@@ -46,6 +46,10 @@ public class SheetDownButton : Editor
         {
             fnc.StartTowerDataDownload(true);
         }
+        if (GUILayout.Button("Download ItemData"))
+        {
+            fnc.StartItemDataDownload(true);
+        }
     }
 }
 
@@ -57,6 +61,7 @@ public class DataDownLoader : MonoBehaviour
     [SerializeField] private List<MonsterSkillData> monsterSkillDataSO = new List<MonsterSkillData>();
     [SerializeField] private List<MonsterWaveData> monsterWaveDataSO = new List<MonsterWaveData>();
     [SerializeField] private List<TowerData> towerDataSO = new List<TowerData>();
+    [SerializeField] private List<ItemData> itemDataSO = new List<ItemData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
     const string URL_DataSheet = "https://docs.google.com/spreadsheets/d/11uh3qkFXuMsowtu7qrmO66nYMx46C2P9UHh3c1eHVu4/export?format=tsv&range=A1:F6";
 
@@ -843,6 +848,149 @@ public class DataDownLoader : MonoBehaviour
     }
 
     private void RenameTowerDataScriptableObjectFile(TowerData so, string newFileName)
+    {
+#if UNITY_EDITOR
+        string path = AssetDatabase.GetAssetPath(so);
+        string newPath = Path.GetDirectoryName(path) + "/" + newFileName + ".asset";
+
+        if (path != newPath)
+        {
+            AssetDatabase.RenameAsset(path, newFileName);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+#endif
+    }
+    /// <summary>
+    /////////////////////////아이템 테이블///////////////////////
+    /// </summary>
+    const string URL_ItemData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=959097333";
+
+    public void StartItemDataDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadItemData(renameFiles));
+    }
+
+    private IEnumerator DownloadItemData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_ItemData);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 42, startCol: 0, endCol: 7);
+            JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
+            ApplyItemDataToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("데이터 가져오기 실패: " + www.error);
+        }
+    }
+
+    public void ApplyItemDataToSO(JArray jsonData, bool renameFiles)
+    {
+        ClearAllItemDataSO();
+        itemDataSO.Clear();
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            JObject row = (JObject)jsonData[i];
+
+            int itemIndex = int.TryParse(row["itemIndex"]?.ToString(), out int parsedItemIndex) ? parsedItemIndex : default;
+            string itemName = row["itemName"]?.ToString() ?? string.Empty;
+            string itemDescript = row["itemDescript"]?.ToString() ?? string.Empty;
+            string rawType = row["itemType"]?.ToString().Replace(" ", "") ?? ""; 
+            ItemType itemType = Enum.TryParse(rawType, true, out ItemType parsedType)
+                ? parsedType
+                : ItemType.Equipment;
+            ItemGrade itemGrade = Enum.TryParse(row["itemGrade"]?.ToString(), out ItemGrade parsedGrade) ? parsedGrade : ItemGrade.Normal;
+            int itemStackLimit = int.TryParse(row["itemStackLimit"]?.ToString(), out int parsedStack) ? parsedStack : 1;
+            float itemDropRate = float.TryParse(row["itemDropRate"]?.ToString(), out float parsedDropRate) ? parsedDropRate : 0f;
+            int itemSellPrice = int.TryParse(row["itemSellPrice"]?.ToString(), out int parsedSellPrice) ? parsedSellPrice : 0;
+
+            string dataname = $"Item_{itemIndex}";
+
+            ItemData data;
+
+            if (i < itemDataSO.Count)
+            {
+                data = itemDataSO[i];
+            }
+            else
+            {
+                data = CreateItemData(dataname);
+                itemDataSO.Add(data);
+            }
+
+            if (renameFiles)
+            {
+                RenameItemDataScriptableObjectFile(data, dataname);
+            }
+
+            data.SetData(itemIndex, itemName, itemDescript, itemType, itemGrade, itemStackLimit, itemDropRate, itemSellPrice);
+
+            EditorUtility.SetDirty(data);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+
+
+
+
+    private void ClearAllItemDataSO()
+    {
+        string folderPath = "Assets/Resources/SO/Item";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.LogWarning("SO 폴더가 존재하지 않음");
+            return;
+        }
+
+        string[] files = Directory.GetFiles(folderPath, "*.asset");
+
+        foreach (string file in files)
+        {
+            AssetDatabase.DeleteAsset(file);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+
+
+    private ItemData CreateItemData(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+            fileName = "DefaultItem";
+
+        ItemData newSO = ScriptableObject.CreateInstance<ItemData>();
+
+#if UNITY_EDITOR
+        string folderPath = "Assets/Resources/SO/Item";
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string assetPath = $"{folderPath}/{fileName}.asset";
+        AssetDatabase.CreateAsset(newSO, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+#endif
+
+        return newSO;
+    }
+
+
+
+
+    private void RenameItemDataScriptableObjectFile(ItemData so, string newFileName)
     {
 #if UNITY_EDITOR
         string path = AssetDatabase.GetAssetPath(so);

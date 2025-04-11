@@ -1,13 +1,13 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class InventorySlotContainer : MonoBehaviour
 {
     [SerializeField] private int slotNum = 50;
-    
     private List<Slot> slots = new();
 
-    public void Awake()
+    private void Awake()
     {
         for (int i = 0; i < slotNum; i++)
         {
@@ -16,31 +16,33 @@ public class InventorySlotContainer : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        HomeManager.Instance.inventory.OnInventoryChanged += () => Display(HomeManager.Instance.inventory.GetFilteredView());
+    }
+
     public void Display(IReadOnlyList<ItemData> items)
     {
-        for (int i = 0; i < slots.Count; i++)
+        ApplySlotActions(items, (slot, item) =>
         {
-            if (i < items.Count)
-            {
-                slots[i].SetData(items[i]);
+            slot.SetData(item);
 
-                if (items[i] is EquipmentData eq)
-                {
-                    slots[i].SetEquipped(HomeManager.Instance.equipment.IsEquipped(eq));
-                }
-                else
-                {
-                    slots[i].SetEquipped(false);
-                }
-                if(HomeManager.Instance.selectionController.selectedSlot != null)
-                    slots[i].SetSelected(slots[i].GetData() == HomeManager.Instance.selectionController.selectedData);
-                slots[i].SetGradeEffect();
+            if (item is EquipmentData eq)
+            {
+                slot.SetEquipped(HomeManager.Instance.equipment.IsEquipped(eq));
             }
             else
             {
-                slots[i].Clear();
+                slot.SetEquipped(false);
             }
-        }
+
+            if (HomeManager.Instance.selectionController.selectedSlot != null)
+            {
+                slot.SetSelected(slot.GetData() == HomeManager.Instance.selectionController.selectedData);
+            }
+
+            slot.Refresh();
+        });
     }
 
     public void Refresh()
@@ -63,4 +65,21 @@ public class InventorySlotContainer : MonoBehaviour
             slot.Clear();
         }
     }
+
+    private void ApplySlotActions(IReadOnlyList<ItemData> items, Action<Slot, ItemData> action)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (i < items.Count)
+            {
+                action.Invoke(slots[i], items[i]);
+            }
+            else
+            {
+                slots[i].Clear();
+            }
+        }
+    }
+
+    public IReadOnlyList<Slot> GetSlots() => slots;
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,40 +6,46 @@ public class EquipmentSlotContainer : MonoBehaviour
 {
     [SerializeField] private Transform[] slotParents;
 
-    private Dictionary<EquipType, Slot> slots = new();
+    private Dictionary<EquipType, Slot> euipmentSlots = new();
 
     private void Awake()
     {
         for (int i = 0; i < (int)EquipType.Count; i++)
         {
             var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", slotParents[i]);
-            slots.Add((EquipType)i, slot);
+            euipmentSlots.Add((EquipType)i, slot);
         }
     }
 
-    public void Refresh()
+    private void Start()
     {
-        foreach (var slot in slots.Values)
-        {
-            slot.Refresh();
-        }
+        HomeManager.Instance.equipment.OnEquip += (data) => BindSlot(data);
+        HomeManager.Instance.equipment.OnUnequip += (data) => ClearSlot(data.equipType);
     }
 
-    public void BindEquipment(EquipType type, EquipmentData data)
+    public void BindSlot(EquipmentData data)
     {
-        if (slots.TryGetValue(type, out var slot))
+        if (data == null) return;
+        if (euipmentSlots.TryGetValue(data.equipType, out var slot))
         {
             slot.SetData(data);
         }
     }
-
     public void ClearSlot(EquipType type)
     {
-        if (slots.TryGetValue(type, out var slot))
+        if (euipmentSlots.TryGetValue(type, out var slot))
         {
             slot.Clear();
         }
     }
 
-    public Dictionary<EquipType, Slot> GetSlots() => slots;
+    public void Refresh()
+    {
+        foreach (var slot in euipmentSlots.Values)
+        {
+            slot.Refresh();
+        }
+    }
+
+    public IReadOnlyDictionary<EquipType, Slot> GetSlots() => euipmentSlots;
 }

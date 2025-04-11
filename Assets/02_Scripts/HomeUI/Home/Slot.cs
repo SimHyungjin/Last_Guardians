@@ -1,34 +1,27 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image icon;
-    [SerializeField] private GameObject selectedEffect;
-    [SerializeField] private GameObject equipEffect;
-    [SerializeField] private GameObject gradeEffect;
+    [SerializeField] private Image selectedEffect;
+    [SerializeField] private Image equipEffect;
+    [SerializeField] private Image gradeEffect;
 
-    private Image gradeEffectImage;
     private ItemData data;
-
-    public bool isSelected { get; private set; } = false;
-
-    private void Awake()
-    {
-        icon = GetComponent<Image>();
-        gradeEffectImage = gradeEffect.GetComponent<Image>();
-    }
 
     public void SetData(ItemData newData)
     {
         data = newData;
         icon.sprite = data ? data.icon : null;
+        Refresh();
     }
 
     public void Clear()
     {
-        SetData(null);
+        data = null;
+        SetIcon(false);
         SetSelected(false);
         SetEquipped(false);
         SetGradeEffect();
@@ -41,27 +34,42 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             Clear();
             return;
         }
+        SetIcon(true);
         SetGradeEffect();
     }
 
-    public void SetEquipped(bool equipped) => equipEffect?.SetActive(equipped);
-    public void SetSelected(bool selected)
-    {
-        isSelected = selected;
-        if (selectedEffect != null) selectedEffect.SetActive(selected);
-    }
+    public void SetIcon(bool active) => icon.gameObject?.SetActive(active);
+    public void SetEquipped(bool equipped) => equipEffect.gameObject?.SetActive(equipped);
+    public void SetSelected(bool selected) => selectedEffect.gameObject?.SetActive(selected);
     public void SetGradeEffect()
     {
-        if (gradeEffect != null) gradeEffect.SetActive(false);
-        if (data == null || gradeEffect == null) return;
-        if ((int)data.itemGrade == 0) return;
+        if (data == null)
+        {
+            if (gradeEffect != null) gradeEffect.gameObject.SetActive(false);
+            return;
+        }
+        gradeEffect.gameObject.SetActive(true);
+        switch (data.itemGrade)
+        {
+            case ItemGrade.Normal:
+                gradeEffect.gameObject.SetActive(false);
+                break;
+            case ItemGrade.Rare:
+                gradeEffect.color = new Color(1, 0, 0);
+                break;
+            case ItemGrade.Unique:
+                gradeEffect.color = new Color(0, 1, 0);
+                break;
+            case ItemGrade.Hero:
+                gradeEffect.color = new Color(0, 0, 1);
+                break;
+            case ItemGrade.Legend:
+                gradeEffect.color = new Color(1, 1, 0);
+                break;
 
-        gradeEffect.SetActive(true);
-        float color = 0.2f * (int)data.itemGrade;
-        gradeEffectImage.color = new Color(color, 0, 0, 0.5f);
+
+        }
     }
-
-    
 
     public void OnPointerClick(PointerEventData eventData)
     {

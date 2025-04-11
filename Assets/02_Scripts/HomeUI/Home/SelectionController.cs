@@ -3,6 +3,7 @@ using UnityEngine;
 public class SelectionController : MonoBehaviour
 {
     [SerializeField] private ItemPopupController itemPopupController;
+
     public Slot selectedSlot { get; private set; } = null;
     public ItemData selectedData { get; private set; } = null;
 

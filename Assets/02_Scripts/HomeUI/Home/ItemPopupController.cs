@@ -14,11 +14,14 @@ public class ItemPopupController : MonoBehaviour
     [SerializeField] private Button unequipButton;
 
     private Equipment equipment;
+    private Inventory inventory;
+
     private EquipmentData currentData;
 
     private void Start()
     {
         equipment = HomeManager.Instance.equipment;
+        inventory = HomeManager.Instance.inventory;
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
@@ -28,8 +31,9 @@ public class ItemPopupController : MonoBehaviour
     public void Open(Slot slot)
     {
         currentData = slot.GetData() as EquipmentData;
-        UpdatePopupUI();
         root.SetActive(true);
+        UpdatePopupUI();
+        
     }
 
     public void Close()
@@ -41,6 +45,8 @@ public class ItemPopupController : MonoBehaviour
     private void UpdatePopupUI()
     {
         if (currentData == null) return;
+        HomeManager.Instance.inventorySlotContainer.Display(inventory.GetFilteredView());
+        HomeManager.Instance.equipmentSlotContainer.Refresh();
         icon.sprite = currentData.icon;
         itemName.text = currentData.itemName;
         description.text = currentData.itemDescription;
@@ -56,10 +62,6 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             HomeManager.Instance.upgrade.TryUpgarade(currentData);
-            HomeManager.Instance.inventory.GetFilteredView();
-
-            HomeManager.Instance.inventorySlotContainer.Refresh();
-            HomeManager.Instance.equipmentSlotContainer.Refresh();
             UpdatePopupUI();
         }
     }
@@ -68,13 +70,6 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             equipment.Equip(currentData);
-            HomeManager.Instance.inventory.GetFilteredView();
-
-            HomeManager.Instance.inventorySlotContainer.Refresh();
-            HomeManager.Instance.equipmentSlotContainer.Refresh();
-
-            HomeManager.Instance.equipmentSlotContainer.BindEquipment(currentData.equipType, currentData);
-
             UpdatePopupUI();
         }
     }
@@ -84,8 +79,6 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             equipment.UnEquip(currentData);
-            HomeManager.Instance.inventory.GetFilteredView();
-
             HomeManager.Instance.equipmentSlotContainer.ClearSlot(currentData.equipType);
             UpdatePopupUI();
         }

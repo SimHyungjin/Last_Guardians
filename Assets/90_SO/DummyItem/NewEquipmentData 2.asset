@@ -16,13 +16,13 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   itemType: 0
-  itemGrade: 4
+  itemGrade: 0
   itemStackLimit: 0
   itemDropRate: 0
   itemSellPrice: 0
   icon: {fileID: 21300000, guid: f8d017b9b890de5428a03581e31e9bcc, type: 3}
   equipIndex: 0
-  equipType: 1
+  equipType: 0
   attackType: 0
   attackPower: 0
   attackSpeed: 0

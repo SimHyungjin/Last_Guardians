@@ -5,6 +5,9 @@ public class Equipment
 {
     private Dictionary<EquipType, EquipmentData> equipped = new();
 
+    public event Action<EquipmentData> OnEquip;
+    public event Action<EquipmentData> OnUnequip;
+
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
     public float totalAttackRange { get; private set; }
@@ -16,15 +19,18 @@ public class Equipment
     public float specialEffectIDs { get; private set; }
     public int specialEffectCount { get; private set; }
 
-    public IReadOnlyDictionary<EquipType, EquipmentData> EquippedItems => equipped;
-
     public void Equip(EquipmentData data)
     {
         if (data == null) return;
-        if (equipped.TryGetValue(data.equipType, out var cur) && cur == data) return;
-
+        if (equipped.TryGetValue(data.equipType, out var cur))
+        {
+            if (cur == data) return;
+            UnEquip(cur);
+        }
         equipped[data.equipType] = data;
         RecalculateStats();
+
+        OnEquip.Invoke(data);
     }
 
     public void UnEquip(EquipmentData data)
@@ -32,6 +38,8 @@ public class Equipment
         if (data == null || !equipped.ContainsKey(data.equipType)) return;
         equipped.Remove(data.equipType);
         RecalculateStats();
+
+        OnUnequip.Invoke(data);
     }
 
     void RecalculateStats()

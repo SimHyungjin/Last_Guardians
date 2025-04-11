@@ -14,7 +14,7 @@ public enum ItemGrade
     Hero,
     Legend
 }
-
+[CreateAssetMenu(fileName = "NewItem", menuName = "Data/Tower Data", order = 1)]
 public abstract class ItemData : ScriptableObject
 {
     public int itemIndex;

@@ -16,7 +16,7 @@ public class BossMonster : BaseMonster
         base.RangeAttack();
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = monsterData;
-        projectile.Lauch(Target);
+        projectile.Launch(Target.transform.position, monsterData.MonsterDamage);
     }
 
     protected override void MonsterSkill()

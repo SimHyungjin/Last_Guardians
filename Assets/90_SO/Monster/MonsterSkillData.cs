@@ -63,7 +63,7 @@ public class MonsterSkillData : ScriptableObject
                 MonsterData data = MonsterManager.Instance.MonsterDatas.Find(a => a.MonsterIndex == MonsterID);
                 for (int i = 0 ; i < MonsterNum; i++)
                 {
-                    Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * 1f;
+                    Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * SkillRange;
                     NormalEnemy spwanMonster = PoolManager.Instance.Spawn(MonsterManager.Instance.NormalPrefab, caster.transform);
                     spwanMonster.transform.position = randomPos;
                     spwanMonster.Setup(data);
@@ -78,7 +78,7 @@ public class MonsterSkillData : ScriptableObject
             case MonsterSkillType.DeBuff:
                 break;
             case MonsterSkillType.Disable:
-                Collider2D[] collider2Ds = Utils.OverlapCircleAllSorted((Vector2)caster.transform.position, skillRange, LayerMask.GetMask("Monster"));
+                Collider2D[] collider2Ds = Utils.OverlapCircleAllSorted((Vector2)caster.transform.position, SkillRange, LayerMask.GetMask("Monster"));
                 foreach (Collider2D var in collider2Ds)
                 {
                     if (var.gameObject.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))

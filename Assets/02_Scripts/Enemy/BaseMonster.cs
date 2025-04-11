@@ -252,7 +252,6 @@ public class BaseMonster : MonoBehaviour
         {
             //데미지 관련 공식 나오면 수정
             TakeDamage(dotDamage);
-            Debug.Log($"도트데미지 적용 {dotDamage} 남은체력 : {CurrentHP} 남은 시간 : {dotDuration}");
             yield return onesec;
 
             dotDuration -= 1f;
@@ -271,7 +270,6 @@ public class BaseMonster : MonoBehaviour
             StopCoroutine(dotDamageCorutine);
             dotDamageCorutine = null;
             dotDamage = 0f;
-            Debug.Log($"도트데미지 해제");
         }
     }
 
@@ -316,7 +314,6 @@ public class BaseMonster : MonoBehaviour
             sturnCorutine = null;
             sturnDuration = 0f;
             isSturn = false;
-            Debug.Log($"스턴 해제");
         }
     }
 
@@ -343,7 +340,6 @@ public class BaseMonster : MonoBehaviour
         while (slowDownDuration > 0)
         {
             agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            Debug.Log($"슬로우적용 현재 이속 : {agent.speed}");
             yield return zeropointone;
 
             slowDownDuration -= 0.1f;
@@ -364,7 +360,6 @@ public class BaseMonster : MonoBehaviour
             slowDownDuration = 0f;
             DeBuffSpeedModifier = 1f;
             agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            Debug.Log($"슬로우 해제. 현재 이속 : {agent.speed} ");
         }
     }
 
@@ -390,7 +385,6 @@ public class BaseMonster : MonoBehaviour
         while (reducDefDuration > 0)
         {
             CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} ");
             yield return zeropointone;
 
             reducDefDuration -= 0.1f;
@@ -412,7 +406,6 @@ public class BaseMonster : MonoBehaviour
             reducDefDuration = 0f;
             DeBuffDefModifier = 1f;
             CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            Debug.Log($"방깍 디버프 해제 현재방어력 : {CurrentDef} ");
         }
     }
 
@@ -448,7 +441,6 @@ public class BaseMonster : MonoBehaviour
         while(buffDefDuration > 0)
         {
             CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            Debug.Log($"방어버프적용 현재 방어력 : {CurrentDef} ");
             yield return zeropointone;
 
             buffDefDuration -= 0.1f;
@@ -470,7 +462,6 @@ public class BaseMonster : MonoBehaviour
             buffDefDuration = 0f;
             BuffDefModifier = 1f;
             CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            Debug.Log($"방어 버프 해제 현재방어력 : {CurrentDef} ");
         }
     }
 
@@ -497,7 +488,6 @@ public class BaseMonster : MonoBehaviour
         while (buffSpeedDuration > 0)
         {
             agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            Debug.Log($"스피드버프적용 현재 이속 : {agent.speed}");
             yield return zeropointone;
 
             slowDownDuration -= 0.1f;
@@ -518,7 +508,6 @@ public class BaseMonster : MonoBehaviour
             buffSpeedDuration = 0f;
             BuffSpeedModifier = 1f;
             agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            Debug.Log($"이속 버프 해제 현재이동속도 : {agent.speed} ");
         }
     }
 
@@ -561,7 +550,6 @@ public class BaseMonster : MonoBehaviour
             buffEvasionCorutine = null;
             buffEvasionDuration = 0f;
             EvasionRate = -1f;
-            Debug.Log($"회피 버프 해제");
         }
     }
 
@@ -571,6 +559,5 @@ public class BaseMonster : MonoBehaviour
         CancelSlowdown();
         CancelInflictDamage();
         CancelSturn();
-        Debug.Log("모든 디버프 해제");
     }
 }

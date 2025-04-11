@@ -15,7 +15,6 @@ public class BountyMonster : BaseMonster
     {
         Debug.Log($"현상금몬스터 {skillData.name} 사용");
         skillData.UseSkill(this);
-        projectile.Data = monsterData;
         skillTimer = skillData.SkillCoolTime;
     }
 
@@ -23,6 +22,7 @@ public class BountyMonster : BaseMonster
     {
         base.RangeAttack();
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
+        projectile.Data = monsterData;
         projectile.Lauch(Target);
     }
     protected override void Death()

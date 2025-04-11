@@ -38,7 +38,7 @@ public class AttackMeleeFront : IAttackBehavior
 
         foreach (var hit in validHits)
         {
-            // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
+            hit.GetComponent<BaseMonster>().TakeDamage(damage);
             // TODO:
             Debug.Log("정면 근접 공격");
         }

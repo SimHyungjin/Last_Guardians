@@ -32,6 +32,5 @@ public class EquipmentData : ItemData
     public float criticalChance;
     public float criticalDamage;
     public float penetration;
-    public float defense;
     public int specialEffectID;
 }

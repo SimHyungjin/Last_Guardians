@@ -15,7 +15,6 @@ public class Equipment
     public float totalCriticalDamage { get; private set; }
     public float totalPenetration { get; private set; }
     public float totalMoveSpeed { get; private set; }
-    public float totalDefense { get; private set; }
     public float specialEffectIDs { get; private set; }
     public int specialEffectCount { get; private set; }
 
@@ -45,7 +44,7 @@ public class Equipment
     void RecalculateStats()
     {
         totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
-            totalCriticalDamage = totalPenetration = totalMoveSpeed = totalDefense = 0;
+            totalCriticalDamage = totalPenetration = totalMoveSpeed = 0;
 
         foreach (var data in equipped.Values)
         {
@@ -58,7 +57,6 @@ public class Equipment
             totalCriticalDamage += data.criticalDamage;
             totalPenetration += data.penetration;
             totalMoveSpeed += data.moveSpeed;
-            totalDefense += data.defense;
             specialEffectCount = data.specialEffectID > 0 ? data.specialEffectID : 0;
         }
     }

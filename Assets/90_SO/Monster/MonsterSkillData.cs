@@ -55,19 +55,37 @@ public class MonsterSkillData : ScriptableObject
         this.skillCoolTime = monsterskillCoolTime;
     }
 
-    public void UseSkill()
+    public void UseSkill(BaseMonster caster)
     {
         switch (SkillType)
         {
             case MonsterSkillType.Summon:
+                MonsterData data = MonsterManager.Instance.MonsterDatas.Find(a => a.MonsterIndex == MonsterID);
+                for (int i = 0 ; i < MonsterNum; i++)
+                {
+                    Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * 1f;
+                    NormalEnemy spwanMonster = PoolManager.Instance.Spawn(MonsterManager.Instance.NormalPrefab, caster.transform);
+                    spwanMonster.transform.position = randomPos;
+                    spwanMonster.Setup(data);
+                }
                 break;
             case MonsterSkillType.Evasion:
+                caster.ApplyEvasionBuff(Duration, MonsterskillEffectValue);
                 break;
             case MonsterSkillType.Buff:
+                caster.ApplyDefBuff(Duration, MonsterskillEffectValue);
                 break;
             case MonsterSkillType.DeBuff:
                 break;
             case MonsterSkillType.Disable:
+                Collider2D[] collider2Ds = Utils.OverlapCircleAllSorted((Vector2)caster.transform.position, skillRange, LayerMask.GetMask("Monster"));
+                foreach (Collider2D var in collider2Ds)
+                {
+                    if (var.gameObject.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
+                    {
+                        baseMonster.CancelAllDebuff();
+                    }
+                }
                 break;
         }
 

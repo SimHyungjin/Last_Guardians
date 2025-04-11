@@ -169,9 +169,9 @@ public class Towerbuilder : MonoBehaviour
 
     private void GetSprite(int index)
     {
-        string path = $"Assets/90_SO/Tower/TestTower{index}.asset";
-        TowerData towerdata = AssetDatabase.LoadAssetAtPath<TowerData>(path);
-        ghostTower.GetComponent<SpriteRenderer>().sprite = towerdata.towerSprite;
+        TowerData towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
+        int spriteIndex = (towerdata.TowerIndex > 49) ? towerdata.TowerIndex - 49 : towerdata.TowerIndex;
+        ghostTower.GetComponent<SpriteRenderer>().sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
     }
 
     private void HandCardMoving()
@@ -234,7 +234,9 @@ public class Towerbuilder : MonoBehaviour
         if (clikedTower != null && ghostTower == null)
         {
             ghostTower = Instantiate(ghostTowerPrefab);
-            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerdata.towerSprite;
+
+            int spriteIndex = (clikedTower.towerdata.TowerIndex > 49) ? clikedTower.towerdata.TowerIndex - 49 : clikedTower.towerdata.TowerIndex;
+            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
             clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 0.3f);
         }
         else
@@ -249,7 +251,7 @@ public class Towerbuilder : MonoBehaviour
                     cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
                     cheakedTower = null;
                     GetSprite(clikedTower.towerdata.TowerIndex);
-                    ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
+                    //ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
                 }
             }
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
@@ -264,6 +266,10 @@ public class Towerbuilder : MonoBehaviour
                 ghostTower.transform.position = currentTile;
                 GetSprite(towerCombinationData.TryCombine(clikedTower.towerdata.TowerIndex, cheakedTower.towerdata.TowerIndex));
                 ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+            }
+            else
+            {
+                ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.3f);
             }
         }
     }

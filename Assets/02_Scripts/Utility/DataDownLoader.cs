@@ -42,6 +42,10 @@ public class SheetDownButton : Editor
         {
             fnc.StartMonsterDataWaveDownload(true);
         }
+        if (GUILayout.Button("Download TowerData"))
+        {
+            fnc.StartTowerDataDownload(true);
+        }
     }
 }
 
@@ -52,6 +56,7 @@ public class DataDownLoader : MonoBehaviour
     [SerializeField] private List<MonsterData> monsterDataSO = new List<MonsterData>();
     [SerializeField] private List<MonsterSkillData> monsterSkillDataSO = new List<MonsterSkillData>();
     [SerializeField] private List<MonsterWaveData> monsterWaveDataSO = new List<MonsterWaveData>();
+    [SerializeField] private List<TowerData> towerDataSO = new List<TowerData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
     const string URL_DataSheet = "https://docs.google.com/spreadsheets/d/11uh3qkFXuMsowtu7qrmO66nYMx46C2P9UHh3c1eHVu4/export?format=tsv&range=A1:F6";
 
@@ -364,7 +369,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameMonsterDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(index,dataname,HP,Speed,damage,Def,exp,description,monType,hasSkill,monsterSkillID,pattern);
+            data.SetData(index, dataname, HP, Speed, damage, Def, exp, description, monType, hasSkill, monsterSkillID, pattern);
             EditorUtility.SetDirty(data);
         }
         AssetDatabase.SaveAssets();
@@ -637,7 +642,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameMonsterWaveDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(index,level,isBoss,waveDelay,spwanDelay,mon1ID,monster1Value,mon2ID,monster2Value,mon3ID,monster3Value,mon4ID,monster4Value);
+            data.SetData(index, level, isBoss, waveDelay, spwanDelay, mon1ID, monster1Value, mon2ID, monster2Value, mon3ID, monster3Value, mon4ID, monster4Value);
             EditorUtility.SetDirty(data);
         }
         AssetDatabase.SaveAssets();
@@ -701,6 +706,151 @@ public class DataDownLoader : MonoBehaviour
             AssetDatabase.RenameAsset(path, newFileName);
 
             // 즉시 저장하여 반영
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+#endif
+    }
+
+
+
+    /////////////////////////////////타워테이블//////////////////////////////////////////////////////////////
+
+    const string URL_TowerData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=1542089353";
+
+    public void StartTowerDataDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadTowerData(renameFiles));
+    }
+
+    private IEnumerator DownloadTowerData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_TowerData);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 107, startCol: 0, endCol: 15);
+            JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
+            ApplyTowerDataToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("데이터 가져오기 실패: " + www.error);
+        }
+    }
+
+    public void ApplyTowerDataToSO(JArray jsonData, bool renameFiles)
+    {
+        ClearAllTowerDataSO();
+        towerDataSO.Clear();
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            JObject row = (JObject)jsonData[i];
+       
+            int towerIndex = int.TryParse(row["towerIndex"]?.ToString(), out int parsedTowerIndex) ? parsedTowerIndex : default;
+            string towerName = row["towerName"]?.ToString() ?? string.Empty;
+            float attackPower = float.TryParse(row["attackPower"]?.ToString(), out float parsedAttackPower) ? parsedAttackPower : default;
+            float attackSpeed = float.TryParse(row["attackSpeed"]?.ToString(), out float parsedAttackSpeed) ? parsedAttackSpeed : default;
+            float attackRange = float.TryParse(row["attackRange"]?.ToString(), out float parsedAttackRange) ? parsedAttackRange : default;
+            TowerType towerType = Enum.TryParse(row["towerType"]?.ToString(), out TowerType parsedTowerType) ? parsedTowerType : TowerType.Elemental;
+            ProjectileType projectileType = Enum.TryParse(row["projectileType"]?.ToString(), out ProjectileType parsedProjectileType) ? parsedProjectileType : ProjectileType.Magic;
+            SpecialEffect specialEffect = Enum.TryParse(row["specialEffect"]?.ToString(), out SpecialEffect parsedSpecialEffect) ? parsedSpecialEffect : SpecialEffect.DotDamage;
+            float effectChance = float.TryParse(row["effectChance"]?.ToString(), out float parsedEffectChance) ? parsedEffectChance : default;
+            float effectDuration = float.TryParse(row["effectDuration"]?.ToString(), out float parsedEffectDuration) ? parsedEffectDuration : default;
+            float effectValue = float.TryParse(row["effectValue"]?.ToString(), out float parsedEffectValue) ? parsedEffectValue : default;
+            EffectTarget effectTarget = Enum.TryParse(row["effectTarget"]?.ToString(), out EffectTarget parsedEffectTarget) ? parsedEffectTarget : EffectTarget.Single;
+            int effectTargetCount = int.TryParse(row["effectTargetCount"]?.ToString(), out int parsedEffectTargetCount) ? parsedEffectTargetCount : default;
+            bool bossImmune = bool.TryParse(row["bossImmune"]?.ToString(), out bool parsedBossImmune) ? parsedBossImmune : false;
+            int upgradeLevel = int.TryParse(row["upgradeLevel"]?.ToString(), out int parsedUpgradeLevel) ? parsedUpgradeLevel : default;
+            string towerDescription = row["towerDescription"]?.ToString() ?? string.Empty;
+            Debug.Log(towerIndex);
+
+            string dataname = $"Tower{towerIndex}";
+
+            TowerData data = ScriptableObject.CreateInstance<TowerData>();
+
+            // 기존 SO 개수가 부족하면 새로 생성
+            if (i < towerDataSO.Count)
+            {
+                data = towerDataSO[i];
+            }
+            else
+            {
+                data = CreateTowerDataSO(dataname); // 새로운 SO 생성
+                towerDataSO.Add(data);
+            }
+
+            if (renameFiles)
+            {
+                RenameTowerDataScriptableObjectFile(data, dataname);
+            }
+
+            data.SetData(towerIndex, towerName, attackPower, attackSpeed, attackRange, towerType, projectileType,
+                        specialEffect, effectChance, effectDuration, effectValue, effectTarget, effectTargetCount,
+                        bossImmune, upgradeLevel, towerDescription);
+            EditorUtility.SetDirty(data);
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private void ClearAllTowerDataSO()
+    {
+        string folderPath = "Assets/Resources/SO/Tower";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.LogWarning("SO 폴더가 존재하지 않음");
+            return;
+        }
+
+        string[] files = Directory.GetFiles(folderPath, "*.asset");
+
+        foreach (string file in files)
+        {
+            AssetDatabase.DeleteAsset(file);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    private TowerData CreateTowerDataSO(string fileName)
+    {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            fileName = "DefaultData";
+        }
+
+        TowerData newSO = ScriptableObject.CreateInstance<TowerData>();
+
+#if UNITY_EDITOR
+        string folderPath = "Assets/Resources/SO/Tower";
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        string assetPath = $"{folderPath}/{fileName}.asset";
+        AssetDatabase.CreateAsset(newSO, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+#endif
+        return newSO;
+    }
+
+    private void RenameTowerDataScriptableObjectFile(TowerData so, string newFileName)
+    {
+#if UNITY_EDITOR
+        string path = AssetDatabase.GetAssetPath(so);
+        string newPath = Path.GetDirectoryName(path) + "/" + newFileName + ".asset";
+
+        if (path != newPath)
+        {
+            AssetDatabase.RenameAsset(path, newFileName);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

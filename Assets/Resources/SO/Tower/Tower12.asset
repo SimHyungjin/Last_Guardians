@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
+  m_Name: Tower12
+  m_EditorClassIdentifier: 
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
+  towerIndex: 12
+  towerName: "\uBD88\uD3ED\uD48D \uD0C0\uC6CC"
+  attackPower: 40
+  attackSpeed: 1
+  attackRange: 4
+  towerType: 0
+  projectileType: 0
+  specialEffect: 0
+  effectChance: 1
+  effectDuration: 3
+  effectValue: 3
+  effectTarget: 0
+  effectTargetCount: 2
+  bossImmune: 0
+  upgradeLevel: 1
+  towerDescription: "3\uCD08 \uB3D9\uC548 2\uAC1C\uC758 \uB300\uC0C1\uC5D0\uAC8C
+    \uC9C0\uC18D \uD53C\uD574"

@@ -571,5 +571,6 @@ public class BaseMonster : MonoBehaviour
         CancelSlowdown();
         CancelInflictDamage();
         CancelSturn();
+        Debug.Log("모든 디버프 해제");
     }
 }

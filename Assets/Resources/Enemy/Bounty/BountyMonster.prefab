@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 884241243870721089}
   - component: {fileID: 8660885359627565553}
   - component: {fileID: 4844810432890590897}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BountyMonster
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &884241243870721089
 SpriteRenderer:
   m_ObjectHideFlags: 0

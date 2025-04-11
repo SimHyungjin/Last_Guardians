@@ -55,7 +55,7 @@ public class MonsterSkillData : ScriptableObject
         this.skillCoolTime = monsterskillCoolTime;
     }
 
-    public void UseSkill(BaseMonster caster, int num = 0)
+    public void UseSkill(BaseMonster caster)
     {
         switch (SkillType)
         {
@@ -78,8 +78,14 @@ public class MonsterSkillData : ScriptableObject
             case MonsterSkillType.DeBuff:
                 break;
             case MonsterSkillType.Disable:
-                if(num == 0)
-                    caster.CancelAllDebuff();
+                Collider2D[] collider2Ds = Utils.OverlapCircleAllSorted((Vector2)caster.transform.position, skillRange, ~0);
+                foreach (Collider2D var in collider2Ds)
+                {
+                    if (var.gameObject.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
+                    {
+                        baseMonster.CancelAllDebuff();
+                    }
+                }
                 break;
         }
 

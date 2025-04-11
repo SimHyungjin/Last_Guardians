@@ -1,9 +1,11 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class BaseMonster : MonoBehaviour
 {
@@ -59,6 +61,10 @@ public class BaseMonster : MonoBehaviour
     //이동속도 증가 필드
     private float buffSpeedDuration;
     private Coroutine buffSpeedCorutine;
+    //회피버프관련 필드
+    public float EvasionRate { get; set; } = -1f;
+    private float buffEvasionDuration;
+    private Coroutine buffEvasionCorutine;
 
     private void Awake()
     {
@@ -89,11 +95,13 @@ public class BaseMonster : MonoBehaviour
         BuffSpeedModifier = 1f;
         DeBuffSpeedModifier = 1f;
         DeBuffDefModifier = 1f;
+        EvasionRate = 1f;
         buffDefDuration = 0f;
         buffSpeedDuration = 0f;
         reducDefDuration = 0f;
         slowDownDuration = 0f;
         dotDuration = 0f;
+        buffEvasionDuration = 0f;
         sturnDuration = 0f;
         attackTimer = 0f;
         agent.isStopped = false;
@@ -206,6 +214,14 @@ public class BaseMonster : MonoBehaviour
     //데미지 받을 떄 호출되는 함수
     public void TakeDamage(float amount)
     {
+        if(EvasionRate != -1f)
+        {
+            if (Random.Range(0f, 1f) * 100 < EvasionRate)
+            {
+                return;
+            }
+        }
+
         //데미지 관련 공식 들어가야 함
         CurrentHP -= amount;
         if(CurrentHP <= 0)
@@ -247,6 +263,18 @@ public class BaseMonster : MonoBehaviour
         dotDuration = 0f;
     }
 
+    //도트데미지 해제
+    public void CancelInflictDamage()
+    {
+        if (dotDamageCorutine != null)
+        {
+            StopCoroutine(dotDamageCorutine);
+            dotDamageCorutine = null;
+            dotDamage = 0f;
+            Debug.Log($"도트데미지 해제");
+        }
+    }
+
     //스턴 구현
     public void ApplySturn(float duration, float amount = 0)
     {
@@ -279,6 +307,19 @@ public class BaseMonster : MonoBehaviour
         isSturn = false;
     }
 
+    //스턴 해제
+    public void CancelSturn()
+    {
+        if (sturnCorutine != null)
+        {
+            StopCoroutine(sturnCorutine);
+            sturnCorutine = null;
+            sturnDuration = 0f;
+            isSturn = false;
+            Debug.Log($"스턴 해제");
+        }
+    }
+
     //슬로우 적용
     public void ApplySlowdown(float duration, float amount)
     {
@@ -302,7 +343,7 @@ public class BaseMonster : MonoBehaviour
         while (slowDownDuration > 0)
         {
             agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            Debug.Log($"슬로우적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
+            Debug.Log($"슬로우적용 현재 이속 : {agent.speed}");
             yield return zeropointone;
 
             slowDownDuration -= 0.1f;
@@ -311,6 +352,20 @@ public class BaseMonster : MonoBehaviour
         agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
         slowDownCorutine = null;
         slowDownDuration = 0f;
+    }
+
+    //슬로우 디버프 해제
+    public void CancelSlowdown()
+    {
+        if (slowDownCorutine != null)
+        {
+            StopCoroutine(slowDownCorutine);
+            slowDownCorutine = null;
+            slowDownDuration = 0f;
+            DeBuffSpeedModifier = 1f;
+            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+            Debug.Log($"슬로우 해제. 현재 이속 : {agent.speed} ");
+        }
     }
 
     //방어력 감소 적용
@@ -335,7 +390,7 @@ public class BaseMonster : MonoBehaviour
         while (reducDefDuration > 0)
         {
             CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
+            Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} ");
             yield return zeropointone;
 
             reducDefDuration -= 0.1f;
@@ -347,6 +402,21 @@ public class BaseMonster : MonoBehaviour
         reducDefDuration = 0f;
     }
 
+    //방어력 디버프 해제
+    public void CancelDefDown()
+    {
+        if (reduceDefCorutine != null)
+        {
+            StopCoroutine(reduceDefCorutine);
+            reduceDefCorutine = null;
+            reducDefDuration = 0f;
+            DeBuffDefModifier = 1f;
+            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+            Debug.Log($"방깍 디버프 해제 현재방어력 : {CurrentDef} ");
+        }
+    }
+
+    //넉백 적용
     public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
     {
         Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
@@ -378,7 +448,7 @@ public class BaseMonster : MonoBehaviour
         while(buffDefDuration > 0)
         {
             CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            Debug.Log($"방깎적용 현재 방어력 : {CurrentDef} 남은시간 : {reducDefDuration}");
+            Debug.Log($"방어버프적용 현재 방어력 : {CurrentDef} ");
             yield return zeropointone;
 
             buffDefDuration -= 0.1f;
@@ -388,6 +458,20 @@ public class BaseMonster : MonoBehaviour
         CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
         buffDefCorutine = null;
         buffDefDuration = 0f;
+    }
+
+    //방어력 버프 해제
+    public void CancelDefBuff()
+    {
+        if (buffDefCorutine != null)
+        {
+            StopCoroutine(buffDefCorutine);
+            buffDefCorutine = null;
+            buffDefDuration = 0f;
+            BuffDefModifier = 1f;
+            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+            Debug.Log($"방어 버프 해제 현재방어력 : {CurrentDef} ");
+        }
     }
 
     //이동속도 버프
@@ -410,11 +494,10 @@ public class BaseMonster : MonoBehaviour
 
     private IEnumerator BuffSpeedOver()
     {
-
         while (buffSpeedDuration > 0)
         {
             agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            Debug.Log($"스피드버프적용 현재 이속 : {agent.speed} 남은시간 : {sturnDuration}");
+            Debug.Log($"스피드버프적용 현재 이속 : {agent.speed}");
             yield return zeropointone;
 
             slowDownDuration -= 0.1f;
@@ -423,5 +506,70 @@ public class BaseMonster : MonoBehaviour
         agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
         buffSpeedCorutine = null;
         buffSpeedDuration = 0f;
+    }
+
+    //이속 버프 해제
+    public void CancelSpeedBuff()
+    {
+        if (buffSpeedCorutine != null)
+        {
+            StopCoroutine(buffSpeedCorutine);
+            buffSpeedCorutine = null;
+            buffSpeedDuration = 0f;
+            BuffSpeedModifier = 1f;
+            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+            Debug.Log($"이속 버프 해제 현재이동속도 : {agent.speed} ");
+        }
+    }
+
+    //회피율 버프
+    public void ApplyEvasionBuff(float duration, float amount)
+    {
+        if(buffEvasionCorutine != null)
+        {
+            buffEvasionDuration = Mathf.Max(buffEvasionDuration, duration);
+            EvasionRate = Mathf.Max(EvasionRate, amount);
+        }
+        else
+        {
+            buffEvasionDuration = duration;
+            EvasionRate = amount;
+            buffEvasionCorutine = StartCoroutine(EvasionRateOver());
+        }
+    }
+
+    private IEnumerator EvasionRateOver()
+    {
+        while (buffEvasionDuration > 0)
+        {
+            yield return zeropointone;
+
+            buffEvasionDuration -= 0.1f;
+        }
+
+        EvasionRate = -1f;
+        buffEvasionCorutine = null;
+        buffEvasionDuration = 0f;
+    }
+
+    //회피 버프 해제
+    public void CancelEvasionBuff()
+    {
+        if (buffEvasionCorutine != null)
+        {
+            StopCoroutine(buffEvasionCorutine);
+            buffEvasionCorutine = null;
+            buffEvasionDuration = 0f;
+            EvasionRate = -1f;
+            Debug.Log($"회피 버프 해제");
+        }
+    }
+
+    public void CancelAllDebuff()
+    {
+        CancelDefDown();
+        CancelSlowdown();
+        CancelInflictDamage();
+        CancelSturn();
     }
 }

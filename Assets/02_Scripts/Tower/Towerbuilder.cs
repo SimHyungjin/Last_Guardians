@@ -251,7 +251,6 @@ public class Towerbuilder : MonoBehaviour
                     cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
                     cheakedTower = null;
                     GetSprite(clikedTower.towerdata.TowerIndex);
-                    //ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
                 }
             }
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();

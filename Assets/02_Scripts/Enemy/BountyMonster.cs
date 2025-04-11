@@ -15,7 +15,7 @@ public class BountyMonster : BaseMonster
     {
         Debug.Log($"현상금몬스터 {skillData.name} 사용");
         skillData.UseSkill(this);
-        projectile.Data = monsterData;
+        //projectile.Data = monsterData;
         skillTimer = skillData.SkillCoolTime;
     }
 

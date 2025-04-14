@@ -19,13 +19,14 @@ MonoBehaviour:
   attackPower: 46
   attackSpeed: 0.9
   attackRange: 3
-  towerType: 0
+  towerType: 2
   projectileType: 0
-  specialEffect: 0
+  elementType: 0
+  specialEffect: 4
   effectChance: 0.1
   effectDuration: 1.5
   effectValue: 0
-  effectTarget: 0
+  effectTarget: 2
   effectTargetCount: 3
   bossImmune: 1
   upgradeLevel: 2

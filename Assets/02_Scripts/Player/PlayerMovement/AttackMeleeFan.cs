@@ -50,7 +50,7 @@ public class AttackMeleeFan : IAttackBehavior
         {
             // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
             // TODO:
-            Debug.Log("부채꼴 근접 공격");
+            //Debug.Log("부채꼴 근접 공격");
         }
 
     }

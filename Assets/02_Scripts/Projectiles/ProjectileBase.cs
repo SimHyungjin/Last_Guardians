@@ -10,21 +10,22 @@ public interface IProjectile
 
 public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 {
-    //private float speed = 10f;
-    private float Range = 5f;
-    private float offset = 0.5f;
+    protected float speed = 10f;
+    protected TowerData towerData;
+    protected float Range = 5f;
+    protected float offset = 0.5f;
 
-    private Vector2 direction;
-    private Vector2 startPos;
+    protected Vector2 direction;
+    protected Vector2 startPos;
 
-    private Coroutine lifeTimeCoroutine;
+    protected Coroutine lifeTimeCoroutine;
 
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    //protected virtual void Awake()
+    //{
+    //    rb = GetComponent<Rigidbody2D>();
+    //}
 
     public virtual void Update()
     {
@@ -34,6 +35,11 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         {
             PoolManager.Instance.Despawn(this);
         }
+    }
+    public virtual void Init(TowerData _towerData) 
+    {
+        rb = GetComponent<Rigidbody2D>();
+        towerData = _towerData;
     }
     public void OnSpawn()
     {
@@ -63,7 +69,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     /// <param name="targetPos"></param>
     /// <param name="_damage"></param>
     /// <param name="_isMulti"></param>
-    public virtual void Launch(Vector2 targetPos)
+    public void Launch(Vector2 targetPos)
     {
         direction = (targetPos - (Vector2)transform.position).normalized;
         startPos = transform.position;
@@ -73,9 +79,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         ProjectileMove();
     }
 
-    public virtual void ProjectileMove()
+    protected virtual void ProjectileMove()
     {
-
         //rb.velocity = direction * speed;
     }
 }

@@ -21,12 +21,13 @@ MonoBehaviour:
   attackRange: 2
   towerType: 0
   projectileType: 0
-  specialEffect: 0
+  elementType: 2
+  specialEffect: 2
   effectChance: 1
   effectDuration: 0
   effectValue: 0
-  effectTarget: 0
+  effectTarget: 2
   effectTargetCount: 3
   bossImmune: 0
   upgradeLevel: 1
-  towerDescription: "3\uAC1C\uC758 \uB300\uC0C1 \uB3D9\uC2DC \uACF5\uACA9"
+  towerDescription: "3\uAC1C\uB97C \uBC1C\uC0AC\uD574 \uB3D9\uC2DC \uACF5\uACA9"

@@ -16,16 +16,17 @@ MonoBehaviour:
   atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
   towerIndex: 62
   towerName: "\uC6A9\uC554 \uD0C0\uC6CCII"
-  attackPower: 52
-  attackSpeed: 1.9
+  attackPower: 0
+  attackSpeed: 0
   attackRange: 3
-  towerType: 0
-  projectileType: 0
+  towerType: 2
+  projectileType: 4
+  elementType: 8
   specialEffect: 0
   effectChance: 1
   effectDuration: 10
   effectValue: 6
-  effectTarget: 0
+  effectTarget: 1
   effectTargetCount: 0
   bossImmune: 0
   upgradeLevel: 2

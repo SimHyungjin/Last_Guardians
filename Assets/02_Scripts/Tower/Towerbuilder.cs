@@ -25,6 +25,7 @@ public class Towerbuilder : MonoBehaviour
     [Header("이동경로파악")]
     public Transform[] spawnPoint;
     public Transform targetPosition;
+    public GameObject dummyTowerPrefab;
 
 
 
@@ -66,7 +67,7 @@ public class Towerbuilder : MonoBehaviour
     public void TowerToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
-        int combineTowerIndex = towerCombinationData.TryCombine(clikedTower.towerdata.TowerIndex, cheakedTower.towerdata.TowerIndex);
+        int combineTowerIndex = towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex);
         Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
         combineTower.Init(combineTowerIndex);
         Destroy(cheakedTower.gameObject);
@@ -78,7 +79,7 @@ public class Towerbuilder : MonoBehaviour
     public void CardToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
-        int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerdata.TowerIndex);
+        int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex);
         Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
         combineTower.Init(combineTowerIndex);
         Destroy(cheakedTower.gameObject);
@@ -94,7 +95,7 @@ public class Towerbuilder : MonoBehaviour
             yield break;
         }
 
-        GameObject dummyTower = Instantiate(towerPrefab, constructPos, Quaternion.identity);
+        GameObject dummyTower = Instantiate(dummyTowerPrefab, constructPos, Quaternion.identity);
         yield return null;
         bool allPathsExist = true;
         NavMeshPath path = new NavMeshPath();
@@ -124,7 +125,6 @@ public class Towerbuilder : MonoBehaviour
     public bool IsAnyObjectOnTile(Vector2 tilePos)
     {
         Collider2D hit = Physics2D.OverlapPoint(tilePos, buildBlockMask);
-        Debug.Log(hit);
         return hit != null;
     }
 
@@ -133,7 +133,7 @@ public class Towerbuilder : MonoBehaviour
         Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
         int towerIndex;
         if (hit == null) return false;
-        else towerIndex = hit.GetComponent<Tower>().towerdata.TowerIndex;
+        else towerIndex = hit.GetComponent<Tower>().towerData.TowerIndex;
         return hit != null? towerCombinationData.TryCombine(towerIndex, cardIndex)!=-1:false;
     }
 
@@ -155,9 +155,9 @@ public class Towerbuilder : MonoBehaviour
         {
             return false;
         }
-        int towerIndex = tower.towerdata.TowerIndex;
-        Debug.Log(towerCombinationData.TryCombine(towerIndex, clikedTower.towerdata.TowerIndex));
-        return towerCombinationData.TryCombine(towerIndex, clikedTower.towerdata.TowerIndex) != -1;
+        int towerIndex = tower.towerData.TowerIndex;
+        Debug.Log(towerCombinationData.TryCombine(towerIndex, clikedTower.towerData.TowerIndex));
+        return towerCombinationData.TryCombine(towerIndex, clikedTower.towerData.TowerIndex) != -1;
     }
 
 
@@ -217,7 +217,7 @@ public class Towerbuilder : MonoBehaviour
                             Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
                             precolor.a = 0.0f;
                             cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
-                            GetSprite(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerdata.TowerIndex));
+                            GetSprite(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex));
                             ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
                         }
                         else
@@ -235,8 +235,8 @@ public class Towerbuilder : MonoBehaviour
         {
             ghostTower = Instantiate(ghostTowerPrefab);
 
-            int spriteIndex = (clikedTower.towerdata.TowerIndex > 49) ? clikedTower.towerdata.TowerIndex - 49 : clikedTower.towerdata.TowerIndex;
-            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
+            int spriteIndex = (clikedTower.towerData.TowerIndex > 49) ? clikedTower.towerData.TowerIndex - 49 : clikedTower.towerData.TowerIndex;
+            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerData.atlas.GetSprite($"Tower_{spriteIndex}");
             clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 0.3f);
         }
         else
@@ -250,7 +250,7 @@ public class Towerbuilder : MonoBehaviour
                     precolor.a = 1.0f;
                     cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
                     cheakedTower = null;
-                    GetSprite(clikedTower.towerdata.TowerIndex);
+                    GetSprite(clikedTower.towerData.TowerIndex);
                 }
             }
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
@@ -263,7 +263,7 @@ public class Towerbuilder : MonoBehaviour
                 precolor.a = 0.0f;
                 cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
                 ghostTower.transform.position = currentTile;
-                GetSprite(towerCombinationData.TryCombine(clikedTower.towerdata.TowerIndex, cheakedTower.towerdata.TowerIndex));
+                GetSprite(towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex));
                 ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
             }
             else

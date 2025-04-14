@@ -922,6 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c958f90f6a467074d8c5fb97a4f5c0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeManager: {fileID: 0}
 --- !u!1 &98788407
 GameObject:
   m_ObjectHideFlags: 0
@@ -4054,6 +4055,7 @@ MonoBehaviour:
   - {fileID: 48209079}
   - {fileID: 1018054542}
   targetPosition: {fileID: 4918445805338994667}
+  dummyTowerPrefab: {fileID: 574210830657341825, guid: 25813c72c8217124fac252f7c2032bf0, type: 3}
 --- !u!114 &648171798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9064,7 +9066,7 @@ Transform:
   m_GameObject: {fileID: 1874246050}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.1543014, y: 0.27968892, z: -0.04227565}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9082,7 +9084,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7761a544db03ef4799ad67187fb837d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileList: []
+  projectileList:
+  - type: 0
+    prefab: {fileID: 3293921478443195213, guid: 77ce0bcb56cb4e74a9bc13af54f0a457, type: 3}
 --- !u!114 &1883971990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13589,7 +13593,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf648540cc616b84ea1a4395be0a4504, type: 2}
   - {fileID: 11400000, guid: 135c8cd8d425c0c4f82174e4f337c1ae, type: 2}
   - {fileID: 11400000, guid: d3aaca621c6f04d4da8f8f05a850b18f, type: 2}
+  itemDataSO: []
+  equipDataSO: []
   towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
+  towerGhostPrefabs: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  towerAtlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
 --- !u!4 &1680084934338659558 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8029315675317078887, guid: 295546073aee1fa4a8ae1b5045d970d2, type: 3}

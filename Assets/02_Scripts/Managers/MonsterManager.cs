@@ -84,7 +84,7 @@ public class MonsterManager : Singleton<MonsterManager>
             NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
+            //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
         else if(monsterIndex >= 101 && monsterIndex <=200)
         {
@@ -92,7 +92,7 @@ public class MonsterManager : Singleton<MonsterManager>
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
+            //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
             
         alliveCount++;

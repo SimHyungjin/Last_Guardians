@@ -18,10 +18,11 @@ MonoBehaviour:
   towerName: "\uD568\uC815 \uD0C0\uC6CCII"
   attackPower: 0
   attackSpeed: 0
-  attackRange: 3
-  towerType: 0
-  projectileType: 0
-  specialEffect: 0
+  attackRange: 4
+  towerType: 2
+  projectileType: 4
+  elementType: 6
+  specialEffect: 8
   effectChance: 1
   effectDuration: 4
   effectValue: 0

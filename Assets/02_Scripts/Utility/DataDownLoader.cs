@@ -9,6 +9,7 @@ using System.Linq;
 using System;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using UnityEngine.U2D;
 
 
 [CustomEditor(typeof(DataDownLoader))]
@@ -729,6 +730,8 @@ public class DataDownLoader : MonoBehaviour
 
     const string URL_TowerData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=1542089353";
 
+    public GameObject towerGhostPrefabs;
+    public SpriteAtlas towerAtlas;
     public void StartTowerDataDownload(bool renameFiles)
     {
         StartCoroutine(DownloadTowerData(renameFiles));
@@ -741,7 +744,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 107, startCol: 0, endCol: 15);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 115, startCol: 0, endCol: 16);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyTowerDataToSO(jsonData, renameFiles);
         }
@@ -758,8 +761,7 @@ public class DataDownLoader : MonoBehaviour
 
         for (int i = 0; i < jsonData.Count; i++)
         {
-            JObject row = (JObject)jsonData[i];
-       
+            JObject row = (JObject)jsonData[i];           
             int towerIndex = int.TryParse(row["towerIndex"]?.ToString(), out int parsedTowerIndex) ? parsedTowerIndex : default;
             string towerName = row["towerName"]?.ToString() ?? string.Empty;
             float attackPower = float.TryParse(row["attackPower"]?.ToString(), out float parsedAttackPower) ? parsedAttackPower : default;
@@ -767,6 +769,7 @@ public class DataDownLoader : MonoBehaviour
             float attackRange = float.TryParse(row["attackRange"]?.ToString(), out float parsedAttackRange) ? parsedAttackRange : default;
             TowerType towerType = Enum.TryParse(row["towerType"]?.ToString(), out TowerType parsedTowerType) ? parsedTowerType : TowerType.Elemental;
             ProjectileType projectileType = Enum.TryParse(row["projectileType"]?.ToString(), out ProjectileType parsedProjectileType) ? parsedProjectileType : ProjectileType.Magic;
+            ElementType elementType = Enum.TryParse(row["elementType"]?.ToString(), out ElementType parsedElementType) ? parsedElementType : ElementType.Fire;
             SpecialEffect specialEffect = Enum.TryParse(row["specialEffect"]?.ToString(), out SpecialEffect parsedSpecialEffect) ? parsedSpecialEffect : SpecialEffect.DotDamage;
             float effectChance = float.TryParse(row["effectChance"]?.ToString(), out float parsedEffectChance) ? parsedEffectChance : default;
             float effectDuration = float.TryParse(row["effectDuration"]?.ToString(), out float parsedEffectDuration) ? parsedEffectDuration : default;
@@ -776,7 +779,7 @@ public class DataDownLoader : MonoBehaviour
             bool bossImmune = bool.TryParse(row["bossImmune"]?.ToString(), out bool parsedBossImmune) ? parsedBossImmune : false;
             int upgradeLevel = int.TryParse(row["upgradeLevel"]?.ToString(), out int parsedUpgradeLevel) ? parsedUpgradeLevel : default;
             string towerDescription = row["towerDescription"]?.ToString() ?? string.Empty;
-            Debug.Log(towerIndex);
+            Debug.Log(elementType);
 
             string dataname = $"Tower{towerIndex}";
 
@@ -798,7 +801,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameTowerDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(towerIndex, towerName, attackPower, attackSpeed, attackRange, towerType, projectileType,
+            data.SetData(towerGhostPrefabs,towerAtlas,towerIndex, towerName, attackPower, attackSpeed, attackRange, towerType, projectileType, elementType,
                         specialEffect, effectChance, effectDuration, effectValue, effectTarget, effectTargetCount,
                         bossImmune, upgradeLevel, towerDescription);
             EditorUtility.SetDirty(data);

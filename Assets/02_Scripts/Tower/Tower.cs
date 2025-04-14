@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class Tower : MonoBehaviour
 {
     [Header("타워 데이터")]
-    public TowerData towerdata;
+    public TowerData towerData;
 
 
     [Header("타워 결합")]
@@ -16,29 +16,48 @@ public class Tower : MonoBehaviour
     public bool isMoving;
     public bool isCliked;
     public SpriteRenderer sprite;
+
     [Header("공격")]
-    public ProjectileBase projectile;
     private Transform target;
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
+    public ProjectileFactory projectileFactory;
 
     private GameObject towerGhost;
     Vector2 curPos;
 
     public void Init(int index)
     {
+        projectileFactory = FindObjectOfType<ProjectileFactory>();
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
+        towerData = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
         sprite = GetComponent<SpriteRenderer>();
-        if (towerdata != null)
+        if (towerData != null)
         {
-            int spriteIndex = (towerdata.TowerIndex>49)? towerdata.TowerIndex-49: towerdata.TowerIndex;
-            sprite.sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
-            towerGhost = towerdata.towerGhostPrefab;
+            int spriteIndex = (towerData.TowerIndex > 49) ? towerData.TowerIndex - 49 : towerData.TowerIndex;
+            if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
+            {
+                spriteIndex = towerData.TowerIndex - 49;
+            }
+            else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
+            {
+                spriteIndex = towerData.TowerIndex - 98;
+            }
+            else if (towerData.TowerIndex > 108)
+            {
+                spriteIndex = towerData.TowerIndex - 59;
+            }
+            else
+            {
+                spriteIndex = towerData.TowerIndex;
+                sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+                towerGhost = towerData.towerGhostPrefab;
+            }
         }
     }
     private void Update()
     {
+
         if (isMoving)
         {
             curPos = InputManager.Instance.GetTouchWorldPosition();
@@ -51,8 +70,13 @@ public class Tower : MonoBehaviour
             return;
         }
 
-        if (Time.time - lastCheckTime < towerdata.AttackSpeed) return;
+        if (Time.time - lastCheckTime < towerData.AttackSpeed) return;
         {
+            if (projectileFactory == null || towerData == null)
+            {
+                Debug.LogError("ProjectileFactory or TowerData is null in Tower.Update");
+                return;  // 필수 객체가 null이라면 Update에서 더 이상 진행하지 않음
+            }
             lastCheckTime = Time.time;
             Attack();
         }
@@ -61,12 +85,12 @@ public class Tower : MonoBehaviour
 
     bool IsInRange(Vector3 targetPos)
     {
-        return Vector3.Distance(transform.position, targetPos) <= towerdata.AttackRange;
+        return Vector3.Distance(transform.position, targetPos) <= towerData.AttackRange;
     }
 
     void FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerdata.AttackRange, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, monsterLayer);
 
         float closestDist = float.MaxValue;
         Transform closest = null;
@@ -88,15 +112,10 @@ public class Tower : MonoBehaviour
     {
         if (target == null || !IsInRange(target.position))
             return;
-        Debug.Log($"타워 공격 : {towerdata.TowerName} / 타겟 : {target.name}");
-        // projectile.Launch(target.position, towerdata.AttackPower, true); //요청한 방식 그대로
+        Debug.Log($"타워 공격 : {towerData.TowerName} / 타겟 : {target.name}");
+        projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(1f, 0f, 0f, 0.5f); 
-        Gizmos.DrawWireSphere(transform.position, towerdata.AttackRange);
-    }
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!isCliked)
@@ -131,4 +150,5 @@ public class Tower : MonoBehaviour
         isMoving = false;
     }
 }
+
 

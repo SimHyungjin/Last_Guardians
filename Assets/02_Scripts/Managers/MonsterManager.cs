@@ -29,6 +29,11 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         //WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         InitMonsters();
+        
+    }
+
+    public void GameStart()
+    {
         StartCoroutine(StartNextWave());
     }
 

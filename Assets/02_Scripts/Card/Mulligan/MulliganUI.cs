@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,15 +13,17 @@ public class MulliganUI : MonoBehaviour
     [SerializeField] private Transform parent;
     [SerializeField] private Button okBtn;
     [SerializeField] private int cardNum = 3;
-    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI timerText;
+
+    private const int MaxSelectedCards = 2;
     private float timer = 30f;
     private int count = 0;
     private bool isTimerOn = false;
-    public List<int> MyCardIndexList { get; set; }
+
+    public List<int> MyCardIndexList { get; private set; }
     private List<TowerData> elementalDataList;
     private List<TowerData> standardDataList;
     private List<MulliganCard> selectedCard;
-
 
     private void Awake()
     {
@@ -33,45 +36,50 @@ public class MulliganUI : MonoBehaviour
     {
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
+
         okBtn.onClick.AddListener(AddMyList);
-        Shuffle<TowerData>(elementalDataList);
-        Shuffle<TowerData>(standardDataList);
+
+        Shuffle(elementalDataList);
+        Shuffle(standardDataList);
+
         StartSelectCard();
     }
 
     private void Update()
     {
-        if (isTimerOn)
-            timer = Time.deltaTime;
+        if (!isTimerOn)
+            return;
+
+        UpdateTimer();
     }
 
-    //랜덤섞기
-    public void Shuffle<T>(List<T> list)
+    private void UpdateTimer()
     {
-        for (int i = 0; i < list.Count; i++)
+        timer -= Time.deltaTime;
+        timerText.text = Mathf.Round(timer).ToString();
+
+        if (timer <= 0)
         {
-            int randomIndex = Random.Range(i, list.Count); // i 이상 list.Count 미만
-            (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
+            timer = 0;
+            isTimerOn = false;
+            AutoSelectCard();
         }
     }
 
     public void StartSelectCard()
     {
-        ShowElenentalCardSelect();
+        ShowCardSelect(elementalDataList, cardNum);
     }
 
-    private void ShowElenentalCardSelect()
+    private void ShowCardSelect(List<TowerData> dataList, int numberOfCards)
     {
         isTimerOn = true;
 
-        for (int i = 0; i < cardNum; i++)
+        for (int i = 0; i < numberOfCards; i++)
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
-            card.Init(elementalDataList[i].TowerIndex);
-            card.Btn.onClick.AddListener(() =>
-            {
-                AddSelectCardList(card);
-            });
+            card.Init(dataList[i].TowerIndex);
+            card.Btn.onClick.AddListener(() => AddSelectCardList(card));
         }
     }
 
@@ -79,78 +87,105 @@ public class MulliganUI : MonoBehaviour
     {
         if (card.Outline.enabled)
         {
-            // 이미 선택된 카드면 해제
             selectedCard.Remove(card);
             card.Outline.enabled = false;
         }
         else
         {
-            if (selectedCard.Count >= 2)
+            if (selectedCard.Count >= MaxSelectedCards)
             {
-                // 2개 넘으면 제일 오래된 선택 해제
                 selectedCard[0].Outline.enabled = false;
                 selectedCard.RemoveAt(0);
             }
-            // 새로운 카드 선택
             selectedCard.Add(card);
             card.Outline.enabled = true;
         }
 
-        Debug.Log(selectedCard.Count);
-
+        Debug.Log($"현재 선택된 카드 수: {selectedCard.Count}");
     }
 
     public void AddMyList()
     {
-        if (selectedCard.Count != 2)
+        if (selectedCard.Count != MaxSelectedCards)
         {
-            Debug.Log("2개를 선택하지 않음");
+            Debug.Log("2개의 카드를 선택하지 않았습니다.");
             return;
         }
 
         count++;
+        timer = 30f;
 
-        for (int i = 0; i < selectedCard.Count; i++)
+        foreach (var card in selectedCard)
         {
-            MyCardIndexList.Add(selectedCard[i].TowerIndex);
-            int index = elementalDataList.FindIndex(a => a.TowerIndex == selectedCard[i].TowerIndex);
+            MyCardIndexList.Add(card.TowerIndex);
+            int index = elementalDataList.FindIndex(a => a.TowerIndex == card.TowerIndex);
             if (index != -1)
             {
                 elementalDataList.RemoveAt(index);
             }
         }
-        DestroyAllChildren(parent.gameObject);
+
+        DestroyAllChildren(parent);
         selectedCard.Clear();
-        Shuffle<TowerData>(elementalDataList);
+        Shuffle(elementalDataList);
 
         if (count <= 1)
-            ShowElenentalCardSelect();
-        else if(count == 2)
         {
-            ShowStandardCardSelect();
+            ShowCardSelect(elementalDataList, cardNum);
+        }
+        else if (count == 2)
+        {
+            ShowCardSelect(standardDataList, cardNum + 1);
         }
         else
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+            MonsterManager.Instance.GameStart();
         }
     }
 
-    private void ShowStandardCardSelect()
+    private void AutoSelectCard()
     {
-        for (int i = 0; i < cardNum+1; i++)
+        if (selectedCard.Count == MaxSelectedCards)
         {
-            MulliganCard card = Instantiate(CardPrefab, parent);
-            card.Init(standardDataList[i].TowerIndex);
-            card.Btn.onClick.AddListener(() =>
+            AddMyList();
+            return;
+        }
+
+        List<MulliganCard> availableCards = new List<MulliganCard>();
+
+        foreach (Transform child in parent)
+        {
+            MulliganCard card = child.GetComponent<MulliganCard>();
+            if (card != null && !card.Outline.enabled)
             {
-                AddSelectCardList(card);
-            });
+                availableCards.Add(card);
+            }
+        }
+
+        while (selectedCard.Count < MaxSelectedCards && availableCards.Count > 0)
+        {
+            int randomIndex = Random.Range(0, availableCards.Count);
+            MulliganCard randomCard = availableCards[randomIndex];
+            AddSelectCardList(randomCard);
+            availableCards.RemoveAt(randomIndex);
+        }
+
+        AddMyList();
+    }
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int randomIndex = Random.Range(i, list.Count);
+            (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
         }
     }
 
-    void DestroyAllChildren(GameObject parent)
+    private void DestroyAllChildren(Transform parent)
     {
-        foreach (Transform child in parent.transform)
+        foreach (Transform child in parent)
         {
             Destroy(child.gameObject);
         }

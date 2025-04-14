@@ -40,13 +40,13 @@ public class BaseMonster : MonoBehaviour
 
     //상태이상 핸들러 관련 필드
     private EffectHandler effectHandler;
-    StatusEffect dotDamage;
-    StatusEffect slowDown;
-    StatusEffect sturn;
-    StatusEffect defDown;
-    StatusEffect defBuff;
-    StatusEffect speedBuff;
-    StatusEffect EvasionBuff;
+    private StatusEffect dotDamage;
+    private StatusEffect slowDown;
+    private StatusEffect sturn;
+    private StatusEffect defDown;
+    private StatusEffect defBuff;
+    private StatusEffect speedBuff;
+    private StatusEffect EvasionBuff;
     public bool isSturn = false;
     public float EvasionRate { get; set; } = -1f;
 

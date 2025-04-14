@@ -29,8 +29,8 @@ public enum SpecialEffect
     Buff, 
     AttackPower, 
     AttackSpeed, 
-    Summon
-
+    Summon,
+    None
 }
 public enum EffectTarget
 {

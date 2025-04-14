@@ -2,24 +2,34 @@ using UnityEngine;
 
 public class HomeManager : Singleton<HomeManager>
 {
-    public GameObject canvas;
     public Inventory inventory;
     public Equipment equipment;
+    public Upgrade upgrade;
 
-    public Slot selectedSlot;
+    public InventorySlotContainer inventorySlotContainer;
+    public EquipmentSlotContainer equipmentSlotContainer;
+
+    public SelectionController selectionController;
+    public ItemPopupController itemPopupController;
 
     private void Awake()
     {
-        canvas = Utils.InstantiatePrefabFromResource("UI/Canvas", this.transform);
-
-        inventory = Utils.InstantiateComponentFromResource<Inventory>("UI/Inventory", canvas.transform);
-
+        inventory ??= new();
         equipment ??= new();
-        equipment.Init();
-    }
+        upgrade ??= new();
 
-    public void SetSelectedItem(Slot slot)
-    {
-        selectedSlot = slot;
+        var canvas = Utils.InstantiatePrefabFromResource("UI/Canvas", this.transform);
+        var inventoryObj = Utils.InstantiatePrefabFromResource("UI/Inventory", canvas.transform);
+        var equipmentObj = Utils.InstantiatePrefabFromResource("UI/Equipment", canvas.transform);
+        var itemConnecterObj = Utils.InstantiatePrefabFromResource("UI/ItemConnecter", canvas.transform);
+
+        inventorySlotContainer = inventoryObj.GetComponentInChildren<InventorySlotContainer>();
+        equipmentSlotContainer = equipmentObj.GetComponentInChildren<EquipmentSlotContainer>();
+        selectionController = itemConnecterObj.GetComponentInChildren<SelectionController>();
+        itemPopupController = itemConnecterObj.GetComponentInChildren<ItemPopupController>();
+
+        upgrade.Init();
+
+        inventorySlotContainer.Display(inventory.GetAll());
     }
 }

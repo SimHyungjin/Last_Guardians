@@ -22,10 +22,10 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 
     protected Rigidbody2D rb;
 
-    //protected virtual void Awake()
-    //{
-    //    rb = GetComponent<Rigidbody2D>();
-    //}
+    protected virtual void Awake()
+    {
+        //rb = GetComponent<Rigidbody2D>();
+    }
 
     public virtual void Update()
     {

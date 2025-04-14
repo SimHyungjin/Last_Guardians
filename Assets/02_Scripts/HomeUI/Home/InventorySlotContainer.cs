@@ -1,30 +1,94 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class InventorySlotContainer : MonoBehaviour
 {
-    [SerializeField] private int slotNum = 10;
+    [SerializeField] private int slotNum = 50;
     private List<Slot> slots = new();
 
-    public void Init()
+    private Inventory inventory;
+    private Equipment equipment;
+    private SelectionController selectionController;
+
+    private void Awake()
     {
         for (int i = 0; i < slotNum; i++)
         {
-            var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot",this.transform);
+            var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", transform);
             slots.Add(slot);
         }
     }
 
-    public void UpdateSlots(List<EquipemntData> view)
+    private void Start()
     {
-        for (int i = 0; i < slots.Count; i++)
+        var home = HomeManager.Instance;
+        inventory = home.inventory;
+        equipment = home.equipment;
+        selectionController = home.selectionController;
+
+        inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView());
+    }
+
+    public void Display(IReadOnlyList<ItemData> items)
+    {
+        ApplySlotActions(items, (slot, item) =>
         {
-            if (i < view.Count)
-                slots[i].SetData(view[i]);
+            slot.SetData(item);
+
+            if (item is EquipData eq)
+            {
+                slot.SetEquipped(equipment.IsEquipped(eq));
+            }
             else
-                slots[i].ClearData();
+            {
+                slot.SetEquipped(false);
+            }
+
+            if (selectionController.selectedSlot != null)
+            {
+                slot.SetSelected(slot.GetData() == selectionController.selectedData);
+            }
+
+            slot.Refresh();
+        });
+    }
+
+    public void Refresh()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.GetData() is EquipData data)
+            {
+                bool isEquipped = equipment.IsEquipped(data);
+                slot.SetEquipped(isEquipped);
+            }
+            slot.Refresh();
         }
     }
 
-    public List<Slot> GetSlots() => slots;
+    public void Clear()
+    {
+        foreach (var slot in slots)
+        {
+            slot.Clear();
+        }
+    }
+
+    private void ApplySlotActions(IReadOnlyList<ItemData> items, Action<Slot, ItemData> action)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (i < items.Count)
+            {
+                action.Invoke(slots[i], items[i]);
+            }
+            else
+            {
+                slots[i].Clear();
+            }
+        }
+    }
+
+    public IReadOnlyList<Slot> GetSlots() => slots;
 }

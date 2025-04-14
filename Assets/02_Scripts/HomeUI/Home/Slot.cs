@@ -1,56 +1,81 @@
-using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image icon;
-    [SerializeField] private ItemData data;
+    [SerializeField] private Image selectedEffect;
+    [SerializeField] private Image equipEffect;
+    [SerializeField] private Image gradeEffect;
 
-    private void Awake()
-    {
-        icon = GetComponent<Image>();
-    }
+    [SerializeField] private ItemData data;
 
     public void SetData(ItemData newData)
     {
         data = newData;
-        UpdateSlotUI();
+        icon.sprite = data ? data.icon : null;
+        Refresh();
     }
 
-    public void ClearData()
+    public void Clear()
     {
-        data = null; 
-        UpdateSlotUI();
+        data = null;
+        SetIcon(false);
+        SetSelected(false);
+        SetEquipped(false);
+        SetGradeEffect();
     }
 
-    public void UpdateSlotUI()
+    public void Refresh()
     {
         if (data == null)
         {
-            icon.sprite = null;
+            Clear();
+            return;
         }
-        else
+        SetIcon(true);
+        SetGradeEffect();
+    }
+
+    public void SetIcon(bool active) => icon.gameObject?.SetActive(active);
+    public void SetEquipped(bool equipped) => equipEffect.gameObject?.SetActive(equipped);
+    public void SetSelected(bool selected) => selectedEffect.gameObject?.SetActive(selected);
+    public void SetGradeEffect()
+    {
+        if (data == null)
         {
-            icon.sprite = data.icon;
+            if (gradeEffect != null) gradeEffect.gameObject.SetActive(false);
+            return;
+        }
+        gradeEffect.gameObject.SetActive(true);
+        switch (data.itemGrade)
+        {
+            case ItemGrade.Normal:
+                gradeEffect.gameObject.SetActive(false);
+                break;
+            case ItemGrade.Rare:
+                gradeEffect.color = new Color(0.2f, 0.6f, 1f);
+                break;
+            case ItemGrade.Unique:
+                gradeEffect.color = new Color(0.7f, 0.3f, 1f);
+                break;
+            case ItemGrade.Hero:
+                gradeEffect.color = new Color(1f, 0.5f, 0.1f);
+                break;
+            case ItemGrade.Legend:
+                gradeEffect.color = new Color(1f, 0.84f, 0f);
+                break;
+
+
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (data == null) return;
-        HomeManager.Instance.SetSelectedItem(this);
+        HomeManager.Instance.selectionController.SelectSlot(this);
     }
 
-    public void EffectEnable()
-    {
-        transform.GetChild(0).gameObject.SetActive(true);
-    }
-
-    public void EffectDisable()
-    {
-        transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    public ItemData Getdata() => data;
+    public ItemData GetData() => data;
 }

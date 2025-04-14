@@ -21,15 +21,15 @@ MonoBehaviour:
   itemDropRate: 0.08
   itemSellPrice: 0
   icon: {fileID: 0}
-  equipIndex: 1202
-  equipType: 0
-  attackType: 1
-  attackPower: 20
-  attackSpeed: 0.5
-  moveSpeed: 0
-  criticalChance: 0
-  criticalDamage: 0
-  penetration: 5
-  attackRange: 3.5
-  specialEffectID: 0
-  linkedItem: {fileID: 11400000, guid: f19e5b1e56d05af408d42567ee96d770, type: 2}
+  <equipIndex>k__BackingField: 1202
+  <equipType>k__BackingField: 0
+  <attackType>k__BackingField: 1
+  <attackPower>k__BackingField: 20
+  <attackSpeed>k__BackingField: 0.5
+  <moveSpeed>k__BackingField: 0
+  <criticalChance>k__BackingField: 0
+  <criticalDamage>k__BackingField: 0
+  <penetration>k__BackingField: 5
+  <attackRange>k__BackingField: 3.5
+  <specialEffectID>k__BackingField: 0
+  <linkedItem>k__BackingField: {fileID: 11400000, guid: f19e5b1e56d05af408d42567ee96d770, type: 2}

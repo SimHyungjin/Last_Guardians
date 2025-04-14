@@ -7,19 +7,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEquip", menuName = "Data/Equip Data", order = 1)]
 public class EquipData : ItemData
 {
-    [Header("Àåºñ ´É·ÂÄ¡")]
-    [SerializeField] private int equipIndex;
-    [SerializeField] private EquipType equipType;
-    [SerializeField] private AttackType attackType;
-    [SerializeField] private float attackPower;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float criticalChance;
-    [SerializeField] private float criticalDamage;
-    [SerializeField] private float penetration;
-    [SerializeField] private float attackRange;
-    [SerializeField] private int specialEffectID;
-    [SerializeField] private ItemData linkedItem;
+    [field : Header("ì¥ë¹„ ëŠ¥ë ¥ì¹˜")]
+    [field : SerializeField] public int equipIndex { get; private set; }
+    [field : SerializeField] public EquipType equipType { get; private set; }
+    [field : SerializeField] public AttackType attackType { get; private set; }
+    [field : SerializeField] public float attackPower { get; private set; }
+    [field : SerializeField] public float attackSpeed { get; private set; }
+    [field : SerializeField] public float moveSpeed { get; private set; }
+    [field : SerializeField] public float criticalChance { get; private set; }
+    [field : SerializeField] public float criticalDamage { get; private set; }
+    [field : SerializeField] public float penetration { get; private set; }
+    [field : SerializeField] public float attackRange { get; private set; }
+    [field : SerializeField] public int specialEffectID { get; private set; }
+    [field : SerializeField] public ItemData linkedItem { get; private set; }
 
     public ItemData LinkedItem => linkedItem;
 
@@ -85,9 +85,9 @@ public class EquipData : ItemData
             item.ItemSellPrice
         );
 
-        icon = item.Icon; // ¾ÆÀÌÄÜµµ º¹»ç
+        icon = item.Icon; // ì•„ì´ì½˜ë„ ë³µì‚¬
 
-        linkedItem = item; // ¸µÅ©µÈ ¾ÆÀÌÅÛ ¼³Á¤
+        linkedItem = item; // ë§í¬ëœ ì•„ì´í…œ ì„¤ì •
     }
 
 

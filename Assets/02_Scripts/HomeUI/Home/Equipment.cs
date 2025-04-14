@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class Equipment
 {
-    private Dictionary<EquipType, EquipmentData> equipped = new();
+    private Dictionary<EquipType, EquipData> equipped = new();
 
-    public event Action<EquipmentData> OnEquip;
-    public event Action<EquipmentData> OnUnequip;
+    public event Action<EquipData> OnEquip;
+    public event Action<EquipData> OnUnequip;
 
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
@@ -18,7 +18,7 @@ public class Equipment
     public float specialEffectIDs { get; private set; }
     public int specialEffectCount { get; private set; }
 
-    public void Equip(EquipmentData data)
+    public void Equip(EquipData data)
     {
         if (data == null) return;
         if (equipped.TryGetValue(data.equipType, out var cur))
@@ -32,7 +32,7 @@ public class Equipment
         OnEquip.Invoke(data);
     }
 
-    public void UnEquip(EquipmentData data)
+    public void UnEquip(EquipData data)
     {
         if (data == null || !equipped.ContainsKey(data.equipType)) return;
         equipped.Remove(data.equipType);
@@ -61,7 +61,7 @@ public class Equipment
         }
     }
 
-    public bool IsEquipped(EquipmentData data)
+    public bool IsEquipped(EquipData data)
     {
         if (data == null) return false;
         if (equipped.Count == 0) return false;

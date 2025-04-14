@@ -27,7 +27,7 @@ public class InventorySlotContainer : MonoBehaviour
         {
             slot.SetData(item);
 
-            if (item is EquipmentData eq)
+            if (item is EquipData eq)
             {
                 slot.SetEquipped(HomeManager.Instance.equipment.IsEquipped(eq));
             }
@@ -49,7 +49,7 @@ public class InventorySlotContainer : MonoBehaviour
     {
         foreach (var slot in slots)
         {
-            if (slot.GetData() is EquipmentData data)
+            if (slot.GetData() is EquipData data)
             {
                 bool isEquipped = HomeManager.Instance.equipment.IsEquipped(data);
                 slot.SetEquipped(isEquipped);

@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec207e345877c34c92cc719d7ed879c, type: 3}
   m_Name: Equip_1201
   m_EditorClassIdentifier: 
-  itemIndex: 1201
-  itemName: "\uC720\uB2C8\uD06C \uAC80"
-  itemDescript: "\uD2B9\uBCC4\uD55C \uD6A8\uACFC\uB97C \uAC00\uC9C4 \uAC80"
+  itemIndex: 0
+  itemName: 
+  itemDescript: 
   itemType: 0
-  itemGrade: 2
-  itemStackLimit: 1
-  itemDropRate: 0.08
+  itemGrade: 0
+  itemStackLimit: 0
+  itemDropRate: 0
   itemSellPrice: 0
   icon: {fileID: 0}
-  equipIndex: 1201
-  equipType: 0
-  attackType: 0
-  attackPower: 50
-  attackSpeed: 0.8
-  moveSpeed: 0
-  criticalChance: 0
-  criticalDamage: 0
-  penetration: 5
-  attackRange: 1.5
-  specialEffectID: 0
-  linkedItem: {fileID: 11400000, guid: 2436ee3f75502ea47b2b215c3d77005a, type: 2}
+  <equipIndex>k__BackingField: 1201
+  <equipType>k__BackingField: 0
+  <attackType>k__BackingField: 0
+  <attackPower>k__BackingField: 50
+  <attackSpeed>k__BackingField: 0.8
+  <moveSpeed>k__BackingField: 0
+  <criticalChance>k__BackingField: 0
+  <criticalDamage>k__BackingField: 0
+  <penetration>k__BackingField: 5
+  <attackRange>k__BackingField: 1.5
+  <specialEffectID>k__BackingField: 0
+  <linkedItem>k__BackingField: {fileID: 0}

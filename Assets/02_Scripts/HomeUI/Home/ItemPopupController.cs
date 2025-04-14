@@ -18,7 +18,7 @@ public class ItemPopupController : MonoBehaviour
     private EquipmentSlotContainer equipmentSlotContainer;
     private InventorySlotContainer inventorySlotContainer;
 
-    private EquipmentData currentData;
+    private EquipData currentData;
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class ItemPopupController : MonoBehaviour
 
     public void Open(Slot slot)
     {
-        currentData = slot.GetData() as EquipmentData;
+        currentData = slot.GetData() as EquipData;
         root.SetActive(true);
         UpdatePopupUI();
         

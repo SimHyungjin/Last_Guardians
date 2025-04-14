@@ -23,7 +23,7 @@ public class EquipmentSlotContainer : MonoBehaviour
         HomeManager.Instance.equipment.OnUnequip += (data) => ClearSlot(data.equipType);
     }
 
-    public void BindSlot(EquipmentData data)
+    public void BindSlot(EquipData data)
     {
         if (data == null) return;
         if (euipmentSlots.TryGetValue(data.equipType, out var slot))

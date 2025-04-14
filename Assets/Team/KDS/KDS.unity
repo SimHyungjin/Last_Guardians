@@ -2106,17 +2106,6 @@ MonoBehaviour:
   target:
   - {fileID: 5073691358447936586}
   - {fileID: 3360045662071807015}
-  datas:
-  - {fileID: 11400000, guid: f78b368f926695748add2f72f10f2e43, type: 2}
-  - {fileID: 11400000, guid: 4219cd1b455b3204bbba123c63d3b664, type: 2}
-  - {fileID: 11400000, guid: 5105bf4ec9a58c048b1c092675fbe3a6, type: 2}
-  - {fileID: 11400000, guid: af3c5e710d25b9e40b2b441b8247c3f2, type: 2}
-  - {fileID: 11400000, guid: 48f5f76b8b26ec3408ee314f8d593282, type: 2}
-  - {fileID: 11400000, guid: 7ce46eebc4b3cf34ebbd95c62847c705, type: 2}
-  - {fileID: 11400000, guid: 10376b0a970a42041b8fbed03be26524, type: 2}
-  - {fileID: 11400000, guid: 3013b6756421c044fa45315b5c71f827, type: 2}
-  - {fileID: 11400000, guid: cec672d810049b442bad565b14058b2a, type: 2}
-  - {fileID: 11400000, guid: 2f6e3d11ad6258948b4d9415e1182ead, type: 2}
 --- !u!4 &296661908
 Transform:
   m_ObjectHideFlags: 0
@@ -5597,7 +5586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bd44a44cd62c64fbfc1eea95b24880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OverrideByGrid: 0
+  m_OverrideByGrid: 1
   m_UseMeshPrefab: {fileID: 0}
   m_CompressBounds: 0
   m_OverrideVector: {x: 1, y: 1, z: 1}
@@ -5631,7 +5620,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: 1276c8dfe09ff2746b4a2c05311baee0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4dae789bbacf7a2418924f0c548b99cf, type: 2}
 --- !u!4 &978944793
 Transform:
   m_ObjectHideFlags: 0
@@ -5640,13 +5629,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978944790}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.70723015}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.43, y: -0.02, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &991685947
 MonoBehaviour:
   m_ObjectHideFlags: 0

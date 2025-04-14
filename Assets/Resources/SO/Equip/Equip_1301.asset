@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec207e345877c34c92cc719d7ed879c, type: 3}
+  m_Name: Equip_1301
+  m_EditorClassIdentifier: 
+  itemIndex: 1301
+  itemName: "\uC601\uC6C5 \uAC80"
+  itemDescript: "\uC6A9\uC0AC\uAC00 \uC0AC\uC6A9\uD588\uB2E4\uACE0 \uC54C\uB824\uC9C4
+    \uAC80"
+  itemType: 0
+  itemGrade: 3
+  itemStackLimit: 1
+  itemDropRate: 0.03
+  itemSellPrice: 0
+  icon: {fileID: 0}
+  equipIndex: 1301
+  equipType: 0
+  attackType: 0
+  attackPower: 70
+  attackSpeed: 0.7
+  moveSpeed: 0
+  criticalChance: 0
+  criticalDamage: 0
+  penetration: 10
+  attackRange: 1.5
+  specialEffectID: 0
+  linkedItem: {fileID: 11400000, guid: a5bf8dfb2698f024d8f44eef39d4a68c, type: 2}

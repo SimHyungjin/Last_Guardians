@@ -28,7 +28,6 @@ public class MagicProjectile : ProjectileBase
     {
         base.OnSpawn();
         hasHit = false;
-        effect = null;
         rb.velocity = Vector2.zero;
     }
 
@@ -36,6 +35,7 @@ public class MagicProjectile : ProjectileBase
     {
         base.OnDespawn();
         target = null;
+        effect = null;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -44,8 +44,9 @@ public class MagicProjectile : ProjectileBase
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             hasHit = true;
-
             BaseMonster target = collision.GetComponent<BaseMonster>();
+            Debug.Log($"Hit target: {towerData.SpecialEffect}");
+            if (target == null) return;
             target.TakeDamage(towerData.AttackPower);
             if (towerData.SpecialEffect == SpecialEffect.None || effect == null) return;
             if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);

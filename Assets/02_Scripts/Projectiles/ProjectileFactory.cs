@@ -46,7 +46,6 @@ public class ProjectileFactory : MonoBehaviour
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-
         // 이펙트생성하고 붙이기
         AddEffectComponent(projectile, towerData);
     }
@@ -77,7 +76,7 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
         { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
         { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현
-        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },//미구현
+        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
         { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//미구현
         { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//미구현
         { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//미구현

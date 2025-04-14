@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileSlowEffect : MonoBehaviour
+public class ProjectileSlowEffect : MonoBehaviour,IEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Apply(BaseMonster target, TowerData towerData)
     {
-        
+        target.ApplySlowdown(towerData.EffectValue, towerData.EffectDuration);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        
+        if (Random.value < chance)
+        {
+            target.ApplySlowdown(towerData.EffectValue, towerData.EffectDuration);
+        }
     }
 }

@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyProjectile : MonoBehaviour
+public class EnemyProjectile : ProjectileBase
 {
     public MonsterData Data {  get; set; }
 
-    private float speed = 2f;
-    Rigidbody2D rb;
-
-    private void Awake()
+    public override void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
+        base.Update();
     }
 
-    public void Lauch(Transform target)
+    public override void Launch(Vector2 targetPos)
     {
-        Vector2 direction = (target.position - transform.position).normalized;
-        rb.velocity = direction.normalized * speed;
+        base.Launch(targetPos);
+    }
+
+    public override void ProjectileMove()
+    {
+        base.ProjectileMove();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -30,6 +31,4 @@ public class EnemyProjectile : MonoBehaviour
             PoolManager.Instance.Despawn(this);
         }
     }
-
-
 }

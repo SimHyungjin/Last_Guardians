@@ -8,8 +8,9 @@ public class MonsterManager : Singleton<MonsterManager>
 {
     [SerializeField] private Transform[] spawnPoint;
     [SerializeField] private Transform[] target;
-    [SerializeField] private List<MonsterWaveData> datas;
 
+
+    public List<MonsterWaveData> WaveDatas { get; private set; }
     public NormalEnemy NormalPrefab { get; private set; }
     public BossMonster BossPrefab { get; private set; }
     public BountyMonster BountyPrefab { get; private set; }
@@ -26,20 +27,20 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void Start()
     {
-        datas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
+        //WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         InitMonsters();
         StartCoroutine(StartNextWave());
     }
 
     private IEnumerator StartNextWave()
     {
-        if (currentWaveIndex >= datas.Count)
+        if (currentWaveIndex >= WaveDatas.Count)
         {
             Debug.Log("모든 웨이브 완료");
             yield break;
         }
 
-        MonsterWaveData wave = datas[currentWaveIndex];
+        MonsterWaveData wave = WaveDatas[currentWaveIndex];
         currentWaveMonsterCount = wave.Monster1Value + wave.Monster2Value + wave.Monster3Value + wave.Monster4Value;
 
         yield return new WaitForSeconds(wave.WaveStartDelay);
@@ -116,10 +117,12 @@ public class MonsterManager : Singleton<MonsterManager>
         NormalPrefab = Resources.Load<NormalEnemy>("Enemy/Normal/NormalMonster");
         BossPrefab = Resources.Load<BossMonster>("Enemy/Boss/BossMonster");
         BountyPrefab = Resources.Load<BountyMonster>("Enemy/Bounty/BountyMonster");
-        MonsterDatas = Resources.LoadAll<MonsterData>("Enemy/MonsterSO").ToList();
+        MonsterDatas = Resources.LoadAll<MonsterData>("SO/Enemy/MonsterSO").ToList();
         MonsterDatas.Sort((a, b) => a.MonsterIndex.CompareTo(b.MonsterIndex));
-        MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("Enemy/SkillSO").ToList();
+        MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("SO/Enemy/SkillSO").ToList();
         MonsterSkillDatas.Sort((a, b) => a.SkillIndex.CompareTo(b.SkillIndex));
+        WaveDatas = Resources.LoadAll<MonsterWaveData>("SO/Enemy/MonsterWaveSOData").ToList();
+        WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         ProjectilePrefab = Resources.Load<EnemyProjectile>("Enemy/EnemyProjectile/EnemyProjectile");
     }
 
@@ -139,7 +142,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.DotDamage(5, 10f);
+            ba.DotDamage(5f, 5f);
         }
     }
 
@@ -159,7 +162,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySlowdown(5f, 0.8f);
+            ba.ApplySlowdown(0.8f, 5f);
         }
     }
 
@@ -169,7 +172,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyReducionDef(5f, 0.8f);
+            ba.ApplyReducionDef(0.8f, 5f);
         }
     }
 
@@ -179,7 +182,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySpeedBuff(5f, 1.2f);
+            ba.ApplySpeedBuff(2f, 5f);
         }
     }
 
@@ -189,7 +192,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyDefBuff(5f, 1.2f);
+            ba.ApplyDefBuff(1.2f, 5f);
         }
     }
 }

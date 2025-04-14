@@ -922,6 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c958f90f6a467074d8c5fb97a4f5c0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeManager: {fileID: 0}
 --- !u!1 &98788407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2240,13 +2241,6 @@ MonoBehaviour:
   target:
   - {fileID: 3360045662071807015}
   - {fileID: 5073691358447936586}
-  datas:
-  - {fileID: 11400000, guid: 48f5f76b8b26ec3408ee314f8d593282, type: 2}
-  - {fileID: 11400000, guid: 7ce46eebc4b3cf34ebbd95c62847c705, type: 2}
-  - {fileID: 11400000, guid: 10376b0a970a42041b8fbed03be26524, type: 2}
-  - {fileID: 11400000, guid: 3013b6756421c044fa45315b5c71f827, type: 2}
-  - {fileID: 11400000, guid: cec672d810049b442bad565b14058b2a, type: 2}
-  - {fileID: 11400000, guid: 2f6e3d11ad6258948b4d9415e1182ead, type: 2}
 --- !u!4 &296661908
 Transform:
   m_ObjectHideFlags: 0
@@ -13945,6 +13939,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2f6e3d11ad6258948b4d9415e1182ead, type: 2}
   - {fileID: 11400000, guid: 3fe93f433b3cb104d9f86768ab826f4c, type: 2}
   towerDataSO: []
+  itemDataSO: []
   towerCombinationData: {fileID: 11400000, guid: 416b2068da773df41a56cdcc2cb8fee7, type: 2}
 --- !u!4 &1680084934338659558 stripped
 Transform:

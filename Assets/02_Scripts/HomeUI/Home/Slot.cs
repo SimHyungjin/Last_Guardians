@@ -9,7 +9,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Image equipEffect;
     [SerializeField] private Image gradeEffect;
 
-    private ItemData data;
+    [SerializeField] private ItemData data;
 
     public void SetData(ItemData newData)
     {

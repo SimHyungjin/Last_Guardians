@@ -71,19 +71,18 @@ public class ItemPopupController : MonoBehaviour
     {
         if (currentData == null) return;
 
-        if (HomeManager.Instance.upgrade.TryUpgrade(currentData, out var result))
-        {
-            inventory.RemoveItem(currentData);
-            inventory.AddItem(result);
+        HomeManager.Instance.upgrade.TryUpgrade(currentData, out var result);
+        inventory.RemoveItem(currentData);
+        inventory.AddItem(result);
 
-            selectionController.RefreshSlot(result);
+        selectionController.RefreshSlot(result);
 
-            if (equipment.IsEquipped(currentData))
-                equipment.Equip((EquipData)result);
+        if (equipment.IsEquipped(currentData))
+            equipment.Equip((EquipData)result);
 
-            currentData = (EquipData)result;
-            UpdatePopupUI();
-        }
+        currentData = (EquipData)result;
+        UpdatePopupUI();
+
     }
 
     public void OnClickEquip()

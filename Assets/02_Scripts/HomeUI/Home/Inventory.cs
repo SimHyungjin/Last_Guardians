@@ -37,7 +37,7 @@ public class Inventory
     {
         var viewList = currentType == EquipType.Count
             ? new List<ItemData>(inventory)
-            : inventory.FindAll(x => x is EquipmentData y && y.equipType == currentType);
+            : inventory.FindAll(x => x is EquipData y && y.equipType == currentType);
 
         viewList.Sort((a, b) => b.itemGrade.CompareTo(a.itemGrade));
         return viewList;

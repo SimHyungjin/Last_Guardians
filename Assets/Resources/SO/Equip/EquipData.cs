@@ -2,6 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EquipType
+{
+    Weapon,
+    Helmet,
+    Armor,
+    Shoes,
+    Ring,
+    Necklace,
+    Count
+}
+
+public enum AttackType
+{
+    Melee,
+    Ranged,
+    Area
+}
 
 
 [CreateAssetMenu(fileName = "NewEquip", menuName = "Data/Equip Data", order = 1)]

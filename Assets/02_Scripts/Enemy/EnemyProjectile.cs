@@ -11,12 +11,7 @@ public class EnemyProjectile : ProjectileBase
         base.Update();
     }
 
-    public override void Launch(Vector2 targetPos)
-    {
-        base.Launch(targetPos);
-    }
-
-    public override void ProjectileMove()
+    protected override void ProjectileMove()
     {
         base.ProjectileMove();
     }

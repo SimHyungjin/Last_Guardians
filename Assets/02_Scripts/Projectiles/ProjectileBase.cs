@@ -69,7 +69,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     /// <param name="targetPos"></param>
     /// <param name="_damage"></param>
     /// <param name="_isMulti"></param>
-    public void Launch(Vector2 targetPos)
+    public virtual void Launch(Vector2 targetPos)
     {
         direction = (targetPos - (Vector2)transform.position).normalized;
         startPos = transform.position;

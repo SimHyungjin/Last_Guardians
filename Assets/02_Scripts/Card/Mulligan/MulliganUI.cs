@@ -14,6 +14,7 @@ public class MulliganUI : MonoBehaviour
 
     private void Start()
     {
+        selectedCard = new List<MulliganCard>();
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         Shuffle<TowerData>(elementalDataList);
         ShowSelectCard();
@@ -36,6 +37,23 @@ public class MulliganUI : MonoBehaviour
         {
             MulliganCard card = Instantiate(CradPrefab, parent);
             card.Init(elementalDataList[i].TowerIndex);
+            card.Btn.onClick.AddListener( () => {
+                AddSelectCardList(card);
+            });
+        }
+    }
+
+    private void AddSelectCardList(MulliganCard card)
+    {
+        if (card.Outline.enabled == true)
+        {
+            selectedCard.Remove(card);
+            card.Outline.enabled = false;
+        }
+        else
+        {
+            selectedCard.Add(card);
+            card.Outline.enabled = true;
         }
     }
 

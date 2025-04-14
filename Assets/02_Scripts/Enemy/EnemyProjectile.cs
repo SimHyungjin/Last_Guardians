@@ -5,12 +5,6 @@ using UnityEngine;
 public class EnemyProjectile : ProjectileBase
 {
     public MonsterData Data {  get; set; }
-    private Rigidbody2D rb;
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
 
     public override void Update()
     {

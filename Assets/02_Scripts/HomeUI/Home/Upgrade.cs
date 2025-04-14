@@ -35,8 +35,8 @@ public class Upgrade
         float random = Random.Range(0f, 100f);
         if (random < rule.successRate)
         {
-            data.itemGrade = rule.targetGrade;
-            Debug.Log($"Upgrade success {data.itemGrade}");
+            data = GameManager.Instance.ItemManager.GetItemData(data.ItemIndex + 100);
+            Debug.Log($"Upgrade success {data.itemName}");
             return true;
         }
         else

@@ -15,6 +15,8 @@ public class ItemPopupController : MonoBehaviour
 
     private Equipment equipment;
     private Inventory inventory;
+    private EquipmentSlotContainer equipmentSlotContainer;
+    private InventorySlotContainer inventorySlotContainer;
 
     private EquipmentData currentData;
 
@@ -22,6 +24,8 @@ public class ItemPopupController : MonoBehaviour
     {
         equipment = HomeManager.Instance.equipment;
         inventory = HomeManager.Instance.inventory;
+        equipmentSlotContainer = HomeManager.Instance.equipmentSlotContainer;
+        inventorySlotContainer = HomeManager.Instance.inventorySlotContainer;
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
@@ -45,11 +49,11 @@ public class ItemPopupController : MonoBehaviour
     private void UpdatePopupUI()
     {
         if (currentData == null) return;
-        HomeManager.Instance.inventorySlotContainer.Display(inventory.GetFilteredView());
-        HomeManager.Instance.equipmentSlotContainer.Refresh();
+        inventorySlotContainer.Display(inventory.GetFilteredView());
+        equipmentSlotContainer.Refresh();
         icon.sprite = currentData.icon;
         itemName.text = currentData.itemName;
-        description.text = currentData.itemDescription;
+        description.text = currentData.ItemDescript;
 
         upgradeButton.gameObject.SetActive(currentData.itemGrade < ItemGrade.Legend);
         bool isEquipped = equipment.IsEquipped(currentData);
@@ -79,7 +83,7 @@ public class ItemPopupController : MonoBehaviour
         if (currentData != null)
         {
             equipment.UnEquip(currentData);
-            HomeManager.Instance.equipmentSlotContainer.ClearSlot(currentData.equipType);
+            equipmentSlotContainer.ClearSlot(currentData.equipType);
             UpdatePopupUI();
         }
     }

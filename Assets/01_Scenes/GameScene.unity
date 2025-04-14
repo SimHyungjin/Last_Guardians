@@ -4362,7 +4362,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -21559,6 +21559,7 @@ MonoBehaviour:
   monsterSkillDataSO: []
   monsterWaveDataSO: []
   towerDataSO: []
+  itemDataSO: []
   towerCombinationData: {fileID: 0}
 --- !u!1 &5299800064457743904 stripped
 GameObject:

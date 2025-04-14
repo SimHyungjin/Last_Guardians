@@ -10,7 +10,7 @@ public class ItemManager
         ItemData[] allItems = Resources.LoadAll<ItemData>("SO/ItemData");
         foreach (ItemData item in allItems)
         {
-            itemDatas[item.itemIndex] = item;
+            itemDatas[item.ItemIndex] = item;
         }
     }
 

@@ -5,6 +5,12 @@ using UnityEngine;
 public class EnemyProjectile : ProjectileBase
 {
     public MonsterData Data {  get; set; }
+    private Rigidbody2D rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     public override void Update()
     {
@@ -13,7 +19,7 @@ public class EnemyProjectile : ProjectileBase
 
     protected override void ProjectileMove()
     {
-        base.ProjectileMove();
+        rb.velocity = direction * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

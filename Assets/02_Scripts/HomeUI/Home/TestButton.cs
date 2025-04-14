@@ -31,7 +31,8 @@ public class TestButton : MonoBehaviour
         if (!check)
         {
 
-            InputManager.Instance.DisablePointer(); Time.timeScale = 0;
+            InputManager.Instance.DisablePointer(); 
+            Time.timeScale = 0;
         }
         else
         {

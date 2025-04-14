@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ public interface IProjectile
 
 public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 {
-    protected float speed = 10f;
+    //protected List<MonoBehaviour> effects; 나중에 다중 이펙트 처리할때 사용
+    public IEffect effect;
+    protected float speed = 5f;
     protected TowerData towerData;
     protected float Range = 5f;
     protected float offset = 0.5f;
@@ -19,47 +22,35 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected Vector2 startPos;
 
     protected Coroutine lifeTimeCoroutine;
-
     protected Rigidbody2D rb;
 
     protected virtual void Awake()
     {
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     public virtual void Update()
     {
         float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range+offset)
+        if (distance > Range + offset)
         {
             PoolManager.Instance.Despawn(this);
         }
     }
     public virtual void Init(TowerData _towerData) 
     {
-        rb = GetComponent<Rigidbody2D>();
         towerData = _towerData;
     }
-    public void OnSpawn()
+    public virtual void OnSpawn()
     {
-        if (lifeTimeCoroutine != null)
-        {
-            StopCoroutine(lifeTimeCoroutine);
-            lifeTimeCoroutine = null;
-        }
+
         if (rb != null)
-            rb.velocity = Vector2.zero;
-        //lifeTimeCoroutine = StartCoroutine(DespawnProjectile(lifeTime));
+           rb.velocity = Vector2.zero;
     }
 
-    public void OnDespawn()
+    public virtual void OnDespawn()
     {
-        if (lifeTimeCoroutine != null)
-        {
-            //StopCoroutine(lifeTimeCoroutine);
-            lifeTimeCoroutine = null;
-        }
         if (rb != null)
             rb.velocity = Vector2.zero;
     }
@@ -79,10 +70,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         ProjectileMove();
     }
 
-    protected virtual void ProjectileMove()
-    {
-        //rb.velocity = direction * speed;
-    }
+    protected virtual void ProjectileMove(){}
 }
 
 

@@ -5,20 +5,54 @@ using UnityEngine;
 
 public class MagicProjectile : ProjectileBase
 {
+    public BaseMonster target;
+    private bool hasHit = false;
     public override void Init(TowerData _towerData)
     {
         base.Init(_towerData);
+#if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
-        Debug.Log(spritename);
-        string path= $"Assets/91_Disign/Sprite/ProjectileImage/{spritename}.png";
+        string path = $"Assets/91_Disign/Sprite/ProjectileImage/{spritename}.png";
         Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-        GetComponent<SpriteRenderer>().sprite= sprite;
+        GetComponent<SpriteRenderer>().sprite = sprite;
+#endif
     }
 
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;
         Debug.Log($"Direction: {direction}, Speed: {speed}");
+    }
+
+    public override void OnSpawn()
+    {
+        base.OnSpawn();
+        hasHit = false;
+        effect = null;
+        rb.velocity = Vector2.zero;
+    }
+
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+        target = null;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (hasHit) return;
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
+        {
+            hasHit = true;
+
+            BaseMonster target = collision.GetComponent<BaseMonster>();
+            target.TakeDamage(towerData.AttackPower);
+            if (towerData.SpecialEffect == SpecialEffect.None || effect == null) return;
+            if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
+            else effect.Apply(target, towerData);
+            OnDespawn();
+            PoolManager.Instance.Despawn(this);
+        }
     }
 
 }

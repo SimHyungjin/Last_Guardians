@@ -16,7 +16,7 @@ public class TestButton : MonoBehaviour
         if(zoomBtn != null)
             zoomBtn.onClick.AddListener(ZoomTest);
 
-        timeScaleBtn.onClick.AddListener(TimeScale);
+        //timeScaleBtn.onClick.AddListener(TimeScale);
     }
     private void ZoomTest()
     {

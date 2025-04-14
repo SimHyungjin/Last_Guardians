@@ -1,6 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+public interface IEffect
+{
+    void Apply(BaseMonster target, TowerData towerData);
+    void Apply(BaseMonster target, TowerData towerData, float chance);
+}
+
+
 
 public class ProjectileFactory : MonoBehaviour
 {
@@ -8,7 +15,7 @@ public class ProjectileFactory : MonoBehaviour
     public class ProjectileEntry
     {
         public ProjectileType type;
-        public ProjectileBase prefab; 
+        public ProjectileBase prefab;
     }
 
     [SerializeField]
@@ -29,7 +36,7 @@ public class ProjectileFactory : MonoBehaviour
         }
     }
 
-    public void SpawnAndLaunch(Vector2 targetPos,TowerData towerData, Transform parent)
+    public void SpawnAndLaunch(Vector2 targetPos, TowerData towerData, Transform parent)
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
         {
@@ -41,81 +48,44 @@ public class ProjectileFactory : MonoBehaviour
         projectile.Launch(targetPos);
 
         // 이펙트생성하고 붙이기
-        //AddEffectComponent(projectile.gameObject, towerData);
+        AddEffectComponent(projectile, towerData);
     }
-    //이펙트 완성하면 붙이기
-    //private void AddEffects(GameObject obj, TowerData towerData)
-    //{
-    //    switch (towerData.specialEffect)
-    //    {
-    //        case SpecialEffect.AttackPower:
-    //            var atk = obj.AddComponent<AttackPowerEffect>();
-    //            atk.Init(towerData.effectChance, towerData.effectValue, towerData.effectDuration);
-    //            break;
+    private void AddEffectComponent(ProjectileBase projectile, TowerData data)
+    {
+        if (data.SpecialEffect == SpecialEffect.None) return;
 
-    //        case SpecialEffect.AttackSpeed:
-    //            var spd = obj.AddComponent<AttackSpeedEffect>();
-    //            spd.Init(towerData.effectChance, towerData.effectValue, towerData.effectDuration);
-    //            break;
+        if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
+        {
+            var go = projectile.gameObject;
 
-    //        case SpecialEffect.BossDamage:
-    //            var bossDmg = obj.AddComponent<BossDamageEffect>();
-    //            bossDmg.Init(towerData.effectChance, towerData.effectValue);
-    //            break;
+            // 중복 방지
+            if (!go.TryGetComponent(effectType, out var existing))
+            {
+                var added = go.AddComponent(effectType) as IEffect;
+                projectile.effect = added;
+            }
+            else
+            {
+                projectile.effect = existing as IEffect;
+            }
+        }
+    }
 
-    //        case SpecialEffect.BossDebuff:
-    //            var bossDebuff = obj.AddComponent<BossDebuffEffect>();
-    //            bossDebuff.Init(towerData.effectChance, towerData.effectDuration);
-    //            break;
-
-    //        case SpecialEffect.Buff:
-    //            var buff = obj.AddComponent<BuffEffect>();
-    //            buff.Init(towerData.effectChance, towerData.effectValue, towerData.effectDuration);
-    //            break;
-
-    //        case SpecialEffect.ChainAttack:
-    //            var chain = obj.AddComponent<ChainAttackEffect>();
-    //            chain.Init(towerData.effectChance, towerData.effectTargetCount, towerData.effectValue);
-    //            break;
-
-    //        case SpecialEffect.DefReduc:
-    //            var def = obj.AddComponent<DefReducEffect>();
-    //            def.Init(towerData.effectChance, towerData.effectValue, towerData.effectDuration);
-    //            break;
-
-    //        case SpecialEffect.DotDamage:
-    //            var dot = obj.AddComponent<DotDamageEffect>();
-    //            dot.Init(towerData.effectChance, towerData.effectValue, towerData.effectDuration);
-    //            break;
-
-    //        case SpecialEffect.Knockback:
-    //            var knock = obj.AddComponent<KnockbackEffect>();
-    //            knock.Init(towerData.effectChance, towerData.effectValue);
-    //            break;
-
-    //        case SpecialEffect.MultyTarget:
-    //            var multi = obj.AddComponent<MultyTargetEffect>();
-    //            multi.Init(towerData.effectTargetCount);
-    //            break;
-
-    //        case SpecialEffect.Slow:
-    //            var slow = obj.AddComponent<SlowEffect>();
-    //            slow.Init(towerData.effectChance, towerData.effectValue, towerData.effectDuration);
-    //            break;
-
-    //        case SpecialEffect.Stun:
-    //            var stun = obj.AddComponent<StunEffect>();
-    //            stun.Init(towerData.effectChance, towerData.effectDuration);
-    //            break;
-
-    //        case SpecialEffect.Summon:
-    //            var summon = obj.AddComponent<SummonEffect>();
-    //            summon.Init(towerData.effectValue, towerData.effectTargetCount); // 필요시 조정
-    //            break;
-
-    //        case SpecialEffect.None:
-    //        default:
-    //            break;
-    //    }
+    private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
+    { 
+        { SpecialEffect.DotDamage, typeof(ProjectileDotDamageEffect) },
+        { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
+        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
+        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현
+        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },//미구현
+        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//미구현
+        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//미구현
+        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//미구현
+        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//미구현
+        { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
+        { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//미구현
+        { SpecialEffect.AttackSpeed, typeof(ProjectileAttackSpeedEffect) },//미구현
+        { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
+    };
 }
 

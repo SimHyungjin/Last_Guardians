@@ -64,7 +64,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
             rb.velocity = Vector2.zero;
     }
     /// <summary>
-    /// damage,isMulti ÃÊ±âÈ­, targetPos¸¦ ÇâÇØ È¸Àü ÈÄ ¹ß»ç
+    /// damage,isMulti ì´ˆê¸°í™”, targetPosë¥¼ í–¥í•´ íšŒì „ í›„ ë°œì‚¬
     /// </summary>
     /// <param name="targetPos"></param>
     /// <param name="_damage"></param>
@@ -75,13 +75,13 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         startPos = transform.position;
         transform.right = direction;
 
-        //ÀÌÈÄ¿¡ override·Î µ¿ÀÛ±¸Çö
+        //ì´í›„ì— overrideë¡œ ë™ì‘êµ¬í˜„
         ProjectileMove();
     }
 
     protected virtual void ProjectileMove()
     {
-        //rb.velocity = direction * speed;
+        rb.velocity = direction * speed;
     }
 }
 
@@ -92,10 +92,10 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 //    PoolManager.Instance.Despawn(this);
 //    lifeTimeCoroutine = null;
 //}
-//Ãæµ¹¿¹½Ã
+//ì¶©ëŒì˜ˆì‹œ
 /*
 /// <summary>
-/// isMulti ÀÇ °ª¿¡ µû¶ó ¹üÀ§/1ÀÎ °ø°İ Ã³¸®
+/// isMulti ì˜ ê°’ì— ë”°ë¼ ë²”ìœ„/1ì¸ ê³µê²© ì²˜ë¦¬
 /// </summary>
 /// <param name="collision"></param>
 private void OnTriggerEnter2D(Collider2D collision)
@@ -113,17 +113,17 @@ private void OnTriggerEnter2D(Collider2D collision)
         var hits = Physics2D.OverlapCircleAll(hitPoint, multiSpread * 0.5f, LayerMask.GetMask("Monster"));
         foreach (var hit in hits)
         {
-            // µ¥¹ÌÁö Ã³¸® ¹× ÀÌÆåÆ®´Â ¸ó½ºÅÍ °³¹ßÀÚ ¿¬µ¿ ¿¹Á¤
+            // ë°ë¯¸ì§€ ì²˜ë¦¬ ë° ì´í™íŠ¸ëŠ” ëª¬ìŠ¤í„° ê°œë°œì ì—°ë™ ì˜ˆì •
             // TODO:
-            Debug.Log("¸ÖÆ¼ ºÒ¸´ °ø°İ" + hit.name);
+            Debug.Log("ë©€í‹° ë¶ˆë¦¿ ê³µê²©" + hit.name);
         }
     }
     else if (!hitTarget)
     {
         hitTarget = true;
-        // µ¥¹ÌÁö Ã³¸® ¹× ÀÌÆåÆ®´Â ¸ó½ºÅÍ °³¹ßÀÚ ¿¬µ¿ ¿¹Á¤
+        // ë°ë¯¸ì§€ ì²˜ë¦¬ ë° ì´í™íŠ¸ëŠ” ëª¬ìŠ¤í„° ê°œë°œì ì—°ë™ ì˜ˆì •
         // TODO:
-        Debug.Log("´ÜÀÏ ºÒ¸´ °ø°İ");
+        Debug.Log("ë‹¨ì¼ ë¶ˆë¦¿ ê³µê²©");
     }
     PoolManager.Instance.Despawn(this);
 }

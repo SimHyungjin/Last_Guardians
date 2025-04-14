@@ -21,11 +21,12 @@ MonoBehaviour:
   attackRange: 4
   towerType: 0
   projectileType: 0
-  specialEffect: 0
+  elementType: 4
+  specialEffect: 5
   effectChance: 1
   effectDuration: 0
   effectValue: 0.3
-  effectTarget: 0
+  effectTarget: 3
   effectTargetCount: 1
   bossImmune: 0
   upgradeLevel: 1

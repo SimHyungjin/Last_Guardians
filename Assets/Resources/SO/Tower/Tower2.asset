@@ -21,7 +21,8 @@ MonoBehaviour:
   attackRange: 4
   towerType: 0
   projectileType: 0
-  specialEffect: 0
+  elementType: 1
+  specialEffect: 1
   effectChance: 1
   effectDuration: 4
   effectValue: 0.3
@@ -29,4 +30,4 @@ MonoBehaviour:
   effectTargetCount: 1
   bossImmune: 0
   upgradeLevel: 1
-  towerDescription: "\uC801 \uC774\uB3D9\uC18D\uB3C4 4\uCD08 \uB3D9\uC548 30% \uAC10\uC18C"
+  towerDescription: "4\uCD08 \uB3D9\uC548 \uC801 \uC774\uB3D9\uC18D\uB3C4 30% \uAC10\uC18C"

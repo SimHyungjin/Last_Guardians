@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1396492237500373255}
   - component: {fileID: 3498996480182489088}
-  - component: {fileID: 456084842282853267}
   - component: {fileID: 2597074885939241928}
   - component: {fileID: 7762628193111898857}
   - component: {fileID: 6118364301313954780}
+  - component: {fileID: 8853336513793260647}
   m_Layer: 6
   m_Name: BossMonster
   m_TagString: Monster
@@ -81,33 +81,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
---- !u!50 &456084842282853267
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2865000105277613844}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!212 &2597074885939241928
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -174,6 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterData: {fileID: 0}
   skillData: {fileID: 0}
+  meleeAttackRange: 0.5
+  RangedAttackRange: 2
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -199,3 +174,15 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!114 &8853336513793260647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2865000105277613844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10346c1d0d7d934dac7eb506b6a2669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

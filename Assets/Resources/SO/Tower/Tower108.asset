@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
+  m_Name: Tower108
+  m_EditorClassIdentifier: 
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
+  towerIndex: 108
+  towerName: "\uD568\uC815 \uD0C0\uC6CCIII"
+  attackPower: 0
+  attackSpeed: 0
+  attackRange: 5
+  towerType: 2
+  projectileType: 4
+  elementType: 6
+  specialEffect: 8
+  effectChance: 1
+  effectDuration: 6
+  effectValue: 0
+  effectTarget: 0
+  effectTargetCount: 1
+  bossImmune: 1
+  upgradeLevel: 3
+  towerDescription: "\uBC18\uACBD \uB0B4 \uBC18\uB300 \uBC29\uD5A5\uC73C\uB85C \uC774\uB3D9\uD558\uB294
+    \uC624\uBE0C\uC81D\uD2B8 \uC0DD\uC131 6\uCD08 \uB3D9\uC548 \uC9C0\uC18D (\uBCF4\uC2A4
+    \uBBF8\uC801\uC6A9)"

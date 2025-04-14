@@ -19,9 +19,10 @@ MonoBehaviour:
   attackPower: 42
   attackSpeed: 1.7
   attackRange: 3
-  towerType: 0
+  towerType: 2
   projectileType: 0
-  specialEffect: 0
+  elementType: 3
+  specialEffect: 4
   effectChance: 0.25
   effectDuration: 4
   effectValue: 0

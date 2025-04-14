@@ -11,9 +11,25 @@ public enum ProjectileType
 {
     Magic,
     Arrow,
-    AreaAttack,
-    AreaBuff,
-    CreateObgect
+    Blast,
+    Buff,
+    TrapObject
+}
+public enum ElementType
+{
+    Fire,
+    Water,
+    Wind,
+    Earth,
+    Light,
+    Dark,
+    Standard,
+    Steam,
+    Lava,
+    Storm,
+    Swamp,
+    Underground,
+    LightDark,
 }
 public enum SpecialEffect
 {
@@ -56,6 +72,7 @@ public class TowerData: ScriptableObject
     [SerializeField] private float attackRange;
     [SerializeField] private TowerType towerType;
     [SerializeField] private ProjectileType projectileType;
+    [SerializeField] private ElementType elementType;
     [SerializeField] private SpecialEffect specialEffect;
     [SerializeField] private float effectChance;
     [SerializeField] private float effectDuration;
@@ -73,6 +90,7 @@ public class TowerData: ScriptableObject
     public float AttackRange => attackRange;
     public TowerType TowerType => towerType;
     public ProjectileType ProjectileType => projectileType;
+    public ElementType ElementType => elementType;
     public SpecialEffect SpecialEffect => specialEffect;
     public float EffectChance => effectChance;
     public float EffectDuration => effectDuration;
@@ -83,13 +101,14 @@ public class TowerData: ScriptableObject
     public int UpgradeLevel => upgradeLevel;
     public string TowerDescription => towerDescription;
 
-    public void SetData(int towerIndex, string towerName, float attackPower, float attackSpeed,
-                        float attackRange, TowerType towerType, ProjectileType projectileType,
+    public void SetData(GameObject towerGhostPrefab,SpriteAtlas towerAtlas, int towerIndex, string towerName, float attackPower, float attackSpeed,
+                        float attackRange, TowerType towerType, ProjectileType projectileType, ElementType elementType,
                         SpecialEffect specialEffect, float effectChance, float effectDuration,
                         float effectValue, EffectTarget effectTarget, int effectTargetCount,
                         bool bossImmune, int upgradeLevel, string towerDescription)
     {
-        Debug.Log("SetData called with towerIndex: " + towerIndex);
+        this.towerGhostPrefab = towerGhostPrefab;
+        this.atlas = towerAtlas;
         this.towerIndex = towerIndex;
         this.towerName = towerName;
         this.attackPower = attackPower;
@@ -97,6 +116,7 @@ public class TowerData: ScriptableObject
         this.attackRange = attackRange;
         this.towerType = towerType;
         this.projectileType = projectileType;
+        this.elementType = elementType;
         this.specialEffect = specialEffect;
         this.effectChance = effectChance;
         this.effectDuration = effectDuration;

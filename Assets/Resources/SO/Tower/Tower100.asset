@@ -15,19 +15,19 @@ MonoBehaviour:
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
   towerIndex: 100
-  towerName: "\uC2E0\uC131\uD55C \uD3ED\uD48D"
-  attackPower: 60
-  attackSpeed: 0.5
+  towerName: "\uBB3C \uD0C0\uC6CCIII"
+  attackPower: 34
+  attackSpeed: 0.8
   attackRange: 5
-  towerType: 0
+  towerType: 2
   projectileType: 0
-  specialEffect: 0
+  elementType: 1
+  specialEffect: 1
   effectChance: 1
-  effectDuration: 0
-  effectValue: 1
+  effectDuration: 8
+  effectValue: 0.4
   effectTarget: 0
-  effectTargetCount: 3
+  effectTargetCount: 1
   bossImmune: 0
   upgradeLevel: 3
-  towerDescription: "\uBCF4\uC2A4 \uD0C0\uACA9\uC2DC \uC8FC\uBCC0 \uC801 3\uBA85\uC5D0\uAC8C
-    \uCD94\uAC00 \uACF5\uACA9"
+  towerDescription: "8\uCD08 \uB3D9\uC548 \uC801 \uC774\uB3D9\uC18D\uB3C4 40% \uAC10\uC18C"

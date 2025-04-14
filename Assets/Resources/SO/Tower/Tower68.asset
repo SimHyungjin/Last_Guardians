@@ -19,15 +19,15 @@ MonoBehaviour:
   attackPower: 52
   attackSpeed: 1
   attackRange: 5
-  towerType: 0
+  towerType: 2
   projectileType: 0
+  elementType: 5
   specialEffect: 0
   effectChance: 1
   effectDuration: 5
-  effectValue: 0
+  effectValue: 5
   effectTarget: 0
   effectTargetCount: 1
   bossImmune: 0
   upgradeLevel: 2
-  towerDescription: "\uC801 \uBC29\uC5B4\uB825 20% \uAC10\uC18C 5\uCD08 \uB3D9\uC548
-    \uC9C0\uC18D \uD53C\uD574"
+  towerDescription: "5\uCD08 \uB3D9\uC548 \uC9C0\uC18D \uD53C\uD574"

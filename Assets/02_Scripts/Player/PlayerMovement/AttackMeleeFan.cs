@@ -50,7 +50,7 @@ public class AttackMeleeFan : IAttackBehavior
         {
             hit.GetComponent<BaseMonster>().TakeDamage(damage);
             // TODO:
-            Debug.Log("부채꼴 근접 공격");
+            //Debug.Log("부채꼴 근접 공격");
         }
 
     }

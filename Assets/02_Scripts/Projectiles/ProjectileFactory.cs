@@ -29,15 +29,15 @@ public class ProjectileFactory : MonoBehaviour
         }
     }
 
-    public void SpawnAndLaunch(Vector3 spawnPos,Vector2 targetPos,TowerData towerData)
+    public void SpawnAndLaunch(Vector2 targetPos,TowerData towerData, Transform parent)
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
         {
             Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
             return;
         }
-
-        var projectile = PoolManager.Instance.Spawn(prefab);
+        var projectile = PoolManager.Instance.Spawn(prefab, parent);
+        projectile.Init(towerData);
         projectile.Launch(targetPos);
 
         // 이펙트생성하고 붙이기

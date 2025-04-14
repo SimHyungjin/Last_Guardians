@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlowEffect : StatusEffect
 {
-    public SlowEffect(float duration, float amount) : base(amount, duration)
+    public SlowEffect(float amount, float duration) : base(amount, duration)
     {
         BuffDeBuff = BuffDeBuff.DeBuff;
     }

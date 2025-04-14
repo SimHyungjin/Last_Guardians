@@ -20,6 +20,7 @@ public class BaseMonster : MonoBehaviour
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
 
+    //근접사거리 원거리 사거리
     [SerializeField] private float meleeAttackRange = 0.5f;
     [SerializeField] private float RangedAttackRange = 2.0f;
 
@@ -37,15 +38,7 @@ public class BaseMonster : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     protected NavMeshAgent agent;
 
-    //코루틴
-    private WaitForSeconds zeropointone;
-    private WaitForSeconds onesec;
-
-    //상태이상관련
-    //회피버프관련 필드
-    public float EvasionRate { get; set; } = -1f;
-
-    //상태이상 핸들러
+    //상태이상 핸들러 관련 필드
     private EffectHandler effectHandler;
     StatusEffect dotDamage;
     StatusEffect slowDown;
@@ -55,6 +48,8 @@ public class BaseMonster : MonoBehaviour
     StatusEffect speedBuff;
     StatusEffect EvasionBuff;
     public bool isSturn = false;
+    public float EvasionRate { get; set; } = -1f;
+
 
     private void Awake()
     {
@@ -63,8 +58,6 @@ public class BaseMonster : MonoBehaviour
         agent.updateUpAxis = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         effectHandler = GetComponent<EffectHandler>();
-        zeropointone = new WaitForSeconds(0.1f);
-        onesec = new WaitForSeconds(1f);
     }
 
     public void Setup(MonsterData data, MonsterSkillData skillData = null)
@@ -73,10 +66,10 @@ public class BaseMonster : MonoBehaviour
         if (skillData != null)
             this.skillData = skillData;
         else this.skillData = null;
-        init();
+        Init();
     }
 
-    private void init()
+    private void Init()
     {
         AttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? RangedAttackRange : meleeAttackRange;
         CancelAllBuff();
@@ -95,8 +88,6 @@ public class BaseMonster : MonoBehaviour
         }   
     }
 
- 
-   
 
     private void Update()
     {
@@ -209,9 +200,9 @@ public class BaseMonster : MonoBehaviour
     }
 
     //도트 데미지 적용
-    public void DotDamage(float dotdamage, float duration)
+    public void DotDamage(float amount, float duration)
     {
-        dotDamage = new DotDamageEffect(dotdamage, duration);
+        dotDamage = new DotDamageEffect(amount, duration);
         effectHandler.AddEffect(dotDamage);
     }
 
@@ -241,9 +232,9 @@ public class BaseMonster : MonoBehaviour
     }
 
     //슬로우 적용
-    public void ApplySlowdown(float duration, float amount)
+    public void ApplySlowdown(float amount, float duration)
     {
-        slowDown = new SlowEffect(duration, amount);
+        slowDown = new SlowEffect(amount, duration);
         effectHandler.AddEffect(slowDown);
     }
 
@@ -254,7 +245,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //방어력 감소 적용
-    public void ApplyReducionDef(float duration, float amount)
+    public void ApplyReducionDef(float amount, float duration)
     {
         defDown = new DefDownEffect(amount, duration);
         effectHandler.AddEffect(defDown);
@@ -277,7 +268,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //방어력 버프
-    public void ApplyDefBuff(float duration, float amount)
+    public void ApplyDefBuff(float amount, float duration)
     {
         defBuff = new DefBuffEffect(amount, duration);
         effectHandler.AddEffect(defBuff);
@@ -290,7 +281,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //이동속도 버프
-    public void ApplySpeedBuff(float duration, float amount)
+    public void ApplySpeedBuff(float amount, float duration)
     {
         speedBuff = new SpeedBuffEffect(amount, duration);
         effectHandler.AddEffect(speedBuff);
@@ -304,7 +295,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //회피율 버프
-    public void ApplyEvasionBuff(float duration, float amount)
+    public void ApplyEvasionBuff(float amount, float duration)
     {
         EvasionBuff = new EvasionBuffEffect(amount, duration);
         effectHandler.AddEffect(EvasionBuff);
@@ -316,11 +307,13 @@ public class BaseMonster : MonoBehaviour
         effectHandler.RemoveEffect(EvasionBuff);
     }
 
+    //전체 디버프 해제
     public void CancelAllDebuff()
     {
         effectHandler.RemoveAllDeBuff();
     }
 
+    //전체 버프 해제
     public void CancelAllBuff()
     {
         effectHandler.RemoveAllBuff();

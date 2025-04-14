@@ -14,7 +14,6 @@ public class SturnEffect : StatusEffect
         base.ApplyEffect(target);
         target.isSturn = true;
         target.SetDestination(target.transform);
-        Debug.Log($"스턴적용");
     }
 
     public override void RemoveEffect(BaseMonster target)

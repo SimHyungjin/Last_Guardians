@@ -142,7 +142,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.DotDamage(5, 10f);
+            ba.DotDamage(5f, 5f);
         }
     }
 
@@ -162,7 +162,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySlowdown(5f, 0.8f);
+            ba.ApplySlowdown(0.8f, 5f);
         }
     }
 
@@ -172,7 +172,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyReducionDef(5f, 0.8f);
+            ba.ApplyReducionDef(0.8f, 5f);
         }
     }
 
@@ -182,7 +182,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySpeedBuff(5f, 1.2f);
+            ba.ApplySpeedBuff(2f, 5f);
         }
     }
 
@@ -192,7 +192,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyDefBuff(5f, 1.2f);
+            ba.ApplyDefBuff(1.2f, 5f);
         }
     }
 }

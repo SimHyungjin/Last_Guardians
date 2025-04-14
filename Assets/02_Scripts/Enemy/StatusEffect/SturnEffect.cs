@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlowEffect : StatusEffect
+public class SturnEffect : StatusEffect
 {
-    public SlowEffect(float duration, float amount) : base(amount, duration)
+    public SturnEffect(float amount, float duration) : base(amount, duration)
     {
         BuffDeBuff = BuffDeBuff.DeBuff;
     }
@@ -12,12 +12,14 @@ public class SlowEffect : StatusEffect
     public override void ApplyEffect(BaseMonster target)
     {
         base.ApplyEffect(target);
-        target.DeBuffSpeedModifier = Amount;
+        target.isSturn = true;
+        target.SetDestination(target.transform);
+        Debug.Log($"스턴적용");
     }
 
     public override void RemoveEffect(BaseMonster target)
     {
         base.RemoveEffect(target);
-        target.DeBuffSpeedModifier = 1f;
+        target.isSturn = false;
     }
 }

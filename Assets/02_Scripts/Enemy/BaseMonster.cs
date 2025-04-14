@@ -42,32 +42,19 @@ public class BaseMonster : MonoBehaviour
     private WaitForSeconds onesec;
 
     //상태이상관련
-    //스턴 관련 필드
-    private Coroutine sturnCorutine;
-    private float sturnDuration;
-    private bool isSturn = false;
-    //이속저하 필드
-    private float slowDownDuration;
-    private Coroutine slowDownCorutine;
-    //방어력감소 필드
-    private float reducDefDuration;
-    private Coroutine reduceDefCorutine;
-    //버프관련
-    //방어력증가 필드
-    private float buffDefDuration;
-    private Coroutine buffDefCorutine;
-    //이동속도 증가 필드
-    private float buffSpeedDuration;
-    private Coroutine buffSpeedCorutine;
     //회피버프관련 필드
     public float EvasionRate { get; set; } = -1f;
-    private float buffEvasionDuration;
-    private Coroutine buffEvasionCorutine;
 
-    //이펙트 핸들러
+    //상태이상 핸들러
     private EffectHandler effectHandler;
     StatusEffect dotDamage;
     StatusEffect slowDown;
+    StatusEffect sturn;
+    StatusEffect defDown;
+    StatusEffect defBuff;
+    StatusEffect speedBuff;
+    StatusEffect EvasionBuff;
+    public bool isSturn = false;
 
     private void Awake()
     {
@@ -92,14 +79,14 @@ public class BaseMonster : MonoBehaviour
     private void init()
     {
         AttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? RangedAttackRange : meleeAttackRange;
+        CancelAllBuff();
+        CancelAllDebuff();
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         CurrentDef = monsterData.MonsterDef;
         attackTimer = 0f;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
-        ResetBuff();
-        ResetDeBuff();
         isAttack = false;
         if (monsterData.HasSkill)
         {
@@ -109,24 +96,7 @@ public class BaseMonster : MonoBehaviour
     }
 
  
-    private void ResetBuff()
-    {
-        BuffDefModifier = 1f;
-        BuffSpeedModifier = 1f;
-        buffDefDuration = 0f;
-        buffSpeedDuration = 0f;
-        EvasionRate = 1f;
-        buffEvasionDuration = 0f;
-    }
-    private void ResetDeBuff()
-    {
-        DeBuffSpeedModifier = 1f;
-        DeBuffDefModifier = 1f;
-        reducDefDuration = 0f;
-        slowDownDuration = 0f;
-        sturnDuration = 0f;
-        isSturn = false;
-    }
+   
 
     private void Update()
     {
@@ -160,6 +130,7 @@ public class BaseMonster : MonoBehaviour
     private void ApplyStatus()
     {
         agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
     }
 
     void OnDrawGizmos()
@@ -207,10 +178,6 @@ public class BaseMonster : MonoBehaviour
     protected virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
-        StopAllCoroutines();
-        sturnCorutine = null;
-        reduceDefCorutine = null;
-        slowDownCorutine = null;
         MonsterManager.Instance.OnMonsterDeath();
     }
 
@@ -258,44 +225,19 @@ public class BaseMonster : MonoBehaviour
     public void ApplySturn(float duration, float amount = 0)
     {
         TakeDamage(amount);
-        if (sturnCorutine != null)
-        {
-            sturnDuration = Mathf.Max(sturnDuration, duration);
-        }
-        else
-        {
-            sturnDuration = duration;
-            if(gameObject.activeSelf)
-                sturnCorutine = StartCoroutine(SturnOverTime());
-        }
-    }
-
-    private IEnumerator SturnOverTime()
-    {
-        isSturn = true;
-        agent.SetDestination(this.transform.position);
-        Debug.Log($"스턴적용");
-        while (sturnDuration > 0)
-        {
-            yield return zeropointone;
-
-            sturnDuration -= 0.1f;
-        }
-        sturnCorutine = null;
-        sturnDuration = 0f;
-        isSturn = false;
+        sturn = new SturnEffect(amount, duration);
+        effectHandler.AddEffect(sturn);
     }
 
     //스턴 해제
     public void CancelSturn()
     {
-        if (sturnCorutine != null)
-        {
-            StopCoroutine(sturnCorutine);
-            sturnCorutine = null;
-            sturnDuration = 0f;
-            isSturn = false;
-        }
+        effectHandler.RemoveEffect(sturn);
+    }
+
+    public void SetDestination(Transform target)
+    {
+        agent.SetDestination(target.position);
     }
 
     //슬로우 적용
@@ -314,47 +256,14 @@ public class BaseMonster : MonoBehaviour
     //방어력 감소 적용
     public void ApplyReducionDef(float duration, float amount)
     {
-        if(reduceDefCorutine != null)
-        {
-            reducDefDuration = Mathf.Max(reducDefDuration, duration);
-            DeBuffDefModifier = Mathf.Max(DeBuffDefModifier, amount);
-        }
-        else
-        {
-            reducDefDuration = duration;
-            DeBuffDefModifier = amount;
-            if (gameObject.activeSelf)
-                reduceDefCorutine = StartCoroutine(DefDownOver());
-        }
-    }
-
-    private IEnumerator DefDownOver()
-    {
-        while (reducDefDuration > 0)
-        {
-            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            yield return zeropointone;
-
-            reducDefDuration -= 0.1f;
-        }
-
-        DeBuffDefModifier = 1f;
-        CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-        reduceDefCorutine = null;
-        reducDefDuration = 0f;
+        defDown = new DefDownEffect(amount, duration);
+        effectHandler.AddEffect(defDown);
     }
 
     //방어력 디버프 해제
     public void CancelDefDown()
     {
-        if (reduceDefCorutine != null)
-        {
-            StopCoroutine(reduceDefCorutine);
-            reduceDefCorutine = null;
-            reducDefDuration = 0f;
-            DeBuffDefModifier = 1f;
-            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-        }
+        effectHandler.RemoveEffect(defDown);
     }
 
     //넉백 적용
@@ -370,142 +279,50 @@ public class BaseMonster : MonoBehaviour
     //방어력 버프
     public void ApplyDefBuff(float duration, float amount)
     {
-        if(buffDefCorutine != null)
-        {
-            buffDefDuration = Mathf.Max(buffDefDuration, duration);
-            BuffDefModifier = Mathf.Max(BuffDefModifier, amount);
-        }
-        else
-        {
-            buffDefDuration = duration;
-            BuffDefModifier = amount;
-            if (gameObject.activeSelf)
-                buffDefCorutine = StartCoroutine(DefBuffOver());
-        }
-    }
-
-    private IEnumerator DefBuffOver()
-    {
-        while(buffDefDuration > 0)
-        {
-            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-            yield return zeropointone;
-
-            buffDefDuration -= 0.1f;
-        }
-
-        BuffDefModifier = 1f;
-        CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-        buffDefCorutine = null;
-        buffDefDuration = 0f;
+        defBuff = new DefBuffEffect(amount, duration);
+        effectHandler.AddEffect(defBuff);
     }
 
     //방어력 버프 해제
     public void CancelDefBuff()
     {
-        if (buffDefCorutine != null)
-        {
-            StopCoroutine(buffDefCorutine);
-            buffDefCorutine = null;
-            buffDefDuration = 0f;
-            BuffDefModifier = 1f;
-            CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
-        }
+        effectHandler.RemoveEffect(defBuff);
     }
 
     //이동속도 버프
     public void ApplySpeedBuff(float duration, float amount)
     {
-
-        if (buffSpeedCorutine != null)
-        {
-            buffSpeedDuration = Mathf.Max(buffSpeedDuration, duration);
-            BuffSpeedModifier = Mathf.Max(BuffSpeedModifier, amount);
-        }
-        else
-        {
-            buffSpeedDuration = duration;
-            BuffSpeedModifier = amount;
-            if (gameObject.activeSelf)
-                buffSpeedCorutine = StartCoroutine(BuffSpeedOver());
-        }
+        speedBuff = new SpeedBuffEffect(amount, duration);
+        effectHandler.AddEffect(speedBuff);
     }
 
-    private IEnumerator BuffSpeedOver()
-    {
-        while (buffSpeedDuration > 0)
-        {
-            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            yield return zeropointone;
-
-            slowDownDuration -= 0.1f;
-        }
-        BuffSpeedModifier = 1f;
-        agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-        buffSpeedCorutine = null;
-        buffSpeedDuration = 0f;
-    }
 
     //이속 버프 해제
     public void CancelSpeedBuff()
     {
-        if (buffSpeedCorutine != null)
-        {
-            StopCoroutine(buffSpeedCorutine);
-            buffSpeedCorutine = null;
-            buffSpeedDuration = 0f;
-            BuffSpeedModifier = 1f;
-            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-        }
+        effectHandler.RemoveEffect(speedBuff);
     }
 
     //회피율 버프
     public void ApplyEvasionBuff(float duration, float amount)
     {
-        if(buffEvasionCorutine != null)
-        {
-            buffEvasionDuration = Mathf.Max(buffEvasionDuration, duration);
-            EvasionRate = Mathf.Max(EvasionRate, amount);
-        }
-        else
-        {
-            buffEvasionDuration = duration;
-            EvasionRate = amount;
-            buffEvasionCorutine = StartCoroutine(EvasionRateOver());
-        }
-    }
-
-    private IEnumerator EvasionRateOver()
-    {
-        while (buffEvasionDuration > 0)
-        {
-            yield return zeropointone;
-
-            buffEvasionDuration -= 0.1f;
-        }
-
-        EvasionRate = -1f;
-        buffEvasionCorutine = null;
-        buffEvasionDuration = 0f;
+        EvasionBuff = new EvasionBuffEffect(amount, duration);
+        effectHandler.AddEffect(EvasionBuff);
     }
 
     //회피 버프 해제
     public void CancelEvasionBuff()
     {
-        if (buffEvasionCorutine != null)
-        {
-            StopCoroutine(buffEvasionCorutine);
-            buffEvasionCorutine = null;
-            buffEvasionDuration = 0f;
-            EvasionRate = -1f;
-        }
+        effectHandler.RemoveEffect(EvasionBuff);
     }
 
     public void CancelAllDebuff()
     {
-        CancelDefDown();
-        CancelSlowdown();
-        //CancelInflictDamage();
-        CancelSturn();
+        effectHandler.RemoveAllDeBuff();
+    }
+
+    public void CancelAllBuff()
+    {
+        effectHandler.RemoveAllBuff();
     }
 }

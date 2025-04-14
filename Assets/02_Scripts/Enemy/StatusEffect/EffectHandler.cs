@@ -64,4 +64,28 @@ public class EffectHandler : MonoBehaviour
         }
         effects.Clear();
     }
+
+    public void RemoveAllBuff()
+    {
+        for (int i = effects.Count - 1; i >= 0; i--)
+        {
+            if(effects[i].BuffDeBuff == BuffDeBuff.Buff)
+            {
+                effects[i].RemoveEffect(baseMonster);
+                effects.RemoveAt(i);
+            }
+        }
+    }
+
+    public void RemoveAllDeBuff()
+    {
+        for (int i = effects.Count - 1; i >= 0; i--)
+        {
+            if (effects[i].BuffDeBuff == BuffDeBuff.DeBuff)
+            {
+                effects[i].RemoveEffect(baseMonster);
+                effects.RemoveAt(i);
+            }
+        }
+    }
 }

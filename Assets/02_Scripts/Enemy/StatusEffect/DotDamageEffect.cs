@@ -10,6 +10,7 @@ public class DotDamageEffect : StatusEffect
     public DotDamageEffect(float duration, float damage) : base(duration, damage)
     {
         timer = tickTime;
+        BuffDeBuff = BuffDeBuff.DeBuff;
     }
 
     public override void UpdateEffect(BaseMonster target, float time)

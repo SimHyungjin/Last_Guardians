@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class InventoryUIButton : MonoBehaviour
 {
-    [SerializeField] private Inventory inventory;
-
     [field: SerializeField] public Button allBtn { get; private set; }
     [field: SerializeField] public Button weaponBtn { get; private set; }
     [field: SerializeField] public Button helmetBtn { get; private set; }

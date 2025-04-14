@@ -28,8 +28,7 @@ public class AttackMeleeCircle : IAttackBehavior
 
         foreach (var hit in validHits)
         {
-            // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
-            // TODO:
+            hit.GetComponent<BaseMonster>().TakeDamage(damage);
             Debug.Log("범위 근접 공격");
         }
 

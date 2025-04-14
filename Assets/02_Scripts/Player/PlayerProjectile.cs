@@ -87,7 +87,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
             var hits = Physics2D.OverlapCircleAll(hitPoint, multiSpread * 0.5f, LayerMask.GetMask("Monster"));
             foreach (var hit in hits)
             {
-                // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
+                hit.GetComponent<BaseMonster>().TakeDamage(damage);
                 // TODO:
                 Debug.Log("멀티 불릿 공격" + hit.name);
             }
@@ -95,7 +95,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
         else if(!hitTarget)
         {
             hitTarget = true;
-            // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
+            collision.GetComponent<BaseMonster>().TakeDamage(damage);
             // TODO:
             Debug.Log("단일 불릿 공격");
         }

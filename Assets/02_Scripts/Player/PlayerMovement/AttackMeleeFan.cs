@@ -48,7 +48,7 @@ public class AttackMeleeFan : IAttackBehavior
 
         foreach (var hit in validHits)
         {
-            // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
+            hit.GetComponent<BaseMonster>().TakeDamage(damage);
             // TODO:
             //Debug.Log("부채꼴 근접 공격");
         }

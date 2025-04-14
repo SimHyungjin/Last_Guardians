@@ -5,7 +5,7 @@ public class PlayerData
     public string playerDescription = "기본 캐릭터";
 
     public float attackPower = 20;
-    public float attackSpeed = 1;
+    public float attackSpeed = 0.1f;
     public float attackRange = 2;
 
     public float moveSpeed = 2;

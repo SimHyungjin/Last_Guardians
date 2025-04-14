@@ -7,7 +7,7 @@ public class ItemManager
 
     public void LoadAllItemes()
     {
-        ItemData[] allItems = Resources.LoadAll<ItemData>("SO/ItemData");
+        ItemData[] allItems = Resources.LoadAll<ItemData>("SO/Equip");
         foreach (ItemData item in allItems)
         {
             itemDatas[item.ItemIndex] = item;

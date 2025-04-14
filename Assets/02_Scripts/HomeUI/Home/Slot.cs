@@ -55,16 +55,16 @@ public class Slot : MonoBehaviour, IPointerClickHandler
                 gradeEffect.gameObject.SetActive(false);
                 break;
             case ItemGrade.Rare:
-                gradeEffect.color = new Color(1, 0, 0);
+                gradeEffect.color = new Color(0.2f, 0.6f, 1f);
                 break;
             case ItemGrade.Unique:
-                gradeEffect.color = new Color(0, 1, 0);
+                gradeEffect.color = new Color(0.7f, 0.3f, 1f);
                 break;
             case ItemGrade.Hero:
-                gradeEffect.color = new Color(0, 0, 1);
+                gradeEffect.color = new Color(1f, 0.5f, 0.1f);
                 break;
             case ItemGrade.Legend:
-                gradeEffect.color = new Color(1, 1, 0);
+                gradeEffect.color = new Color(1f, 0.84f, 0f);
                 break;
 
 

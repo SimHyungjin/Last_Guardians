@@ -28,4 +28,13 @@ public class SelectionController : MonoBehaviour
         }
         itemPopupController.Close();
     }
+
+    public void RefreshSlot(ItemData data)
+    {
+        if (selectedSlot != null)
+        {
+            selectedSlot.SetData(data);
+            selectedData = data;
+        }
+    }
 }

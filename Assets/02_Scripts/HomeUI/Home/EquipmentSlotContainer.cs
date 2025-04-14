@@ -6,34 +6,37 @@ public class EquipmentSlotContainer : MonoBehaviour
 {
     [SerializeField] private Transform[] slotParents;
 
-    private Dictionary<EquipType, Slot> euipmentSlots = new();
+    private Dictionary<EquipType, Slot> equipSlots = new();
+
+    private Equipment equipment;
 
     private void Awake()
     {
         for (int i = 0; i < (int)EquipType.Count; i++)
         {
             var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", slotParents[i]);
-            euipmentSlots.Add((EquipType)i, slot);
+            equipSlots.Add((EquipType)i, slot);
         }
     }
 
     private void Start()
     {
-        HomeManager.Instance.equipment.OnEquip += (data) => BindSlot(data);
-        HomeManager.Instance.equipment.OnUnequip += (data) => ClearSlot(data.equipType);
+        equipment = HomeManager.Instance.equipment;
+        equipment.OnEquip += (data) => BindSlot(data);
+        equipment.OnUnequip += (data) => ClearSlot(data.equipType);
     }
 
     public void BindSlot(EquipData data)
     {
         if (data == null) return;
-        if (euipmentSlots.TryGetValue(data.equipType, out var slot))
+        if (equipSlots.TryGetValue(data.equipType, out var slot))
         {
             slot.SetData(data);
         }
     }
     public void ClearSlot(EquipType type)
     {
-        if (euipmentSlots.TryGetValue(type, out var slot))
+        if (equipSlots.TryGetValue(type, out var slot))
         {
             slot.Clear();
         }
@@ -41,11 +44,11 @@ public class EquipmentSlotContainer : MonoBehaviour
 
     public void Refresh()
     {
-        foreach (var slot in euipmentSlots.Values)
+        foreach (var slot in equipSlots.Values)
         {
             slot.Refresh();
         }
     }
 
-    public IReadOnlyDictionary<EquipType, Slot> GetSlots() => euipmentSlots;
+    public IReadOnlyDictionary<EquipType, Slot> GetSlots() => equipSlots;
 }

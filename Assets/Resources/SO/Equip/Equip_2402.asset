@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec207e345877c34c92cc719d7ed879c, type: 3}
   m_Name: Equip_2402
   m_EditorClassIdentifier: 
-  itemIndex: 0
-  itemName: 
-  itemDescript: 
+  itemIndex: 2402
+  itemName: "\uC804\uC124 \uAC11\uC637"
+  itemDescript: "\uC785\uC740\uC0AC\uB78C\uB3C4 \uBAA8\uB978\uB2E4\uB294 \uC804\uC124\uC758
+    \uAC11\uC637"
   itemType: 0
-  itemGrade: 0
-  itemStackLimit: 0
-  itemDropRate: 0
+  itemGrade: 4
+  itemStackLimit: 1
+  itemDropRate: 0.01
   itemSellPrice: 0
   icon: {fileID: 0}
   <equipIndex>k__BackingField: 2402
@@ -32,4 +33,4 @@ MonoBehaviour:
   <penetration>k__BackingField: 20
   <attackRange>k__BackingField: 0
   <specialEffectID>k__BackingField: 0
-  <linkedItem>k__BackingField: {fileID: 0}
+  <linkedItem>k__BackingField: {fileID: 11400000, guid: f284e78002d73e44e86fd3b3c7829c68, type: 2}

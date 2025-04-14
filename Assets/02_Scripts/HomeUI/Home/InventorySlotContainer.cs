@@ -7,6 +7,10 @@ public class InventorySlotContainer : MonoBehaviour
     [SerializeField] private int slotNum = 50;
     private List<Slot> slots = new();
 
+    private Inventory inventory;
+    private Equipment equipment;
+    private SelectionController selectionController;
+
     private void Awake()
     {
         for (int i = 0; i < slotNum; i++)
@@ -18,7 +22,12 @@ public class InventorySlotContainer : MonoBehaviour
 
     private void Start()
     {
-        HomeManager.Instance.inventory.OnInventoryChanged += () => Display(HomeManager.Instance.inventory.GetFilteredView());
+        var home = HomeManager.Instance;
+        inventory = home.inventory;
+        equipment = home.equipment;
+        selectionController = home.selectionController;
+
+        inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView());
     }
 
     public void Display(IReadOnlyList<ItemData> items)
@@ -29,16 +38,16 @@ public class InventorySlotContainer : MonoBehaviour
 
             if (item is EquipData eq)
             {
-                slot.SetEquipped(HomeManager.Instance.equipment.IsEquipped(eq));
+                slot.SetEquipped(equipment.IsEquipped(eq));
             }
             else
             {
                 slot.SetEquipped(false);
             }
 
-            if (HomeManager.Instance.selectionController.selectedSlot != null)
+            if (selectionController.selectedSlot != null)
             {
-                slot.SetSelected(slot.GetData() == HomeManager.Instance.selectionController.selectedData);
+                slot.SetSelected(slot.GetData() == selectionController.selectedData);
             }
 
             slot.Refresh();
@@ -51,7 +60,7 @@ public class InventorySlotContainer : MonoBehaviour
         {
             if (slot.GetData() is EquipData data)
             {
-                bool isEquipped = HomeManager.Instance.equipment.IsEquipped(data);
+                bool isEquipped = equipment.IsEquipped(data);
                 slot.SetEquipped(isEquipped);
             }
             slot.Refresh();

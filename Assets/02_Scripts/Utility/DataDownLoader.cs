@@ -1064,14 +1064,33 @@ public class DataDownLoader : MonoBehaviour
             float atkRange = float.Parse(row["attackRange"]?.ToString() ?? "0");
             int specialId = int.Parse(row["specialEffectID"]?.ToString() ?? "0");
 
+            // EquipData 생성
             EquipData data = ScriptableObject.CreateInstance<EquipData>();
-            data.SetData(equipIndex, equipType, attackType, atkPower, atkSpeed, moveSpeed, critChance, critDmg, penetration, atkRange, specialId);
+
+            // ▶ itemDataSO에서 동일한 equipIndex를 가진 ItemData 찾기
+            ItemData matchedItem = itemDataSO.Find(item => item.ItemIndex == equipIndex);
+            if (matchedItem != null)
+            {
+                data.ApplyBaseItemData(matchedItem); 
+            }
+            else
+            {
+                Debug.LogWarning($"EquipIndex {equipIndex}에 해당하는 ItemData가 없습니다.");
+            }
+
+
+
+            data.SetEquipData(
+                equipIndex, equipType, attackType, atkPower, atkSpeed,
+                moveSpeed, critChance, critDmg, penetration, atkRange, specialId
+            );
 
             string assetPath = $"{folderPath}/Equip_{equipIndex}.asset";
             AssetDatabase.CreateAsset(data, assetPath);
             AssetDatabase.SaveAssets();
 
             equipDataSO.Add(data);
+            itemDataSO.Add(data); 
         }
 
         AssetDatabase.Refresh();

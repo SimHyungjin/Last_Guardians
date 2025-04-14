@@ -5,23 +5,17 @@ using UnityEngine;
 
 public interface IProjectile
 {
-    void Launch(Vector2 targetPos, float damage, bool isFriendly);
+    void Launch(Vector2 targetPos);
 }
 
 public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 {
-    private float speed = 10f;
+    //private float speed = 10f;
     private float Range = 5f;
-    //private float lifeTime = 5f;
-    private float multiSpread = 1f;
+    private float offset = 0.5f;
 
-    private bool hitTarget;
-
-    private float damage;
     private Vector2 direction;
     private Vector2 startPos;
-
-    private bool isMulti = false;
 
     private Coroutine lifeTimeCoroutine;
 
@@ -36,7 +30,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     {
         float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range)
+        if (distance > Range+offset)
         {
             PoolManager.Instance.Despawn(this);
         }
@@ -51,7 +45,6 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         if (rb != null)
             rb.velocity = Vector2.zero;
         //lifeTimeCoroutine = StartCoroutine(DespawnProjectile(lifeTime));
-        hitTarget = false;
     }
 
     public void OnDespawn()
@@ -70,10 +63,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     /// <param name="targetPos"></param>
     /// <param name="_damage"></param>
     /// <param name="_isMulti"></param>
-    public virtual void Launch(Vector2 targetPos, float _damage, bool _isMulti = false)
+    public virtual void Launch(Vector2 targetPos)
     {
-        damage = _damage;
-        isMulti = _isMulti;
         direction = (targetPos - (Vector2)transform.position).normalized;
         startPos = transform.position;
         transform.right = direction;

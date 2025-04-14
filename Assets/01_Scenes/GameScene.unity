@@ -2106,17 +2106,6 @@ MonoBehaviour:
   target:
   - {fileID: 5073691358447936586}
   - {fileID: 3360045662071807015}
-  datas:
-  - {fileID: 11400000, guid: f78b368f926695748add2f72f10f2e43, type: 2}
-  - {fileID: 11400000, guid: 4219cd1b455b3204bbba123c63d3b664, type: 2}
-  - {fileID: 11400000, guid: 5105bf4ec9a58c048b1c092675fbe3a6, type: 2}
-  - {fileID: 11400000, guid: af3c5e710d25b9e40b2b441b8247c3f2, type: 2}
-  - {fileID: 11400000, guid: 48f5f76b8b26ec3408ee314f8d593282, type: 2}
-  - {fileID: 11400000, guid: 7ce46eebc4b3cf34ebbd95c62847c705, type: 2}
-  - {fileID: 11400000, guid: 10376b0a970a42041b8fbed03be26524, type: 2}
-  - {fileID: 11400000, guid: 3013b6756421c044fa45315b5c71f827, type: 2}
-  - {fileID: 11400000, guid: cec672d810049b442bad565b14058b2a, type: 2}
-  - {fileID: 11400000, guid: 2f6e3d11ad6258948b4d9415e1182ead, type: 2}
 --- !u!4 &296661908
 Transform:
   m_ObjectHideFlags: 0
@@ -4056,6 +4045,7 @@ MonoBehaviour:
   - {fileID: 48209079}
   - {fileID: 1018054542}
   targetPosition: {fileID: 4918445805338994667}
+  dummyTowerPrefab: {fileID: 574210830657341825, guid: 25813c72c8217124fac252f7c2032bf0, type: 3}
 --- !u!114 &648171798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4362,7 +4352,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7158,6 +7148,53 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &1404120580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1404120582}
+  - component: {fileID: 1404120581}
+  m_Layer: 0
+  m_Name: ProjectileFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1404120581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404120580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7761a544db03ef4799ad67187fb837d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileList:
+  - type: 0
+    prefab: {fileID: 3293921478443195213, guid: 77ce0bcb56cb4e74a9bc13af54f0a457, type: 3}
+--- !u!4 &1404120582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404120580}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 905.35, y: 206.3313, z: -3.7737017}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1407011010
 GameObject:
   m_ObjectHideFlags: 0
@@ -21560,7 +21597,10 @@ MonoBehaviour:
   monsterWaveDataSO: []
   towerDataSO: []
   itemDataSO: []
+  equipDataSO: []
   towerCombinationData: {fileID: 0}
+  towerGhostPrefabs: {fileID: 0}
+  towerAtlas: {fileID: 0}
 --- !u!1 &5299800064457743904 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3658777887177510178, guid: 295546073aee1fa4a8ae1b5045d970d2, type: 3}
@@ -29974,3 +30014,4 @@ SceneRoots:
   - {fileID: 296661908}
   - {fileID: 2092156928}
   - {fileID: 648171799}
+  - {fileID: 1404120582}

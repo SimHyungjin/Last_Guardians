@@ -23,7 +23,7 @@ public class BountyMonster : BaseMonster
         base.RangeAttack();
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = monsterData;
-        projectile.Launch(Target.transform.position, monsterData.MonsterDamage);
+        projectile.Launch(Target.transform.position);
     }
     protected override void Death()
     {

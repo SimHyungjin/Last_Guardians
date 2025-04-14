@@ -13,6 +13,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     //private float speed = 10f;
     private float Range = 5f;
     private float offset = 0.5f;
+    private float speed = 1f;
 
     private Vector2 direction;
     private Vector2 startPos;

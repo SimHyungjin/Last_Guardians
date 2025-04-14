@@ -20,6 +20,8 @@ public class BaseMonster : MonoBehaviour
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
 
+    [SerializeField] private float meleeAttackRange = 0.5f;
+    [SerializeField] private float RangedAttackRange = 2.0f;
 
     //몬스터 공격관련
     private float AttackRange;
@@ -40,10 +42,6 @@ public class BaseMonster : MonoBehaviour
     private WaitForSeconds onesec;
 
     //상태이상관련
-    //도트데미지 관련 필드
-    private float dotDuration = 0f;
-    private float dotDamage = 0f;
-    private Coroutine dotDamageCorutine;
     //스턴 관련 필드
     private Coroutine sturnCorutine;
     private float sturnDuration;
@@ -66,12 +64,18 @@ public class BaseMonster : MonoBehaviour
     private float buffEvasionDuration;
     private Coroutine buffEvasionCorutine;
 
+    //이펙트 핸들러
+    private EffectHandler effectHandler;
+    StatusEffect dotDamage;
+    StatusEffect slowDown;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        effectHandler = GetComponent<EffectHandler>();
         zeropointone = new WaitForSeconds(0.1f);
         onesec = new WaitForSeconds(1f);
     }
@@ -87,28 +91,16 @@ public class BaseMonster : MonoBehaviour
 
     private void init()
     {
-        AttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? 2f : 0.5f;
+        AttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? RangedAttackRange : meleeAttackRange;
         spriteRenderer.sprite = monsterData.Image;
         CurrentHP = monsterData.MonsterHP;
         CurrentDef = monsterData.MonsterDef;
-        BuffDefModifier = 1f;
-        BuffSpeedModifier = 1f;
-        DeBuffSpeedModifier = 1f;
-        DeBuffDefModifier = 1f;
-        EvasionRate = 1f;
-        buffDefDuration = 0f;
-        buffSpeedDuration = 0f;
-        reducDefDuration = 0f;
-        slowDownDuration = 0f;
-        dotDuration = 0f;
-        buffEvasionDuration = 0f;
-        sturnDuration = 0f;
         attackTimer = 0f;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
+        ResetBuff();
+        ResetDeBuff();
         isAttack = false;
-        isSturn = false;
-        
         if (monsterData.HasSkill)
         {
             skillData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.SkillIndex == monsterData.MonsterSkillID);
@@ -116,13 +108,28 @@ public class BaseMonster : MonoBehaviour
         }   
     }
 
+ 
+    private void ResetBuff()
+    {
+        BuffDefModifier = 1f;
+        BuffSpeedModifier = 1f;
+        buffDefDuration = 0f;
+        buffSpeedDuration = 0f;
+        EvasionRate = 1f;
+        buffEvasionDuration = 0f;
+    }
+    private void ResetDeBuff()
+    {
+        DeBuffSpeedModifier = 1f;
+        DeBuffDefModifier = 1f;
+        reducDefDuration = 0f;
+        slowDownDuration = 0f;
+        sturnDuration = 0f;
+        isSturn = false;
+    }
+
     private void Update()
     {
-        Debug.DrawRay(this.transform.position, Vector2.left, Color.red);
-        Debug.DrawRay(this.transform.position, Vector2.up, Color.red);
-        Debug.DrawRay(this.transform.position, Vector2.right, Color.red);
-        Debug.DrawRay(this.transform.position, Vector2.down, Color.red);
-
         if(isAttack)
             attackTimer -= Time.deltaTime;
 
@@ -146,6 +153,13 @@ public class BaseMonster : MonoBehaviour
                     MonsterSkill();
             }
         }
+
+        ApplyStatus();
+    }
+
+    private void ApplyStatus()
+    {
+        agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
     }
 
     void OnDrawGizmos()
@@ -195,7 +209,6 @@ public class BaseMonster : MonoBehaviour
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         StopAllCoroutines();
         sturnCorutine = null;
-        dotDamageCorutine = null;
         reduceDefCorutine = null;
         slowDownCorutine = null;
         MonsterManager.Instance.OnMonsterDeath();
@@ -228,49 +241,17 @@ public class BaseMonster : MonoBehaviour
             Death();
     }
 
-    //도트 데미지 구현
+    //도트 데미지 적용
     public void DotDamage(float dotdamage, float duration)
     {
-        if (dotDamageCorutine != null)
-        {
-            dotDuration = Mathf.Max(dotDuration, duration);
-            dotDamage = Mathf.Min(dotDamage, dotdamage);
-        }
-
-        else
-        {
-            dotDuration = duration;
-            dotDamage = dotdamage;
-            if (gameObject.activeSelf)
-                dotDamageCorutine = StartCoroutine(InflictDamageOverTime());
-        }
+        dotDamage = new DotDamageEffect(dotdamage, duration);
+        effectHandler.AddEffect(dotDamage);
     }
 
-    private IEnumerator InflictDamageOverTime()
+    //도트 데미지 해제
+    public void CancelDotDamage()
     {
-        while (dotDuration > 0)
-        {
-            //데미지 관련 공식 나오면 수정
-            TakeDamage(dotDamage);
-            yield return onesec;
-
-            dotDuration -= 1f;
-        }
-
-        dotDamageCorutine = null;
-        dotDamage = 0f;
-        dotDuration = 0f;
-    }
-
-    //도트데미지 해제
-    public void CancelInflictDamage()
-    {
-        if (dotDamageCorutine != null)
-        {
-            StopCoroutine(dotDamageCorutine);
-            dotDamageCorutine = null;
-            dotDamage = 0f;
-        }
+        effectHandler.RemoveEffect(dotDamage);
     }
 
     //스턴 구현
@@ -320,47 +301,14 @@ public class BaseMonster : MonoBehaviour
     //슬로우 적용
     public void ApplySlowdown(float duration, float amount)
     {
-        if(slowDownCorutine != null)
-        {
-            slowDownDuration = Mathf.Max(slowDownDuration, duration);
-            DeBuffSpeedModifier = Mathf.Max(DeBuffSpeedModifier, amount);
-        }
-        else
-        {
-            slowDownDuration = duration;
-            DeBuffSpeedModifier = amount;
-            if (gameObject.activeSelf)
-                slowDownCorutine = StartCoroutine(SlowDownOver());
-        }
-    }
-
-    private IEnumerator SlowDownOver()
-    {
-        
-        while (slowDownDuration > 0)
-        {
-            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-            yield return zeropointone;
-
-            slowDownDuration -= 0.1f;
-        }
-        DeBuffSpeedModifier = 1f;
-        agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-        slowDownCorutine = null;
-        slowDownDuration = 0f;
+        slowDown = new SlowEffect(duration, amount);
+        effectHandler.AddEffect(slowDown);
     }
 
     //슬로우 디버프 해제
     public void CancelSlowdown()
     {
-        if (slowDownCorutine != null)
-        {
-            StopCoroutine(slowDownCorutine);
-            slowDownCorutine = null;
-            slowDownDuration = 0f;
-            DeBuffSpeedModifier = 1f;
-            agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-        }
+        effectHandler.RemoveEffect(slowDown);
     }
 
     //방어력 감소 적용
@@ -557,7 +505,7 @@ public class BaseMonster : MonoBehaviour
     {
         CancelDefDown();
         CancelSlowdown();
-        CancelInflictDamage();
+        //CancelInflictDamage();
         CancelSturn();
     }
 }

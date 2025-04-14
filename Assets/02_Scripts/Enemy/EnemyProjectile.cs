@@ -11,9 +11,9 @@ public class EnemyProjectile : ProjectileBase
         base.Update();
     }
 
-    public override void Launch(Vector2 targetPos, float _damage, bool _isMulti = false)
+    public override void Launch(Vector2 targetPos)
     {
-        base.Launch(targetPos, _damage, _isMulti);
+        base.Launch(targetPos);
     }
 
     public override void ProjectileMove()
@@ -31,6 +31,4 @@ public class EnemyProjectile : ProjectileBase
             PoolManager.Instance.Despawn(this);
         }
     }
-
-
 }

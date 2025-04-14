@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6593329196448319869}
   - component: {fileID: 3025558603856330213}
-  - component: {fileID: 9191393118094345658}
   - component: {fileID: 884241243870721089}
   - component: {fileID: 8660885359627565553}
   - component: {fileID: 4844810432890590897}
+  - component: {fileID: -3221317178324195135}
   m_Layer: 6
   m_Name: BountyMonster
   m_TagString: Monster
@@ -81,33 +81,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
---- !u!50 &9191393118094345658
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6984242255651121693}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!212 &884241243870721089
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -174,6 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: cf8de87b9a86c5e4e9d9f86cb1e70905, type: 2}
   skillData: {fileID: 11400000, guid: fca4653a10b0beb48acaadc3a13ba7c3, type: 2}
+  meleeAttackRange: 0.5
+  RangedAttackRange: 2
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -199,3 +174,15 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!114 &-3221317178324195135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6984242255651121693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10346c1d0d7d934dac7eb506b6a2669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

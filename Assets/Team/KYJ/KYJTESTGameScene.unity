@@ -922,6 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c958f90f6a467074d8c5fb97a4f5c0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeManager: {fileID: 0}
 --- !u!1 &98788407
 GameObject:
   m_ObjectHideFlags: 0
@@ -13938,6 +13939,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2f6e3d11ad6258948b4d9415e1182ead, type: 2}
   - {fileID: 11400000, guid: 3fe93f433b3cb104d9f86768ab826f4c, type: 2}
   towerDataSO: []
+  itemDataSO: []
   towerCombinationData: {fileID: 11400000, guid: 416b2068da773df41a56cdcc2cb8fee7, type: 2}
 --- !u!4 &1680084934338659558 stripped
 Transform:

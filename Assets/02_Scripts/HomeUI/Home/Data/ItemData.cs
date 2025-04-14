@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public enum ItemType
@@ -48,5 +49,19 @@ public class ItemData : ScriptableObject
         itemStackLimit = stackLimit;
         itemDropRate = dropRate;
         itemSellPrice = sellPrice;
+    }
+    [CustomEditor(typeof(EquipData))]
+    public class EquipDataEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            EquipData equipData = (EquipData)target;
+
+            
+            EditorGUILayout.LabelField("Item Name", equipData.ItemName);
+
+           
+            DrawDefaultInspector();
+        }
     }
 }

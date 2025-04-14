@@ -441,3 +441,4 @@ MonoBehaviour:
   selectedEffect: {fileID: 2136363455886065846}
   equipEffect: {fileID: 2883955326459355181}
   gradeEffect: {fileID: 5725410199714360790}
+  data: {fileID: 0}

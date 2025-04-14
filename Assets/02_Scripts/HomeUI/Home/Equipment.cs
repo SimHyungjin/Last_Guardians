@@ -16,7 +16,7 @@ public class Equipment
     public float totalPenetration { get; private set; }
     public float totalMoveSpeed { get; private set; }
     public float specialEffectIDs { get; private set; }
-    public int specialEffectCount { get; private set; }
+    public int specialEffectID { get; private set; }
 
     public void Equip(EquipData data)
     {
@@ -57,7 +57,7 @@ public class Equipment
             totalCriticalDamage += data.criticalDamage;
             totalPenetration += data.penetration;
             totalMoveSpeed += data.moveSpeed;
-            specialEffectCount = data.specialEffectID > 0 ? data.specialEffectID : 0;
+            specialEffectID = data.specialEffectID > 0 ? data.specialEffectID : 0;
         }
     }
 
@@ -68,4 +68,31 @@ public class Equipment
         if (equipped.TryGetValue(data.equipType, out var d) && d == data) return true;
         else return false;
     }
+
+    public EquipmentStats ToStats()
+    {
+        return new EquipmentStats
+        {
+            attack = totalAttack,
+            attackSpeed = totalAttackSpeed,
+            attackRange = totalAttackRange,
+            criticalChance = totalCriticalChance,
+            criticalDamage = totalCriticalDamage,
+            penetration = totalPenetration,
+            moveSpeed = totalMoveSpeed,
+            specialEffectID = specialEffectID
+        };
+    }
+}
+
+public class EquipmentStats
+{
+    public float attack;
+    public float attackSpeed;
+    public float attackRange;
+    public float criticalChance;
+    public float criticalDamage;
+    public float penetration;
+    public float moveSpeed;
+    public int specialEffectID;
 }

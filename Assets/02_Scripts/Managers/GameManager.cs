@@ -11,4 +11,9 @@ public class GameManager : Singleton<GameManager>
 
         ItemManager.LoadAllItemes();
     }
+
+    public void AddStatData(Equipment equip)
+    {
+
+    }
 }

@@ -18,7 +18,7 @@ public class ItemPopupController : MonoBehaviour
         currentData = data;
         icon.sprite = data.icon;
         itemName.text = data.itemName;
-        description.text = data.itemDescription;
+        description.text = data.itemDescript;
 
         if (data is EquipemntData equipData)
         {

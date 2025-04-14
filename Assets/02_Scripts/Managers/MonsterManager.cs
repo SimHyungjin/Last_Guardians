@@ -28,7 +28,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private void Start()
     {
         //WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
-        //AlliveMonsters.
+        AlliveMonsters = new List<BaseMonster>();
         InitMonsters();
         StartCoroutine(StartNextWave());
     }

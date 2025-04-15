@@ -252,7 +252,6 @@ public class Towerbuilder : MonoBehaviour
                 }
             }
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
-            Debug.Log(currentTile);
             if (CanTowerToTowerCombine(currentTile))
             {
                 Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));

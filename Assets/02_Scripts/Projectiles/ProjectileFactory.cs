@@ -45,11 +45,11 @@ public class ProjectileFactory : MonoBehaviour
             Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
             return;
         }
-        Debug.Log($" Spawn 요청 프리팹 이름: {prefab.name}, 인스턴스 ID: {prefab.GetInstanceID()}");
+        Debug.Log($"[ProjectileFactory]  {towerData.ProjectileType} 프리팹 이름: {prefab.name} / 인스턴스ID: {prefab.GetInstanceID()} / 해시: {prefab.GetHashCode()}");
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-        projectile=AddEffectComponent(projectile, towerData);
+        //projectile=AddEffectComponent(projectile, towerData);
     }
     private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
     {

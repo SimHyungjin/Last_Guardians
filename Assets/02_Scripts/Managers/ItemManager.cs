@@ -5,7 +5,7 @@ public class ItemManager
 {
     [SerializeField] private Dictionary<int, ItemData> itemDatas = new();
 
-    public void LoadAllItemes()
+    public void LoadAllItems()
     {
         ItemData[] allItems = Resources.LoadAll<ItemData>("SO/Equip");
         foreach (ItemData item in allItems)
@@ -16,6 +16,10 @@ public class ItemManager
 
     public ItemData GetItemData(int index)
     {
-        return itemDatas.TryGetValue(index, out ItemData itemData) ? itemData : null;
+        if (!itemDatas.TryGetValue(index, out ItemData original)) return null;
+
+        ItemData instance = Object.Instantiate(original);
+        instance.GenerateUniqueID();
+        return instance;
     }
 }

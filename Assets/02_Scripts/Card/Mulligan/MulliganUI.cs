@@ -9,8 +9,10 @@ using UnityEngine.UI;
 public class MulliganUI : MonoBehaviour
 {
     [SerializeField] private MulliganCard CardPrefab;
+    [SerializeField] private TextMeshProUGUI desTextPrefab;
     [SerializeField] private SpriteAtlas atlas;
     [SerializeField] private Transform parent;
+    [SerializeField] private Transform descriptionTransfrom;
     [SerializeField] private Button okBtn;
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
@@ -78,7 +80,9 @@ public class MulliganUI : MonoBehaviour
         for (int i = 0; i < numberOfCards; i++)
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
+            TextMeshProUGUI des = Instantiate(desTextPrefab, descriptionTransfrom);
             card.Init(dataList[i].TowerIndex);
+            des.text = dataList[i].TowerDescription;
             card.Btn.onClick.AddListener(() => AddSelectCardList(card));
         }
     }
@@ -108,7 +112,7 @@ public class MulliganUI : MonoBehaviour
     {
         if (selectedCard.Count != MaxSelectedCards)
         {
-            Debug.Log("2개의 카드를 선택하지 않았습니다.");
+            Debug.Log("카드 2개 선택하지 않음");
             return;
         }
 
@@ -126,6 +130,7 @@ public class MulliganUI : MonoBehaviour
         }
 
         DestroyAllChildren(parent);
+        DestroyAllChildren(descriptionTransfrom);
         selectedCard.Clear();
         Shuffle(elementalDataList);
 
@@ -140,7 +145,7 @@ public class MulliganUI : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
-            MonsterManager.Instance.GameStart();
+            InGameManager.Instance.GameStart();
         }
     }
 

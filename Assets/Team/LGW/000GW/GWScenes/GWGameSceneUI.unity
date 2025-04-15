@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c958f90f6a467074d8c5fb97a4f5c0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeManager: {fileID: 0}
+  fadeManager: {fileID: 805503895}
 --- !u!1 &120879403
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,6 +2624,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+--- !u!114 &805503895 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1979612038087270669, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+  m_PrefabInstance: {fileID: 805503894}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ee9001a4112dd4ea5ecf9a7b89e619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &834927297
 GameObject:
   m_ObjectHideFlags: 0

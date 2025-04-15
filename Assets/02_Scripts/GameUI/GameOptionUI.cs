@@ -7,37 +7,57 @@ public class GameOptionUI : MonoBehaviour
     public GameObject optionSlot;
     public GameObject optionPanel;
     public GameObject HomePanel;
+
+    private bool isOptionPanelOpen = false;
+    private bool isHomePanelOpen = false;
+    private bool isOptionOpen = false;
+
     public void OpenOption()
     {
-        optionSlot.SetActive(!optionSlot.activeSelf);
+        isOptionOpen = !isOptionOpen;
+        optionSlot.SetActive(isOptionOpen);
     }
+
     public void CloseOption()
     {
         optionSlot.SetActive(false);
     }
 
-    public void CloseOptionPanel()
-    {
-        optionPanel.SetActive(false);
-        Time.timeScale = 1; 
-    }
     public void OpenOptionPanel()
     {
+        if (isOptionPanelOpen) return;
+
+        isOptionPanelOpen = true;
         optionPanel.SetActive(true);
         optionSlot.SetActive(false);
-        Time.timeScale = 0; 
+        Time.timeScale = 0;
     }
 
-    public void CloseHomePanel()
+    public void CloseOptionPanel()
     {
-        HomePanel.SetActive(false);
+        if (!isOptionPanelOpen) return;
+
+        isOptionPanelOpen = false;
+        optionPanel.SetActive(false);
         Time.timeScale = 1;
     }
+
     public void OpenHomePanel()
     {
+        if (isHomePanelOpen) return;
+
+        isHomePanelOpen = true;
         HomePanel.SetActive(true);
         optionSlot.SetActive(false);
         Time.timeScale = 0;
     }
 
+    public void CloseHomePanel()
+    {
+        if (!isHomePanelOpen) return;
+
+        isHomePanelOpen = false;
+        HomePanel.SetActive(false);
+        Time.timeScale = 1;
+    }
 }

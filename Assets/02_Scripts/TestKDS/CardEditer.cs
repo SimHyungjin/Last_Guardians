@@ -7,7 +7,7 @@ public class CardEditer : MonoBehaviour
     public DeckHandler handCardLayout;
 
     public void AddOne()
-    {handCardLayout.AddCard(1); }
+    {handCardLayout.AddCard(7); }
     public void AddTwo()
     { handCardLayout.AddCard(2); }
     public void AddThree()

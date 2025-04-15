@@ -12,7 +12,7 @@ public class MagicProjectile : ProjectileBase
         base.Init(_towerData);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
-        string path = $"Assets/91_Disign/Sprite/ProjectileImage/{spritename}.png";
+        string path = $"Assets/91_Disign/Sprite/ProjectileImage/Magics/{spritename}.png";
         Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
         GetComponent<SpriteRenderer>().sprite = sprite;
 #endif

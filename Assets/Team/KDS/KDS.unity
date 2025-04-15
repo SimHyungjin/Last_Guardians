@@ -7818,6 +7818,8 @@ MonoBehaviour:
   projectileList:
   - type: 0
     prefab: {fileID: 3293921478443195213, guid: 77ce0bcb56cb4e74a9bc13af54f0a457, type: 3}
+  - type: 1
+    prefab: {fileID: 3293921478443195213, guid: 390748edd92bbd44abd7d293686ce224, type: 3}
 --- !u!4 &1404120582
 Transform:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class MulliganCard : MonoBehaviour
     public Button Btn { get; set; }
     public Outline Outline {  get; set; }
 
+
     private void Awake()
     {
         Btn = GetComponent<Button>();

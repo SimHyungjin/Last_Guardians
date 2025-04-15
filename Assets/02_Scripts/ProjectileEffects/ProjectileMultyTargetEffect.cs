@@ -25,9 +25,7 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
 
             float angle = angleStep * index;
             Vector2 dir = Quaternion.Euler(0, 0, angle) * forward;
-            ProjectileBase prefab = TowerManager.Instance.projectileFactory.projectileMap[towerData.ProjectileType];
-            ProjectileBase projectile = PoolManager.Instance.Spawn(prefab);
-            //var projectile = PoolManager.Instance.Spawn(GetComponent<MagicProjectile>());
+            var projectile = PoolManager.Instance.Spawn(GetComponent<ProjectileBase>());
             projectile.transform.position = origin;
             projectile.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
             projectile.Init(towerData);

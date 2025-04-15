@@ -49,7 +49,7 @@ public class ProjectileFactory : MonoBehaviour
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-        //projectile=AddEffectComponent(projectile, towerData);
+        projectile=AddEffectComponent(projectile, towerData);
     }
     private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
     {

@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class ProjectileKnockbackEffect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Apply(BaseMonster target, TowerData towerData)
     {
-        
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        
+
     }
 }

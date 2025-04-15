@@ -4381,6 +4381,7 @@ MonoBehaviour:
   hand: {fileID: 8019884509423294679}
   towerCombinationData: {fileID: 0}
   towerbuilder: {fileID: 648171797}
+  projectileFactory: {fileID: 0}
 --- !u!4 &648171799
 Transform:
   m_ObjectHideFlags: 0

@@ -48,14 +48,14 @@ public class MagicProjectile : ProjectileBase
             if (towerData.SpecialEffect == SpecialEffect.None || effect == null)
             {
                 OnDespawn();
-                PoolManager.Instance.Despawn(this);
+                PoolManager.Instance.Despawn<ProjectileBase>(this);
                 return;
             }
             if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
             else effect.Apply(target, towerData);
             
             OnDespawn();
-            PoolManager.Instance.Despawn(this);
+            PoolManager.Instance.Despawn<ProjectileBase>(this);
 
         }
     }

@@ -72,6 +72,7 @@ public class Tower : MonoBehaviour
 
         if (Time.time - lastCheckTime < towerData.AttackSpeed) return;
         {
+            FindTarget();
             if (projectileFactory == null || towerData == null)
             {
                 Debug.LogError("ProjectileFactory or TowerData is null in Tower.Update");

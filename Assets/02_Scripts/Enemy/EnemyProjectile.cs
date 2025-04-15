@@ -13,7 +13,7 @@ public class EnemyProjectile : ProjectileBase
 
     protected override void ProjectileMove()
     {
-        base.ProjectileMove();
+        rb.velocity = direction * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

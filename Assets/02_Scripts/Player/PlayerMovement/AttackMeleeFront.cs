@@ -17,7 +17,7 @@ public class AttackMeleeFront : IAttackBehavior
     {
         Vector2 forward = attackController.transform.right;
         float range = player.playerData.attackRange;
-        float width = attackController.rangeX;
+        float width = player.playerData.attackRange * 0.5f;
 
         Vector2 boxCenter = (Vector2)attackController.transform.position + forward * range;
         Vector2 boxSize = new Vector2(range * 2, width);
@@ -48,7 +48,7 @@ public class AttackMeleeFront : IAttackBehavior
         EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
         EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
-        float width = attackController.rangeX;
+        float width = player.playerData.attackRange * 0.5f;
         float range = player.playerData.attackRange;
 
         Vector2 forward = attackController.transform.right;

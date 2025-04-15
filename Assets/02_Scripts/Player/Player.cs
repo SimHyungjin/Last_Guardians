@@ -9,15 +9,15 @@ public class Player
 
     public void SetStatus()
     {
-        var equipment = HomeManager.Instance.equipment;
+        var equipment = GameManager.Instance.stats;
         if (playerData == null || equipment == null) return;
 
-        playerData.attackPower += equipment.totalAttack;
-        playerData.attackSpeed += equipment.totalAttackSpeed;
-        playerData.attackRange += equipment.totalAttackRange;
-        playerData.moveSpeed += equipment.totalMoveSpeed;
-        playerData.criticalChance += equipment.totalCriticalChance;
-        playerData.criticalDamage += equipment.totalCriticalDamage;
-        playerData.penetration += equipment.totalPenetration;
+        playerData.attackPower = playerData.baseAttackPower + equipment.attack;
+        playerData.attackSpeed = playerData.baseAttackSpeed + equipment.attackSpeed;
+        playerData.attackRange = playerData.baseAttackRange + equipment.attackRange;
+        playerData.moveSpeed = playerData.baseMoveSpeed + equipment.moveSpeed;
+        playerData.criticalChance = playerData.baseCriticalChance + equipment.criticalChance;
+        playerData.criticalDamage = playerData.baseCriticalDamage + equipment.criticalDamage;
+        playerData.penetration = playerData.basePenetration + equipment.penetration;
     }
 }

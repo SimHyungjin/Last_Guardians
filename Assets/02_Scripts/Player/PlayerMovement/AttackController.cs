@@ -19,7 +19,6 @@ public class AttackController : MonoBehaviour
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
     private const float targetCheckTime = 0.05f;
-    public float rangeX { get; private set; } = 2f;
 
     private IAttackBehavior attackBehavior;
     /// <summary>
@@ -158,7 +157,7 @@ public class AttackController : MonoBehaviour
 
         Vector2 forward = transform.right;
         float range = player.playerData.attackRange;
-        float width = rangeX; // AttackController에 public float rangeX;
+        float width = player.playerData.attackRange * 0.5f; // AttackController에 public float rangeX;
 
         Vector2 boxCenter = (Vector2)transform.position + forward * range;
         Vector2 boxSize = new Vector2(width, range);

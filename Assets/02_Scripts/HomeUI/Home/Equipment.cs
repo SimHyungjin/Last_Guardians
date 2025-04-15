@@ -65,7 +65,7 @@ public class Equipment
     {
         if (data == null) return false;
         if (equipped.Count == 0) return false;
-        if (equipped.TryGetValue(data.equipType, out var d) && d == data) return true;
+        if (equipped.TryGetValue(data.equipType, out var d) && d == data && data.uniqueID == d.uniqueID) return true;
         else return false;
     }
 

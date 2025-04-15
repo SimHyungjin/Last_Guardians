@@ -21,7 +21,7 @@ public class ProjectileFactory : MonoBehaviour
     [SerializeField]
     private List<ProjectileEntry> projectileList;
 
-    private Dictionary<ProjectileType, ProjectileBase> projectileMap;
+    public Dictionary<ProjectileType, ProjectileBase> projectileMap;
 
     private void Awake()
     {
@@ -30,7 +30,9 @@ public class ProjectileFactory : MonoBehaviour
         foreach (var entry in projectileList)
         {
             if (!projectileMap.ContainsKey(entry.type))
+            {
                 projectileMap.Add(entry.type, entry.prefab);
+            }
             else
                 Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
@@ -43,6 +45,7 @@ public class ProjectileFactory : MonoBehaviour
             Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
             return;
         }
+        Debug.Log($" Spawn 요청 프리팹 이름: {prefab.name}, 인스턴스 ID: {prefab.GetInstanceID()}");
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
         projectile.Init(towerData);
         projectile.Launch(targetPos);

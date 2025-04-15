@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static ProjectileFactory;
 
 public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
 {
+
     public void Apply(BaseMonster target, TowerData towerData)
     {
         float angleStep = 10f;
@@ -14,6 +17,7 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
 
         int half = additionalCount / 2;
 
+
         for (int i = 0; i < additionalCount; i++)
         {
             int index = i - half;
@@ -21,8 +25,9 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
 
             float angle = angleStep * index;
             Vector2 dir = Quaternion.Euler(0, 0, angle) * forward;
-
-            var projectile = PoolManager.Instance.Spawn(GetComponent<ProjectileBase>());
+            ProjectileBase prefab = TowerManager.Instance.projectileFactory.projectileMap[towerData.ProjectileType];
+            ProjectileBase projectile = PoolManager.Instance.Spawn(prefab);
+            //var projectile = PoolManager.Instance.Spawn(GetComponent<MagicProjectile>());
             projectile.transform.position = origin;
             projectile.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
             projectile.Init(towerData);

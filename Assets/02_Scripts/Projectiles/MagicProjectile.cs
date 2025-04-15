@@ -6,7 +6,7 @@ using UnityEngine;
 public class MagicProjectile : ProjectileBase
 {
     public BaseMonster target;
-    private bool hasHit = false;
+    [SerializeField]private bool hasHit = false;
     public override void Init(TowerData _towerData)
     {
         base.Init(_towerData);
@@ -44,13 +44,19 @@ public class MagicProjectile : ProjectileBase
         {
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
-            if (target == null) return;
             target.TakeDamage(towerData.AttackPower);
-            if (towerData.SpecialEffect == SpecialEffect.None || effect == null) return;
+            if (towerData.SpecialEffect == SpecialEffect.None || effect == null)
+            {
+                OnDespawn();
+                PoolManager.Instance.Despawn(this);
+                return;
+            }
             if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
             else effect.Apply(target, towerData);
+            
             OnDespawn();
             PoolManager.Instance.Despawn(this);
+
         }
     }
 

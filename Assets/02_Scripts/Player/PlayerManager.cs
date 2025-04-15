@@ -14,6 +14,7 @@ public class PlayerManager
         playerHandler = playerController.GetComponent<PlayerInputHandler>();
 
         player.Init();
+        player.SetStatus();
         playerController.Init(player);
         playerHandler.Init();
     }

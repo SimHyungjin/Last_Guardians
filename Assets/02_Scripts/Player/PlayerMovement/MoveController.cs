@@ -20,6 +20,10 @@ public class MoveController : MonoBehaviour
         agent.updateRotation = true;
         agent.updatePosition = true;
     }
+    private void Start()
+    {
+        agent.speed = InGameManager.Instance.playerManager.player.playerData.moveSpeed;
+    }
 
     private void LateUpdate()
     {

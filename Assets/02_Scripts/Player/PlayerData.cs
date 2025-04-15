@@ -10,7 +10,7 @@ public class PlayerData
     public float baseAttackSpeed = 1f;
     public float attackSpeed;
 
-    public float baseAttackRange = 1f;
+    public float baseAttackRange = 4f;
     public float attackRange;
 
     public float baseMoveSpeed = 2;

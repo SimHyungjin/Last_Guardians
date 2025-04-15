@@ -22,6 +22,7 @@ public class FadeManager : MonoBehaviour
     {
         isTransitioning = true;
 
+        GameManager.Instance.stats = HomeManager.Instance.equipment.ToStats();
         
         float time = 0f;
         Color color = fadeImage.color;

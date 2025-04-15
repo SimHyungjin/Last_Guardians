@@ -14,7 +14,7 @@ public class TowerManager : Singleton<TowerManager>
     public DeckHandler hand;
     public TowerCombinationData towerCombinationData;
     public Towerbuilder towerbuilder;
-
+    public ProjectileFactory projectileFactory;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
     public bool CanStartInteraction()
     {

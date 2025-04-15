@@ -6,7 +6,7 @@ using UnityEngine;
 public class MagicProjectile : ProjectileBase
 {
     public BaseMonster target;
-    private bool hasHit = false;
+    [SerializeField]private bool hasHit = false;
     public override void Init(TowerData _towerData)
     {
         base.Init(_towerData);
@@ -21,14 +21,12 @@ public class MagicProjectile : ProjectileBase
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;
-        Debug.Log($"Direction: {direction}, Speed: {speed}");
     }
 
     public override void OnSpawn()
     {
         base.OnSpawn();
         hasHit = false;
-        effect = null;
         rb.velocity = Vector2.zero;
     }
 
@@ -36,6 +34,7 @@ public class MagicProjectile : ProjectileBase
     {
         base.OnDespawn();
         target = null;
+        effect = null;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -44,14 +43,20 @@ public class MagicProjectile : ProjectileBase
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             hasHit = true;
-
             BaseMonster target = collision.GetComponent<BaseMonster>();
             target.TakeDamage(towerData.AttackPower);
-            if (towerData.SpecialEffect == SpecialEffect.None || effect == null) return;
+            if (towerData.SpecialEffect == SpecialEffect.None || effect == null)
+            {
+                OnDespawn();
+                PoolManager.Instance.Despawn<ProjectileBase>(this);
+                return;
+            }
             if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
             else effect.Apply(target, towerData);
+            
             OnDespawn();
-            PoolManager.Instance.Despawn(this);
+            PoolManager.Instance.Despawn<ProjectileBase>(this);
+
         }
     }
 

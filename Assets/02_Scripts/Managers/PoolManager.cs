@@ -18,7 +18,6 @@ public class PoolManager : Singleton<PoolManager>
     public T Spawn<T>(T prefab, Transform parent = null) where T : Component
     {
         System.Type type = typeof(T);
-
         if (!pools.ContainsKey(type))
         {
             pools[type] = new Queue<Component>();

@@ -265,6 +265,7 @@ public class BaseMonster : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + direction * distance;
 
         transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
+        
     }
 
     //방어력 버프

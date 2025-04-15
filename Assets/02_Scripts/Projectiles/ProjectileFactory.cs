@@ -21,7 +21,7 @@ public class ProjectileFactory : MonoBehaviour
     [SerializeField]
     private List<ProjectileEntry> projectileList;
 
-    private Dictionary<ProjectileType, ProjectileBase> projectileMap;
+    public Dictionary<ProjectileType, ProjectileBase> projectileMap;
 
     private void Awake()
     {
@@ -30,7 +30,9 @@ public class ProjectileFactory : MonoBehaviour
         foreach (var entry in projectileList)
         {
             if (!projectileMap.ContainsKey(entry.type))
+            {
                 projectileMap.Add(entry.type, entry.prefab);
+            }
             else
                 Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
@@ -43,16 +45,15 @@ public class ProjectileFactory : MonoBehaviour
             Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
             return;
         }
+        Debug.Log($"[ProjectileFactory]  {towerData.ProjectileType} 프리팹 이름: {prefab.name} / 인스턴스ID: {prefab.GetInstanceID()} / 해시: {prefab.GetHashCode()}");
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-
-        // 이펙트생성하고 붙이기
-        AddEffectComponent(projectile, towerData);
+        //projectile=AddEffectComponent(projectile, towerData);
     }
-    private void AddEffectComponent(ProjectileBase projectile, TowerData data)
+    private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
     {
-        if (data.SpecialEffect == SpecialEffect.None) return;
+        if (data.SpecialEffect == SpecialEffect.None) return projectile;
 
         if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
         {
@@ -68,7 +69,9 @@ public class ProjectileFactory : MonoBehaviour
             {
                 projectile.effect = existing as IEffect;
             }
+            return projectile;
         }
+        return projectile;
     }
 
     private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
@@ -77,7 +80,7 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
         { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
         { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현
-        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },//미구현
+        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
         { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//미구현
         { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//미구현
         { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//미구현

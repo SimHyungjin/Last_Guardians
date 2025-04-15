@@ -17,10 +17,10 @@ public class MonsterManager : Singleton<MonsterManager>
     public EnemyProjectile ProjectilePrefab { get; private set; }
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillData> MonsterSkillDatas { get; private set; }
+    public List<BaseMonster> AlliveMonsters { get; private set; }
 
     //private BaseMonster monster;
     private int currentWaveIndex = 0;
-
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
     private int alliveCount = 0;
@@ -28,7 +28,13 @@ public class MonsterManager : Singleton<MonsterManager>
     private void Start()
     {
         //WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
+        AlliveMonsters = new List<BaseMonster>();
         InitMonsters();
+        
+    }
+
+    public void GameStart()
+    {
         StartCoroutine(StartNextWave());
     }
 
@@ -48,7 +54,6 @@ public class MonsterManager : Singleton<MonsterManager>
        
         yield return SpawnMonsters(wave);
 
-        currentWaveIndex++;
 
         //StartCoroutine(StartNextWave());
     }
@@ -85,6 +90,7 @@ public class MonsterManager : Singleton<MonsterManager>
             NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            AlliveMonsters.Add(monster);
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
         else if(monsterIndex >= 101 && monsterIndex <=200)
@@ -93,6 +99,7 @@ public class MonsterManager : Singleton<MonsterManager>
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            AlliveMonsters.Add(monster);
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
             
@@ -106,6 +113,8 @@ public class MonsterManager : Singleton<MonsterManager>
         if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
         {
             Debug.Log("웨이브 클리어");
+            currentWaveIndex++;
+            AlliveMonsters.Clear();
             spawnCount = 0;
             currentWaveMonsterCount = 0;
             StartCoroutine(StartNextWave());

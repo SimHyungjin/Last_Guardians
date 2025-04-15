@@ -7,6 +7,7 @@ public enum InteractionState
     None,
     CardMoving,
     TowerMoving,
+    Pause
 }
 public class TowerManager : Singleton<TowerManager>
 {

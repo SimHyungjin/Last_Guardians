@@ -46,12 +46,11 @@ public class ProjectileFactory : MonoBehaviour
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-        // 이펙트생성하고 붙이기
-        AddEffectComponent(projectile, towerData);
+        projectile=AddEffectComponent(projectile, towerData);
     }
-    private void AddEffectComponent(ProjectileBase projectile, TowerData data)
+    private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
     {
-        if (data.SpecialEffect == SpecialEffect.None) return;
+        if (data.SpecialEffect == SpecialEffect.None) return projectile;
 
         if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
         {
@@ -67,7 +66,9 @@ public class ProjectileFactory : MonoBehaviour
             {
                 projectile.effect = existing as IEffect;
             }
+            return projectile;
         }
+        return projectile;
     }
 
     private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()

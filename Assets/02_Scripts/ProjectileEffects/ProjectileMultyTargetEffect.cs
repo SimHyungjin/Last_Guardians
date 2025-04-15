@@ -27,6 +27,7 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
             projectile.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
             projectile.Init(towerData);
             projectile.Launch(origin + dir * 10f);
+            Debug.Log($"Spawned projectile at angle: {angle} degrees");
         }
     }
     public void Apply(BaseMonster target, TowerData towerData, float chance)

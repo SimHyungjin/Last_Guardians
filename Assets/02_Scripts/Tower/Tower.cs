@@ -113,7 +113,6 @@ public class Tower : MonoBehaviour
     {
         if (target == null || !IsInRange(target.position))
             return;
-        Debug.Log($"타워 공격 : {towerData.TowerName} / 타겟 : {target.name}");
         projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
     }
 

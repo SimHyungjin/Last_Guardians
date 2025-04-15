@@ -21,7 +21,6 @@ public class MagicProjectile : ProjectileBase
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;
-        Debug.Log($"Direction: {direction}, Speed: {speed}");
     }
 
     public override void OnSpawn()
@@ -45,7 +44,6 @@ public class MagicProjectile : ProjectileBase
         {
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
-            Debug.Log($"Hit target: {towerData.SpecialEffect}");
             if (target == null) return;
             target.TakeDamage(towerData.AttackPower);
             if (towerData.SpecialEffect == SpecialEffect.None || effect == null) return;

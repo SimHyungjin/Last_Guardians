@@ -87,7 +87,7 @@ public class DeckHandler : MonoBehaviour
     {
         if (isHighlighting&&card.TowerIndex==highlightedIndex)
         {
-            Debug.Log("ÇÏÀÌ¶óÀÌÆ® ÁßÀÎ Ä«µå Å¬¸¯ " + card.TowerIndex);
+            Debug.Log("í•˜ì´ë¼ì´íŠ¸ ì¤‘ì¸ ì¹´ë“œ í´ë¦­ " + card.TowerIndex);
 
             isDragging = true;
             dragStartPos = InputManager.Instance.GetTouchPosition();
@@ -124,17 +124,17 @@ public class DeckHandler : MonoBehaviour
                                         InputManager.Instance.GetTouchWorldPosition(),
                                         highlightedIndex
                                     );
-                                        UseCard(); // Ä«µå »ç¿ë Ã³¸®
+                                        UseCard(); // ì¹´ë“œ ì‚¬ìš© ì²˜ë¦¬
                                     }
                                     else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))
                                     {
-                                        Debug.Log("ÇÕ¼º½ÃÀÛ");
+                                        Debug.Log("í•©ì„±ì‹œì‘");
                                         TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
                                         UseCard();
                                     }
                                     else
                                     {
-                                        Debug.Log("°Ç¼³ ºÒ°¡");
+                                        Debug.Log("ê±´ì„¤ ë¶ˆê°€");
                                         highlightedCard.gameObject.SetActive(true);
                                         highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
                                         UnHighlightCard();

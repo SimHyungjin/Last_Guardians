@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class BlastProjectile : ProjectileBase
 {
+    public BlastZone blastEffect;
+
     public BaseMonster target;
-
-
     private float arcHeight = 0.4f;
     private float duration = 0.5f;
     private Tweener moveTween;

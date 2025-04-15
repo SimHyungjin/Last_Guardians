@@ -20,7 +20,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 
     protected Vector2 direction;
     protected Vector2 startPos;
-
+    protected Vector2 targetPos;
     protected Coroutine lifeTimeCoroutine;
     protected Rigidbody2D rb;
 
@@ -60,10 +60,11 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     /// <param name="targetPos"></param>
     /// <param name="_damage"></param>
     /// <param name="_isMulti"></param>
-    public virtual void Launch(Vector2 targetPos)
+    public virtual void Launch(Vector2 _targetPos)
     {
         direction = (targetPos - (Vector2)transform.position).normalized;
         startPos = transform.position;
+        targetPos = _targetPos;
         transform.right = direction;
 
         //이후에 override로 동작구현

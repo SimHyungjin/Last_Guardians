@@ -158,11 +158,11 @@ public class MulliganUI : MonoBehaviour
         }
         else
         {
-            FinishMulligan();
+            EndMulligan();
         }
     }
 
-    private void FinishMulligan()
+    private void EndMulligan()
     {
         MaxSelectedCards = 2;
         isTimerOn = false;
@@ -194,7 +194,7 @@ public class MulliganUI : MonoBehaviour
 
         if (availableCards.Count == 0)
         {
-            Debug.LogWarning("자동 선택할 수 있는 카드가 부족합니다.");
+            Debug.Log("자동 선택 카드가 부족");
             return;
         }
 

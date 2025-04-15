@@ -17,12 +17,13 @@ public class MulliganUI : MonoBehaviour
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
 
-    private const int MaxSelectedCards = 2;
+    private int MaxSelectedCards = 2;
     private float timer = 30f;
     private int count = 0;
     private bool isTimerOn = false;
 
     public List<int> MyCardIndexList { get; private set; }
+    public List<TowerData> MyCardList { get; private set; }
     private List<TowerData> elementalDataList;
     private List<TowerData> standardDataList;
     private List<MulliganCard> selectedCard;
@@ -32,6 +33,7 @@ public class MulliganUI : MonoBehaviour
         selectedCard = new List<MulliganCard>();
         standardDataList = new List<TowerData>();
         MyCardIndexList = new List<int>();
+        MyCardList = new List<TowerData>();
     }
 
     private void Start()
@@ -39,12 +41,8 @@ public class MulliganUI : MonoBehaviour
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
 
-        okBtn.onClick.AddListener(AddMyList);
-
         Shuffle(elementalDataList);
         Shuffle(standardDataList);
-
-        StartSelectCard();
     }
 
     private void Update()
@@ -70,13 +68,14 @@ public class MulliganUI : MonoBehaviour
 
     public void StartSelectCard()
     {
+        okBtn.onClick.AddListener(AddMyList);
+        isTimerOn = true;
         ShowCardSelect(elementalDataList, cardNum);
     }
 
     private void ShowCardSelect(List<TowerData> dataList, int numberOfCards)
     {
-        isTimerOn = true;
-
+        
         for (int i = 0; i < numberOfCards; i++)
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
@@ -112,7 +111,7 @@ public class MulliganUI : MonoBehaviour
     {
         if (selectedCard.Count != MaxSelectedCards)
         {
-            Debug.Log("카드 2개 선택하지 않음");
+            Debug.Log($"카드 {MaxSelectedCards}개 선택하지 않음");
             return;
         }
 
@@ -122,6 +121,7 @@ public class MulliganUI : MonoBehaviour
         foreach (var card in selectedCard)
         {
             MyCardIndexList.Add(card.TowerIndex);
+            MyCardList.Add(InGameManager.Instance.TowerDatas.Find(a=>a.TowerIndex == card.TowerIndex));
             int index = elementalDataList.FindIndex(a => a.TowerIndex == card.TowerIndex);
             if (index != -1)
             {
@@ -137,13 +137,20 @@ public class MulliganUI : MonoBehaviour
         if (count <= 1)
         {
             ShowCardSelect(elementalDataList, cardNum);
+            MaxSelectedCards = 1;
         }
         else if (count == 2)
         {
             ShowCardSelect(standardDataList, cardNum + 1);
+            MaxSelectedCards = 2;
         }
         else
         {
+            MaxSelectedCards = 2;
+            isTimerOn = false;
+            okBtn.onClick.RemoveAllListeners();
+            okBtn.onClick.AddListener(AddCardtoHands);
+            timerText.gameObject.SetActive(false);
             gameObject.SetActive(false);
             InGameManager.Instance.GameStart();
         }
@@ -194,5 +201,33 @@ public class MulliganUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    //레벨업시 불러오는 호출하는 함수
+    public void LevelUPSelect()
+    {
+        Shuffle(MyCardList);
+        ShowCardSelect(MyCardList, 3);
+        Time.timeScale = 0f;
+    }
+
+    public void AddCardtoHands()
+    {
+        if (selectedCard.Count != MaxSelectedCards)
+        {
+            Debug.Log($"카드 {MaxSelectedCards}개 선택되지 않음");
+            return;
+        }
+        foreach (var card in selectedCard)
+        {
+            InGameManager.Instance.AddCardTOHand(card.TowerIndex);
+        }
+
+        DestroyAllChildren(parent);
+        DestroyAllChildren(descriptionTransfrom);
+        selectedCard.Clear();
+        gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        MaxSelectedCards = 1;
     }
 }

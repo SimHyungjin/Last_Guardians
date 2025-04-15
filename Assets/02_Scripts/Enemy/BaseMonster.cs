@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class BaseMonster : MonoBehaviour
 {
     [SerializeField] protected MonsterData monsterData;
-    [SerializeField] protected MonsterSkillData skillData;
+    [SerializeField] protected MonsterSkillBase monsterSkill;
 
     //몬스터 스탯관련
     public float CurrentHP { get; set; }
@@ -60,12 +60,12 @@ public class BaseMonster : MonoBehaviour
         effectHandler = GetComponent<EffectHandler>();
     }
 
-    public void Setup(MonsterData data, MonsterSkillData skillData = null)
+    public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
         this.monsterData = data;
         if (skillData != null)
-            this.skillData = skillData;
-        else this.skillData = null;
+            this.monsterSkill = skillData;
+        else this.monsterSkill = null;
         Init();
     }
 
@@ -83,8 +83,8 @@ public class BaseMonster : MonoBehaviour
         isAttack = false;
         if (monsterData.HasSkill)
         {
-            skillData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.SkillIndex == monsterData.MonsterSkillID);
-            skillTimer = skillData.SkillCoolTime;
+            monsterSkill = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == monsterData.MonsterSkillID);
+            skillTimer = monsterSkill.skillData.SkillCoolTime;
         }   
     }
 
@@ -102,15 +102,15 @@ public class BaseMonster : MonoBehaviour
                 MeleeAttack();
         }
 
-        if(skillData != null)
+        if(monsterSkill != null)
         {
             if (!isSturn)
                 skillTimer -= Time.deltaTime;
 
             if (skillTimer <= 0)
             {
-                skillTimer = skillData.SkillCoolTime;
-                if (Random.Range(0f, 1f) <= skillData.MonsterskillProbablilty)
+                skillTimer = monsterSkill.skillData.SkillCoolTime;
+                if (Random.Range(0f, 1f) <= monsterSkill.skillData.MonsterskillProbablilty)
                     MonsterSkill();
             }
         }
@@ -265,6 +265,7 @@ public class BaseMonster : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + direction * distance;
 
         transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
+        
     }
 
     //방어력 버프

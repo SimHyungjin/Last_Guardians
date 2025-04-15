@@ -16,6 +16,7 @@ public class MulliganUI : MonoBehaviour
     [SerializeField] private Button okBtn;
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI remianCardNumText;
 
     private int MaxSelectedCards = 2;
     private float timer = 30f;
@@ -49,12 +50,13 @@ public class MulliganUI : MonoBehaviour
         {
             UpdateTimer();
         }
+        
     }
 
     private void UpdateTimer()
     {
         timer -= Time.deltaTime;
-        timerText.text = Mathf.Round(timer).ToString();
+        timerText.text = "남은 시간 : " + Mathf.Round(timer).ToString();
 
         if (timer <= 0)
         {
@@ -73,6 +75,7 @@ public class MulliganUI : MonoBehaviour
 
     private void ShowCardSelect(List<TowerData> dataList, int numberOfCards)
     {
+        remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
         for (int i = 0; i < numberOfCards; i++)
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
@@ -146,6 +149,7 @@ public class MulliganUI : MonoBehaviour
 
     private void ProceedToNextStep()
     {
+        
         if (count <= 1)
         {
             ShowCardSelect(elementalDataList, cardNum);
@@ -160,6 +164,7 @@ public class MulliganUI : MonoBehaviour
         {
             EndMulligan();
         }
+        remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 
     private void EndMulligan()
@@ -251,5 +256,6 @@ public class MulliganUI : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = 1f;
         MaxSelectedCards = 1;
+        remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 }

@@ -16,7 +16,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public BountyMonster BountyPrefab { get; private set; }
     public EnemyProjectile ProjectilePrefab { get; private set; }
     public List<MonsterData> MonsterDatas { get; private set; }
-    public List<MonsterSkillData> MonsterSkillDatas { get; private set; }
+    public List<MonsterSkillBase> MonsterSkillDatas { get; private set; }
     public List<BaseMonster> AlliveMonsters { get; private set; }
 
     //private BaseMonster monster;
@@ -128,8 +128,8 @@ public class MonsterManager : Singleton<MonsterManager>
         BountyPrefab = Resources.Load<BountyMonster>("Enemy/Bounty/BountyMonster");
         MonsterDatas = Resources.LoadAll<MonsterData>("SO/Enemy/MonsterSO").ToList();
         MonsterDatas.Sort((a, b) => a.MonsterIndex.CompareTo(b.MonsterIndex));
-        MonsterSkillDatas = Resources.LoadAll<MonsterSkillData>("SO/Enemy/SkillSO").ToList();
-        MonsterSkillDatas.Sort((a, b) => a.SkillIndex.CompareTo(b.SkillIndex));
+        MonsterSkillDatas = Resources.LoadAll<MonsterSkillBase>("SO/Enemy/MonsterSKillList").ToList();
+        MonsterSkillDatas.Sort((a, b) => a.skillData.SkillIndex.CompareTo(b.skillData.SkillIndex));
         WaveDatas = Resources.LoadAll<MonsterWaveData>("SO/Enemy/MonsterWaveSOData").ToList();
         WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         ProjectilePrefab = Resources.Load<EnemyProjectile>("Enemy/EnemyProjectile/EnemyProjectile");

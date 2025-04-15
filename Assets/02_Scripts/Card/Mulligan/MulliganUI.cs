@@ -34,16 +34,14 @@ public class MulliganUI : MonoBehaviour
         standardDataList = new List<TowerData>();
         MyCardIndexList = new List<int>();
         MyCardList = new List<TowerData>();
-    }
-
-    private void Start()
-    {
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
 
         Shuffle(elementalDataList);
         Shuffle(standardDataList);
     }
+
+   
 
     private void Update()
     {

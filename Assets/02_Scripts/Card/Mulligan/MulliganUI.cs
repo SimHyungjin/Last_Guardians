@@ -24,6 +24,7 @@ public class MulliganUI : MonoBehaviour
 
     public List<int> MyCardIndexList { get; private set; }
     public List<TowerData> MyCardList { get; private set; }
+
     private List<TowerData> elementalDataList;
     private List<TowerData> standardDataList;
     private List<MulliganCard> selectedCard;
@@ -31,9 +32,10 @@ public class MulliganUI : MonoBehaviour
     private void Awake()
     {
         selectedCard = new List<MulliganCard>();
-        standardDataList = new List<TowerData>();
         MyCardIndexList = new List<int>();
         MyCardList = new List<TowerData>();
+        standardDataList = new List<TowerData>();
+
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
 
@@ -41,14 +43,12 @@ public class MulliganUI : MonoBehaviour
         Shuffle(standardDataList);
     }
 
-   
-
     private void Update()
     {
-        if (!isTimerOn)
-            return;
-
-        UpdateTimer();
+        if (isTimerOn)
+        {
+            UpdateTimer();
+        }
     }
 
     private void UpdateTimer()
@@ -59,7 +59,7 @@ public class MulliganUI : MonoBehaviour
         if (timer <= 0)
         {
             timer = 0;
-            isTimerOn = false;
+            //isTimerOn = false;
             AutoSelectCard();
         }
     }
@@ -73,7 +73,6 @@ public class MulliganUI : MonoBehaviour
 
     private void ShowCardSelect(List<TowerData> dataList, int numberOfCards)
     {
-        
         for (int i = 0; i < numberOfCards; i++)
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
@@ -107,31 +106,46 @@ public class MulliganUI : MonoBehaviour
 
     public void AddMyList()
     {
-        if (selectedCard.Count != MaxSelectedCards)
-        {
-            Debug.Log($"카드 {MaxSelectedCards}개 선택하지 않음");
-            return;
-        }
+        if (!IsValidSelection()) return;
+
+        SaveSelectedCards();
+        ClearUI();
 
         count++;
         timer = 30f;
 
+        ProceedToNextStep();
+    }
+
+    private bool IsValidSelection()
+    {
+        if (selectedCard.Count != MaxSelectedCards)
+        {
+            Debug.Log($"카드 {MaxSelectedCards}개 선택하지 않음");
+            return false;
+        }
+        return true;
+    }
+
+    private void SaveSelectedCards()
+    {
         foreach (var card in selectedCard)
         {
             MyCardIndexList.Add(card.TowerIndex);
-            MyCardList.Add(InGameManager.Instance.TowerDatas.Find(a=>a.TowerIndex == card.TowerIndex));
-            int index = elementalDataList.FindIndex(a => a.TowerIndex == card.TowerIndex);
-            if (index != -1)
-            {
-                elementalDataList.RemoveAt(index);
-            }
+            MyCardList.Add(InGameManager.Instance.TowerDatas.Find(a => a.TowerIndex == card.TowerIndex));
+            elementalDataList.RemoveAll(a => a.TowerIndex == card.TowerIndex);
         }
+    }
 
+    private void ClearUI()
+    {
         DestroyAllChildren(parent);
         DestroyAllChildren(descriptionTransfrom);
         selectedCard.Clear();
-        Shuffle(elementalDataList);
+    }
 
+    private void ProceedToNextStep()
+    {
         if (count <= 1)
         {
             ShowCardSelect(elementalDataList, cardNum);
@@ -144,14 +158,19 @@ public class MulliganUI : MonoBehaviour
         }
         else
         {
-            MaxSelectedCards = 2;
-            isTimerOn = false;
-            okBtn.onClick.RemoveAllListeners();
-            okBtn.onClick.AddListener(AddCardtoHands);
-            timerText.gameObject.SetActive(false);
-            gameObject.SetActive(false);
-            InGameManager.Instance.GameStart();
+            FinishMulligan();
         }
+    }
+
+    private void FinishMulligan()
+    {
+        MaxSelectedCards = 2;
+        isTimerOn = false;
+        okBtn.onClick.RemoveAllListeners();
+        okBtn.onClick.AddListener(AddCardtoHands);
+        timerText.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+        InGameManager.Instance.GameStart();
     }
 
     private void AutoSelectCard()
@@ -173,6 +192,12 @@ public class MulliganUI : MonoBehaviour
             }
         }
 
+        if (availableCards.Count == 0)
+        {
+            Debug.LogWarning("자동 선택할 수 있는 카드가 부족합니다.");
+            return;
+        }
+
         while (selectedCard.Count < MaxSelectedCards && availableCards.Count > 0)
         {
             int randomIndex = Random.Range(0, availableCards.Count);
@@ -180,7 +205,7 @@ public class MulliganUI : MonoBehaviour
             AddSelectCardList(randomCard);
             availableCards.RemoveAt(randomIndex);
         }
-
+        timer = 30f;
         AddMyList();
     }
 
@@ -201,7 +226,7 @@ public class MulliganUI : MonoBehaviour
         }
     }
 
-    //레벨업시 불러오는 호출하는 함수
+    //레벨업 시 호출
     public void LevelUPSelect()
     {
         Shuffle(MyCardList);
@@ -216,14 +241,13 @@ public class MulliganUI : MonoBehaviour
             Debug.Log($"카드 {MaxSelectedCards}개 선택되지 않음");
             return;
         }
+
         foreach (var card in selectedCard)
         {
             InGameManager.Instance.AddCardTOHand(card.TowerIndex);
         }
 
-        DestroyAllChildren(parent);
-        DestroyAllChildren(descriptionTransfrom);
-        selectedCard.Clear();
+        ClearUI();
         gameObject.SetActive(false);
         Time.timeScale = 1f;
         MaxSelectedCards = 1;

@@ -16,6 +16,8 @@ public class BuffTower : BaseTower
     public ITowerBuff towerBuff;
     public ITowerBuff monsterDebuff;
 
+    private float lastCheckTime = 0f;
+
     public override void Init(TowerData data)
     {
         base.Init(data);
@@ -25,8 +27,13 @@ public class BuffTower : BaseTower
 
     protected override void Update()
     {
-        if (towerData.EffectTarget == EffectTarget.Towers)
+        base.Update();
+
+        if (Time.time - lastCheckTime < 0.1f)
+            return;
+        if (towerData.EffectTarget == EffectTarget.All)
             ApplyDebuffOnPlacement();
+        lastCheckTime = Time.time;
     }
 
     private void ApplyBuffOnPlacement()

@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileAttackPowerEffect : MonoBehaviour
+public class ProjectileAttackPowerEffect : MonoBehaviour, IEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Apply(BaseMonster target, TowerData towerData)
     {
-        
+        target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        
+        throw new System.NotImplementedException();
     }
 }

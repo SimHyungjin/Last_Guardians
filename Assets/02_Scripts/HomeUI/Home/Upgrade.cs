@@ -7,27 +7,30 @@ public class Upgrade
 
     public void Init()
     {
-        upgradeRules = new List<UpgradeRuleData>(Resources.LoadAll<UpgradeRuleData>("SO/UpgradeRules"));
+        upgradeRules = new List<UpgradeRuleData>(
+            Resources.LoadAll<UpgradeRuleData>("SO/UpgradeRules"));
     }
 
-    public bool TryUpgrade(ItemData data, out ItemData upgradedData)
+    public bool TryUpgrade(ItemInstance instance, out ItemInstance upgradedInstance)
     {
-        upgradedData = data;
+        upgradedInstance = instance;
 
-        if (!CanUpgrade(data, out var rule)) return false;
+        if (!CanUpgrade(instance.Data, out var rule)) return false;
 
         ConsumeResources(rule);
 
         float roll = Random.Range(0f, 100f);
         if (roll < rule.successRate)
         {
-            upgradedData = GetSuccessItem(data);
-            Debug.Log($"Upgrade success: {data.itemName}");
+            var upgradedData = GetSuccessItem(instance.Data);
+            upgradedInstance = upgradedData;
+            Debug.Log($"Upgrade success: {instance.Data.itemName}");
             return true;
         }
         else
         {
-            upgradedData = GetFailureItem(data, rule);
+            var failedData = GetFailureItem(instance.Data, rule);
+            upgradedInstance = failedData;
             return false;
         }
     }
@@ -62,22 +65,22 @@ public class Upgrade
         GameManager.Instance.upgradeStones -= rule.requiredUpgradeStones;
     }
 
-    private ItemData GetSuccessItem(ItemData data)
+    private ItemInstance GetSuccessItem(ItemData data)
     {
-        return GameManager.Instance.ItemManager.GetItemData(data.ItemIndex + 100);
+        return GameManager.Instance.ItemManager.GetItemInstanceByIndex(data.ItemIndex + 100);
     }
 
-    private ItemData GetFailureItem(ItemData data, UpgradeRuleData rule)
+    private ItemInstance GetFailureItem(ItemData data, UpgradeRuleData rule)
     {
         if (rule.failureEffect == UpgradeFailureEffect.Downgrade)
         {
             Debug.Log("Upgrade failed, downgraded");
-            return GameManager.Instance.ItemManager.GetItemData(data.ItemIndex - 100);
+            return GameManager.Instance.ItemManager.GetItemInstanceByIndex(data.ItemIndex - 100);
         }
         else
         {
             Debug.Log("Upgrade failed");
-            return data;
+            return new ItemInstance(data);
         }
     }
 }

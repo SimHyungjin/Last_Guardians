@@ -19,7 +19,7 @@ public class ItemPopupController : MonoBehaviour
     private InventorySlotContainer inventorySlotContainer;
     private SelectionController selectionController;
 
-    private EquipData currentData;
+    private ItemInstance currentData;
 
     private void Start()
     {
@@ -38,7 +38,7 @@ public class ItemPopupController : MonoBehaviour
 
     public void Open(Slot slot)
     {
-        currentData = slot.GetData() as EquipData;
+        currentData = slot.GetData();
         root.SetActive(true);
         UpdatePopupUI();
     }
@@ -51,16 +51,16 @@ public class ItemPopupController : MonoBehaviour
 
     private void UpdatePopupUI()
     {
-        if (currentData == null) return;
+        if (currentData == null || currentData.asEquipData == null) return;
 
         inventorySlotContainer.Display(inventory.GetFilteredView());
         equipmentSlotContainer.Refresh();
 
-        icon.sprite = currentData.icon;
-        itemName.text = currentData.itemName;
-        description.text = currentData.ItemDescript;
+        icon.sprite = currentData.Data.icon;
+        itemName.text = currentData.Data.itemName;
+        description.text = currentData.Data.ItemDescript;
 
-        upgradeButton.gameObject.SetActive(currentData.itemGrade < ItemGrade.Legend);
+        upgradeButton.gameObject.SetActive(currentData.Data.itemGrade < ItemGrade.Legend);
 
         bool isEquipped = equipment.IsEquipped(currentData);
         equipButton.gameObject.SetActive(!isEquipped);
@@ -69,7 +69,7 @@ public class ItemPopupController : MonoBehaviour
 
     public void OnClickUpgrade()
     {
-        if (currentData == null) return;
+        if (currentData == null || currentData.asEquipData == null) return;
 
         HomeManager.Instance.upgrade.TryUpgrade(currentData, out var result);
         inventory.RemoveItem(currentData);
@@ -78,16 +78,15 @@ public class ItemPopupController : MonoBehaviour
         selectionController.RefreshSlot(result);
 
         if (equipment.IsEquipped(currentData))
-            equipment.Equip((EquipData)result);
+            equipment.Equip(result);
 
-        currentData = (EquipData)result;
+        currentData = result;
         UpdatePopupUI();
-
     }
 
     public void OnClickEquip()
     {
-        if (currentData != null)
+        if (currentData?.asEquipData != null)
         {
             equipment.Equip(currentData);
             UpdatePopupUI();
@@ -96,10 +95,10 @@ public class ItemPopupController : MonoBehaviour
 
     public void OnClickUnEquip()
     {
-        if (currentData != null)
+        if (currentData?.asEquipData != null)
         {
             equipment.UnEquip(currentData);
-            equipmentSlotContainer.ClearSlot(currentData.equipType);
+            equipmentSlotContainer.ClearSlot(currentData.asEquipData.equipType);
             UpdatePopupUI();
         }
     }

@@ -22,7 +22,8 @@ public class BuffTower : BaseTower
     {
         base.Init(data);
         towerLayer = LayerMask.GetMask("Tower");
-        //ApplyBuffOnPlacement();
+        BuffSelect(data);
+        ApplyBuffOnPlacement();
     }
 
     protected override void Update()
@@ -34,6 +35,40 @@ public class BuffTower : BaseTower
         if (towerData.EffectTarget == EffectTarget.All)
             ApplyDebuffOnPlacement();
         lastCheckTime = Time.time;
+    }
+
+    private void BuffSelect(TowerData data)
+    {
+        if(data.EffectTarget == EffectTarget.Towers)
+        {
+            switch(data.SpecialEffect)
+            {
+                case SpecialEffect.AttackPower:
+                    towerBuff = new TowerBuffAttackPower();
+                    break;
+                case SpecialEffect.AttackSpeed:
+                    towerBuff = new TowerBuffAttackSpeed();
+                    break;
+                default:
+                    towerBuff = new TowerBuffAddProjectileComponent();
+                    break;
+            }
+        }
+        if(data.EffectTarget == EffectTarget.All)
+        {
+            switch(data.SpecialEffect)
+            {
+                case SpecialEffect.DotDamage:
+                    monsterDebuff = new TowerBuffMonsterDotDamage();
+                    break;
+                case SpecialEffect.Slow:
+                    monsterDebuff = new TowerBuffMonsterSlow();
+                    break;
+                case SpecialEffect.DefReduc:
+                    monsterDebuff = new TowerBuffMonsterReducionDef();
+                    break;
+            }
+        }
     }
 
     private void ApplyBuffOnPlacement()

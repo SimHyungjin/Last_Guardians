@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -16,9 +17,10 @@ public class AttackTower:BaseTower
     //버프목록 -> 팩토리에 전달
     private BaseMonster currentTargetMonster;
 
-    public override void Init(int index)
+    public override void Init(TowerData data)
     {
-        base.Init(index);
+        base.Init(data);
+        monsterLayer = LayerMask.GetMask("Monster");
         projectileFactory = FindObjectOfType<ProjectileFactory>();
     }
     protected override void Update()

@@ -113,12 +113,29 @@ public class Towerbuilder : MonoBehaviour
         callback?.Invoke(allPathsExist);
     }
 
-    public void TowerConstruct(Vector2 curPos,int TowerIndex)
+    public void TowerConstruct(Vector2 curPos, int towerIndex)
     {
         Vector2 constructPos = PostionArray(curPos);
-        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);//인덱스따라서 TowerData.Prefab으로 각각 소환
-        BaseTower tower = go.GetComponent<BaseTower>();
-        tower.Init(TowerIndex);
+        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);
+
+        TowerData data = Resources.Load<TowerData>($"SO/Tower/Tower{towerIndex}");
+
+        if (data == null)
+        {
+            Debug.LogError($"[TowerConstruct] TowerData를 불러올 수 없습니다: {towerIndex}");
+            return;
+        }
+
+        if (data.ProjectileType == ProjectileType.Buff)
+        {
+            BuffTower tower = go.AddComponent<BuffTower>();
+            tower.Init(data); // Init 안에서 다시 SO를 불러와도 됨
+        }
+        else
+        {
+            AttackTower tower = go.AddComponent<AttackTower>();
+            tower.Init(data);
+        }
     }
 
     public bool IsAnyObjectOnTile(Vector2 tilePos)

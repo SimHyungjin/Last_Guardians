@@ -47,8 +47,8 @@ public class BlastProjectile : ProjectileBase
     {
         Vector2 start = transform.position;
         Vector2 dir = (targetPos - start).normalized;
-        float distance = Vector2.Distance(start, targetPos);
-        float duration = distance / speed;
+        //float distance = Vector2.Distance(start, targetPos);
+        float duration = Totaldistance / speed;
 
         float arcHeight = 0.4f;
 

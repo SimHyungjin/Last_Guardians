@@ -8,9 +8,10 @@ public class BuffTower : BaseTower
     [SerializeField] private LayerMask towerLayer;
     public IEffect buffTowerData;//근처 타워에 전달해줄 이펙트 이름 ->IEffect에서 다른 거로 변경 필요
     private List<BaseTower> nearbyTowers = new();
-    public override void Init(int index)
+    public override void Init(TowerData data)
     {
-        base.Init(index);
+        base.Init(data);
+        towerLayer = LayerMask.GetMask("Tower");
         ApplyBuffOnPlacement();
     }
 

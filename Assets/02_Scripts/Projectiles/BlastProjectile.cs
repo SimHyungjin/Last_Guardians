@@ -17,9 +17,9 @@ public class BlastProjectile : ProjectileBase
     private bool canHit = false;
     private float Totaldistance;
     [SerializeField] private bool hasHit = false;
-    public override void Init(TowerData _towerData)
+    public override void Init(TowerData _towerData, List<int> _effectslist)
     {
-        base.Init(_towerData);
+        base.Init(_towerData,_effectslist);
         Totaldistance = Vector2.Distance(startPos, targetPos);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";

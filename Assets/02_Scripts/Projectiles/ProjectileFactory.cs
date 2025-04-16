@@ -37,7 +37,6 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//미구현
         { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
         { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//미구현
-        { SpecialEffect.AttackSpeed, typeof(ProjectileAttackSpeedEffect) },//미구현
         { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
         { SpecialEffect.None, null }
     };
@@ -72,11 +71,11 @@ public class ProjectileFactory : MonoBehaviour
         }
 
         var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
-        projectile.Init(towerData);
-        projectile.Launch(targetPos);
-        AddAllEffects(projectile, towerData, buffTowerIndex); // 이펙트 추가
-        //AddEffectComponent(projectile, towerData);
+        projectile.Init(towerData, buffTowerIndex);
+        AddAllEffects(projectile, towerData, buffTowerIndex);
+        projectile.Launch(targetPos); // 이펙트 추가
     }
+    //AddEffectComponent(projectile, towerData);
     //private void AddEffectComponent(ProjectileBase projectile, TowerData data)
     //{
     //    if (data.SpecialEffect == SpecialEffect.None) return ;

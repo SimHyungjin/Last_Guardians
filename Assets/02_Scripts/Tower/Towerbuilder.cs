@@ -68,8 +68,8 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 CombinePos = PostionArray(curPos);
         int combineTowerIndex = towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex);
-        BaseTower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<BaseTower>();//인덱스따라서 TowerData.Prefab으로 각각 소환
-        combineTower.Init(combineTowerIndex);
+
+        TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
         Destroy(clikedTower.gameObject);
@@ -80,8 +80,7 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 CombinePos = PostionArray(curPos);
         int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex);
-        BaseTower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<BaseTower>();//인덱스따라서 TowerData.Prefab으로 각각 소환
-        combineTower.Init(combineTowerIndex);
+        TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
     }
@@ -130,7 +129,7 @@ public class Towerbuilder : MonoBehaviour
 
     public bool CanCardToTowerCombine(Vector2 tilePos,int cardIndex)
     {
-        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("BaseTower"));
+        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
         int towerIndex;
         if (hit == null) return false;
         else towerIndex = hit.GetComponent<BaseTower>().towerData.TowerIndex;
@@ -139,7 +138,7 @@ public class Towerbuilder : MonoBehaviour
 
     public bool CanTowerToTowerCombine(Vector2 tilePos)
     {
-        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("BaseTower"));
+        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
         if (hit == null)
         {
             return false;
@@ -210,7 +209,7 @@ public class Towerbuilder : MonoBehaviour
                         }
                         else if (CanCardToTowerCombine(currentTile, TowerManager.Instance.hand.HighlightedIndex))
                         {
-                            Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("BaseTower"));
+                            Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
                             cheakedTower = hit.GetComponent<BaseTower>();
                             Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
                             precolor.a = 0.0f;
@@ -254,7 +253,7 @@ public class Towerbuilder : MonoBehaviour
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
             if (CanTowerToTowerCombine(currentTile))
             {
-                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("BaseTower"));
+                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
                 cheakedTower = hit.GetComponent<BaseTower>();
                 Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
                 precolor.a = 0.0f;

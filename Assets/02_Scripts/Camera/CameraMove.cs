@@ -36,7 +36,7 @@ public class CameraMove : MonoBehaviour
 #endif
 
         Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
-        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player"))&& !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("BaseTower")))
+        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player"))&& !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower")))
         {
             if (onCamMove) return;
             onCamMove = true;

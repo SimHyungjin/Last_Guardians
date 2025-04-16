@@ -142,7 +142,7 @@ public abstract class BaseTower : MonoBehaviour
         if (!isCliked)
         {
             curPos = InputManager.Instance.GetTouchWorldPosition();
-            Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("BaseTower"));
+            Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"));
             if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
                 isCliked = true;

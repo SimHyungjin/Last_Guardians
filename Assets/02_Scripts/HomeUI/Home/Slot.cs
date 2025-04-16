@@ -9,12 +9,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Image equipEffect;
     [SerializeField] private Image gradeEffect;
 
-    [SerializeField] private ItemData data;
+    [SerializeField] private ItemInstance data;
 
-    public void SetData(ItemData newData)
+    public void SetData(ItemInstance newData)
     {
         data = newData;
-        icon.sprite = data ? data.icon : null;
+        icon.sprite = data?.Data?.icon;
         Refresh();
     }
 
@@ -34,25 +34,28 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             Clear();
             return;
         }
+
         SetIcon(true);
         SetGradeEffect();
     }
 
-    public void SetIcon(bool active) => icon.gameObject?.SetActive(active);
-    public void SetEquipped(bool equipped) => equipEffect.gameObject?.SetActive(equipped);
-    public void SetSelected(bool selected) => selectedEffect.gameObject?.SetActive(selected);
+    public void SetIcon(bool active) => icon?.gameObject?.SetActive(active);
+    public void SetEquipped(bool equipped) => equipEffect?.gameObject?.SetActive(equipped);
+    public void SetSelected(bool selected) => selectedEffect?.gameObject?.SetActive(selected);
+
     public void SetGradeEffect()
     {
-        if (data == null)
+        if (data?.Data == null)
         {
-            if (gradeEffect != null) gradeEffect.gameObject.SetActive(false);
+            gradeEffect?.gameObject?.SetActive(false);
             return;
         }
+
         gradeEffect.gameObject.SetActive(true);
-        switch (data.itemGrade)
+        switch (data.Data.itemGrade)
         {
             case ItemGrade.Normal:
-                gradeEffect.gameObject.SetActive(false);
+                gradeEffect.color = new Color(0f, 0f, 0f);
                 break;
             case ItemGrade.Rare:
                 gradeEffect.color = new Color(0.2f, 0.6f, 1f);
@@ -66,8 +69,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             case ItemGrade.Legend:
                 gradeEffect.color = new Color(1f, 0.84f, 0f);
                 break;
-
-
         }
     }
 
@@ -77,5 +78,5 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         HomeManager.Instance.selectionController.SelectSlot(this);
     }
 
-    public ItemData GetData() => data;
+    public ItemInstance GetData() => data;
 }

@@ -9,7 +9,6 @@ public class InGameManager : Singleton<InGameManager>
     public List<TowerData> TowerDatas { get; private set; }
     public int PlayerHP { get; private set; } = 20;
 
-    //[SerializeField] private DeckHandler deckHandler;
     [SerializeField] private MulliganUI mulliganUI;
 
     public int level;

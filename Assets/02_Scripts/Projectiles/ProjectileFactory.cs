@@ -66,11 +66,11 @@ public class ProjectileFactory : MonoBehaviour
         Debug.Log($"[ProjectileFactory] {towerData.ProjectileType} 발사 위치: {targetPos}");
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-        projectile =AddEffectComponent(projectile, towerData);
+        AddEffectComponent(projectile, towerData);
     }
-    private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
+    private void AddEffectComponent(ProjectileBase projectile, TowerData data)
     {
-        if (data.SpecialEffect == SpecialEffect.None) return projectile;
+        if (data.SpecialEffect == SpecialEffect.None) return ;
 
         if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
         {
@@ -86,9 +86,7 @@ public class ProjectileFactory : MonoBehaviour
             {
                 projectile.effect = existing as IEffect;
             }
-            return projectile;
         }
-        return projectile;
     }
 
 

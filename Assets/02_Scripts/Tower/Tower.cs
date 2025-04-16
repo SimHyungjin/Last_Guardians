@@ -22,7 +22,7 @@ public class Tower : MonoBehaviour
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
     public ProjectileFactory projectileFactory;
-
+    //버프목록 -> 팩토리에 전달
     private BaseMonster currentTargetMonster;
 
     private GameObject towerGhost;

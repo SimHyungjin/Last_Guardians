@@ -68,7 +68,7 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 CombinePos = PostionArray(curPos);
         int combineTowerIndex = towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex);
-        Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
+        Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();//인덱스따라서 TowerData.Prefab으로 각각 소환
         combineTower.Init(combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
@@ -80,7 +80,7 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 CombinePos = PostionArray(curPos);
         int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex);
-        Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();
+        Tower combineTower = Instantiate(towerPrefab, CombinePos, Quaternion.identity).GetComponent<Tower>();//인덱스따라서 TowerData.Prefab으로 각각 소환
         combineTower.Init(combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
@@ -117,7 +117,7 @@ public class Towerbuilder : MonoBehaviour
     public void TowerConstruct(Vector2 curPos,int TowerIndex)
     {
         Vector2 constructPos = PostionArray(curPos);
-        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);
+        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);//인덱스따라서 TowerData.Prefab으로 각각 소환
         Tower tower = go.GetComponent<Tower>();
         tower.Init(TowerIndex);
     }

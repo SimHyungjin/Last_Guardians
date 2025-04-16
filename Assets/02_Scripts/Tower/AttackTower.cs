@@ -30,11 +30,13 @@ public class AttackTower : BaseTower
         {
             buffTowerIndex.Add(towerData.TowerIndex);
         }
+        buffTowerIndex.Add(9);
+        buffTowerIndex.Add(28);
     }
     protected override void Update()
     {
         base.Update();
-        if (Time.time - lastCheckTime < towerData.AttackSpeed) return;
+        if (Time.time - lastCheckTime < attackSpeed) return;
         {
             FindTarget();
             if (projectileFactory == null || towerData == null)

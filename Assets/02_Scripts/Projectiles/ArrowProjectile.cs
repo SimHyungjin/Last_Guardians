@@ -7,9 +7,9 @@ public class ArrowProjectile : ProjectileBase
 {
     public BaseMonster target;
     [SerializeField] private bool hasHit = false;
-    public override void Init(TowerData _towerData)
+    public override void Init(TowerData _towerData, List<int> _effectslist)
     {
-        base.Init(_towerData);
+        base.Init(_towerData,_effectslist);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         string path = $"Assets/91_Disign/Sprite/ProjectileImage/Arrows/{spritename}.png";
@@ -46,17 +46,21 @@ public class ArrowProjectile : ProjectileBase
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
             target.TakeDamage(towerData.AttackPower);
-            if (towerData.SpecialEffect == SpecialEffect.None || effect == null)
+            //이펙트적용부분
+            if (towerData.SpecialEffect == SpecialEffect.None || effects == null)
             {
                 OnDespawn();
                 PoolManager.Instance.Despawn<ArrowProjectile>(this);
                 return;
             }
-            foreach (IEffect effect in effects)
+            for (int i = 0; i < effects.Count; i++)
             {
-                if (effect == null) continue;
-                if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
-                else effect.Apply(target, towerData);
+                if (effects[i] == null) continue;
+                if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
+                else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
+
+                Debug.Log($"이펙트 적용 {effects[i].GetType()}");
+                Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
             }
             //if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
             //else effect.Apply(target, towerData);

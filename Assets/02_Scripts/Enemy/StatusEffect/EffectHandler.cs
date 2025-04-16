@@ -35,10 +35,15 @@ public class EffectHandler : MonoBehaviour
 
         if(existEffect != null)
         {
-            existEffect.RemoveEffect(baseMonster);
-            effects.Remove(existEffect);
-            effects.Add(effect);
-            effect.ApplyEffect(baseMonster);
+            if(existEffect.Amount != effect.Amount)
+            {
+                existEffect.Amount = Mathf.Max(existEffect.Amount, effect.Amount);
+            }
+            existEffect.Duration = effect.Duration;
+            //existEffect.RemoveEffect(baseMonster);
+            //effects.Remove(existEffect);
+            //effects.Add(effect);
+            //effect.ApplyEffect(baseMonster);
         }
         else
         {

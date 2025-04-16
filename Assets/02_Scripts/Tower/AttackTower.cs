@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class AttackTower:BaseTower
+public class AttackTower : BaseTower
 {
 
     [Header("공격")]
@@ -16,12 +16,15 @@ public class AttackTower:BaseTower
     public ProjectileFactory projectileFactory;
     //버프목록 -> 팩토리에 전달
     private BaseMonster currentTargetMonster;
-
+    public float attackPower;
+    public float attackSpeed;
     public override void Init(TowerData data)
     {
         base.Init(data);
         monsterLayer = LayerMask.GetMask("Monster");
         projectileFactory = FindObjectOfType<ProjectileFactory>();
+        attackPower = towerData.AttackPower;
+        attackSpeed = towerData.AttackSpeed;
     }
     protected override void Update()
     {
@@ -111,5 +114,16 @@ public class AttackTower:BaseTower
             currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
             currentTargetMonster = null;
         }
+    }
+
+    public void AttackPowerBuff(float buff)
+    {
+        attackPower += attackPower*buff;
+        Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {attackPower}");
+    }
+    public void AttackSpeedBuff(float buff)
+    {
+        attackSpeed = attackSpeed /(1f+buff));
+        Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {attackSpeed}");
     }
 }

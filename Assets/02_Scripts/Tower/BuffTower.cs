@@ -29,7 +29,6 @@ public class BuffTower : BaseTower
                 nearbyTowers.Add(otherTower);
             }
         }
-
         Debug.Log($"[BuffTower] 주변 타워 {nearbyTowers.Count}개 발견");
     }
 }

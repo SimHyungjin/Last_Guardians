@@ -82,6 +82,7 @@ public class TowerData: ScriptableObject
     [SerializeField] private bool bossImmune;
     [SerializeField] private int upgradeLevel;
     [SerializeField] private string towerDescription;
+    [SerializeField] private Sprite icon;
 
     public int TowerIndex => towerIndex;
     public string TowerName => towerName;
@@ -100,6 +101,8 @@ public class TowerData: ScriptableObject
     public bool BossImmune => bossImmune;
     public int UpgradeLevel => upgradeLevel;
     public string TowerDescription => towerDescription;
+
+    public Sprite Icon => icon;
 
     public void SetData(GameObject towerGhostPrefab,SpriteAtlas towerAtlas, int towerIndex, string towerName, float attackPower, float attackSpeed,
                         float attackRange, TowerType towerType, ProjectileType projectileType, ElementType elementType,

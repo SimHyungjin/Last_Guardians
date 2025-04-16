@@ -7,19 +7,28 @@ public class NormalEnemy : BaseMonster
     protected override void MeleeAttack()
     {
         base.MeleeAttack();
-        Debug.Log("노말공격");
+        if (!firstHit)
+        {
+            firstHit = true;
+            InGameManager.Instance.TakeDmage(1);
+            Debug.Log("노말공격 데미지 1");
+        }
+        else
+        {
+            InGameManager.Instance.TakeDmage(2);
+            Debug.Log("노말공격 데미지 2");
+        }
+        
         attackTimer = attackDelay;
     }
 
     protected override void RangeAttack()
     {
         base.RangeAttack();
-        Debug.Log("노말원거리공격");
-        attackTimer = attackDelay;
-
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = monsterData;
         projectile.Launch(Target.transform.position);
+        attackTimer = attackDelay;
     }
 
     protected override void Death()

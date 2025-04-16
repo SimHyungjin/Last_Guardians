@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyProjectile : ProjectileBase
 {
     public MonsterData Data {  get; set; }
+    public BaseMonster BaseMonster { get; set; }
 
     public override void Update()
     {
@@ -23,6 +24,23 @@ public class EnemyProjectile : ProjectileBase
         if (collision.gameObject.layer == LayerMask.NameToLayer("Center"))
         {
             //데미지 호출
+            if (!BaseMonster.IsFirstHit())
+            {
+                BaseMonster.SetFirstHit();
+                if (Data.MonsterType == MonType.Standard)
+                {
+                    InGameManager.Instance.TakeDmage(1);
+                }
+                else if (Data.MonsterType == MonType.Boss)
+                {
+                    InGameManager.Instance.TakeDmage(5);
+                }
+            }
+            else
+            {
+                InGameManager.Instance.TakeDmage(2);
+            }
+            
             PoolManager.Instance.Despawn(this);
         }
     }

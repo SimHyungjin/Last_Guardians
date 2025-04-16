@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6593329196448319869}
   - component: {fileID: 3025558603856330213}
   - component: {fileID: 884241243870721089}
-  - component: {fileID: 8660885359627565553}
   - component: {fileID: 4844810432890590897}
+  - component: {fileID: 6016599022369140420}
   - component: {fileID: -3221317178324195135}
   m_Layer: 6
   m_Name: BountyMonster
@@ -123,7 +123,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: abb0e4404132b76439bf737cd5575ab0, type: 3}
-  m_Color: {r: 0.26157403, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -133,25 +133,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8660885359627565553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6984242255651121693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c30b2cb81c647d4cbb471262a2421f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: cf8de87b9a86c5e4e9d9f86cb1e70905, type: 2}
-  skillData: {fileID: 11400000, guid: fca4653a10b0beb48acaadc3a13ba7c3, type: 2}
-  meleeAttackRange: 0.5
-  RangedAttackRange: 2
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!195 &4844810432890590897
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -174,6 +155,26 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!114 &6016599022369140420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6984242255651121693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c9cc751e729d340a28e9e91e054025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterData: {fileID: 0}
+  monsterSkill: {fileID: 0}
+  meleeAttackRange: 0.5
+  RangedAttackRange: 2
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  isSturn: 0
 --- !u!114 &-3221317178324195135
 MonoBehaviour:
   m_ObjectHideFlags: 0

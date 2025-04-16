@@ -3,19 +3,21 @@ using System.Collections.Generic;
 
 public class Inventory
 {
-    private List<ItemData> inventory = new();
+    private List<ItemInstance> inventory = new();
     private EquipType currentType = EquipType.Count;
 
     public event Action OnInventoryChanged;
 
-    public void AddItem(ItemData item)
+    public void AddItem(ItemInstance item)
     {
+        if (item == null) return;
         inventory.Add(item);
         OnInventoryChanged?.Invoke();
     }
 
-    public void RemoveItem(ItemData item)
+    public void RemoveItem(ItemInstance item)
     {
+        if (item == null) return;
         inventory.Remove(item);
         OnInventoryChanged?.Invoke();
     }
@@ -33,17 +35,25 @@ public class Inventory
         OnInventoryChanged?.Invoke();
     }
 
-    public IReadOnlyList<ItemData> GetFilteredView()
+    public IReadOnlyList<ItemInstance> GetFilteredView()
     {
-        var viewList = currentType == EquipType.Count
-            ? new List<ItemData>(inventory)
-            : inventory.FindAll(x => x is EquipData y && y.equipType == currentType);
+        List<ItemInstance> viewList;
 
-        viewList.Sort((a, b) => b.itemGrade.CompareTo(a.itemGrade));
+        if (currentType == EquipType.Count)
+        {
+            viewList = new List<ItemInstance>(inventory);
+        }
+        else
+        {
+            viewList = inventory.FindAll(x => x.asEquipData is EquipData ed && ed.equipType == currentType);
+        }
+
+        viewList.Sort((a, b) => b.Data.itemGrade.CompareTo(a.Data.itemGrade));
+
         return viewList;
     }
 
-    public IReadOnlyList<ItemData> ModifyAndGetFiltered(Action<Inventory> modification)
+    public IReadOnlyList<ItemInstance> ModifyAndGetFiltered(Action<Inventory> modification)
     {
         if (modification == null)
             throw new ArgumentNullException(nameof(modification));
@@ -52,5 +62,5 @@ public class Inventory
         return GetFilteredView();
     }
 
-    public IReadOnlyList<ItemData> GetAll() => inventory;
+    public IReadOnlyList<ItemInstance> GetAll() => inventory;
 }

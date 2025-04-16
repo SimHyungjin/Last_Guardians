@@ -17,14 +17,16 @@ public class TestHome : MonoBehaviour
         var inventory = HomeManager.Instance.inventory;
         var container = HomeManager.Instance.inventorySlotContainer;
 
-        // 인벤토리 초기화 (선택사항: 매번 새로 채우고 싶다면)
-        inventory.ClearAll(); // 이 메서드가 없다면 따로 만들어야 함
+        inventory.ClearAll();
 
-        // 랜덤으로 5개 고르기
+        // 랜덤으로 5개 고르고 인스턴스로 변환해서 추가
         List<ItemData> chosen = GetRandomItems(itemData, 5);
 
         foreach (var item in chosen)
-            inventory.AddItem(item);
+        {
+            var instance = new ItemInstance(item);
+            inventory.AddItem(instance);
+        }
 
         container.Display(inventory.GetFilteredView());
     }
@@ -34,7 +36,6 @@ public class TestHome : MonoBehaviour
         List<ItemData> shuffled = new List<ItemData>(source);
         int n = shuffled.Count;
 
-        // Fisher–Yates 셔플
         for (int i = 0; i < n - 1; i++)
         {
             int j = Random.Range(i, n);

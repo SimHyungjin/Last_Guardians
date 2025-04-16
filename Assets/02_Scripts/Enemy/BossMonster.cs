@@ -7,13 +7,35 @@ public class BossMonster : BaseMonster
     protected override void MeleeAttack()
     {
         base.MeleeAttack();
-        Debug.Log($"보스몬스터 {monsterData.name} 공격");
+        if (!firstHit)
+        {
+            firstHit = true;
+            InGameManager.Instance.TakeDmage(5);
+            Debug.Log($"보스몬스터 {monsterData.name} 공격 데미지 : 5");
+        }
+        else
+        {
+            InGameManager.Instance.TakeDmage(2);
+            Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
+        }
+        
         attackTimer = attackDelay;
     }
 
     protected override void RangeAttack()
     {
         base.RangeAttack();
+        if (!firstHit)
+        {
+            firstHit = true;
+            InGameManager.Instance.TakeDmage(5);
+            Debug.Log($"보스몬스터 {monsterData.name} 공격 데미지 : 5");
+        }
+        else
+        {
+            InGameManager.Instance.TakeDmage(2);
+            Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
+        }
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = monsterData;
         projectile.Launch(Target.transform.position);

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class Equipment
 {
-    private Dictionary<EquipType, EquipData> equipped = new();
+    private Dictionary<EquipType, ItemInstance> equipped = new();
 
-    public event Action<EquipData> OnEquip;
-    public event Action<EquipData> OnUnequip;
+    public event Action<ItemInstance> OnEquip;
+    public event Action<ItemInstance> OnUnequip;
 
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
@@ -18,27 +18,33 @@ public class Equipment
     public float specialEffectIDs { get; private set; }
     public int specialEffectID { get; private set; }
 
-    public void Equip(EquipData data)
+    public void Equip(ItemInstance instance)
     {
-        if (data == null) return;
+        if (instance?.asEquipData == null) return;
+        EquipData data = instance.asEquipData;
+
         if (equipped.TryGetValue(data.equipType, out var cur))
         {
-            if (cur == data) return;
+            if (cur.UniqueID == instance.UniqueID) return;
             UnEquip(cur);
         }
-        equipped[data.equipType] = data;
-        RecalculateStats();
+        equipped[data.equipType] = instance;
 
-        OnEquip.Invoke(data);
+        RecalculateStats();
+        OnEquip.Invoke(instance);
     }
 
-    public void UnEquip(EquipData data)
+    public void UnEquip(ItemInstance instance)
     {
-        if (data == null || !equipped.ContainsKey(data.equipType)) return;
-        equipped.Remove(data.equipType);
-        RecalculateStats();
+        if(instance?.asEquipData == null) return;
 
-        OnUnequip.Invoke(data);
+        EquipData data = instance.asEquipData;
+        if (!equipped.ContainsKey(data.equipType)) return;
+
+        equipped.Remove(data.equipType);
+
+        RecalculateStats();
+        OnUnequip.Invoke(instance);
     }
 
     void RecalculateStats()
@@ -46,9 +52,9 @@ public class Equipment
         totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
             totalCriticalDamage = totalPenetration = totalMoveSpeed = 0;
 
-        foreach (var data in equipped.Values)
+        foreach (var instance in equipped.Values)
         {
-            if (data == null) continue;
+            if (instance?.asEquipData is not EquipData data) continue;
 
             totalAttack += data.attackPower;
             totalAttackSpeed += data.attackSpeed;
@@ -61,12 +67,11 @@ public class Equipment
         }
     }
 
-    public bool IsEquipped(EquipData data)
+    public bool IsEquipped(ItemInstance instance)
     {
-        if (data == null) return false;
+        if (instance?.asEquipData == null) return false;
         if (equipped.Count == 0) return false;
-        if (equipped.TryGetValue(data.equipType, out var d) && d == data && data.uniqueID == d.uniqueID) return true;
-        else return false;
+        return equipped.TryGetValue(instance.asEquipData.equipType, out var cur) && cur.UniqueID == instance.UniqueID;
     }
 
     public EquipmentStats ToStats()

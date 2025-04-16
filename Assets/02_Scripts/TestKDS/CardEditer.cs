@@ -15,7 +15,7 @@ public class CardEditer : MonoBehaviour
     public void AddFour()
     { handCardLayout.AddCard(4); }
     public void AddFive()
-    { handCardLayout.AddCard(5); }
+    { handCardLayout.AddCard(7); }
 
     public void SubOen()
     { handCardLayout.UseCard(1); }

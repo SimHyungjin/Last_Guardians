@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c822d69ef052f94caab29876e27fdab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blastEffect: {fileID: 3020305618590296890, guid: d84b22aa4cb49ba45acc227cdc7aa695, type: 3}
   target: {fileID: 0}
   hasHit: 0
 --- !u!212 &-2044109952141429672

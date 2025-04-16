@@ -50,6 +50,7 @@ public class BaseMonster : MonoBehaviour
     public bool isSturn = false;
     public float EvasionRate { get; set; } = -1f;
 
+    public Action OnMonsterDeathAction;
 
     private void Awake()
     {
@@ -170,6 +171,7 @@ public class BaseMonster : MonoBehaviour
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath();
+        OnMonsterDeathAction?.Invoke();
     }
 
     protected virtual void MonsterSkill()

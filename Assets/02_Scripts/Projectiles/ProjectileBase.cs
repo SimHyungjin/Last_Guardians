@@ -62,11 +62,10 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     /// <param name="_isMulti"></param>
     public virtual void Launch(Vector2 _targetPos)
     {
+        targetPos = _targetPos;
         direction = (targetPos - (Vector2)transform.position).normalized;
         startPos = transform.position;
-        targetPos = _targetPos;
         transform.right = direction;
-
         //이후에 override로 동작구현
         ProjectileMove();
     }

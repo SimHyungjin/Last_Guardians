@@ -63,9 +63,10 @@ public class ProjectileFactory : MonoBehaviour
             return;
         }
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
+        Debug.Log($"[ProjectileFactory] {towerData.ProjectileType} 발사 위치: {targetPos}");
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-        projectile=AddEffectComponent(projectile, towerData);
+        projectile =AddEffectComponent(projectile, towerData);
     }
     private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
     {

@@ -14,12 +14,29 @@ public class ItemManager
         }
     }
 
-    public ItemData GetItemData(int index)
+    public ItemInstance GetItemData(ItemData data)
     {
-        if (!itemDatas.TryGetValue(index, out ItemData original)) return null;
+        if (data == null) return null;
 
-        ItemData instance = Object.Instantiate(original);
-        instance.GenerateUniqueID();
-        return instance;
+        return itemDatas.TryGetValue(data.ItemIndex, out var itemData) ? new ItemInstance(itemData): null;
+    }
+
+    public ItemInstance GetItemInstanceByIndex(int index)
+    {
+        return itemDatas.TryGetValue(index, out var data)? new ItemInstance(data): null;
+    }
+}
+
+public class ItemInstance
+{
+    public int UniqueID { get; private set; }
+    public ItemData Data { get; private set; }
+
+    public EquipData asEquipData => Data as EquipData;
+
+    public ItemInstance(ItemData data)
+    {
+        Data = data;
+        UniqueID = System.Guid.NewGuid().GetHashCode();
     }
 }

@@ -5,7 +5,7 @@ public class SelectionController : MonoBehaviour
     [SerializeField] private ItemPopupController itemPopupController;
 
     public Slot selectedSlot { get; private set; } = null;
-    public ItemData selectedData { get; private set; } = null;
+    public ItemInstance selectedData { get; private set; } = null;
 
     public void SelectSlot(Slot slot)
     {
@@ -29,12 +29,12 @@ public class SelectionController : MonoBehaviour
         itemPopupController.Close();
     }
 
-    public void RefreshSlot(ItemData data)
+    public void RefreshSlot(ItemInstance instance)
     {
         if (selectedSlot != null)
         {
-            selectedSlot.SetData(data);
-            selectedData = data;
+            selectedSlot.SetData(instance);
+            selectedData = instance;
         }
     }
 }

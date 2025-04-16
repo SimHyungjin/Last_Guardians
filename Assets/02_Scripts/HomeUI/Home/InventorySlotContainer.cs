@@ -30,24 +30,18 @@ public class InventorySlotContainer : MonoBehaviour
         inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView());
     }
 
-    public void Display(IReadOnlyList<ItemData> items)
+    public void Display(IReadOnlyList<ItemInstance> items)
     {
         ApplySlotActions(items, (slot, item) =>
         {
             slot.SetData(item);
 
-            if (item is EquipData eq)
-            {
-                slot.SetEquipped(equipment.IsEquipped(eq));
-            }
-            else
-            {
-                slot.SetEquipped(false);
-            }
+            var equipData = item.asEquipData;
+            slot.SetEquipped(equipData != null && equipment.IsEquipped(item));
 
             if (selectionController.selectedSlot != null)
             {
-                slot.SetSelected(slot.GetData() == selectionController.selectedData);
+                slot.SetSelected(selectionController.selectedData != null && slot.GetData()?.UniqueID == selectionController.selectedData.UniqueID);
             }
 
             slot.Refresh();
@@ -58,11 +52,16 @@ public class InventorySlotContainer : MonoBehaviour
     {
         foreach (var slot in slots)
         {
-            if (slot.GetData() is EquipData data)
+            var instance = slot.GetData();
+            if (instance?.asEquipData != null)
             {
-                bool isEquipped = equipment.IsEquipped(data);
-                slot.SetEquipped(isEquipped);
+                slot.SetEquipped(equipment.IsEquipped(instance));
             }
+            else
+            {
+                slot.SetEquipped(false);
+            }
+
             slot.Refresh();
         }
     }
@@ -75,7 +74,7 @@ public class InventorySlotContainer : MonoBehaviour
         }
     }
 
-    private void ApplySlotActions(IReadOnlyList<ItemData> items, Action<Slot, ItemData> action)
+    private void ApplySlotActions(IReadOnlyList<ItemInstance> items, Action<Slot, ItemInstance> action)
     {
         for (int i = 0; i < slots.Count; i++)
         {

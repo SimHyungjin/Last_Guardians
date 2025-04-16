@@ -13,16 +13,16 @@ public class BountyMonster : BaseMonster
 
     protected override void MonsterSkill()
     {
-        Debug.Log($"현상금몬스터 {monsterSkill.name} 사용");
-        monsterSkill.UseSkill(this);
-        skillTimer = monsterSkill.skillData.SkillCoolTime;
+        Debug.Log($"현상금몬스터 {MonsterSkillBaseData.name} 사용");
+        MonsterSkillBaseData.UseSkill(this);
+        skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }
 
     protected override void RangeAttack()
     {
         base.RangeAttack();
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
-        projectile.Data = monsterData;
+        projectile.Data = MonsterData;
         projectile.Launch(Target.transform.position);
     }
     protected override void Death()

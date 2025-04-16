@@ -26,7 +26,6 @@ public class MonsterManager : Singleton<MonsterManager>
     private int currentWaveIndex = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
-    private int alliveCount = 0;
 
     private void Start()
     {
@@ -105,15 +104,14 @@ public class MonsterManager : Singleton<MonsterManager>
             AlliveMonsters.Add(monster);
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
-            
-        alliveCount++;
         spawnCount++;
     }
 
-    public void OnMonsterDeath()
+    public void OnMonsterDeath(BaseMonster monster)
     {
-        alliveCount--;
-        if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
+        if(AlliveMonsters.Contains(monster))
+            AlliveMonsters.Remove(monster);
+        if (AlliveMonsters.Count <= 0 && spawnCount == currentWaveMonsterCount)
         {
             Debug.Log("웨이브 클리어");
             currentWaveIndex++;

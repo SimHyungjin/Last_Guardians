@@ -22,7 +22,7 @@ public class BossMonster : BaseMonster
         {
             firstHit = true;
             InGameManager.Instance.TakeDmage(5);
-            Debug.Log($"보스몬스터 {monsterData.name} 공격 데미지 : 5");
+            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : 5");
         }
         else
         {
@@ -40,7 +40,7 @@ public class BossMonster : BaseMonster
         {
             firstHit = true;
             InGameManager.Instance.TakeDmage(5);
-            Debug.Log($"보스몬스터 {monsterData.name} 공격 데미지 : 5");
+            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : 5");
         }
         else
         {
@@ -48,16 +48,16 @@ public class BossMonster : BaseMonster
             Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
         }
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
-        projectile.Data = monsterData;
+        projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
     }
 
     protected override void MonsterSkill()
     {
-        Debug.Log($"{monsterData.name} {monsterSkill.skillData.name} 사용");
-        monsterSkill.UseSkill(this);
-        skillTimer = monsterSkill.skillData.SkillCoolTime;
+        Debug.Log($"{MonsterData.name} {MonsterSkillBaseData.skillData.name} 사용");
+        MonsterSkillBaseData.UseSkill(this);
+        skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }
 
     protected override void Death()

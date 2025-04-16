@@ -10,8 +10,8 @@ public enum BuffDeBuff
 }
 public abstract class StatusEffect
 {
-    public float Duration { get; protected set; }
-    public float Amount { get; protected set; }
+    public float Duration { get; set; }
+    public float Amount { get; set; }
     public bool IsOver => Duration <= 0f;
     public BuffDeBuff BuffDeBuff { get; protected set; } = BuffDeBuff.Buff;
     protected StatusEffect(float amount, float duration)

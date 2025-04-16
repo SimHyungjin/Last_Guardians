@@ -49,6 +49,7 @@ public class BossMonster : BaseMonster
         }
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = monsterData;
+        projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
     }
 

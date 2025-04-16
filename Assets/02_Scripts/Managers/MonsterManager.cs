@@ -157,7 +157,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.DotDamage(5f, 5f);
+            ba.DotDamage(5f,5f);
         }
     }
 

@@ -102,7 +102,7 @@ public class BlastProjectile : ProjectileBase
         //if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
         //else effect.Apply(target, towerData);
         OnDespawn();
-        PoolManager.Instance.Despawn<ProjectileBase>(this);
+        PoolManager.Instance.Despawn<BlastProjectile>(this);
     }
     public override void OnSpawn()
     {
@@ -115,7 +115,8 @@ public class BlastProjectile : ProjectileBase
     {
         base.OnDespawn();
         target = null;
-        effect = null;
+        //effect = null;
+        effects.Clear();
     }
     
 }

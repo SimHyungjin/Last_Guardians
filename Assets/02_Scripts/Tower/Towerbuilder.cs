@@ -118,7 +118,7 @@ public class Towerbuilder : MonoBehaviour
         Vector2 constructPos = PostionArray(curPos);
         GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);
 
-        TowerData data = Resources.Load<TowerData>($"SO/Tower/Tower{towerIndex}");
+        TowerData data = TowerManager.Instance.GetTowerData(towerIndex);
 
         if (data == null)
         {
@@ -183,7 +183,7 @@ public class Towerbuilder : MonoBehaviour
 
     private void GetSprite(int index)
     {
-        TowerData towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
+        TowerData towerdata = TowerManager.Instance.GetTowerData(index); 
         int spriteIndex = (towerdata.TowerIndex > 49) ? towerdata.TowerIndex - 49 : towerdata.TowerIndex;
         ghostTower.GetComponent<SpriteRenderer>().sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
     }

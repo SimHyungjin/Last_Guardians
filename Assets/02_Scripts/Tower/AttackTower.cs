@@ -14,7 +14,7 @@ public class AttackTower : BaseTower
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
     public ProjectileFactory projectileFactory;
-    //버프목록 -> 팩토리에 전달
+    List<int> buffTowerIndex;
     private BaseMonster currentTargetMonster;
     public float attackPower;
     public float attackSpeed;
@@ -25,6 +25,11 @@ public class AttackTower : BaseTower
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         attackPower = towerData.AttackPower;
         attackSpeed = towerData.AttackSpeed;
+        buffTowerIndex = new List<int>();
+        if (towerData.SpecialEffect != SpecialEffect.None)
+        {
+            buffTowerIndex.Add(towerData.TowerIndex);
+        }
     }
     protected override void Update()
     {
@@ -84,13 +89,13 @@ public class AttackTower : BaseTower
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Magic:
-                projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform);
+                projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             case ProjectileType.Blast:
-                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform);
+                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             case ProjectileType.Arrow:
-                projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform);
+                projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             default:
                 Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");
@@ -125,5 +130,30 @@ public class AttackTower : BaseTower
     {
         attackSpeed = attackSpeed /((1f+buff));
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {attackSpeed}");
+    }
+
+    public void AddEffect(BuffTower buffTower)
+    {
+        int targetIndex = buffTower.towerData.TowerIndex;
+        bool found = false;
+
+        for (int i = 0; i < buffTowerIndex.Count; i++)
+        {
+            if (buffTowerIndex[i] == targetIndex)
+            {
+                var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
+                if (existing.EffectValue < buffTower.towerData.EffectValue)
+                {
+                    buffTowerIndex[i] = targetIndex;
+                }
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            buffTowerIndex.Add(targetIndex);
+        }
     }
 }

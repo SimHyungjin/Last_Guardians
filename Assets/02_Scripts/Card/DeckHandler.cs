@@ -47,7 +47,7 @@ public class DeckHandler : MonoBehaviour
                     highlightedCard.gameObject.SetActive(false);
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
-                    TowerData towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{highlightedIndex}");
+                    TowerData towerdata = TowerManager.Instance.GetTowerData(highlightedIndex);
                     int spriteIndex = (towerdata.TowerIndex > 49) ? towerdata.TowerIndex - 49 : towerdata.TowerIndex;          
                     ghostsprite.sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
 

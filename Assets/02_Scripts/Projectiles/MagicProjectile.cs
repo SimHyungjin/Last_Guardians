@@ -34,7 +34,8 @@ public class MagicProjectile : ProjectileBase
     {
         base.OnDespawn();
         target = null;
-        effect = null;
+        //effect = null;
+        effects.Clear();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -48,14 +49,19 @@ public class MagicProjectile : ProjectileBase
             if (towerData.SpecialEffect == SpecialEffect.None || effect == null)
             {
                 OnDespawn();
-                PoolManager.Instance.Despawn<ProjectileBase>(this);
+                PoolManager.Instance.Despawn<MagicProjectile>(this);
                 return;
             }
-            if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
-            else effect.Apply(target, towerData);
+            foreach (IEffect effect in effects)
+            {
+                if (effect == null) continue;
+                if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
+                else effect.Apply(target, towerData);
+            }
+
             
             OnDespawn();
-            PoolManager.Instance.Despawn<ProjectileBase>(this);
+            PoolManager.Instance.Despawn<MagicProjectile>(this);
 
         }
     }

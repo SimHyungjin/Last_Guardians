@@ -61,6 +61,14 @@ public class EffectHandler : MonoBehaviour
         }
     }
 
+    //null이면 true 아니면 false
+    public bool IsInEffect(StatusEffect effect)
+    {
+        var existEffect = effects.Find(a => a.GetType() == effect.GetType());
+
+        return existEffect == null;
+    }
+
     public void ClearAllEffect()
     {
         foreach(var effect in effects)

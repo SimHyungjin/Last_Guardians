@@ -11,7 +11,7 @@ public interface IProjectile
 
 public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 {
-    //protected List<MonoBehaviour> effects; 나중에 다중 이펙트 처리할때 사용
+    public List<IEffect> effects;// 나중에 다중 이펙트 처리할때 사용
     public IEffect effect;
     protected float speed = 5f;
     protected TowerData towerData;

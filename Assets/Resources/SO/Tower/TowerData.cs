@@ -57,7 +57,7 @@ public enum EffectTarget
     Towers  
 }
 
-[CreateAssetMenu(fileName = "NewTower", menuName = "Data/Tower Data", order = 1)]
+[CreateAssetMenu(fileName = "NewTower", menuName = "Data/BaseTower Data", order = 1)]
 public class TowerData: ScriptableObject
 {
     [Header("타워 외관")]

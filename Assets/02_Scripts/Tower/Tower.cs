@@ -18,10 +18,12 @@ public class Tower : MonoBehaviour
     public SpriteRenderer sprite;
 
     [Header("공격")]
-    private Transform target;
+    [SerializeField]private Transform target;
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
     public ProjectileFactory projectileFactory;
+
+    private BaseMonster currentTargetMonster;
 
     private GameObject towerGhost;
     Vector2 curPos;
@@ -64,11 +66,6 @@ public class Tower : MonoBehaviour
             towerGhost.transform.position = curPos;
         }
 
-        if (target == null || !IsInRange(target.position))
-        {
-            FindTarget();
-            return;
-        }
 
         if (Time.time - lastCheckTime < towerData.AttackSpeed) return;
         {
@@ -105,14 +102,23 @@ public class Tower : MonoBehaviour
                 closest = hit.transform;
             }
         }
-
+        if (target == closest) return;
+        if (currentTargetMonster != null)
+        {
+            currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
+        }
         target = closest;
+        currentTargetMonster = target.GetComponent<BaseMonster>();
+        if (currentTargetMonster != null)
+        {
+            currentTargetMonster.OnMonsterDeathAction += HandleTargetDeath; 
+        }
     }
 
     void Attack()
     {
-        if (target == null || !IsInRange(target.position))
-            return;
+        if (target == null || !IsInRange(target.position))return;
+        Debug.Log($"[Tower] {towerData.TowerName} 공격대상: {target.name}");
         projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
     }
 
@@ -144,9 +150,23 @@ public class Tower : MonoBehaviour
             }
         }
     }
+
+    private void HandleTargetDeath()
+    {
+        Debug.Log($"[Tower] {towerData.TowerName} 공격대상 사망");
+        target = null;
+        lastCheckTime = Time.time;
+        currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
+        currentTargetMonster = null;
+    }
     private void OnDestroy()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        if (currentTargetMonster != null)
+        {
+            currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
+            currentTargetMonster = null;
+        }
         isMoving = false;
     }
 }

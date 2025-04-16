@@ -87,7 +87,6 @@ public class DeckHandler : MonoBehaviour
     {
         if (isHighlighting&&card.TowerIndex==highlightedIndex)
         {
-            Debug.Log("하이라이트 중인 카드 클릭 " + card.TowerIndex);
 
             isDragging = true;
             dragStartPos = InputManager.Instance.GetTouchPosition();
@@ -95,7 +94,6 @@ public class DeckHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("Card Clicked: " + card.TowerIndex);
         }
     }
 

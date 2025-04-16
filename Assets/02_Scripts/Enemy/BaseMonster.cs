@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class BaseMonster : MonoBehaviour
 {
     [SerializeField] protected MonsterData monsterData;
-    [SerializeField] protected MonsterSkillData skillData;
+    [SerializeField] protected MonsterSkillBase monsterSkill;
 
     //몬스터 스탯관련
     public float CurrentHP { get; set; }
@@ -50,6 +50,7 @@ public class BaseMonster : MonoBehaviour
     public bool isSturn = false;
     public float EvasionRate { get; set; } = -1f;
 
+    public Action OnMonsterDeathAction;
 
     private void Awake()
     {
@@ -60,12 +61,12 @@ public class BaseMonster : MonoBehaviour
         effectHandler = GetComponent<EffectHandler>();
     }
 
-    public void Setup(MonsterData data, MonsterSkillData skillData = null)
+    public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
         this.monsterData = data;
         if (skillData != null)
-            this.skillData = skillData;
-        else this.skillData = null;
+            this.monsterSkill = skillData;
+        else this.monsterSkill = null;
         Init();
     }
 
@@ -83,8 +84,8 @@ public class BaseMonster : MonoBehaviour
         isAttack = false;
         if (monsterData.HasSkill)
         {
-            skillData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.SkillIndex == monsterData.MonsterSkillID);
-            skillTimer = skillData.SkillCoolTime;
+            monsterSkill = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == monsterData.MonsterSkillID);
+            skillTimer = monsterSkill.skillData.SkillCoolTime;
         }   
     }
 
@@ -102,15 +103,15 @@ public class BaseMonster : MonoBehaviour
                 MeleeAttack();
         }
 
-        if(skillData != null)
+        if(monsterSkill != null)
         {
             if (!isSturn)
                 skillTimer -= Time.deltaTime;
 
             if (skillTimer <= 0)
             {
-                skillTimer = skillData.SkillCoolTime;
-                if (Random.Range(0f, 1f) <= skillData.MonsterskillProbablilty)
+                skillTimer = monsterSkill.skillData.SkillCoolTime;
+                if (Random.Range(0f, 1f) <= monsterSkill.skillData.MonsterskillProbablilty)
                     MonsterSkill();
             }
         }
@@ -170,6 +171,7 @@ public class BaseMonster : MonoBehaviour
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath();
+        OnMonsterDeathAction?.Invoke();
     }
 
     protected virtual void MonsterSkill()

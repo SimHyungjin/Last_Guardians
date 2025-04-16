@@ -21,7 +21,24 @@ public class ProjectileFactory : MonoBehaviour
     [SerializeField]
     private List<ProjectileEntry> projectileList;
 
-    public Dictionary<ProjectileType, ProjectileBase> projectileMap;
+    private Dictionary<ProjectileType, ProjectileBase> projectileMap;
+
+    private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
+    {
+        { SpecialEffect.DotDamage, typeof(ProjectileDotDamageEffect) },
+        { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
+        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
+        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현
+        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
+        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//미구현
+        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//미구현
+        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//미구현
+        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//미구현
+        { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
+        { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//미구현
+        { SpecialEffect.AttackSpeed, typeof(ProjectileAttackSpeedEffect) },//미구현
+        { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
+    };
 
     private void Awake()
     {
@@ -45,11 +62,11 @@ public class ProjectileFactory : MonoBehaviour
             Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
             return;
         }
-        Debug.Log($"[ProjectileFactory]  {towerData.ProjectileType} 프리팹 이름: {prefab.name} / 인스턴스ID: {prefab.GetInstanceID()} / 해시: {prefab.GetHashCode()}");
         var projectile = PoolManager.Instance.Spawn(prefab, parent);
+        Debug.Log($"[ProjectileFactory] {towerData.ProjectileType} 발사 위치: {targetPos}");
         projectile.Init(towerData);
         projectile.Launch(targetPos);
-        //projectile=AddEffectComponent(projectile, towerData);
+        projectile =AddEffectComponent(projectile, towerData);
     }
     private ProjectileBase AddEffectComponent(ProjectileBase projectile, TowerData data)
     {
@@ -74,21 +91,6 @@ public class ProjectileFactory : MonoBehaviour
         return projectile;
     }
 
-    private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
-    { 
-        { SpecialEffect.DotDamage, typeof(ProjectileDotDamageEffect) },
-        { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
-        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
-        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현
-        { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
-        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//미구현
-        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//미구현
-        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//미구현
-        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//미구현
-        { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
-        { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//미구현
-        { SpecialEffect.AttackSpeed, typeof(ProjectileAttackSpeedEffect) },//미구현
-        { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
-    };
+
 }
 

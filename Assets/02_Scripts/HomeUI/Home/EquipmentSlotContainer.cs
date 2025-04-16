@@ -22,18 +22,25 @@ public class EquipmentSlotContainer : MonoBehaviour
     private void Start()
     {
         equipment = HomeManager.Instance.equipment;
-        equipment.OnEquip += (data) => BindSlot(data);
-        equipment.OnUnequip += (data) => ClearSlot(data.equipType);
+        equipment.OnEquip += BindSlot;
+        equipment.OnUnequip += UnbindSlot;
     }
 
-    public void BindSlot(EquipData data)
+    public void BindSlot(ItemInstance instance)
     {
-        if (data == null) return;
-        if (equipSlots.TryGetValue(data.equipType, out var slot))
+        if (instance?.asEquipData == null) return;
+        if (equipSlots.TryGetValue(instance.asEquipData.equipType, out var slot))
         {
-            slot.SetData(data);
+            slot.SetData(instance);
         }
     }
+    private void UnbindSlot(ItemInstance instance)
+    {
+        if (instance?.asEquipData is not EquipData data) return;
+
+        ClearSlot(data.equipType);
+    }
+
     public void ClearSlot(EquipType type)
     {
         if (equipSlots.TryGetValue(type, out var slot))

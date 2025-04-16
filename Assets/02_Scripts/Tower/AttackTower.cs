@@ -30,8 +30,6 @@ public class AttackTower : BaseTower
         {
             buffTowerIndex.Add(towerData.TowerIndex);
         }
-        buffTowerIndex.Add(9);
-        buffTowerIndex.Add(28);
     }
     protected override void Update()
     {
@@ -134,9 +132,8 @@ public class AttackTower : BaseTower
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {attackSpeed}");
     }
 
-    public void AddEffect(BuffTower buffTower)
+    public void AddEffect(int targetIndex)
     {
-        int targetIndex = buffTower.towerData.TowerIndex;
         bool found = false;
 
         for (int i = 0; i < buffTowerIndex.Count; i++)
@@ -144,7 +141,7 @@ public class AttackTower : BaseTower
             if (buffTowerIndex[i] == targetIndex)
             {
                 var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
-                if (existing.EffectValue < buffTower.towerData.EffectValue)
+                if (existing.EffectValue < TowerManager.Instance.GetTowerData(targetIndex).EffectValue)
                 {
                     buffTowerIndex[i] = targetIndex;
                 }

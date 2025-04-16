@@ -26,16 +26,23 @@ public class BaseMonster : MonoBehaviour
 
     //몬스터 공격관련
     private float AttackRange;
-    protected float attackDelay = 3f;
+    protected float attackDelay = 1f;
     protected float attackTimer = 0f;
     private bool isAttack = false;
     protected float skillTimer = 0f;
+    protected bool firstHit = false;
 
     //목표지점 관련
     public LayerMask targetLayer;
     public Transform Target { get; set; } // 목표지점
 
     private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private Color hitColor = Color.red; // 데미지 입었을 때 색상
+    private int blinkCount = 3; // 번쩍이는 횟수
+    private float blinkInterval = 0.1f; // 깜빡이는 속도
+    private Coroutine colorCoroutine;
+
     protected NavMeshAgent agent;
 
     //상태이상 핸들러 관련 필드
@@ -58,6 +65,7 @@ public class BaseMonster : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
         effectHandler = GetComponent<EffectHandler>();
     }
 
@@ -76,12 +84,15 @@ public class BaseMonster : MonoBehaviour
         CancelAllBuff();
         CancelAllDebuff();
         spriteRenderer.sprite = monsterData.Image;
+        spriteRenderer.color = originalColor;
         CurrentHP = monsterData.MonsterHP;
         CurrentDef = monsterData.MonsterDef;
         attackTimer = 0f;
         agent.isStopped = false;
         agent.speed = monsterData.MonsterSpeed;
         isAttack = false;
+        firstHit = false;
+        colorCoroutine = null;
         if (monsterData.HasSkill)
         {
             monsterSkill = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == monsterData.MonsterSkillID);
@@ -197,10 +208,32 @@ public class BaseMonster : MonoBehaviour
 
         //데미지 관련 공식 들어가야 함
         CurrentHP -= amount;
+
         if(CurrentHP <= 0)
             Death();
+
+        if (this.gameObject.activeSelf)
+        {
+            if (colorCoroutine != null)
+            {
+                StopCoroutine(BlinkCoroutine());
+            }
+            colorCoroutine = StartCoroutine(BlinkCoroutine());
+        }
     }
 
+    private IEnumerator BlinkCoroutine()
+    {
+        for (int i = 0; i < blinkCount; i++)
+        {
+            spriteRenderer.color = hitColor;
+            yield return new WaitForSeconds(blinkInterval);
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(blinkInterval);
+        }
+
+        colorCoroutine = null;
+    }
     //도트 데미지 적용
     public void DotDamage(float amount, float duration)
     {
@@ -320,5 +353,15 @@ public class BaseMonster : MonoBehaviour
     public void CancelAllBuff()
     {
         effectHandler.RemoveAllBuff();
+    }
+
+    public bool IsFirstHit()
+    {
+        return firstHit;
+    }
+
+    public void SetFirstHit()
+    {
+        firstHit = true;
     }
 }

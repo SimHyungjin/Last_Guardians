@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8866000680640255608}
   - component: {fileID: 9205840807083144569}
-  - component: {fileID: -6277271127415325449}
   - component: {fileID: 4903622547020826876}
   - component: {fileID: 6445840645015023595}
   - component: {fileID: 6788347057862089353}
@@ -88,28 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6277271127415325449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3515763323643818898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbc66e06c44546e4c8bf2a601125712c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerData: {fileID: 0}
-  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
-  isMoving: 0
-  isCliked: 0
-  sprite: {fileID: 0}
-  target: {fileID: 0}
-  monsterLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  projectileFactory: {fileID: 0}
 --- !u!61 &4903622547020826876
 BoxCollider2D:
   m_ObjectHideFlags: 0

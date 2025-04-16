@@ -28,11 +28,11 @@ public abstract class BaseTower : MonoBehaviour
     private GameObject towerGhost;
     Vector2 curPos;
 
-    public virtual void Init(int index)
+    public virtual void Init(TowerData _towerData)
     {
-       
+        towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        towerData = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
+        towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
         if (towerData != null)
         {

@@ -1,6 +1,8 @@
 using Unity;
+using System.Linq;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
+using System.Collections.Generic;
 
 public enum InteractionState
 {
@@ -15,7 +17,19 @@ public class TowerManager : Singleton<TowerManager>
     public TowerCombinationData towerCombinationData;
     public Towerbuilder towerbuilder;
     public ProjectileFactory projectileFactory;
+    private Dictionary<int, TowerData> towerDataMap;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
+
+    public void Start()
+    {
+        towerDataMap = Resources.LoadAll<TowerData>("SO/Tower")
+            .ToDictionary(td => td.TowerIndex, td => td);
+    }
+
+    public TowerData GetTowerData(int index)
+    {
+        return towerDataMap.TryGetValue(index, out var data) ? data : null;
+    }
     public bool CanStartInteraction()
     {
         return CurrentState == InteractionState.None;

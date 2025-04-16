@@ -11,7 +11,8 @@ public interface IProjectile
 
 public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 {
-    //protected List<MonoBehaviour> effects; 나중에 다중 이펙트 처리할때 사용
+    public List<IEffect> effects;// 나중에 다중 이펙트 처리할때 사용
+    public List<int> effectslist;
     public IEffect effect;
     protected float speed = 5f;
     protected TowerData towerData;
@@ -38,9 +39,10 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
             PoolManager.Instance.Despawn(this);
         }
     }
-    public virtual void Init(TowerData _towerData) 
+    public virtual void Init(TowerData _towerData,List<int> _effectslist) 
     {
         towerData = _towerData;
+        effectslist = _effectslist;
     }
     public virtual void OnSpawn()
     {
@@ -73,46 +75,3 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected virtual void ProjectileMove(){}
 }
 
-
-//IEnumerator DespawnProjectile(float time = 0)
-//{
-//    yield return new WaitForSeconds(time);
-//    PoolManager.Instance.Despawn(this);
-//    lifeTimeCoroutine = null;
-//}
-//충돌예시
-/*
-/// <summary>
-/// isMulti 의 값에 따라 범위/1인 공격 처리
-/// </summary>
-/// <param name="collision"></param>
-private void OnTriggerEnter2D(Collider2D collision)
-{
-    if (((1 << collision.gameObject.layer) & (1 << LayerMask.NameToLayer("Monster"))) == 0) return;
-
-    if (isMulti)
-    {
-        EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
-        EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
-
-        Vector2 hitPoint = collision.ClosestPoint(transform.position);
-        effectIndicator.effectChangeSprite.ShowCircle("Effect/Circle", hitPoint, multiSpread);
-
-        var hits = Physics2D.OverlapCircleAll(hitPoint, multiSpread * 0.5f, LayerMask.GetMask("Monster"));
-        foreach (var hit in hits)
-        {
-            // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
-            // TODO:
-            Debug.Log("멀티 불릿 공격" + hit.name);
-        }
-    }
-    else if (!hitTarget)
-    {
-        hitTarget = true;
-        // 데미지 처리 및 이펙트는 몬스터 개발자 연동 예정
-        // TODO:
-        Debug.Log("단일 불릿 공격");
-    }
-    PoolManager.Instance.Despawn(this);
-}
-*/

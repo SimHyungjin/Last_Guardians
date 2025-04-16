@@ -9,7 +9,6 @@ public class MonsterManager : Singleton<MonsterManager>
     [SerializeField] private Transform[] spawnPoint;
     [SerializeField] private Transform[] target;
 
-
     public List<MonsterWaveData> WaveDatas { get; private set; }
     public NormalEnemy NormalPrefab { get; private set; }
     public BossMonster BossPrefab { get; private set; }
@@ -18,19 +17,22 @@ public class MonsterManager : Singleton<MonsterManager>
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillBase> MonsterSkillDatas { get; private set; }
     public List<BaseMonster> AlliveMonsters { get; private set; }
+    public DamageText DamageTextPrefab { get; private set; }
+    public Canvas DamageUICanvas {  get; private set; }
+
+    private Canvas damageUICanvasPrefab;
 
     //private BaseMonster monster;
     private int currentWaveIndex = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
-    private int alliveCount = 0;
 
     private void Start()
     {
         //WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         AlliveMonsters = new List<BaseMonster>();
         InitMonsters();
-        
+        DamageUICanvas = Instantiate(damageUICanvasPrefab);
     }
 
     public void GameStart()
@@ -102,15 +104,14 @@ public class MonsterManager : Singleton<MonsterManager>
             AlliveMonsters.Add(monster);
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
-            
-        alliveCount++;
         spawnCount++;
     }
 
-    public void OnMonsterDeath()
+    public void OnMonsterDeath(BaseMonster monster)
     {
-        alliveCount--;
-        if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
+        if(AlliveMonsters.Contains(monster))
+            AlliveMonsters.Remove(monster);
+        if (AlliveMonsters.Count <= 0 && spawnCount == currentWaveMonsterCount)
         {
             Debug.Log("웨이브 클리어");
             currentWaveIndex++;
@@ -133,6 +134,9 @@ public class MonsterManager : Singleton<MonsterManager>
         WaveDatas = Resources.LoadAll<MonsterWaveData>("SO/Enemy/MonsterWaveSOData").ToList();
         WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         ProjectilePrefab = Resources.Load<EnemyProjectile>("Enemy/EnemyProjectile/EnemyProjectile");
+
+        DamageTextPrefab = Resources.Load<DamageText>("UI/DamageUI/DamageIndicator");
+        damageUICanvasPrefab = Resources.Load<Canvas>("UI/DamageUI/DamageCanvas");
     }
 
     public void TestKill()
@@ -151,7 +155,7 @@ public class MonsterManager : Singleton<MonsterManager>
         foreach (GameObject obj2 in obj)
         {
             BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.DotDamage(5f, 5f);
+            ba.DotDamage(5f,5f);
         }
     }
 

@@ -113,12 +113,29 @@ public class Towerbuilder : MonoBehaviour
         callback?.Invoke(allPathsExist);
     }
 
-    public void TowerConstruct(Vector2 curPos,int TowerIndex)
+    public void TowerConstruct(Vector2 curPos, int towerIndex)
     {
         Vector2 constructPos = PostionArray(curPos);
-        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);//인덱스따라서 TowerData.Prefab으로 각각 소환
-        BaseTower tower = go.GetComponent<BaseTower>();
-        tower.Init(TowerIndex);
+        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);
+
+        TowerData data = TowerManager.Instance.GetTowerData(towerIndex);
+
+        if (data == null)
+        {
+            Debug.LogError($"[TowerConstruct] TowerData를 불러올 수 없습니다: {towerIndex}");
+            return;
+        }
+
+        if (data.ProjectileType == ProjectileType.Buff)
+        {
+            BuffTower tower = go.AddComponent<BuffTower>();
+            tower.Init(data); // Init 안에서 다시 SO를 불러와도 됨
+        }
+        else
+        {
+            AttackTower tower = go.AddComponent<AttackTower>();
+            tower.Init(data);
+        }
     }
 
     public bool IsAnyObjectOnTile(Vector2 tilePos)
@@ -166,9 +183,26 @@ public class Towerbuilder : MonoBehaviour
 
     private void GetSprite(int index)
     {
-        TowerData towerdata = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
-        int spriteIndex = (towerdata.TowerIndex > 49) ? towerdata.TowerIndex - 49 : towerdata.TowerIndex;
-        ghostTower.GetComponent<SpriteRenderer>().sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
+        TowerData towerData = TowerManager.Instance.GetTowerData(index);
+        int spriteIndex;
+        if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
+        {
+            spriteIndex = towerData.TowerIndex - 49;
+        }
+        else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
+        {
+            spriteIndex = towerData.TowerIndex - 98;
+        }
+        else if (towerData.TowerIndex > 108)
+        {
+            spriteIndex = towerData.TowerIndex - 59;
+        }
+        else
+        {
+            spriteIndex = towerData.TowerIndex;
+        }
+        ghostTower.GetComponent<SpriteRenderer>().sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+
     }
 
     private void HandCardMoving()
@@ -231,9 +265,25 @@ public class Towerbuilder : MonoBehaviour
         if (clikedTower != null && ghostTower == null)
         {
             ghostTower = Instantiate(ghostTowerPrefab);
-
-            int spriteIndex = (clikedTower.towerData.TowerIndex > 49) ? clikedTower.towerData.TowerIndex - 49 : clikedTower.towerData.TowerIndex;
+            int spriteIndex;
+            if (clikedTower.towerData.TowerIndex > 49 && clikedTower.towerData.TowerIndex < 99)
+            {
+                spriteIndex = clikedTower.towerData.TowerIndex - 49;
+            }
+            else if (clikedTower.towerData.TowerIndex > 98 && clikedTower.towerData.TowerIndex < 109)
+            {
+                spriteIndex = clikedTower.towerData.TowerIndex - 98;
+            }
+            else if (clikedTower.towerData.TowerIndex > 108)
+            {
+                spriteIndex = clikedTower.towerData.TowerIndex - 59;
+            }
+            else
+            {
+                spriteIndex = clikedTower.towerData.TowerIndex;
+            }
             ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+
             clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 0.3f);
         }
         else

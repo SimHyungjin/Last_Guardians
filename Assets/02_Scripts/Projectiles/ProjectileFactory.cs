@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public interface IEffect
 {
@@ -36,8 +37,8 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//미구현
         { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
         { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//미구현
-        { SpecialEffect.AttackSpeed, typeof(ProjectileAttackSpeedEffect) },//미구현
         { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
+        { SpecialEffect.None, null }
     };
 
     private void Awake()
@@ -54,7 +55,7 @@ public class ProjectileFactory : MonoBehaviour
                 Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
     }
-    public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent) where T : ProjectileBase
+    public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent,List<int> buffTowerIndex) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
         {
@@ -70,45 +71,56 @@ public class ProjectileFactory : MonoBehaviour
         }
 
         var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
-        projectile.Init(towerData);
-        projectile.Launch(targetPos);
-        AddEffectComponent(projectile, towerData);
+        projectile.Init(towerData, buffTowerIndex);
+        AddAllEffects(projectile, towerData, buffTowerIndex);
+        projectile.Launch(targetPos); // 이펙트 추가
     }
-
-    //public void SpawnAndLaunch(Vector2 targetPos, TowerData towerData, Transform parent)
+    //AddEffectComponent(projectile, towerData);
+    //private void AddEffectComponent(ProjectileBase projectile, TowerData data)
     //{
-    //    if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
+    //    if (data.SpecialEffect == SpecialEffect.None) return ;
+
+    //    if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
     //    {
-    //        Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
-    //        return;
+    //        var go = projectile.gameObject;
+
+    //        // 중복 방지
+    //        if (!go.TryGetComponent(effectType, out var existing))
+    //        {
+    //            var added = go.AddComponent(effectType) as IEffect;
+    //            projectile.effect = added;
+    //        }
+    //        else
+    //        {
+    //            projectile.effect = existing as IEffect;
+    //        }
     //    }
-    //    var projectile = PoolManager.Instance.Spawn(prefab, parent);
-    //    Debug.Log($"[ProjectileFactory] {towerData.ProjectileType} 발사 위치: {targetPos}");
-    //    projectile.Init(towerData);
-    //    projectile.Launch(targetPos);
-    //    AddEffectComponent(projectile, towerData);
     //}
-    private void AddEffectComponent(ProjectileBase projectile, TowerData data)
+    private void AddAllEffects(ProjectileBase projectile, TowerData baseData,List<int> buffTowerIndex)
     {
-        if (data.SpecialEffect == SpecialEffect.None) return ;
+        var go = projectile.gameObject;
+        var effectList = new List<TowerData>();
 
-        if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
+        foreach (int index in buffTowerIndex)
         {
-            var go = projectile.gameObject;
-
-            // 중복 방지
-            if (!go.TryGetComponent(effectType, out var existing))
+            var buffTowerData = TowerManager.Instance.GetTowerData(index);
+            if (buffTowerData != null && buffTowerData.SpecialEffect != SpecialEffect.None)
             {
-                var added = go.AddComponent(effectType) as IEffect;
-                projectile.effect = added;
-            }
-            else
-            {
-                projectile.effect = existing as IEffect;
+                effectList.Add(buffTowerData);
             }
         }
+
+        Dictionary<Type, IEffect> finalEffects = new();
+
+        foreach (var data in effectList)
+        {
+            if (!effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType)) continue;
+                var effect = go.AddComponent(effectType) as IEffect;
+                finalEffects.Add(effectType, effect);
+
+        }
+        projectile.effects?.Clear();
+        projectile.effects = finalEffects.Values.Where(e => e != null).ToList();
     }
-
-
 }
 

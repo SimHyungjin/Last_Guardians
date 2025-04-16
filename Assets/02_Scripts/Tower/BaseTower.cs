@@ -28,33 +28,34 @@ public abstract class BaseTower : MonoBehaviour
     private GameObject towerGhost;
     Vector2 curPos;
 
-    public virtual void Init(int index)
+    public virtual void Init(TowerData _towerData)
     {
-       
+        towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        towerData = Resources.Load<TowerData>($"SO/Tower/Tower{index}");
+        towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
         if (towerData != null)
         {
-            int spriteIndex = (towerData.TowerIndex > 49) ? towerData.TowerIndex - 49 : towerData.TowerIndex;
+            int spriteIndex;
             if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
             {
                 spriteIndex = towerData.TowerIndex - 49;
             }
-            else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
+            else if (towerData.TowerIndex >= 99 && towerData.TowerIndex < 109)
             {
                 spriteIndex = towerData.TowerIndex - 98;
             }
-            else if (towerData.TowerIndex > 108)
+            else if (towerData.TowerIndex >= 109)
             {
                 spriteIndex = towerData.TowerIndex - 59;
             }
             else
             {
                 spriteIndex = towerData.TowerIndex;
-                sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
-                towerGhost = towerData.towerGhostPrefab;
             }
+            sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+            towerGhost = towerData.towerGhostPrefab;
+            
         }
     }
     protected virtual void Update()

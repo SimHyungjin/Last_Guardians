@@ -2,23 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface ITowerBuff
+{
+    void ApplyBuff(BaseTower tower, TowerData data);
+    void ApplyDebuff(BaseMonster monster, TowerData data);
+}
+
 public class BuffTower : BaseTower
 {
-    [Header("¹öÇÁÅ¸¿ö µ¥ÀÌÅÍ")]
+    [Header("ë²„í”„íƒ€ì›Œ ë°ì´í„°")]
     [SerializeField] private LayerMask towerLayer;
-    public IEffect buffTowerData;//±ÙÃ³ Å¸¿ö¿¡ Àü´ÞÇØÁÙ ÀÌÆåÆ® ÀÌ¸§ ->IEffect¿¡¼­ ´Ù¸¥ °Å·Î º¯°æ ÇÊ¿ä
-    private List<BaseTower> nearbyTowers = new();
-    public override void Init(int index)
+    [SerializeField] private LayerMask monsterLayer;
+    public ITowerBuff towerBuff;
+    public ITowerBuff monsterDebuff;
+
+    private float lastCheckTime = 0f;
+
+    public override void Init(TowerData data)
     {
-        base.Init(index);
-        ApplyBuffOnPlacement();
+        base.Init(data);
+        towerLayer = LayerMask.GetMask("Tower");
+        //ApplyBuffOnPlacement();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Time.time - lastCheckTime < 0.1f)
+            return;
+        if (towerData.EffectTarget == EffectTarget.All)
+            ApplyDebuffOnPlacement();
+        lastCheckTime = Time.time;
     }
 
     private void ApplyBuffOnPlacement()
     {
+        if (towerData.EffectTarget != EffectTarget.Towers) return;
+        List<BaseTower> nearbyTowers = new();
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
-
-        nearbyTowers.Clear();
 
         foreach (var hit in hits)
         {
@@ -26,9 +48,27 @@ public class BuffTower : BaseTower
             if (otherTower != null && otherTower != this)
             {
                 nearbyTowers.Add(otherTower);
+                towerBuff.ApplyBuff(otherTower, towerData);
             }
         }
+        Debug.Log($"[BuffTower] ì£¼ë³€ íƒ€ì›Œ {nearbyTowers.Count}ê°œ ë°œê²¬");
+    }
 
-        Debug.Log($"[BuffTower] ÁÖº¯ Å¸¿ö {nearbyTowers.Count}°³ ¹ß°ß");
+    private void ApplyDebuffOnPlacement()
+    {
+        if(towerData.EffectTarget != EffectTarget.All) return;
+        List<BaseMonster> nearbyTowers = new();
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, monsterLayer);
+
+        foreach (var hit in hits)
+        {
+            BaseMonster otherMonster = hit.GetComponent<BaseMonster>();
+            if (otherMonster != null && otherMonster != this)
+            {
+                nearbyTowers.Add(otherMonster);
+                monsterDebuff.ApplyDebuff(otherMonster, towerData);
+            }
+        }
+        Debug.Log($"[BuffTower] ì£¼ë³€ ëª¬ìŠ¤í„° {nearbyTowers.Count}ê°œ ë°œê²¬");
     }
 }

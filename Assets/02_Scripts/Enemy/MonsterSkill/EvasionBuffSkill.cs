@@ -6,6 +6,6 @@ public class EvasionBuffSkill : MonsterSkillBase
 {
     public override void UseSkill(BaseMonster caster)
     {
-        caster.ApplyEvasionBuff(skillData.Duration, skillData.MonsterskillEffectValue);
+        caster.ApplyEvasionBuff(skillData.Duration, caster.CurrentSkillValue);
     }
 }

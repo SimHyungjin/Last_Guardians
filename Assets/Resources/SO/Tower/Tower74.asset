@@ -21,7 +21,7 @@ MonoBehaviour:
   attackRange: 5
   towerType: 2
   projectileType: 2
-  elementType: 12
+  elementType: 0
   specialEffect: 7
   effectChance: 1
   effectDuration: 3

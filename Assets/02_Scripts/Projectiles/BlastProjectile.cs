@@ -17,9 +17,9 @@ public class BlastProjectile : ProjectileBase
     private bool canHit = false;
     private float Totaldistance;
     [SerializeField] private bool hasHit = false;
-    public override void Init(TowerData _towerData)
+    public override void Init(TowerData _towerData, List<int> _effectslist)
     {
-        base.Init(_towerData);
+        base.Init(_towerData,_effectslist);
         Totaldistance = Vector2.Distance(startPos, targetPos);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
@@ -47,8 +47,8 @@ public class BlastProjectile : ProjectileBase
     {
         Vector2 start = transform.position;
         Vector2 dir = (targetPos - start).normalized;
-        float distance = Vector2.Distance(start, targetPos);
-        float duration = distance / speed;
+        //float distance = Vector2.Distance(start, targetPos);
+        float duration = Totaldistance / speed;
 
         float arcHeight = 0.4f;
 
@@ -102,7 +102,7 @@ public class BlastProjectile : ProjectileBase
         //if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
         //else effect.Apply(target, towerData);
         OnDespawn();
-        PoolManager.Instance.Despawn<ProjectileBase>(this);
+        PoolManager.Instance.Despawn<BlastProjectile>(this);
     }
     public override void OnSpawn()
     {
@@ -115,7 +115,8 @@ public class BlastProjectile : ProjectileBase
     {
         base.OnDespawn();
         target = null;
-        effect = null;
+        //effect = null;
+        effects.Clear();
     }
     
 }

@@ -28,7 +28,7 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
             var projectile = PoolManager.Instance.Spawn(GetComponent<ProjectileBase>());
             projectile.transform.position = origin;
             projectile.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
-            projectile.Init(towerData);
+            //projectile.Init(towerData);
             projectile.Launch(origin + dir * 10f);
             Debug.Log($"Spawned projectile at angle: {angle} degrees");
         }

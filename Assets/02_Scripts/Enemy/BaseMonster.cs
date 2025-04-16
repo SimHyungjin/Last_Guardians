@@ -9,8 +9,8 @@ using Random = UnityEngine.Random;
 
 public class BaseMonster : MonoBehaviour
 {
-    [SerializeField] protected MonsterData monsterData;
-    [SerializeField] protected MonsterSkillBase monsterSkill;
+    public MonsterData MonsterData { get; private set; }
+    public MonsterSkillBase MonsterSkillBaseData { get; private set; }
 
     //몬스터 스탯관련
     public float CurrentHP { get; set; }
@@ -19,6 +19,8 @@ public class BaseMonster : MonoBehaviour
     public float CurrentDef { get; set; }
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
+    public float CurrentSkillValue { get; set; }
+    public float SkillValueModifier { get; set; } = 1f;
 
     //근접사거리 원거리 사거리
     [SerializeField] private float meleeAttackRange = 0.5f;
@@ -39,8 +41,8 @@ public class BaseMonster : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private Color hitColor = Color.red; // 데미지 입었을 때 색상
-    private int blinkCount = 3; // 번쩍이는 횟수
-    private float blinkInterval = 0.1f; // 깜빡이는 속도
+    private int blinkCount = 2; // 번쩍이는 횟수
+    private float blinkInterval = 0.1f; // 깜빡이는 주기
     private Coroutine colorCoroutine;
 
     protected NavMeshAgent agent;
@@ -53,7 +55,7 @@ public class BaseMonster : MonoBehaviour
     private StatusEffect defDown;
     private StatusEffect defBuff;
     private StatusEffect speedBuff;
-    private StatusEffect EvasionBuff;
+    private StatusEffect evasionBuff;
     public bool isSturn = false;
     public float EvasionRate { get; set; } = -1f;
 
@@ -71,32 +73,32 @@ public class BaseMonster : MonoBehaviour
 
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
-        this.monsterData = data;
+        this.MonsterData = data;
         if (skillData != null)
-            this.monsterSkill = skillData;
-        else this.monsterSkill = null;
+            this.MonsterSkillBaseData = skillData;
+        else this.MonsterSkillBaseData = null;
         Init();
     }
 
     private void Init()
     {
-        AttackRange = monsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? RangedAttackRange : meleeAttackRange;
+        AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? RangedAttackRange : meleeAttackRange;
         CancelAllBuff();
         CancelAllDebuff();
-        spriteRenderer.sprite = monsterData.Image;
+        spriteRenderer.sprite = MonsterData.Image;
         spriteRenderer.color = originalColor;
-        CurrentHP = monsterData.MonsterHP;
-        CurrentDef = monsterData.MonsterDef;
+        CurrentHP = MonsterData.MonsterHP;
+        CurrentDef = MonsterData.MonsterDef;
         attackTimer = 0f;
         agent.isStopped = false;
-        agent.speed = monsterData.MonsterSpeed;
+        agent.speed = MonsterData.MonsterSpeed;
         isAttack = false;
         firstHit = false;
         colorCoroutine = null;
-        if (monsterData.HasSkill)
+        if (MonsterData.HasSkill)
         {
-            monsterSkill = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == monsterData.MonsterSkillID);
-            skillTimer = monsterSkill.skillData.SkillCoolTime;
+            MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
+            skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
         }   
     }
 
@@ -108,21 +110,21 @@ public class BaseMonster : MonoBehaviour
 
         if (isAttack && !isSturn && attackTimer <= 0)
         {
-            if (monsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
+            if (MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
                 RangeAttack();
             else
                 MeleeAttack();
         }
 
-        if(monsterSkill != null)
+        if(MonsterSkillBaseData != null)
         {
             if (!isSturn)
                 skillTimer -= Time.deltaTime;
 
             if (skillTimer <= 0)
             {
-                skillTimer = monsterSkill.skillData.SkillCoolTime;
-                if (Random.Range(0f, 1f) <= monsterSkill.skillData.MonsterskillProbablilty)
+                skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
+                if (Random.Range(0f, 1f) <= MonsterSkillBaseData.skillData.MonsterskillProbablilty)
                     MonsterSkill();
             }
         }
@@ -132,8 +134,12 @@ public class BaseMonster : MonoBehaviour
 
     private void ApplyStatus()
     {
-        agent.speed = monsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
-        CurrentDef = monsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+        agent.speed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        CurrentDef = MonsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+        if (MonsterData.HasSkill)
+        {
+            CurrentSkillValue = MonsterSkillBaseData.skillData.MonsterskillEffectValue * SkillValueModifier;
+        }
     }
 
     void OnDrawGizmos()
@@ -181,7 +187,7 @@ public class BaseMonster : MonoBehaviour
     protected virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
-        MonsterManager.Instance.OnMonsterDeath();
+        MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
     }
 
@@ -192,11 +198,11 @@ public class BaseMonster : MonoBehaviour
 
     public int GetMonsterID()
     {
-        return monsterData.MonsterIndex;
+        return MonsterData.MonsterIndex;
     }
 
     //데미지 받을 떄 호출되는 함수
-    public void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount)
     {
         if(EvasionRate != -1f)
         {
@@ -237,8 +243,15 @@ public class BaseMonster : MonoBehaviour
     //도트 데미지 적용
     public void DotDamage(float amount, float duration)
     {
-        dotDamage = new DotDamageEffect(amount, duration);
-        effectHandler.AddEffect(dotDamage);
+        if(effectHandler.IsInEffect(dotDamage))
+        {
+            dotDamage = new DotDamageEffect(amount, duration);
+            effectHandler.AddEffect(dotDamage);
+        }
+        else
+        {
+            dotDamage.UpdateEffect(amount, duration);
+        }
     }
 
     //도트 데미지 해제
@@ -251,8 +264,15 @@ public class BaseMonster : MonoBehaviour
     public void ApplySturn(float duration, float amount = 0)
     {
         TakeDamage(amount);
-        sturn = new SturnEffect(amount, duration);
-        effectHandler.AddEffect(sturn);
+        if (effectHandler.IsInEffect(sturn))
+        {
+            sturn = new SturnEffect(amount, duration);
+            effectHandler.AddEffect(sturn);
+        }
+        else
+        {
+            sturn.UpdateEffect(amount, duration);
+        }
     }
 
     //스턴 해제
@@ -269,8 +289,16 @@ public class BaseMonster : MonoBehaviour
     //슬로우 적용
     public void ApplySlowdown(float amount, float duration)
     {
-        slowDown = new SlowEffect(amount, duration);
-        effectHandler.AddEffect(slowDown);
+        if (effectHandler.IsInEffect(slowDown))
+        {
+            slowDown = new SlowEffect(amount, duration);
+            effectHandler.AddEffect(slowDown);
+        }
+        else
+        {
+            slowDown.UpdateEffect(amount, duration);
+        }
+        
     }
 
     //슬로우 디버프 해제
@@ -282,8 +310,15 @@ public class BaseMonster : MonoBehaviour
     //방어력 감소 적용
     public void ApplyReducionDef(float amount, float duration)
     {
-        defDown = new DefDownEffect(amount, duration);
-        effectHandler.AddEffect(defDown);
+        if (effectHandler.IsInEffect(defDown))
+        {
+            defDown = new DefDownEffect(amount, duration);
+            effectHandler.AddEffect(defDown);
+        }
+        else
+        {
+            defDown.UpdateEffect(amount, duration);
+        }
     }
 
     //방어력 디버프 해제
@@ -292,22 +327,18 @@ public class BaseMonster : MonoBehaviour
         effectHandler.RemoveEffect(defDown);
     }
 
-    //넉백 적용
-    public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
-    {
-        Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
-
-        Vector2 targetPosition = (Vector2)transform.position + direction * distance;
-
-        transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
-        
-    }
-
     //방어력 버프
     public void ApplyDefBuff(float amount, float duration)
     {
-        defBuff = new DefBuffEffect(amount, duration);
-        effectHandler.AddEffect(defBuff);
+        if (effectHandler.IsInEffect(defBuff))
+        {
+            defBuff = new DefBuffEffect(amount, duration);
+            effectHandler.AddEffect(defBuff);
+        }
+        else
+        {
+            defBuff.UpdateEffect(amount, duration);
+        }
     }
 
     //방어력 버프 해제
@@ -319,10 +350,16 @@ public class BaseMonster : MonoBehaviour
     //이동속도 버프
     public void ApplySpeedBuff(float amount, float duration)
     {
-        speedBuff = new SpeedBuffEffect(amount, duration);
-        effectHandler.AddEffect(speedBuff);
+        if (effectHandler.IsInEffect(speedBuff))
+        {
+            speedBuff = new SpeedBuffEffect(amount, duration);
+            effectHandler.AddEffect(speedBuff);
+        }
+        else
+        {
+            speedBuff.UpdateEffect(amount, duration);
+        }
     }
-
 
     //이속 버프 해제
     public void CancelSpeedBuff()
@@ -333,14 +370,21 @@ public class BaseMonster : MonoBehaviour
     //회피율 버프
     public void ApplyEvasionBuff(float amount, float duration)
     {
-        EvasionBuff = new EvasionBuffEffect(amount, duration);
-        effectHandler.AddEffect(EvasionBuff);
+        if (effectHandler.IsInEffect(evasionBuff))
+        {
+            evasionBuff = new EvasionBuffEffect(amount, duration);
+            effectHandler.AddEffect(evasionBuff);
+        }
+        else
+        {
+            evasionBuff.UpdateEffect(amount,duration);
+        }
     }
 
     //회피 버프 해제
     public void CancelEvasionBuff()
     {
-        effectHandler.RemoveEffect(EvasionBuff);
+        effectHandler.RemoveEffect(evasionBuff);
     }
 
     //전체 디버프 해제
@@ -355,6 +399,17 @@ public class BaseMonster : MonoBehaviour
         effectHandler.RemoveAllBuff();
     }
 
+    //넉백 적용
+    public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
+    {
+        Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
+
+        Vector2 targetPosition = (Vector2)transform.position + direction * distance;
+
+        transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
+
+    }
+
     public bool IsFirstHit()
     {
         return firstHit;
@@ -364,4 +419,5 @@ public class BaseMonster : MonoBehaviour
     {
         firstHit = true;
     }
+
 }

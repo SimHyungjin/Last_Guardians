@@ -100,9 +100,9 @@ MonoBehaviour:
   - result: 39
     ingredient1: 4
     ingredient2: 8
-  - result: 40
+  - result: 39
     ingredient1: 4
-    ingredient2: 9
+    ingredient2: 8
   - result: 41
     ingredient1: 4
     ingredient2: 10
@@ -278,26 +278,56 @@ MonoBehaviour:
     ingredient1: 49
     ingredient2: 49
   - result: 99
-    ingredient1: 11
-    ingredient2: 83
+    ingredient1: 50
+    ingredient2: 50
   - result: 100
-    ingredient1: 60
-    ingredient2: 81
+    ingredient1: 51
+    ingredient2: 51
   - result: 101
-    ingredient1: 69
-    ingredient2: 26
+    ingredient1: 52
+    ingredient2: 52
   - result: 102
+    ingredient1: 53
+    ingredient2: 53
+  - result: 103
+    ingredient1: 54
+    ingredient2: 54
+  - result: 104
+    ingredient1: 55
+    ingredient2: 55
+  - result: 105
+    ingredient1: 56
+    ingredient2: 56
+  - result: 106
+    ingredient1: 57
+    ingredient2: 57
+  - result: 107
+    ingredient1: 58
+    ingredient2: 58
+  - result: 108
+    ingredient1: 59
+    ingredient2: 59
+  - result: 109
+    ingredient1: 60
+    ingredient2: 83
+  - result: 110
+    ingredient1: 70
+    ingredient2: 81
+  - result: 111
+    ingredient1: 69
+    ingredient2: 75
+  - result: 112
     ingredient1: 74
     ingredient2: 76
-  - result: 103
+  - result: 113
     ingredient1: 72
     ingredient2: 79
-  - result: 104
+  - result: 114
     ingredient1: 73
     ingredient2: 84
-  - result: 105
+  - result: 115
     ingredient1: 66
     ingredient2: 96
-  - result: 106
+  - result: 116
     ingredient1: 64
     ingredient2: 93

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -5,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class AttackTower:BaseTower
+public class AttackTower : BaseTower
 {
 
     [Header("공격")]
@@ -13,18 +14,27 @@ public class AttackTower:BaseTower
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
     public ProjectileFactory projectileFactory;
-    //버프목록 -> 팩토리에 전달
+    List<int> buffTowerIndex;
     private BaseMonster currentTargetMonster;
-
-    public override void Init(int index)
+    public float attackPower;
+    public float attackSpeed;
+    public override void Init(TowerData data)
     {
-        base.Init(index);
+        base.Init(data);
+        monsterLayer = LayerMask.GetMask("Monster");
         projectileFactory = FindObjectOfType<ProjectileFactory>();
+        attackPower = towerData.AttackPower;
+        attackSpeed = towerData.AttackSpeed;
+        buffTowerIndex = new List<int>();
+        if (towerData.SpecialEffect != SpecialEffect.None)
+        {
+            buffTowerIndex.Add(towerData.TowerIndex);
+        }
     }
     protected override void Update()
     {
         base.Update();
-        if (Time.time - lastCheckTime < towerData.AttackSpeed) return;
+        if (Time.time - lastCheckTime < attackSpeed) return;
         {
             FindTarget();
             if (projectileFactory == null || towerData == null)
@@ -79,13 +89,13 @@ public class AttackTower:BaseTower
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Magic:
-                projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform);
+                projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             case ProjectileType.Blast:
-                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform);
+                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             case ProjectileType.Arrow:
-                projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform);
+                projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             default:
                 Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");
@@ -108,6 +118,41 @@ public class AttackTower:BaseTower
         {
             currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
             currentTargetMonster = null;
+        }
+    }
+
+    public void AttackPowerBuff(float buff)
+    {
+        attackPower += attackPower*buff;
+        Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {attackPower}");
+    }
+    public void AttackSpeedBuff(float buff)
+    {
+        attackSpeed = attackSpeed /((1f+buff));
+        Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {attackSpeed}");
+    }
+
+    public void AddEffect(int targetIndex)
+    {
+        bool found = false;
+
+        for (int i = 0; i < buffTowerIndex.Count; i++)
+        {
+            if (buffTowerIndex[i] == targetIndex)
+            {
+                var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
+                if (existing.EffectValue < TowerManager.Instance.GetTowerData(targetIndex).EffectValue)
+                {
+                    buffTowerIndex[i] = targetIndex;
+                }
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            buffTowerIndex.Add(targetIndex);
         }
     }
 }

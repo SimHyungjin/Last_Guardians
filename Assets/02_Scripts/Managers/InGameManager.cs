@@ -7,6 +7,7 @@ public class InGameManager : Singleton<InGameManager>
 {
     public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
+    public int PlayerHP { get; private set; } = 20;
 
     //[SerializeField] private DeckHandler deckHandler;
     [SerializeField] private MulliganUI mulliganUI;
@@ -61,5 +62,10 @@ public class InGameManager : Singleton<InGameManager>
     {
         TowerManager.Instance.hand.AddCard(index);
         TowerManager.Instance.EndInteraction(InteractionState.Pause);
+    }
+
+    public void TakeDmage(int amount)
+    {
+        PlayerHP -= amount;
     }
 }

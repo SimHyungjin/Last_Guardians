@@ -26,10 +26,11 @@ public class BaseMonster : MonoBehaviour
 
     //몬스터 공격관련
     private float AttackRange;
-    protected float attackDelay = 3f;
+    protected float attackDelay = 1f;
     protected float attackTimer = 0f;
     private bool isAttack = false;
     protected float skillTimer = 0f;
+    protected bool firstHit = false;
 
     //목표지점 관련
     public LayerMask targetLayer;
@@ -320,5 +321,15 @@ public class BaseMonster : MonoBehaviour
     public void CancelAllBuff()
     {
         effectHandler.RemoveAllBuff();
+    }
+
+    public bool IsFirstHit()
+    {
+        return firstHit;
+    }
+
+    public void SetFirstHit()
+    {
+        firstHit = true;
     }
 }

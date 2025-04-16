@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class BossMonster : BaseMonster
 {
+    public override void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+        DamageText damageText = PoolManager.Instance.Spawn<DamageText>(MonsterManager.Instance.DamageTextPrefab);
+        damageText.gameObject.transform.SetParent(MonsterManager.Instance.DamageUICanvas.transform);
+        Vector3 worldPos = transform.position + Vector3.up * 0.1f;
+        worldPos.z = 0;
+        damageText.transform.position = worldPos;
+        damageText.Show(amount);
+    }
+
     protected override void MeleeAttack()
     {
         base.MeleeAttack();

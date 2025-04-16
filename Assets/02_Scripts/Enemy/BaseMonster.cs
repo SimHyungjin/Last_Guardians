@@ -196,7 +196,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //데미지 받을 떄 호출되는 함수
-    public void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount)
     {
         if(EvasionRate != -1f)
         {

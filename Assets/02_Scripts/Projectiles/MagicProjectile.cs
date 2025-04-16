@@ -58,22 +58,12 @@ public class MagicProjectile : ProjectileBase
                 if (effects[i] == null) continue;
                 if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
                 else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
-
-                Debug.Log($"이펙트 적용 {effects[i].GetType()}");
                 Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
             }
-
-            //foreach (IEffect effect in effects)
-            //{
-            //    if (effect == null) continue;
-            //    if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
-            //    else effect.Apply(target, towerData);
-            //}
-
             
             OnDespawn();
             PoolManager.Instance.Despawn<MagicProjectile>(this);
-
+            Debug.Log("사라지기 싫어~");
         }
     }
 

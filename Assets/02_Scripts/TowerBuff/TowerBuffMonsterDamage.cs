@@ -1,4 +1,4 @@
-public class TowerBuffMonsterSlow : ITowerBuff
+public class TowerBuffMonsterDamage : ITowerBuff
 {
     public void ApplyBuff(BaseTower tower, TowerData data)
     {
@@ -6,6 +6,6 @@ public class TowerBuffMonsterSlow : ITowerBuff
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {
-        monster.ApplySlowdown(data.EffectValue, 0.1f);
+        monster.TakeDamage(data.EffectValue);
     }
 }

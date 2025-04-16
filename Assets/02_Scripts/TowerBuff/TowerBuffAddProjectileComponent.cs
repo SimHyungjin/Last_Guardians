@@ -1,11 +1,14 @@
-public class TowerBuffMonsterSlow : ITowerBuff
+public class TowerBuffAddProjectileComponent : ITowerBuff
 {
     public void ApplyBuff(BaseTower tower, TowerData data)
     {
-
+        if (tower is AttackTower attackTower)
+        {
+            
+        }
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {
-        monster.ApplySlowdown(data.EffectValue, 0.1f);
+
     }
 }

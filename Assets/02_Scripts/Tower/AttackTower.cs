@@ -123,7 +123,7 @@ public class AttackTower : BaseTower
     }
     public void AttackSpeedBuff(float buff)
     {
-        attackSpeed = attackSpeed /(1f+buff));
+        attackSpeed = attackSpeed /((1f+buff));
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {attackSpeed}");
     }
 }

@@ -53,7 +53,7 @@ public class BaseMonster : MonoBehaviour
     private StatusEffect defDown;
     private StatusEffect defBuff;
     private StatusEffect speedBuff;
-    private StatusEffect EvasionBuff;
+    private StatusEffect evasionBuff;
     public bool isSturn = false;
     public float EvasionRate { get; set; } = -1f;
 
@@ -237,8 +237,15 @@ public class BaseMonster : MonoBehaviour
     //도트 데미지 적용
     public void DotDamage(float amount, float duration)
     {
-        dotDamage = new DotDamageEffect(amount, duration);
-        effectHandler.AddEffect(dotDamage);
+        if(effectHandler.IsInEffect(dotDamage))
+        {
+            dotDamage = new DotDamageEffect(amount, duration);
+            effectHandler.AddEffect(dotDamage);
+        }
+        else
+        {
+            dotDamage.UpdateEffect(amount, duration);
+        }
     }
 
     //도트 데미지 해제
@@ -251,8 +258,15 @@ public class BaseMonster : MonoBehaviour
     public void ApplySturn(float duration, float amount = 0)
     {
         TakeDamage(amount);
-        sturn = new SturnEffect(amount, duration);
-        effectHandler.AddEffect(sturn);
+        if (effectHandler.IsInEffect(sturn))
+        {
+            sturn = new SturnEffect(amount, duration);
+            effectHandler.AddEffect(sturn);
+        }
+        else
+        {
+            sturn.UpdateEffect(amount, duration);
+        }
     }
 
     //스턴 해제
@@ -269,8 +283,16 @@ public class BaseMonster : MonoBehaviour
     //슬로우 적용
     public void ApplySlowdown(float amount, float duration)
     {
-        slowDown = new SlowEffect(amount, duration);
-        effectHandler.AddEffect(slowDown);
+        if (effectHandler.IsInEffect(slowDown))
+        {
+            slowDown = new SlowEffect(amount, duration);
+            effectHandler.AddEffect(slowDown);
+        }
+        else
+        {
+            slowDown.UpdateEffect(amount, duration);
+        }
+        
     }
 
     //슬로우 디버프 해제
@@ -282,8 +304,15 @@ public class BaseMonster : MonoBehaviour
     //방어력 감소 적용
     public void ApplyReducionDef(float amount, float duration)
     {
-        defDown = new DefDownEffect(amount, duration);
-        effectHandler.AddEffect(defDown);
+        if (effectHandler.IsInEffect(defDown))
+        {
+            defDown = new DefDownEffect(amount, duration);
+            effectHandler.AddEffect(defDown);
+        }
+        else
+        {
+            defDown.UpdateEffect(amount, duration);
+        }
     }
 
     //방어력 디버프 해제
@@ -292,22 +321,18 @@ public class BaseMonster : MonoBehaviour
         effectHandler.RemoveEffect(defDown);
     }
 
-    //넉백 적용
-    public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
-    {
-        Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
-
-        Vector2 targetPosition = (Vector2)transform.position + direction * distance;
-
-        transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
-        
-    }
-
     //방어력 버프
     public void ApplyDefBuff(float amount, float duration)
     {
-        defBuff = new DefBuffEffect(amount, duration);
-        effectHandler.AddEffect(defBuff);
+        if (effectHandler.IsInEffect(defBuff))
+        {
+            defBuff = new DefBuffEffect(amount, duration);
+            effectHandler.AddEffect(defBuff);
+        }
+        else
+        {
+            defBuff.UpdateEffect(amount, duration);
+        }
     }
 
     //방어력 버프 해제
@@ -319,10 +344,16 @@ public class BaseMonster : MonoBehaviour
     //이동속도 버프
     public void ApplySpeedBuff(float amount, float duration)
     {
-        speedBuff = new SpeedBuffEffect(amount, duration);
-        effectHandler.AddEffect(speedBuff);
+        if (effectHandler.IsInEffect(speedBuff))
+        {
+            speedBuff = new SpeedBuffEffect(amount, duration);
+            effectHandler.AddEffect(speedBuff);
+        }
+        else
+        {
+            speedBuff.UpdateEffect(amount, duration);
+        }
     }
-
 
     //이속 버프 해제
     public void CancelSpeedBuff()
@@ -333,14 +364,21 @@ public class BaseMonster : MonoBehaviour
     //회피율 버프
     public void ApplyEvasionBuff(float amount, float duration)
     {
-        EvasionBuff = new EvasionBuffEffect(amount, duration);
-        effectHandler.AddEffect(EvasionBuff);
+        if (effectHandler.IsInEffect(evasionBuff))
+        {
+            evasionBuff = new EvasionBuffEffect(amount, duration);
+            effectHandler.AddEffect(evasionBuff);
+        }
+        else
+        {
+            evasionBuff.UpdateEffect(amount,duration);
+        }
     }
 
     //회피 버프 해제
     public void CancelEvasionBuff()
     {
-        effectHandler.RemoveEffect(EvasionBuff);
+        effectHandler.RemoveEffect(evasionBuff);
     }
 
     //전체 디버프 해제
@@ -353,6 +391,17 @@ public class BaseMonster : MonoBehaviour
     public void CancelAllBuff()
     {
         effectHandler.RemoveAllBuff();
+    }
+
+    //넉백 적용
+    public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
+    {
+        Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
+
+        Vector2 targetPosition = (Vector2)transform.position + direction * distance;
+
+        transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
+
     }
 
     public bool IsFirstHit()

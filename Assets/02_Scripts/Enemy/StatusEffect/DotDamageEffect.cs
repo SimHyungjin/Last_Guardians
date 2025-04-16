@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DotDamageEffect : StatusEffect
 {
-    private float tickTime = 1f; // 데미지 들어가는 주기
+    private float tickTime = 0.5f; // 데미지 들어가는 주기
     private float timer; 
 
     public DotDamageEffect(float duration, float damage) : base(duration, damage)
@@ -23,6 +23,7 @@ public class DotDamageEffect : StatusEffect
             {
                 target.TakeDamage(Amount);
                 Debug.Log($"도트데미지 적용 {Amount} 현재체력 : {target.CurrentHP}");
+                Debug.Log($"남은시간 : {Duration}");
                 timer = tickTime;
             }
         }

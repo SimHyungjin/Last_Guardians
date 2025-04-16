@@ -41,7 +41,7 @@ public abstract class StatusEffect
     public void UpdateEffect(float amout, float duration)
     {
         Duration = duration;
-        Amount = amout;
+        Amount = Mathf.Max(Amount, amout);
     }
 
 }

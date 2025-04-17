@@ -22,6 +22,7 @@ public class BuffTower : BaseTower
     {
         base.Init(data);
         towerLayer = LayerMask.GetMask("Tower");
+        monsterLayer = LayerMask.GetMask("Monster");
         BuffSelect(data);
         ApplyBuffOnPlacement();
     }

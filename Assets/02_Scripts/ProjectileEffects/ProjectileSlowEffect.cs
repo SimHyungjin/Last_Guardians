@@ -7,6 +7,8 @@ public class ProjectileSlowEffect : MonoBehaviour,IEffect
     public void Apply(BaseMonster target, TowerData towerData)
     {
         target.ApplySlowdown(towerData.EffectValue, towerData.EffectDuration);
+
+        Debug.Log($"기본 슬로우 {towerData.EffectValue},{towerData.EffectDuration}");
     }
     public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
@@ -14,5 +16,6 @@ public class ProjectileSlowEffect : MonoBehaviour,IEffect
         {
             target.ApplySlowdown(towerData.EffectValue, towerData.EffectDuration);
         }
+        Debug.Log($"찬스 슬로우 {towerData.EffectValue},{towerData.EffectDuration}");
     }
 }

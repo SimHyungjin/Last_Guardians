@@ -28,16 +28,16 @@ public class ProjectileFactory : MonoBehaviour
     {
         { SpecialEffect.DotDamage, typeof(ProjectileDotDamageEffect) },
         { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
-        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//¹Ì±¸Çö
-        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//¹Ì±¸Çö
+        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//ë¯¸êµ¬í˜„
         { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
-        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//¹Ì±¸Çö
-        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//¹Ì±¸Çö
-        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//¹Ì±¸Çö
-        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//¹Ì±¸Çö
-        { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//¹Ì±¸Çö
-        { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//¹Ì±¸Çö
-        { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//¹Ì±¸Çö
+        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },//ë¯¸êµ¬í˜„
+        { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//ë¯¸êµ¬í˜„
         { SpecialEffect.None, null }
     };
 
@@ -52,28 +52,28 @@ public class ProjectileFactory : MonoBehaviour
                 projectileMap.Add(entry.type, entry.prefab);
             }
             else
-                Debug.LogWarning($"[ProjectileFactory] Áßº¹µÈ projectileType: {entry.type}");
+                Debug.LogWarning($"[ProjectileFactory] ì¤‘ë³µëœ projectileType: {entry.type}");
         }
     }
     public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent,List<int> buffTowerIndex) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
         {
-            Debug.LogError($"[ProjectileFactory] Å¸ÀÔ¿¡ ÇØ´çÇÏ´Â ÇÁ¸®ÆÕ ¾øÀ½: {towerData.ProjectileType}");
+            Debug.LogError($"[ProjectileFactory] íƒ€ì…ì— í•´ë‹¹í•˜ëŠ” í”„ë¦¬íŒ¹ ì—†ìŒ: {towerData.ProjectileType}");
             return;
         }
 
         var castedPrefab = prefab as T;
         if (castedPrefab == null)
         {
-            Debug.LogError($"[ProjectileFactory] ÇÁ¸®ÆÕ Å¸ÀÔ ºÒÀÏÄ¡: {towerData.ProjectileType} ¡æ {typeof(T)} ±â´ëµÊ");
+            Debug.LogError($"[ProjectileFactory] í”„ë¦¬íŒ¹ íƒ€ì… ë¶ˆì¼ì¹˜: {towerData.ProjectileType} â†’ {typeof(T)} ê¸°ëŒ€ë¨");
             return;
         }
 
         var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
         projectile.Init(towerData, buffTowerIndex);
         AddAllEffects(projectile, towerData, buffTowerIndex);
-        projectile.Launch(targetPos); // ÀÌÆåÆ® Ãß°¡
+        projectile.Launch(targetPos); // ì´í™íŠ¸ ì¶”ê°€
     }
     //AddEffectComponent(projectile, towerData);
     //private void AddEffectComponent(ProjectileBase projectile, TowerData data)
@@ -84,7 +84,7 @@ public class ProjectileFactory : MonoBehaviour
     //    {
     //        var go = projectile.gameObject;
 
-    //        // Áßº¹ ¹æÁö
+    //        // ì¤‘ë³µ ë°©ì§€
     //        if (!go.TryGetComponent(effectType, out var existing))
     //        {
     //            var added = go.AddComponent(effectType) as IEffect;
@@ -100,6 +100,15 @@ public class ProjectileFactory : MonoBehaviour
     {
         var go = projectile.gameObject;
         var effectList = new List<TowerData>();
+
+        var components = go.GetComponents<MonoBehaviour>();
+        foreach (var comp in components)
+        {
+            if (comp is IEffect)
+            {
+                Destroy(comp);
+            }
+        }
 
         foreach (int index in buffTowerIndex)
         {

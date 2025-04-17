@@ -7,7 +7,6 @@ public class BlastZone : MonoBehaviour
 {
     public void Init(TowerData towerData,Transform _blastpos)
     {
-        transform.position = _blastpos.position;
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}BlastEffect";
         string path = $"Assets/91_Disign/Sprite/ProjectileImage/BlastEffects/{spritename}.png";
@@ -15,6 +14,9 @@ public class BlastZone : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = sprite;
 #endif
         StartCoroutine(BlastEffect());
+        Debug.Log($"폭발위치 {_blastpos}");
+        transform.position = _blastpos.position;
+        Debug.Log($"생성위치 {transform.position}");
     }
     private IEnumerator BlastEffect()
     {

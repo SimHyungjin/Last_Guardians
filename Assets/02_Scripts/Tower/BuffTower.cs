@@ -127,7 +127,8 @@ public class BuffTower : BaseTower
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
-
+                if(otherTower is AttackTower attackTower)
+                    attackTower.RemoveEffect(towerData.TowerIndex);
             }
         }
 

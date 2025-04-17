@@ -19,7 +19,6 @@ public class BlastProjectile : ProjectileBase
     public override void Init(TowerData _towerData, List<int> _effectslist)
     {
         base.Init(_towerData,_effectslist);
-        Totaldistance = Vector2.Distance(startPos, targetPos);
         monsterLayer = LayerMask.GetMask("Monster");
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
@@ -36,15 +35,16 @@ public class BlastProjectile : ProjectileBase
         float traveled = Vector2.Distance(startPos, transform.position);
         float ratio = traveled / Totaldistance;
 
-        if (!canHit && ratio >= 0.8f)
+        if (!canHit && ratio >= 0.6f)
         {
             Debug.Log("canHit");
             canHit = true;
         }
     }
-
+ 
     protected override void ProjectileMove()
     {
+        Totaldistance = Vector2.Distance(startPos, targetPos);
         Vector2 start = transform.position;
         Vector2 dir = (targetPos - start).normalized;
         //float distance = Vector2.Distance(start, targetPos);
@@ -69,7 +69,6 @@ public class BlastProjectile : ProjectileBase
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {
-                Debug.Log("바닥에서터짐");
                 Explode();
             });
     }
@@ -78,9 +77,10 @@ public class BlastProjectile : ProjectileBase
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit&&!canHit) return;
+        hasHit = true;
+        canHit = false;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            Debug.Log("몬스터와 충돌");
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
             moveTween.Kill();
@@ -92,27 +92,28 @@ public class BlastProjectile : ProjectileBase
     private void Explode()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius, monsterLayer);
-
+        int count = 0;
         foreach (var hit in hits)
         {
             BaseMonster monster = hit.GetComponent<BaseMonster>();
             if (monster != null)
             {
+                count++;
                 if (effects == null) return;
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
                     if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
-                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
+                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]));
 
-                    Debug.Log($"이펙트 적용 {effects[i].GetType()}");
                     Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
+                    Debug.Log($"이펙트 적용 {monster}");
                 }
             }
-
-            OnDespawn();
-            PoolManager.Instance.Despawn<BlastProjectile>(this);
         }
+        Debug.Log($"폭발범위안에 몬스터 {count}");
+        OnDespawn();
+        PoolManager.Instance.Despawn<BlastProjectile>(this);
     }
     public override void OnSpawn()
     {
@@ -127,6 +128,5 @@ public class BlastProjectile : ProjectileBase
         target = null;
         //effect = null;
         effects.Clear();
-    }
-    
+    }  
 }

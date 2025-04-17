@@ -4,7 +4,7 @@ public class TowerBuffAddProjectileComponent : ITowerBuff
     {
         if (tower is AttackTower attackTower)
         {
-            
+            attackTower.AddEffect(data.TowerIndex);
         }
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)

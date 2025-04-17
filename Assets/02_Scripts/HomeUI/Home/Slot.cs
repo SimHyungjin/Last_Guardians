@@ -55,7 +55,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         switch (data.Data.itemGrade)
         {
             case ItemGrade.Normal:
-                gradeEffect.color = new Color(0f, 0f, 0f);
+                gradeEffect.color = new Color(1f, 1f, 1f);
                 break;
             case ItemGrade.Rare:
                 gradeEffect.color = new Color(0.2f, 0.6f, 1f);

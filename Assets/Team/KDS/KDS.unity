@@ -2849,10 +2849,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackRangeCircle
       objectReference: {fileID: 0}
-    - target: {fileID: 3326489038739416702, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

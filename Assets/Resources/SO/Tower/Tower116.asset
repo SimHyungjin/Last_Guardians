@@ -24,10 +24,10 @@ MonoBehaviour:
   elementType: 0
   specialEffect: 0
   effectChance: 1
-  effectDuration: 10
+  effectDuration: 0.2
   effectValue: 12
   effectTarget: 1
   effectTargetCount: 0
   bossImmune: 0
   upgradeLevel: 3
-  towerDescription: "10\uCD08\uAC04 \uC8FC\uBCC0\uC801 \uC9C0\uC18D \uD53C\uD574"
+  towerDescription: "\uC8FC\uBCC0\uC801 \uC9C0\uC18D \uD53C\uD574"

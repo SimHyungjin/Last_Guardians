@@ -4582,7 +4582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 8019884509423294679}
-  towerCombinationData: {fileID: 0}
+  towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
   towerbuilder: {fileID: 648171797}
   projectileFactory: {fileID: 0}
 --- !u!4 &648171799
@@ -16637,7 +16637,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
-        m_MethodName: SubThree
+        m_MethodName: AddEight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19533,7 +19533,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
-        m_MethodName: SubFive
+        m_MethodName: AddTen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21335,7 +21335,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
-        m_MethodName: SubOen
+        m_MethodName: AddSix
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21638,7 +21638,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
-        m_MethodName: SubTwo
+        m_MethodName: AddSeven
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27824,7 +27824,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9025724243452576438}
         m_TargetAssemblyTypeName: CardEditer, Assembly-CSharp
-        m_MethodName: SubFour
+        m_MethodName: AddNine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

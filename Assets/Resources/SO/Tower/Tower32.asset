@@ -24,11 +24,11 @@ MonoBehaviour:
   elementType: 1
   specialEffect: 1
   effectChance: 1
-  effectDuration: 0
+  effectDuration: 4
   effectValue: 0.2
   effectTarget: 4
   effectTargetCount: 0
   bossImmune: 0
   upgradeLevel: 1
-  towerDescription: "\uBC18\uACBD \uB0B4 \uD0C0\uC6CC\uB4E4\uC774 \uC774\uB3D9\uC18D\uB3C4
-    20% \uAC10\uC18C"
+  towerDescription: "\uBC18\uACBD \uB0B4 \uD0C0\uC6CC\uB4E4\uC5D0\uAC8C 4\uCD08 \uB3D9\uC548 
+    \uC774\uB3D9\uC18D\uB3C4 20% \uAC10\uC18C"

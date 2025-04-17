@@ -10,17 +10,17 @@ public class BlastProjectile : ProjectileBase
     public BlastZone blastEffect;
 
     public BaseMonster target;
-    private float arcHeight = 0.4f;
-    private float duration = 0.5f;
     private Tweener moveTween;
     private float ExplosionRadius = 1f; // 폭발 반경
     private bool canHit = false;
     private float Totaldistance;
+    private LayerMask monsterLayer;
     [SerializeField] private bool hasHit = false;
     public override void Init(TowerData _towerData, List<int> _effectslist)
     {
         base.Init(_towerData,_effectslist);
         Totaldistance = Vector2.Distance(startPos, targetPos);
+        monsterLayer = LayerMask.GetMask("Monster");
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         speed = 2f;
@@ -91,18 +91,28 @@ public class BlastProjectile : ProjectileBase
 
     private void Explode()
     {
-        //터지면서 주변에 장판 생성,주변에 OverlapCircleAll 범위 1f만큼 효과부여
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius, monsterLayer);
 
-        //if (towerData.SpecialEffect == SpecialEffect.None || effect == null)
-        //{
-        //    OnDespawn();
-        //    PoolManager.Instance.Despawn<ProjectileBase>(this);
-        //    return;
-        //}
-        //if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
-        //else effect.Apply(target, towerData);
-        OnDespawn();
-        PoolManager.Instance.Despawn<BlastProjectile>(this);
+        foreach (var hit in hits)
+        {
+            BaseMonster monster = hit.GetComponent<BaseMonster>();
+            if (monster != null)
+            {
+                if (effects == null) return;
+                for (int i = 0; i < effects.Count; i++)
+                {
+                    if (effects[i] == null) continue;
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
+                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
+
+                    Debug.Log($"이펙트 적용 {effects[i].GetType()}");
+                    Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
+                }
+            }
+
+            OnDespawn();
+            PoolManager.Instance.Despawn<BlastProjectile>(this);
+        }
     }
     public override void OnSpawn()
     {

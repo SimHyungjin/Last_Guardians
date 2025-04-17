@@ -157,6 +157,7 @@ public abstract class BaseTower : MonoBehaviour
     {
         if (isCliked)
         {
+            TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
             isCliked = false;
             TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
             TowerManager.Instance.EndInteraction(InteractionState.TowerMoving);

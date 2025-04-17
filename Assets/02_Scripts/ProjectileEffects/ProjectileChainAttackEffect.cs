@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class ProjectileChainAttackEffect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Apply(BaseMonster target, TowerData towerData)
     {
+        if(towerData.EffectTarget==EffectTarget.All)
+        {
+            target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+        }
+        else
+        {
+            BossMonster bossMonster = target.GetComponent<BossMonster>();
+            if(bossMonster != null)
+            {
+                bossMonster.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+            }
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        
+        throw new System.NotImplementedException();
     }
 }

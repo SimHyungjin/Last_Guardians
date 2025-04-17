@@ -25,4 +25,4 @@ MonoBehaviour:
   hasSkill: 0
   monsterSkillID: 0
   monsterAttackPattern: 0
-  image: {fileID: 21300000, guid: 71cf517d2bde8004daa5f6b1737dd1f7, type: 3}
+  image: {fileID: 0}

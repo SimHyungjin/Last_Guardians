@@ -99,6 +99,7 @@ public class BaseMonster : MonoBehaviour
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
             skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
+            Debug.Log($"{MonsterData.MonsterName} : {MonsterSkillBaseData.skillData.SkillName} 가지고 있음");
         }   
     }
 

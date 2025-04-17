@@ -27,7 +27,7 @@ public class BossMonster : BaseMonster
         else
         {
             InGameManager.Instance.TakeDmage(2);
-            Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
+            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 2");
         }
         
         attackTimer = attackDelay;
@@ -45,7 +45,7 @@ public class BossMonster : BaseMonster
         else
         {
             InGameManager.Instance.TakeDmage(2);
-            Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
+            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 2");
         }
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = MonsterData;

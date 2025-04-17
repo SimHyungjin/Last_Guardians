@@ -21,8 +21,29 @@ public class TowerEntryUI : MonoBehaviour
         attackRangeText.text = $"사거리: {data.AttackRange}";
         towerTypeText.text = $"타입: {data.TowerType}";
         effectTargetText.text = $"타겟: {data.EffectTarget}";
-        icon.sprite = data.atlas?.GetSprite(data.TowerName); // 아이콘 있으면 표시
+
+        int spriteIndex;
+
+        if (data.TowerIndex > 49 && data.TowerIndex < 99)
+        {
+            spriteIndex = data.TowerIndex - 49;
+        }
+        else if (data.TowerIndex > 98 && data.TowerIndex < 109)
+        {
+            spriteIndex = data.TowerIndex - 98;
+        }
+        else if (data.TowerIndex > 108)
+        {
+            spriteIndex = data.TowerIndex - 59;
+        }
+        else
+        {
+            spriteIndex = data.TowerIndex;
+        }
+
+        icon.sprite = data.atlas?.GetSprite($"Tower_{spriteIndex}");
     }
 }
+
 
 

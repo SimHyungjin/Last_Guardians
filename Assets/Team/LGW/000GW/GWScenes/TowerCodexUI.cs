@@ -19,6 +19,8 @@ public class TowerCodexUI : MonoBehaviour
         GenerateCodex();
     }
 
+    [SerializeField] private GameObject dummySpacerPrefab;
+
     void GenerateCodex()
     {
         Debug.Log($"타워 개수: {towerDataList.Count}");
@@ -30,11 +32,19 @@ public class TowerCodexUI : MonoBehaviour
         {
             Debug.Log($"타워 생성 중: {data.TowerName}");
 
-            var entryGO = Instantiate(entryPrefab, gridParent); 
+            var entryGO = Instantiate(entryPrefab, gridParent);
             var entry = entryGO.GetComponent<TowerEntryUI>();
             entry.SetData(data);
         }
+
+        
+        if (dummySpacerPrefab != null)
+        {
+            Instantiate(dummySpacerPrefab, gridParent);
+        }
     }
+
+
 
     [ContextMenu("Find All TowerData")]
     public void FindAllTowerData()

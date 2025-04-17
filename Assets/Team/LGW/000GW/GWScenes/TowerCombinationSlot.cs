@@ -20,7 +20,24 @@ public class TowerCombinationSlot : MonoBehaviour
     {
         towerData = data;
         towerNameText.text = data.TowerName;
-        icon.sprite = data.Icon; // 아이콘이 있으면
+        int spriteIndex = data.TowerIndex;
+        if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
+        {
+            spriteIndex = towerData.TowerIndex - 49;
+        }
+        else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
+        {
+            spriteIndex = towerData.TowerIndex - 98;
+        }
+        else if (towerData.TowerIndex > 108)
+        {
+            spriteIndex = towerData.TowerIndex - 59;
+        }
+        else
+        {
+            spriteIndex = towerData.TowerIndex;
+        }
+        icon.sprite = data.atlas.GetSprite($"Tower_{spriteIndex}"); // 아이콘이 있으면
     }
 }
 

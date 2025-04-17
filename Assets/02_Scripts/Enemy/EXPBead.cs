@@ -20,7 +20,7 @@ public class EXPBead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("경험치 구슬 충돌");
+        //Debug.Log("경험치 구슬 충돌");
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             InGameManager.Instance.GetExp(EXP);

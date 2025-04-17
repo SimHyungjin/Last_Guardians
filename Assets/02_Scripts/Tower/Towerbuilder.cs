@@ -27,7 +27,8 @@ public class Towerbuilder : MonoBehaviour
     public Transform targetPosition;
     public GameObject dummyTowerPrefab;
 
-
+    [Header("타워설치")]
+    public SpriteRenderer attackRangeCircle;
 
     private float lastCheckTime = 0f;
     private float checkCooldown = 0.2f;
@@ -228,7 +229,6 @@ public class Towerbuilder : MonoBehaviour
                     cheakedTower = null;
                     GetSprite(TowerManager.Instance.hand.HighlightedIndex);
                 }
-
                 lastCheckTime = Time.time;
                 lastCheckedTile = currentTile;
                 ghostTower.transform.position = currentTile;
@@ -240,6 +240,7 @@ public class Towerbuilder : MonoBehaviour
                         if (canPlace)
                         {
                             ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+                            OnAttackRangeCircle(currentTile, TowerManager.Instance.GetTowerData(TowerManager.Instance.hand.HighlightedIndex));
                         }
                         else if (CanCardToTowerCombine(currentTile, TowerManager.Instance.hand.HighlightedIndex))
                         {
@@ -250,10 +251,12 @@ public class Towerbuilder : MonoBehaviour
                             cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
                             GetSprite(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex));
                             ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+                            OnAttackRangeCircle(currentTile, TowerManager.Instance.GetTowerData(towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex)));
                         }
                         else
                         {
                             ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.3f);
+                            EndAttackRangeCircle();
                         }
                     }));
             }
@@ -311,10 +314,12 @@ public class Towerbuilder : MonoBehaviour
                 ghostTower.transform.position = currentTile;
                 GetSprite(towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex));
                 ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
+                OnAttackRangeCircle(currentTile, TowerManager.Instance.GetTowerData(towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex)));
             }
             else
             {
                 ghostTower.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 0.3f);
+                EndAttackRangeCircle();
             }
         }
     }
@@ -331,5 +336,16 @@ public class Towerbuilder : MonoBehaviour
             Destroy(ghostTower);
             ghostTower = null;
         }
+    }
+    public void OnAttackRangeCircle(Vector2 constructPos,TowerData towerData)
+    {
+        attackRangeCircle.gameObject.SetActive(true);
+        attackRangeCircle.transform.position = constructPos;
+        attackRangeCircle.transform.localScale = new Vector3(towerData.AttackRange, towerData.AttackRange, 1);
+    }
+
+    public void EndAttackRangeCircle()
+    {
+        attackRangeCircle.gameObject.SetActive(false);
     }
 }

@@ -31,7 +31,6 @@ public class TrapObjectTower : BaseTower
             TrapObject trap = trapGO.GetComponent<TrapObject>();
             trap.Init(towerData);
             traps.Add(trap);
-            trap.gameObject.SetActive(false);
         }
     }
 

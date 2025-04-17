@@ -54,8 +54,7 @@ public abstract class BaseTower : MonoBehaviour
                 spriteIndex = towerData.TowerIndex;
             }
             sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
-            towerGhost = towerData.towerGhostPrefab;
-            
+            towerGhost = towerData.towerGhostPrefab;       
         }
     }
     protected virtual void Update()

@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3750132958440222948}
   - component: {fileID: 313663710693198005}
   - component: {fileID: -6911492075898494675}
-  m_Layer: 0
+  - component: {fileID: 2530111282139302248}
+  m_Layer: 11
   m_Name: TrapObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,3 +98,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e678391fd94be504dacd403d59bd2763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildBlockMask:
+    serializedVersion: 2
+    m_Bits: 3200
+--- !u!58 &2530111282139302248
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4118459537282430882}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

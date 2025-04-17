@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static UnityEditor.PlayerSettings;
+using Unity.VisualScripting;
 public interface ITrapEffect
 {
     void Apply(BaseMonster target, TowerData towerData);
 }
-
 public enum TrapObjectState
 {
     CantActive, 
@@ -16,38 +16,51 @@ public enum TrapObjectState
 }
 public class TrapObject : MonoBehaviour
 {
-    private ITrapEffect trapEffect;
+    
+    [SerializeField] private List<int> trapEffectIndex;
     [SerializeField] private LayerMask buildBlockMask;
-    private TrapObjectState currentState = TrapObjectState.CantActive;
+    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private Collider2D col;
+    private TowerData towerData;
+    private TrapObjectState currentState;
     private float cooldownTime;
-    public void Init(TowerData towerData)
+    public  void Init(TowerData towerData)
     {
-
+        this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
+        trapEffectIndex = new List<int>();
+        sr = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
+        if (towerData.SpecialEffect != SpecialEffect.None)
+        {
+            trapEffectIndex.Add(towerData.TowerIndex);
+        }
 
-        if (effectTypeMap.TryGetValue(towerData.SpecialEffect, out var effectType))
-        {
-                var effect = gameObject.AddComponent(effectType) as ITrapEffect;
-                trapEffect = effect;
-        }
-        else
-        {
-            Debug.LogWarning($"[TrapObject] 등록되지 않은 SpecialEffect: {towerData.SpecialEffect}");
-        }
-        buildBlockMask=LayerMask.GetMask("Tower", "Obstacle");
+        buildBlockMask =LayerMask.GetMask("Tower", "Obstacle","TrapObject");
         
-        if (IsAnyObjectOnTile(new Vector2(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y))))
+        if (IsAnyObjectOnTile())
         {
             Debug.Log("타일에 충돌체있음");
+            UnActive(TrapObjectState.CantActive);
         }
         else
         {
             Debug.Log("타일에 충돌체없음");
+            ChageState(TrapObjectState.Ready);
         }
-        //Collider2D hit = Physics2D.OverlapPoint(worldPos, LayerMask.GetMask("Tower", "Obstacle"));이면 설치못하게
-        //Vector2(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
     }
-
+    private  void Update()
+    {
+        if (currentState == TrapObjectState.Cooldown)
+        {
+            cooldownTime -= Time.deltaTime;
+            if (cooldownTime <= 0)
+            {
+                OnActive();
+                cooldownTime = towerData.EffectDuration;
+            }
+        }
+    }
 
     private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
     {
@@ -57,14 +70,53 @@ public class TrapObject : MonoBehaviour
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },//미구현
     };
 
-    public bool IsAnyObjectOnTile(Vector2 tilePos)
+    public bool IsAnyObjectOnTile()
     {
-        Collider2D hit = Physics2D.OverlapPoint(tilePos, buildBlockMask);
+        Collider2D hit = Physics2D.OverlapPoint(PostionArray(), buildBlockMask);
         return hit != null;
     }
-
+    public Vector2 PostionArray()
+    {
+        return new Vector2(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
+    }
     public void ChageState(TrapObjectState trapObjectState)
     {
         currentState = trapObjectState;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (currentState != TrapObjectState.Ready) return;
+        if (collision.CompareTag("Monster"))
+        {
+            BaseMonster monster = collision.GetComponent<BaseMonster>();
+            if (monster != null)
+            {
+                //foreach (int effectIndex in trapEffectIndex)
+                //{
+                //    SpecialEffect effect = (SpecialEffect)effectIndex;
+                //    Type effectType = effectTypeMap[effect];
+                //    ITrapEffect trapEffect = (ITrapEffect)Activator.CreateInstance(effectType);
+                //    trapEffect.Apply(monster, TowerManager.Instance.TowerData[effectIndex]);
+                //}
+                Debug.Log("효과뿌렷고 쿨타임돈다");
+                UnActive(TrapObjectState.Cooldown);
+            }
+        }
+    }
+
+    public void OnActive()
+    {
+        ChageState(TrapObjectState.Ready);
+        sr.enabled = true;
+        col.enabled = true;
+    }
+
+    public void UnActive(TrapObjectState trapObjectState)
+    {
+        ChageState(trapObjectState);
+        sr.enabled = false;
+        col.enabled = false;
+    }
+
 }

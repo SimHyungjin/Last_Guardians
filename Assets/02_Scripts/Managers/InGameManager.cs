@@ -8,12 +8,16 @@ public class InGameManager : Singleton<InGameManager>
     public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
     public int PlayerHP { get; private set; } = 20;
+    public DamageText DamageTextPrefab { get; private set; }
+    public Canvas DamageUICanvas { get; private set; }
+
+    private Canvas damageUICanvasPrefab;
 
     [SerializeField] private MulliganUI mulliganUI;
 
     public int level;
     public int exp;
-    public int maxExp;
+    public int maxExp = 10;
 
     private void Awake()
     {
@@ -24,6 +28,9 @@ public class InGameManager : Singleton<InGameManager>
     {
         playerManager = new();
         playerManager.Init();
+        PrefabInit();
+        if(DamageUICanvas==null)
+            DamageUICanvas = Instantiate(damageUICanvasPrefab);
         mulliganUI.StartSelectCard();
     }
 
@@ -66,5 +73,11 @@ public class InGameManager : Singleton<InGameManager>
     public void TakeDmage(int amount)
     {
         PlayerHP -= amount;
+    }
+
+    private void PrefabInit()
+    {
+        DamageTextPrefab = Resources.Load<DamageText>("UI/DamageUI/DamageIndicator");
+        damageUICanvasPrefab = Resources.Load<Canvas>("UI/DamageUI/DamageCanvas");
     }
 }

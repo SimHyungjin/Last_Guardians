@@ -47,7 +47,7 @@ public class MagicProjectile : ProjectileBase
             BaseMonster target = collision.GetComponent<BaseMonster>();
             target.TakeDamage(towerData.AttackPower);
             //이펙트적용부분
-            if (towerData.SpecialEffect == SpecialEffect.None || effects == null)
+            if (effects == null)
             {
                 OnDespawn();
                 PoolManager.Instance.Despawn<MagicProjectile>(this);

@@ -74,7 +74,7 @@ public class AttackTower : BaseTower
             currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
         }
         target = closest;
-        currentTargetMonster = target.GetComponent<BaseMonster>();
+        if(target!=null)currentTargetMonster = target.GetComponent<BaseMonster>();
         if (currentTargetMonster != null)
         {
             currentTargetMonster.OnMonsterDeathAction += HandleTargetDeath;

@@ -7,8 +7,8 @@ public class BossMonster : BaseMonster
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
-        DamageText damageText = PoolManager.Instance.Spawn<DamageText>(MonsterManager.Instance.DamageTextPrefab);
-        damageText.gameObject.transform.SetParent(MonsterManager.Instance.DamageUICanvas.transform);
+        DamageText damageText = PoolManager.Instance.Spawn<DamageText>(InGameManager.Instance.DamageTextPrefab);
+        damageText.gameObject.transform.SetParent(InGameManager.Instance.DamageUICanvas.transform);
         Vector3 worldPos = transform.position + Vector3.up * 0.1f;
         worldPos.z = 0;
         damageText.transform.position = worldPos;

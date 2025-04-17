@@ -18,7 +18,7 @@ MonoBehaviour:
   skillRange: 5
   skillDescription: "\uB9C8\uC871\uC744 5\uB9C8\uB9AC \uC18C\uD658\uD55C\uB2E4."
   duration: 0
-  skillCoolTime: 0.25
+  skillCoolTime: 20
   monsterskillEffectValue: 0
   monsterskillProbablilty: 0.25
   monsterID: 1

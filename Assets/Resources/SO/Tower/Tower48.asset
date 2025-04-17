@@ -24,7 +24,7 @@ MonoBehaviour:
   elementType: 5
   specialEffect: 7
   effectChance: 1
-  effectDuration: 4
+  effectDuration: 0
   effectValue: 0.25
   effectTarget: 1
   effectTargetCount: 0

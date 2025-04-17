@@ -30,7 +30,7 @@ public class BountyMonster : BaseMonster
             Debug.Log($"현상금몬스터 {MonsterData.name} 공격 데미지 {SecondHitDamage}");
         }
 
-        attackTimer = attackDelay;
+        AttackTimer = attackDelay;
         AfterAttack();
     }
 
@@ -38,7 +38,7 @@ public class BountyMonster : BaseMonster
     {
         Debug.Log($"{MonsterData.name} {MonsterSkillBaseData.skillData.name} 사용");
         MonsterSkillBaseData.UseSkill(this);
-        skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
+        SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }
 
     protected override void RangeAttack()
@@ -48,7 +48,7 @@ public class BountyMonster : BaseMonster
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
-        attackTimer = attackDelay;
+        AttackTimer = attackDelay;
         AfterAttack();
     }
     protected override void Death()

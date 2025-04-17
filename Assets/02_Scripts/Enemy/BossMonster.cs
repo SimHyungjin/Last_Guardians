@@ -29,7 +29,7 @@ public class BossMonster : BaseMonster
             InGameManager.Instance.TakeDmage(SecondHitDamage);
             Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 {SecondHitDamage}");
         }
-        attackTimer = attackDelay;
+        AttackTimer = attackDelay;
         AfterAttack();
     }
 
@@ -40,7 +40,7 @@ public class BossMonster : BaseMonster
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
-        attackTimer = attackDelay;
+        AttackTimer = attackDelay;
         AfterAttack();
     }
 
@@ -48,7 +48,7 @@ public class BossMonster : BaseMonster
     {
         Debug.Log($"{MonsterData.name} {MonsterSkillBaseData.skillData.name} 사용");
         MonsterSkillBaseData.UseSkill(this);
-        skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
+        SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }
 
     protected override void Death()

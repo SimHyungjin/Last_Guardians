@@ -4500,6 +4500,7 @@ MonoBehaviour:
   - {fileID: 1018054542}
   targetPosition: {fileID: 4918445805338994667}
   dummyTowerPrefab: {fileID: 574210830657341825, guid: 25813c72c8217124fac252f7c2032bf0, type: 3}
+  attackRangeCircle: {fileID: 164630690537032796, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
 --- !u!114 &648171798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4871,7 +4872,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

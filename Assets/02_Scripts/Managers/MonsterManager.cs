@@ -132,8 +132,10 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public void OnMonsterDeath(BaseMonster monster)
     {
-        if(AlliveMonsters.Contains(monster))
+        if (AlliveMonsters.Contains(monster))
             AlliveMonsters.Remove(monster);
+        else
+            return;
         if (AlliveMonsters.Count <= 0 && spawnCount == currentWaveMonsterCount)
         {
             Debug.Log("웨이브 클리어");

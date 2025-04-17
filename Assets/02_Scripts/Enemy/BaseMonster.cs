@@ -65,7 +65,7 @@ public class BaseMonster : MonoBehaviour
 
     public Action OnMonsterDeathAction;
 
-    WaitForSeconds blinkSeconds;
+    private WaitForSeconds blinkSeconds;
 
     private void Awake()
     {
@@ -105,6 +105,7 @@ public class BaseMonster : MonoBehaviour
         FirstHitDamage = MonsterData.MonsterDamage;
         SecondHitDamage = 2;
         disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 2 : 10;
+        Debug.Log($"몬스터 타입 {MonsterData.MonsterType}, 카운트 : {disableAttackCount}");
         attackCount = 0;
         if (MonsterData.HasSkill)
         {
@@ -186,6 +187,11 @@ public class BaseMonster : MonoBehaviour
         agent.isStopped = true;
         agent.speed = 0f;
         //타입별 몬스터에서 구현
+        attackCount++;
+        if (attackCount > disableAttackCount)
+        {
+            Death();
+        }
     }
 
     protected virtual void RangeAttack()
@@ -193,6 +199,16 @@ public class BaseMonster : MonoBehaviour
         agent.isStopped = true;
         agent.speed = 0f;
         //타입별 몬스터에서 구현
+        
+    }
+
+    protected void AfterAttack()
+    {
+        attackCount++;
+        if (attackCount > disableAttackCount)
+        {
+            Death();
+        }
     }
 
     protected virtual void Death()
@@ -209,11 +225,6 @@ public class BaseMonster : MonoBehaviour
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
-    }
-
-    public int GetMonsterID()
-    {
-        return MonsterData.MonsterIndex;
     }
 
     //데미지 받을 떄 호출되는 함수

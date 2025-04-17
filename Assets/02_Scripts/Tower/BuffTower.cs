@@ -59,6 +59,9 @@ public class BuffTower : BaseTower
         {
             switch(data.SpecialEffect)
             {
+                case SpecialEffect.AttackPower:
+                    monsterDebuff = new TowerBuffMonsterDamage();
+                    break;
                 case SpecialEffect.DotDamage:
                     monsterDebuff = new TowerBuffMonsterDotDamage();
                     break;

@@ -13,7 +13,7 @@ public class InGameManager : Singleton<InGameManager>
 
     public int level;
     public int exp;
-    public int maxExp;
+    public int maxExp = 10;
 
     private void Awake()
     {

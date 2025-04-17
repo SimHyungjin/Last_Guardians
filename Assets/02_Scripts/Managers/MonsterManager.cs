@@ -21,6 +21,8 @@ public class MonsterManager : Singleton<MonsterManager>
     public Canvas DamageUICanvas {  get; private set; }
 
     private Canvas damageUICanvasPrefab;
+    public EXPBead EXPBeadPrefab { get; private set; }
+    
 
     //private BaseMonster monster;
     private int currentWaveIndex = 0;
@@ -137,6 +139,8 @@ public class MonsterManager : Singleton<MonsterManager>
 
         DamageTextPrefab = Resources.Load<DamageText>("UI/DamageUI/DamageIndicator");
         damageUICanvasPrefab = Resources.Load<Canvas>("UI/DamageUI/DamageCanvas");
+
+        EXPBeadPrefab = Resources.Load<EXPBead>("Enemy/EXPBead");
     }
 
     public void TestKill()

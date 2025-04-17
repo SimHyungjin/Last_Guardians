@@ -96,8 +96,6 @@ public class BaseMonster : MonoBehaviour
     private void Init()
     {
         AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
-        CancelAllBuff();
-        CancelAllDebuff();
         spriteRenderer.sprite = MonsterData.Image;
         spriteRenderer.color = originalColor;
         CurrentHP = MonsterData.MonsterHP;
@@ -118,9 +116,12 @@ public class BaseMonster : MonoBehaviour
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
             SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
             Debug.Log($"{MonsterData.MonsterName} : {MonsterSkillBaseData.skillData.SkillName} 가지고 있음");
-        }   
+        }
 
-        if(attackCorutine == null)
+        CancelAllBuff();
+        CancelAllDebuff();
+
+        if (attackCorutine == null)
         {
             attackCorutine = StartCoroutine(AttackRoutine());
         }
@@ -131,6 +132,7 @@ public class BaseMonster : MonoBehaviour
                 skillCorutime = StartCoroutine(SkillRoutine());
             }
         }
+        
     }
 
     private IEnumerator AttackRoutine()

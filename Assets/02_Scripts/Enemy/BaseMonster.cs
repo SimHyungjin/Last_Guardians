@@ -37,6 +37,7 @@ public class BaseMonster : MonoBehaviour
     public int SecondHitDamage { get; private set; }
     protected int disableAttackCount; // 이 숫자만큼 몬스터가 공격하면 사라짐
     protected int attackCount = 0;
+    protected bool isDisable = false;
 
     //목표지점 관련
     public LayerMask targetLayer;
@@ -104,7 +105,9 @@ public class BaseMonster : MonoBehaviour
         colorCoroutine = null;
         FirstHitDamage = MonsterData.MonsterDamage;
         SecondHitDamage = 2;
-        disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 2 : 10;
+        disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 3 : 11;
+        attackCount = 0;
+        isDisable = false;
         Debug.Log($"몬스터 타입 {MonsterData.MonsterType}, 카운트 : {disableAttackCount}");
         attackCount = 0;
         if (MonsterData.HasSkill)
@@ -187,11 +190,6 @@ public class BaseMonster : MonoBehaviour
         agent.isStopped = true;
         agent.speed = 0f;
         //타입별 몬스터에서 구현
-        attackCount++;
-        if (attackCount > disableAttackCount)
-        {
-            Death();
-        }
     }
 
     protected virtual void RangeAttack()
@@ -205,8 +203,11 @@ public class BaseMonster : MonoBehaviour
     protected void AfterAttack()
     {
         attackCount++;
-        if (attackCount > disableAttackCount)
+        if (attackCount >= disableAttackCount)
         {
+            isDisable = true;
+            Debug.Log("횟수 다 되서 죽음");
+            Debug.Log($"isdisable : {isDisable}");
             Death();
         }
     }
@@ -217,9 +218,12 @@ public class BaseMonster : MonoBehaviour
         MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
 
-        EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
-        bead.Init(MonsterData.Exp, this.transform);
-        
+        if (!isDisable)
+        {
+            EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
+            bead.Init(MonsterData.Exp, this.transform);
+            Debug.Log($"isdisable : {isDisable}");
+        }
     }
 
     protected virtual void MonsterSkill()

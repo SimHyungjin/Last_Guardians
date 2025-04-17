@@ -29,8 +29,8 @@ public class BossMonster : BaseMonster
             InGameManager.Instance.TakeDmage(SecondHitDamage);
             Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 {SecondHitDamage}");
         }
-        
         attackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void RangeAttack()
@@ -40,6 +40,8 @@ public class BossMonster : BaseMonster
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
+        attackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void MonsterSkill()

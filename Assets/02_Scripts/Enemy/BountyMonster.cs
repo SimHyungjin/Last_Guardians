@@ -31,6 +31,7 @@ public class BountyMonster : BaseMonster
         }
 
         attackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void MonsterSkill()
@@ -47,6 +48,8 @@ public class BountyMonster : BaseMonster
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
+        attackTimer = attackDelay;
+        AfterAttack();
     }
     protected override void Death()
     {

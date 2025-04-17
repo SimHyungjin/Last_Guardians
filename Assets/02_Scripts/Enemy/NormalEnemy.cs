@@ -18,8 +18,8 @@ public class NormalEnemy : BaseMonster
             InGameManager.Instance.TakeDmage(SecondHitDamage);
             Debug.Log($"노말공격 데미지 {SecondHitDamage}");
         }
-        
         attackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void RangeAttack()
@@ -30,6 +30,7 @@ public class NormalEnemy : BaseMonster
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
         attackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void Death()

@@ -20,11 +20,12 @@ public class MonsterManager : Singleton<MonsterManager>
     public MonsterWaveData nowWave { get; private set; }
     public EXPBead EXPBeadPrefab { get; private set; }
     public List<MonsterData> BountyMonsterList {  get; private set; }
+    public float BountySpwanCoolTime { get; private set; }
+    public float SpawnTimer { get; set; }
     
     private int currentWaveIndex = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
-    private int bountyCount = 0;
 
     private void Start()
     {
@@ -114,19 +115,15 @@ public class MonsterManager : Singleton<MonsterManager>
         
     }
 
-    public void SpawnBounty()
-    {
-        if (bountyCount > BountyMonsterList.Count)
-            bountyCount = 0;
-        int monsterIndex = BountyMonsterList[bountyCount].MonsterIndex;
-        if (monsterIndex >= 201 && monsterIndex <= 300)
+    public void SpawnBounty(int index)
+    {   
+        if (index >= 201 && index <= 300)
         {
-            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
+            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
             BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[nowWave.WaveLevel % 2]);
             monster.Setup(data);
             monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
-            bountyCount++;
         }
     }
 
@@ -163,6 +160,9 @@ public class MonsterManager : Singleton<MonsterManager>
         EXPBeadPrefab = Resources.Load<EXPBead>("Enemy/EXPBead");
 
         BountyMonsterList = MonsterDatas.FindAll(a => a.MonsterIndex >= 201 && a.MonsterIndex <= 300);
+
+        BountySpwanCoolTime = 60f;
+        SpawnTimer = 0f;
     }
 
     public void TestKill()

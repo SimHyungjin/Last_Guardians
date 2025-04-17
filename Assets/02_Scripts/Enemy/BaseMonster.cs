@@ -207,7 +207,6 @@ public class BaseMonster : MonoBehaviour
         {
             isDisable = true;
             Debug.Log("횟수 다 되서 죽음");
-            Debug.Log($"isdisable : {isDisable}");
             Death();
         }
     }
@@ -222,7 +221,6 @@ public class BaseMonster : MonoBehaviour
         {
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
             bead.Init(MonsterData.Exp, this.transform);
-            Debug.Log($"isdisable : {isDisable}");
         }
     }
 

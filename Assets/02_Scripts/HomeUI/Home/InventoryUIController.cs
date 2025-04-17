@@ -7,6 +7,18 @@ public class InventoryUIController : MonoBehaviour
 
     private void Start()
     {
-        inventoryUIButton.bindInventoryBtn.AddListener((type) =>HomeManager.Instance.inventory.SetType(type));
+        var inventory = HomeManager.Instance.inventory;
+
+        inventoryUIButton.onItemTypeFilter.AddListener((itemType) =>
+        {
+            inventory.SetItemType(itemType);
+        });
+
+        inventoryUIButton.onEquipTypeFilter.AddListener((equipType) =>
+        {
+            inventory.SetEquipTypeFilter(equipType);
+        });
+
+        inventorySlotContainer.Display(inventory.GetFilteredView());
     }
 }

@@ -3,29 +3,71 @@ using System.Collections.Generic;
 
 public class Inventory
 {
+    public enum InventorySortType
+    {
+        GradeDescending,
+        NameAscending,
+        Recent
+    }
+
     private List<ItemInstance> inventory = new();
-    private EquipType currentType = EquipType.Count;
+
+    private InventorySortType currentSortType = InventorySortType.GradeDescending;
+    private ItemType currentFilter = ItemType.Equipment;
+    private EquipType currentEquipFilter = EquipType.Count;
 
     public event Action OnInventoryChanged;
 
-    public void AddItem(ItemInstance item)
+    public void AddItem(ItemInstance item, int count = 1)
     {
         if (item == null) return;
-        inventory.Add(item);
+
+        if (item.Data.ItemStackLimit > 1)
+        {
+            var existing = inventory.Find(i => i.Data.ItemIndex == item.Data.ItemIndex);
+            if (existing != null) existing.AddCount(count);
+            else inventory.Add(item); 
+        }
+        else inventory.Add(item);
+
         OnInventoryChanged?.Invoke();
     }
 
-    public void RemoveItem(ItemInstance item)
+    public void RemoveItem(ItemInstance item, int count = 1)
     {
         if (item == null) return;
-        inventory.Remove(item);
+        if (item.Data.ItemStackLimit > 1)
+        {
+            var existing = inventory.Find(i => i.Data.ItemIndex == item.Data.ItemIndex);
+            if (existing != null)
+            {
+                existing.SubtractCount(count);
+                if (existing.Count <= 0) inventory.Remove(existing);
+            }
+        }  
+        else inventory.Remove(item);
+
         OnInventoryChanged?.Invoke();
     }
 
-    public void SetType(EquipType type)
+    public void SetSortType(InventorySortType sortType)
     {
-        if (currentType == type) return;
-        currentType = type;
+        if (currentSortType == sortType) return;
+        currentSortType = sortType;
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void SetItemType(ItemType type)
+    {
+        if (currentFilter == type) return;
+        currentFilter = type;
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void SetEquipTypeFilter(EquipType type)
+    {
+        if (currentEquipFilter == type) return;
+        currentEquipFilter = type;
         OnInventoryChanged?.Invoke();
     }
 
@@ -37,26 +79,38 @@ public class Inventory
 
     public IReadOnlyList<ItemInstance> GetFilteredView()
     {
-        List<ItemInstance> viewList;
-
-        if (currentType == EquipType.Count)
+        List<ItemInstance> viewList = inventory.FindAll(x =>
         {
-            viewList = new List<ItemInstance>(inventory);
-        }
-        else
-        {
-            viewList = inventory.FindAll(x => x.asEquipData is EquipData ed && ed.equipType == currentType);
-        }
+            if (x.Data.ItemType != currentFilter) return false;
 
-        viewList.Sort((a, b) => b.Data.itemGrade.CompareTo(a.Data.itemGrade));
+            if (currentFilter == ItemType.Equipment && x.AsEquipData != null)
+            {
+                return currentEquipFilter == EquipType.Count || x.AsEquipData.equipType == currentEquipFilter;
+            }
+
+            return true;
+        });
+
+        switch (currentSortType)
+        {
+            case InventorySortType.GradeDescending:
+                viewList.Sort((a, b) => b.Data.ItemGrade.CompareTo(a.Data.ItemGrade));
+                break;
+
+            case InventorySortType.NameAscending:
+                viewList.Sort((a, b) => string.Compare(a.Data.ItemName, b.Data.ItemName, StringComparison.Ordinal));
+                break;
+            case InventorySortType.Recent:
+                viewList.Reverse();
+                break;
+        }
 
         return viewList;
     }
 
     public IReadOnlyList<ItemInstance> ModifyAndGetFiltered(Action<Inventory> modification)
     {
-        if (modification == null)
-            throw new ArgumentNullException(nameof(modification));
+        if (modification == null) return default;
 
         modification(this);
         return GetFilteredView();

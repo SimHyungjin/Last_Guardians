@@ -17,10 +17,9 @@ public class MonsterManager : Singleton<MonsterManager>
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillBase> MonsterSkillDatas { get; private set; }
     public List<BaseMonster> AlliveMonsters { get; private set; }
-    public DamageText DamageTextPrefab { get; private set; }
-    public Canvas DamageUICanvas {  get; private set; }
-
-    private Canvas damageUICanvasPrefab;
+ 
+    public EXPBead EXPBeadPrefab { get; private set; }
+    
 
     //private BaseMonster monster;
     private int currentWaveIndex = 0;
@@ -32,7 +31,6 @@ public class MonsterManager : Singleton<MonsterManager>
         //WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         AlliveMonsters = new List<BaseMonster>();
         InitMonsters();
-        DamageUICanvas = Instantiate(damageUICanvasPrefab);
     }
 
     public void GameStart()
@@ -135,8 +133,7 @@ public class MonsterManager : Singleton<MonsterManager>
         WaveDatas.Sort((a, b) => a.WaveIndex.CompareTo(b.WaveIndex));
         ProjectilePrefab = Resources.Load<EnemyProjectile>("Enemy/EnemyProjectile/EnemyProjectile");
 
-        DamageTextPrefab = Resources.Load<DamageText>("UI/DamageUI/DamageIndicator");
-        damageUICanvasPrefab = Resources.Load<Canvas>("UI/DamageUI/DamageCanvas");
+        EXPBeadPrefab = Resources.Load<EXPBead>("Enemy/EXPBead");
     }
 
     public void TestKill()

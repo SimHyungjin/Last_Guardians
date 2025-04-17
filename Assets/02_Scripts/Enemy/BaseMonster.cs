@@ -188,6 +188,8 @@ public class BaseMonster : MonoBehaviour
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath(this);
+        EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
+        bead.Init(MonsterData.Exp,this.transform);
         OnMonsterDeathAction?.Invoke();
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,7 +23,10 @@ public class MonsterManager : Singleton<MonsterManager>
     public List<MonsterData> BountyMonsterList {  get; private set; }
     public float BountySpwanCoolTime { get; private set; }
     public float SpawnTimer { get; set; }
-    
+    private Coroutine spawnTimerCorutine;
+    private WaitForSeconds spawnSeconds;
+    public Action spawnAction;
+
     private int currentWaveIndex = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
@@ -30,6 +34,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private void Start()
     {
         AlliveMonsters = new List<BaseMonster>();
+        spawnSeconds = new WaitForSeconds(0.1f);
         InitMonsters();
     }
 
@@ -113,6 +118,26 @@ public class MonsterManager : Singleton<MonsterManager>
             AlliveMonsters.Add(monster);
         }
         
+    }
+    public void StartSpawnTimer()
+    {
+        if (spawnTimerCorutine == null)
+        {
+            spawnTimerCorutine = StartCoroutine(SpawnTimerCoroutine());
+        }
+    }
+
+    IEnumerator SpawnTimerCoroutine()
+    {
+        SpawnTimer = BountySpwanCoolTime;
+
+        while (SpawnTimer > 0f)
+        {
+            SpawnTimer -= Time.deltaTime;
+            yield return spawnSeconds;
+        }
+
+        spawnTimerCorutine = null;
     }
 
     public void SpawnBounty(int index)

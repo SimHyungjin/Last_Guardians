@@ -23,7 +23,7 @@ public class BaseMonster : MonoBehaviour
     public float SkillValueModifier { get; set; } = 1f;
 
     //근접사거리 원거리 사거리
-    [SerializeField] private float meleeAttackRange = 0.5f;
+    [SerializeField] private float meleeAttackRange = 1f;
     [SerializeField] private float RangedAttackRange = 2.0f;
 
     //몬스터 공격관련
@@ -33,6 +33,10 @@ public class BaseMonster : MonoBehaviour
     private bool isAttack = false;
     protected float skillTimer = 0f;
     protected bool firstHit = false;
+    public int FirstHitDamage { get; private set; }
+    public int SecondHitDamage { get; private set; }
+    protected int disableAttackCount; // 이 숫자만큼 몬스터가 공격하면 사라짐
+    protected int attackCount = 0;
 
     //목표지점 관련
     public LayerMask targetLayer;
@@ -61,6 +65,8 @@ public class BaseMonster : MonoBehaviour
 
     public Action OnMonsterDeathAction;
 
+    WaitForSeconds blinkSeconds;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -69,6 +75,7 @@ public class BaseMonster : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         effectHandler = GetComponent<EffectHandler>();
+        blinkSeconds = new WaitForSeconds(blinkInterval);
     }
 
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
@@ -95,6 +102,10 @@ public class BaseMonster : MonoBehaviour
         isAttack = false;
         firstHit = false;
         colorCoroutine = null;
+        FirstHitDamage = MonsterData.MonsterDamage;
+        SecondHitDamage = 2;
+        disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 2 : 10;
+        attackCount = 0;
         if (MonsterData.HasSkill)
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
@@ -163,7 +174,6 @@ public class BaseMonster : MonoBehaviour
         {
             isAttack = true;
         }
-        
     }
 
     private void Move()
@@ -189,9 +199,11 @@ public class BaseMonster : MonoBehaviour
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath(this);
-        EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
-        bead.Init(MonsterData.Exp,this.transform);
         OnMonsterDeathAction?.Invoke();
+
+        EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
+        bead.Init(MonsterData.Exp, this.transform);
+        
     }
 
     protected virtual void MonsterSkill()
@@ -220,7 +232,8 @@ public class BaseMonster : MonoBehaviour
 
         if(CurrentHP <= 0)
             Death();
-
+        
+        //피격시 몬스터 색 변경
         if (this.gameObject.activeSelf)
         {
             if (colorCoroutine != null)
@@ -236,9 +249,9 @@ public class BaseMonster : MonoBehaviour
         for (int i = 0; i < blinkCount; i++)
         {
             spriteRenderer.color = hitColor;
-            yield return new WaitForSeconds(blinkInterval);
+            yield return blinkSeconds;
             spriteRenderer.color = originalColor;
-            yield return new WaitForSeconds(blinkInterval);
+            yield return blinkSeconds;
         }
 
         colorCoroutine = null;

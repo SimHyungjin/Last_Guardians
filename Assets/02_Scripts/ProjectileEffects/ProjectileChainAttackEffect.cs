@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileChainAttackEffect : MonoBehaviour
+public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData)
     {

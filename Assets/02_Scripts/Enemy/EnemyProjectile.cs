@@ -27,18 +27,11 @@ public class EnemyProjectile : ProjectileBase
             if (!BaseMonster.IsFirstHit())
             {
                 BaseMonster.SetFirstHit();
-                if (Data.MonsterType == MonType.Standard)
-                {
-                    InGameManager.Instance.TakeDmage(1);
-                }
-                else if (Data.MonsterType == MonType.Boss)
-                {
-                    InGameManager.Instance.TakeDmage(5);
-                }
+                InGameManager.Instance.TakeDmage(BaseMonster.FirstHitDamage);
             }
             else
             {
-                InGameManager.Instance.TakeDmage(2);
+                InGameManager.Instance.TakeDmage(BaseMonster.SecondHitDamage);
             }
             
             PoolManager.Instance.Despawn(this);

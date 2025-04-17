@@ -4500,6 +4500,7 @@ MonoBehaviour:
   - {fileID: 1018054542}
   targetPosition: {fileID: 4918445805338994667}
   dummyTowerPrefab: {fileID: 574210830657341825, guid: 25813c72c8217124fac252f7c2032bf0, type: 3}
+  attackRangeCircle: {fileID: 164630690537032796, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
 --- !u!114 &648171798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11689,6 +11690,7 @@ GameObject:
   - component: {fileID: 2101450478}
   - component: {fileID: 2101450477}
   - component: {fileID: 2101450476}
+  - component: {fileID: 2101450479}
   m_Layer: 0
   m_Name: RewardBtn
   m_TagString: Untagged
@@ -11798,6 +11800,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2101450474}
   m_CullTransparentMesh: 1
+--- !u!114 &2101450479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101450474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e68ee94b5b9274e94764437508877d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2108732930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23174,7 +23188,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityDataSO: []
-  monsterDataSO: []
+  monsterDataSO:
+  - {fileID: 11400000, guid: 85c25dfea6b640d4fad5c39e22cc5d41, type: 2}
+  - {fileID: 11400000, guid: 3ca4e1833fbc42545bf5cdaf44246137, type: 2}
+  - {fileID: 11400000, guid: 7e7c9587a55ad634da98ffa3c515d10a, type: 2}
+  - {fileID: 11400000, guid: c69d4481ece769243b1873547aef12b7, type: 2}
+  - {fileID: 11400000, guid: 08d8b749aeaa888429a08f835cd025cd, type: 2}
+  - {fileID: 11400000, guid: 2e5af86d32a7786469c282193d9a52a4, type: 2}
+  - {fileID: 11400000, guid: 1fa0086318355f24686ad53e15bd0ee3, type: 2}
+  - {fileID: 11400000, guid: d5a995a20c2e65f458f33314a3c3dd1a, type: 2}
+  - {fileID: 11400000, guid: e29e566fcea14b34ca542d869c7e5367, type: 2}
   monsterSkillDataSO: []
   monsterWaveDataSO: []
   towerDataSO: []

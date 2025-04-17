@@ -21,13 +21,13 @@ public class BossMonster : BaseMonster
         if (!firstHit)
         {
             firstHit = true;
-            InGameManager.Instance.TakeDmage(5);
-            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : 5");
+            InGameManager.Instance.TakeDmage(FirstHitDamage);
+            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : {FirstHitDamage}");
         }
         else
         {
-            InGameManager.Instance.TakeDmage(2);
-            Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
+            InGameManager.Instance.TakeDmage(SecondHitDamage);
+            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 {SecondHitDamage}");
         }
         
         attackTimer = attackDelay;
@@ -36,17 +36,6 @@ public class BossMonster : BaseMonster
     protected override void RangeAttack()
     {
         base.RangeAttack();
-        if (!firstHit)
-        {
-            firstHit = true;
-            InGameManager.Instance.TakeDmage(5);
-            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : 5");
-        }
-        else
-        {
-            InGameManager.Instance.TakeDmage(2);
-            Debug.Log("보스몬스터 {monsterData.name} 공격 데미지 2");
-        }
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;

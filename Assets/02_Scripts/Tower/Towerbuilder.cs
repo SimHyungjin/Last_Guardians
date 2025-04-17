@@ -132,6 +132,11 @@ public class Towerbuilder : MonoBehaviour
             BuffTower tower = go.AddComponent<BuffTower>();
             tower.Init(data); // Init 안에서 다시 SO를 불러와도 됨
         }
+        else if (data.ProjectileType == ProjectileType.TrapObject)
+        {
+            TrapObjectTower tower = go.AddComponent<TrapObjectTower>();
+            tower.Init(data);
+        }
         else
         {
             AttackTower tower = go.AddComponent<AttackTower>();

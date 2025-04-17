@@ -23,7 +23,7 @@ public class BaseMonster : MonoBehaviour
     public float SkillValueModifier { get; set; } = 1f;
 
     //근접사거리 원거리 사거리
-    [SerializeField] private float meleeAttackRange = 0.5f;
+    [SerializeField] private float meleeAttackRange = 1f;
     [SerializeField] private float RangedAttackRange = 2.0f;
 
     //몬스터 공격관련
@@ -33,6 +33,10 @@ public class BaseMonster : MonoBehaviour
     private bool isAttack = false;
     protected float skillTimer = 0f;
     protected bool firstHit = false;
+    public int FirstHitDamage { get; private set; }
+    public int SecondHitDamage { get; private set; }
+    protected int disableAttackCount; // 이 숫자만큼 몬스터가 공격하면 사라짐
+    protected int attackCount = 0;
 
     //목표지점 관련
     public LayerMask targetLayer;
@@ -61,6 +65,8 @@ public class BaseMonster : MonoBehaviour
 
     public Action OnMonsterDeathAction;
 
+    private WaitForSeconds blinkSeconds;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -69,6 +75,7 @@ public class BaseMonster : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         effectHandler = GetComponent<EffectHandler>();
+        blinkSeconds = new WaitForSeconds(blinkInterval);
     }
 
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
@@ -95,10 +102,16 @@ public class BaseMonster : MonoBehaviour
         isAttack = false;
         firstHit = false;
         colorCoroutine = null;
+        FirstHitDamage = MonsterData.MonsterDamage;
+        SecondHitDamage = 2;
+        disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 2 : 10;
+        Debug.Log($"몬스터 타입 {MonsterData.MonsterType}, 카운트 : {disableAttackCount}");
+        attackCount = 0;
         if (MonsterData.HasSkill)
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
             skillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
+            Debug.Log($"{MonsterData.MonsterName} : {MonsterSkillBaseData.skillData.SkillName} 가지고 있음");
         }   
     }
 
@@ -162,7 +175,6 @@ public class BaseMonster : MonoBehaviour
         {
             isAttack = true;
         }
-        
     }
 
     private void Move()
@@ -175,6 +187,11 @@ public class BaseMonster : MonoBehaviour
         agent.isStopped = true;
         agent.speed = 0f;
         //타입별 몬스터에서 구현
+        attackCount++;
+        if (attackCount > disableAttackCount)
+        {
+            Death();
+        }
     }
 
     protected virtual void RangeAttack()
@@ -182,25 +199,32 @@ public class BaseMonster : MonoBehaviour
         agent.isStopped = true;
         agent.speed = 0f;
         //타입별 몬스터에서 구현
+        
+    }
+
+    protected void AfterAttack()
+    {
+        attackCount++;
+        if (attackCount > disableAttackCount)
+        {
+            Death();
+        }
     }
 
     protected virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath(this);
-        EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
-        bead.Init(MonsterData.Exp,this.transform);
         OnMonsterDeathAction?.Invoke();
+
+        EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
+        bead.Init(MonsterData.Exp, this.transform);
+        
     }
 
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
-    }
-
-    public int GetMonsterID()
-    {
-        return MonsterData.MonsterIndex;
     }
 
     //데미지 받을 떄 호출되는 함수
@@ -219,7 +243,8 @@ public class BaseMonster : MonoBehaviour
 
         if(CurrentHP <= 0)
             Death();
-
+        
+        //피격시 몬스터 색 변경
         if (this.gameObject.activeSelf)
         {
             if (colorCoroutine != null)
@@ -235,9 +260,9 @@ public class BaseMonster : MonoBehaviour
         for (int i = 0; i < blinkCount; i++)
         {
             spriteRenderer.color = hitColor;
-            yield return new WaitForSeconds(blinkInterval);
+            yield return blinkSeconds;
             spriteRenderer.color = originalColor;
-            yield return new WaitForSeconds(blinkInterval);
+            yield return blinkSeconds;
         }
 
         colorCoroutine = null;

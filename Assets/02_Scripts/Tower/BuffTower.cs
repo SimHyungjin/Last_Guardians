@@ -22,7 +22,7 @@ public class BuffTower : BaseTower
     {
         base.Init(data);
         towerLayer = LayerMask.GetMask("Tower");
-        ApplyBuffOnPlacement();
+        //ApplyBuffOnPlacement();
     }
 
     protected override void Update()

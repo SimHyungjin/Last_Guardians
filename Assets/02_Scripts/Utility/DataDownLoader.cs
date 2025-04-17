@@ -282,7 +282,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 98, startCol: 0, endCol: 3);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 107, startCol: 0, endCol: 3);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyCombinationDataToSO(jsonData, renameFiles);
         }
@@ -744,7 +744,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 115, startCol: 0, endCol: 16);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 117, startCol: 0, endCol: 16);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyTowerDataToSO(jsonData, renameFiles);
         }

@@ -47,9 +47,27 @@ public class DeckHandler : MonoBehaviour
                     highlightedCard.gameObject.SetActive(false);
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
-                    TowerData towerdata = TowerManager.Instance.GetTowerData(highlightedIndex);
-                    int spriteIndex = (towerdata.TowerIndex > 49) ? towerdata.TowerIndex - 49 : towerdata.TowerIndex;          
-                    ghostsprite.sprite = towerdata.atlas.GetSprite($"Tower_{spriteIndex}");
+                    TowerData towerData = TowerManager.Instance.GetTowerData(highlightedIndex);
+                    int spriteIndex;
+                    if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
+                    {
+                        spriteIndex = towerData.TowerIndex - 49;
+                    }
+                    else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
+                    {
+                        spriteIndex = towerData.TowerIndex - 98;
+                    }
+                    else if (towerData.TowerIndex > 108)
+                    {
+                        spriteIndex = towerData.TowerIndex - 59;
+                    }
+                    else
+                    {
+                        spriteIndex = towerData.TowerIndex;
+                    }
+                    ghostsprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+                    //towerGhost = towerData.towerGhostPrefab;
+
 
                 }
                 else
@@ -120,8 +138,8 @@ public class DeckHandler : MonoBehaviour
                                     {
                                         TowerManager.Instance.towerbuilder.TowerConstruct(
                                         InputManager.Instance.GetTouchWorldPosition(),
-                                        highlightedIndex
-                                    );
+                                        highlightedIndex                                        
+                                        );
                                         UseCard(); // 카드 사용 처리
                                     }
                                     else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))

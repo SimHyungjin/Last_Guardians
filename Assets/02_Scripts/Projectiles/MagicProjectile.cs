@@ -45,22 +45,24 @@ public class MagicProjectile : ProjectileBase
         {
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
-            target.TakeDamage(towerData.AttackPower);
-            //이펙트적용부분
-            if (effects == null)
+            if (target != null)
             {
-                OnDespawn();
-                PoolManager.Instance.Despawn<MagicProjectile>(this);
-                return;
+                target.TakeDamage(towerData.AttackPower);
+                //이펙트적용부분
+                if (effects == null)
+                {
+                    OnDespawn();
+                    PoolManager.Instance.Despawn<MagicProjectile>(this);
+                    return;
+                }
+                for (int i = 0; i < effects.Count; i++)
+                {
+                    if (effects[i] == null) continue;
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
+                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
+                    Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
+                }
             }
-            for(int i=0;i<effects.Count; i++)
-            {
-                if (effects[i] == null) continue;
-                if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
-                else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
-                Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
-            }
-            
             OnDespawn();
             PoolManager.Instance.Despawn<MagicProjectile>(this);
             Debug.Log("사라지기 싫어~");

@@ -6,6 +6,6 @@ public class TowerBuffMonsterReducionDef : ITowerBuff
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {
-        monster.ApplyReducionDef(data.EffectValue, 0.2f);
+        monster.ApplyReducionDef(data.EffectValue, data.EffectValue);
     }
 }

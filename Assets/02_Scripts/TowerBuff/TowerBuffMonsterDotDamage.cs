@@ -6,6 +6,6 @@ public class TowerBuffMonsterDotDamage : ITowerBuff
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {
-        monster.DotDamage(data.EffectValue, 0.2f);
+        monster.DotDamage(data.EffectValue, data.EffectDuration);
     }
 }

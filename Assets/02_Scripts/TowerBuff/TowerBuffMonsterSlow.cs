@@ -6,6 +6,6 @@ public class TowerBuffMonsterSlow : ITowerBuff
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {
-        monster.ApplySlowdown(data.EffectValue, 0.1f);
+        monster.ApplySlowdown(data.EffectValue, data.EffectDuration);
     }
 }

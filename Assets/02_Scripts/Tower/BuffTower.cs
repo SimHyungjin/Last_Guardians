@@ -107,4 +107,9 @@ public class BuffTower : BaseTower
         }
         Debug.Log($"[BuffTower] 주변 몬스터 {nearbyTowers.Count}개 발견");
     }
+
+    public void ApplyBuffAttackTower(AttackTower attackTower)
+    {
+        towerBuff?.ApplyBuff(attackTower, towerData);
+    }
 }

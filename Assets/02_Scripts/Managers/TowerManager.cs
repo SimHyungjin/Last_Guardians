@@ -17,6 +17,7 @@ public class TowerManager : Singleton<TowerManager>
     public TowerCombinationData towerCombinationData;
     public Towerbuilder towerbuilder;
     public ProjectileFactory projectileFactory;
+    public GameObject TrapObjectPrefab;
     private Dictionary<int, TowerData> towerDataMap;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 

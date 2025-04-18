@@ -62,7 +62,9 @@ public class BaseMonster : MonoBehaviour
     private StatusEffect speedBuff;
     private StatusEffect evasionBuff;
     private StatusEffect skillValueDebuff;
+    private StatusEffect silenceDebuff;
     public bool isSturn = false;
+    public bool isSilence = false;
     public float EvasionRate { get; set; } = -1f;
 
     public Action OnMonsterDeathAction;
@@ -133,7 +135,7 @@ public class BaseMonster : MonoBehaviour
 
         if (MonsterSkillBaseData != null)
         {
-            if (!isSturn)
+            if (!isSturn || !isSilence)
                 SkillTimer -= Time.deltaTime;
 
             if (SkillTimer <= 0)
@@ -431,6 +433,24 @@ public class BaseMonster : MonoBehaviour
     public void CancelSkillValueDebuff()
     {
         effectHandler.RemoveEffect(skillValueDebuff);
+    }
+
+    public void ApplySilenceDebuff(float duration)
+    {
+        if (effectHandler.IsInEffect(silenceDebuff))
+        {
+            silenceDebuff = new SilenceDebuff(0, duration);
+            effectHandler.AddEffect(silenceDebuff);
+        }
+        else
+        {
+            silenceDebuff.UpdateEffect(0, duration);
+        }
+    }
+
+    public void CancelSilenceDebuff()
+    {
+        effectHandler.RemoveEffect(silenceDebuff);
     }
 
     //전체 디버프 해제

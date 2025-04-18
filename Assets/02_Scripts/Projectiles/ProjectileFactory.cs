@@ -38,6 +38,7 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
         { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },
         { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
+        { SpecialEffect.Silence, typeof(ProjectileSilenceEffect) },//미구현
         { SpecialEffect.None, null }
     };
 

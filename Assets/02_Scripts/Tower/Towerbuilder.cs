@@ -29,6 +29,7 @@ public class Towerbuilder : MonoBehaviour
 
     [Header("타워설치")]
     public SpriteRenderer attackRangeCircle;
+   
 
     private float lastCheckTime = 0f;
     private float checkCooldown = 0.2f;
@@ -126,7 +127,6 @@ public class Towerbuilder : MonoBehaviour
             Debug.LogError($"[TowerConstruct] TowerData를 불러올 수 없습니다: {towerIndex}");
             return;
         }
-
         if (data.ProjectileType == ProjectileType.Buff)
         {
             BuffTower tower = go.AddComponent<BuffTower>();

@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: 3wave
   m_EditorClassIdentifier: 
   waveIndex: 3
-  waveLevel: 1
+  waveLevel: 0
   isBoss: 0
   waveStartDelay: 4
   monsterSpawnInterval: 1.3
   monster1ID: 1
-  monster1Value: 6
-  monster2ID: 2
-  monster2Value: 4
-  monster3ID: 3
-  monster3Value: 2
+  monster1Value: 5
+  monster2ID: 0
+  monster2Value: 0
+  monster3ID: 0
+  monster3Value: 0
   monster4ID: 0
   monster4Value: 0

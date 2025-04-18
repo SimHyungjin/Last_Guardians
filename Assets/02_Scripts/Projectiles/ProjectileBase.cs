@@ -25,6 +25,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected Coroutine lifeTimeCoroutine;
     protected Rigidbody2D rb;
 
+    public BaseMonster OriginTarget { get; set; }
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,29 +34,32 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 
     public virtual void Update()
     {
-        float distance = Vector2.Distance(transform.position, startPos);
+        //float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range + offset)
-        {
-            PoolManager.Instance.Despawn(this);
-        }
+        //if (distance > Range + offset)
+        //{
+        //    PoolManager.Instance.Despawn(this);
+        //}
     }
     public virtual void Init(TowerData _towerData,List<int> _effectslist) 
     {
+
+        rb = GetComponent<Rigidbody2D>();
         towerData = _towerData;
         effectslist = _effectslist;
     }
     public virtual void OnSpawn()
     {
-
         if (rb != null)
            rb.velocity = Vector2.zero;
+        OriginTarget = null;
     }
 
     public virtual void OnDespawn()
     {
         if (rb != null)
             rb.velocity = Vector2.zero;
+        OriginTarget = null;
     }
     /// <summary>
     /// damage,isMulti 초기화, targetPos를 향해 회전 후 발사
@@ -72,6 +77,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         ProjectileMove();
     }
 
+    public TowerData GetTowerData()
+    { return towerData; }
     protected virtual void ProjectileMove(){}
 }
 

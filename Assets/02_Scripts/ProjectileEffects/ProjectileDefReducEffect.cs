@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileDefReducEffect : MonoBehaviour
+public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Apply(BaseMonster target, TowerData towerData)
     {
-        
+        if (!towerData.BossImmune)
+            target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        else if (target.MonsterData.MonsterType != MonType.Boss)
+            target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        
+        if (!towerData.BossImmune)
+        {
+            if (Random.value < chance)
+                target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        }
+        else if (target.MonsterData.MonsterType != MonType.Boss)
+        {
+            if (Random.value < chance)
+                target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        }
     }
 }

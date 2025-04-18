@@ -25,10 +25,11 @@ MonoBehaviour:
   specialEffect: 2
   effectChance: 0.2
   effectDuration: 0
-  effectValue: 1
+  effectValue: 3
   effectTarget: 2
   effectTargetCount: 3
   bossImmune: 0
   upgradeLevel: 1
   towerDescription: "20% \uD655\uB960\uB85C 3\uBA85\uC758 \uC801\uC744 \uB3D9\uC2DC
     \uACF5\uACA9"
+  icon: {fileID: 0}

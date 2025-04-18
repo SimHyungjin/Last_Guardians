@@ -18,6 +18,16 @@ public class MagicProjectile : ProjectileBase
 #endif
     }
 
+    public override void Update()
+    {
+        base.Update();
+        float distance = Vector2.Distance(transform.position, startPos);
+
+        if (distance > Range + offset)
+        {
+            PoolManager.Instance.Despawn<MagicProjectile>(this);
+        }
+    }
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;
@@ -43,12 +53,17 @@ public class MagicProjectile : ProjectileBase
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
+
+            if (OriginTarget == target)
+                return;
+
+            hasHit = true;
+            
             if (target != null)
             {
                 target.TakeDamage(towerData.AttackPower);
-                //ÀÌÆåÆ®Àû¿ëºÎºĞ
+                //ì´í™íŠ¸ì ìš©ë¶€ë¶„
                 if (effects == null)
                 {
                     OnDespawn();
@@ -60,12 +75,11 @@ public class MagicProjectile : ProjectileBase
                     if (effects[i] == null) continue;
                     if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
                     else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
-                    Debug.Log($"ÀÌÆåÆ® Àû¿ë {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
+                    Debug.Log($"ì´í™íŠ¸ ì ìš© {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
                 }
             }
             OnDespawn();
             PoolManager.Instance.Despawn<MagicProjectile>(this);
-            Debug.Log("»ç¶óÁö±â ½È¾î~");
         }
     }
 

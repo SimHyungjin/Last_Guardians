@@ -17,7 +17,16 @@ public class ArrowProjectile : ProjectileBase
         GetComponent<SpriteRenderer>().sprite = sprite;
 #endif
     }
+    public override void Update()
+    {
+        base.Update();
+        float distance = Vector2.Distance(transform.position, startPos);
 
+        if (distance > Range + offset)
+        {
+            PoolManager.Instance.Despawn<ArrowProjectile>(this);
+        }
+    }
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;
@@ -43,10 +52,15 @@ public class ArrowProjectile : ProjectileBase
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
+
+            if (OriginTarget == target)
+                return;
+
+            hasHit = true;
+         
             target.TakeDamage(towerData.AttackPower);
-            //¿Ã∆Â∆Æ¿˚øÎ∫Œ∫–
+            //Ïù¥ÌéôÌä∏Ï†ÅÏö©Î∂ÄÎ∂Ñ
             if (effects == null)
             {
                 OnDespawn();
@@ -59,8 +73,8 @@ public class ArrowProjectile : ProjectileBase
                 if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
                 else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
 
-                Debug.Log($"¿Ã∆Â∆Æ ¿˚øÎ {effects[i].GetType()}");
-                Debug.Log($"¿Ã∆Â∆Æ ¿˚øÎ {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
+                Debug.Log($"Ïù¥ÌéôÌä∏ Ï†ÅÏö© {effects[i].GetType()}");
+                Debug.Log($"Ïù¥ÌéôÌä∏ Ï†ÅÏö© {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
             }
             //if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
             //else effect.Apply(target, towerData);

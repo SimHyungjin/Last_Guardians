@@ -31,3 +31,4 @@ MonoBehaviour:
   bossImmune: 0
   upgradeLevel: 2
   towerDescription: "5\uCD08 \uB3D9\uC548 20% \uD655\uB960\uB85C \uC9C0\uC18D\uD53C\uD574"
+  icon: {fileID: 0}

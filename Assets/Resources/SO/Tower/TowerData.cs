@@ -46,6 +46,7 @@ public enum SpecialEffect
     AttackPower, 
     AttackSpeed, 
     Summon,
+    Silence,
     None
 }
 public enum EffectTarget

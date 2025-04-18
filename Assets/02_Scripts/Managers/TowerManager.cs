@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 using System.Collections.Generic;
+using System.Collections;
 
 public enum InteractionState
 {
@@ -45,5 +46,23 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (CurrentState == endState)
             CurrentState = InteractionState.None;
+    }
+
+    public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
+    {
+        Debug.Log("타워해제하니까 트랩 재검사하거라");
+        yield return null; 
+        
+        Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMask.GetMask("TrapObject"));
+
+        foreach (var hit in hits)
+        {
+            TrapObject trapObject = hit.GetComponent<TrapObject>();
+            if (trapObject != null)
+            {
+                trapObject.CanPlant();
+                Debug.Log(trapObject.transform);
+            }
+        }
     }
 }

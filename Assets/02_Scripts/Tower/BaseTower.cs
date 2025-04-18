@@ -17,14 +17,7 @@ public abstract class BaseTower : MonoBehaviour
     public bool isCliked;
     public SpriteRenderer sprite;
 
-    //[Header("공격")]
-    //[SerializeField]private Transform target;
-    //private float lastCheckTime = 0f;
-    //[SerializeField] private LayerMask monsterLayer;
-    //public ProjectileFactory projectileFactory;
-    ////버프목록 -> 팩토리에 전달
-    //private BaseMonster currentTargetMonster;
-
+    private LayerMask trapObjectLayer;
     private GameObject towerGhost;
     Vector2 curPos;
 
@@ -34,6 +27,7 @@ public abstract class BaseTower : MonoBehaviour
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
+        trapObjectLayer = LayerMask.GetMask("TrapObject");
         if (towerData != null)
         {
             int spriteIndex;
@@ -56,6 +50,23 @@ public abstract class BaseTower : MonoBehaviour
             sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
             towerGhost = towerData.towerGhostPrefab;       
         }
+        StartCoroutine(AfterInit());
+    }
+
+    private IEnumerator AfterInit()
+    {
+        yield return null;
+        yield return null;
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, trapObjectLayer);
+        foreach (var hit in hits)
+        {
+            TrapObject trapObject = hit.GetComponent<TrapObject>();
+            if (trapObject != null)
+            {
+                Debug.Log("설치위치에 트랩있음 다부신다");
+                trapObject.ChageState(TrapObjectState.CantActive);
+            }
+        }
     }
     protected virtual void Update()
     {
@@ -65,80 +76,11 @@ public abstract class BaseTower : MonoBehaviour
             curPos = InputManager.Instance.GetTouchWorldPosition();
             towerGhost.transform.position = curPos;
         }
-
-
-        //if (Time.time - lastCheckTime < towerData.AttackSpeed) return;
-        //{
-        //    FindTarget();
-        //    if (projectileFactory == null || towerData == null)
-        //    {
-        //        Debug.LogError("ProjectileFactory or TowerData is null in BaseTower.Update");
-        //        return;  // 필수 객체가 null이라면 Update에서 더 이상 진행하지 않음
-        //    }
-        //    lastCheckTime = Time.time;
-        //    Attack();
-        //}
     }
-
-
-    //bool IsInRange(Vector3 targetPos)
-    //{
-    //    return Vector3.Distance(transform.position, targetPos) <= towerData.AttackRange;
-    //}
-
-    //void FindTarget()
-    //{
-    //    Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, monsterLayer);
-
-    //    float closestDist = float.MaxValue;
-    //    Transform closest = null;
-
-    //    foreach (var hit in hits)
-    //    {
-    //        float dist = Vector2.Distance(transform.position, hit.transform.position);
-    //        if (dist < closestDist)
-    //        {
-    //            closestDist = dist;
-    //            closest = hit.transform;
-    //        }
-    //    }
-    //    if (target == closest) return;
-    //    if (currentTargetMonster != null)
-    //    {
-    //        currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
-    //    }
-    //    target = closest;
-    //    currentTargetMonster = target.GetComponent<BaseMonster>();
-    //    if (currentTargetMonster != null)
-    //    {
-    //        currentTargetMonster.OnMonsterDeathAction += HandleTargetDeath; 
-    //    }
-    //}
-
-    //void Attack()
-    //{
-    //    if (target == null || !IsInRange(target.position))return;
-    //    Debug.Log($"[BaseTower] {towerData.TowerName} 공격대상: {target.name}");
-    //    //projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
-    //    switch (towerData.ProjectileType)
-    //    {
-    //        case ProjectileType.Magic:
-    //            projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform);
-    //            break;
-    //        case ProjectileType.Blast:
-    //            projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform);
-    //            break;
-    //        case ProjectileType.Arrow:
-    //            projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform);
-    //            break;
-    //        default:
-    //            Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");
-    //            break;
-    //    }
-    //}
 
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
+        if (this == null) return;
         if (!isCliked)
         {
             curPos = InputManager.Instance.GetTouchWorldPosition();
@@ -166,24 +108,15 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
-
-    //private void HandleTargetDeath()
-    //{
-    //    Debug.Log($"[BaseTower] {towerData.TowerName} 공격대상 사망");
-    //    target = null;
-    //    lastCheckTime = Time.time;
-    //    currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
-    //    currentTargetMonster = null;
-    //}
-    protected virtual void OnDestroy()
+    protected virtual void OnDisable()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
-        //if (currentTargetMonster != null)
-        //{
-        //    currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
-        //    currentTargetMonster = null;
-        //}
+    }
+    protected virtual void OnDestroy()
+    {
+        //InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
         isMoving = false;
+        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 }
 

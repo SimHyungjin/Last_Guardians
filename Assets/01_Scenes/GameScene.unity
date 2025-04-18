@@ -4633,6 +4633,7 @@ MonoBehaviour:
   towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
   towerbuilder: {fileID: 648171797}
   projectileFactory: {fileID: 0}
+  TrapObjectPrefab: {fileID: 0}
 --- !u!4 &648171799
 Transform:
   m_ObjectHideFlags: 0
@@ -6330,7 +6331,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.033333335
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0

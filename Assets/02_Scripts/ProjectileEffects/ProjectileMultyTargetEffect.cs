@@ -69,12 +69,6 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
                         blastProjectile.Launch(origin + dir * 10f);
                         break;
                 }
-                //var projectile = PoolManager.Instance.Spawn(GetComponent<ProjectileBase>());
-                //projectile.OriginTarget = target;
-                //projectile.transform.position = spawnPosition;
-                //projectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                //projectile.Init(towerData, null);
-                //projectile.Launch(origin + dir * 10f);
             }
         }
     }

@@ -53,7 +53,6 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                         magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
                         magicprojectile.Init(ownerTowerData, null);
                         magicprojectile.Launch(origin + dir * 10f);
-                        Debug.Log($"Spawned projectile at angle: {angle} degrees");
                         break;
                     case ProjectileType.Blast:
                         BlastProjectile blastProjectile = TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData);

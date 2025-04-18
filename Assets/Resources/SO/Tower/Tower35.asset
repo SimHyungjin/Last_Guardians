@@ -22,7 +22,7 @@ MonoBehaviour:
   towerType: 2
   projectileType: 2
   elementType: 2
-  specialEffect: 12
+  specialEffect: 3
   effectChance: 1
   effectDuration: 0
   effectValue: 1
@@ -32,3 +32,4 @@ MonoBehaviour:
   upgradeLevel: 1
   towerDescription: "\uBC18\uACBD \uB0B4 \uCD94\uAC00 \uD53C\uD574\uB97C \uC77C\uC73C\uD0A4\uB294
     \uBC14\uB78C 2\uAC1C \uC0DD\uC131"
+  icon: {fileID: 0}

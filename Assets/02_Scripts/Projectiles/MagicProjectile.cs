@@ -18,6 +18,16 @@ public class MagicProjectile : ProjectileBase
 #endif
     }
 
+    public override void Update()
+    {
+        base.Update();
+        float distance = Vector2.Distance(transform.position, startPos);
+
+        if (distance > Range + offset)
+        {
+            PoolManager.Instance.Despawn<MagicProjectile>(this);
+        }
+    }
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;
@@ -70,7 +80,6 @@ public class MagicProjectile : ProjectileBase
             }
             OnDespawn();
             PoolManager.Instance.Despawn<MagicProjectile>(this);
-            Debug.Log("사라지기 싫어~");
         }
     }
 

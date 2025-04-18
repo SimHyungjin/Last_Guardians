@@ -25,9 +25,10 @@ MonoBehaviour:
   specialEffect: 2
   effectChance: 1
   effectDuration: 0
-  effectValue: 0
+  effectValue: 7
   effectTarget: 2
   effectTargetCount: 7
   bossImmune: 0
   upgradeLevel: 3
   towerDescription: "7\uAC1C\uB97C \uBC1C\uC0AC\uD574 \uB3D9\uC2DC \uACF5\uACA9"
+  icon: {fileID: 0}

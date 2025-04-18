@@ -32,3 +32,4 @@ MonoBehaviour:
   upgradeLevel: 2
   towerDescription: "\uBC18\uACBD \uB0B4 \uBAA8\uB4E0 \uD0C0\uC6CC \uACF5\uACA9\uB825
     30% \uC99D\uAC00"
+  icon: {fileID: 0}

@@ -24,7 +24,7 @@ MonoBehaviour:
   elementType: 11
   specialEffect: 7
   effectChance: 1
-  effectDuration: 3
+  effectDuration: 0.2
   effectValue: 0.1
   effectTarget: 1
   effectTargetCount: 0
@@ -32,3 +32,4 @@ MonoBehaviour:
   upgradeLevel: 1
   towerDescription: "\uBC18\uACBD \uB0B4 \uC801 \uBC29\uC5B4\uB825 10% \uAC10\uC18C
     (\uBCF4\uC2A4 \uBBF8\uC801\uC6A9)"
+  icon: {fileID: 0}

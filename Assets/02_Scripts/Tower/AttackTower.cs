@@ -83,18 +83,37 @@ public class AttackTower : BaseTower
 
     void Attack()
     {
+
+        bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
+        bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
         //projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
         switch (towerData.ProjectileType)
         {
-            case ProjectileType.Magic:
-                projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex);
-                break;
             case ProjectileType.Blast:
                 projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
+            case ProjectileType.Magic:
+
+                if (shouldMultyShot)
+                {
+                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
+                }
+                else
+                {
+                    projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex);
+                }
+                break;
+
             case ProjectileType.Arrow:
-                projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex);
+                if (shouldMultyShot)
+                {
+                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
+                }
+                else
+                {
+                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex);
+                }
                 break;
             default:
                 Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");

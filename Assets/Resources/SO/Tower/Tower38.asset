@@ -22,7 +22,7 @@ MonoBehaviour:
   towerType: 2
   projectileType: 1
   elementType: 3
-  specialEffect: 13
+  specialEffect: 14
   effectChance: 1
   effectDuration: 0
   effectValue: 0
@@ -31,3 +31,4 @@ MonoBehaviour:
   bossImmune: 0
   upgradeLevel: 1
   towerDescription: "\uC11D\uAD81\uC0AC\uC218\uD0C0\uC6CC"
+  icon: {fileID: 0}

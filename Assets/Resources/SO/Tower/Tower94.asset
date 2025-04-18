@@ -18,11 +18,11 @@ MonoBehaviour:
   towerName: "\uC815\uD654 \uD568\uC815 \uD0C0\uC6CCII"
   attackPower: 0
   attackSpeed: 0
-  attackRange: 4
+  attackRange: 0
   towerType: 2
   projectileType: 4
   elementType: 4
-  specialEffect: 6
+  specialEffect: 13
   effectChance: 1
   effectDuration: 6
   effectValue: 0
@@ -32,3 +32,4 @@ MonoBehaviour:
   upgradeLevel: 2
   towerDescription: "\uBCF4\uC2A4\uC758 \uC2A4\uD0AC\uC744 \uBB34\uB825\uD654 \uC2DC\uD0A4\uB294
     \uC624\uBE0C\uC81D\uD2B8 \uC0DD\uC131 6\uCD08 \uB3D9\uC548 \uC9C0\uC18D"
+  icon: {fileID: 0}

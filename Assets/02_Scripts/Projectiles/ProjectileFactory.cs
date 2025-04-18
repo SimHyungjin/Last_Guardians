@@ -76,26 +76,37 @@ public class ProjectileFactory : MonoBehaviour
         AddAllEffects(projectile, towerData, buffTowerIndex);
         projectile.Launch(targetPos); // 이펙트 추가
     }
-    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent, List<int> buffTowerIndex) where T : ProjectileBase
+    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent, List<int> buffTowerIndex,int shotCount) where T : ProjectileBase
     {
-        if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
-        {
-            Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
-            return;
-        }
+        
+            if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab)) return;
 
-        var castedPrefab = prefab as T;
-        if (castedPrefab == null)
-        {
-            Debug.LogError($"[ProjectileFactory] 프리팹 타입 불일치: {towerData.ProjectileType} → {typeof(T)} 기대됨");
-            return;
-        }
+            var castedPrefab = prefab as T;
+            if (castedPrefab == null) return;
 
-        var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
-        projectile.Init(towerData, buffTowerIndex);
-        AddAllEffects(projectile, towerData, buffTowerIndex);
-        projectile.Launch(targetPos); // 이펙트 추가
-    }
+            Vector2 origin = parent.position;
+            Vector2 baseDir = (targetPos - origin).normalized;
+            float maxAngle = 45f;
+            int maxShots = Mathf.Min(shotCount, 7);
+
+            int half = maxShots / 2;
+            for (int i = 0; i < maxShots; i++)
+            {
+                int index = i - half;
+                if (maxShots % 2 == 0 && index >= 0) index += 1;
+
+                float angle = (maxAngle / (maxShots - 1)) * index;
+                Vector2 rotatedDir = Quaternion.Euler(0, 0, angle) * baseDir;
+                Vector2 launchPos = origin + rotatedDir * 0.5f;
+
+                var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
+                projectile.transform.position = launchPos;
+                projectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rotatedDir));
+                projectile.Init(towerData, buffTowerIndex);
+                AddAllEffects(projectile, towerData, buffTowerIndex);
+                projectile.Launch(origin + rotatedDir * 10f);
+            }
+        }
 
     public T ReturnPrefabs<T>(TowerData towerData) where T : ProjectileBase
     {

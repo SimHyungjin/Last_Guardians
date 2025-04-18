@@ -76,27 +76,44 @@ public class ProjectileFactory : MonoBehaviour
         AddAllEffects(projectile, towerData, buffTowerIndex);
         projectile.Launch(targetPos); // 이펙트 추가
     }
-    //AddEffectComponent(projectile, towerData);
-    //private void AddEffectComponent(ProjectileBase projectile, TowerData data)
-    //{
-    //    if (data.SpecialEffect == SpecialEffect.None) return ;
+    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent, List<int> buffTowerIndex) where T : ProjectileBase
+    {
+        if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
+        {
+            Debug.LogError($"[ProjectileFactory] 타입에 해당하는 프리팹 없음: {towerData.ProjectileType}");
+            return;
+        }
 
-    //    if (effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType))
-    //    {
-    //        var go = projectile.gameObject;
+        var castedPrefab = prefab as T;
+        if (castedPrefab == null)
+        {
+            Debug.LogError($"[ProjectileFactory] 프리팹 타입 불일치: {towerData.ProjectileType} → {typeof(T)} 기대됨");
+            return;
+        }
 
-    //        // 중복 방지
-    //        if (!go.TryGetComponent(effectType, out var existing))
-    //        {
-    //            var added = go.AddComponent(effectType) as IEffect;
-    //            projectile.effect = added;
-    //        }
-    //        else
-    //        {
-    //            projectile.effect = existing as IEffect;
-    //        }
-    //    }
-    //}
+        var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
+        projectile.Init(towerData, buffTowerIndex);
+        AddAllEffects(projectile, towerData, buffTowerIndex);
+        projectile.Launch(targetPos); // 이펙트 추가
+    }
+
+    public T ReturnPrefabs<T>(TowerData towerData) where T : ProjectileBase
+    {
+        if (!projectileMap.TryGetValue(towerData.ProjectileType, out var basePrefab))
+        {
+            Debug.LogError($"[ProjectileFactory] 타입에 맞는 프리팹 없음: {towerData.ProjectileType}");
+            return null;
+        }
+
+        if (basePrefab is T casted)
+        {
+            return casted;
+        }
+
+        Debug.LogError($"[ProjectileFactory] 프리팹 타입이 기대한 {typeof(T)}이 아님: 실제는 {basePrefab.GetType()}");
+        return null;
+    }
+
     private void AddAllEffects(ProjectileBase projectile, TowerData baseData,List<int> buffTowerIndex)
     {
         var go = projectile.gameObject;

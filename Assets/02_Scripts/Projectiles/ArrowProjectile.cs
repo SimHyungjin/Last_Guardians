@@ -17,7 +17,16 @@ public class ArrowProjectile : ProjectileBase
         GetComponent<SpriteRenderer>().sprite = sprite;
 #endif
     }
+    public override void Update()
+    {
+        base.Update();
+        float distance = Vector2.Distance(transform.position, startPos);
 
+        if (distance > Range + offset)
+        {
+            PoolManager.Instance.Despawn<ArrowProjectile>(this);
+        }
+    }
     protected override void ProjectileMove()
     {
         rb.velocity = direction * speed;

@@ -34,15 +34,17 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 
     public virtual void Update()
     {
-        float distance = Vector2.Distance(transform.position, startPos);
+        //float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range + offset)
-        {
-            PoolManager.Instance.Despawn(this);
-        }
+        //if (distance > Range + offset)
+        //{
+        //    PoolManager.Instance.Despawn(this);
+        //}
     }
     public virtual void Init(TowerData _towerData,List<int> _effectslist) 
     {
+
+        rb = GetComponent<Rigidbody2D>();
         towerData = _towerData;
         effectslist = _effectslist;
     }
@@ -75,6 +77,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         ProjectileMove();
     }
 
+    public TowerData GetTowerData()
+    { return towerData; }
     protected virtual void ProjectileMove(){}
 }
 

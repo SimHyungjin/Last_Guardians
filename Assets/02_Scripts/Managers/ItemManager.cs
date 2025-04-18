@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class ItemManager
 {
-    [SerializeField] private Dictionary<int, ItemData> itemDatas = new();
+    private Dictionary<int, ItemData> itemDatas = new();
+    private ReadOnlyDictionary<int, ItemData> readonlyItemDatas;
 
     public void LoadAllItems()
     {
@@ -12,12 +14,16 @@ public class ItemManager
         {
             itemDatas[item.ItemIndex] = item;
         }
+
+        readonlyItemDatas = new ReadOnlyDictionary<int, ItemData>(itemDatas);
     }
 
     public ItemInstance GetItemInstanceByIndex(int index)
     {
         return itemDatas.TryGetValue(index, out var data)? new ItemInstance(data): null;
     }
+
+    public ReadOnlyDictionary<int, ItemData> ItemDatas() => readonlyItemDatas;
 }
 
 public class ItemInstance

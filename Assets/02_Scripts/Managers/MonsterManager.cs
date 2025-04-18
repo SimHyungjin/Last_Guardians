@@ -27,7 +27,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private WaitForSeconds spawnSeconds;
     public Action spawnAction;
 
-    private int currentWaveIndex = 0;
+    public int currentWaveIndex { get; private set; } = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
 

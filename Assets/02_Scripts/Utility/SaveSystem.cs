@@ -30,7 +30,7 @@ public static class SaveSystem
 {
     private static string SavePath => Application.persistentDataPath + "/save.json";
 
-    public static void SaveReward(int itemIndex)
+    public static void SaveEquipReward(int itemIndex)
     {
         if (!File.Exists(SavePath))
         {
@@ -43,6 +43,38 @@ public static class SaveSystem
         int generateUniqueID = System.Guid.NewGuid().GetHashCode();
 
         save.inventory.Add(new ItemInstanceSave{itemIndex = itemIndex,uniqueID = generateUniqueID});
+
+        string newJson = JsonUtility.ToJson(save, true);
+        File.WriteAllText(SavePath, newJson);
+    }
+
+    public static void SaveGoldReward(int gold)
+    {
+        if (!File.Exists(SavePath))
+        {
+            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
+        }
+
+        string json = File.ReadAllText(SavePath);
+        var save = JsonUtility.FromJson<SaveData>(json);
+
+        save.gold += gold;
+
+        string newJson = JsonUtility.ToJson(save, true);
+        File.WriteAllText(SavePath, newJson);
+    }
+
+    public static void SaveUpgradeStonedReward(int upgradeStone)
+    {
+        if (!File.Exists(SavePath))
+        {
+            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
+        }
+
+        string json = File.ReadAllText(SavePath);
+        var save = JsonUtility.FromJson<SaveData>(json);
+
+        save.upgradeStones += upgradeStone;
 
         string newJson = JsonUtility.ToJson(save, true);
         File.WriteAllText(SavePath, newJson);

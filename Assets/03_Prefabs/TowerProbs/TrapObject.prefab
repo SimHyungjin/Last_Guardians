@@ -105,6 +105,9 @@ MonoBehaviour:
   TrapObjectMask:
     serializedVersion: 2
     m_Bits: 2048
+  MonsterMask:
+    serializedVersion: 2
+    m_Bits: 64
   sr: {fileID: 0}
   col: {fileID: 0}
 --- !u!58 &2530111282139302248

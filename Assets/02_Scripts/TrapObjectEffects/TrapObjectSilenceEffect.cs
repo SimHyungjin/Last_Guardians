@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
+public class TrapObjectSilenceEffect : ITrapEffect
 {
     public void Apply(BaseMonster target, TowerData towerData)
     {
-        target.ApplySlowdown(towerData.EffectValue, 0.1f);
+       target= target.GetComponent<BossMonster>();
+       //target.Silcence
     }
 }
-

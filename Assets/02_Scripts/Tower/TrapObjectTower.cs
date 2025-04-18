@@ -10,6 +10,8 @@ public class TrapObjectTower : BaseTower
     [Header("오브젝트타워 데이터")]
     [SerializeField] private GameObject trapObjcetPrefab;
     private List<TrapObject> traps = new();
+
+
     private Vector2[] offsets = new Vector2[]
     {
         new Vector2(0, 1),       // 위
@@ -36,6 +38,7 @@ public class TrapObjectTower : BaseTower
 
     protected override void OnDestroy()
     {
+        base.OnDestroy();
         foreach (TrapObject trap in traps)
         {
             Destroy(trap.gameObject);

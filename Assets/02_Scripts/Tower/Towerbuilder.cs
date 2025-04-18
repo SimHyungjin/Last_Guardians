@@ -142,6 +142,7 @@ public class Towerbuilder : MonoBehaviour
             AttackTower tower = go.AddComponent<AttackTower>();
             tower.Init(data);
         }
+
     }
 
     public bool IsAnyObjectOnTile(Vector2 tilePos)

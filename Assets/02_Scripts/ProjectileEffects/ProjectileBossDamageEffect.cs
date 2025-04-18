@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBossDamageEffect : MonoBehaviour
+public class ProjectileBossDamageEffect : MonoBehaviour, IEffect
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Apply(BaseMonster target, TowerData towerData)
     {
-        
+        if (target.MonsterData.MonsterType == MonType.Boss)
+        {
+            target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        
+        if (target.MonsterData.MonsterType == MonType.Boss)
+        {
+            if (Random.value < chance)
+                target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+        }
     }
 }

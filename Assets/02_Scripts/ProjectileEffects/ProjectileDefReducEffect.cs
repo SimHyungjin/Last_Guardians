@@ -6,13 +6,24 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData)
     {
-        target.ApplyReducionDef(towerData.EffectValue,towerData.EffectDuration);
+        if (!towerData.BossImmune)
+            target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        else if (target.MonsterData.MonsterType != MonType.Boss)
+            target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
     }
 
     public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        if(Random.value<chance)
-            target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        if (!towerData.BossImmune)
+        {
+            if (Random.value < chance)
+                target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        }
+        else if (target.MonsterData.MonsterType != MonType.Boss)
+        {
+            if (Random.value < chance)
+                target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+        }
     }
 
 }

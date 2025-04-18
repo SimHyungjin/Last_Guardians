@@ -6,10 +6,16 @@ public class ProjectileKnockbackEffect : MonoBehaviour, IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData)
     {
-        target.ApplyKnockBack(towerData.EffectDuration, 1f, this.transform.position);
+        if(!towerData.BossImmune)
+            target.ApplyKnockBack(towerData.EffectDuration, 1f, this.transform.position);
+        else if(target.MonsterData.MonsterType != MonType.Boss)
+            target.ApplyKnockBack(towerData.EffectDuration, 1f, this.transform.position);
     }
     public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        target.ApplyKnockBack(towerData.EffectDuration, 1f, this.transform.position);
+        if (!towerData.BossImmune)
+            target.ApplyKnockBack(towerData.EffectDuration, 1f, this.transform.position);
+        else if (target.MonsterData.MonsterType != MonType.Boss)
+            target.ApplyKnockBack(towerData.EffectDuration, 1f, this.transform.position);
     }
 }

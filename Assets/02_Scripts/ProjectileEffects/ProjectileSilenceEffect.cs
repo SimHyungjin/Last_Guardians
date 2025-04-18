@@ -6,7 +6,7 @@ public class ProjectileSilenceEffect : MonoBehaviour, IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData)
     {
-        if(target.MonsterData.MonsterType == MonType.Boss)
+        if (target.MonsterData.MonsterType == MonType.Boss)
         {
             target.ApplySilenceDebuff(towerData.EffectDuration);
         }
@@ -14,8 +14,6 @@ public class ProjectileSilenceEffect : MonoBehaviour, IEffect
 
     public void Apply(BaseMonster target, TowerData towerData, float chance)
     {
-        throw new System.NotImplementedException();
-    }
 
-    
+    }
 }

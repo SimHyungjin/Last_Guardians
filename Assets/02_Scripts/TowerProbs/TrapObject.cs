@@ -19,15 +19,20 @@ public class TrapObject : MonoBehaviour
     
     [SerializeField] private List<int> trapEffectIndex;
     [SerializeField] private LayerMask buildBlockMask;
+    [SerializeField] private LayerMask TrapObjectMask;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
     private TowerData towerData;
     private TrapObjectState currentState;
     private float cooldownTime;
+
+    private float creationTime;
+
     public  void Init(TowerData towerData)
     {
         this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
+        creationTime = Time.time;
         trapEffectIndex = new List<int>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
@@ -35,19 +40,7 @@ public class TrapObject : MonoBehaviour
         {
             trapEffectIndex.Add(towerData.TowerIndex);
         }
-
-        buildBlockMask =LayerMask.GetMask("Tower", "Obstacle","TrapObject");
-        
-        if (IsAnyObjectOnTile())
-        {
-            Debug.Log("타일에 충돌체있음");
-            UnActive(TrapObjectState.CantActive);
-        }
-        else
-        {
-            Debug.Log("타일에 충돌체없음");
-            ChageState(TrapObjectState.Ready);
-        }
+        CanPlant();
     }
     private  void Update()
     {
@@ -56,7 +49,7 @@ public class TrapObject : MonoBehaviour
             cooldownTime -= Time.deltaTime;
             if (cooldownTime <= 0)
             {
-                OnActive();
+                ChageState(TrapObjectState.Ready);
                 cooldownTime = towerData.EffectDuration;
             }
         }
@@ -69,6 +62,64 @@ public class TrapObject : MonoBehaviour
         { SpecialEffect.BossDebuff, typeof(TrapObjectBossDebuffEffect) },//미구현
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },//미구현
     };
+    //public void CanPlant()
+    //{
+    //    Collider2D[] hits = Physics2D.OverlapPointAll(PostionArray(), buildBlockMask);
+
+    //    bool hasOtherObstacle = false;
+
+    //    foreach (var hit in hits)
+    //    {
+    //        if (hit != null && hit.gameObject != gameObject)
+    //        {
+    //            hasOtherObstacle = true;
+    //            break;
+    //        }
+    //    }
+
+    //    if (hasOtherObstacle)
+    //    {
+    //        Debug.Log("타일에 충돌체 있음");
+    //        ChageState(TrapObjectState.CantActive);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("타일에 충돌체 없음");
+    //        ChageState(TrapObjectState.Ready);
+    //    }
+    //}
+    public void CanPlant()
+    {
+        Vector2 pos = PostionArray();
+
+        Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, buildBlockMask);
+        foreach (var hit in blockHits)
+        {
+            if (hit != null && hit.gameObject != gameObject)
+            {
+                Debug.Log("타일에 타워/장애물 있음");
+                ChageState(TrapObjectState.CantActive);
+                return;
+            }
+        }
+
+        Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMask.GetMask("TrapObject"));
+        foreach (var hit in trapHits)
+        {
+            if (hit.gameObject == this.gameObject) continue;
+
+            TrapObject other = hit.GetComponent<TrapObject>();
+            if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
+            {
+                Debug.Log("다른 트랩이 이미 우선권 가짐");
+                ChageState(TrapObjectState.CantActive);
+                return;
+            }
+        }
+
+        Debug.Log("트랩 설치 가능");
+        ChageState(TrapObjectState.Ready);
+    }
 
     public bool IsAnyObjectOnTile()
     {
@@ -82,6 +133,20 @@ public class TrapObject : MonoBehaviour
     public void ChageState(TrapObjectState trapObjectState)
     {
         currentState = trapObjectState;
+        switch (trapObjectState)
+        {
+            case TrapObjectState.CantActive:
+                UnActive();
+                break;
+            case TrapObjectState.Ready:
+                OnActive();
+                break;
+            case TrapObjectState.Triggered:
+                break;
+            case TrapObjectState.Cooldown:
+                UnActive();
+                break;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -100,23 +165,27 @@ public class TrapObject : MonoBehaviour
                 //    trapEffect.Apply(monster, TowerManager.Instance.TowerData[effectIndex]);
                 //}
                 Debug.Log("효과뿌렷고 쿨타임돈다");
-                UnActive(TrapObjectState.Cooldown);
+                //ChangeState(TrapObjectState.Triggered);
+                ChageState(TrapObjectState.Cooldown);
             }
         }
     }
-
+    private void StartEffect()
+    {
+        ChageState(TrapObjectState.Cooldown);
+    }
     public void OnActive()
     {
-        ChageState(TrapObjectState.Ready);
         sr.enabled = true;
-        col.enabled = true;
     }
 
-    public void UnActive(TrapObjectState trapObjectState)
+    public void UnActive()
     {
-        ChageState(trapObjectState);
         sr.enabled = false;
-        col.enabled = false;
     }
 
+    private void OnDestroy()
+    {
+        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+    }
 }

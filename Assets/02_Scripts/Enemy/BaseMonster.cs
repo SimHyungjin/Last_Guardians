@@ -61,6 +61,7 @@ public class BaseMonster : MonoBehaviour
     private StatusEffect defBuff;
     private StatusEffect speedBuff;
     private StatusEffect evasionBuff;
+    private StatusEffect skillValueDebuff;
     public bool isSturn = false;
     public float EvasionRate { get; set; } = -1f;
 
@@ -113,8 +114,7 @@ public class BaseMonster : MonoBehaviour
             Debug.Log($"{MonsterData.MonsterName} : {MonsterSkillBaseData.skillData.SkillName} 가지고 있음");
         }
 
-        CancelAllBuff();
-        CancelAllDebuff();
+        effectHandler.ClearAllEffect();
 
     }
 
@@ -413,6 +413,24 @@ public class BaseMonster : MonoBehaviour
     public void CancelEvasionBuff()
     {
         effectHandler.RemoveEffect(evasionBuff);
+    }
+
+    public void ApplySkillValueDebuff(float amount, float duration)
+    {
+        if (effectHandler.IsInEffect(skillValueDebuff))
+        {
+            skillValueDebuff = new SkillValueDebuffEffect(amount, duration);
+            effectHandler.AddEffect(skillValueDebuff);
+        }
+        else
+        {
+            skillValueDebuff.UpdateEffect(amount,duration);
+        }
+    }
+
+    public void CancelSkillValueDebuff()
+    {
+        effectHandler.RemoveEffect(skillValueDebuff);
     }
 
     //전체 디버프 해제

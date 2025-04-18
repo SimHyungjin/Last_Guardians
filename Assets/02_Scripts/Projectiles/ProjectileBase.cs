@@ -34,12 +34,12 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 
     public virtual void Update()
     {
-        float distance = Vector2.Distance(transform.position, startPos);
+        //float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range + offset)
-        {
-            PoolManager.Instance.Despawn(this);
-        }
+        //if (distance > Range + offset)
+        //{
+        //    PoolManager.Instance.Despawn(this);
+        //}
     }
     public virtual void Init(TowerData _towerData,List<int> _effectslist) 
     {

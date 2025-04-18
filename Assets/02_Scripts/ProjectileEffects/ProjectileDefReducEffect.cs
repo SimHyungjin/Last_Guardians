@@ -25,5 +25,4 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
                 target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
         }
     }
-
 }

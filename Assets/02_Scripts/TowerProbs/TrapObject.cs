@@ -30,12 +30,39 @@ public class TrapObject : MonoBehaviour
 
     public  void Init(TowerData towerData)
     {
+        
         this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
         creationTime = Time.time;
+        
         trapEffectIndex = new List<int>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+        //테스트용 색깔놀이
+        switch (towerData.ElementType)
+        {
+            case ElementType.Fire:
+                sr.color = Color.red;
+                break;
+            case ElementType.Water:
+                sr.color = Color.blue;
+                break;
+            case ElementType.Wind:
+                sr.color = Color.cyan;
+                break;
+            case ElementType.Earth:
+                sr.color = Color.green;
+                break;
+            case ElementType.Light:
+                sr.color = Color.yellow;
+                break;
+            case ElementType.Dark:
+                sr.color = Color.black;
+                break;
+            default:
+                sr.color = Color.white;
+                break;
+        }
         if (towerData.SpecialEffect != SpecialEffect.None)
         {
             trapEffectIndex.Add(towerData.TowerIndex);
@@ -62,32 +89,7 @@ public class TrapObject : MonoBehaviour
         { SpecialEffect.BossDebuff, typeof(TrapObjectBossDebuffEffect) },//미구현
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },//미구현
     };
-    //public void CanPlant()
-    //{
-    //    Collider2D[] hits = Physics2D.OverlapPointAll(PostionArray(), buildBlockMask);
 
-    //    bool hasOtherObstacle = false;
-
-    //    foreach (var hit in hits)
-    //    {
-    //        if (hit != null && hit.gameObject != gameObject)
-    //        {
-    //            hasOtherObstacle = true;
-    //            break;
-    //        }
-    //    }
-
-    //    if (hasOtherObstacle)
-    //    {
-    //        Debug.Log("타일에 충돌체 있음");
-    //        ChageState(TrapObjectState.CantActive);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("타일에 충돌체 없음");
-    //        ChageState(TrapObjectState.Ready);
-    //    }
-    //}
     public void CanPlant()
     {
         Vector2 pos = PostionArray();

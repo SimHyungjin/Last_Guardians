@@ -147,4 +147,8 @@ public class TrapObject : MonoBehaviour
         sr.enabled = false;
     }
 
+    private void OnDestroy()
+    {
+        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+    }
 }

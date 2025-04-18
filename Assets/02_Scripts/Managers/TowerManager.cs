@@ -50,7 +50,6 @@ public class TowerManager : Singleton<TowerManager>
 
     public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
     {
-        Debug.Log("타워해제하니까 트랩 재검사하거라");
         yield return null; 
         
         Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMask.GetMask("TrapObject"));

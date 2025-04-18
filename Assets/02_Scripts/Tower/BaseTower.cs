@@ -53,13 +53,13 @@ public abstract class BaseTower : MonoBehaviour
         StartCoroutine(AfterInit());
     }
 
-    private IEnumerator AfterInit()
+    protected IEnumerator AfterInit()
     {
-        yield return null;
         yield return null;
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, trapObjectLayer);
         foreach (var hit in hits)
         {
+            if (hit.transform.IsChildOf(this.transform)) continue;
             TrapObject trapObject = hit.GetComponent<TrapObject>();
             if (trapObject != null)
             {

@@ -8,6 +8,7 @@ public enum MonsterSkillType
     DeBuff,
     Evasion,
     Disable,
+    Clean,
     Summon
 }
 

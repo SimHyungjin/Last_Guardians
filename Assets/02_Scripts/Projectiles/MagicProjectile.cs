@@ -80,7 +80,6 @@ public class MagicProjectile : ProjectileBase
             }
             OnDespawn();
             PoolManager.Instance.Despawn<MagicProjectile>(this);
-            Debug.Log("사라지기 싫어~");
         }
     }
 

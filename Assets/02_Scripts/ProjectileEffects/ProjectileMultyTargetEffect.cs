@@ -26,6 +26,7 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
         }
         else
         {
+            TowerData ownerTowerData = this.gameObject.GetComponent<ProjectileBase>().GetTowerData();
             float angleStep = 10f;
             int additionalCount = towerData.EffectTargetCount - 1;
 
@@ -33,7 +34,7 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
             Vector2 forward = transform.right;
 
             int half = additionalCount / 2;
-
+            int count = 0;
             for (int i = 0; i < additionalCount; i++)
             {
                 float spawnOffset = 0.5f;
@@ -46,14 +47,34 @@ public class ProjectileMultyTargetEffect : MonoBehaviour, IEffect
 
                 Vector2 spawnPosition = origin + dir * spawnOffset;
                 Vector2 targetPosition = origin + dir * 10f;
-
-                var projectile = PoolManager.Instance.Spawn(GetComponent<ProjectileBase>());
-                projectile.OriginTarget = target;
-                projectile.transform.position = spawnPosition;
-                projectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                projectile.Init(towerData, null);
-                projectile.Launch(origin + dir * 10f);
-                Debug.Log($"Spawned projectile at angle: {angle} degrees");
+                
+                switch(ownerTowerData.ProjectileType)
+                {
+                    case ProjectileType.Magic:
+                        MagicProjectile magicprojectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<MagicProjectile>(ownerTowerData));
+                        
+                        magicprojectile.OriginTarget = target;
+                        magicprojectile.transform.position = spawnPosition;
+                        magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                        magicprojectile.Init(ownerTowerData, null);
+                        magicprojectile.Launch(origin + dir * 10f);
+                        Debug.Log($"Spawned projectile at angle: {angle} degrees");
+                        break;
+                    case ProjectileType.Blast:
+                        BlastProjectile blastProjectile = TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData);
+                        blastProjectile.OriginTarget = target;
+                        blastProjectile.transform.position = spawnPosition;
+                        blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                        blastProjectile.Init(ownerTowerData, null);
+                        blastProjectile.Launch(origin + dir * 10f);
+                        break;
+                }
+                //var projectile = PoolManager.Instance.Spawn(GetComponent<ProjectileBase>());
+                //projectile.OriginTarget = target;
+                //projectile.transform.position = spawnPosition;
+                //projectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                //projectile.Init(towerData, null);
+                //projectile.Launch(origin + dir * 10f);
             }
         }
     }

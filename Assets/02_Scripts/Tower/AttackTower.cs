@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class AttackTower : BaseTower
 {
 
-    [Header("°ø°İ")]
+    [Header("ê³µê²©")]
     [SerializeField] private Transform target;
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
@@ -40,7 +40,7 @@ public class AttackTower : BaseTower
             if (projectileFactory == null || towerData == null)
             {
                 Debug.LogError("ProjectileFactory or TowerData is null in BaseTower.Update");
-                return;  // ÇÊ¼ö °´Ã¼°¡ nullÀÌ¶ó¸é Update¿¡¼­ ´õ ÀÌ»ó ÁøÇàÇÏÁö ¾ÊÀ½
+                return;  // í•„ìˆ˜ ê°ì²´ê°€ nullì´ë¼ë©´ Updateì—ì„œ ë” ì´ìƒ ì§„í–‰í•˜ì§€ ì•ŠìŒ
             }
             lastCheckTime = Time.time;
             Attack();
@@ -97,13 +97,13 @@ public class AttackTower : BaseTower
                 projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex);
                 break;
             default:
-                Debug.LogError($"[BaseTower] {towerData.TowerName} °ø°İÅ¸ÀÔ ¾øÀ½");
+                Debug.LogError($"[BaseTower] {towerData.TowerName} ê³µê²©íƒ€ì… ì—†ìŒ");
                 break;
         }
     }
     private void HandleTargetDeath()
     {
-        Debug.Log($"[BaseTower] {towerData.TowerName} °ø°İ´ë»ó »ç¸Á");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ëŒ€ìƒ ì‚¬ë§");
         target = null;
         lastCheckTime = Time.time;
         currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
@@ -123,12 +123,12 @@ public class AttackTower : BaseTower
     public void AttackPowerBuff(float buff)
     {
         attackPower += attackPower*buff;
-        Debug.Log($"[BaseTower] {towerData.TowerName} °ø°İ·Â Áõ°¡: {attackPower}");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ë ¥ ì¦ê°€: {attackPower}");
     }
     public void AttackSpeedBuff(float buff)
     {
         attackSpeed = attackSpeed /((1f+buff));
-        Debug.Log($"[BaseTower] {towerData.TowerName} °ø°İ¼Óµµ Áõ°¡: {attackSpeed}");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ì†ë„ ì¦ê°€: {attackSpeed}");
     }
 
     public void AddEffect(int targetIndex)
@@ -152,6 +152,20 @@ public class AttackTower : BaseTower
         if (!found)
         {
             buffTowerIndex.Add(targetIndex);
+        }
+    }
+
+    public void RemoveEffect(int targetIndex)
+    {
+        var targetData = TowerManager.Instance.GetTowerData(targetIndex);
+        for (int i = 0; i < buffTowerIndex.Count; i++)
+        {
+            var currentData = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
+            if (buffTowerIndex[i] == targetIndex && currentData.EffectValue == targetData.EffectValue)
+            {
+                buffTowerIndex.Remove(i);
+                break;
+            }
         }
     }
 }

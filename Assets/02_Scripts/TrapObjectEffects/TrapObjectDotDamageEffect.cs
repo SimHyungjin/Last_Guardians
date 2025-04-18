@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapObjectDotDamageEffect : MonoBehaviour
+public class TrapObjectDotDamageEffect : MonoBehaviour , ITrapEffect
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Apply(BaseMonster target, TowerData towerData) 
+    { Debug.Log("지지는중"); }
 }

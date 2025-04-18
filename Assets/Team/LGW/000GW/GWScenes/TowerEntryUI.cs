@@ -6,11 +6,7 @@ public class TowerEntryUI : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI towerNameText;
-    public TextMeshProUGUI attackPowerText;
-    public TextMeshProUGUI attackSpeedText;
-    public TextMeshProUGUI attackRangeText;
-    public TextMeshProUGUI towerTypeText;
-    public TextMeshProUGUI effectTargetText;
+    public TextMeshProUGUI descriptionText; // ← 설명 하나로 통합
     public Button entryButton;
 
     private TowerData myData;
@@ -20,11 +16,7 @@ public class TowerEntryUI : MonoBehaviour
         myData = data;
 
         towerNameText.text = data.TowerName;
-        attackPowerText.text = $"공격력: {data.AttackPower}";
-        attackSpeedText.text = $"공속: {data.AttackSpeed}";
-        attackRangeText.text = $"사거리: {data.AttackRange}";
-        towerTypeText.text = $"타입: {data.TowerType}";
-        effectTargetText.text = $"타겟: {data.EffectTarget}";
+        descriptionText.text = data.TowerDescription; // ← 여기로 대체
 
         int spriteIndex = GetSpriteIndex(data.TowerIndex);
         icon.sprite = data.atlas?.GetSprite($"Tower_{spriteIndex}");
@@ -35,6 +27,7 @@ public class TowerEntryUI : MonoBehaviour
             if (TowerCombinationUI.Instance.HasCombinationFor(data))
             {
                 TowerCombinationUI.Instance.ShowCombinationFor(data);
+                
             }
         });
     }

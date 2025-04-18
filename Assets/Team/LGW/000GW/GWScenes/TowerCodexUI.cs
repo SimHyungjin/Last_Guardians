@@ -7,66 +7,46 @@ public class TowerCodexUI : MonoBehaviour
 {
     public GameObject entryPrefab;
     public Transform gridParent;
-    public List<TowerData> towerDataList;
+    public GameObject dummySpacerPrefab;
 
-    [Header("스크롤 & 버튼 컨트롤")]
-    [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] private GameObject dummySpacerPrefab;
-    private List<Button> entryButtons = new List<Button>();
+    public ScrollRect scrollRect;
+    public List<Button> codexButtons = new List<Button>();
 
-    void Start()
+    public Button closeCombinationButton; 
+
+    private void Start()
     {
-        towerDataList = new List<TowerData>(Resources.LoadAll<TowerData>("SO/Tower"));
-        towerDataList = towerDataList.OrderBy(t => t.TowerIndex).ToList();
+        
 
-        GenerateCodex();
-    }
+        var allData = Resources.LoadAll<TowerData>("SO/Tower").ToList();
+        allData = allData.OrderBy(t => t.TowerIndex).ToList();
 
-    public void GenerateCodex()
-    {
         foreach (Transform child in gridParent)
-        {
             Destroy(child.gameObject);
-        }
 
-        entryButtons.Clear();
-
-        foreach (TowerData data in towerDataList)
+        foreach (var data in allData)
         {
-            var entryGO = Instantiate(entryPrefab, gridParent);
-            var entry = entryGO.GetComponent<TowerEntryUI>();
-            entry.SetData(data);
-            entryButtons.Add(entry.GetButton()); 
+            var go = Instantiate(entryPrefab, gridParent);
+            var ui = go.GetComponent<TowerEntryUI>();
+            ui.SetData(data);
+            codexButtons.Add(ui.entryButton); 
         }
 
         if (dummySpacerPrefab != null)
-        {
             Instantiate(dummySpacerPrefab, gridParent);
-        }
     }
 
-    [ContextMenu("Find All TowerData")]
-    public void FindAllTowerData()
+    public void SetInteractable(bool active)
     {
-        towerDataList = Resources.LoadAll<TowerData>("SO/Tower").ToList();
-    }
+        scrollRect.enabled = active;
 
-    
-    public void LockCodexInteraction()
-    {
-        if (scrollRect != null) scrollRect.enabled = false;
-        foreach (var btn in entryButtons)
+        foreach (var btn in codexButtons)
         {
-            if (btn != null) btn.interactable = false;
+            btn.interactable = active;
         }
-    }
 
-    public void UnlockCodexInteraction()
-    {
-        if (scrollRect != null) scrollRect.enabled = true;
-        foreach (var btn in entryButtons)
-        {
-            if (btn != null) btn.interactable = true;
-        }
+        
+        if (closeCombinationButton != null)
+            closeCombinationButton.interactable = true;
     }
 }

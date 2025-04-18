@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
         CloseAllPanels();
         optionPanel.SetActive(true);
-        interactionBlocker.SetActive(true);
+        interactionBlocker.SetActive(false);
 
         StartCoroutine(ResetProcessingFlag());
     }

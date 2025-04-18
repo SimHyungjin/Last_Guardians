@@ -1,6 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TowerEntryUI : MonoBehaviour
 {
@@ -35,13 +35,9 @@ public class TowerEntryUI : MonoBehaviour
             if (TowerCombinationUI.Instance.HasCombinationFor(data))
             {
                 TowerCombinationUI.Instance.ShowCombinationFor(data);
-                TowerCombinationUI.Instance.gameObject.SetActive(true);
-                TowerCombinationUI.Instance.codexUI.LockCodexInteraction(); 
             }
         });
     }
-
-    public Button GetButton() => entryButton;
 
     private int GetSpriteIndex(int index)
     {

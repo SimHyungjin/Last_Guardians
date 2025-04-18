@@ -84,7 +84,6 @@ public class AttackTower : BaseTower
     void Attack()
     {
         if (target == null || !IsInRange(target.position)) return;
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격대상: {target.name}");
         //projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
         switch (towerData.ProjectileType)
         {

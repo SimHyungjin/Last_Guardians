@@ -19,15 +19,20 @@ public class TrapObject : MonoBehaviour
     
     [SerializeField] private List<int> trapEffectIndex;
     [SerializeField] private LayerMask buildBlockMask;
+    [SerializeField] private LayerMask TrapObjectMask;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
     private TowerData towerData;
     private TrapObjectState currentState;
     private float cooldownTime;
+
+    private float creationTime;
+
     public  void Init(TowerData towerData)
     {
         this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
+        creationTime = Time.time;
         trapEffectIndex = new List<int>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
@@ -44,7 +49,7 @@ public class TrapObject : MonoBehaviour
             cooldownTime -= Time.deltaTime;
             if (cooldownTime <= 0)
             {
-                OnActive();
+                ChageState(TrapObjectState.Ready);
                 cooldownTime = towerData.EffectDuration;
             }
         }
@@ -57,33 +62,65 @@ public class TrapObject : MonoBehaviour
         { SpecialEffect.BossDebuff, typeof(TrapObjectBossDebuffEffect) },//미구현
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },//미구현
     };
+    //public void CanPlant()
+    //{
+    //    Collider2D[] hits = Physics2D.OverlapPointAll(PostionArray(), buildBlockMask);
+
+    //    bool hasOtherObstacle = false;
+
+    //    foreach (var hit in hits)
+    //    {
+    //        if (hit != null && hit.gameObject != gameObject)
+    //        {
+    //            hasOtherObstacle = true;
+    //            break;
+    //        }
+    //    }
+
+    //    if (hasOtherObstacle)
+    //    {
+    //        Debug.Log("타일에 충돌체 있음");
+    //        ChageState(TrapObjectState.CantActive);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("타일에 충돌체 없음");
+    //        ChageState(TrapObjectState.Ready);
+    //    }
+    //}
     public void CanPlant()
     {
-        Collider2D[] hits = Physics2D.OverlapPointAll(PostionArray(), buildBlockMask);
+        Vector2 pos = PostionArray();
 
-        bool hasOtherObstacle = false;
-
-        foreach (var hit in hits)
+        Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, buildBlockMask);
+        foreach (var hit in blockHits)
         {
             if (hit != null && hit.gameObject != gameObject)
             {
-                hasOtherObstacle = true;
-                break;
+                Debug.Log("타일에 타워/장애물 있음");
+                ChageState(TrapObjectState.CantActive);
+                return;
             }
         }
 
-        if (hasOtherObstacle)
+        Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMask.GetMask("TrapObject"));
+        foreach (var hit in trapHits)
         {
-            Debug.Log("타일에 충돌체 있음");
-            ChageState(TrapObjectState.CantActive);
-        }
-        else
-        {
-            Debug.Log("타일에 충돌체 없음");
-            ChageState(TrapObjectState.Ready);
+            if (hit.gameObject == this.gameObject) continue;
+
+            TrapObject other = hit.GetComponent<TrapObject>();
+            if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
+            {
+                Debug.Log("다른 트랩이 이미 우선권 가짐");
+                ChageState(TrapObjectState.CantActive);
+                return;
+            }
         }
 
+        Debug.Log("트랩 설치 가능");
+        ChageState(TrapObjectState.Ready);
     }
+
     public bool IsAnyObjectOnTile()
     {
         Collider2D hit = Physics2D.OverlapPoint(PostionArray(), buildBlockMask);

@@ -3,9 +3,10 @@ using UnityEngine;
 using System;
 using static UnityEditor.PlayerSettings;
 using Unity.VisualScripting;
+using System.Collections;
 public interface ITrapEffect
 {
-    void Apply(BaseMonster target, TowerData towerData);
+    public void Apply(BaseMonster target, TowerData towerData);
 }
 public enum TrapObjectState
 {
@@ -18,14 +19,19 @@ public class TrapObject : MonoBehaviour
 {
     
     [SerializeField] private List<int> trapEffectIndex;
+    [SerializeField] private List<ITrapEffect> trapEffectList;
     [SerializeField] private LayerMask buildBlockMask;
     [SerializeField] private LayerMask TrapObjectMask;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
+
+    private Coroutine activeEffectCoroutine;
     private TowerData towerData;
     private TrapObjectState currentState;
-    private float cooldownTime;
 
+    private Dictionary<Type, int> currentEffectSources = new();
+
+    private float cooldownTime;
     private float creationTime;
 
     public  void Init(TowerData towerData)
@@ -36,6 +42,7 @@ public class TrapObject : MonoBehaviour
         creationTime = Time.time;
         
         trapEffectIndex = new List<int>();
+        trapEffectList= new List<ITrapEffect>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         //테스트용 색깔놀이
@@ -63,10 +70,9 @@ public class TrapObject : MonoBehaviour
                 sr.color = Color.white;
                 break;
         }
-        if (towerData.SpecialEffect != SpecialEffect.None)
-        {
-            trapEffectIndex.Add(towerData.TowerIndex);
-        }
+        trapEffectIndex.Add(towerData.TowerIndex);
+        AddTrapEffect(towerData.TowerIndex);
+        /////////////////////////////////////////////////////////////////오브젝트 설치시 주변에 버프타워있는지 검사이후 그 버프 가져오기 필요
         CanPlant();
     }
     private  void Update()
@@ -99,7 +105,6 @@ public class TrapObject : MonoBehaviour
         {
             if (hit != null && hit.gameObject != gameObject)
             {
-                Debug.Log("타일에 타워/장애물 있음");
                 ChageState(TrapObjectState.CantActive);
                 return;
             }
@@ -113,13 +118,10 @@ public class TrapObject : MonoBehaviour
             TrapObject other = hit.GetComponent<TrapObject>();
             if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
             {
-                Debug.Log("다른 트랩이 이미 우선권 가짐");
                 ChageState(TrapObjectState.CantActive);
                 return;
             }
         }
-
-        Debug.Log("트랩 설치 가능");
         ChageState(TrapObjectState.Ready);
     }
 
@@ -132,6 +134,104 @@ public class TrapObject : MonoBehaviour
     {
         return new Vector2(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (currentState != TrapObjectState.Ready) return;
+        if (collision.CompareTag("Monster"))
+        {
+            BaseMonster monster = collision.GetComponent<BaseMonster>();
+            if (monster != null)
+            {
+                ChageState(TrapObjectState.Triggered);
+                if (activeEffectCoroutine != null)
+                    StopCoroutine(activeEffectCoroutine);
+                activeEffectCoroutine = StartCoroutine(ApplyEffectsOverTime(monster));
+            }
+        }
+    }
+    private IEnumerator ApplyEffectsOverTime(BaseMonster target)
+    {
+        float elapsed = 0f;
+        float interval = 0.1f;
+
+        while (elapsed < towerData.EffectDuration)
+        {
+            foreach (var effect in trapEffectList)
+            {
+                if (effect != null)
+                {
+                   effect.Apply(target, towerData);
+                }
+            }
+
+            yield return new WaitForSeconds(interval);
+            elapsed += interval;
+        }
+
+        activeEffectCoroutine = null;
+
+        ChageState(TrapObjectState.Cooldown);
+    }
+
+
+    public void AddTrapEffect(int index)
+    {
+        TowerData data = TowerManager.Instance.GetTowerData(index);
+        SpecialEffect effectKey = data.SpecialEffect;
+
+        if (!effectTypeMap.TryGetValue(effectKey, out var effectType))
+        {
+            return;
+        }
+
+        if (TryGetComponent(effectType, out var existingComp))
+        {
+            int existingIndex = currentEffectSources.TryGetValue(effectType, out var prevIndex) ? prevIndex : -1;
+            if (existingIndex != -1)
+            {
+                float existingValue = TowerManager.Instance.GetTowerData(existingIndex).EffectValue;
+                if (existingValue >= data.EffectValue)
+                {
+                    return;
+                }
+
+                Destroy(existingComp as Component);
+                currentEffectSources.Remove(effectType);
+
+                trapEffectList.RemoveAll(e => e?.GetType() == effectType);
+            }
+        }
+        var newEffect = gameObject.AddComponent(effectType) as ITrapEffect;
+        if (newEffect != null)
+        {
+            trapEffectList.Add(newEffect);
+            currentEffectSources[effectType] = index;
+        }
+    }
+
+
+
+    /// /////////////////////////////////////////////////////////////////////////////////////////////////주변에 버프타워 로직
+    public void AddBuff(int BuffTowerIndex)
+    {
+
+    }
+    public void SubtractBuff()
+    {
+
+    }
+    public void OnActive()
+    {
+        sr.enabled = true;
+    }
+
+    public void UnActive()
+    {
+        sr.enabled = false;
+    }
+
     public void ChageState(TrapObjectState trapObjectState)
     {
         currentState = trapObjectState;
@@ -149,41 +249,6 @@ public class TrapObject : MonoBehaviour
                 UnActive();
                 break;
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (currentState != TrapObjectState.Ready) return;
-        if (collision.CompareTag("Monster"))
-        {
-            BaseMonster monster = collision.GetComponent<BaseMonster>();
-            if (monster != null)
-            {
-                //foreach (int effectIndex in trapEffectIndex)
-                //{
-                //    SpecialEffect effect = (SpecialEffect)effectIndex;
-                //    Type effectType = effectTypeMap[effect];
-                //    ITrapEffect trapEffect = (ITrapEffect)Activator.CreateInstance(effectType);
-                //    trapEffect.Apply(monster, TowerManager.Instance.TowerData[effectIndex]);
-                //}
-                Debug.Log("효과뿌렷고 쿨타임돈다");
-                //ChangeState(TrapObjectState.Triggered);
-                ChageState(TrapObjectState.Cooldown);
-            }
-        }
-    }
-    private void StartEffect()
-    {
-        ChageState(TrapObjectState.Cooldown);
-    }
-    public void OnActive()
-    {
-        sr.enabled = true;
-    }
-
-    public void UnActive()
-    {
-        sr.enabled = false;
     }
 
     private void OnDestroy()

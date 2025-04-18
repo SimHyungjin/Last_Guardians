@@ -31,13 +31,14 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
         { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현//반쯤구현 ->멀티타겟이펙트 가져오면해결
         { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
-        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },//미구현
-        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },//미구현
-        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },//미구현
-        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },//미구현
+        { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },
+        { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },
+        { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },
+        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },
         { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
         { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },
         { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
+        { SpecialEffect.Silence, typeof(ProjectileSilenceEffect) },
         { SpecialEffect.None, null }
     };
 

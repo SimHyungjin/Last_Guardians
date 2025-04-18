@@ -4616,7 +4616,7 @@ MonoBehaviour:
   - {fileID: 1018054542}
   targetPosition: {fileID: 4918445805338994667}
   dummyTowerPrefab: {fileID: 574210830657341825, guid: 25813c72c8217124fac252f7c2032bf0, type: 3}
-  attackRangeCircle: {fileID: 1114516627}
+  attackRangeCircle: {fileID: 164630690537032796, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
 --- !u!114 &648171798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4646,8 +4646,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1114516628}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &654081600
@@ -7265,16 +7264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &1114516627 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 164630690537032796, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-  m_PrefabInstance: {fileID: 2027144861}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1114516628 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-  m_PrefabInstance: {fileID: 2027144861}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1133269174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11593,67 +11582,6 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
---- !u!1001 &2027144861
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 648171799}
-    m_Modifications:
-    - target: {fileID: 3326489038739416702, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_Name
-      value: AttackRangeCircle
-      objectReference: {fileID: 0}
-    - target: {fileID: 3326489038739416702, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
 --- !u!114 &2036337134
 MonoBehaviour:
   m_ObjectHideFlags: 0

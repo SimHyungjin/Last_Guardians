@@ -61,14 +61,13 @@ public class BaseMonster : MonoBehaviour
     private StatusEffect defBuff;
     private StatusEffect speedBuff;
     private StatusEffect evasionBuff;
+    private StatusEffect skillValueDebuff;
+    private StatusEffect silenceDebuff;
     public bool isSturn = false;
+    public bool isSilence = false;
     public float EvasionRate { get; set; } = -1f;
 
     public Action OnMonsterDeathAction;
-    private Action StatusEvent;
-
-    private Coroutine attackCorutine;
-    private Coroutine skillCorutime;
 
     private WaitForSeconds blinkSeconds;
 
@@ -81,7 +80,6 @@ public class BaseMonster : MonoBehaviour
         originalColor = spriteRenderer.color;
         effectHandler = GetComponent<EffectHandler>();
         blinkSeconds = new WaitForSeconds(blinkInterval);
-        StatusEvent += ApplyStatus;
     }
 
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
@@ -118,79 +116,37 @@ public class BaseMonster : MonoBehaviour
             Debug.Log($"{MonsterData.MonsterName} : {MonsterSkillBaseData.skillData.SkillName} 가지고 있음");
         }
 
-        CancelAllBuff();
-        CancelAllDebuff();
+        effectHandler.ClearAllEffect();
 
-        if (attackCorutine == null)
-        {
-            attackCorutine = StartCoroutine(AttackRoutine());
-        }
-        if (MonsterData.HasSkill)
-        {
-            if(skillCorutime == null)
-            {
-                skillCorutime = StartCoroutine(SkillRoutine());
-            }
-        }
-        
     }
 
-    private IEnumerator AttackRoutine()
+    private void Update()
     {
+        if (isAttack)
+            AttackTimer -= Time.deltaTime;
 
-        while (true)
+        if (isAttack && !isSturn && AttackTimer <= 0)
         {
-            if (isAttack && !isSturn)
-            {
-                AttackTimer -= Time.deltaTime;
-
-                if (AttackTimer <= 0f)
-                {
-                    if (MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
-                        RangeAttack();
-                    else
-                        MeleeAttack();
-
-                    AttackTimer = attackDelay;
-                }
-            }
+            if (MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
+                RangeAttack();
             else
-            {
-                AttackTimer = attackDelay;
-            }
-
-            yield return null;
+                MeleeAttack();
         }
-    }
 
-    private IEnumerator SkillRoutine()
-    {
-        SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
-
-        while (true)
+        if (MonsterSkillBaseData != null)
         {
-            if (MonsterSkillBaseData != null && !isSturn)
-            {
+            if (!isSturn || !isSilence)
                 SkillTimer -= Time.deltaTime;
 
-                if (SkillTimer <= 0f)
-                {
-                    SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
-
-                    float probability = MonsterSkillBaseData.skillData.MonsterskillProbablilty;
-                    if (Random.Range(0f, 1f) <= probability)
-                    {
-                        MonsterSkill();
-                    }
-                }
-            }
-            else
+            if (SkillTimer <= 0)
             {
                 SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
+                if (Random.Range(0f, 1f) <= MonsterSkillBaseData.skillData.MonsterskillProbablilty)
+                    MonsterSkill();
             }
-
-            yield return null;
         }
+
+        ApplyStatus();
     }
 
     private void ApplyStatus()
@@ -262,8 +218,6 @@ public class BaseMonster : MonoBehaviour
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
-        attackCorutine = null;
-        skillCorutime = null;
 
         if (!isDisable)
         {
@@ -329,14 +283,12 @@ public class BaseMonster : MonoBehaviour
         {
             dotDamage.UpdateEffect(amount, duration);
         }
-        StatusEvent?.Invoke();
     }
 
     //도트 데미지 해제
     public void CancelDotDamage()
     {
         effectHandler.RemoveEffect(dotDamage);
-        StatusEvent?.Invoke();
     }
 
     //스턴 구현
@@ -352,14 +304,12 @@ public class BaseMonster : MonoBehaviour
         {
             sturn.UpdateEffect(amount, duration);
         }
-        StatusEvent?.Invoke();
     }
 
     //스턴 해제
     public void CancelSturn()
     {
         effectHandler.RemoveEffect(sturn);
-        StatusEvent?.Invoke();
     }
 
     public void SetDestination(Transform target)
@@ -379,15 +329,12 @@ public class BaseMonster : MonoBehaviour
         {
             slowDown.UpdateEffect(amount, duration);
         }
-        StatusEvent?.Invoke();
-
     }
 
     //슬로우 디버프 해제
     public void CancelSlowdown()
     {
         effectHandler.RemoveEffect(slowDown);
-        StatusEvent?.Invoke();
     }
 
     //방어력 감소 적용
@@ -402,14 +349,12 @@ public class BaseMonster : MonoBehaviour
         {
             defDown.UpdateEffect(amount, duration);
         }
-        StatusEvent?.Invoke();
     }
 
     //방어력 디버프 해제
     public void CancelDefDown()
     {
         effectHandler.RemoveEffect(defDown);
-        StatusEvent?.Invoke();
     }
 
     //방어력 버프
@@ -424,14 +369,12 @@ public class BaseMonster : MonoBehaviour
         {
             defBuff.UpdateEffect(amount, duration);
         }
-        StatusEvent?.Invoke();
     }
 
     //방어력 버프 해제
     public void CancelDefBuff()
     {
         effectHandler.RemoveEffect(defBuff);
-        StatusEvent?.Invoke();
     }
 
     //이동속도 버프
@@ -446,14 +389,12 @@ public class BaseMonster : MonoBehaviour
         {
             speedBuff.UpdateEffect(amount, duration);
         }
-        StatusEvent?.Invoke();
     }
 
     //이속 버프 해제
     public void CancelSpeedBuff()
     {
         effectHandler.RemoveEffect(speedBuff);
-        StatusEvent?.Invoke();
     }
 
     //회피율 버프
@@ -468,28 +409,60 @@ public class BaseMonster : MonoBehaviour
         {
             evasionBuff.UpdateEffect(amount,duration);
         }
-        StatusEvent?.Invoke();
     }
 
     //회피 버프 해제
     public void CancelEvasionBuff()
     {
         effectHandler.RemoveEffect(evasionBuff);
-        StatusEvent?.Invoke();
+    }
+
+    public void ApplySkillValueDebuff(float amount, float duration)
+    {
+        if (effectHandler.IsInEffect(skillValueDebuff))
+        {
+            skillValueDebuff = new SkillValueDebuffEffect(amount, duration);
+            effectHandler.AddEffect(skillValueDebuff);
+        }
+        else
+        {
+            skillValueDebuff.UpdateEffect(amount,duration);
+        }
+    }
+
+    public void CancelSkillValueDebuff()
+    {
+        effectHandler.RemoveEffect(skillValueDebuff);
+    }
+
+    public void ApplySilenceDebuff(float duration)
+    {
+        if (effectHandler.IsInEffect(silenceDebuff))
+        {
+            silenceDebuff = new SilenceDebuff(0, duration);
+            effectHandler.AddEffect(silenceDebuff);
+        }
+        else
+        {
+            silenceDebuff.UpdateEffect(0, duration);
+        }
+    }
+
+    public void CancelSilenceDebuff()
+    {
+        effectHandler.RemoveEffect(silenceDebuff);
     }
 
     //전체 디버프 해제
     public void CancelAllDebuff()
     {
         effectHandler.RemoveAllDeBuff();
-        StatusEvent?.Invoke();
     }
 
     //전체 버프 해제
     public void CancelAllBuff()
     {
         effectHandler.RemoveAllBuff();
-        StatusEvent?.Invoke();
     }
 
     //넉백 적용
@@ -500,7 +473,6 @@ public class BaseMonster : MonoBehaviour
         Vector2 targetPosition = (Vector2)transform.position + direction * distance;
 
         transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad);
-
     }
 
     public bool IsFirstHit()

@@ -43,10 +43,15 @@ public class ArrowProjectile : ProjectileBase
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
-            hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
+
+            if (OriginTarget == target)
+                return;
+
+            hasHit = true;
+         
             target.TakeDamage(towerData.AttackPower);
-            //ÀÌÆåÆ®Àû¿ëºÎºĞ
+            //ì´í™íŠ¸ì ìš©ë¶€ë¶„
             if (effects == null)
             {
                 OnDespawn();
@@ -59,8 +64,8 @@ public class ArrowProjectile : ProjectileBase
                 if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
                 else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]));
 
-                Debug.Log($"ÀÌÆåÆ® Àû¿ë {effects[i].GetType()}");
-                Debug.Log($"ÀÌÆåÆ® Àû¿ë {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
+                Debug.Log($"ì´í™íŠ¸ ì ìš© {effects[i].GetType()}");
+                Debug.Log($"ì´í™íŠ¸ ì ìš© {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
             }
             //if (towerData.EffectChance < 1.0f) effect.Apply(target, towerData, towerData.EffectChance);
             //else effect.Apply(target, towerData);

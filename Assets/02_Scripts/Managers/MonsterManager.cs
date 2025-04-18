@@ -148,7 +148,7 @@ public class MonsterManager : Singleton<MonsterManager>
             BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[nowWave.WaveLevel % 2]);
             monster.Setup(data);
             monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
-            AlliveMonsters.Add(monster);
+            //AlliveMonsters.Add(monster);
         }
     }
 

@@ -22,6 +22,7 @@ public class TrapObject : MonoBehaviour
     [SerializeField] private List<ITrapEffect> trapEffectList;
     [SerializeField] private LayerMask buildBlockMask;
     [SerializeField] private LayerMask TrapObjectMask;
+    [SerializeField] private LayerMask MonsterMask;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
 
@@ -92,7 +93,7 @@ public class TrapObject : MonoBehaviour
     {
         { SpecialEffect.DotDamage, typeof(TrapObjectDotDamageEffect) },//미구현
         { SpecialEffect.Slow, typeof(TrapObjectSlowEffect) },//미구현
-        { SpecialEffect.BossDebuff, typeof(TrapObjectBossDebuffEffect) },//미구현
+        { SpecialEffect.Silence, typeof(TrapObjectSilenceEffect) },//미구현
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },//미구현
     };
 
@@ -147,34 +148,94 @@ public class TrapObject : MonoBehaviour
                 ChageState(TrapObjectState.Triggered);
                 if (activeEffectCoroutine != null)
                     StopCoroutine(activeEffectCoroutine);
-                activeEffectCoroutine = StartCoroutine(ApplyEffectsOverTime(monster));
+                activeEffectCoroutine = StartCoroutine(ApplyEffectsToArea(monster));
             }
         }
     }
-    private IEnumerator ApplyEffectsOverTime(BaseMonster target)
+    private IEnumerator ApplyEffectsToArea(BaseMonster target)
     {
         float elapsed = 0f;
-        float interval = 0.1f;
+        float applyInterval = 0.1f;
 
         while (elapsed < towerData.EffectDuration)
         {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1f, MonsterMask);
+
             foreach (var effect in trapEffectList)
             {
-                if (effect != null)
+                if (towerData.EffectTarget == EffectTarget.Single)
                 {
-                   effect.Apply(target, towerData);
+                    foreach (var hit in hits)
+                    {
+                        if (hit.GetComponent<BaseMonster>() == target) 
+                        effect.Apply(target, towerData); ;
+                        break;
+                    }
+                }
+                else
+                {
+                    foreach (var hit in hits)
+                    {
+                        BaseMonster monster = hit.GetComponent<BaseMonster>();
+                        if (monster == null) continue;
+
+                        effect.Apply(monster, towerData);
+                    }
                 }
             }
 
-            yield return new WaitForSeconds(interval);
-            elapsed += interval;
+            yield return new WaitForSeconds(applyInterval);
+            elapsed += applyInterval;
         }
-
-        activeEffectCoroutine = null;
 
         ChageState(TrapObjectState.Cooldown);
     }
 
+    //private IEnumerator ApplyEffectsToArea()
+    //{
+    //    float elapsed = 0f;
+    //    float Interval = 0.1f;
+    //    while (elapsed < towerData.EffectDuration)
+    //    {
+    //        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1f, MonsterMask);
+
+    //        foreach (var hit in hits)
+    //        {
+    //            BaseMonster monster = hit.GetComponent<BaseMonster>();
+    //            if (monster == null) continue;
+
+    //            foreach (var effect in trapEffectList)
+    //            {
+    //              effect.Apply(monster, towerData);
+    //            }
+    //        }
+
+    //        yield return new WaitForSeconds(Interval);
+    //        elapsed += Interval;
+    //    }
+
+    //    ChageState(TrapObjectState.Cooldown);
+    //}
+    ////단일대상
+    //private IEnumerator ApplyEffectsOverTime(BaseMonster target)
+    //{
+    //    float elapsed = 0f;
+    //    float interval = 0.1f;
+
+    //    while (elapsed < towerData.EffectDuration)
+    //    {
+    //        foreach (var effect in trapEffectList)
+    //        {
+    //          effect.Apply(target, towerData);
+    //        }
+
+    //        yield return new WaitForSeconds(interval);
+    //        elapsed += interval;
+    //    }
+    //    activeEffectCoroutine = null;
+
+    //    ChageState(TrapObjectState.Cooldown);
+    //}
 
     public void AddTrapEffect(int index)
     {

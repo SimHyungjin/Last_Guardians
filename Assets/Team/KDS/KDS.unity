@@ -560,7 +560,7 @@ MonoBehaviour:
   mulliganUI: {fileID: 1718408732}
   level: 0
   exp: 0
-  maxExp: 0
+  isEXPCollected: 0
 --- !u!4 &63205871
 Transform:
   m_ObjectHideFlags: 0
@@ -2849,10 +2849,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackRangeCircle
       objectReference: {fileID: 0}
-    - target: {fileID: 3326489038739416702, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5508845549091913265, guid: 22a0d94bdfb19bd48a24a74bd54d4d22, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4657,6 +4653,7 @@ MonoBehaviour:
   towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
   towerbuilder: {fileID: 648171797}
   projectileFactory: {fileID: 1404120581}
+  TrapObjectPrefab: {fileID: 4118459537282430882, guid: 40fadb40f9c489f4ab72f0203fab2481, type: 3}
 --- !u!4 &648171799
 Transform:
   m_ObjectHideFlags: 0

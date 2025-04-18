@@ -18,9 +18,11 @@ public class EXPBead : MonoBehaviour
         this.transform.position = monster.position;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        //Debug.Log("경험치 구슬 충돌");
+        if (Time.timeScale == 0)
+            return;
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             InGameManager.Instance.GetExp(EXP);

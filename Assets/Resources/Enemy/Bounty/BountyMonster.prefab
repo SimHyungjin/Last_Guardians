@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3025558603856330213}
   - component: {fileID: 884241243870721089}
   - component: {fileID: 4844810432890590897}
-  - component: {fileID: 6016599022369140420}
   - component: {fileID: -3221317178324195135}
+  - component: {fileID: 6493312753034319698}
   m_Layer: 6
   m_Name: BountyMonster
   m_TagString: Monster
@@ -155,26 +155,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
---- !u!114 &6016599022369140420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6984242255651121693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c9cc751e729d340a28e9e91e054025, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterData: {fileID: 0}
-  monsterSkill: {fileID: 0}
-  meleeAttackRange: 0.5
-  RangedAttackRange: 2
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  isSturn: 0
 --- !u!114 &-3221317178324195135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,3 +167,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10346c1d0d7d934dac7eb506b6a2669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6493312753034319698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6984242255651121693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c30b2cb81c647d4cbb471262a2421f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeAttackRange: 1
+  RangedAttackRange: 2
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  isSturn: 0

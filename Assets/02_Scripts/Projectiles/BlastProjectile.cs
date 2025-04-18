@@ -8,7 +8,7 @@ using UnityEngine;
 public class BlastProjectile : ProjectileBase
 {
     public BlastZone blastEffect;
-
+    private BlastZone blastEffectInstance;
     public BaseMonster target;
     private Tweener moveTween;
     private float ExplosionRadius = 1f; // Æø¹ß ¹Ý°æ
@@ -91,6 +91,8 @@ public class BlastProjectile : ProjectileBase
 
     private void Explode()
     {
+        blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
+        blastEffectInstance.Init(towerData, this.transform);
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius, monsterLayer);
         int count = 0;
         foreach (var hit in hits)

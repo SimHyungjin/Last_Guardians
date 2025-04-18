@@ -10,16 +10,16 @@ public class NormalEnemy : BaseMonster
         if (!firstHit)
         {
             firstHit = true;
-            InGameManager.Instance.TakeDmage(1);
-            //Debug.Log("노말공격 데미지 1");
+            InGameManager.Instance.TakeDmage(FirstHitDamage);
+            Debug.Log($"노말공격 데미지 {FirstHitDamage}");
         }
         else
         {
-            InGameManager.Instance.TakeDmage(2);
-            //Debug.Log("노말공격 데미지 2");
+            InGameManager.Instance.TakeDmage(SecondHitDamage);
+            Debug.Log($"노말공격 데미지 {SecondHitDamage}");
         }
-        
-        attackTimer = attackDelay;
+        AttackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void RangeAttack()
@@ -29,7 +29,8 @@ public class NormalEnemy : BaseMonster
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);
-        attackTimer = attackDelay;
+        AttackTimer = attackDelay;
+        AfterAttack();
     }
 
     protected override void Death()

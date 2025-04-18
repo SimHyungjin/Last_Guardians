@@ -17,7 +17,8 @@ public class InGameManager : Singleton<InGameManager>
 
     public int level;
     public int exp;
-    public int maxExp = 10;
+    private int maxExp = 10;
+    public bool isEXPCollected = false;
 
     private void Awake()
     {
@@ -37,6 +38,8 @@ public class InGameManager : Singleton<InGameManager>
     public void GetExp(int exp)
     {
         this.exp += exp;
+        isEXPCollected = false;
+        Debug.Log(isEXPCollected);
         if (this.exp >= maxExp)
         {
             LevelUp();
@@ -45,6 +48,7 @@ public class InGameManager : Singleton<InGameManager>
 
     public void LevelUp()
     {
+        Time.timeScale = 0f;
         level++;
         exp = 0;
         TowerManager.Instance.StartInteraction(InteractionState.Pause);

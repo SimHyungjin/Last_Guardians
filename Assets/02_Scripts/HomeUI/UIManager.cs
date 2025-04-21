@@ -10,31 +10,19 @@ public class UIManager : MonoBehaviour
 
     [Header("UI 클릭 막는 블로커")]
     public GameObject interactionBlocker;
-
+    public TowerCodexUI codexUI;
     private bool isProcessing = false;
 
     public void OpenOption()
     {
         if (isProcessing) return;
-        isProcessing = true;
-
-        CloseAllPanels();
-        optionPanel.SetActive(true);
-        interactionBlocker.SetActive(false);
-
-        StartCoroutine(ResetProcessingFlag());
+        StartCoroutine(HandlePanelOpen(optionPanel, false));
     }
 
     public void OpenEquipmentPanel()
     {
         if (isProcessing) return;
-        isProcessing = true;
-
-        CloseAllPanels();
-        equipmentPanel.SetActive(true);
-        interactionBlocker.SetActive(true);
-
-        StartCoroutine(ResetProcessingFlag());
+        StartCoroutine(HandlePanelOpen(equipmentPanel, true));
     }
 
     public void OpenBookPanel()
@@ -46,8 +34,14 @@ public class UIManager : MonoBehaviour
         bookPanel.SetActive(true);
         interactionBlocker.SetActive(true);
 
+        if (codexUI != null)
+        {
+            codexUI.RefreshToAll(); 
+        }
+
         StartCoroutine(ResetProcessingFlag());
     }
+
 
     public void CloseOption()
     {
@@ -67,6 +61,18 @@ public class UIManager : MonoBehaviour
         interactionBlocker.SetActive(false);
     }
 
+    private IEnumerator HandlePanelOpen(GameObject panelToOpen, bool useBlocker)
+    {
+        isProcessing = true;
+
+        CloseAllPanels();
+        panelToOpen.SetActive(true);
+        interactionBlocker.SetActive(useBlocker);
+
+        yield return new WaitForSeconds(0.2f);
+        isProcessing = false;
+    }
+
     private void CloseAllPanels()
     {
         optionPanel.SetActive(false);
@@ -74,13 +80,10 @@ public class UIManager : MonoBehaviour
         bookPanel.SetActive(false);
         interactionBlocker.SetActive(false);
     }
-
     private IEnumerator ResetProcessingFlag()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f); 
         isProcessing = false;
     }
+
 }
-
-
-

@@ -22,50 +22,65 @@ public class TowerCodexUI : MonoBehaviour
     public Transform gridParent;
     public GameObject dummySpacerPrefab;
     public List<TowerData> towerDataList;
+
     private List<TowerData> allTowerData;
     private TowerElementFilter currentFilter = TowerElementFilter.All;
 
-    void Start()
-    {
-        // 전체 타워 데이터 초기화
-        allTowerData = Resources.LoadAll<TowerData>("SO/Tower").ToList();
-        towerDataList = allTowerData.OrderBy(t => t.TowerIndex).ToList();
+    private ScrollRect scrollRect;
 
-        GenerateCodex();
+    private void Awake()
+    {
+        allTowerData = Resources.LoadAll<TowerData>("SO/Tower").ToList();
+        scrollRect = GetComponentInChildren<ScrollRect>();
+    }
+
+    private void OnEnable()
+    {
+        RefreshToAll();
     }
 
     public void OnFilterButtonClicked(int filterIndex)
     {
-        currentFilter = (TowerElementFilter)(filterIndex - 1);
-        FilterAndGenerate();
+        SetFilter((TowerElementFilter)(filterIndex - 1));
+    }
+
+    public void RefreshToAll()
+    {
+        currentFilter = TowerElementFilter.All;
+        FilterAndGenerate();  
     }
 
 
-    private void FilterAndGenerate()
+    private void SetFilter(TowerElementFilter filter)
     {
-        if (currentFilter == TowerElementFilter.All)
+        currentFilter = filter;
+
+        if (filter == TowerElementFilter.All)
         {
-            towerDataList = allTowerData;
+            towerDataList = allTowerData.OrderBy(t => t.TowerIndex).ToList();
         }
-        else if (currentFilter == TowerElementFilter.Standard)
+        else if (filter == TowerElementFilter.Standard)
         {
-            towerDataList = allTowerData.Where(t => t.ElementType == ElementType.Standard).ToList();
+            towerDataList = allTowerData
+                .Where(t => t.ElementType == ElementType.Standard)
+                .OrderBy(t => t.TowerIndex).ToList();
         }
-        else if (currentFilter == TowerElementFilter.Mix)
+        else if (filter == TowerElementFilter.Mix)
         {
-            towerDataList = allTowerData.Where(t =>
-                t.ElementType == ElementType.Steam ||
-                t.ElementType == ElementType.Lava ||
-                t.ElementType == ElementType.Storm ||
-                t.ElementType == ElementType.Swamp ||
-                t.ElementType == ElementType.Underground ||
-                t.ElementType == ElementType.LightDark
-            ).ToList();
+            towerDataList = allTowerData
+                .Where(t => t.ElementType == ElementType.Steam ||
+                            t.ElementType == ElementType.Lava ||
+                            t.ElementType == ElementType.Storm ||
+                            t.ElementType == ElementType.Swamp ||
+                            t.ElementType == ElementType.Underground ||
+                            t.ElementType == ElementType.LightDark)
+                .OrderBy(t => t.TowerIndex).ToList();
         }
         else
         {
-            // Fire ~ Dark
-            towerDataList = allTowerData.Where(t => (ElementType)(int)currentFilter == t.ElementType).ToList();
+            towerDataList = allTowerData
+                .Where(t => (int)t.ElementType == (int)filter)
+                .OrderBy(t => t.TowerIndex).ToList();
         }
 
         GenerateCodex();
@@ -74,11 +89,13 @@ public class TowerCodexUI : MonoBehaviour
     private void GenerateCodex()
     {
         foreach (Transform child in gridParent)
-            Destroy(child.gameObject);
-
-        foreach (var data in towerDataList)
         {
-            var entryGO = Instantiate(entryPrefab, gridParent);
+            Destroy(child.gameObject);
+        }
+
+        foreach (TowerData data in towerDataList)
+        {
+            GameObject entryGO = Instantiate(entryPrefab, gridParent);
             var entry = entryGO.GetComponent<TowerEntryUI>();
             entry.SetData(data);
         }
@@ -87,5 +104,43 @@ public class TowerCodexUI : MonoBehaviour
         {
             Instantiate(dummySpacerPrefab, gridParent);
         }
+
+        ResetScroll();
     }
+
+    private void ResetScroll()
+    {
+        if (scrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            scrollRect.verticalNormalizedPosition = 1f;
+        }
+    }
+    private void FilterAndGenerate()
+    {
+        if (currentFilter == TowerElementFilter.All)
+        {
+            towerDataList = allTowerData.OrderBy(t => t.TowerIndex).ToList();
+        }
+        else if (currentFilter == TowerElementFilter.Mix)
+        {
+            towerDataList = allTowerData
+                .Where(t => !IsBasicElement(t.ElementType))
+                .OrderBy(t => t.TowerIndex).ToList();
+        }
+        else
+        {
+            towerDataList = allTowerData
+                .Where(t => (ElementType)(int)currentFilter == t.ElementType)
+                .OrderBy(t => t.TowerIndex).ToList();
+        }
+
+        GenerateCodex();
+    }
+    private bool IsBasicElement(ElementType element)
+    {
+        return element == ElementType.Fire || element == ElementType.Water || element == ElementType.Wind ||
+               element == ElementType.Earth || element == ElementType.Light || element == ElementType.Dark;
+    }
+
 }

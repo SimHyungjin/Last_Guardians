@@ -28,7 +28,6 @@ public class ProjectileFactory : MonoBehaviour
     {
         { SpecialEffect.DotDamage, typeof(ProjectileDotDamageEffect) },
         { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
-        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },
         { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },
         { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
         { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },

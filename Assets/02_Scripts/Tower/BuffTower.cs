@@ -5,7 +5,8 @@ using UnityEngine;
 
 public interface ITowerBuff
 {
-    void ApplyBuff(BaseTower tower, TowerData data);
+    void ApplyBuffToTower(BaseTower tower, TowerData data);
+    void ApplyBuffToTrap(TrapObject trap, TowerData data);
     void ApplyDebuff(BaseMonster monster, TowerData data);
 }
 
@@ -77,6 +78,7 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
         List<BaseTower> nearbyTowers = new();
+        List<TrapObject> nearbyTrap = new();
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, towerLayer);
 
         foreach (var hit in hits)
@@ -85,10 +87,20 @@ public class BuffTower : BaseTower
             if (otherTower != null && otherTower != this)
             {
                 nearbyTowers.Add(otherTower);
-                towerBuff.ApplyBuff(otherTower, towerData);
+                towerBuff.ApplyBuffToTower(otherTower, towerData);
+            }
+        }
+        foreach (var hit in hits)
+        {
+            TrapObject otherTrap = hit.GetComponent<TrapObject>();
+            if (otherTrap != null && otherTrap != this)
+            {
+                nearbyTrap.Add(otherTrap);
+                towerBuff.ApplyBuffToTrap(otherTrap, towerData);
             }
         }
         Debug.Log($"[BuffTower] 주변 타워 {nearbyTowers.Count}개 발견");
+        Debug.Log($"[BuffTower] 주변 트랩 {nearbyTrap.Count}개 발견");
     }
 
     private void ApplyDebuffOnPlacement()
@@ -127,7 +139,14 @@ public class BuffTower : BaseTower
                 otherTower.DestroyBuffTower();
             }
         }
-
+        foreach (var hit in hits)
+        {
+            TrapObject otherTrap = hit.GetComponent<TrapObject>();
+            if (otherTrap != null && otherTrap != this)
+            {
+                otherTrap.DestroyBuffTower();
+            }
+        }
     }
 
 

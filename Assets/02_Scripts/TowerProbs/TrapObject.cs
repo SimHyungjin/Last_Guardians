@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using System.Collections;
 public interface ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData);
+    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff);
 }
 public enum TrapObjectState
 {
@@ -18,7 +18,7 @@ public enum TrapObjectState
 public class TrapObject : MonoBehaviour
 {
     
-    [SerializeField] private List<int> trapEffectIndex;
+    [SerializeField] private List<int> buffTowerIndex;
     [SerializeField] private List<ITrapEffect> trapEffectList;
     [SerializeField] private LayerMask buildBlockMask;
     [SerializeField] private LayerMask TrapObjectMask;
@@ -36,15 +36,20 @@ public class TrapObject : MonoBehaviour
     private float creationTime;
 
     private float effectRadius = 0.5f;
+    public bool bossImmunebuff = false;
+
+
+    private float maxbuffRadius = 2.5f;
+    private LayerMask towerLayer;
 
     public  void Init(TowerData towerData)
     {
-        
+        towerLayer = LayerMask.GetMask("Tower");
         this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
         creationTime = Time.time;
         
-        trapEffectIndex = new List<int>();
+        buffTowerIndex = new List<int>();
         trapEffectList= new List<ITrapEffect>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
@@ -73,9 +78,8 @@ public class TrapObject : MonoBehaviour
                 sr.color = Color.white;
                 break;
         }
-        trapEffectIndex.Add(towerData.TowerIndex);
+        buffTowerIndex.Add(towerData.TowerIndex);
         AddTrapEffect(towerData.TowerIndex);
-        /////////////////////////////////////////////////////////////////오브젝트 설치시 주변에 버프타워있는지 검사이후 그 버프 가져오기 필요
         CanPlant();
     }
     private  void Update()
@@ -170,7 +174,7 @@ public class TrapObject : MonoBehaviour
                     foreach (var hit in hits)
                     {
                         if (hit.GetComponent<BaseMonster>() == target) 
-                        effect.Apply(target, towerData); ;
+                        effect.Apply(target, towerData, bossImmunebuff);
                         break;
                     }
                 }
@@ -181,7 +185,7 @@ public class TrapObject : MonoBehaviour
                         BaseMonster monster = hit.GetComponent<BaseMonster>();
                         if (monster == null) continue;
 
-                        effect.Apply(monster, towerData);
+                        effect.Apply(monster, towerData, bossImmunebuff);
                     }
                 }
             }
@@ -193,51 +197,6 @@ public class TrapObject : MonoBehaviour
         ChageState(TrapObjectState.Cooldown);
     }
 
-    //private IEnumerator ApplyEffectsToArea()
-    //{
-    //    float elapsed = 0f;
-    //    float Interval = 0.1f;
-    //    while (elapsed < towerData.EffectDuration)
-    //    {
-    //        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1f, MonsterMask);
-
-    //        foreach (var hit in hits)
-    //        {
-    //            BaseMonster monster = hit.GetComponent<BaseMonster>();
-    //            if (monster == null) continue;
-
-    //            foreach (var effect in trapEffectList)
-    //            {
-    //              effect.Apply(monster, towerData);
-    //            }
-    //        }
-
-    //        yield return new WaitForSeconds(Interval);
-    //        elapsed += Interval;
-    //    }
-
-    //    ChageState(TrapObjectState.Cooldown);
-    //}
-    ////단일대상
-    //private IEnumerator ApplyEffectsOverTime(BaseMonster target)
-    //{
-    //    float elapsed = 0f;
-    //    float interval = 0.1f;
-
-    //    while (elapsed < towerData.EffectDuration)
-    //    {
-    //        foreach (var effect in trapEffectList)
-    //        {
-    //          effect.Apply(target, towerData);
-    //        }
-
-    //        yield return new WaitForSeconds(interval);
-    //        elapsed += interval;
-    //    }
-    //    activeEffectCoroutine = null;
-
-    //    ChageState(TrapObjectState.Cooldown);
-    //}
 
     public void AddTrapEffect(int index)
     {
@@ -275,15 +234,67 @@ public class TrapObject : MonoBehaviour
     }
 
 
-
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////주변에 버프타워 로직
-    public void AddBuff(int BuffTowerIndex)
+    public void BossImmuneBuff()
     {
-
+        bossImmunebuff = true;
     }
-    public void SubtractBuff()
+    public void RemoveBossImmuneBuff()
     {
+        bossImmunebuff = false;
+    }
 
+    public void AddEffect(int targetIndex)
+    {
+        bool found = false;
+
+        for (int i = 0; i < buffTowerIndex.Count; i++)
+        {
+            if (buffTowerIndex[i] == targetIndex)
+            {
+                var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
+                if (existing.EffectValue < TowerManager.Instance.GetTowerData(targetIndex).EffectValue)
+                {
+                    buffTowerIndex[i] = targetIndex;
+                    AddTrapEffect(targetIndex);
+                }
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            buffTowerIndex.Add(targetIndex);
+            AddTrapEffect(targetIndex);
+        }
+    }
+
+    public  void DestroyBuffTower()
+    {
+        ClearAllbuff();
+        ScanBuffTower();
+    }
+
+    private void ClearAllbuff()
+    {
+        buffTowerIndex.Clear();
+        trapEffectList.Clear();
+        RemoveBossImmuneBuff();
+        buffTowerIndex.Add(towerData.TowerIndex);
+        AddTrapEffect(towerData.TowerIndex);
+    }
+    private void ScanBuffTower()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, towerLayer);
+
+        foreach (var hit in hits)
+        {
+            BuffTower otherTower = hit.GetComponent<BuffTower>();
+            if (otherTower != null && otherTower != this)
+            {
+                otherTower.ReApplyBuff();
+            }
+        }
     }
     public void OnActive()
     {

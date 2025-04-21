@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData)
+    public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff)
     {
-        target.ApplySlowdown(towerData.EffectValue, 0.1f);
+        if (Utils.ShouldApplyEffect(target, towerData, bossImmunebuff))
+        {
+            target.ApplySlowdown(towerData.EffectValue, 0.1f);
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 public class TowerBuffBossImmuneDelBuff : ITowerBuff
 {
-    public void ApplyBuff(BaseTower tower, TowerData data)
+    public void ApplyBuffToTower(BaseTower tower, TowerData data)
     {
         if (tower is AttackTower attackTower)
         {
@@ -8,7 +8,14 @@ public class TowerBuffBossImmuneDelBuff : ITowerBuff
             if (buffedattackTower != null) buffedattackTower.BossImmuneBuff();
         }
     }
-
+    public void ApplyBuffToTrap(TrapObject trap, TowerData data)
+    {
+        if (trap is TrapObject trapObject)
+        {
+            TrapObject buffedTrap = trap.GetComponent<TrapObject>();
+            if (buffedTrap != null) buffedTrap.BossImmuneBuff();
+        }
+    }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {
 

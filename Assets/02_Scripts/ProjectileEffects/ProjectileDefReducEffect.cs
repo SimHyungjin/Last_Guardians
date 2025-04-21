@@ -6,7 +6,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
     {
-        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData))
+        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
             Debug.Log($"기본 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
@@ -15,7 +15,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance)
     {
-        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData))
+        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             if (Random.value < chance)
             {

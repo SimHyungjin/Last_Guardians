@@ -225,7 +225,7 @@ public class AttackTower : BaseTower
         ScanBuffTower();
     }
 
-    public void ClearAllbuff()
+    private void ClearAllbuff()
     {
         RemoveBossImmuneBuff();
         RemoveAttackPowerBuff();

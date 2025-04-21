@@ -10,7 +10,7 @@ public class ProjectileDotDamageEffect : MonoBehaviour,IEffect
         {
             target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
         }
-        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData))
+        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
         }
@@ -25,7 +25,7 @@ public class ProjectileDotDamageEffect : MonoBehaviour,IEffect
                 target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
             }
         }
-        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData))
+        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             if (Random.value < chance)
             {

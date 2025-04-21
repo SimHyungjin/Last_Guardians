@@ -60,13 +60,13 @@ public class AttackTower : BaseTower
         base.Update();
         if (Time.time - lastCheckTime < adaptedTowerData.attackSpeed) return;
         {
+            Debug.Log($"공격준비완료");
             FindTarget();
             if (projectileFactory == null || towerData == null)
             {
                 Debug.LogError("ProjectileFactory or TowerData is null in BaseTower.Update");
                 return;  // 필수 객체가 null이라면 Update에서 더 이상 진행하지 않음
             }
-            lastCheckTime = Time.time;
             Attack();
         }
     }
@@ -110,7 +110,7 @@ public class AttackTower : BaseTower
         bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
         bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
-        //projectileFactory.SpawnAndLaunch(target.position,towerData,this.transform);
+        lastCheckTime = Time.time;
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Blast:

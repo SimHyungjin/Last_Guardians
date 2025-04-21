@@ -75,7 +75,6 @@ public class MagicProjectile : ProjectileBase
                     if (effects[i] == null) continue;
                     if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
                     else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower);
-                    Debug.Log($"이펙트 적용 {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
                 }
             }
             OnDespawn();

@@ -22,7 +22,7 @@ public class InventorySlotContainer : MonoBehaviour
 
     private void Start()
     {
-        var home = HomeManager.Instance;
+        var home = InventoryManager.Instance;
         inventory = home.inventory;
         equipment = home.equipment;
         selectionController = home.selectionController;

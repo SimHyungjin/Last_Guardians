@@ -21,7 +21,7 @@ public class EquipmentSlotContainer : MonoBehaviour
 
     private void Start()
     {
-        equipment = HomeManager.Instance.equipment;
+        equipment = InventoryManager.Instance.equipment;
         equipment.OnEquip += BindSlot;
         equipment.OnUnequip += UnbindSlot;
     }

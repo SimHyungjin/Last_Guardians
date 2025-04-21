@@ -14,6 +14,7 @@ public class GameOver
 
         if (Random.Range(0f, 100f) > dropChance) return 0;
 
+
         return TryGiveRewardFromGrades(GetAllowedGrades(waveLevel));
     }
 

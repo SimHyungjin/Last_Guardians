@@ -19,6 +19,6 @@ public class TestSceneLoad : MonoBehaviour
     private void BeforeSceneLoader()
     {
         SaveSystem.SaveGame();
-        GameManager.Instance.stats = HomeManager.Instance.equipment.ToStats();
+        GameManager.Instance.stats = InventoryManager.Instance.equipment.ToStats();
     }
 }

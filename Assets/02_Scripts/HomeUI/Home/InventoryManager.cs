@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HomeManager : Singleton<HomeManager>
+public class InventoryManager : Singleton<InventoryManager>
 {
     public Inventory inventory;
     public Equipment equipment;

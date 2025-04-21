@@ -75,7 +75,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (data == null) return;
-        HomeManager.Instance.selectionController.SelectSlot(this);
+        InventoryManager.Instance.selectionController.SelectSlot(this);
     }
 
     public ItemInstance GetData() => data;

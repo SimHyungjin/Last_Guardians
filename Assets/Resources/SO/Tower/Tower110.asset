@@ -20,7 +20,7 @@ MonoBehaviour:
   attackSpeed: 0.5
   attackRange: 5
   towerType: 3
-  projectileType: 2
+  projectileType: 0
   elementType: 2
   specialEffect: 3
   effectChance: 1

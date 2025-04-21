@@ -29,7 +29,7 @@ public class Towerbuilder : MonoBehaviour
 
     [Header("타워설치")]
     public SpriteRenderer attackRangeCircle;
-   
+
 
     private float lastCheckTime = 0f;
     private float checkCooldown = 0.2f;
@@ -81,11 +81,13 @@ public class Towerbuilder : MonoBehaviour
     public void CardToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
+        if (cheakedTower == null) return;
         int combineTowerIndex = towerCombinationData.TryCombine(TowerManager.Instance.hand.HighlightedIndex, cheakedTower.towerData.TowerIndex);
         TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
     }
+
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
     {
         Vector2 constructPos = PostionArray(curPos);
@@ -97,10 +99,10 @@ public class Towerbuilder : MonoBehaviour
         }
 
         GameObject dummyTower = Instantiate(dummyTowerPrefab, constructPos, Quaternion.identity);
+        dummyTower.SetActive(false);
         yield return null;
         bool allPathsExist = true;
         NavMeshPath path = new NavMeshPath();
-
         foreach (Transform spawn in spawnPoint)
         {
             bool pathValid = NavMesh.CalculatePath(spawn.position, targetPosition.position, NavMesh.AllAreas, path);

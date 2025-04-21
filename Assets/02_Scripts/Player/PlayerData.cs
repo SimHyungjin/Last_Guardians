@@ -28,6 +28,7 @@ public class PlayerData
     public float baseCooldownReduction = 0;
     public float cooldownReduction;
 
+    public AttackType attackType = AttackType.Melee;
     public string towerSynergy = string.Empty;
 
     public PlayerData() { }

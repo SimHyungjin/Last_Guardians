@@ -27,6 +27,8 @@ public class AttackController : MonoBehaviour
     public void Init(Player _player)
     {
         player = _player;
+        Debug.Log(player.playerData.attackType);
+        SetAttackBehavior(player.playerData.attackType);
         AutoAttackStart();
     }
 
@@ -99,10 +101,23 @@ public class AttackController : MonoBehaviour
     /// <summary>
     /// 공격 형태를 변경합니다.
     /// </summary>
+    /// 
     public void SetAttackBehavior(IAttackBehavior behavior)
     {
         attackBehavior = behavior;
         behavior.Init(this);
+    }
+
+    public void SetAttackBehavior(AttackType attackType)
+    {
+        IAttackBehavior behavior = attackType switch
+        {
+            AttackType.Melee => new AttackMeleeFan(),
+            AttackType.Ranged => new AttackRangedSingle(),
+            AttackType.Area => new AttackRangedMulti(),
+            _ => new AttackMeleeFan()
+        };
+        SetAttackBehavior(behavior);
     }
 
     /// <summary>
@@ -111,9 +126,6 @@ public class AttackController : MonoBehaviour
     private void Attack(Vector2 targetPosition)
     {
         isAttacking = true;
-
-        if (attackBehavior == null)
-            SetAttackBehavior(new AttackMeleeFan());
         attackBehavior.Attack(targetPosition, CalculateDamage());
         attackBehavior.ShowRange();
         StartCoroutine(AttackDelay());

@@ -13,6 +13,12 @@ public class TestSceneLoad : MonoBehaviour
     }
     public void TestSceneLoader()
     {
-        SceneLoader.LoadScene("GameScene",SaveSystem.SaveGame);
+        SceneLoader.LoadScene("GameScene", BeforeSceneLoader);
+    }
+
+    private void BeforeSceneLoader()
+    {
+        SaveSystem.SaveGame();
+        GameManager.Instance.stats = HomeManager.Instance.equipment.ToStats();
     }
 }

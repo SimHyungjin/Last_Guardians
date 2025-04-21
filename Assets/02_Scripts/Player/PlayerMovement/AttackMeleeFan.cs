@@ -22,7 +22,7 @@ public class AttackMeleeFan : IAttackBehavior
         Vector2 origin = attackController.transform.position;
         Vector2 direction = (targetPos - origin).normalized;
 
-        angle = 60f;
+        angle = 90f;
         radius = player.playerData.attackRange * 2;
         var rawHits = Physics2D.OverlapCircleAll(origin, radius, LayerMask.GetMask("Monster"));
 
@@ -49,8 +49,6 @@ public class AttackMeleeFan : IAttackBehavior
         foreach (var hit in validHits)
         {
             hit.GetComponent<BaseMonster>().TakeDamage(damage);
-            // TODO:
-            //Debug.Log("부채꼴 근접 공격");
         }
 
     }

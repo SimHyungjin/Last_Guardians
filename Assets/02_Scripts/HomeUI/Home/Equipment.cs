@@ -8,6 +8,7 @@ public class Equipment
     public event Action<ItemInstance> OnEquip;
     public event Action<ItemInstance> OnUnequip;
 
+    public AttackType changeAttackType { get; private set; }
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
     public float totalAttackRange { get; private set; }
@@ -49,12 +50,15 @@ public class Equipment
 
     void RecalculateStats()
     {
+
         totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
             totalCriticalDamage = totalPenetration = totalMoveSpeed = 0;
 
         foreach (var instance in equipped.Values)
         {
             if (instance?.AsEquipData is not EquipData data) continue;
+
+            if(data.equipType == EquipType.Weapon) changeAttackType = data.attackType;
 
             totalAttack += data.attackPower;
             totalAttackSpeed += data.attackSpeed;
@@ -80,6 +84,7 @@ public class Equipment
     {
         return new EquipmentStats
         {
+            attackType = changeAttackType,
             attack = totalAttack,
             attackSpeed = totalAttackSpeed,
             attackRange = totalAttackRange,
@@ -94,6 +99,7 @@ public class Equipment
 
 public class EquipmentStats
 {
+    public AttackType attackType;
     public float attack;
     public float attackSpeed;
     public float attackRange;

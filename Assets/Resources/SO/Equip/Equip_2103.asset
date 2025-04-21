@@ -18,8 +18,8 @@ MonoBehaviour:
   itemType: 0
   itemGrade: 1
   itemStackLimit: 1
-  itemDropRate: 0.15
-  itemSellPrice: 0
+  itemDropRate: 0.0328
+  itemSellPrice: 150
   icon: {fileID: 0}
   <equipIndex>k__BackingField: 2103
   <equipType>k__BackingField: 3

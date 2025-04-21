@@ -16,9 +16,9 @@ public class BlastProjectile : ProjectileBase
     private float Totaldistance;
     private LayerMask monsterLayer;
     [SerializeField] private bool hasHit = false;
-    public override void Init(TowerData _towerData, List<int> _effectslist)
+    public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTowerData,List<int> _effectslist)
     {
-        base.Init(_towerData,_effectslist);
+        base.Init(_towerData, _adaptedTowerData, _effectslist);
         monsterLayer = LayerMask.GetMask("Monster");
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
@@ -84,7 +84,7 @@ public class BlastProjectile : ProjectileBase
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
             moveTween.Kill();
-            target.TakeDamage(towerData.AttackPower);
+            target.TakeDamage(adaptedTower.attackPower);
             Explode();
         }
     }
@@ -129,6 +129,6 @@ public class BlastProjectile : ProjectileBase
         base.OnDespawn();
         target = null;
         //effect = null;
-        effects.Clear();
+        if(effects!=null) effects.Clear();
     }  
 }

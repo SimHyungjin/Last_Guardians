@@ -6,6 +6,37 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+public class AdaptedTowerData
+{
+    public int towerIndex;
+    public float attackPower;
+    public float attackSpeed;
+    public List<int> buffTowerIndex;
+    public bool bossImmune;
+
+    public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed, bool bossImmune)
+    {
+        this.towerIndex = towerIndex;
+        this.attackPower = attackPower;
+        this.attackSpeed = attackSpeed;
+        this.bossImmune = bossImmune;
+        buffTowerIndex = new List<int>();
+    }
+    public void subSelfEffect()
+    {
+        if (buffTowerIndex != null)
+        {
+            foreach (int towerIndex in buffTowerIndex)
+            {
+                if (towerIndex == this.towerIndex)
+                {
+                    buffTowerIndex.Remove(towerIndex);
+                    break;
+                }
+            }
+        }
+    }
+}
 public class AttackTower : BaseTower
 {
 
@@ -14,18 +45,21 @@ public class AttackTower : BaseTower
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
     public ProjectileFactory projectileFactory;
+
     List<int> buffTowerIndex;
     private BaseMonster currentTargetMonster;
-    public float attackPower;
-    public float attackSpeed;
+
+    public AdaptedTowerData adaptedTowerData;
+
     public override void Init(TowerData data)
     {
+
         base.Init(data);
+        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.BossImmune);
         monsterLayer = LayerMask.GetMask("Monster");
         projectileFactory = FindObjectOfType<ProjectileFactory>();
-        attackPower = towerData.AttackPower;
-        attackSpeed = towerData.AttackSpeed;
         buffTowerIndex = new List<int>();
+        ScanBuffTower();
         if (towerData.SpecialEffect != SpecialEffect.None)
         {
             buffTowerIndex.Add(towerData.TowerIndex);
@@ -34,7 +68,7 @@ public class AttackTower : BaseTower
     protected override void Update()
     {
         base.Update();
-        if (Time.time - lastCheckTime < attackSpeed) return;
+        if (Time.time - lastCheckTime < adaptedTowerData.attackSpeed) return;
         {
             FindTarget();
             if (projectileFactory == null || towerData == null)
@@ -91,28 +125,28 @@ public class AttackTower : BaseTower
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Blast:
-                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, this.transform, buffTowerIndex);
+                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
                 break;
             case ProjectileType.Magic:
 
                 if (shouldMultyShot)
                 {
-                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
+                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
                 }
                 else
                 {
-                    projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, this.transform, buffTowerIndex);
+                    projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
                 }
                 break;
 
             case ProjectileType.Arrow:
                 if (shouldMultyShot)
                 {
-                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
+                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
                 }
                 else
                 {
-                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, this.transform, buffTowerIndex);
+                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
                 }
                 break;
             default:
@@ -141,13 +175,32 @@ public class AttackTower : BaseTower
 
     public void AttackPowerBuff(float buff)
     {
-        attackPower += attackPower*buff;
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {attackPower}");
+        adaptedTowerData.attackPower = towerData.AttackPower + towerData.AttackPower * buff;
+        Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
     public void AttackSpeedBuff(float buff)
     {
-        attackSpeed = attackSpeed /((1f+buff));
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {attackSpeed}");
+        adaptedTowerData.attackSpeed = towerData.AttackSpeed / buff;
+        Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {adaptedTowerData.attackSpeed}");
+    }
+
+    public void BossImmuneBuff(bool buff)
+    {
+        adaptedTowerData.bossImmune = buff;
+        Debug.Log($"[BaseTower] {towerData.TowerName} 보스 면역 증가: {adaptedTowerData.bossImmune}");
+    }
+
+    public void RemoveAttackPowerBuff()
+    {
+        adaptedTowerData.attackPower = towerData.AttackPower;
+    }
+    public void RemoveAttackSpeedBuff()
+    {
+        adaptedTowerData.attackSpeed = towerData.AttackSpeed;
+    }
+    public void RemoveBossImmuneBuff()
+    {
+        adaptedTowerData.bossImmune = false;
     }
 
     public void AddEffect(int targetIndex)
@@ -162,6 +215,7 @@ public class AttackTower : BaseTower
                 if (existing.EffectValue < TowerManager.Instance.GetTowerData(targetIndex).EffectValue)
                 {
                     buffTowerIndex[i] = targetIndex;
+                    adaptedTowerData.buffTowerIndex[i] = targetIndex;
                 }
                 found = true;
                 break;
@@ -171,19 +225,26 @@ public class AttackTower : BaseTower
         if (!found)
         {
             buffTowerIndex.Add(targetIndex);
+            adaptedTowerData.buffTowerIndex.Add(targetIndex);
         }
     }
-
-    public void RemoveEffect(int targetIndex)
+    public override void DestroyBuffTower()
     {
-        var targetData = TowerManager.Instance.GetTowerData(targetIndex);
-        for (int i = 0; i < buffTowerIndex.Count; i++)
+        ScanBuffTower();
+    }
+
+
+    private void ScanBuffTower()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5f, towerLayer);
+
+        foreach (var hit in hits)
         {
-            var currentData = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
-            if (buffTowerIndex[i] == targetIndex && currentData.EffectValue == targetData.EffectValue)
+            BuffTower otherTower = hit.GetComponent<BuffTower>();
+            if (otherTower != null && otherTower != this)
             {
-                buffTowerIndex.Remove(i);
-                break;
+                otherTower.ReApplyBuff();
+                Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
             }
         }
     }

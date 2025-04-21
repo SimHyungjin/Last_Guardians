@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,9 +41,9 @@ public class BuffTower : BaseTower
 
     private void BuffSelect(TowerData data)
     {
-        if (data.EffectTarget == EffectTarget.Towers)
+        if(data.EffectTarget == EffectTarget.Towers)
         {
-            switch (data.SpecialEffect)
+            switch(data.SpecialEffect)
             {
                 case SpecialEffect.AttackPower:
                     towerBuff = new TowerBuffAttackPower();
@@ -54,13 +56,10 @@ public class BuffTower : BaseTower
                     break;
             }
         }
-        if (data.EffectTarget == EffectTarget.All)
+        if(data.EffectTarget == EffectTarget.All)
         {
-            switch (data.SpecialEffect)
+            switch(data.SpecialEffect)
             {
-                case SpecialEffect.AttackPower:
-                    monsterDebuff = new TowerBuffMonsterDamage();
-                    break;
                 case SpecialEffect.DotDamage:
                     monsterDebuff = new TowerBuffMonsterDotDamage();
                     break;
@@ -94,7 +93,7 @@ public class BuffTower : BaseTower
 
     private void ApplyDebuffOnPlacement()
     {
-        if (towerData.EffectTarget != EffectTarget.All) return;
+        if(towerData.EffectTarget != EffectTarget.All) return;
         List<BaseMonster> nearbyTowers = new();
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, monsterLayer);
 
@@ -110,27 +109,26 @@ public class BuffTower : BaseTower
         Debug.Log($"[BuffTower] 주변 몬스터 {nearbyTowers.Count}개 발견");
     }
 
-    public void ApplyBuffAttackTower(AttackTower attackTower)
-    {
-        towerBuff?.ApplyBuff(attackTower, towerData);
-    }
 
-    override protected void OnDestroy()
+    protected override void OnDestroy()
     {
-        base.OnDestroy();
-
-        if (towerBuff == null) return;
+        if (towerData.EffectTarget != EffectTarget.Towers) return;
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
+
         foreach (var hit in hits)
         {
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
-                if(otherTower is AttackTower attackTower)
-                    attackTower.RemoveEffect(towerData.TowerIndex);
+                otherTower.DestroyBuffTower();
             }
         }
 
+    }
+
+    public void ReApplyBuff()
+    {
+        ApplyBuffOnPlacement();
     }
 }

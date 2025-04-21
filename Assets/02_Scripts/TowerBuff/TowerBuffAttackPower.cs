@@ -4,7 +4,8 @@ public class TowerBuffAttackPower : ITowerBuff
     {
         if (tower is AttackTower attackTower)
         {
-            attackTower.AddEffect(data.TowerIndex);
+            AttackTower buffedattackTower = tower.GetComponent<AttackTower>();
+            if(buffedattackTower!=null) buffedattackTower.AttackPowerBuff(data.EffectValue);
         }
     }
 

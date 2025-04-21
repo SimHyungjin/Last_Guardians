@@ -22,8 +22,8 @@ public class TowerManager : Singleton<TowerManager>
     private Dictionary<int, TowerData> towerDataMap;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
-    public void Start()
-    {
+    private void Awake()
+    {        
         towerDataMap = Resources.LoadAll<TowerData>("SO/Tower")
             .ToDictionary(td => td.TowerIndex, td => td);
     }

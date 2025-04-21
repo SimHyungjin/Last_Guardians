@@ -9,6 +9,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
     {
         if (towerData.EffectTargetCount == 0)
         {
+            Debug.LogError($"[ChainAttack] EffectTargetCount is 0. TowerData: {towerData.TowerIndex}");
             if (towerData.EffectTarget == EffectTarget.All)
             {
                 target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
@@ -24,6 +25,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
         }
         else
         {
+            Debug.Log($"[ChainAttack] EffectTargetCount: {towerData.EffectTargetCount}");
             TowerData ownerTowerData = this.gameObject.GetComponent<ProjectileBase>().GetTowerData();
             if(ownerTowerData.EffectTarget==EffectTarget.BossOnly)
             {
@@ -42,16 +44,16 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 
     private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedTowerData adaptedTowerData)
     {
+        Debug.Log($"[ChainAttack] ChainShot called. TowerData: {ownerTowerData.TowerIndex}");
         float angleStep = 10f;
-        int additionalCount = ownerTowerData.EffectTargetCount - 1;
-
+        int additionalCount = ownerTowerData.EffectTargetCount;
+        Debug.Log($"[ChainAttack] additionalCount: {additionalCount}");
         Vector2 origin = transform.position;
         Vector2 forward = transform.right;
 
         int half = additionalCount / 2;
         for (int i = 0; i < additionalCount; i++)
         {
-            Debug.Log($"[ChainAttack] {i} / {additionalCount}");
             float spawnOffset = 0.5f;
 
             int index = i - half;
@@ -68,8 +70,8 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
             {
                 if (effectsubself[j] == ownerTowerData.TowerIndex)
                 {
-                    effectsubself.RemoveAt(i);
-                    break;
+                    effectsubself.Remove(ownerTowerData.TowerIndex);
+                    continue;
                 }
             }
             switch (ownerTowerData.ProjectileType)
@@ -79,16 +81,18 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                     magicprojectile.OriginTarget = target;
                     magicprojectile.transform.position = spawnPosition;
                     magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                    magicprojectile.Init(ownerTowerData, adaptedTowerData, null);
+                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself);
+                    TowerManager.Instance.projectileFactory.AddAllEffects(magicprojectile, effectsubself);
                     magicprojectile.Launch(origin + dir * 10f);
                     break;
                 case ProjectileType.Blast:
-                    BlastProjectile blastProjectile = TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData);
+                    BlastProjectile blastProjectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData));
+
                     blastProjectile.OriginTarget = target;
                     blastProjectile.transform.position = spawnPosition;
                     blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
                     blastProjectile.Init(ownerTowerData, adaptedTowerData, null);
-                    blastProjectile.Launch(origin + dir * 10f);
+                    blastProjectile.Launch(origin + dir * 0.3f);
                     break;
             }
         }

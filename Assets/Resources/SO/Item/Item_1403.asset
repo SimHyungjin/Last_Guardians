@@ -18,6 +18,6 @@ MonoBehaviour:
   itemType: 0
   itemGrade: 4
   itemStackLimit: 1
-  itemDropRate: 0.01
-  itemSellPrice: 0
+  itemDropRate: 0.0022
+  itemSellPrice: 1200
   icon: {fileID: 0}

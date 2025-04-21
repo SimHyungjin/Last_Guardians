@@ -51,7 +51,7 @@ public class ItemPopupController : MonoBehaviour
 
     private void UpdatePopupUI()
     {
-        if (currentData == null || currentData.asEquipData == null) return;
+        if (currentData == null || currentData.AsEquipData == null) return;
 
         inventorySlotContainer.Display(inventory.GetFilteredView());
         equipmentSlotContainer.Refresh();
@@ -69,7 +69,7 @@ public class ItemPopupController : MonoBehaviour
 
     public void OnClickUpgrade()
     {
-        if (currentData == null || currentData.asEquipData == null) return;
+        if (currentData == null || currentData.AsEquipData == null) return;
 
         HomeManager.Instance.upgrade.TryUpgrade(currentData, out var result);
         inventory.RemoveItem(currentData);
@@ -86,7 +86,7 @@ public class ItemPopupController : MonoBehaviour
 
     public void OnClickEquip()
     {
-        if (currentData?.asEquipData != null)
+        if (currentData?.AsEquipData != null)
         {
             equipment.Equip(currentData);
             UpdatePopupUI();
@@ -95,10 +95,10 @@ public class ItemPopupController : MonoBehaviour
 
     public void OnClickUnEquip()
     {
-        if (currentData?.asEquipData != null)
+        if (currentData?.AsEquipData != null)
         {
             equipment.UnEquip(currentData);
-            equipmentSlotContainer.ClearSlot(currentData.asEquipData.equipType);
+            equipmentSlotContainer.ClearSlot(currentData.AsEquipData.equipType);
             UpdatePopupUI();
         }
     }

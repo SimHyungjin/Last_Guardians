@@ -22,7 +22,7 @@ MonoBehaviour:
   towerType: 2
   projectileType: 1
   elementType: 6
-  specialEffect: 0
+  specialEffect: 14
   effectChance: 0.2
   effectDuration: 0
   effectValue: 2

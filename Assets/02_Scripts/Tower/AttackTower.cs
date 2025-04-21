@@ -60,12 +60,10 @@ public class AttackTower : BaseTower
         base.Update();
         if (Time.time - lastCheckTime < adaptedTowerData.attackSpeed) return;
         {
-            //Debug.Log($"공격준비완료");
             FindTarget();
             if (projectileFactory == null || towerData == null)
             {
-                Debug.LogError("ProjectileFactory or TowerData is null in BaseTower.Update");
-                return;  // 필수 객체가 null이라면 Update에서 더 이상 진행하지 않음
+                return;  
             }
             Attack();
         }

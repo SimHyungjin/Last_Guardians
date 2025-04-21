@@ -23294,7 +23294,7 @@ MonoBehaviour:
   towerDataSO: []
   itemDataSO: []
   equipDataSO: []
-  towerCombinationData: {fileID: 0}
+  towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
   towerGhostPrefabs: {fileID: 0}
   towerAtlas: {fileID: 0}
 --- !u!1 &5299800064457743904 stripped

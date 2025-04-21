@@ -68,7 +68,7 @@ public class ProjectileFactory : MonoBehaviour
 
         var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
         projectile.Init(towerData, adaptedTowerData ,buffTowerIndex);
-        AddAllEffects(projectile, towerData, buffTowerIndex);
+        AddAllEffects(projectile, buffTowerIndex);
         projectile.Launch(targetPos); // 이펙트 추가
     }
     public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedTowerData adaptedTowerData ,Transform parent, List<int> buffTowerIndex,int shotCount) where T : ProjectileBase
@@ -98,7 +98,7 @@ public class ProjectileFactory : MonoBehaviour
                 projectile.transform.position = launchPos;
                 projectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rotatedDir));
                 projectile.Init(towerData, adaptedTowerData, buffTowerIndex);
-                AddAllEffects(projectile, towerData, buffTowerIndex);
+                AddAllEffects(projectile, buffTowerIndex);
                 projectile.Launch(origin + rotatedDir * 10f);
             }
         }
@@ -120,7 +120,7 @@ public class ProjectileFactory : MonoBehaviour
         return null;
     }
 
-    private void AddAllEffects(ProjectileBase projectile, TowerData baseData,List<int> buffTowerIndex)
+    public void AddAllEffects(ProjectileBase projectile,List<int> buffTowerIndex)
     {
         var go = projectile.gameObject;
         var effectList = new List<TowerData>();

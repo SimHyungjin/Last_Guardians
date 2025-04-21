@@ -8,6 +8,7 @@ public class Equipment
     public event Action<ItemInstance> OnEquip;
     public event Action<ItemInstance> OnUnequip;
 
+    public AttackType changeAttackType { get; private set; }
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
     public float totalAttackRange { get; private set; }
@@ -18,10 +19,10 @@ public class Equipment
     public float specialEffectIDs { get; private set; }
     public int specialEffectID { get; private set; }
 
-    public void Equip(ItemInstance instance)
+    public void Equip(ItemInstance instance, bool updateUI = true)
     {
-        if (instance?.asEquipData == null) return;
-        EquipData data = instance.asEquipData;
+        if (instance?.AsEquipData == null) return;
+        EquipData data = instance.AsEquipData;
 
         if (equipped.TryGetValue(data.equipType, out var cur))
         {
@@ -31,30 +32,33 @@ public class Equipment
         equipped[data.equipType] = instance;
 
         RecalculateStats();
-        OnEquip.Invoke(instance);
+        if(updateUI) OnEquip.Invoke(instance);
     }
 
-    public void UnEquip(ItemInstance instance)
+    public void UnEquip(ItemInstance instance, bool updateUI = true)
     {
-        if(instance?.asEquipData == null) return;
+        if(instance?.AsEquipData == null) return;
 
-        EquipData data = instance.asEquipData;
+        EquipData data = instance.AsEquipData;
         if (!equipped.ContainsKey(data.equipType)) return;
 
         equipped.Remove(data.equipType);
 
         RecalculateStats();
-        OnUnequip.Invoke(instance);
+        if(updateUI) OnUnequip.Invoke(instance);
     }
 
     void RecalculateStats()
     {
+
         totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
             totalCriticalDamage = totalPenetration = totalMoveSpeed = 0;
 
         foreach (var instance in equipped.Values)
         {
-            if (instance?.asEquipData is not EquipData data) continue;
+            if (instance?.AsEquipData is not EquipData data) continue;
+
+            if(data.equipType == EquipType.Weapon) changeAttackType = data.attackType;
 
             totalAttack += data.attackPower;
             totalAttackSpeed += data.attackSpeed;
@@ -69,15 +73,18 @@ public class Equipment
 
     public bool IsEquipped(ItemInstance instance)
     {
-        if (instance?.asEquipData == null) return false;
+        if (instance?.AsEquipData == null) return false;
         if (equipped.Count == 0) return false;
-        return equipped.TryGetValue(instance.asEquipData.equipType, out var cur) && cur.UniqueID == instance.UniqueID;
+        return equipped.TryGetValue(instance.AsEquipData.equipType, out var cur) && cur.UniqueID == instance.UniqueID;
     }
+
+    public IReadOnlyDictionary<EquipType, ItemInstance> GetEquipped() => equipped;
 
     public EquipmentStats ToStats()
     {
         return new EquipmentStats
         {
+            attackType = changeAttackType,
             attack = totalAttack,
             attackSpeed = totalAttackSpeed,
             attackRange = totalAttackRange,
@@ -92,6 +99,7 @@ public class Equipment
 
 public class EquipmentStats
 {
+    public AttackType attackType;
     public float attack;
     public float attackSpeed;
     public float attackRange;

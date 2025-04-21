@@ -12,6 +12,7 @@ public class Player
         var equipment = GameManager.Instance.stats;
         if (playerData == null || equipment == null) return;
 
+        playerData.attackType = equipment.attackType;
         playerData.attackPower = playerData.baseAttackPower + equipment.attack;
         playerData.attackSpeed = playerData.baseAttackSpeed + equipment.attackSpeed;
         playerData.attackRange = playerData.baseAttackRange + equipment.attackRange;

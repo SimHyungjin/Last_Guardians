@@ -16,7 +16,8 @@ public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {
-            target.ApplySkillValueDebuff(towerData.EffectValue, towerData.EffectDuration);
+            if (Random.value < chance)
+                target.ApplySkillValueDebuff(towerData.EffectValue, towerData.EffectDuration);
         }
     }
 }

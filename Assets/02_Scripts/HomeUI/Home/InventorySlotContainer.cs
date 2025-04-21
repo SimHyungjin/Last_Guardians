@@ -36,7 +36,7 @@ public class InventorySlotContainer : MonoBehaviour
         {
             slot.SetData(item);
 
-            var equipData = item.asEquipData;
+            var equipData = item.AsEquipData;
             slot.SetEquipped(equipData != null && equipment.IsEquipped(item));
 
             if (selectionController.selectedSlot != null)
@@ -53,7 +53,7 @@ public class InventorySlotContainer : MonoBehaviour
         foreach (var slot in slots)
         {
             var instance = slot.GetData();
-            if (instance?.asEquipData != null)
+            if (instance?.AsEquipData != null)
             {
                 slot.SetEquipped(equipment.IsEquipped(instance));
             }

@@ -28,7 +28,6 @@ public class ItemData : ScriptableObject
     [SerializeField] private float itemDropRate;
     [SerializeField] private int itemSellPrice;
     [SerializeField] public Sprite icon;
-    [SerializeField] public int uniqueID;
 
     public int ItemIndex => itemIndex;
     public string ItemName => itemName;
@@ -52,10 +51,6 @@ public class ItemData : ScriptableObject
         itemSellPrice = sellPrice;
     }
 
-    public void GenerateUniqueID()
-    {
-        uniqueID = System.Guid.NewGuid().GetHashCode();
-    }
 
     [CustomEditor(typeof(EquipData))]
     public class EquipDataEditor : Editor

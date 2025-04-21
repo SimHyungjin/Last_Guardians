@@ -3,20 +3,32 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public static class SceneLoader
 {
-    public void LoadScene(string sceneName, Action onComplete = null)
+    public static void LoadScene(string sceneName, Action beforeSceneLoad = null, Action afterSceneLoad = null)
     {
-        StartCoroutine(LoadSceneRoutine(sceneName, onComplete));
+        beforeSceneLoad?.Invoke();
+
+        var go = new GameObject("SceneLoaderTemp");
+        GameObject.DontDestroyOnLoad(go);
+        var loader = go.AddComponent<SceneLoaderRunner>();
+        loader.StartLoading(sceneName);
     }
 
-    private IEnumerator LoadSceneRoutine(string sceneName, Action onComplete = null)
+    private class SceneLoaderRunner : MonoBehaviour
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
-        while (!op.isDone)
+        public void StartLoading(string sceneName, Action afterSceneLoad = null)
         {
-            yield return null;
+            StartCoroutine(LoadSceneRoutine(sceneName, afterSceneLoad));
         }
-        onComplete?.Invoke();
+
+        private IEnumerator LoadSceneRoutine(string sceneName, Action afterSceneLoad = null)
+        {
+
+            AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+            while (!op.isDone) yield return null;
+            afterSceneLoad?.Invoke();
+            Destroy(gameObject);
+        }
     }
 }

@@ -28,15 +28,15 @@ public class EquipmentSlotContainer : MonoBehaviour
 
     public void BindSlot(ItemInstance instance)
     {
-        if (instance?.asEquipData == null) return;
-        if (equipSlots.TryGetValue(instance.asEquipData.equipType, out var slot))
+        if (instance?.AsEquipData == null) return;
+        if (equipSlots.TryGetValue(instance.AsEquipData.equipType, out var slot))
         {
             slot.SetData(instance);
         }
     }
     private void UnbindSlot(ItemInstance instance)
     {
-        if (instance?.asEquipData is not EquipData data) return;
+        if (instance?.AsEquipData is not EquipData data) return;
 
         ClearSlot(data.equipType);
     }

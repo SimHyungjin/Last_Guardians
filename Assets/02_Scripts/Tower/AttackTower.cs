@@ -60,7 +60,7 @@ public class AttackTower : BaseTower
         base.Update();
         if (Time.time - lastCheckTime < adaptedTowerData.attackSpeed) return;
         {
-            Debug.Log($"공격준비완료");
+            //Debug.Log($"공격준비완료");
             FindTarget();
             if (projectileFactory == null || towerData == null)
             {

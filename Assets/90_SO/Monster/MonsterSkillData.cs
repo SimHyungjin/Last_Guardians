@@ -4,12 +4,13 @@ using UnityEngine;
 
 public enum MonsterSkillType
 {
-    Buff,
-    DeBuff,
     Evasion,
     Disable,
     Clean,
-    Summon
+    Summon,
+    SpeedBuff,
+    Heal,
+    DefBuff
 }
 
 [CreateAssetMenu(fileName = "New Monster Skill Data", menuName = "Data/Monster Skill Data")]

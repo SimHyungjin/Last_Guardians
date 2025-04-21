@@ -17,7 +17,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public EnemyProjectile ProjectilePrefab { get; private set; }
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillBase> MonsterSkillDatas { get; private set; }
-    public List<BaseMonster> AlliveMonsters { get; private set; }
+    //public List<BaseMonster> AlliveMonsters { get; private set; }
     public MonsterWaveData nowWave { get; private set; }
     public EXPBead EXPBeadPrefab { get; private set; }
     public List<MonsterData> BountyMonsterList {  get; private set; }
@@ -30,10 +30,11 @@ public class MonsterManager : Singleton<MonsterManager>
     private int currentWaveIndex = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
+    private int alliveCount = 0;
 
     private void Start()
     {
-        AlliveMonsters = new List<BaseMonster>();
+        //AlliveMonsters = new List<BaseMonster>();
         spawnSeconds = new WaitForSeconds(0.1f);
         InitMonsters();
     }
@@ -95,7 +96,7 @@ public class MonsterManager : Singleton<MonsterManager>
             NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            AlliveMonsters.Add(monster);
+            alliveCount++;
             spawnCount++;
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
@@ -105,7 +106,8 @@ public class MonsterManager : Singleton<MonsterManager>
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            AlliveMonsters.Add(monster);
+            //AlliveMonsters.Add(monster);
+            alliveCount++;
             spawnCount++;
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
         }
@@ -115,7 +117,7 @@ public class MonsterManager : Singleton<MonsterManager>
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            AlliveMonsters.Add(monster);
+            //AlliveMonsters.Add(monster);
         }
         
     }
@@ -154,15 +156,13 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public void OnMonsterDeath(BaseMonster monster)
     {
-        if (AlliveMonsters.Contains(monster))
-            AlliveMonsters.Remove(monster);
-        else
-            return;
-        if (AlliveMonsters.Count <= 0 && spawnCount == currentWaveMonsterCount)
+        alliveCount--;
+
+        if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
         {
             Debug.Log("웨이브 클리어");
             currentWaveIndex++;
-            AlliveMonsters.Clear();
+            //AlliveMonsters.Clear();
             spawnCount = 0;
             currentWaveMonsterCount = 0;
             StartCoroutine(StartNextWave());

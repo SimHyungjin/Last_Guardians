@@ -4684,6 +4684,7 @@ MonoBehaviour:
   towerCombinationData: {fileID: 0}
   towerbuilder: {fileID: 648171797}
   projectileFactory: {fileID: 0}
+  TrapObjectPrefab: {fileID: 0}
 --- !u!4 &648171799
 Transform:
   m_ObjectHideFlags: 0
@@ -4715,6 +4716,51 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &678977529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 678977531}
+  - component: {fileID: 678977530}
+  m_Layer: 0
+  m_Name: BattleCry
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &678977530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678977529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5be9b525e87587488ee8f672d5bfb3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData: {fileID: 0}
+--- !u!4 &678977531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678977529}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &693473865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5039,7 +5085,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6439,7 +6485,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.033333335
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
@@ -23563,9 +23609,25 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 08d8b749aeaa888429a08f835cd025cd, type: 2}
   - {fileID: 11400000, guid: 2e5af86d32a7786469c282193d9a52a4, type: 2}
   - {fileID: 11400000, guid: 1fa0086318355f24686ad53e15bd0ee3, type: 2}
+  - {fileID: 11400000, guid: ee92d0c6164af8c45b129098ba51361d, type: 2}
+  - {fileID: 11400000, guid: 09d428dfef9a66c4b9cc6aed51f86668, type: 2}
+  - {fileID: 11400000, guid: a839c115683bd9442a193b178e0c403e, type: 2}
+  - {fileID: 11400000, guid: 3cd46b3c5b8641e43b35958290d195a4, type: 2}
   - {fileID: 11400000, guid: d5a995a20c2e65f458f33314a3c3dd1a, type: 2}
   - {fileID: 11400000, guid: e29e566fcea14b34ca542d869c7e5367, type: 2}
-  monsterSkillDataSO: []
+  - {fileID: 11400000, guid: 0c9291421080d7a4483210a4cc83dc6b, type: 2}
+  - {fileID: 11400000, guid: 8441935ede0a4c147a4ba9bcb5bed886, type: 2}
+  monsterSkillDataSO:
+  - {fileID: 11400000, guid: dfd719cde203d1942a7dae9e5f3a1706, type: 2}
+  - {fileID: 11400000, guid: b67086c22e8328445934adbaf7196807, type: 2}
+  - {fileID: 11400000, guid: 201a709059878bd478aae41ec4535acb, type: 2}
+  - {fileID: 11400000, guid: 11efbf944a8427a42a8d359ca339e4be, type: 2}
+  - {fileID: 11400000, guid: f2a59a77560290740a82545265b81013, type: 2}
+  - {fileID: 11400000, guid: 2785f152ba79dd744ac141aa8765acd4, type: 2}
+  - {fileID: 11400000, guid: f7262336541a7b84abf518b7dbba6c88, type: 2}
+  - {fileID: 11400000, guid: c8c818cd9055c3046ba912559b534a76, type: 2}
+  - {fileID: 11400000, guid: 2230c2fee2837494a88fe29c9806fab0, type: 2}
+  - {fileID: 11400000, guid: 4044ea3d2c5a55640a8f4c314e898912, type: 2}
   monsterWaveDataSO: []
   towerDataSO: []
   itemDataSO: []
@@ -31988,3 +32050,4 @@ SceneRoots:
   - {fileID: 2092156928}
   - {fileID: 648171799}
   - {fileID: 1404120582}
+  - {fileID: 678977531}

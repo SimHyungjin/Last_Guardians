@@ -331,7 +331,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 11, startCol: 0, endCol: 11);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 16, startCol: 0, endCol: 11);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyMonsterDataToSO(jsonData, renameFiles);
         }
@@ -466,7 +466,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 5, startCol: 14, endCol: 24);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 11, startCol: 14, endCol: 24);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyMonsterSkillDataToSO(jsonData, renameFiles);
         }
@@ -491,7 +491,7 @@ public class DataDownLoader : MonoBehaviour
             int spawnMonsterID = int.TryParse(row["spawnMonsterID"]?.ToString(), out int parsedSpawnMonsterID) ? parsedSpawnMonsterID : default;
             int spawnMonsterNum = int.TryParse(row["spawnMonsterNum"]?.ToString(), out int parsedSpawnMonsterNum) ? parsedSpawnMonsterNum : default;
             float duration = float.TryParse(row["monsterskillDuration"]?.ToString(), out float parseduration) ? parseduration : default;
-            MonsterSkillType skillType = Enum.TryParse(row["monsterskillType"]?.ToString(), out MonsterSkillType type) ? type : MonsterSkillType.Buff;
+            MonsterSkillType skillType = Enum.TryParse(row["monsterskillType"]?.ToString(), out MonsterSkillType type) ? type : MonsterSkillType.DefBuff;
             string description = row["monsterskillDescripttion"]?.ToString() ?? "";
             float effectValue = float.TryParse(row["monsterskillEffectValue"]?.ToString(), out float parseeffectValue) ? parseeffectValue : default;
             float skillPro = float.TryParse(row["monsterskillProbablilty"]?.ToString(), out float parseskillPro) ? parseskillPro : default;

@@ -16,7 +16,7 @@ MonoBehaviour:
   monsterName: "\uC0AC\uB9C9\uC758 \uB3C4\uC801"
   monsterHP: 500
   monsterSpeed: 1.5
-  monsterDamage: 10
+  monsterDamage: 5
   monsterDef: 5
   exp: 150
   monsterDescription: "\uC0AC\uB9C9\uC5D0\uC11C \uD65C\uB3D9\uD558\uB294 \uC545\uBA85

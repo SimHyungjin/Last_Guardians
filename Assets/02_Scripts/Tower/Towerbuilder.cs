@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -99,7 +99,6 @@ public class Towerbuilder : MonoBehaviour
         }
 
         GameObject dummyTower = Instantiate(dummyTowerPrefab, constructPos, Quaternion.identity);
-        dummyTower.SetActive(false);
         yield return null;
         bool allPathsExist = true;
         NavMeshPath path = new NavMeshPath();

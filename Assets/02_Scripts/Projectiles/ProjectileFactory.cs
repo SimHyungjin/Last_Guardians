@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 public interface IEffect
 {
-    void Apply(BaseMonster target, TowerData towerData);
-    void Apply(BaseMonster target, TowerData towerData, float chance);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance);
 }
 
 
@@ -28,17 +28,12 @@ public class ProjectileFactory : MonoBehaviour
     {
         { SpecialEffect.DotDamage, typeof(ProjectileDotDamageEffect) },
         { SpecialEffect.Slow, typeof(ProjectileSlowEffect) },
-        { SpecialEffect.MultyTarget, typeof(ProjectileMultyTargetEffect) },//미구현
-        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },//미구현//반쯤구현 ->멀티타겟이펙트 가져오면해결
+        { SpecialEffect.ChainAttack, typeof(ProjectileChainAttackEffect) },
         { SpecialEffect.Stun, typeof(ProjectileStunEffect) },
         { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },
         { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },
         { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },
-        { SpecialEffect.Knockback, typeof(ProjectileKnockbackEffect) },
-        { SpecialEffect.Buff, typeof(ProjectileBuffEffect) },//미구현
-        { SpecialEffect.AttackPower, typeof(ProjectileAttackPowerEffect) },
-        { SpecialEffect.Summon, typeof(ProjectileSummonEffect) },//미구현
-        { SpecialEffect.Silence, typeof(ProjectileSilenceEffect) },
+        { SpecialEffect.Critical, typeof(ProjectileCriticalEffect)},
         { SpecialEffect.None, null }
     };
 
@@ -142,7 +137,7 @@ public class ProjectileFactory : MonoBehaviour
         foreach (int index in buffTowerIndex)
         {
             var buffTowerData = TowerManager.Instance.GetTowerData(index);
-            if (buffTowerData != null && buffTowerData.SpecialEffect != SpecialEffect.None)
+            if (buffTowerData != null && (buffTowerData.SpecialEffect != SpecialEffect.None))
             {
                 effectList.Add(buffTowerData);
             }

@@ -5,14 +5,15 @@ using UnityEngine;
 
 public interface ITowerBuff
 {
-    void ApplyBuff(BaseTower tower, TowerData data);
+    void ApplyBuffToTower(BaseTower tower, TowerData data);
+    void ApplyBuffToTrap(TrapObject trap, TowerData data);
     void ApplyDebuff(BaseMonster monster, TowerData data);
 }
 
 public class BuffTower : BaseTower
 {
     [Header("버프타워 데이터")]
-    [SerializeField] private LayerMask towerLayer;
+    //[SerializeField] private LayerMask towerLayer;
     [SerializeField] private LayerMask monsterLayer;
     public ITowerBuff towerBuff;
     public ITowerBuff monsterDebuff;
@@ -77,7 +78,8 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
         List<BaseTower> nearbyTowers = new();
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
+        List<TrapObject> nearbyTrap = new();
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, towerLayer);
 
         foreach (var hit in hits)
         {
@@ -85,17 +87,27 @@ public class BuffTower : BaseTower
             if (otherTower != null && otherTower != this)
             {
                 nearbyTowers.Add(otherTower);
-                towerBuff.ApplyBuff(otherTower, towerData);
+                towerBuff.ApplyBuffToTower(otherTower, towerData);
+            }
+        }
+        foreach (var hit in hits)
+        {
+            TrapObject otherTrap = hit.GetComponent<TrapObject>();
+            if (otherTrap != null && otherTrap != this)
+            {
+                nearbyTrap.Add(otherTrap);
+                towerBuff.ApplyBuffToTrap(otherTrap, towerData);
             }
         }
         Debug.Log($"[BuffTower] 주변 타워 {nearbyTowers.Count}개 발견");
+        Debug.Log($"[BuffTower] 주변 트랩 {nearbyTrap.Count}개 발견");
     }
 
     private void ApplyDebuffOnPlacement()
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
         List<BaseMonster> nearbyTowers = new();
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, monsterLayer);
 
         foreach (var hit in hits)
         {
@@ -108,13 +120,16 @@ public class BuffTower : BaseTower
         }
         Debug.Log($"[BuffTower] 주변 몬스터 {nearbyTowers.Count}개 발견");
     }
-
+    public void ReApplyBuff()
+    {
+        ApplyBuffOnPlacement();
+    }
 
     protected override void OnDestroy()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, towerLayer);
 
         foreach (var hit in hits)
         {
@@ -124,11 +139,15 @@ public class BuffTower : BaseTower
                 otherTower.DestroyBuffTower();
             }
         }
-
+        foreach (var hit in hits)
+        {
+            TrapObject otherTrap = hit.GetComponent<TrapObject>();
+            if (otherTrap != null && otherTrap != this)
+            {
+                otherTrap.DestroyBuffTower();
+            }
+        }
     }
 
-    public void ReApplyBuff()
-    {
-        ApplyBuffOnPlacement();
-    }
+
 }

@@ -234,7 +234,7 @@ public class BaseMonster : MonoBehaviour
     //데미지 받을 떄 호출되는 함수
     public virtual void TakeDamage(float amount)
     {
-        Debug.Log("데미지입음");
+        Debug.Log($"데미지 입음{amount}");
         if(EvasionRate != -1f)
         {
             if (Random.Range(0f, 1f) * 100 < EvasionRate)

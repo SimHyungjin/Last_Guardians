@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class TrapObjectSilenceEffect : ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData)
+    public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff)
     {
-       target= target.GetComponent<BossMonster>();
-       //target.Silcence
+        if(target.MonsterData.MonsterType==MonType.Boss) target= target.GetComponent<BossMonster>();
     }
 }

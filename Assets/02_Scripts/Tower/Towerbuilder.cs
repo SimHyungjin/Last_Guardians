@@ -177,7 +177,6 @@ public class Towerbuilder : MonoBehaviour
             return false;
         }
         int towerIndex = tower.towerData.TowerIndex;
-        Debug.Log(towerCombinationData.TryCombine(towerIndex, clikedTower.towerData.TowerIndex));
         return towerCombinationData.TryCombine(towerIndex, clikedTower.towerData.TowerIndex) != -1;
     }
 

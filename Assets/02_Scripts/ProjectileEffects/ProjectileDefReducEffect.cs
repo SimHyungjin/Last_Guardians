@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
     {
-        if (!towerData.BossImmune)
+        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
+        {
             target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
-        else if (target.MonsterData.MonsterType != MonType.Boss)
-            target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+            Debug.Log($"±âº» ¹æ±ï {towerData.EffectValue}, {towerData.EffectDuration}");
+        }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, float chance)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance)
     {
-        if (!towerData.BossImmune)
+        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             if (Random.value < chance)
+            {
                 target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
-        }
-        else if (target.MonsterData.MonsterType != MonType.Boss)
-        {
-            if (Random.value < chance)
-                target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
+                Debug.Log($"Âù½º ¹æ±ï {towerData.EffectValue}, {towerData.EffectDuration}");
+            }
         }
     }
 }

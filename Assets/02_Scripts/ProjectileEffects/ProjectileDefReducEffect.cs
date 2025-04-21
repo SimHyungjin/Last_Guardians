@@ -9,7 +9,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
-            Debug.Log($"기본 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
+            Debug.Log($"기본 방깍 {towerData.EffectValue}, {towerData.EffectDuration}");
         }
     }
 
@@ -20,7 +20,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
             if (Random.value < chance)
             {
                 target.ApplyReducionDef(towerData.EffectValue, towerData.EffectDuration);
-                Debug.Log($"찬스 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
+                Debug.Log($"찬스 방깍 {towerData.EffectValue}, {towerData.EffectDuration}");
             }
         }
     }

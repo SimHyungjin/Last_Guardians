@@ -33,6 +33,7 @@ public class ProjectileFactory : MonoBehaviour
         { SpecialEffect.BossDamage, typeof(ProjectileBossDamageEffect) },
         { SpecialEffect.BossDebuff, typeof(ProjectileBossDebuffEffect) },
         { SpecialEffect.DefReduc, typeof(ProjectileDefReducEffect) },
+        { SpecialEffect.Critical, typeof(ProjectileCriticalEffect)},
         { SpecialEffect.None, null }
     };
 

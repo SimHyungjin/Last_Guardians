@@ -105,8 +105,8 @@ public class BlastProjectile : ProjectileBase
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
-                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
-                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]));
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
+                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower);
 
                     Debug.Log($"ÀÌÆåÆ® Àû¿ë {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
                     Debug.Log($"ÀÌÆåÆ® Àû¿ë {monster}");

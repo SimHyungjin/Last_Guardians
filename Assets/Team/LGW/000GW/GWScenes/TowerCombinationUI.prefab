@@ -91,6 +91,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 3406765812861753516}
   nameText: {fileID: 3089202811378716399}
+  button: {fileID: 0}
+  slotIndex: 0
 --- !u!1 &1178715605772110304
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,8 +257,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4641410917775648413}
   - {fileID: 1763793192820422723}
+  - {fileID: 4641410917775648413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-5662513484808480245
@@ -502,6 +504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 7783553700745038580}
   nameText: {fileID: 1907276751706786308}
+  button: {fileID: 0}
+  slotIndex: 0
 --- !u!1 &4616490781153115981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,3 +1211,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 1134771217218867039}
   nameText: {fileID: 4878910856159133030}
+  button: {fileID: 0}
+  slotIndex: 0

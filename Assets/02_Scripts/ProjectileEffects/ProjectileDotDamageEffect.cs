@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class ProjectileDotDamageEffect : MonoBehaviour,IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
     {
-        if (!towerData.BossImmune)
-            target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
-        else if (target.MonsterData.MonsterType != MonType.Boss)
-            target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
-
-    }
-    public void Apply(BaseMonster target, TowerData towerData, float chance)
-    {
-        if (!towerData.BossImmune)
+        if(target.MonsterData.MonsterType==MonType.Boss&&towerData.EffectTarget==EffectTarget.BossOnly)
         {
-            if (Random.value < chance)
-                target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
+            target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
         }
-        else if (target.MonsterData.MonsterType != MonType.Boss)
+        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData))
+        {
+            target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
+        }
+    }
+
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance)
+    {
+        if (target.MonsterData.MonsterType == MonType.Boss && towerData.EffectTarget == EffectTarget.BossOnly)
         {
             if (Random.value < chance)
+            {
                 target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
+            }
+        }
+        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData))
+        {
+            if (Random.value < chance)
+            {
+                target.DotDamage(towerData.EffectValue, towerData.EffectDuration);
+            }
         }
     }
 }

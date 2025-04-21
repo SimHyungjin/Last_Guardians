@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
     {
         if (towerData.EffectTargetCount == 0)
         {
@@ -24,52 +25,72 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
         else
         {
             TowerData ownerTowerData = this.gameObject.GetComponent<ProjectileBase>().GetTowerData();
-            float angleStep = 10f;
-            int additionalCount = towerData.EffectTargetCount - 1;
-
-            Vector2 origin = transform.position;
-            Vector2 forward = transform.right;
-
-            int half = additionalCount / 2;
-            for (int i = 0; i < additionalCount; i++)
+            if(ownerTowerData.EffectTarget==EffectTarget.BossOnly)
             {
-                Debug.Log($"[ChainAttack] {i} / {additionalCount}");
-                float spawnOffset = 0.5f;
-
-                int index = i - half;
-                if (additionalCount % 2 == 0 && index >= 0) index += 1;
-
-                float angle = angleStep * index;
-                Vector2 dir = Quaternion.Euler(0, 0, angle) * forward;
-
-                Vector2 spawnPosition = origin + dir * spawnOffset;
-                Vector2 targetPosition = origin + dir * 10f;
-
-                switch (ownerTowerData.ProjectileType)
-                {
-                    case ProjectileType.Magic:
-                        MagicProjectile magicprojectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<MagicProjectile>(ownerTowerData));
-                        magicprojectile.OriginTarget = target;
-                        magicprojectile.transform.position = spawnPosition;
-                        magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                        magicprojectile.Init(ownerTowerData,null, null);
-                        magicprojectile.Launch(origin + dir * 10f);
-                        break;
-                    case ProjectileType.Blast:
-                        BlastProjectile blastProjectile = TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData);
-                        blastProjectile.OriginTarget = target;
-                        blastProjectile.transform.position = spawnPosition;
-                        blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                        blastProjectile.Init(ownerTowerData, null, null);
-                        blastProjectile.Launch(origin + dir * 10f);
-                        break;
-                }
+                if (target.MonsterData.MonsterType == MonType.Boss)
+                    ChainShot(target, ownerTowerData, adaptedTowerData);
             }
+            else
+                ChainShot(target, ownerTowerData, adaptedTowerData);
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, float chance)
+    public void Apply(BaseMonster target, TowerData towerData,AdaptedTowerData adaptedTowerData, float chance)
     {
 
+    }
+
+    private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedTowerData adaptedTowerData)
+    {
+        float angleStep = 10f;
+        int additionalCount = ownerTowerData.EffectTargetCount - 1;
+
+        Vector2 origin = transform.position;
+        Vector2 forward = transform.right;
+
+        int half = additionalCount / 2;
+        for (int i = 0; i < additionalCount; i++)
+        {
+            Debug.Log($"[ChainAttack] {i} / {additionalCount}");
+            float spawnOffset = 0.5f;
+
+            int index = i - half;
+            if (additionalCount % 2 == 0 && index >= 0) index += 1;
+
+            float angle = angleStep * index;
+            Vector2 dir = Quaternion.Euler(0, 0, angle) * forward;
+
+            Vector2 spawnPosition = origin + dir * spawnOffset;
+            Vector2 targetPosition = origin + dir * 10f;
+            List<int> effectsubself = new List<int>();
+            effectsubself = adaptedTowerData.buffTowerIndex;
+            for (int j = 0; j < effectsubself.Count; j++)
+            {
+                if (effectsubself[j] == ownerTowerData.TowerIndex)
+                {
+                    effectsubself.RemoveAt(i);
+                    break;
+                }
+            }
+            switch (ownerTowerData.ProjectileType)
+            {
+                case ProjectileType.Magic:
+                    MagicProjectile magicprojectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<MagicProjectile>(ownerTowerData));
+                    magicprojectile.OriginTarget = target;
+                    magicprojectile.transform.position = spawnPosition;
+                    magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                    magicprojectile.Init(ownerTowerData, adaptedTowerData, null);
+                    magicprojectile.Launch(origin + dir * 10f);
+                    break;
+                case ProjectileType.Blast:
+                    BlastProjectile blastProjectile = TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData);
+                    blastProjectile.OriginTarget = target;
+                    blastProjectile.transform.position = spawnPosition;
+                    blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                    blastProjectile.Init(ownerTowerData, adaptedTowerData, null);
+                    blastProjectile.Launch(origin + dir * 10f);
+                    break;
+            }
+        }
     }
 }

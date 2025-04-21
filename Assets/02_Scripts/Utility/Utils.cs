@@ -64,4 +64,15 @@ public class Utils
             .ToArray();
     }
 
+    public static bool ShouldApplyEffect(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
+    {
+        if (adaptedTowerData.bossImmunebuff) return true;
+
+        if (towerData.BossImmune && target.MonsterData.MonsterType == MonType.Boss)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

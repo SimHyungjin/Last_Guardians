@@ -12,7 +12,7 @@ public interface ITowerBuff
 public class BuffTower : BaseTower
 {
     [Header("버프타워 데이터")]
-    [SerializeField] private LayerMask towerLayer;
+    //[SerializeField] private LayerMask towerLayer;
     [SerializeField] private LayerMask monsterLayer;
     public ITowerBuff towerBuff;
     public ITowerBuff monsterDebuff;
@@ -77,7 +77,7 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
         List<BaseTower> nearbyTowers = new();
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, towerLayer);
 
         foreach (var hit in hits)
         {
@@ -95,7 +95,7 @@ public class BuffTower : BaseTower
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
         List<BaseMonster> nearbyTowers = new();
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, monsterLayer);
 
         foreach (var hit in hits)
         {
@@ -108,13 +108,16 @@ public class BuffTower : BaseTower
         }
         Debug.Log($"[BuffTower] 주변 몬스터 {nearbyTowers.Count}개 발견");
     }
-
+    public void ReApplyBuff()
+    {
+        ApplyBuffOnPlacement();
+    }
 
     protected override void OnDestroy()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, towerLayer);
 
         foreach (var hit in hits)
         {
@@ -127,8 +130,5 @@ public class BuffTower : BaseTower
 
     }
 
-    public void ReApplyBuff()
-    {
-        ApplyBuffOnPlacement();
-    }
+
 }

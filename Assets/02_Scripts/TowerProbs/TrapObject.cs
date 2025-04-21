@@ -35,6 +35,8 @@ public class TrapObject : MonoBehaviour
     private float cooldownTime;
     private float creationTime;
 
+    private float effectRadius = 0.5f;
+
     public  void Init(TowerData towerData)
     {
         
@@ -159,7 +161,7 @@ public class TrapObject : MonoBehaviour
 
         while (elapsed < towerData.EffectDuration)
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1f, MonsterMask);
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, effectRadius, MonsterMask);
 
             foreach (var effect in trapEffectList)
             {

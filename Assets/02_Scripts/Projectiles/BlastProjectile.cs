@@ -93,7 +93,7 @@ public class BlastProjectile : ProjectileBase
     {
         blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
         blastEffectInstance.Init(towerData, this.transform);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius/2, monsterLayer);
         int count = 0;
         foreach (var hit in hits)
         {

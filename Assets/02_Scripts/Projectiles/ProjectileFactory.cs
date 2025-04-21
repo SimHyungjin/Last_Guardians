@@ -56,7 +56,7 @@ public class ProjectileFactory : MonoBehaviour
                 Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
     }
-    public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent,List<int> buffTowerIndex) where T : ProjectileBase
+    public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData,AdaptedTowerData adaptedTowerData ,Transform parent,List<int> buffTowerIndex) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
         {
@@ -76,7 +76,7 @@ public class ProjectileFactory : MonoBehaviour
         AddAllEffects(projectile, towerData, buffTowerIndex);
         projectile.Launch(targetPos); // 이펙트 추가
     }
-    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, Transform parent, List<int> buffTowerIndex,int shotCount) where T : ProjectileBase
+    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedTowerData adaptedTowerData ,Transform parent, List<int> buffTowerIndex,int shotCount) where T : ProjectileBase
     {
         
             if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab)) return;

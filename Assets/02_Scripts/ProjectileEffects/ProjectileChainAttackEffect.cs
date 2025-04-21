@@ -33,6 +33,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
             int half = additionalCount / 2;
             for (int i = 0; i < additionalCount; i++)
             {
+                Debug.Log($"[ChainAttack] {i} / {additionalCount}");
                 float spawnOffset = 0.5f;
 
                 int index = i - half;
@@ -51,7 +52,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                         magicprojectile.OriginTarget = target;
                         magicprojectile.transform.position = spawnPosition;
                         magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                        magicprojectile.Init(ownerTowerData, null);
+                        magicprojectile.Init(ownerTowerData,null, null);
                         magicprojectile.Launch(origin + dir * 10f);
                         break;
                     case ProjectileType.Blast:
@@ -59,7 +60,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                         blastProjectile.OriginTarget = target;
                         blastProjectile.transform.position = spawnPosition;
                         blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                        blastProjectile.Init(ownerTowerData, null);
+                        blastProjectile.Init(ownerTowerData, null, null);
                         blastProjectile.Launch(origin + dir * 10f);
                         break;
                 }

@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+
 public abstract class BaseTower : MonoBehaviour
 {
     [Header("타워 데이터")]
     public TowerData towerData;
-
 
     [Header("타워 결합")]
     public GameObject towerGhostPrefab;
@@ -50,7 +51,7 @@ public abstract class BaseTower : MonoBehaviour
             sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
             towerGhost = towerData.towerGhostPrefab;       
         }
-        StartCoroutine(AfterInit());
+         StartCoroutine(AfterInit());
     }
 
     protected IEnumerator AfterInit()
@@ -114,10 +115,10 @@ public abstract class BaseTower : MonoBehaviour
     }
     protected virtual void OnDestroy()
     {
-        //InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
         isMoving = false;
         TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 }
+
 
 

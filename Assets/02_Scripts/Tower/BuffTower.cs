@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -106,5 +107,28 @@ public class BuffTower : BaseTower
             }
         }
         Debug.Log($"[BuffTower] 주변 몬스터 {nearbyTowers.Count}개 발견");
+    }
+
+
+    protected override void OnDestroy()
+    {
+        if (towerData.EffectTarget != EffectTarget.Towers) return;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange, towerLayer);
+
+        foreach (var hit in hits)
+        {
+            BaseTower otherTower = hit.GetComponent<BaseTower>();
+            if (otherTower != null && otherTower != this)
+            {
+                otherTower.DestroyBuffTower();
+            }
+        }
+
+    }
+
+    public void ReApplyBuff()
+    {
+        ApplyBuffOnPlacement();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -19,8 +20,10 @@ public abstract class BaseTower : MonoBehaviour
     public SpriteRenderer sprite;
 
     private LayerMask trapObjectLayer;
+    protected LayerMask towerLayer;
     private GameObject towerGhost;
     Vector2 curPos;
+
 
     public virtual void Init(TowerData _towerData)
     {
@@ -29,6 +32,9 @@ public abstract class BaseTower : MonoBehaviour
         towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
         trapObjectLayer = LayerMask.GetMask("TrapObject");
+        towerLayer = LayerMask.GetMask("Tower");
+        
+
         if (towerData != null)
         {
             int spriteIndex;
@@ -117,6 +123,11 @@ public abstract class BaseTower : MonoBehaviour
     {
         isMoving = false;
         TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+    }
+
+    public virtual void DestroyBuffTower()
+    {
+
     }
 }
 

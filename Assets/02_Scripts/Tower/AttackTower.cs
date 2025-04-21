@@ -20,6 +20,7 @@ public class AdaptedTowerData
         this.attackPower = attackPower;
         this.attackSpeed = attackSpeed;
         this.bossImmune = bossImmune;
+        buffTowerIndex = new List<int>();
     }
     public void subSelfEffect()
     {
@@ -39,7 +40,7 @@ public class AdaptedTowerData
 public class AttackTower : BaseTower
 {
 
-    [Header("°ø°İ")]
+    [Header("ê³µê²©")]
     [SerializeField] private Transform target;
     private float lastCheckTime = 0f;
     [SerializeField] private LayerMask monsterLayer;
@@ -49,18 +50,20 @@ public class AttackTower : BaseTower
     private BaseMonster currentTargetMonster;
 
     public AdaptedTowerData adaptedTowerData;
+
     public override void Init(TowerData data)
     {
+
         base.Init(data);
+        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.BossImmune);
         monsterLayer = LayerMask.GetMask("Monster");
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
+        ScanBuffTower();
         if (towerData.SpecialEffect != SpecialEffect.None)
         {
             buffTowerIndex.Add(towerData.TowerIndex);
         }
-        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.BossImmune);
-
     }
     protected override void Update()
     {
@@ -71,7 +74,7 @@ public class AttackTower : BaseTower
             if (projectileFactory == null || towerData == null)
             {
                 Debug.LogError("ProjectileFactory or TowerData is null in BaseTower.Update");
-                return;  // ÇÊ¼ö °´Ã¼°¡ nullÀÌ¶ó¸é Update¿¡¼­ ´õ ÀÌ»ó ÁøÇàÇÏÁö ¾ÊÀ½
+                return;  // í•„ìˆ˜ ê°ì²´ê°€ nullì´ë¼ë©´ Updateì—ì„œ ë” ì´ìƒ ì§„í–‰í•˜ì§€ ì•ŠìŒ
             }
             lastCheckTime = Time.time;
             Attack();
@@ -147,13 +150,13 @@ public class AttackTower : BaseTower
                 }
                 break;
             default:
-                Debug.LogError($"[BaseTower] {towerData.TowerName} °ø°İÅ¸ÀÔ ¾øÀ½");
+                Debug.LogError($"[BaseTower] {towerData.TowerName} ê³µê²©íƒ€ì… ì—†ìŒ");
                 break;
         }
     }
     private void HandleTargetDeath()
     {
-        Debug.Log($"[BaseTower] {towerData.TowerName} °ø°İ´ë»ó »ç¸Á");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ëŒ€ìƒ ì‚¬ë§");
         target = null;
         lastCheckTime = Time.time;
         currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
@@ -173,18 +176,18 @@ public class AttackTower : BaseTower
     public void AttackPowerBuff(float buff)
     {
         adaptedTowerData.attackPower = towerData.AttackPower + towerData.AttackPower * buff;
-        Debug.Log($"[BaseTower] {towerData.TowerName} °ø°İ·Â Áõ°¡: {adaptedTowerData.attackPower}");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ë ¥ ì¦ê°€: {adaptedTowerData.attackPower}");
     }
     public void AttackSpeedBuff(float buff)
     {
         adaptedTowerData.attackSpeed = towerData.AttackSpeed / buff;
-        Debug.Log($"[BaseTower] {towerData.TowerName} °ø°İ¼Óµµ Áõ°¡: {adaptedTowerData.attackSpeed}");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ì†ë„ ì¦ê°€: {adaptedTowerData.attackSpeed}");
     }
 
     public void BossImmuneBuff(bool buff)
     {
         adaptedTowerData.bossImmune = buff;
-        Debug.Log($"[BaseTower] {towerData.TowerName} º¸½º ¸é¿ª Áõ°¡: {adaptedTowerData.bossImmune}");
+        Debug.Log($"[BaseTower] {towerData.TowerName} ë³´ìŠ¤ ë©´ì—­ ì¦ê°€: {adaptedTowerData.bossImmune}");
     }
 
     public void RemoveAttackPowerBuff()
@@ -223,6 +226,26 @@ public class AttackTower : BaseTower
         {
             buffTowerIndex.Add(targetIndex);
             adaptedTowerData.buffTowerIndex.Add(targetIndex);
+        }
+    }
+    public override void DestroyBuffTower()
+    {
+        ScanBuffTower();
+    }
+
+
+    private void ScanBuffTower()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5f, towerLayer);
+
+        foreach (var hit in hits)
+        {
+            BuffTower otherTower = hit.GetComponent<BuffTower>();
+            if (otherTower != null && otherTower != this)
+            {
+                otherTower.ReApplyBuff();
+                Debug.Log($"[BaseTower] {towerData.TowerName} ê³µê²©ë ¥ ì¦ê°€: {adaptedTowerData.attackPower}");
+            }
         }
     }
 }

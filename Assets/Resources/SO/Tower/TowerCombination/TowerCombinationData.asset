@@ -100,9 +100,9 @@ MonoBehaviour:
   - result: 39
     ingredient1: 4
     ingredient2: 8
-  - result: 39
+  - result: 40
     ingredient1: 4
-    ingredient2: 8
+    ingredient2: 9
   - result: 41
     ingredient1: 4
     ingredient2: 10

@@ -35,7 +35,7 @@ public class BlastProjectile : ProjectileBase
         float traveled = Vector2.Distance(startPos, transform.position);
         float ratio = traveled / Totaldistance;
 
-        if (!canHit && ratio >= 0.6f)
+        if (!canHit && ratio >= 0.7f)
         {
             Debug.Log("canHit");
             canHit = true;
@@ -91,6 +91,7 @@ public class BlastProjectile : ProjectileBase
 
     private void Explode()
     {
+        Debug.Log("Æø¹ß");
         blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
         blastEffectInstance.Init(towerData, this.transform);
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius/2, monsterLayer);
@@ -101,15 +102,12 @@ public class BlastProjectile : ProjectileBase
             if (monster != null)
             {
                 count++;
-                if (effects == null) return;
+                if (effects == null) break;
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
                     if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
                     else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower);
-
-                    Debug.Log($"ÀÌÆåÆ® Àû¿ë {TowerManager.Instance.GetTowerData(effectslist[i]).SpecialEffect}");
-                    Debug.Log($"ÀÌÆåÆ® Àû¿ë {monster}");
                 }
             }
         }

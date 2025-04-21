@@ -18,7 +18,7 @@ public class Equipment
     public float specialEffectIDs { get; private set; }
     public int specialEffectID { get; private set; }
 
-    public void Equip(ItemInstance instance)
+    public void Equip(ItemInstance instance, bool updateUI = true)
     {
         if (instance?.AsEquipData == null) return;
         EquipData data = instance.AsEquipData;
@@ -31,10 +31,10 @@ public class Equipment
         equipped[data.equipType] = instance;
 
         RecalculateStats();
-        OnEquip.Invoke(instance);
+        if(updateUI) OnEquip.Invoke(instance);
     }
 
-    public void UnEquip(ItemInstance instance)
+    public void UnEquip(ItemInstance instance, bool updateUI = true)
     {
         if(instance?.AsEquipData == null) return;
 
@@ -44,7 +44,7 @@ public class Equipment
         equipped.Remove(data.equipType);
 
         RecalculateStats();
-        OnUnequip.Invoke(instance);
+        if(updateUI) OnUnequip.Invoke(instance);
     }
 
     void RecalculateStats()

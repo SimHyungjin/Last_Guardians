@@ -18,7 +18,7 @@ public class Inventory
 
     public event Action OnInventoryChanged;
 
-    public void AddItem(ItemInstance item, int count = 1)
+    public void AddItem(ItemInstance item, int count = 1, bool updateUI = true)
     {
         if (item == null) return;
 
@@ -29,11 +29,10 @@ public class Inventory
             else inventory.Add(item); 
         }
         else inventory.Add(item);
-
-        OnInventoryChanged?.Invoke();
+        if(updateUI) OnInventoryChanged?.Invoke();
     }
 
-    public void RemoveItem(ItemInstance item, int count = 1)
+    public void RemoveItem(ItemInstance item, int count = 1, bool updateUI = true)
     {
         if (item == null) return;
         if (item.Data.ItemStackLimit > 1)
@@ -47,7 +46,7 @@ public class Inventory
         }  
         else inventory.Remove(item);
 
-        OnInventoryChanged?.Invoke();
+        if(updateUI) OnInventoryChanged?.Invoke();
     }
 
     public void SetSortType(InventorySortType sortType)

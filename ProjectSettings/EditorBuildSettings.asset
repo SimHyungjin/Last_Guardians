@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Team/LGW/000GW/GWScenes/GWGameSceneUI.unity
     guid: dac62c3a5abad934d8a587e32719e672
+  - enabled: 1
+    path: Assets/Team/SHJ/Home_SHJ_Scene.unity
+    guid: 3df3e34fc0072cd4f88e16307f0d99ae
+  - enabled: 1
+    path: Assets/01_Scenes/GameScene.unity
+    guid: 51d2d64334262074faab56d9a10aca8a
   m_configObjects: {}

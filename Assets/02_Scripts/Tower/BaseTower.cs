@@ -13,6 +13,7 @@ public abstract class BaseTower : MonoBehaviour
     [Header("타워 데이터")]
     public TowerData towerData;
 
+
     [Header("타워 결합")]
     public GameObject towerGhostPrefab;
     public bool isMoving;
@@ -23,7 +24,11 @@ public abstract class BaseTower : MonoBehaviour
     protected LayerMask towerLayer;
     private GameObject towerGhost;
     Vector2 curPos;
+
+    protected float maxbuffRadius = 2.5f;
+
     protected bool disable;
+
 
 
     public virtual void Init(TowerData _towerData)
@@ -136,6 +141,19 @@ public abstract class BaseTower : MonoBehaviour
         disable = false;
     }
 
+    protected void ScanBuffTower()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, towerLayer);
+
+        foreach (var hit in hits)
+        {
+            BuffTower otherTower = hit.GetComponent<BuffTower>();
+            if (otherTower != null && otherTower != this)
+            {
+                otherTower.ReApplyBuff();
+            }
+        }
+    }
     public virtual void DestroyBuffTower()
     {
 

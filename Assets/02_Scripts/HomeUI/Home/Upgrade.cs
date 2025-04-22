@@ -22,7 +22,7 @@ public class Upgrade
         float roll = Random.Range(0f, 100f);
         if (roll < rule.successRate)
         {
-            var upgradedData = GetSuccessItem(instance.Data);
+            var upgradedData = GetSuccessItem(instance);
             upgradedInstance = upgradedData;
             Debug.Log($"Upgrade success: {instance.Data.itemName}");
             return true;
@@ -65,9 +65,13 @@ public class Upgrade
         GameManager.Instance.upgradeStones -= rule.requiredUpgradeStones;
     }
 
-    private ItemInstance GetSuccessItem(ItemData data)
+    private ItemInstance GetSuccessItem(ItemInstance data)
     {
-        return GameManager.Instance.ItemManager.GetItemInstanceByIndex(data.ItemIndex + 100);
+        int upgradeIndex = data.AsEquipData.ItemIndex + 100;
+        SaveSystem.RemoveEquip(data.UniqueID);
+        var upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(upgradeIndex);
+        SaveSystem.SaveEquipReward(upgradeData.AsEquipData.ItemIndex);
+        return upgradeData;
     }
 
     private ItemInstance GetFailureItem(ItemData data, UpgradeRuleData rule)

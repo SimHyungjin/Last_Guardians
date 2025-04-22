@@ -5,7 +5,7 @@ public class TowerBuffAttackSpeed : ITowerBuff
         if (tower is AttackTower attackTower)
         {
             AttackTower buffedattackTower = tower.GetComponent<AttackTower>();
-            if (buffedattackTower != null) buffedattackTower.AttackSpeedBuff(data.TowerIndex);
+            if (buffedattackTower != null) buffedattackTower.AttackSpeedBuff(data.EffectValue);
         }
     }
 

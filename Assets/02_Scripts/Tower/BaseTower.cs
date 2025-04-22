@@ -126,6 +126,16 @@ public abstract class BaseTower : MonoBehaviour
         TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 
+    public void OnDisabled()
+    {
+        disable = true;
+        Invoke("OnEnabled", 3.5f);
+    }
+    public void OnEnabled()
+    {
+        disable = false;
+    }
+
     public virtual void DestroyBuffTower()
     {
 

@@ -43,4 +43,10 @@ public class EXPBead : MonoBehaviour
             PoolManager.Instance.Despawn<EXPBead>(this);
         }
     }
+
+    private void OnDisable()
+    {
+        StopCoroutine(disappearCorutine);
+        disappearCorutine = null;
+    }
 }

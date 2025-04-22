@@ -31,7 +31,8 @@ public class MonsterManager : Singleton<MonsterManager>
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
     private int alliveCount = 0;
-
+    public int RemainMonsterCount {  get; private set; }
+    public int MonsterKillCount { get; private set; }
     private void Start()
     {
         //AlliveMonsters = new List<BaseMonster>();
@@ -54,10 +55,12 @@ public class MonsterManager : Singleton<MonsterManager>
 
         nowWave = WaveDatas[currentWaveIndex];
         currentWaveMonsterCount = nowWave.Monster1Value + nowWave.Monster2Value + nowWave.Monster3Value + nowWave.Monster4Value;
+        RemainMonsterCount = currentWaveMonsterCount;
 
         yield return new WaitForSeconds(nowWave.WaveStartDelay);
         Debug.Log($"웨이브 {nowWave.WaveIndex} 시작");
-       
+        InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
+
         yield return SpawnMonsters(nowWave);
 
 
@@ -157,12 +160,16 @@ public class MonsterManager : Singleton<MonsterManager>
     public void OnMonsterDeath(BaseMonster monster)
     {
         alliveCount--;
+        RemainMonsterCount--;
+        MonsterKillCount++;
+        InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
         if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
         {
+            if (InGameManager.Instance.PlayerHP <= 0)
+                return;
             Debug.Log("웨이브 클리어");
             currentWaveIndex++;
-            //AlliveMonsters.Clear();
             spawnCount = 0;
             currentWaveMonsterCount = 0;
             StartCoroutine(StartNextWave());
@@ -188,75 +195,5 @@ public class MonsterManager : Singleton<MonsterManager>
 
         BountySpwanCoolTime = 60f;
         SpawnTimer = 0f;
-    }
-
-    public void TestKill()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.TakeDamage(1000);
-        }
-    }
-
-    public void TestDot()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.DotDamage(5f,5f);
-        }
-    }
-
-    public void TestSturn()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySturn(10f, 5f);
-        }
-    }
-
-    public void TestSlow()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySlowdown(0.8f, 5f);
-        }
-    }
-
-    public void TestDef()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyReducionDef(0.8f, 5f);
-        }
-    }
-
-    public void TestSpeedUP()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplySpeedBuff(2f, 5f);
-        }
-    }
-
-    public void TestDefBuff()
-    {
-        GameObject[] obj = GameObject.FindGameObjectsWithTag("Monster");
-        foreach (GameObject obj2 in obj)
-        {
-            BaseMonster ba = obj2.GetComponent<BaseMonster>();
-            ba.ApplyDefBuff(1.2f, 5f);
-        }
     }
 }

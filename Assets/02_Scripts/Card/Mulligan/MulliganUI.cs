@@ -40,8 +40,10 @@ public class MulliganUI : MonoBehaviour
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
 
-        Shuffle(elementalDataList);
-        Shuffle(standardDataList);
+        //초기 카드 섞기
+
+        Utils.Shuffle(elementalDataList);
+        Utils.Shuffle(standardDataList);
     }
 
     private void Update()
@@ -53,6 +55,7 @@ public class MulliganUI : MonoBehaviour
         
     }
 
+    //카드선택 남은시간 타이머
     private void UpdateTimer()
     {
         timer -= Time.deltaTime;
@@ -66,6 +69,7 @@ public class MulliganUI : MonoBehaviour
         }
     }
 
+    //카드선택 시작
     public void StartSelectCard()
     {
         okBtn.onClick.AddListener(AddMyList);
@@ -73,6 +77,7 @@ public class MulliganUI : MonoBehaviour
         ShowCardSelect(elementalDataList, cardNum);
     }
 
+    //선택할 카드 보여주기
     private void ShowCardSelect(List<TowerData> dataList, int numberOfCards)
     {
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
@@ -86,6 +91,7 @@ public class MulliganUI : MonoBehaviour
         }
     }
 
+    //카드 선택하기
     private void AddSelectCardList(MulliganCard card)
     {
         if (card.Outline.enabled)
@@ -105,6 +111,7 @@ public class MulliganUI : MonoBehaviour
         }
     }
 
+    //선택한 카드를 덱에 넣기
     public void AddMyList()
     {
         if (!IsValidSelection()) return;
@@ -118,6 +125,7 @@ public class MulliganUI : MonoBehaviour
         ProceedToNextStep();
     }
 
+    //선택된 카드가 골라야하는 만큼 골랐는지 확인
     private bool IsValidSelection()
     {
         if (selectedCard.Count != MaxSelectedCards)
@@ -127,6 +135,7 @@ public class MulliganUI : MonoBehaviour
         return true;
     }
 
+    //리스트에 저장
     private void SaveSelectedCards()
     {
         foreach (var card in selectedCard)
@@ -137,6 +146,7 @@ public class MulliganUI : MonoBehaviour
         }
     }
 
+    //UI 클리어
     private void ClearUI()
     {
         DestroyAllChildren(parent);
@@ -144,6 +154,7 @@ public class MulliganUI : MonoBehaviour
         selectedCard.Clear();
     }
 
+    //멀리건UI 분기점
     private void ProceedToNextStep()
     {
         
@@ -164,6 +175,7 @@ public class MulliganUI : MonoBehaviour
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 
+    //멀리건 종료
     private void EndMulligan()
     {
         MaxSelectedCards = 2;
@@ -174,7 +186,8 @@ public class MulliganUI : MonoBehaviour
         gameObject.SetActive(false);
         InGameManager.Instance.GameStart();
     }
-
+    
+    //타이머 다 됐을때 카드 자동선택
     private void AutoSelectCard()
     {
         if (selectedCard.Count == MaxSelectedCards)
@@ -211,15 +224,8 @@ public class MulliganUI : MonoBehaviour
         AddMyList();
     }
 
-    private void Shuffle<T>(List<T> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            int randomIndex = Random.Range(i, list.Count);
-            (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
-        }
-    }
 
+    //UI객체 밑에 전부 파괴
     private void DestroyAllChildren(Transform parent)
     {
         foreach (Transform child in parent)
@@ -231,11 +237,12 @@ public class MulliganUI : MonoBehaviour
     //레벨업 시 호출
     public void LevelUPSelect()
     {
-        Shuffle(MyCardList);
+        Utils.Shuffle(MyCardList);
         ShowCardSelect(MyCardList, 3);
         Time.timeScale = 0f;
     }
 
+    //선택한 카드 패로
     public void AddCardtoHands()
     {
         if (selectedCard.Count != MaxSelectedCards)

@@ -333,6 +333,6 @@ public class TrapObject : MonoBehaviour
 
     private void OnDestroy()
     {
-        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        if(isActiveAndEnabled)TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 }

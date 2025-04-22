@@ -23,6 +23,11 @@ public class PlayerInputHandler : MonoBehaviour
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
     }
 
+    private void OnDestroy()
+    {
+        InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+    }
+
     /// <summary>
     /// UI 위가 아니라면 캐릭터 이동 시작을 호출합니다.
     /// </summary>

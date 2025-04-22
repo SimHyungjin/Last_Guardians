@@ -25,6 +25,10 @@ public class CameraMove : MonoBehaviour
         freeCam.Follow = dummyObj.transform;
         focusCam.Follow = dummyObj.transform;
     }
+    private void OnDestroy()
+    {
+        InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+    }
 
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {

@@ -14,12 +14,10 @@ public class BlastProjectile : ProjectileBase
     private float ExplosionRadius = 1f; // Æø¹ß ¹Ý°æ
     private bool canHit = false;
     private float Totaldistance;
-    private LayerMask monsterLayer;
     [SerializeField] private bool hasHit = false;
     public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTowerData,List<int> _effectslist)
     {
         base.Init(_towerData, _adaptedTowerData, _effectslist);
-        monsterLayer = LayerMask.GetMask("Monster");
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         speed = 2f;
@@ -94,7 +92,7 @@ public class BlastProjectile : ProjectileBase
         Debug.Log("Æø¹ß");
         blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
         blastEffectInstance.Init(towerData, this.transform);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius/2, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius/2, LayerMaskData.monster);
         int count = 0;
         foreach (var hit in hits)
         {

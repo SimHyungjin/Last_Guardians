@@ -52,7 +52,7 @@ public class TowerManager : Singleton<TowerManager>
     {
         yield return null; 
         
-        Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMask.GetMask("TrapObject"));
+        Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos,LayerMaskData.trapObject);
 
         foreach (var hit in hits)
         {

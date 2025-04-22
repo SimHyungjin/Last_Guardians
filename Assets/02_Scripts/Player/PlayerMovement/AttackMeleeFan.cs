@@ -24,7 +24,7 @@ public class AttackMeleeFan : IAttackBehavior
 
         angle = 90f;
         radius = player.playerData.attackRange * 2;
-        var rawHits = Physics2D.OverlapCircleAll(origin, radius, LayerMask.GetMask("Monster"));
+        var rawHits = Physics2D.OverlapCircleAll(origin, radius, LayerMaskData.monster);
 
         List<Collider2D> validHits = new();
 

@@ -14,7 +14,6 @@ public interface ITowerBuff
 public class BuffTower : BaseTower
 {
     [Header("버프타워 데이터")]
-    [SerializeField] private LayerMask monsterLayer;
     public ITowerBuff towerBuff;
     public ITowerBuff monsterDebuff;
 
@@ -25,8 +24,6 @@ public class BuffTower : BaseTower
     public override void Init(TowerData data)
     {
         base.Init(data);
-        towerLayer = LayerMask.GetMask("Tower");
-        monsterLayer = LayerMask.GetMask("Monster");
         buffTowerIndex = new List<int>();
         buffMonterDebuffs = new List<ITowerBuff>();
         BuffSelect(data);
@@ -99,7 +96,7 @@ public class BuffTower : BaseTower
     private void ApplyBuffOnPlacement()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -122,7 +119,7 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacement()
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
@@ -136,7 +133,7 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacementOnBuff()
     {
         if (towerData.EffectTarget != EffectTarget.All) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
@@ -197,7 +194,7 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {

@@ -20,8 +20,6 @@ public abstract class BaseTower : MonoBehaviour
     public bool isCliked;
     public SpriteRenderer sprite;
 
-    private LayerMask trapObjectLayer;
-    protected LayerMask towerLayer;
     private GameObject towerGhost;
     Vector2 curPos;
 
@@ -37,30 +35,11 @@ public abstract class BaseTower : MonoBehaviour
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
-        trapObjectLayer = LayerMask.GetMask("TrapObject");
-        towerLayer = LayerMask.GetMask("Tower");
         
 
         if (towerData != null)
         {
-            int spriteIndex;
-            if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
-            {
-                spriteIndex = towerData.TowerIndex - 49;
-            }
-            else if (towerData.TowerIndex >= 99 && towerData.TowerIndex < 109)
-            {
-                spriteIndex = towerData.TowerIndex - 98;
-            }
-            else if (towerData.TowerIndex >= 109)
-            {
-                spriteIndex = towerData.TowerIndex - 59;
-            }
-            else
-            {
-                spriteIndex = towerData.TowerIndex;
-            }
-            sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+            sprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
             towerGhost = towerData.towerGhostPrefab;       
         }
          StartCoroutine(AfterInit());
@@ -69,7 +48,7 @@ public abstract class BaseTower : MonoBehaviour
     protected IEnumerator AfterInit()
     {
         yield return null;
-        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, trapObjectLayer);
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.trapObject);
         foreach (var hit in hits)
         {
             if (hit.transform.IsChildOf(this.transform)) continue;
@@ -97,7 +76,7 @@ public abstract class BaseTower : MonoBehaviour
         if (!isCliked)
         {
             curPos = InputManager.Instance.GetTouchWorldPosition();
-            Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"));
+            Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMaskData.tower);
             if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
                 isCliked = true;
@@ -128,7 +107,7 @@ public abstract class BaseTower : MonoBehaviour
     protected virtual void OnDestroy()
     {
         isMoving = false;
-        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        if (isActiveAndEnabled)TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 
     public void OnDisabled()
@@ -143,7 +122,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected void ScanBuffTower()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {

@@ -11,7 +11,7 @@ public class RewardTestUI : MonoBehaviour
 
     private void Start()
     {
-        wavePlusButton.onClick.AddListener(OnWavePlusClicked);
+        //wavePlusButton.onClick.AddListener(OnWavePlusClicked);
         getRewardButton.onClick.AddListener(OnGetRewardClicked);
 
         UpdateWaveText();
@@ -19,18 +19,18 @@ public class RewardTestUI : MonoBehaviour
 
     void OnWavePlusClicked()
     {
-        MonsterManager.Instance.ForceAddWave(); // ÀÌ ÇÔ¼ö´Â ¾Æ·¡ Ãß°¡µÊ
+        MonsterManager.Instance.ForceAddWave(); // ì´ í•¨ìˆ˜ëŠ” ì•„ë˜ ì¶”ê°€ë¨
         UpdateWaveText();
     }
 
     void OnGetRewardClicked()
     {
          
-        RewardManager.Instance.GiveRewardForWave(MonsterManager.Instance.currentWaveIndex);
+        RewardManager.Instance.GiveRewardForWave(10);
     }
 
     void UpdateWaveText()
     {
-        waveText.text = $"ÇöÀç ¿şÀÌºê: {MonsterManager.Instance.currentWaveIndex}";
+        //waveText.text = $"í˜„ì¬ ì›¨ì´ë¸Œ: {MonsterManager.Instance.currentWaveIndex}";
     }
 }

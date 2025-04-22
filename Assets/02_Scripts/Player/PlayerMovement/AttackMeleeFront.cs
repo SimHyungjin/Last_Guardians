@@ -24,7 +24,7 @@ public class AttackMeleeFront : IAttackBehavior
 
         float angle = attackController.transform.eulerAngles.z;
 
-        var rawHits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle, LayerMask.GetMask("Monster"));
+        var rawHits = Physics2D.OverlapBoxAll(boxCenter, boxSize, angle, LayerMaskData.monster);
 
         List<Collider2D> validHits = new();
         foreach (var hit in rawHits)

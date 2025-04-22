@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class RewardManager : Singleton<RewardManager>
 {
-    public int Gold {  get; private set; }
-    public int Stone { get ; private set; }
+    public int Gold { get; private set; }
+    public int Stone { get; private set; }
     public int Equip {  get; private set; }
+
     public int GetGold(int wave)
     {
         int minGold = 50 * wave;

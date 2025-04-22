@@ -12,6 +12,10 @@ public class GameOverUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI resultMonsterCountText;
     [SerializeField] TextMeshProUGUI reslutPlayerLvText;
     //게임보상
+    [SerializeField] TextMeshProUGUI rewardGoldText;
+    [SerializeField] TextMeshProUGUI rewardStoneText;
+    [SerializeField] Image rewardEquipImage;
+    [SerializeField] TextMeshProUGUI rewardEquipText;
 
     //버튼
     [SerializeField] Button retryBtn;
@@ -19,9 +23,22 @@ public class GameOverUI : MonoBehaviour
 
     private void OnEnable()
     {
+        RewardManager.Instance.GiveRewardForWave(MonsterManager.Instance.nowWave.WaveIndex);
         resultWaveText.text = $"wave : {MonsterManager.Instance.nowWave.WaveIndex}";
         resultMonsterCountText.text = $"잡은 몬스터 수 : {MonsterManager.Instance.MonsterKillCount}";
         reslutPlayerLvText.text = $"플레이어 레벨 : {InGameManager.Instance.level}";
+        rewardGoldText.text = $"획득한 골드 : {RewardManager.Instance.Gold}";
+        rewardStoneText.text = $"획득한 강화석 : {RewardManager.Instance.Stone}";
+        if (RewardManager.Instance.Equip == 0)
+        {
+            rewardEquipImage.gameObject.SetActive(false);
+            rewardEquipText.gameObject.SetActive(false);
+        }
+        else
+        {
+            rewardEquipImage.sprite = GameManager.Instance.ItemManager.GetItemInstanceByIndex(RewardManager.Instance.Equip).Data.Icon;
+            rewardEquipText.text = GameManager.Instance.ItemManager.GetItemInstanceByIndex(RewardManager.Instance.Equip).Data.itemName;
+        }
         retryBtn.onClick.AddListener(Retry);
         exitBtn.onClick.AddListener(Exit);
     }

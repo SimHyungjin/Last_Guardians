@@ -39,6 +39,7 @@ public class AttackTower : BaseTower
     public AdaptedTowerData adaptedTowerData;
 
     private float maxbuffRadius = 2.5f;
+    //private bool Disable;
 
     public override void Init(TowerData data)
     {
@@ -105,6 +106,7 @@ public class AttackTower : BaseTower
 
     void Attack()
     {
+        if (disable) return;
         bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
         bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
@@ -191,6 +193,7 @@ public class AttackTower : BaseTower
     {
         adaptedTowerData.bossImmunebuff = false;
     }
+
 
     public void AddEffect(int targetIndex)
     {

@@ -23,6 +23,7 @@ public abstract class BaseTower : MonoBehaviour
     protected LayerMask towerLayer;
     private GameObject towerGhost;
     Vector2 curPos;
+    protected bool disable;
 
 
     public virtual void Init(TowerData _towerData)

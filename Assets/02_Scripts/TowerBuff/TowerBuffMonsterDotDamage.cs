@@ -6,6 +6,7 @@ public class TowerBuffMonsterDotDamage : ITowerBuff
     }
     public void ApplyBuffToTrap(TrapObject trap, TowerData data)
     {
+
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data)
     {

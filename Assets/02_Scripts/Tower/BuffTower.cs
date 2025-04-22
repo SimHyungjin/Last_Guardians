@@ -13,7 +13,6 @@ public interface ITowerBuff
 public class BuffTower : BaseTower
 {
     [Header("버프타워 데이터")]
-    //[SerializeField] private LayerMask towerLayer;
     [SerializeField] private LayerMask monsterLayer;
     public ITowerBuff towerBuff;
     public ITowerBuff monsterDebuff;
@@ -35,7 +34,7 @@ public class BuffTower : BaseTower
 
         if (Time.time - lastCheckTime < 0.1f)
             return;
-        if (towerData.EffectTarget == EffectTarget.All)
+        if (towerData.EffectTarget == EffectTarget.All&&!disable)
             ApplyDebuffOnPlacement();
         lastCheckTime = Time.time;
     }

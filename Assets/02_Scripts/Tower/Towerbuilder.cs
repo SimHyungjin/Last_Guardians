@@ -170,7 +170,7 @@ public class Towerbuilder : MonoBehaviour
 
     public bool CanCardToTowerCombine(Vector2 tilePos,int cardIndex)
     {
-        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
+        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMaskData.tower);
         int towerIndex;
         if (hit == null) return false;
         else towerIndex = hit.GetComponent<BaseTower>().towerData.TowerIndex;
@@ -179,7 +179,7 @@ public class Towerbuilder : MonoBehaviour
 
     public bool CanTowerToTowerCombine(Vector2 tilePos)
     {
-        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMask.GetMask("Tower"));
+        Collider2D hit = Physics2D.OverlapPoint(tilePos, LayerMaskData.tower);
         if (hit == null)
         {
             return false;
@@ -249,7 +249,7 @@ public class Towerbuilder : MonoBehaviour
                         }
                         else if (CanCardToTowerCombine(currentTile, TowerManager.Instance.hand.HighlightedIndex))
                         {
-                            Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
+                            Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMaskData.tower);
                             cheakedTower = hit.GetComponent<BaseTower>();
                             Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
                             precolor.a = 0.0f;
@@ -293,7 +293,7 @@ public class Towerbuilder : MonoBehaviour
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
             if (CanTowerToTowerCombine(currentTile))
             {
-                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMask.GetMask("Tower"));
+                Collider2D hit = Physics2D.OverlapPoint(currentTile, LayerMaskData.tower);
                 cheakedTower = hit.GetComponent<BaseTower>();
                 Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;
                 precolor.a = 0.0f;

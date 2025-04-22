@@ -14,7 +14,7 @@ public class AttackMeleeCircle : IAttackBehavior
 
     public void Attack(Vector2 targetPos, float damage)
     {
-        var rawHits = Physics2D.OverlapCircleAll(attackController.transform.position, player.playerData.attackRange * 2, LayerMask.GetMask("Monster"));
+        var rawHits = Physics2D.OverlapCircleAll(attackController.transform.position, player.playerData.attackRange * 2, LayerMaskData.monster);
 
         List<Collider2D> validHits = new();
         foreach (var hit in rawHits)

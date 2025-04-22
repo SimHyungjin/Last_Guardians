@@ -30,7 +30,6 @@ public class AttackTower : BaseTower
     [Header("공격")]
     [SerializeField] private Transform target;
     private float lastCheckTime = 0f;
-    [SerializeField] private LayerMask monsterLayer;
     public ProjectileFactory projectileFactory;
 
     List<int> buffTowerIndex;
@@ -45,7 +44,6 @@ public class AttackTower : BaseTower
 
         base.Init(data);
         adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed);
-        monsterLayer = LayerMask.GetMask("Monster");
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
         ScanBuffTower();
@@ -76,7 +74,7 @@ public class AttackTower : BaseTower
 
     void FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, monsterLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.monster);
 
         float closestDist = float.MaxValue;
         Transform closest = null;

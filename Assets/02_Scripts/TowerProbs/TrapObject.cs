@@ -20,9 +20,6 @@ public class TrapObject : MonoBehaviour
     
     [SerializeField] private List<int> buffTowerIndex;
     [SerializeField] private List<ITrapEffect> trapEffectList;
-    [SerializeField] private LayerMask buildBlockMask;
-    [SerializeField] private LayerMask TrapObjectMask;
-    [SerializeField] private LayerMask MonsterMask;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
 
@@ -40,12 +37,10 @@ public class TrapObject : MonoBehaviour
 
 
     private float maxbuffRadius = 2.5f;
-    private LayerMask towerLayer;
 
     private bool disable = false;  
     public  void Init(TowerData towerData)
     {
-        towerLayer = LayerMask.GetMask("Tower");
         this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
         creationTime = Time.time;
@@ -108,7 +103,7 @@ public class TrapObject : MonoBehaviour
     {
         Vector2 pos = PostionArray();
 
-        Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, buildBlockMask);
+        Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlock);
         foreach (var hit in blockHits)
         {
             if (hit != null && hit.gameObject != gameObject)
@@ -118,7 +113,7 @@ public class TrapObject : MonoBehaviour
             }
         }
 
-        Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMask.GetMask("TrapObject"));
+        Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMaskData.trapObject);
         foreach (var hit in trapHits)
         {
             if (hit.gameObject == this.gameObject) continue;
@@ -135,7 +130,7 @@ public class TrapObject : MonoBehaviour
 
     public bool IsAnyObjectOnTile()
     {
-        Collider2D hit = Physics2D.OverlapPoint(PostionArray(), buildBlockMask);
+        Collider2D hit = Physics2D.OverlapPoint(PostionArray(), LayerMaskData.buildBlock);
         return hit != null;
     }
     public Vector2 PostionArray()
@@ -167,7 +162,7 @@ public class TrapObject : MonoBehaviour
 
         while (elapsed < towerData.EffectDuration)
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, effectRadius, MonsterMask);
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, effectRadius, LayerMaskData.monster);
 
             foreach (var effect in trapEffectList)
             {
@@ -296,7 +291,7 @@ public class TrapObject : MonoBehaviour
     }
     private void ScanBuffTower()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, towerLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {

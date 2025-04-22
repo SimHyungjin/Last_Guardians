@@ -48,24 +48,7 @@ public class DeckHandler : MonoBehaviour
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
                     TowerData towerData = TowerManager.Instance.GetTowerData(highlightedIndex);
-                    int spriteIndex;
-                    if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
-                    {
-                        spriteIndex = towerData.TowerIndex - 49;
-                    }
-                    else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
-                    {
-                        spriteIndex = towerData.TowerIndex - 98;
-                    }
-                    else if (towerData.TowerIndex > 108)
-                    {
-                        spriteIndex = towerData.TowerIndex - 59;
-                    }
-                    else
-                    {
-                        spriteIndex = towerData.TowerIndex;
-                    }
-                    ghostsprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+                    ghostsprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
                     //towerGhost = towerData.towerGhostPrefab;
 
 

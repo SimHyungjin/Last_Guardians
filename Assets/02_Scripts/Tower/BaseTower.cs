@@ -43,24 +43,7 @@ public abstract class BaseTower : MonoBehaviour
 
         if (towerData != null)
         {
-            int spriteIndex;
-            if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
-            {
-                spriteIndex = towerData.TowerIndex - 49;
-            }
-            else if (towerData.TowerIndex >= 99 && towerData.TowerIndex < 109)
-            {
-                spriteIndex = towerData.TowerIndex - 98;
-            }
-            else if (towerData.TowerIndex >= 109)
-            {
-                spriteIndex = towerData.TowerIndex - 59;
-            }
-            else
-            {
-                spriteIndex = towerData.TowerIndex;
-            }
-            sprite.sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+            sprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
             towerGhost = towerData.towerGhostPrefab;       
         }
          StartCoroutine(AfterInit());

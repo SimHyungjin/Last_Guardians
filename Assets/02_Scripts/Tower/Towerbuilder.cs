@@ -207,24 +207,7 @@ public class Towerbuilder : MonoBehaviour
     private void GetSprite(int index)
     {
         TowerData towerData = TowerManager.Instance.GetTowerData(index);
-        int spriteIndex;
-        if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
-        {
-            spriteIndex = towerData.TowerIndex - 49;
-        }
-        else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
-        {
-            spriteIndex = towerData.TowerIndex - 98;
-        }
-        else if (towerData.TowerIndex > 108)
-        {
-            spriteIndex = towerData.TowerIndex - 59;
-        }
-        else
-        {
-            spriteIndex = towerData.TowerIndex;
-        }
-        ghostTower.GetComponent<SpriteRenderer>().sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+        ghostTower.GetComponent<SpriteRenderer>().sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
 
     }
 

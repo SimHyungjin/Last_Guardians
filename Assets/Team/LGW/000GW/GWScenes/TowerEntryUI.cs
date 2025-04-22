@@ -34,6 +34,7 @@ public class TowerEntryUI : MonoBehaviour
 
     private int GetSpriteIndex(int index)
     {
+        //return Utils.GetSpriteIndex(index); // ← 이 부분은 Utils 클래스에서 처리
         if (index > 49 && index < 99) return index - 49;
         if (index > 98 && index < 109) return index - 98;
         if (index > 108) return index - 59;

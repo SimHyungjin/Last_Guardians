@@ -5,6 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/01_Scenes/StartScene.unity
+    guid: 84fe6963ac2e6a64eaa3584c5fd4078d
+  - enabled: 1
+    path: Assets/01_Scenes/MainScene.unity
+    guid: 7bf74e501ed5e37499bc83475d6f7107
+  - enabled: 1
+    path: Assets/01_Scenes/GameScene.unity
+    guid: 51d2d64334262074faab56d9a10aca8a
   - enabled: 0
     path: Assets/01_Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
@@ -20,13 +29,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Team/SHJ/Home_SHJ_Scene.unity
     guid: 3df3e34fc0072cd4f88e16307f0d99ae
-  - enabled: 1
-    path: Assets/01_Scenes/GameScene.unity
-    guid: 51d2d64334262074faab56d9a10aca8a
-  - enabled: 1
-    path: Assets/01_Scenes/MainScene.unity
-    guid: 7bf74e501ed5e37499bc83475d6f7107
-  - enabled: 1
-    path: Assets/01_Scenes/StartScene.unity
-    guid: 84fe6963ac2e6a64eaa3584c5fd4078d
   m_configObjects: {}

@@ -164,7 +164,7 @@ public static class SaveSystem
         {
             if (loadedMap.TryGetValue(equipSave.uniqueID, out var instance))
             {
-                equipment.Equip(instance);
+                equipment.Equip(instance, false);
                 Debug.Log($"[SaveSystem] 장비 로드 - {equipSave.equipType} : uniqueID: {equipSave.uniqueID}");
             }
             else

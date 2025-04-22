@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,8 @@ using UnityEngine;
 public class MainSceneManager : Singleton<MainSceneManager>
 {
     private Dictionary<string, GameObject> panelMap = new();
-    private GameObject canvas;
+    public GameObject canvas { get; private set; }
+    public GameObject interactionBlocker { get; private set; }
 
     public Inventory inventory;
     public Equipment equipment;
@@ -26,6 +28,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
         SaveSystem.LoadGame();
 
         canvas = Utils.InstantiatePrefabFromResource("UI/MainScene/Canvas", this.transform);
+        interactionBlocker = Utils.InstantiatePrefabFromResource("UI/MainScene/InteractionBlocker", canvas.transform);
         canvas.GetComponentInChildren<MainSceneButtonView>().Init(this);
     }
 
@@ -39,12 +42,45 @@ public class MainSceneManager : Singleton<MainSceneManager>
             panelMap[panelName] = panel;
         }
         panel.SetActive(true);
+        ShowInteractionBlocker(panel, true);
     }
 
     public void HidePanel(string panelName)
     {
         if (panelMap.TryGetValue(panelName, out var panel))
+        {
             panel.SetActive(false);
+            ShowInteractionBlocker(panel, false);
+        }
+    }
+
+    public void ShowAllPanels()
+    {
+        foreach (var panel in panelMap.Values)
+        {
+            panel.SetActive(true);
+        }
+    }
+
+    public void HideAllPanels()
+    {
+        foreach (var panel in panelMap.Values)
+        {
+            panel.SetActive(false);
+        }
+    }
+
+    public void ShowInteractionBlocker(GameObject obj, bool active)
+    {
+        if (active)
+        {
+            var parent = obj.transform.parent;
+            obj.transform.SetSiblingIndex(parent.childCount - 1);
+            interactionBlocker.transform.SetParent(parent, false);
+            interactionBlocker.transform.SetSiblingIndex(parent.childCount - 2);
+            interactionBlocker.SetActive(true); 
+        }
+        else interactionBlocker.SetActive(false);
     }
 
     public void LoadInventory(GameObject obj)

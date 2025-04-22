@@ -17,7 +17,7 @@ public class MainSceneButtonView : MonoBehaviour
 
         inventoryBtn.onClick.AddListener(() =>
         {
-            mainSceneManager.LoadInventory(gameObject);
+            mainSceneManager.LoadInventory(mainSceneManager.canvas);
             mainSceneManager.ShowPanel("InventoryGroup");
         });
 

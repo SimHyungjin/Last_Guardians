@@ -196,4 +196,10 @@ public class MonsterManager : Singleton<MonsterManager>
         BountySpwanCoolTime = 60f;
         SpawnTimer = 0f;
     }
+    public void ForceAddWave()
+    {
+        currentWaveIndex++;
+        Debug.Log($"[테스트] 현재 웨이브 → {currentWaveIndex}");
+    }
+
 }

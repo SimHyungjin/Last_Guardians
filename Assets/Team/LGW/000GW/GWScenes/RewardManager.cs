@@ -1,76 +1,59 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class RewardManager : Singleton<RewardManager>
 {
-    public int GetEquip()
+    public int GetGold(int wave)
     {
-        int waveLevel = MonsterManager.Instance.currentWaveIndex / 5;
-        if (waveLevel < 5) return 0;
+        int minGold = 50 * wave;
+        int maxGold = 100 * wave;
+        int result = Random.Range(minGold, maxGold + 1);
 
-        float dropChance = 5 + (float)waveLevel / 5f;
-        if (waveLevel % 5 == 0) dropChance *= 1.5f;
+        SaveSystem.SaveGoldReward(result);
+        return result;
+    }
 
+    public int GetUpgradeStone(int wave)
+    {
+        int minStone = Mathf.Clamp(wave / 10 + 1, 1, 30); // ex) 1~30
+        int maxStone = Mathf.Clamp(wave / 5 + 3, 3, 40);  // ex) 3~40
+        int result = Random.Range(minStone, maxStone + 1);
+
+        SaveSystem.SaveUpgradeStonedReward(result);
+        return result;
+    }
+
+    public int GetEquip(int wave)
+    {
+        float dropChance = Mathf.Max(0, (wave - 4) * 0.5f); // wave 5부터 드랍 시작 (0 → 0.5 → ...)
         if (Random.Range(0f, 100f) > dropChance) return 0;
 
-        return TryGiveRewardFromGrades(GetAllowedGrades(waveLevel));
+        int grade = Mathf.Clamp((wave - 1) / 20, 0, 5);
+        return TryGiveEquipReward(grade);
     }
 
-    private List<ItemGrade> GetAllowedGrades(int waveLevel)
+    private int TryGiveEquipReward(int grade)
     {
-        int maxGrade = Mathf.Min((waveLevel - 1) / 20, 4);
-        List<ItemGrade> grades = new();
-        for (int i = 0; i <= maxGrade; i++)
-            grades.Add((ItemGrade)i);
-        return grades;
-    }
-
-    private int TryGiveRewardFromGrades(List<ItemGrade> allowedGrades)
-    {
-        var itemManager = GameManager.Instance.ItemManager;
-
-        var candidates = itemManager.ItemDatas()
+        var candidates = GameManager.Instance.ItemManager.ItemDatas()
             .Values
-            .Where(item => allowedGrades.Contains(item.ItemGrade))
+            .Where(item => (int)item.ItemGrade == grade)
             .ToList();
 
         if (candidates.Count == 0) return 0;
 
-        var randomItem = candidates[Random.Range(0, candidates.Count)];
-        SaveSystem.SaveEquipReward(randomItem.ItemIndex);
-        return randomItem.ItemIndex;
+        var selected = candidates[Random.Range(0, candidates.Count)];
+        SaveSystem.SaveEquipReward(selected.ItemIndex);
+        return selected.ItemIndex;
     }
 
-    public int GetUpgradeStone()
+    public void GiveRewardForWave(int wave)
     {
-        int waveLevel = MonsterManager.Instance.currentWaveIndex / 5;
-        float dropChance = 5 + (float)waveLevel / 5f;
-        if (waveLevel % 5 == 0) dropChance *= 1.5f;
+        Debug.Log($"[RewardManager] 웨이브 {wave} 보상 지급 시작");
 
-        if (Random.Range(0f, 100f) > dropChance) return 0;
+        int gold = GetGold(wave);
+        int stone = GetUpgradeStone(wave);
+        int equip = GetEquip(wave);
 
-        int amount = 3 + waveLevel / 3;
-        SaveSystem.SaveUpgradeStonedReward(amount);
-        return amount;
-    }
-
-    public int GetGold()
-    {
-        int waveLevel = MonsterManager.Instance.currentWaveIndex / 5;
-        int goldNum = Random.Range(50 * waveLevel, 100 * waveLevel);
-        SaveSystem.SaveGoldReward(goldNum);
-        return goldNum;
-    }
-
-    public void GetReward()
-    {
-        Debug.Log("플레이어 사망 - 보상 처리 시작");
-
-        int equip = GetEquip();
-        int upgrade = GetUpgradeStone();
-        int gold = GetGold();
-
-        Debug.Log($"보상 지급 완료 → 장비: {equip}, 강화석: {upgrade}, 골드: {gold}");
+        Debug.Log($"[RewardManager] 골드: {gold}, 강화석: {stone}, 장비: {(equip != 0 ? equip.ToString() : "없음")}");
     }
 }

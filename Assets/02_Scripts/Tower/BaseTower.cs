@@ -128,7 +128,10 @@ public abstract class BaseTower : MonoBehaviour
     protected virtual void OnDestroy()
     {
         isMoving = false;
-        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        if (isActiveAndEnabled)
+        {
+            TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        }
     }
 
     public void OnDisabled()

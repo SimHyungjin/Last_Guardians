@@ -60,9 +60,19 @@ public class GameOver
     {
         int waveLevel = MonsterManager.Instance.currentWaveIndex / 5;
         int goldNum = Random.Range(50 * waveLevel, 100 * waveLevel);
-        SaveSystem.SaveUpgradeStonedReward(goldNum);
+        SaveSystem.SaveGoldReward(goldNum);
 
         return goldNum;
+    }
+    public void PlayerDead()
+    {
+        Debug.Log("플레이어 사망 - 보상 처리 시작");
+
+        int equip = GetEquip();
+        int upgrade = GetUpgradeStone();
+        int gold = GetGold();
+
+        Debug.Log($"보상 지급 완료 → 장비: {equip}, 강화석: {upgrade}, 골드: {gold}");
     }
 
 }

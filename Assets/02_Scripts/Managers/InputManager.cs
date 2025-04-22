@@ -7,7 +7,7 @@ public class InputManager : Singleton<InputManager>
     private PointerInput pointerInput;
     private PointerInput.PointerActions pointerAction;
 
-    private void Awake()
+    private void Start()
     {
         DontDestroyOnLoad(gameObject);
         pointerInput = new PointerInput();

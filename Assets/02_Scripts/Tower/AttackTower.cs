@@ -38,7 +38,7 @@ public class AttackTower : BaseTower
 
     public AdaptedTowerData adaptedTowerData;
 
-    private float maxbuffRadius = 2.5f;
+    //private bool Disable;
 
     public override void Init(TowerData data)
     {
@@ -105,6 +105,7 @@ public class AttackTower : BaseTower
 
     void Attack()
     {
+        if (disable) return;
         bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
         bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
@@ -192,10 +193,11 @@ public class AttackTower : BaseTower
         adaptedTowerData.bossImmunebuff = false;
     }
 
+
     public void AddEffect(int targetIndex)
     {
         bool found = false;
-
+        if (buffTowerIndex.Contains(targetIndex)) return;
         for (int i = 0; i < buffTowerIndex.Count; i++)
         {
             if (TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect == TowerManager.Instance.GetTowerData(targetIndex).SpecialEffect)
@@ -210,7 +212,6 @@ public class AttackTower : BaseTower
                 break;
             }
         }
-
         if (!found)
         {
             buffTowerIndex.Add(targetIndex);
@@ -230,19 +231,5 @@ public class AttackTower : BaseTower
         RemoveAttackSpeedBuff();
         buffTowerIndex.Clear();
         buffTowerIndex.Add(towerData.TowerIndex);
-    }
-    private void ScanBuffTower()
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, towerLayer);
-
-        foreach (var hit in hits)
-        {
-            BuffTower otherTower = hit.GetComponent<BuffTower>();
-            if (otherTower != null && otherTower != this)
-            {
-                otherTower.ReApplyBuff();
-                Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
-            }
-        }
     }
 }

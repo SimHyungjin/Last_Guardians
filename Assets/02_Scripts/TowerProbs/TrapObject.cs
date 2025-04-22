@@ -42,6 +42,7 @@ public class TrapObject : MonoBehaviour
     private float maxbuffRadius = 2.5f;
     private LayerMask towerLayer;
 
+    private bool disable = false;  
     public  void Init(TowerData towerData)
     {
         towerLayer = LayerMask.GetMask("Tower");
@@ -146,6 +147,7 @@ public class TrapObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (currentState != TrapObjectState.Ready) return;
+        if (disable) return;
         if (collision.CompareTag("Monster"))
         {
             BaseMonster monster = collision.GetComponent<BaseMonster>();
@@ -269,6 +271,15 @@ public class TrapObject : MonoBehaviour
         }
     }
 
+    public void OnDisabled()
+    {
+        disable = true;
+        Invoke("OnEnabled", 3.5f);
+    }
+    public void OnEnabled()
+    {
+        disable = false;
+    }
     public  void DestroyBuffTower()
     {
         ClearAllbuff();

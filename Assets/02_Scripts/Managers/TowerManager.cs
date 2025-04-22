@@ -22,7 +22,7 @@ public class TowerManager : Singleton<TowerManager>
     private Dictionary<int, TowerData> towerDataMap;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
-    private void Awake()
+    private void OnEnable()
     {        
         towerDataMap = Resources.LoadAll<TowerData>("SO/Tower")
             .ToDictionary(td => td.TowerIndex, td => td);

@@ -32,12 +32,12 @@ public class Equipment
         equipped[data.equipType] = instance;
 
         RecalculateStats();
-        if(updateUI) OnEquip.Invoke(instance);
+        if (updateUI) OnEquip.Invoke(instance);
     }
 
     public void UnEquip(ItemInstance instance, bool updateUI = true)
     {
-        if(instance?.AsEquipData == null) return;
+        if (instance?.AsEquipData == null) return;
 
         EquipData data = instance.AsEquipData;
         if (!equipped.ContainsKey(data.equipType)) return;
@@ -45,7 +45,7 @@ public class Equipment
         equipped.Remove(data.equipType);
 
         RecalculateStats();
-        if(updateUI) OnUnequip.Invoke(instance);
+        if (updateUI) OnUnequip.Invoke(instance);
     }
 
     void RecalculateStats()
@@ -58,7 +58,7 @@ public class Equipment
         {
             if (instance?.AsEquipData is not EquipData data) continue;
 
-            if(data.equipType == EquipType.Weapon) changeAttackType = data.attackType;
+            if (data.equipType == EquipType.Weapon) changeAttackType = data.attackType;
 
             totalAttack += data.attackPower;
             totalAttackSpeed += data.attackSpeed;

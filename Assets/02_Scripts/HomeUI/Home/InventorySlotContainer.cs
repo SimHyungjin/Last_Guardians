@@ -15,14 +15,14 @@ public class InventorySlotContainer : MonoBehaviour
     {
         for (int i = 0; i < slotNum; i++)
         {
-            var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", transform);
+            var slot = Utils.InstantiateComponentFromResource<Slot>("UI/MainScene/Slot", transform);
             slots.Add(slot);
         }
     }
 
     private void Start()
     {
-        var home = HomeManager.Instance;
+        var home = MainSceneManager.Instance;
         inventory = home.inventory;
         equipment = home.equipment;
         selectionController = home.selectionController;

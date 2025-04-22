@@ -14,16 +14,24 @@ public class EquipmentSlotContainer : MonoBehaviour
     {
         for (int i = 0; i < (int)EquipType.Count; i++)
         {
-            var slot = Utils.InstantiateComponentFromResource<Slot>("UI/Slot", slotParents[i]);
+            var slot = Utils.InstantiateComponentFromResource<Slot>("UI/MainScene/Slot", slotParents[i]);
             equipSlots.Add((EquipType)i, slot);
         }
     }
 
     private void Start()
     {
-        equipment = HomeManager.Instance.equipment;
+        equipment = MainSceneManager.Instance.equipment;
         equipment.OnEquip += BindSlot;
         equipment.OnUnequip += UnbindSlot;
+    }
+
+    public void BindAll()
+    {
+        foreach (var kvp in equipment.GetEquipped())
+        {
+            BindSlot(kvp.Value);
+        }
     }
 
     public void BindSlot(ItemInstance instance)
@@ -53,6 +61,9 @@ public class EquipmentSlotContainer : MonoBehaviour
     {
         foreach (var slot in equipSlots.Values)
         {
+            var instance = slot.GetData();
+            if (instance?.AsEquipData != null) slot.SetEquipped(equipment.IsEquipped(instance));
+            else slot.SetEquipped(false);
             slot.Refresh();
         }
     }

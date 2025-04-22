@@ -207,24 +207,7 @@ public class Towerbuilder : MonoBehaviour
     private void GetSprite(int index)
     {
         TowerData towerData = TowerManager.Instance.GetTowerData(index);
-        int spriteIndex;
-        if (towerData.TowerIndex > 49 && towerData.TowerIndex < 99)
-        {
-            spriteIndex = towerData.TowerIndex - 49;
-        }
-        else if (towerData.TowerIndex > 98 && towerData.TowerIndex < 109)
-        {
-            spriteIndex = towerData.TowerIndex - 98;
-        }
-        else if (towerData.TowerIndex > 108)
-        {
-            spriteIndex = towerData.TowerIndex - 59;
-        }
-        else
-        {
-            spriteIndex = towerData.TowerIndex;
-        }
-        ghostTower.GetComponent<SpriteRenderer>().sprite = towerData.atlas.GetSprite($"Tower_{spriteIndex}");
+        ghostTower.GetComponent<SpriteRenderer>().sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(index)}");
 
     }
 
@@ -290,25 +273,7 @@ public class Towerbuilder : MonoBehaviour
         if (clikedTower != null && ghostTower == null)
         {
             ghostTower = Instantiate(ghostTowerPrefab);
-            int spriteIndex;
-            if (clikedTower.towerData.TowerIndex > 49 && clikedTower.towerData.TowerIndex < 99)
-            {
-                spriteIndex = clikedTower.towerData.TowerIndex - 49;
-            }
-            else if (clikedTower.towerData.TowerIndex > 98 && clikedTower.towerData.TowerIndex < 109)
-            {
-                spriteIndex = clikedTower.towerData.TowerIndex - 98;
-            }
-            else if (clikedTower.towerData.TowerIndex > 108)
-            {
-                spriteIndex = clikedTower.towerData.TowerIndex - 59;
-            }
-            else
-            {
-                spriteIndex = clikedTower.towerData.TowerIndex;
-            }
-            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerData.atlas.GetSprite($"Tower_{spriteIndex}");
-
+            ghostTower.GetComponent<SpriteRenderer>().sprite = clikedTower.towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(clikedTower.towerData.TowerIndex)}");
             clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 0.3f);
         }
         else

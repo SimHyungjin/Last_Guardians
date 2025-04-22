@@ -70,10 +70,10 @@ public class Inventory
         OnInventoryChanged?.Invoke();
     }
 
-    public void ClearAll()
+    public void ClearAll(bool updateUI = true)
     {
         inventory.Clear();
-        OnInventoryChanged?.Invoke();
+        if (updateUI) OnInventoryChanged?.Invoke();
     }
 
     public IReadOnlyList<ItemInstance> GetFilteredView()

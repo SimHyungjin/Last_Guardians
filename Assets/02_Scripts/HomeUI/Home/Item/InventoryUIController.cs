@@ -7,7 +7,7 @@ public class InventoryUIController : MonoBehaviour
 
     private void Start()
     {
-        var inventory = InventoryManager.Instance.inventory;
+        var inventory = MainSceneManager.Instance.inventory;
 
         inventoryUIButton.onItemTypeFilter.AddListener((itemType) => {inventory.SetItemType(itemType);});
         inventoryUIButton.onEquipTypeFilter.AddListener((equipType) => {inventory.SetEquipTypeFilter(equipType);});

@@ -58,17 +58,22 @@ public static class SceneLoader
             var fadeEffect = fadeCanvas.AddComponent<SceneFadeEffect>();
             fadeEffect.canvasGroup = group;
 
-            StartCoroutine(LoadSceneWithFade(sceneName, selectFadeOut, fadeEffect, afterSceneLoad));
+            StartCoroutine(FadeThenLoad(sceneName, selectFadeOut, fadeEffect, afterSceneLoad));
         }
 
-        private IEnumerator LoadSceneWithFade(string sceneName, bool selectFadeOut, SceneFadeEffect fadeEffect, Action afterSceneLoad)
+        private IEnumerator FadeThenLoad(string sceneName, bool fadeOutFirst, SceneFadeEffect fadeEffect, Action afterSceneLoad)
         {
+            if (fadeOutFirst)
+                yield return fadeEffect.FadeOut();
+
+            GameObject.DontDestroyOnLoad(fadeEffect.gameObject);
+
             AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
             while (!op.isDone) yield return null;
 
             afterSceneLoad?.Invoke();
-            if(selectFadeOut) yield return fadeEffect.FadeOut();
-            else yield return fadeEffect.FadeIn();
+
+            yield return fadeEffect.FadeIn();
 
             Destroy(fadeEffect.gameObject);
             Destroy(gameObject);
@@ -77,7 +82,7 @@ public static class SceneLoader
 
     private class SceneFadeEffect : MonoBehaviour
     {
-        public float fadeDuration = 1f;
+        public float fadeDuration = 0.5f;
         public CanvasGroup canvasGroup;
 
         public IEnumerator FadeIn(Action onComplete = null)

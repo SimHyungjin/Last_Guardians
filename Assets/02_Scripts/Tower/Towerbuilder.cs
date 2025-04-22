@@ -29,7 +29,7 @@ public class Towerbuilder : MonoBehaviour
 
     [Header("타워설치")]
     public SpriteRenderer attackRangeCircle;
-
+    private Dictionary<Vector2, bool> constructCache;
 
     private float lastCheckTime = 0f;
     private float checkCooldown = 0.2f;
@@ -37,6 +37,7 @@ public class Towerbuilder : MonoBehaviour
     private void Start()
     {
         towerCombinationData = TowerManager.Instance.towerCombinationData;
+        constructCache = new Dictionary<Vector2, bool>();
     }
 
     private void Update()
@@ -76,6 +77,7 @@ public class Towerbuilder : MonoBehaviour
         cheakedTower = null;
         Destroy(clikedTower.gameObject);
         clikedTower = null;
+        ClearConstructCache();
     }
 
     public void CardToTowerCombine(Vector2 curPos)
@@ -86,11 +88,19 @@ public class Towerbuilder : MonoBehaviour
         TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
+        ClearConstructCache();
     }
 
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
     {
         Vector2 constructPos = PostionArray(curPos);
+
+        if (constructCache.TryGetValue(constructPos, out bool cachedResult))
+        {
+            Debug.Log($"[캐시] 타일 검사 결과: {cachedResult}");
+            callback?.Invoke(cachedResult);
+            yield break;
+        }
         if (IsAnyObjectOnTile(constructPos))
         {
             Debug.Log("타일에 충돌체있음");
@@ -113,14 +123,16 @@ public class Towerbuilder : MonoBehaviour
             }
         }
         Destroy(dummyTower);
+        constructCache[constructPos] = allPathsExist;
         callback?.Invoke(allPathsExist);
     }
 
     public void TowerConstruct(Vector2 curPos, int towerIndex)
     {
         Vector2 constructPos = PostionArray(curPos);
-        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity);
 
+        GameObject go = Instantiate(towerPrefab, constructPos, Quaternion.identity,TowerManager.Instance.transform);
+        
         TowerData data = TowerManager.Instance.GetTowerData(towerIndex);
 
         if (data == null)
@@ -143,7 +155,11 @@ public class Towerbuilder : MonoBehaviour
             AttackTower tower = go.AddComponent<AttackTower>();
             tower.Init(data);
         }
-
+        ClearConstructCache();
+    }
+    public void ClearConstructCache()
+    {
+        constructCache.Clear();
     }
 
     public bool IsAnyObjectOnTile(Vector2 tilePos)

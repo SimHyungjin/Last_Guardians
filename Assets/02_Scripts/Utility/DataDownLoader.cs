@@ -55,6 +55,10 @@ public class SheetDownButton : Editor
         {
             fnc.StartEquipDataDownload(true);
         }
+        if (GUILayout.Button("Download RewardData"))
+        {
+            fnc.StartRewardDataDownload(true);
+        }
 
     }
 }
@@ -70,6 +74,7 @@ public class DataDownLoader : MonoBehaviour
     [SerializeField] private List<ItemData> itemDataSO = new List<ItemData>();
     [SerializeField] private List<EquipData> equipDataSO = new List<EquipData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
+    [SerializeField] private List<RewardData> rewardDataSO = new List<RewardData>();
     const string URL_DataSheet = "https://docs.google.com/spreadsheets/d/11uh3qkFXuMsowtu7qrmO66nYMx46C2P9UHh3c1eHVu4/export?format=tsv&range=A1:F6";
 
 
@@ -1098,6 +1103,79 @@ public class DataDownLoader : MonoBehaviour
 
         AssetDatabase.Refresh();
     }
+
+
+
+    /////////////////////////////// 보상 테이블 ///////////////////////////////
+    const string URL_RewardData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=64629251";
+
+
+    public void StartRewardDataDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadRewardData(renameFiles));
+    }
+
+    private IEnumerator DownloadRewardData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_RewardData);
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 2,endRow:121, startCol: 15, endCol: 23); // 보상 영역만
+            JArray jsonData = JArray.Parse(json);
+            ApplyRewardDataToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("보상 데이터 다운로드 실패: " + www.error);
+        }
+    }
+
+
+    private void ApplyRewardDataToSO(JArray jsonData, bool renameFiles)
+    {
+        string folderPath = "Assets/Resources/SO/Reward";
+        if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
+
+        foreach (string file in Directory.GetFiles(folderPath, "*.asset"))
+            AssetDatabase.DeleteAsset(file);
+
+        rewardDataSO.Clear();
+
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+            JObject row = (JObject)jsonData[i];
+
+            int waveID = int.TryParse(row["waveID"]?.ToString(), out int tmpWave) ? tmpWave : 0;
+            float equipDrop = float.TryParse(row["equipDropChance"]?.ToString(), out float tmpEquip) ? tmpEquip : 0;
+            float stoneDrop = float.TryParse(row["stoneDropChance"]?.ToString(), out float tmpStone) ? tmpStone : 0;
+            int minGold = int.TryParse(row["minGold"]?.ToString(), out int tmpMinG) ? tmpMinG : 0;
+            int maxGold = int.TryParse(row["maxGold"]?.ToString(), out int tmpMaxG) ? tmpMaxG : 0;
+            int minStone = int.TryParse(row["minStone"]?.ToString(), out int tmpMinS) ? tmpMinS : 0;
+            int maxStone = int.TryParse(row["maxStone"]?.ToString(), out int tmpMaxS) ? tmpMaxS : 0;
+            float gradeMultiplier = float.TryParse(row["gradeMultiplier"]?.ToString(), out float tmpMul) ? tmpMul : 1f;
+            int dropGrade = int.TryParse(row["dropGrade"]?.ToString(), out int tmpGrade) ? tmpGrade : 0;
+
+            RewardData data = ScriptableObject.CreateInstance<RewardData>();
+            data.SetData(waveID, equipDrop, stoneDrop, minGold, maxGold, minStone, maxStone, gradeMultiplier, dropGrade);
+
+            string assetPath = $"{folderPath}/Reward_{waveID}.asset";
+            AssetDatabase.CreateAsset(data, assetPath);
+            AssetDatabase.SaveAssets();
+
+            rewardDataSO.Add(data);
+        }
+
+        AssetDatabase.Refresh();
+    }
+
+
+
+   
+
+
 
 
 }

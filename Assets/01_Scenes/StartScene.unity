@@ -750,6 +750,10 @@ PrefabInstance:
       propertyPath: fadeImage
       value: 
       objectReference: {fileID: 407229459}
+    - target: {fileID: 1979612038087270669, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
+      propertyPath: sceneToLoad
+      value: MainScene
+      objectReference: {fileID: 0}
     - target: {fileID: 3403899252860795760, guid: 29ed3077a46c4b44fa58bdb9bf7db834, type: 3}
       propertyPath: m_Name
       value: FadeManager

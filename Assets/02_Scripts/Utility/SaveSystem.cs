@@ -51,6 +51,21 @@ public static class SaveSystem
         string newJson = JsonUtility.ToJson(save, true);
         File.WriteAllText(SavePath, newJson);
     }
+    public static void RemoveEquip(int uniqueID)
+    {
+        Debug.Log($"[SaveSystem] RemoveEquipReward 실행 - uniqueID: {uniqueID}");
+        if (!File.Exists(SavePath))
+        {
+            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
+            Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
+        }
+        string json = File.ReadAllText(SavePath);
+        var save = JsonUtility.FromJson<SaveData>(json);
+        save.inventory.RemoveAll(item => item.uniqueID == uniqueID);
+        Debug.Log($"[SaveSystem] 아이템 제거 - uniqueID: {uniqueID}");
+        string newJson = JsonUtility.ToJson(save, true);
+        File.WriteAllText(SavePath, newJson);
+    }
 
     public static void SaveGoldReward(int gold)
     {

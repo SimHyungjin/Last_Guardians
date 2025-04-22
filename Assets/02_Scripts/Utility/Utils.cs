@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -76,4 +77,37 @@ public class Utils
 
         return true;
     }
+
+
+    public static int GetSpriteIndex(int towerIndex)
+    {
+        int spriteIndex;
+        if (towerIndex > 49 && towerIndex < 99)
+        {
+            spriteIndex = towerIndex - 49;
+        }
+        else if (towerIndex >= 99 && towerIndex < 109)
+        {
+            spriteIndex = towerIndex - 98;
+        }
+        else if (towerIndex >= 109)
+        {
+            spriteIndex = towerIndex - 59;
+        }
+        else
+        {
+            spriteIndex = towerIndex;
+        }
+        return spriteIndex;
+    }
+
+    public static void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int randomIndex = Random.Range(i, list.Count);
+            (list[i], list[randomIndex]) = (list[randomIndex], list[i]);
+        }
+    }
+
 }

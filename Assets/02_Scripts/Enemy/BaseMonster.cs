@@ -221,6 +221,7 @@ public class BaseMonster : MonoBehaviour
 
         if (!isDisable)
         {
+            MonsterManager.Instance.MonsterKillCount++;
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
             bead.Init(MonsterData.Exp, this.transform);
         }

@@ -23,7 +23,7 @@ public class ItemPopupController : MonoBehaviour
 
     private void Start()
     {
-        var home = HomeManager.Instance;
+        var home = MainSceneManager.Instance;
         equipment = home.equipment;
         inventory = home.inventory;
         equipmentSlotContainer = home.equipmentSlotContainer;
@@ -71,7 +71,7 @@ public class ItemPopupController : MonoBehaviour
     {
         if (currentData == null || currentData.AsEquipData == null) return;
 
-        HomeManager.Instance.upgrade.TryUpgrade(currentData, out var result);
+        MainSceneManager.Instance.upgrade.TryUpgrade(currentData, out var result);
         inventory.RemoveItem(currentData);
         inventory.AddItem(result);
 

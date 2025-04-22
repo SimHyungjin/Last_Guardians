@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillIndex: 1
   skillName: "\uC804\uD22C\uC758 \uD568\uC131"
-  skillType: 3
+  skillType: 4
   skillRange: 4
-  skillDescription: "\uC8FC\uBCC0 \uB9C8\uC871\uC758 \uB514\uBC84\uD504\uB97C \uC81C\uAC70\uD55C\uB2E4."
-  duration: 0
-  skillCoolTime: 15
-  monsterskillEffectValue: 100
+  skillDescription: "4\uCD08 \uB3D9\uC548 \uC8FC\uBCC0 \uB9C8\uC871\uC758 \uC774\uB3D9\uC18D\uB3C4\uB97C
+    50% \uC99D\uAC00\uD55C\uB2E4."
+  duration: 4
+  skillCoolTime: 0.3
+  monsterskillEffectValue: 50
   monsterskillProbablilty: 0.3
   monsterID: 0
   monsterNum: 0

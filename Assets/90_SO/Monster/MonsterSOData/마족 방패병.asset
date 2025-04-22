@@ -16,7 +16,7 @@ MonoBehaviour:
   monsterName: "\uB9C8\uC871 \uBC29\uD328\uBCD1"
   monsterHP: 120
   monsterSpeed: 1
-  monsterDamage: 8
+  monsterDamage: 1
   monsterDef: 1
   exp: 20
   monsterDescription: "\uB9C8\uC871 \uBC29\uD328\uBCD1, \uBC29\uC5B4\uB825\uC774
@@ -25,4 +25,4 @@ MonoBehaviour:
   hasSkill: 0
   monsterSkillID: 0
   monsterAttackPattern: 0
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: ed83f943d5a0366409bbc04a233c9458, type: 3}

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillIndex: 3
   skillName: "\uC2E0\uCD9C\uADC0\uBAB0"
-  skillType: 2
+  skillType: 1
   skillRange: 0
   skillDescription: "3\uCD08 \uB3D9\uC548 \uD0C0\uC6CC\uB97C 80%\uB85C \uD68C\uD53C\uD55C\uB2E4."
   duration: 3
-  skillCoolTime: 12
+  skillCoolTime: 0.2
   monsterskillEffectValue: 80
   monsterskillProbablilty: 0.2
   monsterID: 0

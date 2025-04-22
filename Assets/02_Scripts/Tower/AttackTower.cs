@@ -198,7 +198,7 @@ public class AttackTower : BaseTower
 
         for (int i = 0; i < buffTowerIndex.Count; i++)
         {
-            if (buffTowerIndex[i] == targetIndex)
+            if (TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect == TowerManager.Instance.GetTowerData(targetIndex).SpecialEffect)
             {
                 var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
                 if (existing.EffectValue < TowerManager.Instance.GetTowerData(targetIndex).EffectValue)

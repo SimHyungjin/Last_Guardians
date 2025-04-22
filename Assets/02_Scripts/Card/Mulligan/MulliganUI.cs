@@ -103,8 +103,6 @@ public class MulliganUI : MonoBehaviour
             selectedCard.Add(card);
             card.Outline.enabled = true;
         }
-
-        Debug.Log($"현재 선택된 카드 수: {selectedCard.Count}");
     }
 
     public void AddMyList()
@@ -124,7 +122,6 @@ public class MulliganUI : MonoBehaviour
     {
         if (selectedCard.Count != MaxSelectedCards)
         {
-            Debug.Log($"카드 {MaxSelectedCards}개 선택하지 않음");
             return false;
         }
         return true;

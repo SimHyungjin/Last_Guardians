@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class RewardManager : Singleton<RewardManager>
 {
+    public int Gold {  get; private set; }
+    public int Stone { get ; private set; }
+    public int Equip {  get; private set; }
     public int GetGold(int wave)
     {
         int minGold = 50 * wave;
@@ -25,7 +28,7 @@ public class RewardManager : Singleton<RewardManager>
 
     public int GetEquip(int wave)
     {
-        float dropChance = Mathf.Max(0, (wave - 4) * 0.5f); // wave 5ºÎÅÍ µå¶ø ½ÃÀÛ (0 ¡æ 0.5 ¡æ ...)
+        float dropChance = Mathf.Max(0, (wave - 4) * 0.5f); // wave 5ë¶€í„° ë“œë ì‹œì‘ (0 â†’ 0.5 â†’ ...)
         if (Random.Range(0f, 100f) > dropChance) return 0;
 
         int grade = Mathf.Clamp((wave - 1) / 20, 0, 5);
@@ -48,12 +51,12 @@ public class RewardManager : Singleton<RewardManager>
 
     public void GiveRewardForWave(int wave)
     {
-        Debug.Log($"[RewardManager] ¿şÀÌºê {wave} º¸»ó Áö±Ş ½ÃÀÛ");
+        Debug.Log($"[RewardManager] ì›¨ì´ë¸Œ {wave} ë³´ìƒ ì§€ê¸‰ ì‹œì‘");
 
-        int gold = GetGold(wave);
-        int stone = GetUpgradeStone(wave);
-        int equip = GetEquip(wave);
+        Gold = GetGold(wave);
+        Stone = GetUpgradeStone(wave);
+        Equip = GetEquip(wave);
 
-        Debug.Log($"[RewardManager] °ñµå: {gold}, °­È­¼®: {stone}, Àåºñ: {(equip != 0 ? equip.ToString() : "¾øÀ½")}");
+        Debug.Log($"[RewardManager] ê³¨ë“œ: {Gold}, ê°•í™”ì„: {Stone}, ì¥ë¹„: {(Equip != 0 ? Equip.ToString() : "ì—†ìŒ")}");
     }
 }

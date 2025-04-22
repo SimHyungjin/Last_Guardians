@@ -72,7 +72,11 @@ public class ItemPopupController : MonoBehaviour
         if (currentData == null || currentData.AsEquipData == null) return;
 
         MainSceneManager.Instance.upgrade.TryUpgrade(currentData, out var result);
+
+         SaveSystem.RemoveEquip(currentData.UniqueID);
         inventory.RemoveItem(currentData);
+
+        SaveSystem.SaveEquipReward(result);
         inventory.AddItem(result);
 
         selectionController.RefreshSlot(result);

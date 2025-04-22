@@ -51,6 +51,28 @@ public static class SaveSystem
         string newJson = JsonUtility.ToJson(save, true);
         File.WriteAllText(SavePath, newJson);
     }
+
+    public static void SaveEquipReward(ItemInstance instance)
+    {
+        Debug.Log($"[SaveSystem] SaveEquipReward 실행 - itemIndex: {instance.Data.ItemIndex}");
+
+        if (!File.Exists(SavePath))
+            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
+
+        string json = File.ReadAllText(SavePath);
+        var save = JsonUtility.FromJson<SaveData>(json);
+
+        save.inventory.Add(new ItemInstanceSave
+        {
+            itemIndex = instance.Data.ItemIndex,
+            uniqueID = instance.UniqueID
+        });
+
+        Debug.Log($"[SaveSystem] 아이템 추가 - uniqueID: {instance.UniqueID}");
+
+        File.WriteAllText(SavePath, JsonUtility.ToJson(save, true));
+    }
+
     public static void RemoveEquip(int uniqueID)
     {
         Debug.Log($"[SaveSystem] RemoveEquipReward 실행 - uniqueID: {uniqueID}");

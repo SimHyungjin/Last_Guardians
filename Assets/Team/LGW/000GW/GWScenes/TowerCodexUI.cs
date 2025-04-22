@@ -30,6 +30,16 @@ public class TowerCodexUI : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         allTowerData = Resources.LoadAll<TowerData>("SO/Tower").ToList();
+        if (entryPrefab == null)
+        {
+            entryPrefab = Resources.Load<GameObject>("UI/MainScene/TowerEntry");
+            Debug.Log(entryPrefab);
+        }
+        if (dummySpacerPrefab == null)
+        {
+            dummySpacerPrefab = Resources.Load<GameObject>("UI/MainScene/TowerInfoDummy");
+            Debug.Log(dummySpacerPrefab);
+        }
     }
 
     private void OnEnable()

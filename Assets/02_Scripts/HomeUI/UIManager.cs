@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("∆–≥Œ")]
+    [Header("Ìå®ÎÑê")]
     public GameObject optionPanel;
-    public GameObject equipmentPanel;
+    //public GameObject equipmentPanel;
     public GameObject bookPanel;
 
-    [Header("UI ≈¨∏Ø ∏∑¥¬ ∫Ì∑Œƒø")]
+    [Header("UI ÌÅ¥Î¶≠ ÎßâÎäî Î∏îÎ°úÏª§")]
     public GameObject interactionBlocker;
     public TowerCodexUI codexUI;
     private bool isProcessing = false;
@@ -19,11 +19,11 @@ public class UIManager : MonoBehaviour
         StartCoroutine(HandlePanelOpen(optionPanel, false));
     }
 
-    public void OpenEquipmentPanel()
-    {
-        if (isProcessing) return;
-        StartCoroutine(HandlePanelOpen(equipmentPanel, true));
-    }
+    //public void OpenEquipmentPanel()
+    //{
+    //    if (isProcessing) return;
+    //    StartCoroutine(HandlePanelOpen(equipmentPanel, true));
+    //}
 
     public void OpenBookPanel()
     {
@@ -49,11 +49,11 @@ public class UIManager : MonoBehaviour
         interactionBlocker.SetActive(false);
     }
 
-    public void CloseEquipmentPanel()
-    {
-        equipmentPanel.SetActive(false);
-        interactionBlocker.SetActive(false);
-    }
+    //public void CloseEquipmentPanel()
+    //{
+    //    equipmentPanel.SetActive(false);
+    //    interactionBlocker.SetActive(false);
+    //}
 
     public void CloseBookPanel()
     {
@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     private void CloseAllPanels()
     {
         optionPanel.SetActive(false);
-        equipmentPanel.SetActive(false);
+        //equipmentPanel.SetActive(false);
         bookPanel.SetActive(false);
         interactionBlocker.SetActive(false);
     }

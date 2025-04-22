@@ -14,8 +14,8 @@ public class TestHome : MonoBehaviour
 
     public void Test()
     {
-        var inventory = HomeManager.Instance.inventory;
-        var container = HomeManager.Instance.inventorySlotContainer;
+        var inventory = MainSceneManager.Instance.inventory;
+        var container = MainSceneManager.Instance.inventorySlotContainer;
 
         inventory.ClearAll();
 

@@ -7,7 +7,12 @@ public class TowerBuffAddProjectileComponent : ITowerBuff
         if (tower is AttackTower attackTower)
         {
             attackTower.AddEffect(data.TowerIndex);
-            Debug.Log($"{ attackTower.towerData.TowerName},{data.TowerIndex}");
+            Debug.Log($"{attackTower.towerData.TowerName},{data.TowerIndex}");
+        }
+        else if (tower is BuffTower buffTower)
+        {
+            buffTower.AddEffect(data.TowerIndex);
+            Debug.Log($"{buffTower.towerData.TowerName},{data.TowerIndex}");
         }
     }
     public void ApplyBuffToTrap(TrapObject trap, TowerData data)

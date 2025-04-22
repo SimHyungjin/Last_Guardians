@@ -98,8 +98,8 @@ public static class SaveSystem
 
         var save = new SaveData();
 
-        var inventory = HomeManager.Instance.inventory;
-        var equipment = HomeManager.Instance.equipment;
+        var inventory = MainSceneManager.Instance.inventory;
+        var equipment = MainSceneManager.Instance.equipment;
 
         foreach (var item in inventory.GetAll())
         {
@@ -136,10 +136,10 @@ public static class SaveSystem
         var save = JsonUtility.FromJson<SaveData>(json);
 
         var itemManager = GameManager.Instance.ItemManager;
-        var inventory = HomeManager.Instance.inventory;
-        var equipment = HomeManager.Instance.equipment;
+        var inventory = MainSceneManager.Instance.inventory;
+        var equipment = MainSceneManager.Instance.equipment;
 
-        inventory.ClearAll();
+        inventory.ClearAll(false);
         Debug.Log("[SaveSystem] 인벤토리 초기화");
 
         Dictionary<int, ItemInstance> loadedMap = new();
@@ -164,7 +164,7 @@ public static class SaveSystem
         {
             if (loadedMap.TryGetValue(equipSave.uniqueID, out var instance))
             {
-                equipment.Equip(instance);
+                equipment.Equip(instance, false);
                 Debug.Log($"[SaveSystem] 장비 로드 - {equipSave.equipType} : uniqueID: {equipSave.uniqueID}");
             }
             else

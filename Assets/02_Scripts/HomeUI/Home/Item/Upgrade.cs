@@ -7,8 +7,7 @@ public class Upgrade
 
     public void Init()
     {
-        upgradeRules = new List<UpgradeRuleData>(
-            Resources.LoadAll<UpgradeRuleData>("SO/UpgradeRules"));
+        upgradeRules = new List<UpgradeRuleData>(Resources.LoadAll<UpgradeRuleData>("SO/UpgradeRules"));
     }
 
     public bool TryUpgrade(ItemInstance instance, out ItemInstance upgradedInstance)

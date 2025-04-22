@@ -17,28 +17,4 @@ public class GameManager : Singleton<GameManager>
 
         ItemManager.LoadAllItems();
     }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Home_SHJ_Scene")
-        {
-            StartCoroutine(DelayLoadGame());
-        }
-    }
-
-    private IEnumerator DelayLoadGame()
-    {
-        yield return null;
-        SaveSystem.LoadGame();
-    }
 }

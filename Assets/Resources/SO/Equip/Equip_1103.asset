@@ -30,6 +30,6 @@ MonoBehaviour:
   <criticalChance>k__BackingField: 0
   <criticalDamage>k__BackingField: 0
   <penetration>k__BackingField: 0
-  <attackRange>k__BackingField: 3.2
+  <attackRange>k__BackingField: 2.2
   <specialEffectID>k__BackingField: 0
   <linkedItem>k__BackingField: {fileID: 11400000, guid: 8685ddcddc8dfcd428856413a08ce66f, type: 2}

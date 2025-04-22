@@ -32,7 +32,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private int spawnCount = 0;
     private int alliveCount = 0;
     public int RemainMonsterCount {  get; private set; }
-    public int MonsterKillCount { get; private set; }
+    public int MonsterKillCount { get; set; }
     private void Start()
     {
         //AlliveMonsters = new List<BaseMonster>();
@@ -161,7 +161,6 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         alliveCount--;
         RemainMonsterCount--;
-        MonsterKillCount++;
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
         if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)

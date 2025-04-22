@@ -12,14 +12,11 @@ public class GameManager : Singleton<GameManager>
     public EquipmentStats stats = new();
 
 
-    private void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-        ItemManager.LoadAllItems();
-    }
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        DontDestroyOnLoad(gameObject);
+        ItemManager.LoadAllItems();
     }
 
     private void OnDisable()

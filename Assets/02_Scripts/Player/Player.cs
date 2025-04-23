@@ -1,3 +1,6 @@
+using System.Collections;
+using UnityEngine;
+
 public class Player
 {
     public PlayerData playerData {  get; private set; }

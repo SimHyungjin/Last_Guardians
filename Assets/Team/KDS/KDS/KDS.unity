@@ -2448,6 +2448,7 @@ MonoBehaviour:
   towerbuilder: {fileID: 648171797}
   projectileFactory: {fileID: 0}
   TrapObjectPrefab: {fileID: 4118459537282430882, guid: 40fadb40f9c489f4ab72f0203fab2481, type: 3}
+  Towers: []
 --- !u!4 &648171799
 Transform:
   m_ObjectHideFlags: 0
@@ -13784,7 +13785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c958f90f6a467074d8c5fb97a4f5c0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeManager: {fileID: 0}
 --- !u!222 &2529835613418398784
 CanvasRenderer:
   m_ObjectHideFlags: 0

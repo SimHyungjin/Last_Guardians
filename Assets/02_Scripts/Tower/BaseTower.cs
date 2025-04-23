@@ -71,37 +71,40 @@ public abstract class BaseTower : MonoBehaviour
     protected IEnumerator AfterInit()
     {
         yield return null;
-        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.trapObject);
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.floor);
         foreach (var hit in hits)
         {
             if (hit.transform.IsChildOf(this.transform)) continue;
             TrapObject trapObject = hit.GetComponent<TrapObject>();
-            //BasePlantedObstacle basePlantedObstacle = hit.GetComponent<BasePlantedObstacle>();
-            //PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
-            //PlatForm platform = hit.GetComponent<Platform>();
+            BaseObstacle basePlantedObstacle = hit.GetComponent<BaseObstacle>();
+            PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
             if (trapObject != null)
             {
                 Debug.Log("설치위치에 트랩있음 다부신다");
                 trapObject.ChageState(TrapObjectState.CantActive);
             }
-            //if (basePlantedObstacle != null)
-            //{
-            //    Destroy(basePlantedObstacle.gameObject);
-            //}
-            //if (PlantedEffect != null)
-            //{
-            //  swithch (PlantedEffect.plantedType)
-            //    {case PlantedType.Water:
-            //        EnvironmentEffect.isNearWater = true;
-            //        break;
-            //    case PlantedType.Fire:
-            //        EnvironmentEffect.isNearFire = true;
-            //        break;
-            //    }
-            //}
+            if (basePlantedObstacle != null)
+            {
+                Destroy(basePlantedObstacle.gameObject);
+            }
+            if (plantedEffect != null)
+            {
+                switch (plantedEffect.obstacleType)
+                {
+                    case ObstacleType.Water:
+                        environmentEffect.isNearWater = true;
+                        break;
+                    case ObstacleType.Fire:
+                        environmentEffect.isNearFire = true;
+                        break;
 
+                }
+
+            }
         }
     }
+    
+    
     protected virtual void Update()
     {
 

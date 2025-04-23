@@ -35,7 +35,7 @@ public abstract class BaseTower : MonoBehaviour
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
-        
+        TowerManager.Instance.AddTower(this);
 
         if (towerData != null)
         {
@@ -103,6 +103,7 @@ public abstract class BaseTower : MonoBehaviour
     protected virtual void OnDisable()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        TowerManager.Instance.RemoveTower(this);
     }
     protected virtual void OnDestroy()
     {

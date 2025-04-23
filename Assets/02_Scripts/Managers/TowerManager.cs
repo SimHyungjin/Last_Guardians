@@ -14,12 +14,19 @@ public enum InteractionState
 }
 public class TowerManager : Singleton<TowerManager>
 {
+    [Header("Tools")]
     public DeckHandler hand;
     public TowerCombinationData towerCombinationData;
     public Towerbuilder towerbuilder;
     public ProjectileFactory projectileFactory;
+
+    [Header("Datas")]
     public GameObject TrapObjectPrefab;
     private Dictionary<int, TowerData> towerDataMap;
+
+    [Header("Towers")]
+    public List<BaseTower> Towers;
+
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
     private void OnEnable()
@@ -63,5 +70,15 @@ public class TowerManager : Singleton<TowerManager>
                 Debug.Log(trapObject.transform);
             }
         }
+    }
+
+    public void AddTower(BaseTower tower)
+    {
+        Towers.Add(tower);
+    }
+
+    public void RemoveTower(BaseTower tower)
+    {
+        Towers.Remove(tower);
     }
 }

@@ -6,9 +6,9 @@ using UnityEngine;
 
 public interface ITowerBuff
 {
-    void ApplyBuffToTower(BaseTower tower, TowerData data);
-    void ApplyBuffToTrap(TrapObject trap, TowerData data);
-    void ApplyDebuff(BaseMonster monster, TowerData data);
+    void ApplyBuffToTower(BaseTower tower, TowerData data,EnvironmentEffect environmentEffect);
+    void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect);
+    void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect);
 }
 
 public class BuffTower : BaseTower
@@ -106,7 +106,7 @@ public class BuffTower : BaseTower
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
-                towerBuff.ApplyBuffToTower(otherTower, towerData);
+                towerBuff.ApplyBuffToTower(otherTower, towerData,environmentEffect);
             }
         }
         foreach (var hit in hits)
@@ -114,7 +114,7 @@ public class BuffTower : BaseTower
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
             if (otherTrap != null && otherTrap != this)
             {
-                towerBuff.ApplyBuffToTrap(otherTrap, towerData);
+                towerBuff.ApplyBuffToTrap(otherTrap, towerData, environmentEffect);
             }
         }
     }
@@ -129,7 +129,7 @@ public class BuffTower : BaseTower
             BaseMonster otherMonster = hit.GetComponent<BaseMonster>();
             if (otherMonster != null && otherMonster != this)
             {
-                monsterDebuff.ApplyDebuff(otherMonster, towerData);
+                monsterDebuff.ApplyDebuff(otherMonster, towerData, environmentEffect);
             }
         }
     }
@@ -146,7 +146,7 @@ public class BuffTower : BaseTower
                 for(int i=0; i<buffMonterDebuffs.Count();i++)
                 {
                     Debug.Log($"buffTowerIndex.Count = {buffTowerIndex.Count}, buffMonterDebuffs.Count = {buffMonterDebuffs.Count}");
-                    buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]));
+                    buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]),environmentEffect);
                 }
             }
         }
@@ -156,8 +156,10 @@ public class BuffTower : BaseTower
         ApplyBuffOnPlacement();
     }
 
-    public void AddEffect(int towerIndex)
+    public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
+        if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage) this.environmentEffect.isBuffAffectedByFire = true;
+        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow) this.environmentEffect.isBuffAffectedByWater = true;
         bool found = false;
         if (towerIndex == towerData.TowerIndex) return;
         if (buffTowerIndex.Contains(towerIndex)) return;
@@ -183,6 +185,7 @@ public class BuffTower : BaseTower
             buffMonterDebuffs.Add(BuffAdd(towerIndex));
         }
     }
+
     public override void DestroyBuffTower()
     {
         ClearAllbuff();

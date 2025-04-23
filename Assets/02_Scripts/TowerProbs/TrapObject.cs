@@ -306,6 +306,7 @@ public class TrapObject : MonoBehaviour
 
     private void ClearAllbuff()
     {
+       
         buffTowerIndex.Clear();
         trapEffectList.Clear();
         RemoveBossImmuneBuff();

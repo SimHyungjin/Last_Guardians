@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class environmentEffect
+public class EnvironmentEffect
 {
     public bool isNearWater;
     public bool isNearFire;
@@ -20,15 +20,18 @@ public class environmentEffect
         isNearFire = false;
         isBuffAffectedByWater = false;
         isBuffAffectedByFire = false;
-
     }
+    public bool IsFireBoosted()=> isNearFire || isBuffAffectedByFire;
+
+    public bool IsWaterBoosted()=> isNearWater || isBuffAffectedByWater;
+
 }
 
 public abstract class BaseTower : MonoBehaviour
 {
     [Header("타워 데이터")]
     public TowerData towerData;
-    protected environmentEffect environmentEffect;
+    public EnvironmentEffect environmentEffect;
 
     [Header("타워 결합")]
     public GameObject towerGhostPrefab;
@@ -59,7 +62,7 @@ public abstract class BaseTower : MonoBehaviour
             towerGhost = towerData.towerGhostPrefab;       
         }
 
-        environmentEffect = new environmentEffect();
+        environmentEffect = new EnvironmentEffect();
         environmentEffect.ClearEffect();
 
         StartCoroutine(AfterInit());
@@ -89,10 +92,10 @@ public abstract class BaseTower : MonoBehaviour
             //{
             //  swithch (PlantedEffect.plantedType)
             //    {case PlantedType.Water:
-            //        environmentEffect.isNearWater = true;
+            //        EnvironmentEffect.isNearWater = true;
             //        break;
             //    case PlantedType.Fire:
-            //        environmentEffect.isNearFire = true;
+            //        EnvironmentEffect.isNearFire = true;
             //        break;
             //    }
             //}

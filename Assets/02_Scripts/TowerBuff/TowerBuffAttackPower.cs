@@ -1,6 +1,6 @@
 public class TowerBuffAttackPower : ITowerBuff
 {
-    public void ApplyBuffToTower(BaseTower tower, TowerData data)
+    public void ApplyBuffToTower(BaseTower tower, TowerData data, EnvironmentEffect environmentEffect)
     {
         if (tower is AttackTower attackTower)
         {
@@ -8,12 +8,12 @@ public class TowerBuffAttackPower : ITowerBuff
             if(buffedattackTower!=null) buffedattackTower.AttackPowerBuff(data.EffectValue);
         }
     }
-    public void ApplyBuffToTrap(TrapObject trap, TowerData data)
+    public void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect)
     {
 
     }
 
-    public void ApplyDebuff(BaseMonster monster, TowerData data)
+    public void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect)
     {
 
     }

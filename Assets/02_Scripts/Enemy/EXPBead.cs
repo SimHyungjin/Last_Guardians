@@ -5,11 +5,24 @@ using UnityEngine;
 public class EXPBead : MonoBehaviour
 {
     private Collider2D collider;
+    private Coroutine disappearCorutine;
+    private float disTime = 30f;
     public int EXP { get; private set; }
 
     private void Awake()
     {
         collider = GetComponent<Collider2D>();
+    }
+
+    private void OnEnable()
+    {
+        disappearCorutine = StartCoroutine(Disappear());
+    }
+
+    private IEnumerator Disappear()
+    {
+        yield return new WaitForSeconds(disTime);
+        PoolManager.Instance.Despawn<EXPBead>(this);
     }
 
     public void Init(int exp, Transform monster)

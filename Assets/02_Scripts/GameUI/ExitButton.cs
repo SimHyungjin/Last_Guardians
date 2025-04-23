@@ -7,12 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class ExitButton : MonoBehaviour
 {
-    public FadeManager fadeManager;
+    //public FadeManager fadeManager;
     public void OnClickExit()
     {
         Time.timeScale = 1;
-        fadeManager.sceneToLoad = "00GWUI";
-        fadeManager.StartFadeAndLoad();
+        //fadeManager.sceneToLoad = "MainScene";
+        //fadeManager.StartFadeAndLoad();
+        SceneLoader.LoadSceneWithFade("MainScene", true);
 
     }
 

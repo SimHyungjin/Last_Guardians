@@ -5,6 +5,8 @@ using UnityEngine;
 public interface IWeatherState
 {
     void Enter(); //진입 시
+    void Exit(); //탈출 시
+    void Update();//업데이트에 들어갈꺼
 }
 
 public class WeatherState
@@ -21,7 +23,12 @@ public class WeatherState
     private List<(IWeatherState, float weight)> weatherList = new List<(IWeatherState, float wegiht)>();
 
 
-    public void SetWeather(Season season)
+    public void SetWeather()
+    {
+        ChangeState(GetRandomWeather(weatherList));
+    }
+
+    public void WeatherListInit(Season season)
     {
         switch (season)
         {
@@ -50,10 +57,7 @@ public class WeatherState
                 weatherList.Add((sunnyWeather, 55f));
                 break;
         }
-
-        ChangeState(GetRandomWeather(weatherList));
     }
-
     private void ChangeState(IWeatherState newState)
     {
         if (currentState == newState)
@@ -62,11 +66,12 @@ public class WeatherState
             return;
         }
             
-
+        currentState?.Exit();
         currentState = newState;
         currentState.Enter();
     }
 
+    //가중치에 따라서 날씨 상태 뽑아내기
     private IWeatherState GetRandomWeather(List<(IWeatherState weather, float weight)> weathers)
     {
         if (weathers == null || weathers.Count == 0)
@@ -99,5 +104,10 @@ public class WeatherState
 
         //예외처리
         return weathers[weathers.Count - 1].weather;
+    }
+
+    public void Update()
+    {
+        currentState?.Update();
     }
 }

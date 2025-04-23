@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum Season
@@ -16,12 +17,22 @@ public class EnviromentManager : Singleton<EnviromentManager>
     //날씨 판별
     //플랫폼 배치
 
+    private Platform platform;
+    public List<Platform> Platforms { get; private set; } = new List<Platform>();
     public WeatherState WeatherState { get; private set; }
     public Season Season { get; private set; }
+
+    private Coroutine stateCorutine;
+    private WaitForSeconds seconds = new WaitForSeconds(0.2f);
 
     private void Start()
     {
         WeatherState = new WeatherState();
+        stateCorutine = StartCoroutine(StateUpdate());
+        platform = Resources.Load<Platform>("Enviroment/Platform");
+        //SetSeason(GameManager.Instance.NowTime);
+        WeatherState.WeatherListInit(EnviromentManager.Instance.Season);
+
     }
 
     public void SetSeason(int min)
@@ -42,7 +53,25 @@ public class EnviromentManager : Singleton<EnviromentManager>
         {
             Season = Season.winter;
         }
+        else
+        {
+            Season = Season.winter;
+        }
 
         Debug.Log($"현재계절 : {Season}");
+    }
+
+   
+    IEnumerator StateUpdate()
+    {
+        WeatherState.Update();
+
+        yield return seconds;
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(stateCorutine);
+        stateCorutine = null;
     }
 }

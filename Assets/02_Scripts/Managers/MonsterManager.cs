@@ -59,7 +59,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
         yield return new WaitForSeconds(nowWave.WaveStartDelay);
 
-        EnviromentManager.Instance.WeatherState.SetWeather(EnviromentManager.Instance.Season); // 다음 날씨 시작
+        EnviromentManager.Instance.WeatherState.SetWeather(); // 다음 날씨 시작
         Debug.Log($"웨이브 {nowWave.WaveIndex} 시작");
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 

@@ -302,8 +302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -54, y: 202}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1867750649451133648
 CanvasRenderer:
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 6804850098016106222}
   - component: {fileID: 7292912911566771610}
   - component: {fileID: 7816072130139562007}
-  - component: {fileID: 3439656996758072696}
+  - component: {fileID: 7349241184494464012}
   m_Layer: 5
   m_Name: IdlePopup
   m_TagString: Untagged
@@ -567,6 +567,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4030991709747362212}
   - {fileID: 7194266867997004534}
   - {fileID: 7606212764862918732}
   - {fileID: 57149976785010418}
@@ -618,7 +619,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3439656996758072696
+--- !u!114 &7349241184494464012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -627,14 +628,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4535736174392179552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a43e8bc55f013640bc95a9d9b5854d4, type: 3}
+  m_Script: {fileID: 11500000, guid: e710d51823374d24d99849b5513bce41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 4535736174392179552}
   goldText: {fileID: 5816332775054798421}
   stoneText: {fileID: 8185207042680151134}
   equipText: {fileID: 3277663400730227852}
-  nextRewardText: {fileID: 9058835999911596033}
+  elapsedTimeText: {fileID: 9058835999911596033}
+  claimButton: {fileID: 4277926117965762264}
+  closeButton: {fileID: 2376995767156513038}
+  ScreenBlocker: {fileID: 7779154903426537337}
 --- !u!1 &6390483059840096128
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +894,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3439656996758072696}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IdleRewardPopup, Assembly-CSharp
         m_MethodName: ClosePopup
         m_Mode: 1
@@ -902,6 +906,81 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &7779154903426537337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4030991709747362212}
+  - component: {fileID: 1972122310658785031}
+  - component: {fileID: 4907824317721074952}
+  m_Layer: 5
+  m_Name: ScreenBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4030991709747362212
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7779154903426537337}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6804850098016106222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2340, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1972122310658785031
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7779154903426537337}
+  m_CullTransparentMesh: 1
+--- !u!114 &4907824317721074952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7779154903426537337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8573573453991862434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,7 +1236,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3439656996758072696}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IdleRewardPopup, Assembly-CSharp
         m_MethodName: OnClickClaimReward
         m_Mode: 1

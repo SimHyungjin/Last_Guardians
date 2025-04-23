@@ -83,20 +83,24 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         if (pendingGold > 0) SaveSystem.SaveGoldReward(pendingGold);
         if (pendingStone > 0) SaveSystem.SaveUpgradeStonedReward(pendingStone);
         for (int i = 0; i < pendingEquip; i++)
-            SaveSystem.SaveEquipReward(0); // 실제 인덱스로 교체 가능
+            SaveSystem.SaveEquipReward(0); // 실제 장비 인덱스로 대체 가능
 
-        Debug.Log($"[보상 수령] 골드:{pendingGold}, 강화석:{pendingStone}, 장비:{pendingEquip}");
+        
+        Debug.Log($"[보상 수령 완료] 골드: {pendingGold}, 강화석: {pendingStone}, 장비: {pendingEquip}");
 
+        // 보상 수치 초기화
         pendingGold = 0;
         pendingStone = 0;
         pendingEquip = 0;
 
-        sessionStartTime = DateTime.Now;
+        // 타이머 초기화
         lastRewardClaimTime = DateTime.Now;
+        sessionStartTime = DateTime.Now;
 
         SaveAll();
         SaveSystem.SaveGame();
     }
+
 
     private void SavePendingRewards()
     {

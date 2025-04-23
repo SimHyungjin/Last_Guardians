@@ -10,7 +10,8 @@ public class IdleRewardPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI equipText;
     [SerializeField] private TextMeshProUGUI elapsedTimeText;
     [SerializeField] private Button claimButton;
-    [SerializeField] private Button closeButton;
+    [SerializeField] private Button closeButton;  
+    [SerializeField] private GameObject ScreenBlocker;
 
     private void Start()
     {
@@ -28,7 +29,13 @@ public class IdleRewardPopup : MonoBehaviour
     public void OpenPopup()
     {
         panel.SetActive(true);
+        ScreenBlocker.SetActive(true);
         UpdateTexts();
+    }
+    public void ClosePopup()
+    {
+        panel.SetActive(false);
+        ScreenBlocker.SetActive(false); 
     }
 
     private void UpdateTexts()

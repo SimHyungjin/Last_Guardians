@@ -10,10 +10,10 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
-    private void Start()
-    {
-        Init(ObstacleManager.Instance.GetData(Season.Spring, Weather.All, ObstacleType.Water));
-    }
+    //private void Start()
+    //{
+    //    Init(ObstacleManager.Instance.GetData(Season.Spring, Weather.All, ObstacleType.Water));
+    //}
     public void Init(ObstacleData data)
     {
         obstacle = data;
@@ -57,9 +57,42 @@ public class BaseObstacle : MonoBehaviour
             GameObject zoneObj = Instantiate(zonePrefab, transform);
             zoneObj.SetActive(true);
             zoneObj.transform.position = worldPos;
-            var zone =zoneObj.GetComponent<PlantedEffect>();
+            var zone = zoneObj.GetComponent<PlantedEffect>();
             zone.Init(obstacle.obstacleType);
             if (zoneObj != null) zones.Add(zoneObj);
         }
     }
+
+    private void EffectToPlayer(PlayerController controller)
+    {
+        if (obstacle == null) return;
+        var handler = controller.playerBuffHandler;
+        switch (obstacle.obstacleEffect_Player)
+        {
+            case ObstacleEffect.Speed:
+                handler.ApplyBuff(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, Mathf.Infinity, true));
+                break;
+
+            case ObstacleEffect.Stun:
+                handler.ApplyBuff(new PlayerBuffStun(obstacle.obstacleEffect_PlayerValue, controller));
+                break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<PlayerController>(out var controller))
+        {
+            EffectToPlayer(controller);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<PlayerController>(out var controller))
+        {
+            controller.playerBuffHandler.ClearAllBuffs();
+        }
+    }
+
 }

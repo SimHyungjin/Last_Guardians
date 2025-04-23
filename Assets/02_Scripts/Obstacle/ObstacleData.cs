@@ -5,11 +5,6 @@ public enum ObstacleType
     Rock, Water, Mud, Fire, Ruin, Platform, Trap,
     None
 }
-public enum Season
-{
-    Spring, Summer, Autumn, Winter,
-    All, Default
-}
 
 public enum Weather
 {

@@ -9,4 +9,5 @@ public static class LayerMaskData
     public static readonly LayerMask trapObject = LayerMask.GetMask("TrapObject");
     public static readonly LayerMask plantedObstacle = LayerMask.GetMask("PlantedObstacle");
     public static readonly LayerMask platform = LayerMask.GetMask("Platform");
+    public static readonly LayerMask floor = LayerMask.GetMask("TrapObject","PlantedObstacle", "PlantedEffect");
 }

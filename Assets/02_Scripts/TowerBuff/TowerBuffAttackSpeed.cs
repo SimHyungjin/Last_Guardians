@@ -1,6 +1,6 @@
 public class TowerBuffAttackSpeed : ITowerBuff
 {
-    public void ApplyBuffToTower(BaseTower tower, TowerData data)
+    public void ApplyBuffToTower(BaseTower tower, TowerData data, EnvironmentEffect environmentEffect)
     {
         if (tower is AttackTower attackTower)
         {
@@ -9,10 +9,10 @@ public class TowerBuffAttackSpeed : ITowerBuff
         }
     }
 
-    public void ApplyBuffToTrap(TrapObject trap, TowerData data)
+    public void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect)
     {
     }
-    public void ApplyDebuff(BaseMonster monster, TowerData data)
+    public void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect)
     {
 
     }

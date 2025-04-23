@@ -194,19 +194,21 @@ public class AttackTower : BaseTower
     }
 
 
-    public void AddEffect(int targetIndex)
+    public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
+        if(environmentEffect.isNearFire&&TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect==SpecialEffect.DotDamage)this.environmentEffect.isBuffAffectedByFire = true;
+        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow) this.environmentEffect.isBuffAffectedByWater = true;
         bool found = false;
-        if (buffTowerIndex.Contains(targetIndex)) return;
+        if (buffTowerIndex.Contains(towerIndex)) return;
         for (int i = 0; i < buffTowerIndex.Count; i++)
         {
-            if (TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect == TowerManager.Instance.GetTowerData(targetIndex).SpecialEffect)
+            if (TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect == TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect)
             {
                 var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
-                if (existing.EffectValue < TowerManager.Instance.GetTowerData(targetIndex).EffectValue)
+                if (existing.EffectValue < TowerManager.Instance.GetTowerData(towerIndex).EffectValue)
                 {
-                    buffTowerIndex[i] = targetIndex;
-                    adaptedTowerData.buffTowerIndex[i] = targetIndex;
+                    buffTowerIndex[i] = towerIndex;
+                    adaptedTowerData.buffTowerIndex[i] = towerIndex;
                 }
                 found = true;
                 break;
@@ -214,8 +216,8 @@ public class AttackTower : BaseTower
         }
         if (!found)
         {
-            buffTowerIndex.Add(targetIndex);
-            adaptedTowerData.buffTowerIndex.Add(targetIndex);
+            buffTowerIndex.Add(towerIndex);
+            adaptedTowerData.buffTowerIndex.Add(towerIndex);
         }
     }
 
@@ -242,6 +244,7 @@ public class AttackTower : BaseTower
 
     private void ClearAllbuff()
     {
+        environmentEffect.ClearEffect();
         RemoveBossImmuneBuff();
         RemoveAttackPowerBuff();
         RemoveAttackSpeedBuff();

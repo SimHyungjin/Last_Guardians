@@ -17,7 +17,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public EnemyProjectile ProjectilePrefab { get; private set; }
     public List<MonsterData> MonsterDatas { get; private set; }
     public List<MonsterSkillBase> MonsterSkillDatas { get; private set; }
-    //public List<BaseMonster> AlliveMonsters { get; private set; }
+    public List<BaseMonster> AlliveMonsters { get; private set; }
     public MonsterWaveData nowWave { get; private set; }
     public EXPBead EXPBeadPrefab { get; private set; }
     public List<MonsterData> BountyMonsterList {  get; private set; }
@@ -35,7 +35,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public int MonsterKillCount { get; set; }
     private void Start()
     {
-        //AlliveMonsters = new List<BaseMonster>();
+        AlliveMonsters = new List<BaseMonster>();
         spawnSeconds = new WaitForSeconds(0.1f);
         InitMonsters();
     }
@@ -99,6 +99,7 @@ public class MonsterManager : Singleton<MonsterManager>
             NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            AlliveMonsters.Add(monster);
             alliveCount++;
             spawnCount++;
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
@@ -109,7 +110,7 @@ public class MonsterManager : Singleton<MonsterManager>
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            //AlliveMonsters.Add(monster);
+            AlliveMonsters.Add(monster);
             alliveCount++;
             spawnCount++;
             //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
@@ -120,7 +121,7 @@ public class MonsterManager : Singleton<MonsterManager>
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            //AlliveMonsters.Add(monster);
+            AlliveMonsters.Add(monster);
         }
         
     }
@@ -159,9 +160,17 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public void OnMonsterDeath(BaseMonster monster)
     {
-        alliveCount--;
-        RemainMonsterCount--;
+        if (monster.MonsterData.MonsterType != MonType.Bounty)
+        {
+            alliveCount--;
+            RemainMonsterCount--;
+        }
         MonsterKillCount++;
+        if (AlliveMonsters.Contains(monster))
+        {
+            AlliveMonsters.Remove(monster);
+        }
+        
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
         if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
@@ -172,6 +181,9 @@ public class MonsterManager : Singleton<MonsterManager>
             currentWaveIndex++;
             spawnCount = 0;
             currentWaveMonsterCount = 0;
+            RemainMonsterCount = 0;
+            alliveCount = 0;
+            AlliveMonsters.Clear();
             StartCoroutine(StartNextWave());
         }
     }

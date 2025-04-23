@@ -24,12 +24,12 @@ MonoBehaviour:
   <equipIndex>k__BackingField: 1001
   <equipType>k__BackingField: 0
   <attackType>k__BackingField: 0
-  <attackPower>k__BackingField: 29
+  <attackPower>k__BackingField: 20
   <attackSpeed>k__BackingField: 1
   <moveSpeed>k__BackingField: 0
   <criticalChance>k__BackingField: 0
   <criticalDamage>k__BackingField: 0
   <penetration>k__BackingField: 0
-  <attackRange>k__BackingField: 1.5
+  <attackRange>k__BackingField: 0.5
   <specialEffectID>k__BackingField: 0
   <linkedItem>k__BackingField: {fileID: 11400000, guid: e840fbaa8512f164db234bac85beaccd, type: 2}

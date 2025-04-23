@@ -4,8 +4,6 @@ public class PlayerManager
     public PlayerController playerController;
     public PlayerInputHandler playerHandler;
 
-    public PlayerData playerData;
-
     public void Init()
     {
         if (player == null) player = new();

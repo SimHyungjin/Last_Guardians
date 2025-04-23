@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 4032330747807928191}
   - component: {fileID: 8449816169611880302}
   - component: {fileID: 2109117083680470000}
-  - component: {fileID: 2337335731075839080}
+  - component: {fileID: 8568507218832049505}
   m_Layer: 5
   m_Name: OptionExitBtn
   m_TagString: Untagged
@@ -1304,7 +1304,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2337335731075839080
+--- !u!114 &8568507218832049505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3974523217755447691}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9072186ed49a7740ae21c4c0614d1e5, type: 3}
+  m_Script: {fileID: 11500000, guid: e0b013149b425744db7d3542d991cad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4118620869124154232

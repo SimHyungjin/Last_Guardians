@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class PlayerBuffStun : IPlayerBuff<PlayerData>
 {
-    public float Value { get; private set; }
+    public float? Value => null;
     public float Duration { get; private set; }
 
     private PlayerController controller;
 
-    public PlayerBuffStun(float value, float duration, PlayerController playerController)
+    public PlayerBuffStun(float duration, PlayerController controller)
     {
-        Value = value;
         Duration = duration;
-        controller = playerController;
+        this.controller = controller;
     }
 
     public void Apply(PlayerData playerData)
@@ -26,5 +25,11 @@ public class PlayerBuffStun : IPlayerBuff<PlayerData>
     {
         controller.attackController.AutoAttackStart();
         controller.moveController.SetCanMove(true);
+    }
+
+    public bool IsStrongerThan(IPlayerBuff<PlayerData> other)
+    {
+        if (other is not PlayerBuffStun o) return true;
+        return this.Duration > o.Duration;
     }
 }

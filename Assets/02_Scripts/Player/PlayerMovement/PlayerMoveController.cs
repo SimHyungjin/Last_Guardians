@@ -5,14 +5,11 @@ using UnityEngine.AI;
 /// <summary>
 /// 이 스크립트는 캐릭터의 드래그 기반 이동을 담당합니다.
 /// </summary>
-public class MoveController : MonoBehaviour
+public class PlayerMoveController : MonoBehaviour
 {
-    private Vector2 endPos;
+    private bool canMove = true;
     private bool isSwiping = false;
-
     private NavMeshAgent agent;
-
-    private Coroutine moveCoroutine;
 
     private void Awake()
     {
@@ -20,13 +17,14 @@ public class MoveController : MonoBehaviour
         agent.updateRotation = true;
         agent.updatePosition = true;
     }
-    private void Start()
+    public void Init()
     {
         agent.speed = InGameManager.Instance.playerManager.player.playerData.moveSpeed;
     }
 
     private void LateUpdate()
     {
+        if (!canMove) return;
         transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
     }
 
@@ -44,6 +42,12 @@ public class MoveController : MonoBehaviour
         Vector3 target = InputManager.Instance.GetTouchWorldPosition();
         target.z = transform.position.z;
         agent.SetDestination(target);
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+        if(!value) agent.ResetPath();
     }
 
     ///// <summary>

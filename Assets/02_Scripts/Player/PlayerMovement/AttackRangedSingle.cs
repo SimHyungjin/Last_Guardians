@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class AttackRangedSingle : IAttackBehavior
 {
-    private AttackController attackController;
+    private PlayerAttackController attackController;
 
-    public void Init(AttackController _attackController)
+    public void Init(PlayerAttackController _attackController)
     {
         attackController = _attackController;
     }

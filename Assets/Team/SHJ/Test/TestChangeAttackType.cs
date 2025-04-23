@@ -5,11 +5,11 @@ public class TestChangeAttackType : MonoBehaviour
 {
     public GameObject buttonPrefab;
     public Transform buttonParent;
-    public AttackController attackController;
+    public PlayerAttackController attackController;
 
     void Start()
     {
-        attackController = FindObjectOfType<AttackController>();
+        attackController = FindObjectOfType<PlayerAttackController>();
         CreateAttackButton("근거리 정면", () => attackController.SetAttackBehavior(new AttackMeleeFront()));
         CreateAttackButton("근거리 원형", () => attackController.SetAttackBehavior(new AttackMeleeCircle()));
         CreateAttackButton("원거리 단일", () => attackController.SetAttackBehavior(new AttackRangedSingle()));

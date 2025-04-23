@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class AttackMeleeCircle : IAttackBehavior
 {
-    private AttackController attackController;
+    private PlayerAttackController attackController;
     private Player player;
 
-    public void Init(AttackController _attackController)
+    public void Init(PlayerAttackController _attackController)
     {
         player = InGameManager.Instance.playerManager.player;
         attackController = _attackController;

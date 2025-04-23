@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class AttackMeleeFan : IAttackBehavior
 {
-    private AttackController attackController;
+    private PlayerAttackController attackController;
     private Player player;
 
     float angle;
     float radius;
     Vector2 targetPos;
 
-    public void Init(AttackController _attackController)
+    public void Init(PlayerAttackController _attackController)
     {
         player = InGameManager.Instance.playerManager.player;
         attackController = _attackController;

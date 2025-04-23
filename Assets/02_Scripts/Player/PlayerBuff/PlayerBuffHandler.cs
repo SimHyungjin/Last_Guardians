@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlayerBuff
+public interface IPlayerBuff<T>
 {
     float Value { get; }
     float Duration { get; }
-    void Apply(PlayerData playerData);
-    void Remove(PlayerData playerData);
+    void Apply(T playerData);
+    void Remove(T playerData);
 }
 
-public class PlayerBuff : MonoBehaviour
+public class PlayerBuffHandler : MonoBehaviour
 {
-    private Dictionary<Type, (Coroutine routine, IPlayerBuff buff)> activeBuffs = new();
+    private Dictionary<Type, (Coroutine routine, IPlayerBuff<PlayerData> buff)> activeBuffs = new();
     private PlayerData playerData;
 
     public void Init()
@@ -21,7 +21,7 @@ public class PlayerBuff : MonoBehaviour
         playerData = InGameManager.Instance.playerManager.player.playerData;
     }
 
-    public void ApplyBuff(IPlayerBuff newBuff)
+    public void ApplyBuff(IPlayerBuff<PlayerData> newBuff)
     {
         Type buffType = newBuff.GetType();
 
@@ -40,7 +40,7 @@ public class PlayerBuff : MonoBehaviour
         activeBuffs[buffType] = (routine, newBuff);
     }
 
-    private IEnumerator BuffRoutine(IPlayerBuff buff)
+    private IEnumerator BuffRoutine(IPlayerBuff<PlayerData> buff)
     {
         buff.Apply(playerData);
         yield return new WaitForSeconds(buff.Duration);

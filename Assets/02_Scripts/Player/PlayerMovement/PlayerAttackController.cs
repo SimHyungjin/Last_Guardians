@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public interface IAttackBehavior
 {
-    void Init(AttackController _controller);
+    void Init(PlayerAttackController _controller);
     void Attack(Vector2 targetPos, float damage);
     void ShowRange();
 }
@@ -12,7 +13,7 @@ public interface IAttackBehavior
 /// 이 스크립트는 캐릭터의 자동 공격을 담당합니다.
 /// 공격 범위 내 가장 가까운 몬스터를 탐색하고, 정해진 딜레이로 순차적으로 공격합니다.
 /// </summary>
-public class AttackController : MonoBehaviour
+public class PlayerAttackController : MonoBehaviour
 {
     public  Player player {  get; private set; }
     private GameObject target;

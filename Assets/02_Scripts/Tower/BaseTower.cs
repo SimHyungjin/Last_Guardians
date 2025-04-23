@@ -7,12 +7,28 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+public class environmentEffect
+{
+    public bool isNearWater;
+    public bool isNearFire;
+    public bool isBuffAffectedByWater;
+    public bool isBuffAffectedByFire;
+
+    public void ClearEffect()
+    {
+        isNearWater = false;
+        isNearFire = false;
+        isBuffAffectedByWater = false;
+        isBuffAffectedByFire = false;
+
+    }
+}
 
 public abstract class BaseTower : MonoBehaviour
 {
     [Header("타워 데이터")]
     public TowerData towerData;
-
+    protected environmentEffect environmentEffect;
 
     [Header("타워 결합")]
     public GameObject towerGhostPrefab;
@@ -20,11 +36,11 @@ public abstract class BaseTower : MonoBehaviour
     public bool isCliked;
     public SpriteRenderer sprite;
 
+
     private GameObject towerGhost;
     Vector2 curPos;
 
-    protected float maxbuffRadius = 2.5f;
-
+    protected float maxbuffRadius = 3f;
     protected bool disable;
 
 
@@ -42,7 +58,11 @@ public abstract class BaseTower : MonoBehaviour
             sprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
             towerGhost = towerData.towerGhostPrefab;       
         }
-         StartCoroutine(AfterInit());
+
+        environmentEffect = new environmentEffect();
+        environmentEffect.ClearEffect();
+
+        StartCoroutine(AfterInit());
     }
 
     protected IEnumerator AfterInit()
@@ -53,11 +73,30 @@ public abstract class BaseTower : MonoBehaviour
         {
             if (hit.transform.IsChildOf(this.transform)) continue;
             TrapObject trapObject = hit.GetComponent<TrapObject>();
+            //BasePlantedObstacle basePlantedObstacle = hit.GetComponent<BasePlantedObstacle>();
+            //PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
+            //PlatForm platform = hit.GetComponent<Platform>();
             if (trapObject != null)
             {
                 Debug.Log("설치위치에 트랩있음 다부신다");
                 trapObject.ChageState(TrapObjectState.CantActive);
             }
+            //if (basePlantedObstacle != null)
+            //{
+            //    Destroy(basePlantedObstacle.gameObject);
+            //}
+            //if (PlantedEffect != null)
+            //{
+            //  swithch (PlantedEffect.plantedType)
+            //    {case PlantedType.Water:
+            //        environmentEffect.isNearWater = true;
+            //        break;
+            //    case PlantedType.Fire:
+            //        environmentEffect.isNearFire = true;
+            //        break;
+            //    }
+            //}
+
         }
     }
     protected virtual void Update()

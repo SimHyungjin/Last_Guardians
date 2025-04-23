@@ -21,6 +21,7 @@ public class BuffTower : BaseTower
     public List<ITowerBuff> buffMonterDebuffs;
     private float lastCheckTime = 0f;
 
+    private float adaptiveRange;
     public override void Init(TowerData data)
     {
         base.Init(data);
@@ -29,6 +30,8 @@ public class BuffTower : BaseTower
         BuffSelect(data);
         ScanBuffTower();
         ApplyBuffOnPlacement();
+        adaptiveRange = towerData.AttackRange;
+        OnPlatform();
     }
 
     protected override void Update()
@@ -96,7 +99,7 @@ public class BuffTower : BaseTower
     private void ApplyBuffOnPlacement()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -119,7 +122,7 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacement()
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
@@ -133,7 +136,7 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacementOnBuff()
     {
         if (towerData.EffectTarget != EffectTarget.All) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
@@ -190,11 +193,28 @@ public class BuffTower : BaseTower
         buffTowerIndex.Clear();
         buffMonterDebuffs.Clear();
     }
+
+    private void OnPlatform()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
+        foreach (var hit in hits)
+        {            
+            //나중에 계절도 추가
+            //if(EnvironmentManager.Instance.GetSeason()==Season.Wintor)
+            //{ 
+            //adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
+            //}
+            //else
+            adaptiveRange = towerData.AttackRange * 1.15f;
+            return;
+        }
+    }
+
     protected override void OnDestroy()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -213,6 +233,7 @@ public class BuffTower : BaseTower
             }
         }
     }
+
 
 
 }

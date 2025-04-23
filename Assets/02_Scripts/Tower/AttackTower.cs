@@ -11,16 +11,18 @@ public class AdaptedTowerData
     public int towerIndex;
     public float attackPower;
     public float attackSpeed;
+    public float attackRange;
     public bool bossImmunebuff;
     public  List<int> buffTowerIndex;
 
 
-    public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed)
+    public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange)
     {
         this.towerIndex = towerIndex;
         this.attackPower = attackPower;
         this.attackSpeed = attackSpeed;
         this.bossImmunebuff = false;
+        this.attackRange = attackRange;
         buffTowerIndex = new List<int>();
     }
 }
@@ -43,7 +45,8 @@ public class AttackTower : BaseTower
     {
 
         base.Init(data);
-        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed);
+        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange);
+        OnPlatform();
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
         if (towerData.SpecialEffect != SpecialEffect.None)
@@ -69,12 +72,12 @@ public class AttackTower : BaseTower
 
     bool IsInRange(Vector3 targetPos)
     {
-        return Vector3.Distance(transform.position, targetPos) <= towerData.AttackRange;
+        return Vector3.Distance(transform.position, targetPos) <= adaptedTowerData.attackRange;
     }
 
     void FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
 
         float closestDist = float.MaxValue;
         Transform closest = null;
@@ -124,7 +127,6 @@ public class AttackTower : BaseTower
                     projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
                 }
                 break;
-
             case ProjectileType.Arrow:
                 if (shouldMultyShot)
                 {
@@ -214,6 +216,22 @@ public class AttackTower : BaseTower
         {
             buffTowerIndex.Add(targetIndex);
             adaptedTowerData.buffTowerIndex.Add(targetIndex);
+        }
+    }
+
+    private void OnPlatform()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
+        foreach (var hit in hits)
+        {
+            //나중에 계절도 추가
+            //if(EnvironmentManager.Instance.GetSeason()==Season.Wintor)
+            //{ 
+            //adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
+            //}
+            //else
+            adaptedTowerData.attackRange = towerData.AttackRange*1.15f;
+            return;
         }
     }
     public override void DestroyBuffTower()

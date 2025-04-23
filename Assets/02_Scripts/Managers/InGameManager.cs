@@ -28,11 +28,8 @@ public class InGameManager : Singleton<InGameManager>
     public int exp;
     private int maxExp = 1000;
 
-    
-
     private void Awake()
     {
-        //DontDestroyOnLoad(gameObject);
         InItTowerData();
         PlayerHP = playerMaxHP;
     }
@@ -91,10 +88,13 @@ public class InGameManager : Singleton<InGameManager>
 
     public void TakeDmage(int amount)
     {
-        PlayerHP -= amount;
+        PlayerHP = Mathf.Max(0, PlayerHP - amount);
         UpdateHP();
         if (PlayerHP <= 0)
+        {
             GameOver();
+        }
+            
     }
 
     private void PrefabInit()
@@ -119,6 +119,7 @@ public class InGameManager : Singleton<InGameManager>
     private void UpdateHP()
     {
         playerHPbar.fillAmount = (float)PlayerHP / playerMaxHP;
+        
         playerHPText.text = $"현재 체력 : {PlayerHP} / {playerMaxHP}";
     }
 

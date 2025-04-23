@@ -21,7 +21,7 @@ MonoBehaviour:
   exp: 160
   monsterDescription: "\uD3C9\uD654\uB85C\uC6B4 \uB9C8\uC744\uC744 \uC2B5\uACA9\uD558\uC5EC
     \uC8FC\uBBFC\uB4E4\uC758 \uC601\uD63C\uC744 \uBE7C\uC557\uC740 \uC545\uB839"
-  monsterType: 1
+  monsterType: 2
   hasSkill: 1
   monsterSkillID: 7
   monsterAttackPattern: 1

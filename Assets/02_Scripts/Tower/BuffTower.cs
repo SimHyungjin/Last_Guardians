@@ -6,9 +6,9 @@ using UnityEngine;
 
 public interface ITowerBuff
 {
-    void ApplyBuffToTower(BaseTower tower, TowerData data);
-    void ApplyBuffToTrap(TrapObject trap, TowerData data);
-    void ApplyDebuff(BaseMonster monster, TowerData data);
+    void ApplyBuffToTower(BaseTower tower, TowerData data,EnvironmentEffect environmentEffect);
+    void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect);
+    void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect);
 }
 
 public class BuffTower : BaseTower
@@ -21,6 +21,7 @@ public class BuffTower : BaseTower
     public List<ITowerBuff> buffMonterDebuffs;
     private float lastCheckTime = 0f;
 
+    private float adaptiveRange;
     public override void Init(TowerData data)
     {
         base.Init(data);
@@ -29,6 +30,8 @@ public class BuffTower : BaseTower
         BuffSelect(data);
         ScanBuffTower();
         ApplyBuffOnPlacement();
+        adaptiveRange = towerData.AttackRange;
+        OnPlatform();
     }
 
     protected override void Update()
@@ -96,14 +99,14 @@ public class BuffTower : BaseTower
     private void ApplyBuffOnPlacement()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
-                towerBuff.ApplyBuffToTower(otherTower, towerData);
+                towerBuff.ApplyBuffToTower(otherTower, towerData,environmentEffect);
             }
         }
         foreach (var hit in hits)
@@ -111,7 +114,7 @@ public class BuffTower : BaseTower
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
             if (otherTrap != null && otherTrap != this)
             {
-                towerBuff.ApplyBuffToTrap(otherTrap, towerData);
+                towerBuff.ApplyBuffToTrap(otherTrap, towerData, environmentEffect);
             }
         }
     }
@@ -119,21 +122,21 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacement()
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange/2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
             BaseMonster otherMonster = hit.GetComponent<BaseMonster>();
             if (otherMonster != null && otherMonster != this)
             {
-                monsterDebuff.ApplyDebuff(otherMonster, towerData);
+                monsterDebuff.ApplyDebuff(otherMonster, towerData, environmentEffect);
             }
         }
     }
     private void ApplyDebuffOnPlacementOnBuff()
     {
         if (towerData.EffectTarget != EffectTarget.All) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
@@ -143,7 +146,7 @@ public class BuffTower : BaseTower
                 for(int i=0; i<buffMonterDebuffs.Count();i++)
                 {
                     Debug.Log($"buffTowerIndex.Count = {buffTowerIndex.Count}, buffMonterDebuffs.Count = {buffMonterDebuffs.Count}");
-                    buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]));
+                    buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]),environmentEffect);
                 }
             }
         }
@@ -153,8 +156,10 @@ public class BuffTower : BaseTower
         ApplyBuffOnPlacement();
     }
 
-    public void AddEffect(int towerIndex)
+    public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
+        if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage) this.environmentEffect.isBuffAffectedByFire = true;
+        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow) this.environmentEffect.isBuffAffectedByWater = true;
         bool found = false;
         if (towerIndex == towerData.TowerIndex) return;
         if (buffTowerIndex.Contains(towerIndex)) return;
@@ -180,6 +185,7 @@ public class BuffTower : BaseTower
             buffMonterDebuffs.Add(BuffAdd(towerIndex));
         }
     }
+
     public override void DestroyBuffTower()
     {
         ClearAllbuff();
@@ -190,11 +196,28 @@ public class BuffTower : BaseTower
         buffTowerIndex.Clear();
         buffMonterDebuffs.Clear();
     }
+
+    private void OnPlatform()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
+        foreach (var hit in hits)
+        {            
+            //나중에 계절도 추가
+            //if(EnvironmentManager.Instance.GetSeason()==Season.Wintor)
+            //{ 
+            //adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
+            //}
+            //else
+            adaptiveRange = towerData.AttackRange * 1.15f;
+            return;
+        }
+    }
+
     protected override void OnDestroy()
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, towerData.AttackRange / 2, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -213,6 +236,7 @@ public class BuffTower : BaseTower
             }
         }
     }
+
 
 
 }

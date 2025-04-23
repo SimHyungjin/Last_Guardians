@@ -11,6 +11,8 @@ public class GameManager : Singleton<GameManager>
 
     public EquipmentStats stats = new();
 
+    public int NowTime { get; set; }
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

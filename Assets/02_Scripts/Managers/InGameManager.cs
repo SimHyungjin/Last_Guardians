@@ -8,7 +8,7 @@ public class InGameManager : Singleton<InGameManager>
 {
     public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
-    private int playerMaxHP = 20;
+    private int playerMaxHP = 5000;
     public int PlayerHP { get; private set; }
     public DamageText DamageTextPrefab { get; private set; }
     public Canvas DamageUICanvas { get; private set; }
@@ -24,6 +24,7 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private TextMeshProUGUI waveInfoText;
     [SerializeField] private TextMeshProUGUI remainMonsterCountText;
     [SerializeField] private GameOverUI gameoverUI;
+
     public int level;
     public int exp;
     private int maxExp = 1000;
@@ -40,9 +41,11 @@ public class InGameManager : Singleton<InGameManager>
         PrefabInit();
         if(DamageUICanvas==null)
             DamageUICanvas = Instantiate(damageUICanvasPrefab);
+        UpdateHP();
+        UpdateExp();
         exp = 0;
+        EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
         mulliganUI.StartSelectCard();
-        
     }
 
     public void GetExp(int exp)

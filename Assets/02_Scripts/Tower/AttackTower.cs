@@ -46,12 +46,12 @@ public class AttackTower : BaseTower
         adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed);
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
-        ScanBuffTower();
         if (towerData.SpecialEffect != SpecialEffect.None)
         {
             buffTowerIndex.Add(towerData.TowerIndex);
             adaptedTowerData.buffTowerIndex.Add(towerData.TowerIndex);
         }
+        ScanBuffTower();
     }
     protected override void Update()
     {

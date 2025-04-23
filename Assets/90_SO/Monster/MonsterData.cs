@@ -6,6 +6,7 @@ public enum MonType
 {
     Standard,
     Boss,
+    Bounty
 }
 
 public enum MonAttackPattern

@@ -40,8 +40,8 @@ public abstract class StatusEffect
 
     public void UpdateEffect(float amout, float duration)
     {
-        Duration = duration;
-        Amount = amout;
+        //Duration = duration;
+        Amount = Mathf.Max(Amount, amout);
+        Duration = Mathf.Max(Amount, amout) == Amount ? Duration : duration;
     }
-
 }

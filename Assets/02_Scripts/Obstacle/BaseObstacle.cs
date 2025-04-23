@@ -10,10 +10,11 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
-    //private void Start()
-    //{
-    //    Init(ObstacleManager.Instance.GetData(Season.Spring, Weather.All, ObstacleType.Water));
-    //}
+    private void Start()
+    {
+        Init(ObstacleManager.Instance.GetData(Season.All, Weather.All, ObstacleType.Trap));
+    }
+
     public void Init(ObstacleData data)
     {
         obstacle = data;

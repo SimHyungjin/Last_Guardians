@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class MainSceneButtonView : MonoBehaviour
         startBtn.onClick.AddListener(() =>
         {
             SceneLoader.LoadSceneWithFade("GameScene", true, ToGameScene);
+            DateTime now = DateTime.Now;
+            GameManager.Instance.NowTime = now.Minute;
         });
 
         inventoryBtn.onClick.AddListener(() =>

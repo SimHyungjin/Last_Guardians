@@ -22,7 +22,7 @@ MonoBehaviour:
   monsterDescription: "\uC655\uAD6D\uC758 \uD654\uC0B0 \uC9C0\uB300\uB97C \uC7A5\uC545\uD558\uACE0
     \uB9C8\uADF8\uB9C8\uB85C \uB9C8\uC744\uB4E4\uC744 \uCD08\uD1A0\uD654\uC2DC\uD0A8
     \uBD88\uC758 \uC815\uB839"
-  monsterType: 1
+  monsterType: 2
   hasSkill: 1
   monsterSkillID: 8
   monsterAttackPattern: 0

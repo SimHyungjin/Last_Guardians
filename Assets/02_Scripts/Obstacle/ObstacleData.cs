@@ -8,7 +8,7 @@ public enum ObstacleType
 public enum Season
 {
     Spring, Summer, Autumn, Winter,
-    All
+    All, Default
 }
 
 public enum Weather
@@ -19,7 +19,7 @@ public enum Weather
 
 public enum ObstacleEffect
 {
-    Dotdamage, Speed, Stun,
+    Dotdamage, Speed, Stun, Dead,
     None
 }
 

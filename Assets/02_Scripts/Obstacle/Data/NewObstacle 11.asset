@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5b41e7ff499ad46bd6c362be093490, type: 3}
+  m_Name: NewObstacle 11
+  m_EditorClassIdentifier: 
+  obstacleIndex: 11
+  obstacleType: 4
+  season: 4
+  weather: 3
+  obstacleName: "\uD3D0\uD5C8"
+  passbyPlayer: 0
+  passbyMonster: 0
+  towerPlace: 0
+  obstacleEffect_Player: 4
+  obstacleEffect_PlayerValue: 0
+  obstacleEffect_Monster: 4
+  obstacleEffect_MonsterValue: 5
+  towerBuff: 3
+  targetTower: 2
+  towerBuffValue: 0
+  sprite: {fileID: 0}
+  obstacleDescription: 

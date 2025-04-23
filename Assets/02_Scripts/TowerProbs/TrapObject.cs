@@ -24,6 +24,7 @@ public class TrapObject : MonoBehaviour
     [SerializeField] private Collider2D col;
 
     private Coroutine activeEffectCoroutine;
+    private Coroutine checkOverlapCoroutine;
     private TowerData towerData;
     private TrapObjectState currentState;
 
@@ -93,16 +94,15 @@ public class TrapObject : MonoBehaviour
 
     private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
     {
-        { SpecialEffect.DotDamage, typeof(TrapObjectDotDamageEffect) },//미구현
-        { SpecialEffect.Slow, typeof(TrapObjectSlowEffect) },//미구현
-        { SpecialEffect.Silence, typeof(TrapObjectSilenceEffect) },//미구현
-        { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },//미구현
+        { SpecialEffect.DotDamage, typeof(TrapObjectDotDamageEffect) },
+        { SpecialEffect.Slow, typeof(TrapObjectSlowEffect) },
+        { SpecialEffect.Silence, typeof(TrapObjectSilenceEffect) },
+        { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },
     };
 
     public void CanPlant()
     {
         Vector2 pos = PostionArray();
-
         Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlock);
         foreach (var hit in blockHits)
         {
@@ -112,19 +112,42 @@ public class TrapObject : MonoBehaviour
                 return;
             }
         }
-
         Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMaskData.trapObject);
+        checkOverlapCoroutine=StartCoroutine(CheckTrapOverlap(trapHits));
+
+
+
+        //foreach (var hit in trapHits)
+        //{
+        //    if (hit.gameObject == this.gameObject) continue;
+
+        //    TrapObject other = hit.GetComponent<TrapObject>();
+        //    if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
+        //    {
+        //        Debug.Log($"충돌체있음{other}");
+        //        ChageState(TrapObjectState.CantActive);
+        //        return;
+        //    }
+        //}
+        //ChageState(TrapObjectState.Ready);
+    }
+    private IEnumerator CheckTrapOverlap(Collider2D[] trapHits)
+    {
+        yield return null;
+        if (this == null) yield break;
         foreach (var hit in trapHits)
         {
-            if (hit.gameObject == this.gameObject) continue;
-
+            if (hit == null || hit.gameObject == this.gameObject) continue;
             TrapObject other = hit.GetComponent<TrapObject>();
             if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
             {
+                Debug.Log($"충돌체있음{other}");
                 ChageState(TrapObjectState.CantActive);
-                return;
+                checkOverlapCoroutine= null;
+                yield break;
             }
         }
+        checkOverlapCoroutine = null;
         ChageState(TrapObjectState.Ready);
     }
 
@@ -190,7 +213,7 @@ public class TrapObject : MonoBehaviour
             yield return new WaitForSeconds(applyInterval);
             elapsed += applyInterval;
         }
-
+        activeEffectCoroutine = null;
         ChageState(TrapObjectState.Cooldown);
     }
 
@@ -331,8 +354,19 @@ public class TrapObject : MonoBehaviour
         }
     }
 
+
     private void OnDestroy()
     {
-        TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        if (checkOverlapCoroutine != null)
+        {
+            StopCoroutine(checkOverlapCoroutine);
+            checkOverlapCoroutine = null;
+        }
+        if (activeEffectCoroutine != null)
+        {
+            StopCoroutine(activeEffectCoroutine);
+            activeEffectCoroutine = null;
+        }
+        if (isActiveAndEnabled)TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 }

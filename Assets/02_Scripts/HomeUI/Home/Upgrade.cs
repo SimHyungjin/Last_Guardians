@@ -68,9 +68,7 @@ public class Upgrade
     private ItemInstance GetSuccessItem(ItemInstance data)
     {
         int upgradeIndex = data.AsEquipData.ItemIndex + 100;
-        SaveSystem.RemoveEquip(data.UniqueID);
         var upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(upgradeIndex);
-        SaveSystem.SaveEquipReward(upgradeData.AsEquipData.ItemIndex);
         return upgradeData;
     }
 

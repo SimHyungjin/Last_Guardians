@@ -167,8 +167,8 @@ public class AttackTower : BaseTower
     }
     public void AttackSpeedBuff(float buff)
     {
-        if (towerData.AttackSpeed / buff < adaptedTowerData.attackSpeed)
-            adaptedTowerData.attackSpeed = towerData.AttackSpeed / buff;
+        if (1f / (towerData.AttackSpeed * buff) < adaptedTowerData.attackSpeed)
+            adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed*buff);
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {adaptedTowerData.attackSpeed}");
     }
 

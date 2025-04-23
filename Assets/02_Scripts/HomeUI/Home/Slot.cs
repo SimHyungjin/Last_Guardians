@@ -9,10 +9,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Image equipEffect;
     [SerializeField] private Image gradeEffect;
 
-    [SerializeField] private ItemInstance data;
+    private ItemInstance data;
 
     public void SetData(ItemInstance newData)
     {
+        Debug.Log($"[Slot] SetData called: newData ID = {newData?.UniqueID}");
         data = newData;
         icon.sprite = data?.Data?.icon;
         Refresh();

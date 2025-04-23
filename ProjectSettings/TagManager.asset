@@ -18,8 +18,8 @@ TagManager:
   - Center
   - Obstacle
   - TrapObject
-  - 
-  - 
+  - PlantedObstacle
+  - platform
   - 
   - 
   - 

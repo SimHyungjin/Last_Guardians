@@ -8,7 +8,7 @@ public class InGameManager : Singleton<InGameManager>
 {
     public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
-    private int playerMaxHP = 20;
+    private int playerMaxHP = 5000;
     public int PlayerHP { get; private set; }
     public DamageText DamageTextPrefab { get; private set; }
     public Canvas DamageUICanvas { get; private set; }

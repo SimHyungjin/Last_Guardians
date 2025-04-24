@@ -33,16 +33,19 @@ public class AttackTower : BaseTower
     [SerializeField] private Transform target;
     private float lastCheckTime = 0f;
     public ProjectileFactory projectileFactory;
-
-    List<int> buffTowerIndex;
     private BaseMonster currentTargetMonster;
 
+    [Header("버프")]
     public AdaptedTowerData adaptedTowerData;
-
-    float attackSpeedBuff = 1f;  
-    float windBuff = 1f;         
+    List<int> buffTowerIndex;
     //private bool Disable;
 
+    [Header("공격속도")]
+    float attackSpeedBuff = 1f;
+    float windBuff = 1f;
+    float windSpeedBuff = 1f;
+    public bool isSpeedBuffed = false;
+    public bool isWindBuffed = false;
     public override void Init(TowerData data)
     {
 
@@ -172,13 +175,16 @@ public class AttackTower : BaseTower
 
     void UpdateAttackSpeed()
     {
-        float totalBuff = attackSpeedBuff * windBuff;
+        if (isSpeedBuffed && isWindBuffed) windSpeedBuff = 1.2f;
+        else windSpeedBuff = 1f;
+        float totalBuff = attackSpeedBuff * windBuff* windSpeedBuff;
         adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed * totalBuff);
     }
     public void AttackSpeedBuff(float buff)
     {
         if (buff > attackSpeedBuff)
         {
+            isSpeedBuffed = true;
             attackSpeedBuff = buff;
             UpdateAttackSpeed();
         }
@@ -186,19 +192,23 @@ public class AttackTower : BaseTower
 
     public void RemoveAttackSpeedBuff()
     {
+        isSpeedBuffed = false;
         attackSpeedBuff = 1f;
         UpdateAttackSpeed();
     }
 
     public void OnWindSpeedBuff()
     {
+        isWindBuffed = true;
         windBuff = 1.2f;
         UpdateAttackSpeed();
     }
 
     public void OffWindSpeedBuff()
     {
+        isWindBuffed = false;
         windBuff = 1f;
+        windSpeedBuff = 1f;
         UpdateAttackSpeed();
     }
     public void BossImmuneBuff()
@@ -211,10 +221,7 @@ public class AttackTower : BaseTower
     {
         adaptedTowerData.attackPower = towerData.AttackPower;
     }
-    public void RemoveAttackSpeedBuff()
-    {
-        adaptedTowerData.attackSpeed = towerData.AttackSpeed;
-    }
+
     public void RemoveBossImmuneBuff()
     {
         adaptedTowerData.bossImmunebuff = false;

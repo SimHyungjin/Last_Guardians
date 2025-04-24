@@ -66,8 +66,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void ChangeLayer()
     {
-        if (obstacle == null) return;
-        switch(obstacle.obstacleType)
+        switch(obstacleType)
         {
             case ObstacleType.Rock:
             case ObstacleType.Ruin:
@@ -108,7 +107,7 @@ public class BaseObstacle : MonoBehaviour
             zoneObj.transform.position = worldPos;
             var zone = zoneObj.GetComponent<PlantedEffect>();
             zone.Init(obstacle.obstacleType);
-            if (zoneObj != null) zones.Add(zoneObj);
+            zones.Add(zoneObj);
         }
     }
 

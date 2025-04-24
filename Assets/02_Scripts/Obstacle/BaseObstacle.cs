@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,26 +10,58 @@ public class BaseObstacle : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private NavMeshObstacle navMeshObstacle;
 
+    private ObstacleType obstacleType;
+    private Season season;
+    private Weather weather;
+
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
-    private void Start()
+    public void Init(ObstacleType _obstacleType)
     {
-        //테스트용
-        Init(ObstacleManager.Instance.GetData(ObstacleType.Fire, Season.All, Weather.All));
+        if (navMeshObstacle == null) navMeshObstacle = GetComponent<NavMeshObstacle>();
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        obstacleType = _obstacleType;
+        season = Season.All;
+        weather = Weather.All;
     }
 
-    public void Init(ObstacleData data)
+    public void Init(Season _season)
     {
-        if(navMeshObstacle == null) navMeshObstacle = GetComponent<NavMeshObstacle>();
-        obstacle = data;
+        season = _season;
+        ChangeObstacleData(FindObstacle());
+    }
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    public void Init(Weather _weather)
+    {
+        weather = _weather;
+        ChangeObstacleData(FindObstacle());
+    }
+
+    public void ChangeObstacleData(ObstacleData data)
+    {
+        obstacle = data;
         spriteRenderer.sprite = data.sprite;
 
         ChangeLayer();
         ChangeNavActive();
         SetZone();
+    }
+
+    private ObstacleData FindObstacle()
+    {
+        var list = ObstacleManager.Instance.GetAllObstacleData()
+        .Where(data => data.obstacleType == obstacleType)
+        .ToList();
+
+        return list.FirstOrDefault(data =>
+                   data.season == season && data.weather == weather) ??
+               list.FirstOrDefault(data =>
+                   data.season == season && data.weather == Weather.Default) ??
+               list.FirstOrDefault(data =>
+                   data.season == Season.Default && data.weather == weather) ??
+               list.FirstOrDefault(data =>
+                   data.season == Season.Default && data.weather == Weather.All);
     }
 
     private void ChangeLayer()

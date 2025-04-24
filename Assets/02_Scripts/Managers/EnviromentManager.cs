@@ -9,6 +9,7 @@ public enum Season
     summer,
     autumn,
     winter,
+    Default,
     All
 }
 

@@ -331,7 +331,6 @@ public class BaseMonster : MonoBehaviour
         {
             slowDown.UpdateEffect(amount, duration);
         }
-        Debug.Log("몬스터 슬로우버프 적용");
     }
 
     //슬로우 디버프 해제

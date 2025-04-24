@@ -10,6 +10,11 @@ public class FogWeather : IWeatherState
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
         InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
+        foreach(var obs in EnviromentManager.Instance.obstacles)
+        {
+            obs.Init(Weather.All);
+        }
+        
     }
 
     public void Exit()
@@ -28,6 +33,10 @@ public class StrongWindWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
+        foreach (var obs in EnviromentManager.Instance.obstacles)
+        {
+            obs.Init(Weather.All);
+        }
     }
 
     public void Exit()
@@ -50,7 +59,10 @@ public class RainWeather : IWeatherState
         {
             monsters.ApplySlowdown(0.9f, 1f);
         }
-        
+        foreach (var obs in EnviromentManager.Instance.obstacles)
+        {
+            obs.Init(Weather.All);
+        }
     }
 
     public void Exit()
@@ -76,6 +88,10 @@ public class DroughtWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
+        foreach (var obs in EnviromentManager.Instance.obstacles)
+        {
+            obs.Init(Weather.Drought);
+        }
     }
 
     public void Exit()
@@ -99,6 +115,10 @@ public class SnowWeather : IWeatherState
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.ApplySlowdown(0.85f, 1f);
+        }
+        foreach (var obs in EnviromentManager.Instance.obstacles)
+        {
+            obs.Init(Weather.Snow);
         }
     }
 
@@ -127,6 +147,10 @@ public class SunnyWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
+        foreach (var obs in EnviromentManager.Instance.obstacles)
+        {
+            obs.Init(Weather.All);
+        }
     }
 
     public void Exit()

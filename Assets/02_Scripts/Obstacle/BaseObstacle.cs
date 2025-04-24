@@ -6,21 +6,27 @@ using UnityEngine.AI;
 
 public class BaseObstacle : MonoBehaviour
 {
-    private ObstacleData obstacle;
+    [SerializeField] private ObstacleData obstacle;
     private SpriteRenderer spriteRenderer;
     private NavMeshObstacle navMeshObstacle;
 
-    private ObstacleType obstacleType;
-    private Season season;
-    private Weather weather;
+    [SerializeField] private ObstacleType obstacleType;
+    [SerializeField] private Season season;
+    [SerializeField] private Weather weather;
 
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
+    //private void Start()
+    //{
+    //    Init(ObstacleType.Water);
+    //    Init(Season.summer);
+    //}
+
     public void Init(ObstacleType _obstacleType)
     {
-        if (navMeshObstacle == null) navMeshObstacle = GetComponent<NavMeshObstacle>();
-        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
         obstacleType = _obstacleType;
         season = Season.Default;
         weather = Weather.Default;
@@ -66,8 +72,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void ChangeLayer()
     {
-        if (obstacle == null) return;
-        switch(obstacle.obstacleType)
+        switch(obstacleType)
         {
             case ObstacleType.Rock:
             case ObstacleType.Ruin:
@@ -108,7 +113,7 @@ public class BaseObstacle : MonoBehaviour
             zoneObj.transform.position = worldPos;
             var zone = zoneObj.GetComponent<PlantedEffect>();
             zone.Init(obstacle.obstacleType);
-            if (zoneObj != null) zones.Add(zoneObj);
+            zones.Add(zoneObj);
         }
     }
 

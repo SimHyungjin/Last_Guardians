@@ -130,7 +130,7 @@ public class MapPrefabsGenerator : MonoBehaviour
             var obstacleComponent = obj.GetComponent<BaseObstacle>();
             if (obstacleComponent != null)
             {
-                //obstacleComponent.Init((ObstacleType)enumIndex);
+                obstacleComponent.Init((ObstacleType)enumIndex);
             }
             else
             {

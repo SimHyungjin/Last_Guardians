@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d2d787940b89a448f1bd193c90377f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapPrefabs: []
   firstTilePositions:
   - {x: -6.5, y: 3.5}
   - {x: -5.5, y: 3.5}
@@ -193,3 +192,4 @@ MonoBehaviour:
   - {x: -3.5, y: -4.5}
   - {x: -2.5, y: -4.5}
   - {x: -1.5, y: -4.5}
+  ObstaclePrefab: {fileID: 5667446685700350282, guid: 40a785ec78a5f5745aa651de6a1c4b73, type: 3}

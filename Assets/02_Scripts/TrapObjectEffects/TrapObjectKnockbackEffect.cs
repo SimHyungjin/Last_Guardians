@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrapObjectKnockbackEffect : MonoBehaviour,ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff)
+    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
         if (Utils.ShouldApplyEffect(target, towerData,bossImmunebuff))
         {

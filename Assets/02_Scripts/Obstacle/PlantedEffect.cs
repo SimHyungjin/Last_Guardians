@@ -42,6 +42,12 @@ public class PlantedEffect : MonoBehaviour
                 baseTower.ScanPlantedObstacle();
                 return;
             }
+            TrapObject trapObject = hit.GetComponent<TrapObject>();
+            if (trapObject != null)
+            {
+                trapObject.ScanPlantedObstacle();
+                return;
+            }
         }
     }
     private void OnDestroy()

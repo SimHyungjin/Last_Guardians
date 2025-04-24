@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using System.Collections;
 public interface ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff);
+    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff, EnvironmentEffect environmentEffect);
 }
 public enum TrapObjectState
 {
@@ -23,7 +23,7 @@ public class TrapObject : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
 
-    public EnvironmentEffect effectType;
+    public EnvironmentEffect environmentEffect;
     private Coroutine activeEffectCoroutine;
     private Coroutine checkOverlapCoroutine;
     private TowerData towerData;
@@ -113,25 +113,39 @@ public class TrapObject : MonoBehaviour
                 return;
             }
         }
-        //Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlock);
+
+        Collider2D[] plantedObstcles = Physics2D.OverlapPointAll(pos, LayerMaskData.plantedObstacle);
+        foreach (var hit in plantedObstcles)
+        {
+            if (hit != null && hit.gameObject != gameObject)
+            {
+                ChageState(TrapObjectState.CantActive);
+                return;
+            }
+        }
+
+        Collider2D[] floorHits = Physics2D.OverlapPointAll(pos, LayerMaskData.obstacleZone);
+        environmentEffect.isNearWater = false;
+        environmentEffect.isNearFire = false;
+        foreach (var hit in floorHits)
+        {
+            PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
+            switch (plantedEffect.obstacleType)
+            {
+                case ObstacleType.Water:
+                    Debug.Log("설치위치옆에 물있음");
+                    environmentEffect.isNearWater = true;
+                    break;
+                case ObstacleType.Fire:
+                    Debug.Log("설치위치옆에 불있음");
+                    environmentEffect.isNearFire = true;
+                    break;
+
+            }
+        }
+
         Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMaskData.trapObject);
         checkOverlapCoroutine=StartCoroutine(CheckTrapOverlap(trapHits));
-
-
-
-        //foreach (var hit in trapHits)
-        //{
-        //    if (hit.gameObject == this.gameObject) continue;
-
-        //    TrapObject other = hit.GetComponent<TrapObject>();
-        //    if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
-        //    {
-        //        Debug.Log($"충돌체있음{other}");
-        //        ChageState(TrapObjectState.CantActive);
-        //        return;
-        //    }
-        //}
-        //ChageState(TrapObjectState.Ready);
     }
     private IEnumerator CheckTrapOverlap(Collider2D[] trapHits)
     {
@@ -196,7 +210,7 @@ public class TrapObject : MonoBehaviour
                     foreach (var hit in hits)
                     {
                         if (hit.GetComponent<BaseMonster>() == target) 
-                        effect.Apply(target, towerData, bossImmunebuff);
+                        effect.Apply(target, towerData, bossImmunebuff, environmentEffect);
                         break;
                     }
                 }
@@ -207,7 +221,7 @@ public class TrapObject : MonoBehaviour
                         BaseMonster monster = hit.GetComponent<BaseMonster>();
                         if (monster == null) continue;
 
-                        effect.Apply(monster, towerData, bossImmunebuff);
+                        effect.Apply(monster, towerData, bossImmunebuff, environmentEffect);
                     }
                 }
             }
@@ -322,9 +336,32 @@ public class TrapObject : MonoBehaviour
         foreach (var hit in hits)
         {
             BuffTower otherTower = hit.GetComponent<BuffTower>();
-            if (otherTower != null && otherTower != this)
+            if (otherTower != null)
             {
                 otherTower.ReApplyBuff();
+            }
+        }
+    }
+    public void ScanPlantedObstacle()
+    {
+        environmentEffect.isNearWater = false;
+        environmentEffect.isNearFire = false;
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.obstacleZone);
+        foreach (var hit in hits)
+        {
+            PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
+            switch (plantedEffect.obstacleType)
+            {
+                case ObstacleType.Water:
+                    Debug.Log("설치위치옆에 물있음");
+                    environmentEffect.isNearWater = true;
+                    break;
+                case ObstacleType.Fire:
+                    Debug.Log("설치위치옆에 불있음");
+                    environmentEffect.isNearFire = true;
+                    break;
+
             }
         }
     }

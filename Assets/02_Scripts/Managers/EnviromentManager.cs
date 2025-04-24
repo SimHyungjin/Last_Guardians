@@ -8,7 +8,8 @@ public enum Season
     spring,
     summer,
     autumn,
-    winter
+    winter,
+    all
 }
 
 public class EnviromentManager : Singleton<EnviromentManager>
@@ -32,7 +33,6 @@ public class EnviromentManager : Singleton<EnviromentManager>
         platform = Resources.Load<Platform>("Enviroment/Platform");
         //SetSeason(GameManager.Instance.NowTime);
         WeatherState.WeatherListInit(EnviromentManager.Instance.Season);
-
     }
 
     public void SetSeason(int min)
@@ -64,9 +64,12 @@ public class EnviromentManager : Singleton<EnviromentManager>
    
     IEnumerator StateUpdate()
     {
-        WeatherState.Update();
+        while (true)
+        {
+            WeatherState.Update();
 
-        yield return seconds;
+            yield return seconds;
+        }
     }
 
     private void OnDisable()
@@ -74,4 +77,5 @@ public class EnviromentManager : Singleton<EnviromentManager>
         StopCoroutine(stateCorutine);
         stateCorutine = null;
     }
+
 }

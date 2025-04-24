@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 public class ObstacleManager : Singleton<ObstacleManager>
 {
@@ -16,4 +17,6 @@ public class ObstacleManager : Singleton<ObstacleManager>
 
         return null;
     }
+
+    public ReadOnlyArray<ObstacleData> GetAllObstacleData() => obstacleDatas;
 }

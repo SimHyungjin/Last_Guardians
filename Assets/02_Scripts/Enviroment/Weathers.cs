@@ -35,11 +35,24 @@ public class StrongWindWeather : IWeatherState
         {
             obs.Init(Weather.Default);
         }
+
+        foreach (BaseTower tower in TowerManager.Instance.Towers)
+        {
+            AttackTower attackTower = tower as AttackTower;
+            if (attackTower.towerData.ElementType == ElementType.Wind)
+                attackTower.OnWindSpeedBuff();
+        }
     }
 
     public void Exit()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
+        foreach (BaseTower tower in TowerManager.Instance.Towers)
+        {
+            AttackTower attackTower = tower as AttackTower;
+            if (attackTower.towerData.ElementType == ElementType.Wind)
+                attackTower.OffWindSpeedBuff();
+        }
     }
 
     public void Update()

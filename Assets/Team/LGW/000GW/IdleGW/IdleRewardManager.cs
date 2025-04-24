@@ -31,15 +31,19 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     private void Update()
     {
+       
+        if (GetElapsedTime().TotalMinutes >= MAX_IDLE_MINUTES)
+            return;
+
         rewardTimer += Time.deltaTime;
 
-        // 실시간 보상 계산: 1분마다
-        while (rewardTimer >= REWARD_INTERVAL)
+        if (rewardTimer >= REWARD_INTERVAL)
         {
-            rewardTimer -= REWARD_INTERVAL;
+            rewardTimer = 0f;
             AccumulateReward();
         }
     }
+
 
     private void AccumulateReward()
     {
@@ -57,11 +61,16 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
     private void ApplyOfflineRewards()
     {
         TimeSpan offlineTime = DateTime.Now - lastRewardClaimTime;
-        int minutes = Mathf.Min((int)offlineTime.TotalMinutes, MAX_IDLE_MINUTES);
+        TimeSpan totalElapsed = DateTime.Now - sessionStartTime;
 
+        int alreadyAccumulatedMinutes = Mathf.FloorToInt((float)(lastRewardClaimTime - sessionStartTime).TotalMinutes);
+        int availableMinutes = Mathf.Clamp(MAX_IDLE_MINUTES - alreadyAccumulatedMinutes, 0, MAX_IDLE_MINUTES);
+
+        int minutes = Mathf.Min((int)offlineTime.TotalMinutes, availableMinutes);
         if (minutes <= 0) return;
 
         System.Random rng = new();
+
         for (int i = 0; i < minutes; i++)
         {
             pendingGold += rng.Next(20, 31);
@@ -69,13 +78,10 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
             if (rng.NextDouble() < 0.05) pendingEquip++;
         }
 
-       
-        lastRewardClaimTime = DateTime.Now;
-
-        SaveAll();
-
+        SavePendingRewards();
         Debug.Log($"[오프라인 보상] {minutes}분 → 골드+{pendingGold}, 강화석+{pendingStone}, 장비+{pendingEquip}");
     }
+
 
 
     public void ClaimReward()

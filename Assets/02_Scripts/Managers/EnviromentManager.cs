@@ -8,7 +8,8 @@ public enum Season
     spring,
     summer,
     autumn,
-    winter
+    winter,
+    All
 }
 
 public class EnviromentManager : Singleton<EnviromentManager>

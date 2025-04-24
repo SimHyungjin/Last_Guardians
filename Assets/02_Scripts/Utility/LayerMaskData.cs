@@ -14,4 +14,5 @@ public static class LayerMaskData
     public static readonly int ObstacleMask = LayerMask.NameToLayer("Obstacle");
     public static readonly int PlatformMask = LayerMask.NameToLayer("Platform");
     public static readonly int PlantedObstacleMask = LayerMask.NameToLayer("PlantedObstacle");
+    public static readonly int TrapObject = LayerMask.NameToLayer("ObstacleTrap");
 }

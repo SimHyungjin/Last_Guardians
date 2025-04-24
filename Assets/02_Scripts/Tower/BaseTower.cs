@@ -85,6 +85,7 @@ public abstract class BaseTower : MonoBehaviour
             }
             if (basePlantedObstacle != null)
             {
+                Debug.Log("설치위치에 장애물있음 다부신다");
                 Destroy(basePlantedObstacle.gameObject);
             }
             if (plantedEffect != null)
@@ -92,9 +93,11 @@ public abstract class BaseTower : MonoBehaviour
                 switch (plantedEffect.obstacleType)
                 {
                     case ObstacleType.Water:
+                        Debug.Log("설치위치옆에 물있음");
                         environmentEffect.isNearWater = true;
                         break;
                     case ObstacleType.Fire:
+                        Debug.Log("설치위치옆에 불있음");
                         environmentEffect.isNearFire = true;
                         break;
 

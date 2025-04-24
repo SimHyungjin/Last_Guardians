@@ -196,8 +196,17 @@ public class AttackTower : BaseTower
 
     public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
-        if(environmentEffect.isNearFire&&TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect==SpecialEffect.DotDamage)this.environmentEffect.isBuffAffectedByFire = true;
-        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow) this.environmentEffect.isBuffAffectedByWater = true;
+        if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage)
+        {
+            this.environmentEffect.isBuffAffectedByFire = true;
+            Debug.Log("버프타워중에 불옆에있는 타워가있음");
+        }
+
+        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow)
+        {
+            this.environmentEffect.isBuffAffectedByWater = true;
+            Debug.Log("버프타워중에 물옆에있는 타워가있음");
+        }
         bool found = false;
         if (buffTowerIndex.Contains(towerIndex)) return;
         for (int i = 0; i < buffTowerIndex.Count; i++)
@@ -227,8 +236,8 @@ public class AttackTower : BaseTower
         foreach (var hit in hits)
         {
             //나중에 계절도 추가
-            //if(EnvironmentManager.Instance.Season==Season.Winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
-            //else
+            if(EnviromentManager.Instance.Season==Season.winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
+            else
             adaptedTowerData.attackRange = towerData.AttackRange*1.15f;
             return;
         }

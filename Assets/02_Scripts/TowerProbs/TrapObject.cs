@@ -23,6 +23,7 @@ public class TrapObject : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
 
+    public EnvironmentEffect effectType;
     private Coroutine activeEffectCoroutine;
     private Coroutine checkOverlapCoroutine;
     private TowerData towerData;
@@ -112,6 +113,7 @@ public class TrapObject : MonoBehaviour
                 return;
             }
         }
+        //Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlock);
         Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMaskData.trapObject);
         checkOverlapCoroutine=StartCoroutine(CheckTrapOverlap(trapHits));
 

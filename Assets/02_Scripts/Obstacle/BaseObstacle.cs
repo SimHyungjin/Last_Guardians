@@ -15,7 +15,7 @@ public class BaseObstacle : MonoBehaviour
     private void Start()
     {
         //테스트용
-        Init(ObstacleManager.Instance.GetData(ObstacleType.Rock, Season.All, Weather.All));
+        Init(ObstacleManager.Instance.GetData(ObstacleType.Fire, Season.All, Weather.All));
     }
 
     public void Init(ObstacleData data)

@@ -9,12 +9,8 @@ public class FogWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
-        foreach(var obs in EnviromentManager.Instance.Obstacles)
-        {
-            obs.Init(Weather.Default);
-        }
-        
+
+        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
     }
 
     public void Exit()
@@ -25,6 +21,7 @@ public class FogWeather : IWeatherState
     public void Update()
     {
         InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
+
     }
 }
 
@@ -33,15 +30,29 @@ public class StrongWindWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        foreach (var obs in EnviromentManager.Instance.Obstacles)
+
+        foreach (var obs in EnviromentManager.Instance.Obstacles)// 장애물
         {
             obs.Init(Weather.Default);
+        }
+
+        foreach (BaseTower tower in TowerManager.Instance.Towers)
+        {
+            AttackTower attackTower = tower as AttackTower;
+            if (attackTower.towerData.ElementType == ElementType.Wind)
+                attackTower.OnWindSpeedBuff();
         }
     }
 
     public void Exit()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
+        foreach (BaseTower tower in TowerManager.Instance.Towers)
+        {
+            AttackTower attackTower = tower as AttackTower;
+            if (attackTower.towerData.ElementType == ElementType.Wind)
+                attackTower.OffWindSpeedBuff();
+        }
     }
 
     public void Update()
@@ -55,11 +66,15 @@ public class RainWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
+
+        foreach (var monsters in MonsterManager.Instance.AlliveMonsters) // 몬스터
         {
             monsters.ApplySlowdown(0.9f, 1f);
         }
-        foreach (var obs in EnviromentManager.Instance.Obstacles)
+
+       
+
+        foreach (var obs in EnviromentManager.Instance.Obstacles) // 장애물
         {
             obs.Init(Weather.Default);
         }

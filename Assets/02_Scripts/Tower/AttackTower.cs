@@ -227,10 +227,7 @@ public class AttackTower : BaseTower
         foreach (var hit in hits)
         {
             //나중에 계절도 추가
-            //if(EnvironmentManager.Instance.GetSeason()==Season.Wintor)
-            //{ 
-            //adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
-            //}
+            //if(EnvironmentManager.Instance.Season==Season.Winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
             //else
             adaptedTowerData.attackRange = towerData.AttackRange*1.15f;
             return;

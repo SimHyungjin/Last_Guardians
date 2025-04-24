@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -44,6 +45,8 @@ public class InGameManager : Singleton<InGameManager>
         UpdateHP();
         UpdateExp();
         exp = 0;
+        DateTime now = DateTime.Now;
+        GameManager.Instance.NowTime = now.Minute;
         EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
         mulliganUI.StartSelectCard();
     }

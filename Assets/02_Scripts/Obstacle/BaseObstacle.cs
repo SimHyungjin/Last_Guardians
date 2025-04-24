@@ -1,34 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BaseObstacle : MonoBehaviour
 {
-    private ObstacleData obstacle;
+    [SerializeField] private ObstacleData obstacle;
     private SpriteRenderer spriteRenderer;
+    private NavMeshObstacle navMeshObstacle;
+
+    [SerializeField] private ObstacleType obstacleType;
+    [SerializeField] private Season season;
+    [SerializeField] private Weather weather;
 
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
     //private void Start()
     //{
-    //    Init(ObstacleManager.Instance.GetData(Season.Spring, Weather.All, ObstacleType.Water));
+    //    Init(ObstacleType.Water);
+    //    Init(Season.summer);
     //}
-    public void Init(ObstacleData data)
+
+    public void Init(ObstacleType _obstacleType)
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
+        obstacleType = _obstacleType;
+        season = Season.Default;
+        weather = Weather.Default;
+        ChangeLayer();
+    }
+
+    public void Init(Season _season)
+    {
+        season = _season;
+        ChangeObstacleData(FindObstacle());
+    }
+
+    public void Init(Weather _weather)
+    {
+        weather = _weather;
+        ChangeObstacleData(FindObstacle());
+    }
+
+    public void ChangeObstacleData(ObstacleData data)
     {
         obstacle = data;
-
-        spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = data.sprite;
 
-        ChangeLayer();
+        ChangeNavActive();
         SetZone();
+    }
+
+    private ObstacleData FindObstacle()
+    {
+        var list = ObstacleManager.Instance.GetAllObstacleData()
+        .Where(data => data.obstacleType == obstacleType)
+        .ToList();
+
+        return list.FirstOrDefault(data =>
+                   data.season == season && data.weather == weather) ??
+               list.FirstOrDefault(data =>
+                   data.season == season && data.weather == Weather.Default) ??
+               list.FirstOrDefault(data =>
+                   data.season == Season.Default && data.weather == weather) ??
+               list.FirstOrDefault(data =>
+                   data.season == Season.Default && data.weather == Weather.Default);
     }
 
     private void ChangeLayer()
     {
-        if (obstacle == null) return;
-        switch(obstacle.obstacleType)
+        switch(obstacleType)
         {
             case ObstacleType.Rock:
             case ObstacleType.Ruin:
@@ -37,10 +81,19 @@ public class BaseObstacle : MonoBehaviour
             case ObstacleType.Platform:
                 gameObject.layer = LayerMaskData.PlatformMask;
                 break;
+            case ObstacleType.Trap:
+                gameObject.layer = LayerMaskData.TrapObject;
+                break;
             default:
                 gameObject.layer = LayerMaskData.PlantedObstacleMask;
                 break;
         }
+    }
+
+    private void ChangeNavActive()
+    {
+        if(obstacle == null) return;
+        navMeshObstacle.enabled = !(obstacle.passbyPlayer && obstacle.passbyMonster);
     }
 
     private Vector2[] offsets = new Vector2[]
@@ -50,6 +103,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void SetZone()
     {
+        zones.Clear();
         for (int i = 0; i < offsets.Length; i++)
         {
             Vector2 worldPos = (Vector2)transform.position + offsets[i];
@@ -59,7 +113,7 @@ public class BaseObstacle : MonoBehaviour
             zoneObj.transform.position = worldPos;
             var zone = zoneObj.GetComponent<PlantedEffect>();
             zone.Init(obstacle.obstacleType);
-            if (zoneObj != null) zones.Add(zoneObj);
+            zones.Add(zoneObj);
         }
     }
 

@@ -166,7 +166,7 @@ public class MonsterManager : Singleton<MonsterManager>
             alliveCount--;
             RemainMonsterCount--;
         }
-        MonsterKillCount++;
+        
         if (AlliveMonsters.Contains(monster))
         {
             AlliveMonsters.Remove(monster);

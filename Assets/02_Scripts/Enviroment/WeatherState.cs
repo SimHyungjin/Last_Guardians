@@ -103,7 +103,7 @@ public class WeatherState
         }
 
         //예외처리
-        return weathers[weathers.Count - 1].weather;
+        return weathers[0].weather;
     }
 
     public void Update()

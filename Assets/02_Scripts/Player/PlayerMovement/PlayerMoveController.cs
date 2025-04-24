@@ -17,6 +17,7 @@ public class PlayerMoveController : MonoBehaviour
         agent.updateRotation = true;
         agent.updatePosition = true;
     }
+
     public void Init()
     {
         agent.speed = InGameManager.Instance.playerManager.player.playerData.moveSpeed;
@@ -24,7 +25,6 @@ public class PlayerMoveController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!canMove) return;
         transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
     }
 
@@ -36,7 +36,7 @@ public class PlayerMoveController : MonoBehaviour
 
     public void SwipeStop()
     {
-        if (!isSwiping) return;
+        if (!isSwiping || !canMove) return;
         isSwiping = false;
 
         Vector3 target = InputManager.Instance.GetTouchWorldPosition();

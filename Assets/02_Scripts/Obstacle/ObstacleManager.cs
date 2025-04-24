@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 public class ObstacleManager : Singleton<ObstacleManager>
 {
     [SerializeField] private ObstacleData[] obstacleDatas;
 
-    public ObstacleData GetData(Season season, Weather weather, ObstacleType type)
+    public ObstacleData GetData(ObstacleType type, Season season, Weather weather)
     {
         foreach (var data in obstacleDatas)
         {
@@ -16,4 +17,6 @@ public class ObstacleManager : Singleton<ObstacleManager>
 
         return null;
     }
+
+    public ReadOnlyArray<ObstacleData> GetAllObstacleData() => obstacleDatas;
 }

@@ -39,8 +39,10 @@ public class StrongWindWeather : IWeatherState
         foreach (BaseTower tower in TowerManager.Instance.Towers)
         {
             AttackTower attackTower = tower as AttackTower;
-            if (attackTower.towerData.ElementType == ElementType.Wind)
+            if (attackTower == null) continue;
+            if (attackTower.towerData.ElementType == ElementType.Wind || attackTower.isSpeedBuffed)
                 attackTower.OnWindSpeedBuff();
+           
         }
     }
 
@@ -50,7 +52,8 @@ public class StrongWindWeather : IWeatherState
         foreach (BaseTower tower in TowerManager.Instance.Towers)
         {
             AttackTower attackTower = tower as AttackTower;
-            if (attackTower.towerData.ElementType == ElementType.Wind)
+            if (attackTower == null) continue;
+            if (attackTower.isWindBuffed)
                 attackTower.OffWindSpeedBuff();
         }
     }

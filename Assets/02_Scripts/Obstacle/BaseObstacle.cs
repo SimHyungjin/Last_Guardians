@@ -22,8 +22,9 @@ public class BaseObstacle : MonoBehaviour
         if (navMeshObstacle == null) navMeshObstacle = GetComponent<NavMeshObstacle>();
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         obstacleType = _obstacleType;
-        season = Season.All;
-        weather = Weather.All;
+        season = Season.Default;
+        weather = Weather.Default;
+        ChangeLayer();
     }
 
     public void Init(Season _season)
@@ -43,7 +44,6 @@ public class BaseObstacle : MonoBehaviour
         obstacle = data;
         spriteRenderer.sprite = data.sprite;
 
-        ChangeLayer();
         ChangeNavActive();
         SetZone();
     }
@@ -61,7 +61,7 @@ public class BaseObstacle : MonoBehaviour
                list.FirstOrDefault(data =>
                    data.season == Season.Default && data.weather == weather) ??
                list.FirstOrDefault(data =>
-                   data.season == Season.Default && data.weather == Weather.All);
+                   data.season == Season.Default && data.weather == Weather.Default);
     }
 
     private void ChangeLayer()
@@ -98,6 +98,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void SetZone()
     {
+        zones.Clear();
         for (int i = 0; i < offsets.Length; i++)
         {
             Vector2 worldPos = (Vector2)transform.position + offsets[i];

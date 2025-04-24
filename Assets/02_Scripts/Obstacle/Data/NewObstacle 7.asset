@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacleIndex: 7
   obstacleType: 2
-  season: 5
-  weather: 3
+  season: 4
+  weather: 2
   obstacleName: "\uC9C4\uD759"
   passbyPlayer: 1
   passbyMonster: 1

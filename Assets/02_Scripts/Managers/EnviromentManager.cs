@@ -66,9 +66,13 @@ public class EnviromentManager : Singleton<EnviromentManager>
    
     IEnumerator StateUpdate()
     {
-        WeatherState.Update();
-
-        yield return seconds;
+        while (true)
+        {
+            WeatherState.Update();
+            //Debug.Log("StateUpdate");
+            yield return seconds;
+        }
+        
     }
 
     private void OnDisable()

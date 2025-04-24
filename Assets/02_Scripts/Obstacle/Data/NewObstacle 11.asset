@@ -15,7 +15,7 @@ MonoBehaviour:
   obstacleIndex: 11
   obstacleType: 4
   season: 4
-  weather: 3
+  weather: 2
   obstacleName: "\uD3D0\uD5C8"
   passbyPlayer: 0
   passbyMonster: 0

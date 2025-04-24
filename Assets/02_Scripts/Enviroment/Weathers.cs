@@ -12,7 +12,7 @@ public class FogWeather : IWeatherState
         InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
         foreach(var obs in EnviromentManager.Instance.obstacles)
         {
-            obs.Init(Weather.All);
+            obs.Init(Weather.Default);
         }
         
     }
@@ -35,7 +35,7 @@ public class StrongWindWeather : IWeatherState
         Debug.Log($"날씨상태 : {this.GetType().Name}");
         foreach (var obs in EnviromentManager.Instance.obstacles)
         {
-            obs.Init(Weather.All);
+            obs.Init(Weather.Default);
         }
     }
 
@@ -61,7 +61,7 @@ public class RainWeather : IWeatherState
         }
         foreach (var obs in EnviromentManager.Instance.obstacles)
         {
-            obs.Init(Weather.All);
+            obs.Init(Weather.Default);
         }
     }
 
@@ -149,7 +149,7 @@ public class SunnyWeather : IWeatherState
         Debug.Log($"날씨상태 : {this.GetType().Name}");
         foreach (var obs in EnviromentManager.Instance.obstacles)
         {
-            obs.Init(Weather.All);
+            obs.Init(Weather.Default);
         }
     }
 

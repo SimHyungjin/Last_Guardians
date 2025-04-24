@@ -24,7 +24,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
     private List<GameObject> thirdObjectTemplates = new();
     private List<GameObject> fourthObjectTemplates = new();
 
-    public List<BaseObstacle> obstacles { get; private set; } = new();
+    public List<BaseObstacle> Obstacles { get; private set; } = new();
 
     private Coroutine stateCorutine;
     private static readonly WaitForSeconds waitForSeconds = new(0.2f);
@@ -42,12 +42,12 @@ public class EnviromentManager : Singleton<EnviromentManager>
         GameObject thridTemp = Instantiate(thirdObjectTemplates[0], this.transform);
         GameObject fourthTemp = Instantiate(fourthObjectTemplates[0], this.transform);
 
-        obstacles.AddRange(firstTemp.GetComponentsInChildren<BaseObstacle>());
-        obstacles.AddRange(scecondTemp.GetComponentsInChildren<BaseObstacle>());
-        obstacles.AddRange(thridTemp.GetComponentsInChildren<BaseObstacle>());
-        obstacles.AddRange(fourthTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(firstTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(scecondTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(thridTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(fourthTemp.GetComponentsInChildren<BaseObstacle>());
 
-        foreach(BaseObstacle obstacle in obstacles)
+        foreach(BaseObstacle obstacle in Obstacles)
         {
             obstacle.Init(Season);
         }

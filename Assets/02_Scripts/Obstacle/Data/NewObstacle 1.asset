@@ -15,7 +15,7 @@ MonoBehaviour:
   obstacleIndex: 1
   obstacleType: 0
   season: 4
-  weather: 3
+  weather: 2
   obstacleName: "\uBC14\uC704"
   passbyPlayer: 0
   passbyMonster: 0

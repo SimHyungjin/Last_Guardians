@@ -127,7 +127,14 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         SaveAll();
     }
 
-    public TimeSpan GetElapsedTime() => DateTime.Now - sessionStartTime;
+    public TimeSpan GetElapsedTime()
+    {
+        TimeSpan raw = DateTime.Now - sessionStartTime;
+        TimeSpan max = TimeSpan.FromMinutes(MAX_IDLE_MINUTES);
+
+        return raw > max ? max : raw;
+    }
+
 
     public int Gold => pendingGold;
     public int Stone => pendingStone;

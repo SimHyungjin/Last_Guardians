@@ -10,7 +10,7 @@ public class FogWeather : IWeatherState
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
         InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
-        foreach(var obs in EnviromentManager.Instance.obstacles)
+        foreach(var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Default);
         }
@@ -33,7 +33,7 @@ public class StrongWindWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        foreach (var obs in EnviromentManager.Instance.obstacles)
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Default);
         }
@@ -59,7 +59,7 @@ public class RainWeather : IWeatherState
         {
             monsters.ApplySlowdown(0.9f, 1f);
         }
-        foreach (var obs in EnviromentManager.Instance.obstacles)
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Default);
         }
@@ -88,7 +88,7 @@ public class DroughtWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        foreach (var obs in EnviromentManager.Instance.obstacles)
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Drought);
         }
@@ -116,7 +116,7 @@ public class SnowWeather : IWeatherState
         {
             monsters.ApplySlowdown(0.85f, 1f);
         }
-        foreach (var obs in EnviromentManager.Instance.obstacles)
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Snow);
         }
@@ -147,7 +147,7 @@ public class SunnyWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        foreach (var obs in EnviromentManager.Instance.obstacles)
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Default);
         }

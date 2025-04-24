@@ -110,4 +110,9 @@ public class WeatherState
     {
         currentState?.Update();
     }
+
+    public IWeatherState GetCurrentState()
+    {
+        return currentState;
+    }
 }

@@ -86,8 +86,8 @@ public abstract class BaseTower : MonoBehaviour
             if (basePlantedObstacle != null)
             {
                 Debug.Log("설치위치에 장애물있음 다부신다");
-                if(EnviromentManager.Instance.obstacles.Contains(basePlantedObstacle))
-                    EnviromentManager.Instance.obstacles.Remove(basePlantedObstacle);
+                if(EnviromentManager.Instance.Obstacles.Contains(basePlantedObstacle))
+                    EnviromentManager.Instance.Obstacles.Remove(basePlantedObstacle);
                 Destroy(basePlantedObstacle.gameObject);
             }
             if (plantedEffect != null)

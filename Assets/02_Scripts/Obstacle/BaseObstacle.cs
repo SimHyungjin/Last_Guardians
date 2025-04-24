@@ -23,10 +23,16 @@ public class BaseObstacle : MonoBehaviour
     //    Init(Season.summer);
     //}
 
-    public void Init(ObstacleType _obstacleType)
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         navMeshObstacle = GetComponent<NavMeshObstacle>();
+    }
+
+    public void Init(ObstacleType _obstacleType)
+    {
+        //spriteRenderer = GetComponent<SpriteRenderer>();
+        //navMeshObstacle = GetComponent<NavMeshObstacle>();
         obstacleType = _obstacleType;
         season = Season.Default;
         weather = Weather.Default;
@@ -48,7 +54,7 @@ public class BaseObstacle : MonoBehaviour
     public void ChangeObstacleData(ObstacleData data)
     {
         obstacle = data;
-        spriteRenderer.sprite = data.sprite;
+        //spriteRenderer.sprite = data.sprite;
 
         ChangeNavActive();
         SetZone();

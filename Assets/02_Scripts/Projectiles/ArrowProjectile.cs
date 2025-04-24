@@ -70,8 +70,8 @@ public class ArrowProjectile : ProjectileBase
             for (int i = 0; i < effects.Count; i++)
             {
                 if (effects[i] == null) continue;
-                if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
-                else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower);
+                if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance,environmentEffect);
+                else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower,environmentEffect);
 
             }
 

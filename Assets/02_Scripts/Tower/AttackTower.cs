@@ -39,6 +39,8 @@ public class AttackTower : BaseTower
 
     public AdaptedTowerData adaptedTowerData;
 
+    float attackSpeedBuff = 1f;  
+    float windBuff = 1f;         
     //private bool Disable;
 
     public override void Init(TowerData data)
@@ -134,7 +136,7 @@ public class AttackTower : BaseTower
                 }
                 else
                 {
-                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
+                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex,environmentEffect);
                 }
                 break;
             default:
@@ -167,13 +169,38 @@ public class AttackTower : BaseTower
         adaptedTowerData.attackPower = towerData.AttackPower + towerData.AttackPower * buff;
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
+
+    void UpdateAttackSpeed()
+    {
+        float totalBuff = attackSpeedBuff * windBuff;
+        adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed * totalBuff);
+    }
     public void AttackSpeedBuff(float buff)
     {
-        if (1f / (towerData.AttackSpeed * buff) < adaptedTowerData.attackSpeed)
-            adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed*buff);
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {adaptedTowerData.attackSpeed}");
+        if (buff > attackSpeedBuff)
+        {
+            attackSpeedBuff = buff;
+            UpdateAttackSpeed();
+        }
     }
 
+    public void RemoveAttackSpeedBuff()
+    {
+        attackSpeedBuff = 1f;
+        UpdateAttackSpeed();
+    }
+
+    public void OnWindSpeedBuff()
+    {
+        windBuff = 1.2f;
+        UpdateAttackSpeed();
+    }
+
+    public void OffWindSpeedBuff()
+    {
+        windBuff = 1f;
+        UpdateAttackSpeed();
+    }
     public void BossImmuneBuff()
     {
         adaptedTowerData.bossImmunebuff = true;

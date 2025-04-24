@@ -109,6 +109,7 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
     
+
     
     protected virtual void Update()
     {
@@ -181,6 +182,26 @@ public abstract class BaseTower : MonoBehaviour
             if (otherTower != null && otherTower != this)
             {
                 otherTower.ReApplyBuff();
+            }
+        }
+    }
+    public void ScanPlantedObstacle()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.obstacleZone);
+        foreach (var hit in hits)
+        {
+            PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
+            switch (plantedEffect.obstacleType)
+            {
+                case ObstacleType.Water:
+                    Debug.Log("설치위치옆에 물있음");
+                    environmentEffect.isNearWater = true;
+                    break;
+                case ObstacleType.Fire:
+                    Debug.Log("설치위치옆에 불있음");
+                    environmentEffect.isNearFire = true;
+                    break;
+
             }
         }
     }

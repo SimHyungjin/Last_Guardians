@@ -7,9 +7,9 @@ public class ArrowProjectile : ProjectileBase
 {
     public BaseMonster target;
     [SerializeField] private bool hasHit = false;
-    public override void Init(TowerData _towerData,AdaptedTowerData _adaptedTowerData,List<int> _effectslist)
+    public override void Init(TowerData _towerData,AdaptedTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
-        base.Init(_towerData, _adaptedTowerData, _effectslist);
+        base.Init(_towerData, _adaptedTowerData, _effectslist,_environmentEffect);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         string path = $"Assets/91_Disign/Sprite/ProjectileImage/Arrows/{spritename}.png";

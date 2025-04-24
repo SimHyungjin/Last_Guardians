@@ -19,7 +19,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected float Range = 5f;
     protected float offset = 0.5f;
     protected AdaptedTowerData adaptedTower;
-
+    protected EnvironmentEffect environmentEffect;
     protected Vector2 direction;
     protected Vector2 startPos;
     protected Vector2 targetPos;
@@ -42,13 +42,14 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         //    PoolManager.Instance.Despawn(this);
         //}
     }
-    public virtual void Init(TowerData _towerData, AdaptedTowerData _adaptedTower, List<int> _effectslist) 
+    public virtual void Init(TowerData _towerData, AdaptedTowerData _adaptedTower, List<int> _effectslist,EnvironmentEffect _environmentEffect) 
     {
 
         rb = GetComponent<Rigidbody2D>();
         towerData = _towerData;
         effectslist = _effectslist;
         adaptedTower = _adaptedTower;
+        environmentEffect = _environmentEffect;
     }
     public virtual void OnSpawn()
     {

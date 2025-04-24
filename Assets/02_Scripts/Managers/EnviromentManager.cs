@@ -26,6 +26,8 @@ public class EnviromentManager : Singleton<EnviromentManager>
 
     public List<BaseObstacle> Obstacles { get; private set; } = new();
 
+    public int WeatherCycle { get; private set; } = 5;
+
     private Coroutine stateCorutine;
     private static readonly WaitForSeconds waitForSeconds = new(0.2f);
 

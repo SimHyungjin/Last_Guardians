@@ -71,6 +71,8 @@ public class BaseMonster : MonoBehaviour
 
     private WaitForSeconds blinkSeconds;
 
+    private Vector2 movedirection;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -167,12 +169,9 @@ public class BaseMonster : MonoBehaviour
     private void FixedUpdate()
     {
         //왼쪽 오른쪽 뒤집기
-        if (transform.position.x > 0)
-            spriteRenderer.flipX = false;
-        else
-            spriteRenderer.flipX = true;
+        FlipSpritebyDirection();
 
-        if(!isAttack && !isSturn)
+        if (!isAttack && !isSturn)
             Move();
 
         if(!isAttack && Physics2D.OverlapCircle(this.transform.position,AttackRange,targetLayer))
@@ -181,6 +180,20 @@ public class BaseMonster : MonoBehaviour
             agent.SetDestination(transform.position);
         }
     }
+
+    private void FlipSpritebyDirection()
+    {
+        movedirection = new Vector2(agent.velocity.x,agent.velocity.y).normalized;
+
+        if (movedirection.x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else
+        {
+            spriteRenderer.flipX = true;
+        }
+    }   
 
     private void Move()
     {

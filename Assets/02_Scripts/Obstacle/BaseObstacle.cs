@@ -17,10 +17,15 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
+    private void Start()
+    {
+        Init(ObstacleType.Rock);
+    }
+
     public void Init(ObstacleType _obstacleType)
     {
-        if (navMeshObstacle == null) navMeshObstacle = GetComponent<NavMeshObstacle>();
-        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
         obstacleType = _obstacleType;
         season = Season.Default;
         weather = Weather.Default;

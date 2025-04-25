@@ -3,24 +3,27 @@ using UnityEngine;
 
 public class IdleRewardManager : Singleton<IdleRewardManager>
 {
-    private const int MAX_IDLE_MINUTES = 240;
-    private const float REWARD_INTERVAL = 60f;
+    private const int MAX_IDLE_MINUTES = 1440; // 24시간
+    private const float REWARD_INTERVAL_MINUTES = 60f;
 
     private DateTime sessionStartTime;
     private DateTime lastRewardClaimTime;
-    private float rewardTimer;
 
     private int pendingGold;
     private int pendingStone;
     private int pendingEquip;
+    private float accumulatedStone = 0f;
+    public int Gold => pendingGold;
+    public int Stone => pendingStone;
+    public int Equip => pendingEquip;
+
+    public TimeSpan TotalElapsed => GetCappedElapsed();
+    public TimeSpan NextRewardIn => TimeSpan.FromMinutes(REWARD_INTERVAL_MINUTES) - TimeSpan.FromMinutes(TotalElapsed.TotalMinutes % REWARD_INTERVAL_MINUTES);
 
     private void Start()
     {
-        string startTimeStr = PlayerPrefs.GetString("IdleSessionStart", string.Empty);
-        string lastClaimStr = PlayerPrefs.GetString("IdleLastClaimTime", string.Empty);
-
-        sessionStartTime = string.IsNullOrEmpty(startTimeStr) ? DateTime.Now : DateTime.Parse(startTimeStr);
-        lastRewardClaimTime = string.IsNullOrEmpty(lastClaimStr) ? sessionStartTime : DateTime.Parse(lastClaimStr);
+        sessionStartTime = DateTime.Parse(PlayerPrefs.GetString("IdleSessionStart", DateTime.Now.ToString()));
+        lastRewardClaimTime = DateTime.Parse(PlayerPrefs.GetString("IdleLastClaimTime", sessionStartTime.ToString()));
 
         pendingGold = PlayerPrefs.GetInt("IdlePendingGold", 0);
         pendingStone = PlayerPrefs.GetInt("IdlePendingStone", 0);
@@ -31,58 +34,49 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     private void Update()
     {
-       
-        if (GetElapsedTime().TotalMinutes >= MAX_IDLE_MINUTES)
-            return;
+        var elapsed = TotalElapsed.TotalMinutes;
+        int rewardCount = Mathf.FloorToInt((float)elapsed / REWARD_INTERVAL_MINUTES);
+        int alreadyRewarded = PlayerPrefs.GetInt("IdleRewardCount", 0);
 
-        rewardTimer += Time.deltaTime;
-
-        if (rewardTimer >= REWARD_INTERVAL)
+        while (alreadyRewarded < rewardCount)
         {
-            rewardTimer = 0f;
-            AccumulateReward();
+            GrantReward();
+            alreadyRewarded++;
+            PlayerPrefs.SetInt("IdleRewardCount", alreadyRewarded);
         }
     }
 
-
-    private void AccumulateReward()
+    private void GrantReward()
     {
-        System.Random rng = new();
+        int maxWave = Mathf.Max(1, PlayerPrefs.GetInt("IdleMaxWave", 1));
+        float waveBonus = 0.1f * (maxWave / 5f); // 예: 30 → 0.6
 
-        int gold = rng.Next(20, 31);
+        // 골드: 100 × (1 + 웨이브 보너스)
+        int gold = Mathf.RoundToInt(100f * (1f + waveBonus));
         pendingGold += gold;
-        if (rng.NextDouble() < 0.10) pendingStone++;
-        if (rng.NextDouble() < 0.05) pendingEquip++;
+
+        // 강화석: 누적 방식 (시간당 0.5개 × 보너스 포함)
+        float stoneGain = 0.5f * (1f + waveBonus);
+        accumulatedStone += stoneGain;
+        while (accumulatedStone >= 1f)
+        {
+            pendingStone += 1;
+            accumulatedStone -= 1f;
+        }
+
+        // 장비: 5% 확률
+        if (UnityEngine.Random.value < 0.05f)
+            pendingEquip++;
 
         SavePendingRewards();
-        Debug.Log($"[실시간 보상] 골드+{gold}, 강화석:{pendingStone}, 장비:{pendingEquip}");
+
+        Debug.Log($"[보상 지급] 골드+{gold}, 누적 골드:{pendingGold}, 강화석:{pendingStone}, 장비:{pendingEquip}");
     }
 
     private void ApplyOfflineRewards()
     {
-        TimeSpan offlineTime = DateTime.Now - lastRewardClaimTime;
-        TimeSpan totalElapsed = DateTime.Now - sessionStartTime;
-
-        int alreadyAccumulatedMinutes = Mathf.FloorToInt((float)(lastRewardClaimTime - sessionStartTime).TotalMinutes);
-        int availableMinutes = Mathf.Clamp(MAX_IDLE_MINUTES - alreadyAccumulatedMinutes, 0, MAX_IDLE_MINUTES);
-
-        int minutes = Mathf.Min((int)offlineTime.TotalMinutes, availableMinutes);
-        if (minutes <= 0) return;
-
-        System.Random rng = new();
-
-        for (int i = 0; i < minutes; i++)
-        {
-            pendingGold += rng.Next(20, 31);
-            if (rng.NextDouble() < 0.10) pendingStone++;
-            if (rng.NextDouble() < 0.05) pendingEquip++;
-        }
-
-        SavePendingRewards();
-        Debug.Log($"[오프라인 보상] {minutes}분 → 골드+{pendingGold}, 강화석+{pendingStone}, 장비+{pendingEquip}");
+        Update();
     }
-
-
 
     public void ClaimReward()
     {
@@ -91,22 +85,19 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         for (int i = 0; i < pendingEquip; i++)
             SaveSystem.SaveEquipReward(0); // 실제 장비 인덱스로 대체 가능
 
-        
         Debug.Log($"[보상 수령 완료] 골드: {pendingGold}, 강화석: {pendingStone}, 장비: {pendingEquip}");
 
-        // 보상 수치 초기화
         pendingGold = 0;
         pendingStone = 0;
         pendingEquip = 0;
 
-        // 타이머 초기화
         lastRewardClaimTime = DateTime.Now;
         sessionStartTime = DateTime.Now;
 
+        PlayerPrefs.SetInt("IdleRewardCount", 0);
         SaveAll();
         SaveSystem.SaveGame();
     }
-
 
     private void SavePendingRewards()
     {
@@ -123,6 +114,14 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         PlayerPrefs.Save();
     }
 
+    private TimeSpan GetCappedElapsed()
+    {
+        TimeSpan elapsed = DateTime.Now - sessionStartTime;
+        return elapsed.TotalMinutes > MAX_IDLE_MINUTES
+            ? TimeSpan.FromMinutes(MAX_IDLE_MINUTES)
+            : elapsed;
+    }
+
     private void OnApplicationPause(bool pause)
     {
         if (pause) SaveAll();
@@ -132,17 +131,4 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
     {
         SaveAll();
     }
-
-    public TimeSpan GetElapsedTime()
-    {
-        TimeSpan raw = DateTime.Now - sessionStartTime;
-        TimeSpan max = TimeSpan.FromMinutes(MAX_IDLE_MINUTES);
-
-        return raw > max ? max : raw;
-    }
-
-
-    public int Gold => pendingGold;
-    public int Stone => pendingStone;
-    public int Equip => pendingEquip;
 }

@@ -9,15 +9,16 @@ public class IdleRewardPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stoneText;
     [SerializeField] private TextMeshProUGUI equipText;
     [SerializeField] private TextMeshProUGUI elapsedTimeText;
+    [SerializeField] private TextMeshProUGUI nextRewardText;
     [SerializeField] private Button claimButton;
-    [SerializeField] private Button closeButton;  
+    [SerializeField] private Button closeButton;
     [SerializeField] private GameObject ScreenBlocker;
 
     private void Start()
     {
         panel.SetActive(false);
         claimButton.onClick.AddListener(OnClickClaim);
-        closeButton.onClick.AddListener(() => panel.SetActive(false));
+        closeButton.onClick.AddListener(ClosePopup);
     }
 
     private void Update()
@@ -32,10 +33,11 @@ public class IdleRewardPopup : MonoBehaviour
         ScreenBlocker.SetActive(true);
         UpdateTexts();
     }
+
     public void ClosePopup()
     {
         panel.SetActive(false);
-        ScreenBlocker.SetActive(false); 
+        ScreenBlocker.SetActive(false);
     }
 
     private void UpdateTexts()
@@ -44,8 +46,11 @@ public class IdleRewardPopup : MonoBehaviour
         stoneText.text = $"강화석 +{IdleRewardManager.Instance.Stone}";
         equipText.text = $"장비 +{IdleRewardManager.Instance.Equip}";
 
-        var time = IdleRewardManager.Instance.GetElapsedTime();
-        elapsedTimeText.text = $"누적 시간: {time.Hours:D2}:{time.Minutes:D2}:{time.Seconds:D2}";
+        var elapsed = IdleRewardManager.Instance.TotalElapsed;
+        elapsedTimeText.text = $"누적 시간: {Mathf.FloorToInt((float)elapsed.TotalHours)}시간";
+
+        var next = IdleRewardManager.Instance.NextRewardIn;
+        nextRewardText.text = $"다음 보상까지: {Mathf.FloorToInt((float)next.TotalMinutes)}분 남음";
     }
 
     private void OnClickClaim()

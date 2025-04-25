@@ -1,5 +1,6 @@
 public class TowerBuffMonsterReducionDef : ITowerBuff
 {
+    float addWeatherValue = 0f;
     public void ApplyBuffToTower(BaseTower tower, TowerData data,EnvironmentEffect environmentEffect)
     {
 
@@ -9,6 +10,18 @@ public class TowerBuffMonsterReducionDef : ITowerBuff
     }
     public void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect)
     {
-        monster.ApplyReducionDef(data.EffectValue, data.EffectValue);
+        isFog();
+        monster.ApplyReducionDef(data.EffectValue+ addWeatherValue, data.EffectValue);
+    }
+    public void isFog()
+    {
+        if (EnviromentManager.Instance.WeatherState.GetCurrentState() is FogWeather)
+        {
+            addWeatherValue = 0.15f;
+        }
+        else
+        {
+            addWeatherValue = 0f;
+        }
     }
 }

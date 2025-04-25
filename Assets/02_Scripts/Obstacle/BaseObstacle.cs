@@ -23,16 +23,26 @@ public class BaseObstacle : MonoBehaviour
     //    Init(Season.summer);
     //}
 
-    public void Init(ObstacleType _obstacleType)
+    private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         navMeshObstacle = GetComponent<NavMeshObstacle>();
+    }
+
+    public void Init(ObstacleType _obstacleType)
+    {
+        //spriteRenderer = GetComponent<SpriteRenderer>();
+        //navMeshObstacle = GetComponent<NavMeshObstacle>();
         obstacleType = _obstacleType;
         season = Season.Default;
         weather = Weather.Default;
         ChangeLayer();
     }
 
+    private void OnDestroy()
+    {
+        DestroyZone();
+    }
     public void Init(Season _season)
     {
         season = _season;
@@ -48,7 +58,7 @@ public class BaseObstacle : MonoBehaviour
     public void ChangeObstacleData(ObstacleData data)
     {
         obstacle = data;
-        spriteRenderer.sprite = data.sprite;
+        //spriteRenderer.sprite = data.sprite;
 
         ChangeNavActive();
         SetZone();
@@ -103,7 +113,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void SetZone()
     {
-        zones.Clear();
+        DestroyZone();
         for (int i = 0; i < offsets.Length; i++)
         {
             Vector2 worldPos = (Vector2)transform.position + offsets[i];
@@ -132,6 +142,16 @@ public class BaseObstacle : MonoBehaviour
                 break;
         }
     }
+
+    private void DestroyZone()
+    {
+        foreach (var zone in zones)
+        {
+            Destroy(zone);
+        }
+        zones.Clear();
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

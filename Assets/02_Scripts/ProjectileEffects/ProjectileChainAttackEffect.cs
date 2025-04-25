@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         if (towerData.EffectTargetCount == 0)
         {
@@ -37,7 +37,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedTowerData adaptedTowerData, float chance)
+    public void Apply(BaseMonster target, TowerData towerData,AdaptedTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
 
     }
@@ -81,19 +81,19 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                     magicprojectile.OriginTarget = target;
                     magicprojectile.transform.position = spawnPosition;
                     magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself);
+                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself,null);
                     TowerManager.Instance.projectileFactory.AddAllEffects(magicprojectile, effectsubself);
                     magicprojectile.Launch(origin + dir * 10f);
                     break;
-                case ProjectileType.Blast:
-                    BlastProjectile blastProjectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData));
+                //case ProjectileType.Blast:
+                //    BlastProjectile blastProjectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData));
 
-                    blastProjectile.OriginTarget = target;
-                    blastProjectile.transform.position = spawnPosition;
-                    blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                    blastProjectile.Init(ownerTowerData, adaptedTowerData, null);
-                    blastProjectile.Launch(origin + dir * 0.3f);
-                    break;
+                //    blastProjectile.OriginTarget = target;
+                //    blastProjectile.transform.position = spawnPosition;
+                //    blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                //    blastProjectile.Init(ownerTowerData, adaptedTowerData, null);
+                //    blastProjectile.Launch(origin + dir * 0.3f);
+                //    break;
             }
         }
     }

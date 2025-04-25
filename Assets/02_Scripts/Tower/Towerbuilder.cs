@@ -326,9 +326,22 @@ public class Towerbuilder : MonoBehaviour
     }
     public void OnAttackRangeCircle(Vector2 constructPos,TowerData towerData)
     {
-        attackRangeCircle.gameObject.SetActive(true);
+        float scaleMultiplier = 1f;
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(constructPos, LayerMaskData.platform);
+        bool isOnPlatform = hits.Length > 0;
+
+        if (isOnPlatform)
+        {
+            if (EnviromentManager.Instance.Season == Season.winter)
+                scaleMultiplier = 1.1f;
+            else
+                scaleMultiplier = 1.5f;
+        }
+
         attackRangeCircle.transform.position = constructPos;
-        attackRangeCircle.transform.localScale = new Vector3(towerData.AttackRange, towerData.AttackRange, 1);
+        attackRangeCircle.transform.localScale = new Vector3(towerData.AttackRange * scaleMultiplier, towerData.AttackRange * scaleMultiplier, 1);
+        attackRangeCircle.gameObject.SetActive(true);
     }
 
     public void EndAttackRangeCircle()

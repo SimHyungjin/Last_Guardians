@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {
@@ -12,7 +12,7 @@ public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedTowerData adaptedTowerData ,float chance)
+    public void Apply(BaseMonster target, TowerData towerData,AdaptedTowerData adaptedTowerData ,float chance,EnvironmentEffect environmentEffect)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,26 +16,43 @@ public enum Season
 
 public class EnviromentManager : Singleton<EnviromentManager>
 {
-    //계절 판별
-    //날씨 판별
-    //플랫폼 배치
-
-    private Platform platform;
-    public List<Platform> Platforms { get; private set; } = new List<Platform>();
     public WeatherState WeatherState { get; private set; }
     public Season Season { get; private set; }
 
+    private List<GameObject> firstObjectTemplates = new();
+    private List<GameObject> secondObjectTemplates = new();
+    private List<GameObject> thirdObjectTemplates = new();
+    private List<GameObject> fourthObjectTemplates = new();
+
+    public List<BaseObstacle> Obstacles { get; private set; } = new();
+
     private Coroutine stateCorutine;
-    private WaitForSeconds seconds = new WaitForSeconds(0.2f);
+    private static readonly WaitForSeconds waitForSeconds = new(0.2f);
 
     private void Start()
     {
         WeatherState = new WeatherState();
         stateCorutine = StartCoroutine(StateUpdate());
-        platform = Resources.Load<Platform>("Enviroment/Platform");
         //SetSeason(GameManager.Instance.NowTime);
         WeatherState.WeatherListInit(EnviromentManager.Instance.Season);
+        InitTempleats();
 
+        GameObject firstTemp = Instantiate(firstObjectTemplates[0],this.transform);
+        GameObject scecondTemp = Instantiate(secondObjectTemplates[0],this.transform);
+        GameObject thridTemp = Instantiate(thirdObjectTemplates[0], this.transform);
+        GameObject fourthTemp = Instantiate(fourthObjectTemplates[0], this.transform);
+
+        Obstacles.AddRange(firstTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(scecondTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(thridTemp.GetComponentsInChildren<BaseObstacle>());
+        Obstacles.AddRange(fourthTemp.GetComponentsInChildren<BaseObstacle>());
+
+        foreach(BaseObstacle obstacle in Obstacles)
+        {
+            obstacle.Init(Season);
+        }
+
+        
     }
 
     public void SetSeason(int min)
@@ -69,10 +87,22 @@ public class EnviromentManager : Singleton<EnviromentManager>
         while (true)
         {
             WeatherState.Update();
-            //Debug.Log("StateUpdate");
-            yield return seconds;
+            yield return waitForSeconds;
         }
         
+    }
+
+    private void InitTempleats()
+    {
+        firstObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/First").ToList();
+        secondObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/Second").ToList();
+        thirdObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/Third").ToList();
+        fourthObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/Fourth").ToList();
+
+        Utils.Shuffle(firstObjectTemplates);
+        Utils.Shuffle(secondObjectTemplates);
+        Utils.Shuffle(thirdObjectTemplates);
+        Utils.Shuffle(fourthObjectTemplates);
     }
 
     private void OnDisable()

@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 public interface IEffect
 {
-    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData);
-    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData,EnvironmentEffect environmentEffect);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance,EnvironmentEffect environmentEffect);
 }
 
 
@@ -51,7 +51,7 @@ public class ProjectileFactory : MonoBehaviour
                 Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
     }
-    public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData,AdaptedTowerData adaptedTowerData ,Transform parent,List<int> buffTowerIndex) where T : ProjectileBase
+    public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData,AdaptedTowerData adaptedTowerData ,Transform parent,List<int> buffTowerIndex,EnvironmentEffect environmentEffect) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
         {
@@ -67,11 +67,11 @@ public class ProjectileFactory : MonoBehaviour
         }
 
         var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
-        projectile.Init(towerData, adaptedTowerData ,buffTowerIndex);
+        projectile.Init(towerData, adaptedTowerData ,buffTowerIndex,environmentEffect);
         AddAllEffects(projectile, buffTowerIndex);
         projectile.Launch(targetPos); // 이펙트 추가
     }
-    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedTowerData adaptedTowerData ,Transform parent, List<int> buffTowerIndex,int shotCount) where T : ProjectileBase
+    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedTowerData adaptedTowerData ,Transform parent, List<int> buffTowerIndex,int shotCount, EnvironmentEffect environmentEffect) where T : ProjectileBase
     {
         
             if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab)) return;
@@ -97,7 +97,7 @@ public class ProjectileFactory : MonoBehaviour
                 var projectile = PoolManager.Instance.Spawn(castedPrefab, parent);
                 projectile.transform.position = launchPos;
                 projectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, rotatedDir));
-                projectile.Init(towerData, adaptedTowerData, buffTowerIndex);
+                projectile.Init(towerData, adaptedTowerData, buffTowerIndex,environmentEffect);
                 AddAllEffects(projectile, buffTowerIndex);
                 projectile.Launch(origin + rotatedDir * 10f);
             }

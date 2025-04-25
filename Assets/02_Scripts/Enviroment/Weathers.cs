@@ -9,7 +9,8 @@ public class FogWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
+
+        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
     }
 
     public void Exit()
@@ -20,6 +21,7 @@ public class FogWeather : IWeatherState
     public void Update()
     {
         InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
+
     }
 }
 
@@ -28,11 +30,32 @@ public class StrongWindWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
+
+        foreach (var obs in EnviromentManager.Instance.Obstacles)// 장애물
+        {
+            obs.Init(Weather.Default);
+        }
+
+        foreach (BaseTower tower in TowerManager.Instance.Towers)
+        {
+            AttackTower attackTower = tower as AttackTower;
+            if (attackTower == null) continue;
+            if (attackTower.towerData.ElementType == ElementType.Wind || attackTower.isSpeedBuffed)
+                attackTower.OnWindSpeedBuff();
+           
+        }
     }
 
     public void Exit()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
+        foreach (BaseTower tower in TowerManager.Instance.Towers)
+        {
+            AttackTower attackTower = tower as AttackTower;
+            if (attackTower == null) continue;
+            if (attackTower.isWindBuffed)
+                attackTower.OffWindSpeedBuff();
+        }
     }
 
     public void Update()
@@ -46,11 +69,18 @@ public class RainWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
+
+        foreach (var monsters in MonsterManager.Instance.AlliveMonsters) // 몬스터
         {
             monsters.ApplySlowdown(0.9f, 1f);
         }
-        
+
+       
+
+        foreach (var obs in EnviromentManager.Instance.Obstacles) // 장애물
+        {
+            obs.Init(Weather.Default);
+        }
     }
 
     public void Exit()
@@ -76,6 +106,10 @@ public class DroughtWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
+        {
+            obs.Init(Weather.Drought);
+        }
     }
 
     public void Exit()
@@ -99,6 +133,10 @@ public class SnowWeather : IWeatherState
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.ApplySlowdown(0.85f, 1f);
+        }
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
+        {
+            obs.Init(Weather.Snow);
         }
     }
 
@@ -127,6 +165,10 @@ public class SunnyWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
+        foreach (var obs in EnviromentManager.Instance.Obstacles)
+        {
+            obs.Init(Weather.Default);
+        }
     }
 
     public void Exit()

@@ -85,6 +85,9 @@ public abstract class BaseTower : MonoBehaviour
             }
             if (basePlantedObstacle != null)
             {
+                Debug.Log("설치위치에 장애물있음 다부신다");
+                if(EnviromentManager.Instance.Obstacles.Contains(basePlantedObstacle))
+                    EnviromentManager.Instance.Obstacles.Remove(basePlantedObstacle);
                 Destroy(basePlantedObstacle.gameObject);
             }
             if (plantedEffect != null)
@@ -92,9 +95,11 @@ public abstract class BaseTower : MonoBehaviour
                 switch (plantedEffect.obstacleType)
                 {
                     case ObstacleType.Water:
+                        Debug.Log("설치위치옆에 물있음");
                         environmentEffect.isNearWater = true;
                         break;
                     case ObstacleType.Fire:
+                        Debug.Log("설치위치옆에 불있음");
                         environmentEffect.isNearFire = true;
                         break;
 
@@ -104,6 +109,7 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
     
+
     
     protected virtual void Update()
     {
@@ -176,6 +182,29 @@ public abstract class BaseTower : MonoBehaviour
             if (otherTower != null && otherTower != this)
             {
                 otherTower.ReApplyBuff();
+            }
+        }
+    }
+    public virtual void ScanPlantedObstacle()
+    {
+        environmentEffect.isNearWater = false;
+        environmentEffect.isNearFire = false;
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.obstacleZone);
+        foreach (var hit in hits)
+        {
+            PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
+            switch (plantedEffect.obstacleType)
+            {
+                case ObstacleType.Water:
+                    Debug.Log("설치위치옆에 물있음");
+                    environmentEffect.isNearWater = true;
+                    break;
+                case ObstacleType.Fire:
+                    Debug.Log("설치위치옆에 불있음");
+                    environmentEffect.isNearFire = true;
+                    break;
+
             }
         }
     }

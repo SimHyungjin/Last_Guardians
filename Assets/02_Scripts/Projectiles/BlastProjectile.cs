@@ -15,9 +15,9 @@ public class BlastProjectile : ProjectileBase
     private bool canHit = false;
     private float Totaldistance;
     [SerializeField] private bool hasHit = false;
-    public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTowerData,List<int> _effectslist)
+    public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
-        base.Init(_towerData, _adaptedTowerData, _effectslist);
+        base.Init(_towerData, _adaptedTowerData, _effectslist, _environmentEffect);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         speed = 2f;
@@ -104,8 +104,8 @@ public class BlastProjectile : ProjectileBase
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
-                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
-                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower);
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
+                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, environmentEffect);
                 }
             }
         }

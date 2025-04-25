@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrapObjectDotDamageEffect : MonoBehaviour , ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff) 
+    public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff, EnvironmentEffect environmentEffect) 
     {
         target.DotDamage(towerData.EffectValue, 0.1f);
     }

@@ -159,7 +159,9 @@ public class BuffTower : BaseTower
     public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
         if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage) this.environmentEffect.isBuffAffectedByFire = true;
+        else this.environmentEffect.isBuffAffectedByFire = false;
         if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow) this.environmentEffect.isBuffAffectedByWater = true;
+        else this.environmentEffect.isBuffAffectedByWater = false;
         bool found = false;
         if (towerIndex == towerData.TowerIndex) return;
         if (buffTowerIndex.Contains(towerIndex)) return;
@@ -202,14 +204,39 @@ public class BuffTower : BaseTower
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
         foreach (var hit in hits)
         {            
-            //나중에 계절도 추가
-            //if(EnvironmentManager.Instance.GetSeason()==Season.Wintor)
-            //{ 
-            //adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
-            //}
-            //else
+            if(EnviromentManager.Instance.Season==Season.winter)
+            {
+                adaptiveRange = towerData.AttackRange*1.1f;
+            }
+            else
             adaptiveRange = towerData.AttackRange * 1.15f;
             return;
+        }
+    }
+
+    public override void ScanPlantedObstacle()
+    {
+        environmentEffect.ClearEffect();
+        base.ScanPlantedObstacle();
+        if (towerData.EffectTarget != EffectTarget.Towers) return;
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
+
+        foreach (var hit in hits)
+        {
+            BaseTower otherTower = hit.GetComponent<BaseTower>();
+            if (otherTower != null && otherTower != this)
+            {
+                otherTower.DestroyBuffTower();
+            }
+        }
+        foreach (var hit in hits)
+        {
+            TrapObject otherTrap = hit.GetComponent<TrapObject>();
+            if (otherTrap != null && otherTrap != this)
+            {
+                otherTrap.DestroyBuffTower();
+            }
         }
     }
 

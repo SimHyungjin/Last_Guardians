@@ -7,9 +7,9 @@ public class MagicProjectile : ProjectileBase
 {
     public BaseMonster target;
     [SerializeField]private bool hasHit = false;
-    public override void Init(TowerData _towerData, AdaptedTowerData adaptedTower, List<int> _effectslist)
+    public override void Init(TowerData _towerData, AdaptedTowerData adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
-        base.Init(_towerData,adaptedTower,_effectslist);
+        base.Init(_towerData,adaptedTower,_effectslist, _environmentEffect);
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         string path = $"Assets/91_Disign/Sprite/ProjectileImage/Magics/{spritename}.png";
@@ -73,8 +73,8 @@ public class MagicProjectile : ProjectileBase
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
-                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance);
-                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower);
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
+                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower,environmentEffect);
                 }
             }
             OnDespawn();

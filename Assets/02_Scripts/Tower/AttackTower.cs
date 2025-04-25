@@ -33,14 +33,19 @@ public class AttackTower : BaseTower
     [SerializeField] private Transform target;
     private float lastCheckTime = 0f;
     public ProjectileFactory projectileFactory;
-
-    List<int> buffTowerIndex;
     private BaseMonster currentTargetMonster;
 
+    [Header("버프")]
     public AdaptedTowerData adaptedTowerData;
-
+    List<int> buffTowerIndex;
     //private bool Disable;
 
+    [Header("공격속도")]
+    float attackSpeedBuff = 1f;
+    float windBuff = 1f;
+    float windSpeedBuff = 1f;
+    public bool isSpeedBuffed = false;
+    public bool isWindBuffed = false;
     public override void Init(TowerData data)
     {
 
@@ -114,27 +119,27 @@ public class AttackTower : BaseTower
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Blast:
-                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
+                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex,environmentEffect);
                 break;
             case ProjectileType.Magic:
 
                 if (shouldMultyShot)
                 {
-                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
+                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount, environmentEffect);
                 }
                 else
                 {
-                    projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
+                    projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, environmentEffect);
                 }
                 break;
             case ProjectileType.Arrow:
                 if (shouldMultyShot)
                 {
-                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount);
+                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount, environmentEffect);
                 }
                 else
                 {
-                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex);
+                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex,environmentEffect);
                 }
                 break;
             default:
@@ -167,13 +172,45 @@ public class AttackTower : BaseTower
         adaptedTowerData.attackPower = towerData.AttackPower + towerData.AttackPower * buff;
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
+
+    void UpdateAttackSpeed()
+    {
+        if (isSpeedBuffed && isWindBuffed) windSpeedBuff = 1.2f;
+        else windSpeedBuff = 1f;
+        float totalBuff = attackSpeedBuff * windBuff* windSpeedBuff;
+        adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed * totalBuff);
+    }
     public void AttackSpeedBuff(float buff)
     {
-        if (1f / (towerData.AttackSpeed * buff) < adaptedTowerData.attackSpeed)
-            adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed*buff);
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격속도 증가: {adaptedTowerData.attackSpeed}");
+        if (buff > attackSpeedBuff)
+        {
+            isSpeedBuffed = true;
+            attackSpeedBuff = buff;
+            UpdateAttackSpeed();
+        }
     }
 
+    public void RemoveAttackSpeedBuff()
+    {
+        isSpeedBuffed = false;
+        attackSpeedBuff = 1f;
+        UpdateAttackSpeed();
+    }
+
+    public void OnWindSpeedBuff()
+    {
+        isWindBuffed = true;
+        windBuff = 1.2f;
+        UpdateAttackSpeed();
+    }
+
+    public void OffWindSpeedBuff()
+    {
+        isWindBuffed = false;
+        windBuff = 1f;
+        windSpeedBuff = 1f;
+        UpdateAttackSpeed();
+    }
     public void BossImmuneBuff()
     {
         adaptedTowerData.bossImmunebuff = true;
@@ -184,10 +221,7 @@ public class AttackTower : BaseTower
     {
         adaptedTowerData.attackPower = towerData.AttackPower;
     }
-    public void RemoveAttackSpeedBuff()
-    {
-        adaptedTowerData.attackSpeed = towerData.AttackSpeed;
-    }
+
     public void RemoveBossImmuneBuff()
     {
         adaptedTowerData.bossImmunebuff = false;
@@ -196,8 +230,17 @@ public class AttackTower : BaseTower
 
     public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
-        if(environmentEffect.isNearFire&&TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect==SpecialEffect.DotDamage)this.environmentEffect.isBuffAffectedByFire = true;
-        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow) this.environmentEffect.isBuffAffectedByWater = true;
+        if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage)
+        {
+            this.environmentEffect.isBuffAffectedByFire = true;
+            Debug.Log("버프타워중에 불옆에있는 타워가있음");
+        }
+
+        if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow)
+        {
+            this.environmentEffect.isBuffAffectedByWater = true;
+            Debug.Log("버프타워중에 물옆에있는 타워가있음");
+        }
         bool found = false;
         if (buffTowerIndex.Contains(towerIndex)) return;
         for (int i = 0; i < buffTowerIndex.Count; i++)
@@ -227,8 +270,8 @@ public class AttackTower : BaseTower
         foreach (var hit in hits)
         {
             //나중에 계절도 추가
-            //if(EnvironmentManager.Instance.Season==Season.Winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
-            //else
+            if(EnviromentManager.Instance.Season==Season.winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
+            else
             adaptedTowerData.attackRange = towerData.AttackRange*1.15f;
             return;
         }

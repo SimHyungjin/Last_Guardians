@@ -185,8 +185,11 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
-    public void ScanPlantedObstacle()
+    public virtual void ScanPlantedObstacle()
     {
+        environmentEffect.isNearWater = false;
+        environmentEffect.isNearFire = false;
+
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.obstacleZone);
         foreach (var hit in hits)
         {

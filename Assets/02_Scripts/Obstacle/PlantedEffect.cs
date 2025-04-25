@@ -30,4 +30,28 @@ public class PlantedEffect : MonoBehaviour
             }
         }
     }
+
+    public void PlantedEffectDestroyed()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(PostionArray(), LayerMaskData.tower);
+        foreach (var hit in hits)
+        {
+            BaseTower baseTower = hit.GetComponent<BaseTower>();
+            if (baseTower != null)
+            {
+                baseTower.ScanPlantedObstacle();
+                return;
+            }
+            TrapObject trapObject = hit.GetComponent<TrapObject>();
+            if (trapObject != null)
+            {
+                trapObject.ScanPlantedObstacle();
+                return;
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        PlantedEffectDestroyed();
+    }
 }

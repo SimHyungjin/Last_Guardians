@@ -21,7 +21,7 @@ MonoBehaviour:
   monster1Value: 6
   monster2ID: 3
   monster2Value: 7
-  monster3ID: 0
-  monster3Value: 0
+  monster3ID: 101
+  monster3Value: 1
   monster4ID: 0
   monster4Value: 0

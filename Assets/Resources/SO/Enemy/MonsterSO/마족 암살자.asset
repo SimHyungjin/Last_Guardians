@@ -25,4 +25,5 @@ MonoBehaviour:
   hasSkill: 0
   monsterSkillID: 0
   monsterAttackPattern: 0
-  image: {fileID: 21300000, guid: 71cf517d2bde8004daa5f6b1737dd1f7, type: 3}
+  icon: {fileID: 0}
+  prefab: {fileID: 8488337000543807017, guid: f32a8bd9c177acf4ba8fa18d36afa86b, type: 3}

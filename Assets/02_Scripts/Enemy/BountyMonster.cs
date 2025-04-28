@@ -51,9 +51,8 @@ public class BountyMonster : BaseMonster
         AttackTimer = attackDelay;
         AfterAttack();
     }
-    protected override void Death()
+    public override void DeSpawn()
     {
-        base.Death();
         PoolManager.Instance.Despawn(this);
     }
 }

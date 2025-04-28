@@ -51,9 +51,8 @@ public class BossMonster : BaseMonster
         SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }
 
-    protected override void Death()
+    public override void DeSpawn()
     {
-        base.Death();
         PoolManager.Instance.Despawn(this);
     }
 }

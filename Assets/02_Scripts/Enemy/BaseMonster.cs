@@ -139,15 +139,6 @@ public class BaseMonster : MonoBehaviour
 
     private void Update()
     {
-        animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (animStateInfo.IsName("DEATH"))
-        {
-            if (animStateInfo.normalizedTime >= 1.0f)
-            {
-                DeSpawn();
-            }
-        }
-
         if (isAttack)
             AttackTimer -= Time.deltaTime;
 
@@ -258,7 +249,7 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
-    private void Death()
+    protected virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath(this);
@@ -271,11 +262,6 @@ public class BaseMonster : MonoBehaviour
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
         }
-        else
-        {
-            //PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
-            DeSpawn();
-        }
     }
 
     private void DestroyAllChildren(Transform parent)
@@ -286,11 +272,7 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
-    public virtual void DeSpawn()
-    {
-
-    }
-
+    
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서

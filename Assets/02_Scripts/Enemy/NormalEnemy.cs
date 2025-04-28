@@ -33,8 +33,9 @@ public class NormalEnemy : BaseMonster
         AfterAttack();
     }
 
-    public override void DeSpawn()
+    protected override void Death()
     {
+        base.Death();
         PoolManager.Instance.Despawn(this);
     }
 }

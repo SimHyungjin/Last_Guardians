@@ -11,6 +11,7 @@ public class PlayerView : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+    [SerializeField] private PlayerWeaponHandler weaponHandler;
     [SerializeField] private PlayerAnimState curState = PlayerAnimState.Idle;
     [SerializeField] private bool isMoving= false;
 
@@ -45,7 +46,12 @@ public class PlayerView : MonoBehaviour
     public void UpdateMoveDirection(Vector2 moveDir)
     {
         if (moveDir.x == 0) return;
-        spriteRenderer.flipX = moveDir.x < 0;
+
+        bool flip = moveDir.x < 0;
+        spriteRenderer.flipX = flip; 
+
+        if (weaponHandler != null)
+            weaponHandler.SetFlip(flip);
     }
 
     public void OnIdle() => ChangeState(PlayerAnimState.Idle);

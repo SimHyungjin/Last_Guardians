@@ -30,7 +30,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void SwipeStart()

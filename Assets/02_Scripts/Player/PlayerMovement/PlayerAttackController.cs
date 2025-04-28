@@ -86,10 +86,10 @@ public class PlayerAttackController : MonoBehaviour
 
                 if (target != null && !isAttacking)
                 {
-                    // 타겟 방향으로 회전
-                    Vector2 direction = (target.transform.position - transform.position).normalized;
-                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.Euler(0, 0, angle);
+                    //// 타겟 방향으로 회전
+                    //Vector2 direction = (target.transform.position - transform.position).normalized;
+                    //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    //transform.rotation = Quaternion.Euler(0, 0, angle);
 
                     Attack(target.transform.position);
                     playerView.OnAttack();

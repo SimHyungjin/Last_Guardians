@@ -15,7 +15,8 @@ public interface IAttackBehavior
 /// </summary>
 public class PlayerAttackController : MonoBehaviour
 {
-    public  Player player {  get; private set; }
+    private Player player;
+    private PlayerView playerView;
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
@@ -25,10 +26,10 @@ public class PlayerAttackController : MonoBehaviour
     /// <summary>
     /// 캐릭터 데이터를 주입하고 자동 공격을 시작합니다.
     /// </summary>
-    public void Init(Player _player)
+    public void Init()
     {
-        player = _player;
-        Debug.Log(player.playerData.attackType);
+        player = InGameManager.Instance.playerManager.playerController.player;
+        playerView = InGameManager.Instance.playerManager.playerController.playerView;
         SetAttackBehavior(player.playerData.attackType);
         AutoAttackStart();
     }
@@ -91,6 +92,7 @@ public class PlayerAttackController : MonoBehaviour
                     transform.rotation = Quaternion.Euler(0, 0, angle);
 
                     Attack(target.transform.position);
+                    playerView.OnAttack();
                     target = null;
                 }
             }

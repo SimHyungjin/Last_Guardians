@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public PlayerAttackController attackController { get; private set; }
     public PlayerMoveController moveController { get; private set; }
     public PlayerBuffHandler playerBuffHandler { get; private set; }
+    public PlayerView playerView { get; private set; }
 
     private void Awake()
     {
@@ -13,13 +14,15 @@ public class PlayerController : MonoBehaviour
         moveController = GetComponent<PlayerMoveController>();
         playerBuffHandler = GetComponent<PlayerBuffHandler>();
 
+        playerView = GetComponentInChildren<PlayerView>();
+
         gameObject.transform.position = new Vector3(0.5f, -2f, 0);
     }
 
     public void Init(Player _player)
     {
         player = _player;
-        attackController.Init(player);
+        attackController.Init();
         moveController.Init();
         playerBuffHandler.Init();
     }

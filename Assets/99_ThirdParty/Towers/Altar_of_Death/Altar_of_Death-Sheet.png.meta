@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 150
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -147,7 +147,679 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaf3424a71f60de4cb4ecd580e034e18
+      internalID: 769625545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddc7ae430dee15b4d9fc62b3edfd2d5b
+      internalID: 1074934646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4feb46e624c8974ebae1bff47d2f3e2
+      internalID: -51772377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73ebaa8406cbd3e428374d2958f48731
+      internalID: 347001932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a85e7caaa15b6b4b9357876c03cf611
+      internalID: 1576699592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cbacb90fbbe80c418ab98417f01fc71
+      internalID: 739469650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8021f483fc385d449c7bbd76f717a86
+      internalID: 641687143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be31db88dcb7f6846ac37e571545cae5
+      internalID: 1638523069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b64191a5cc9fb1a45b592a8feb96d889
+      internalID: -650328076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2246d70f6657684a9145aeb3217415d
+      internalID: 829811690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44c519b529d3c814590c41c4b4d0e386
+      internalID: -2069620172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15b7bb788a744e4438bcc1d62c2f322e
+      internalID: -2036345656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 440
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ea787c8c8eafe249978f763f2169572
+      internalID: 855188485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 220
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf33b0be6a8218d429364597794188ea
+      internalID: 1055663783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 220
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de5728b88d33f7449bc2293bcf915cf9
+      internalID: -779684312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 220
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd5f52541bdd7444f892d098c42cdeac
+      internalID: -1261771203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 220
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8601226180a32664fa407dd8e3f8ee31
+      internalID: -1998110819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 220
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d534015a6ca28f4a9521a71daba2690
+      internalID: 1948349896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 220
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a499ec79833b0245b9427383c601837
+      internalID: -1227809850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 283dc5846b052184b8d43a73f6294914
+      internalID: -1240960348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57f42f764f0ab5a4681b4dbf85b7a718
+      internalID: 943588547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45a55c97fff76c246ab23d6f2aaf226a
+      internalID: -736103513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba643feafaad8ca4f8c92c1c1f07b526
+      internalID: -953622862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb698781fff2cfb459aa3e51edcb1457
+      internalID: -366073202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a009c0dab82c3dc4d92079e1a0028ca2
+      internalID: 385971522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b4e6617c79ecd34d9ab288af3ce9029
+      internalID: 1963363291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d236326a9c4879428a82c273016e5a7
+      internalID: -80470836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7c4eedd8dea9ef48900da6162f77793
+      internalID: -483880339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02094c4dd4c6a14bb09e80051158b11
+      internalID: -474880826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5256961336043d847b8ffbc69c3dce26
+      internalID: 278726272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a2e79037ae5cc94a94ad896c034d462
+      internalID: 940775407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_of_Death-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 0
+        width: 200
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67c2bcb0bc1db364a821c1f177f7f72c
+      internalID: 1961742216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -158,7 +830,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Altar_of_Death-Sheet_0: 769625545
+      Altar_of_Death-Sheet_1: 1074934646
+      Altar_of_Death-Sheet_10: -2069620172
+      Altar_of_Death-Sheet_11: -2036345656
+      Altar_of_Death-Sheet_12: 855188485
+      Altar_of_Death-Sheet_13: 1055663783
+      Altar_of_Death-Sheet_14: -779684312
+      Altar_of_Death-Sheet_15: -1261771203
+      Altar_of_Death-Sheet_16: -1998110819
+      Altar_of_Death-Sheet_17: 1948349896
+      Altar_of_Death-Sheet_18: -1227809850
+      Altar_of_Death-Sheet_19: -1240960348
+      Altar_of_Death-Sheet_2: -51772377
+      Altar_of_Death-Sheet_20: 943588547
+      Altar_of_Death-Sheet_21: -736103513
+      Altar_of_Death-Sheet_22: -953622862
+      Altar_of_Death-Sheet_23: -366073202
+      Altar_of_Death-Sheet_24: 385971522
+      Altar_of_Death-Sheet_25: 1963363291
+      Altar_of_Death-Sheet_26: -80470836
+      Altar_of_Death-Sheet_27: -483880339
+      Altar_of_Death-Sheet_28: -474880826
+      Altar_of_Death-Sheet_29: 278726272
+      Altar_of_Death-Sheet_3: 347001932
+      Altar_of_Death-Sheet_30: 940775407
+      Altar_of_Death-Sheet_31: 1961742216
+      Altar_of_Death-Sheet_4: 1576699592
+      Altar_of_Death-Sheet_5: 739469650
+      Altar_of_Death-Sheet_6: 641687143
+      Altar_of_Death-Sheet_7: 1638523069
+      Altar_of_Death-Sheet_8: -650328076
+      Altar_of_Death-Sheet_9: 829811690
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -22,9 +22,12 @@ public class PlayerMoveController : MonoBehaviour
         agent.updatePosition = true;
     }
 
-    public void Init()
+    private void Start()
     {
         playerView = InGameManager.Instance.playerManager.playerController.playerView;
+    }
+    public void Init()
+    {
         agent.speed = InGameManager.Instance.playerManager.player.playerData.moveSpeed;
     }
 

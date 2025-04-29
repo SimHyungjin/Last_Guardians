@@ -16,11 +16,12 @@ public interface IAttackBehavior
 public class PlayerAttackController : MonoBehaviour
 {
     private Player player;
-    private PlayerView playerView;
+    private PlayerWeaponHandler weaponHandler;
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
     private const float targetCheckTime = 0.05f;
+    private Vector2? currentTargetPos = null;
 
     private IAttackBehavior attackBehavior;
     /// <summary>
@@ -29,9 +30,11 @@ public class PlayerAttackController : MonoBehaviour
     public void Init()
     {
         player = InGameManager.Instance.playerManager.playerController.player;
-        playerView = InGameManager.Instance.playerManager.playerController.playerView;
+        weaponHandler = InGameManager.Instance.playerManager.playerController.weaponHandler;
         SetAttackBehavior(player.playerData.attackType);
         AutoAttackStart();
+        if (weaponHandler.attackAction != null) weaponHandler.attackAction -= Attack;
+        weaponHandler.attackAction += Attack;
     }
 
     /// <summary>
@@ -90,10 +93,10 @@ public class PlayerAttackController : MonoBehaviour
                     //Vector2 direction = (target.transform.position - transform.position).normalized;
                     //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                     //transform.rotation = Quaternion.Euler(0, 0, angle);
-
-                    Attack(target.transform.position);
-                    playerView.OnAttack();
+                    currentTargetPos = target.transform.position;
+                    weaponHandler.TriggerAttack();
                     target = null;
+                    yield return new WaitForSeconds(player.playerData.attackSpeed);
                 }
             }
 
@@ -126,12 +129,16 @@ public class PlayerAttackController : MonoBehaviour
     /// <summary>
     /// 공격을 수행하며, 감지된 몬스터를 거리순으로 정렬 후 처리합니다.
     /// </summary>
-    private void Attack(Vector2 targetPosition)
+    private void Attack()
     {
+        if (currentTargetPos == null || isAttacking) return;
+
         isAttacking = true;
-        attackBehavior.Attack(targetPosition, CalculateDamage());
+        attackBehavior.Attack(currentTargetPos.Value, CalculateDamage());
         attackBehavior.ShowRange();
         StartCoroutine(AttackDelay());
+
+        currentTargetPos = null;
     }
 
     /// <summary>
@@ -158,33 +165,16 @@ public class PlayerAttackController : MonoBehaviour
     }
 
     /// <summary>
-    /// 공격 범위 및 타격 박스를 Scene 뷰에서 시각화합니다.
+    /// 공격 범위 뷰에서 시각화합니다.
     /// </summary>
     private void OnDrawGizmos()
     {
-        if (player == null) return;
+        if (player == null) return; 
 
         // 감지 범위 (빨간 원)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, player.playerData.attackRange * 2);
 
         Gizmos.color = new Color(1f, 0f, 0f, 0.4f); // 반투명 빨간색
-
-        Vector2 forward = transform.right;
-        float range = player.playerData.attackRange;
-        float width = player.playerData.attackRange * 0.5f; // AttackController에 public float rangeX;
-
-        Vector2 boxCenter = (Vector2)transform.position + forward * range;
-        Vector2 boxSize = new Vector2(width, range);
-        float angle = transform.eulerAngles.z;
-
-        // 회전된 박스를 제대로 그리기 위한 행렬 설정
-        Matrix4x4 rotationMatrix = Matrix4x4.TRS(boxCenter, Quaternion.Euler(0, 0, angle), Vector3.one);
-        Gizmos.matrix = rotationMatrix;
-
-        Gizmos.DrawWireCube(Vector3.zero, boxSize);
-
-        // 매트릭스 초기화 (다음 Gizmos에 영향 안 주게)
-        Gizmos.matrix = Matrix4x4.identity;
     }
 }

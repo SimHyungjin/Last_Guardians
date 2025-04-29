@@ -16705,9 +16705,9 @@ MonoBehaviour:
   isCardMoving: 0
   isTowerMoving: 0
   spawnPoint:
-  - {fileID: 0}
-  - {fileID: 0}
-  targetPosition: {fileID: 0}
+  - {fileID: 48209079}
+  - {fileID: 1018054542}
+  targetPosition: {fileID: 579261958872433507}
   dummyTowerPrefab: {fileID: 574210830657341825, guid: 25813c72c8217124fac252f7c2032bf0, type: 3}
   attackRangeCircle: {fileID: 653588958327087389}
 --- !u!4 &3360045662071807015 stripped
@@ -21146,10 +21146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d614154a27a8834995d552318af1461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hand: {fileID: 0}
+  hand: {fileID: 8019884509423294679}
   towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
   towerbuilder: {fileID: 3358617499710292647}
-  projectileFactory: {fileID: 0}
+  projectileFactory: {fileID: 1404120581}
   TrapObjectPrefab: {fileID: 4118459537282430882, guid: 40fadb40f9c489f4ab72f0203fab2481, type: 3}
   Towers: []
   TowerIcons:
@@ -33154,6 +33154,7 @@ SceneRoots:
   - {fileID: 5893752461779486470}
   - {fileID: 899115900635885535}
   - {fileID: 834927299}
+  - {fileID: 6600641007436262602}
   - {fileID: 4061058349828928846}
   - {fileID: 8134453061267726366}
   - {fileID: 6481499344701651741}
@@ -33168,4 +33169,3 @@ SceneRoots:
   - {fileID: 1404120582}
   - {fileID: 802949766}
   - {fileID: 259940230}
-  - {fileID: 6600641007436262602}

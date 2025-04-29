@@ -122,6 +122,7 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacement()
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
+        animator.SetTrigger("TowerActive");
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
@@ -136,6 +137,7 @@ public class BuffTower : BaseTower
     private void ApplyDebuffOnPlacementOnBuff()
     {
         if (towerData.EffectTarget != EffectTarget.All) return;
+        animator.SetTrigger("TowerActive");
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)

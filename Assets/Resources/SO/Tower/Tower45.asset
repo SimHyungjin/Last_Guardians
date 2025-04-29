@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
+  spawnClip: {fileID: 7400000, guid: ef204ed6be4234642b80835472818bb3, type: 2}
+  idleClip: {fileID: 7400000, guid: d75f5ed54e2935e469b5f21ed49ca67f, type: 2}
+  activeClip: {fileID: 7400000, guid: 1df04c2039a252248bc0fb1d293dafe6, type: 2}
   towerIndex: 45
   towerName: "\uC815\uD654 \uD568\uC815 \uD0C0\uC6CC"
   attackPower: 0

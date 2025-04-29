@@ -9,9 +9,8 @@ public class MonsterManager : Singleton<MonsterManager>
 {
     [SerializeField] private Transform[] spawnPoint;
     [SerializeField] private Transform[] target;
-    [SerializeField] private RuntimeAnimatorController normalAnim;
-    [SerializeField] private RuntimeAnimatorController horseAnim;
 
+    public int MaxWave { get; private set; } = 0;
     public List<MonsterWaveData> WaveDatas { get; private set; }
     public NormalEnemy NormalPrefab { get; private set; }
     public BossMonster BossPrefab { get; private set; }
@@ -40,8 +39,9 @@ public class MonsterManager : Singleton<MonsterManager>
         AlliveMonsters = new List<BaseMonster>();
         spawnSeconds = new WaitForSeconds(0.1f);
         InitMonsters();
-        AnimationConnect.AddAnimationEvent(normalAnim);
-        AnimationConnect.AddAnimationEvent(horseAnim);
+
+        
+        MaxWave = PlayerPrefs.GetInt("IdleMaxWave", 0);
     }
 
     public void GameStart()
@@ -104,7 +104,6 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
             NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
-            monster.transform.SetParent(PoolManager.Instance.transform);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
@@ -116,7 +115,6 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
-            monster.transform.SetParent(PoolManager.Instance.transform);
             monster.Setup(data);
             monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
@@ -161,7 +159,6 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
             BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[nowWave.WaveLevel % 2]);
-            monster.transform.SetParent(PoolManager.Instance.transform);
             monster.Setup(data);
             monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
             //AlliveMonsters.Add(monster);
@@ -175,28 +172,46 @@ public class MonsterManager : Singleton<MonsterManager>
             alliveCount--;
             RemainMonsterCount--;
         }
-        
+
+        MonsterKillCount++;
+
         if (AlliveMonsters.Contains(monster))
         {
             AlliveMonsters.Remove(monster);
         }
-        
+
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
+        
         if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
         {
             if (InGameManager.Instance.PlayerHP <= 0)
                 return;
+
             Debug.Log("웨이브 클리어");
+
             currentWaveIndex++;
+
+           
+            if (currentWaveIndex > MaxWave)
+            {
+                MaxWave = currentWaveIndex;
+                PlayerPrefs.SetInt("IdleMaxWave", MaxWave);
+                PlayerPrefs.Save();
+                Debug.Log($"[최고 웨이브] {MaxWave}");
+            }
+
+            
             spawnCount = 0;
             currentWaveMonsterCount = 0;
             RemainMonsterCount = 0;
             alliveCount = 0;
             AlliveMonsters.Clear();
+
             StartCoroutine(StartNextWave());
         }
     }
+
 
     private void InitMonsters()
     {

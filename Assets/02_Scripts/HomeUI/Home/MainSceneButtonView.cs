@@ -8,6 +8,7 @@ public class MainSceneButtonView : MonoBehaviour
     [SerializeField] private Button inventoryBtn;
     [SerializeField] private Button bookBtn;
     [SerializeField] private Button soundOptionBtn;
+    [SerializeField] private Button idleBtn;
 
     public void Init(MainSceneManager mainSceneManager)
     {
@@ -31,6 +32,12 @@ public class MainSceneButtonView : MonoBehaviour
         {
             mainSceneManager.ShowPanel("SoundOption");
         });
+
+        idleBtn.onClick.AddListener(() =>
+        {
+            mainSceneManager.ShowPanel("IdleRewardPopup", null, false); 
+        });
+
     }
 
     private void ToGameScene()

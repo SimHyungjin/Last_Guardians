@@ -18,9 +18,9 @@ MonoBehaviour:
   waveStartDelay: 4
   monsterSpawnInterval: 2
   monster1ID: 1
-  monster1Value: 2
-  monster2ID: 102
-  monster2Value: 1
+  monster1Value: 5
+  monster2ID: 0
+  monster2Value: 0
   monster3ID: 0
   monster3Value: 0
   monster4ID: 0

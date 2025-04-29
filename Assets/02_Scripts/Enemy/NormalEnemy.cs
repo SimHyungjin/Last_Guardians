@@ -26,6 +26,7 @@ public class NormalEnemy : BaseMonster
     {
         base.RangeAttack();
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
+        projectile.transform.SetParent(PoolManager.Instance.transform);
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);

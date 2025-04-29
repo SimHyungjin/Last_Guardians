@@ -19,7 +19,7 @@ MonoBehaviour:
   monsterSpawnInterval: 1.2
   monster1ID: 1
   monster1Value: 5
-  monster2ID: 101
+  monster2ID: 0
   monster2Value: 0
   monster3ID: 0
   monster3Value: 0

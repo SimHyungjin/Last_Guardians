@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.XR;
 
 public class BaseObstacle : MonoBehaviour
 {
     [SerializeField] private ObstacleData obstacle;
+    public ObstacleData ObstacleData => obstacle;
     private SpriteRenderer spriteRenderer;
     private NavMeshObstacle navMeshObstacle;
 
@@ -143,6 +145,25 @@ public class BaseObstacle : MonoBehaviour
         }
     }
 
+    private void EffectToMonster(BaseMonster baseMonster)
+    {
+        if(obstacle== null) return;
+
+        switch (obstacle.obstacleEffect_Monster)
+        {
+            case ObstacleEffect.Speed:
+                baseMonster.ApplySlowdown(0.7f, 0.2f);
+                break;
+
+            case ObstacleEffect.Dotdamage:
+                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.2f);
+                break;
+            case ObstacleEffect.Dead:
+                baseMonster.TakeDamage(9999999);
+                break;
+        }
+    }
+
     private void DestroyZone()
     {
         foreach (var zone in zones)
@@ -158,7 +179,7 @@ public class BaseObstacle : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
             EffectToPlayer(controller);
-        }
+        }   
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -166,7 +187,14 @@ public class BaseObstacle : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
             controller.playerBuffHandler.ClearAllBuffs();
-        }
+        }    
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+        {
+            EffectToMonster(baseMonster);
+        }
+    }
 }

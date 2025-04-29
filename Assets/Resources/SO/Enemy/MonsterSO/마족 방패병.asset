@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterIndex: 3
   monsterName: "\uB9C8\uC871 \uBC29\uD328\uBCD1"
-  monsterHP: 120
-  monsterSpeed: 1
+  monsterHP: 130
+  monsterSpeed: 0.9
   monsterDamage: 1
-  monsterDef: 1
+  monsterDef: 3
   exp: 20
   monsterDescription: "\uB9C8\uC871 \uBC29\uD328\uBCD1, \uBC29\uC5B4\uB825\uC774
     \uB192\uB2E4."

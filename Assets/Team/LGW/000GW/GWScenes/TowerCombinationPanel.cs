@@ -20,8 +20,8 @@ public class TowerCombinationPanel : MonoBehaviour
                 TowerData ingredient1 = FindTowerData(rule.ingredient1);
                 TowerData ingredient2 = FindTowerData(rule.ingredient2);
 
-                slot1.SetData(ingredient1);
-                slot2.SetData(ingredient2);
+                slot1.SetData(ingredient1 != null ? ingredient1 : null);
+                slot2.SetData(ingredient2 != null ? ingredient2 : null);
                 resultSlot.SetData(resultData);
 
                 gameObject.SetActive(true);

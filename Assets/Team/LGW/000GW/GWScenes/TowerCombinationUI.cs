@@ -34,8 +34,8 @@ public class TowerCombinationUI : MonoBehaviour
             TowerData ing1 = TowerManager.Instance.GetTowerData(rule.ingredient1);
             TowerData ing2 = TowerManager.Instance.GetTowerData(rule.ingredient2);
 
-            slot1.SetData(ing1);
-            slot2.SetData(ing2);
+            slot1.SetData(ing1 != null ? ing1 : null);
+            slot2.SetData(ing2 != null ? ing2 : null);
             slot3.SetData(resultData);
         }
 

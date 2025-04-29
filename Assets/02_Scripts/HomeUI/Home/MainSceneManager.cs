@@ -20,6 +20,22 @@ public class MainSceneManager : Singleton<MainSceneManager>
 
     private void Awake()
     {
+        // TowerManager 자동 생성
+        if (FindObjectOfType<TowerManager>() == null)
+        {
+            GameObject towerManagerPrefab = Resources.Load<GameObject>("Prefabs/TowerManager");
+            if (towerManagerPrefab != null)
+            {
+                var go = Instantiate(towerManagerPrefab);
+                go.name = "TowerManager"; // 이름 정리
+                DontDestroyOnLoad(go);    // 씬 전환 유지
+            }
+            else
+            {
+                Debug.LogError("TowerManager 프리팹이 Resources/Prefabs 폴더에 없습니다!");
+            }
+        }
+
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
@@ -30,6 +46,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
         interactionBlocker = Utils.InstantiatePrefabFromResource("UI/MainScene/InteractionBlocker", canvas.transform);
         canvas.GetComponentInChildren<MainSceneButtonView>().Init(this);
     }
+
 
 
     public void ShowPanel(string panelName, GameObject obj = null, bool useBlocker = true)

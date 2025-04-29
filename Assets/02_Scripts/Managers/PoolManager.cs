@@ -51,7 +51,7 @@ public class PoolManager : Singleton<PoolManager>
         return obj;
     }
 
-    public T Spawn2<T>(T prefab, Transform parent = null) where T : Component
+    public T SpawnbyPrefabName<T>(T prefab, Transform parent = null) where T : Component
     {
         string key = prefab.gameObject.name;  // 프리팹 이름 기준으로 관리
 
@@ -106,7 +106,7 @@ public class PoolManager : Singleton<PoolManager>
         pools[type].Enqueue(obj);
     }
 
-    public void Despawn2<T>(T obj) where T : Component
+    public void DespawnbyPrefabName<T>(T obj) where T : Component
     {
         string key = obj.gameObject.name.Replace("(Clone)", "").Trim(); // 프리팹 기준으로
 

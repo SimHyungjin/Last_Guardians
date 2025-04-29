@@ -99,9 +99,9 @@ public class BaseMonster : MonoBehaviour
         this.MonsterData = data;
         //DestroyAllChildren(prefabSlot);
         if(currentPrefab != null)
-            PoolManager.Instance.Despawn2(currentPrefab);
+            PoolManager.Instance.DespawnbyPrefabName(currentPrefab);
         //currentPrefab = Instantiate(MonsterData.Prefab,prefabSlot);
-        currentPrefab = PoolManager.Instance.Spawn2(MonsterData.Prefab, prefabSlot);
+        currentPrefab = PoolManager.Instance.SpawnbyPrefabName(MonsterData.Prefab, prefabSlot);
         currentPrefab.transform.SetParent(prefabSlot);
 
         if (this.transform.position.x < 0)

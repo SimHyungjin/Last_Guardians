@@ -21,7 +21,8 @@ public class PlayerView : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        weaponHandler.attackAction += EnterAttack;
+        weaponHandler.attackActionEnter += OnAttack;
+        weaponHandler.attackActionExit += ExitAttack;
     }
 
     public void ChangeState(PlayerAnimState state, Vector2? attackDir = null)
@@ -38,7 +39,7 @@ public class PlayerView : MonoBehaviour
                 EnterMove();
                 break;
             case PlayerAnimState.Attack:
-                EnterAttack();
+                EnterAttack(attackDir.Value);
                 break;
             case PlayerAnimState.Stun:
                 EnterStun();
@@ -49,7 +50,6 @@ public class PlayerView : MonoBehaviour
     public void UpdateMoveDirection(Vector2 moveDir)
     {
         if (moveDir.x == 0 || isAttacking) return;
-
         bool flip = moveDir.x < 0;
         spriteRenderer.flipX = flip;
         weaponHandler?.SetFlip(flip);
@@ -57,6 +57,7 @@ public class PlayerView : MonoBehaviour
 
     public void OnIdle() => ChangeState(PlayerAnimState.Idle);
     public void OnMove() => ChangeState(PlayerAnimState.Move);
+    public void OnAttack(Vector2 targetPos) => ChangeState(PlayerAnimState.Attack, targetPos);
     public void OnStun() => ChangeState(PlayerAnimState.Stun);
 
     public void OnStateEnd()
@@ -77,9 +78,16 @@ public class PlayerView : MonoBehaviour
         animator.SetBool("IsMove", true);
     }
 
-    private void EnterAttack()
+    private void EnterAttack(Vector2 targetPos)
     {
+        UpdateMoveDirection(targetPos - (Vector2)transform.position);
+        isAttacking = true;
+    }
 
+    private void ExitAttack()
+    {
+        isAttacking = false;
+        OnStateEnd();
     }
 
     private void EnterStun()

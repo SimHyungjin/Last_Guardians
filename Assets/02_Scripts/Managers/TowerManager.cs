@@ -36,18 +36,7 @@ public class TowerManager : Singleton<TowerManager>
         towerDataMap = Resources.LoadAll<TowerData>("SO/Tower")
             .ToDictionary(td => td.TowerIndex, td => td);
     }
-    private void Awake()
-    {
-        // 씬에 중복 방지
-        var managers = FindObjectsOfType<TowerManager>();
-        if (managers.Length > 1)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
-        DontDestroyOnLoad(this.gameObject);
-    }
+    
 
     public TowerData GetTowerData(int index)
     {

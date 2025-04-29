@@ -25,6 +25,7 @@ public class BaseMonster : MonoBehaviour
     public float BuffDefModifier { get; set; } = 1f;
     public float CurrentSkillValue { get; set; }
     public float SkillValueModifier { get; set; } = 1f;
+    public float DefConstant { get; private set } = 10f;
 
     //근접사거리 원거리 사거리
     private float meleeAttackRange = 0.8f;
@@ -308,7 +309,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //데미지 받을 떄 호출되는 함수
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount, float penetration = 0)
     {
         Debug.Log($"데미지 입음{amount}");
         if(EvasionRate != -1f)
@@ -320,7 +321,8 @@ public class BaseMonster : MonoBehaviour
         }
 
         //데미지 관련 공식 들어가야 함
-        CurrentHP -= amount;
+        //CurrentHP -= amount;
+        CurrentHP -= amount * (1 - CurrentDef * (1-penetration)/ (CurrentDef * (1 - penetration) + DefConstant));
 
         if (CurrentHP <= 0)
             animationConnect.StartDeathAnimaiton();

@@ -92,8 +92,6 @@ public class BaseMonster : MonoBehaviour
         blinkSeconds = new WaitForSeconds(blinkInterval);
     }
 
-
-
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
         this.MonsterData = data;

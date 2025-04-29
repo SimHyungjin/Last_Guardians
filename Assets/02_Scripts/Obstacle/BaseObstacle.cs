@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class BaseObstacle : MonoBehaviour
 {
     [SerializeField] private ObstacleData obstacle;
+    public ObstacleData ObstacleData => obstacle;
     private SpriteRenderer spriteRenderer;
     private NavMeshObstacle navMeshObstacle;
 
@@ -159,6 +160,12 @@ public class BaseObstacle : MonoBehaviour
         {
             EffectToPlayer(controller);
         }
+
+        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+        {
+            Debug.Log("슬로우");
+            baseMonster.ApplySlowdown(0.7f, 10f);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -166,6 +173,11 @@ public class BaseObstacle : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
             controller.playerBuffHandler.ClearAllBuffs();
+        }
+
+        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+        {
+            baseMonster.CancelSlowdown();
         }
     }
 

@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterIndex: 105
   monsterName: "\uADF8\uB9BC\uC790 \uAD70\uC8FC"
-  monsterHP: 750
-  monsterSpeed: 1.3
+  monsterHP: 900
+  monsterSpeed: 1.1
   monsterDamage: 3
-  monsterDef: 5
-  exp: 135
+  monsterDef: 4
+  exp: 150
   monsterDescription: "\uC5B4\uB460\uC744 \uC870\uC885\uD558\uB294 \uB9C8\uC871.
     \uADF8\uB9BC\uC790 \uBD84\uC2E0\uC744 \uB9CC\uB4E4\uC5B4 \uD0C0\uC6CC\uC758 \uACF5\uACA9\uC744
     \uBD84\uC0B0 \uC2DC\uD0A8\uB2E4."
-  monsterType: 1
+  monsterType: 0
   hasSkill: 1
   monsterSkillID: 9
-  monsterAttackPattern: 1
+  monsterAttackPattern: 0
   icon: {fileID: 0}
   prefab: {fileID: 2120026373593497878, guid: 145a4ee751ceaef4ea9b15d4126e13e4, type: 3}

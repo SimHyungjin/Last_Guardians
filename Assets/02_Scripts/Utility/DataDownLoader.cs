@@ -336,7 +336,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 16, startCol: 0, endCol: 11);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 17, startCol: 0, endCol: 11);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyMonsterDataToSO(jsonData, renameFiles);
         }

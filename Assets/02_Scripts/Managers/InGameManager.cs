@@ -133,6 +133,6 @@ public class InGameManager : Singleton<InGameManager>
     private void UpdateExp()
     {
         playerEXPbar.fillAmount = (float)(exp / maxExp);
-        playerEXPText.text = $"경험치 : {exp} / {maxExp}";
+        playerEXPText.text = $"경험치 : {(int)exp} / {(int)maxExp}";
     }
 }

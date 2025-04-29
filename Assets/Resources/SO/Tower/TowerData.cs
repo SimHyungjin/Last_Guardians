@@ -65,6 +65,7 @@ public class TowerData: ScriptableObject
 {
     [Header("타워 외관")]
     [SerializeField] public GameObject towerGhostPrefab;
+    [SerializeField] public Sprite towerIcon;
     [SerializeField] public SpriteAtlas atlas;
     [SerializeField] public AnimationClip spawnClip;
     [SerializeField] public AnimationClip idleClip;

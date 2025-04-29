@@ -48,7 +48,8 @@ public class DeckHandler : MonoBehaviour
                     ghostTower = Instantiate(ghostTowerPrefab, InputManager.Instance.GetTouchPosition(), Quaternion.identity);
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
                     TowerData towerData = TowerManager.Instance.GetTowerData(highlightedIndex);
-                    ghostsprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
+                    ghostsprite.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
+                    //ghostsprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
                     //towerGhost = towerData.towerGhostPrefab;
 
 

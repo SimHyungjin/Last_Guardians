@@ -27,6 +27,8 @@ public class TowerManager : Singleton<TowerManager>
     [Header("Towers")]
     public List<BaseTower> Towers;
 
+    public Sprite[] TowerIcons;
+
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
     private void OnEnable()
@@ -70,6 +72,15 @@ public class TowerManager : Singleton<TowerManager>
                 Debug.Log(trapObject.transform);
             }
         }
+    }
+    public Sprite GetSprite(int towerindex)
+    {
+        int adjustedIndex = Utils.GetSpriteIndex(towerindex);
+        adjustedIndex = adjustedIndex - 1; 
+        if (adjustedIndex >= 0 && adjustedIndex < TowerIcons.Length)
+            return TowerIcons[adjustedIndex];
+        else
+            return null;
     }
 
     public void AddTower(BaseTower tower)

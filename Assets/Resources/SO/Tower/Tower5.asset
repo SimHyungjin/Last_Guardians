@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Tower5
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  towerIcon: {fileID: -1099366527, guid: fd984b2e959a3a3418d2f18cd48ed133, type: 3}
   atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
   spawnClip: {fileID: 7400000, guid: 6d92e24fe0c47524bbabcf1504c6727a, type: 2}
   idleClip: {fileID: 7400000, guid: 77068a7a85764c74eb46e16d4518df5e, type: 2}

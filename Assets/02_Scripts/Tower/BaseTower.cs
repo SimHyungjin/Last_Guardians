@@ -62,7 +62,8 @@ public abstract class BaseTower : MonoBehaviour
         if (towerData != null)
         {
             OverrideAnimator();
-            sprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
+            sprite.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
+                         //= towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
             towerGhost = towerData.towerGhostPrefab;       
         }
 

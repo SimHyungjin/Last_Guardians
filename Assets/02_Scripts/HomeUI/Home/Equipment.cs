@@ -16,7 +16,6 @@ public class Equipment
     public float totalCriticalDamage { get; private set; }
     public float totalPenetration { get; private set; }
     public float totalMoveSpeed { get; private set; }
-    public float specialEffectIDs { get; private set; }
     public int specialEffectID { get; private set; }
 
     public void Equip(ItemInstance instance, bool updateUI = true)
@@ -32,7 +31,7 @@ public class Equipment
         equipped[data.equipType] = instance;
 
         RecalculateStats();
-        if (updateUI) OnEquip.Invoke(instance);
+        if (updateUI) OnEquip?.Invoke(instance);
     }
 
     public void UnEquip(ItemInstance instance, bool updateUI = true)
@@ -45,7 +44,7 @@ public class Equipment
         equipped.Remove(data.equipType);
 
         RecalculateStats();
-        if (updateUI) OnUnequip.Invoke(instance);
+        if (updateUI) OnUnequip?.Invoke(instance);
     }
 
     void RecalculateStats()
@@ -80,9 +79,9 @@ public class Equipment
 
     public IReadOnlyDictionary<EquipType, ItemInstance> GetEquipped() => equipped;
 
-    public EquipmentStats ToStats()
+    public EquipmentInfo InfoToPlayer()
     {
-        return new EquipmentStats
+        return new EquipmentInfo
         {
             attackType = changeAttackType,
             attack = totalAttack,
@@ -97,7 +96,7 @@ public class Equipment
     }
 }
 
-public class EquipmentStats
+public class EquipmentInfo
 {
     public AttackType attackType;
     public float attack;

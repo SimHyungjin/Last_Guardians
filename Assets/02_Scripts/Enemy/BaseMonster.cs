@@ -20,10 +20,11 @@ public class BaseMonster : MonoBehaviour
     public float CurrentHP { get; set; }
     public float DeBuffSpeedModifier { get; set; } = 1f;
     public float BuffSpeedModifier {  get; set; } = 1f;
+    public float CurrentSpeed;
     public float CurrentDef { get; set; }
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
-    public float CurrentSkillValue { get; set; }
+    public float CurrentSkillValue { get; set; } = 1f;
     public float SkillValueModifier { get; set; } = 1f;
     public float DefConstant { get; private set; } = 10f;
 
@@ -90,6 +91,8 @@ public class BaseMonster : MonoBehaviour
         effectHandler = GetComponent<EffectHandler>();
         blinkSeconds = new WaitForSeconds(blinkInterval);
     }
+
+
 
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
@@ -203,7 +206,8 @@ public class BaseMonster : MonoBehaviour
 
     private void ApplyStatus()
     {
-        agent.speed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        CurrentSpeed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        agent.speed = CurrentSpeed;
         CurrentDef = MonsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
         if (MonsterData.HasSkill)
         {
@@ -292,6 +296,8 @@ public class BaseMonster : MonoBehaviour
     public virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
+        for (int i = 0; i < spriteRenderers.Count; i++)
+            spriteRenderers[i].color = originalColors[i];
         MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
         if (!isDisable)
@@ -356,6 +362,7 @@ public class BaseMonster : MonoBehaviour
             yield return blinkSeconds;
         }
 
+       
         colorCoroutine = null;
     }
     //도트 데미지 적용

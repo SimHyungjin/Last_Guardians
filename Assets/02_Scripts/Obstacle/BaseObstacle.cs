@@ -159,13 +159,7 @@ public class BaseObstacle : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
             EffectToPlayer(controller);
-        }
-
-        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
-        {
-            Debug.Log("슬로우");
-            baseMonster.ApplySlowdown(0.7f, 10f);
-        }
+        }   
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -173,12 +167,15 @@ public class BaseObstacle : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
             controller.playerBuffHandler.ClearAllBuffs();
-        }
-
-        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
-        {
-            baseMonster.CancelSlowdown();
-        }
+        }    
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+        {
+            Debug.Log("슬로우");
+            baseMonster.ApplySlowdown(0.7f, 0.2f);
+        }
+    }
 }

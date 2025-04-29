@@ -9,6 +9,8 @@ public class MonsterManager : Singleton<MonsterManager>
 {
     [SerializeField] private Transform[] spawnPoint;
     [SerializeField] private Transform[] target;
+    [SerializeField] private RuntimeAnimatorController normalAnim;
+    [SerializeField] private RuntimeAnimatorController horseAnim;
 
     public List<MonsterWaveData> WaveDatas { get; private set; }
     public NormalEnemy NormalPrefab { get; private set; }
@@ -38,6 +40,8 @@ public class MonsterManager : Singleton<MonsterManager>
         AlliveMonsters = new List<BaseMonster>();
         spawnSeconds = new WaitForSeconds(0.1f);
         InitMonsters();
+        AnimationConnect.AddAnimationEvent(normalAnim);
+        AnimationConnect.AddAnimationEvent(horseAnim);
     }
 
     public void GameStart()

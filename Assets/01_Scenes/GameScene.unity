@@ -1444,6 +1444,8 @@ MonoBehaviour:
   target:
   - {fileID: 5073691358447936586}
   - {fileID: 3360045662071807015}
+  normalAnim: {fileID: 9100000, guid: e9358c226bb09e24da9c5f7064768810, type: 2}
+  horseAnim: {fileID: 9100000, guid: 87250caa4eec27040bc5650f38894ee7, type: 2}
 --- !u!4 &296661908
 Transform:
   m_ObjectHideFlags: 0
@@ -2668,7 +2670,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

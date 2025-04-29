@@ -15,6 +15,9 @@ public class PoolManager : Singleton<PoolManager>
     private Dictionary<System.Type, Queue<Component>> pools = new();
     private Dictionary<System.Type, Transform> poolParents = new();
 
+    private Dictionary<string, Queue<Component>> poolNames = new();
+    private Dictionary<string, Transform> poolPa = new();
+
     public T Spawn<T>(T prefab, Transform parent = null) where T : Component
     {
         System.Type type = typeof(T);
@@ -48,6 +51,39 @@ public class PoolManager : Singleton<PoolManager>
         return obj;
     }
 
+    public T Spawn2<T>(T prefab, Transform parent = null) where T : Component
+    {
+        string key = prefab.gameObject.name;  // 프리팹 이름 기준으로 관리
+
+        if (!poolNames.ContainsKey(key))
+        {
+            poolNames[key] = new Queue<Component>();
+            GameObject poolParentObj = new GameObject(prefab.name + "Pool");
+            poolParentObj.transform.SetParent(this.transform);
+            poolPa[key] = poolParentObj.transform;
+        }
+
+        T obj;
+
+        if (poolNames[key].Count > 0)
+        {
+            obj = poolNames[key].Dequeue() as T;
+            obj.transform.position = parent != null ? parent.transform.position : obj.transform.position;
+        }
+        else
+        {
+            Transform spawnParent = parent != null ? parent : poolPa[key];
+            obj = Instantiate(prefab, spawnParent.position, spawnParent.rotation, parent);
+        }
+
+        obj.gameObject.SetActive(true);
+
+        if (obj is IPoolable poolable)
+            poolable.OnSpawn();
+
+        return obj;
+    }
+
     public void Despawn<T>(T obj) where T : Component
     {
         System.Type type = typeof(T);
@@ -68,6 +104,27 @@ public class PoolManager : Singleton<PoolManager>
         obj.transform.SetParent(poolParents[type]);
 
         pools[type].Enqueue(obj);
+    }
+
+    public void Despawn2<T>(T obj) where T : Component
+    {
+        string key = obj.gameObject.name.Replace("(Clone)", "").Trim(); // <-- 여기 주의
+
+        if (obj is IPoolable poolable)
+            poolable.OnDespawn();
+
+        obj.gameObject.SetActive(false);
+
+        if (!poolNames.ContainsKey(key))
+        {
+            poolNames[key] = new Queue<Component>();
+            GameObject poolParentObj = new GameObject(key + "Pool");
+            poolParentObj.transform.SetParent(this.transform);
+            poolPa[key] = poolParentObj.transform;
+        }
+
+        obj.transform.SetParent(poolPa[key]);
+        poolNames[key].Enqueue(obj);
     }
 
     public void ClearPool()

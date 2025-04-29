@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NormalEnemy : BaseMonster
 {
-    protected override void MeleeAttack()
+    public override void MeleeAttack()
     {
         base.MeleeAttack();
         if (!firstHit)
@@ -22,7 +22,7 @@ public class NormalEnemy : BaseMonster
         AfterAttack();
     }
 
-    protected override void RangeAttack()
+    public override void RangeAttack()
     {
         base.RangeAttack();
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
@@ -33,7 +33,7 @@ public class NormalEnemy : BaseMonster
         AfterAttack();
     }
 
-    protected override void Death()
+    public override void Death()
     {
         base.Death();
         PoolManager.Instance.Despawn(this);

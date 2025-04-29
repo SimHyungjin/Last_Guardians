@@ -606,7 +606,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 62, startCol: 0, endCol: 12);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 122, startCol: 0, endCol: 14);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyMonsterWaveDataToSO(jsonData, renameFiles);
         }
@@ -638,6 +638,7 @@ public class DataDownLoader : MonoBehaviour
             int monster3Value = int.TryParse(row["monster3Value"]?.ToString(), out int parsemon3Value) ? parsemon3Value : default;
             int mon4ID = int.TryParse(row["monster4ID"]?.ToString(), out int parsemon4ID) ? parsemon4ID : default;
             int monster4Value = int.TryParse(row["monster4Value"]?.ToString(), out int parsemon4Value) ? parsemon4Value : default;
+            float bossMultiplier = float.TryParse(row["bossMultiplier"]?.ToString(), out float parsebossMultiplier) ? parsebossMultiplier : default;
 
             string dataname = $"{index}wave";
 
@@ -659,7 +660,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameMonsterWaveDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(index, level, isBoss, waveDelay, spwanDelay, mon1ID, monster1Value, mon2ID, monster2Value, mon3ID, monster3Value, mon4ID, monster4Value);
+            data.SetData(index, level, isBoss, waveDelay, spwanDelay, mon1ID, monster1Value, mon2ID, monster2Value, mon3ID, monster3Value, mon4ID, monster4Value, bossMultiplier);
             EditorUtility.SetDirty(data);
         }
         AssetDatabase.SaveAssets();

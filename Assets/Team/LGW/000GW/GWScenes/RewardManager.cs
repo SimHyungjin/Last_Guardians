@@ -29,7 +29,8 @@ public class RewardManager : Singleton<RewardManager>
 
     public int GetEquip(int wave)
     {
-        float dropChance = Mathf.Max(0, (wave - 4) * 0.5f); // wave 5부터 드랍 시작 (0 → 0.5 → ...)
+        if (wave < 5) return 0;
+        float dropChance = Mathf.Max(0, wave * 0.5f) + 30;// wave 5부터 드랍 시작 (0 → 0.5 → ...)
         if (Random.Range(0f, 100f) > dropChance) return 0;
 
         int grade = Mathf.Clamp((wave - 1) / 20, 0, 5);

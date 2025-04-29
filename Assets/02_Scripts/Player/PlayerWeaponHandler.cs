@@ -19,6 +19,8 @@ public class PlayerWeaponHandler : MonoBehaviour
     public Action attackAction;
     public Action attackActionExit;
 
+    public Vector2 targetPos;
+
     private Dictionary<AttackType, AnimatorOverrideController> weaponAnimatorMap = new();
     private Vector3 defaultLocalPosition;
 
@@ -47,7 +49,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     public void CallAttackEnter(Vector2 targetPos)
     {
         weaponAnimator.SetTrigger("IsAttack");
-        attackActionEnter?.Invoke(targetPos);
+        this.targetPos = targetPos;
     }
 
     public void CallAtack()

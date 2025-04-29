@@ -21,11 +21,11 @@ public class PlayerView : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        weaponHandler.attackActionEnter += OnAttack;
+        weaponHandler.attackAction += OnAttack;
         weaponHandler.attackActionExit += ExitAttack;
     }
 
-    public void ChangeState(PlayerAnimState state, Vector2? attackDir = null)
+    public void ChangeState(PlayerAnimState state)
     {
         if (curState == state) return;
         curState = state;
@@ -39,7 +39,7 @@ public class PlayerView : MonoBehaviour
                 EnterMove();
                 break;
             case PlayerAnimState.Attack:
-                EnterAttack(attackDir.Value);
+                EnterAttack();
                 break;
             case PlayerAnimState.Stun:
                 EnterStun();
@@ -57,7 +57,7 @@ public class PlayerView : MonoBehaviour
 
     public void OnIdle() => ChangeState(PlayerAnimState.Idle);
     public void OnMove() => ChangeState(PlayerAnimState.Move);
-    public void OnAttack(Vector2 targetPos) => ChangeState(PlayerAnimState.Attack, targetPos);
+    public void OnAttack() => ChangeState(PlayerAnimState.Attack);
     public void OnStun() => ChangeState(PlayerAnimState.Stun);
 
     public void OnStateEnd()
@@ -78,9 +78,9 @@ public class PlayerView : MonoBehaviour
         animator.SetBool("IsMove", true);
     }
 
-    private void EnterAttack(Vector2 targetPos)
+    private void EnterAttack()
     {
-        UpdateMoveDirection(targetPos - (Vector2)transform.position);
+        UpdateMoveDirection(weaponHandler.targetPos - (Vector2)transform.position);
         isAttacking = true;
     }
 

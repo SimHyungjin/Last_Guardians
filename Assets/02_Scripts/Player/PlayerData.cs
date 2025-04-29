@@ -4,13 +4,13 @@ public class PlayerData
     public string playerName = "라스트 가디언";
     public string playerDescription = "기본 캐릭터";
 
-    public float baseAttackPower = 20;
+    public float baseAttackPower = 34;
     public float attackPower;
 
-    public float baseAttackSpeed = 1f;
+    public float baseAttackSpeed = 0.9f;
     public float attackSpeed;
 
-    public float baseAttackRange = 1f;
+    public float baseAttackRange = 1.2f;
     public float attackRange;
 
     public float baseMoveSpeed = 2;
@@ -22,14 +22,16 @@ public class PlayerData
     public float baseCriticalDamage = 1.3f;
     public float criticalDamage;
 
-    public float basePenetration = 5;
+    public float basePenetration = 0;
     public float penetration;
 
     public float baseCooldownReduction = 0;
     public float cooldownReduction;
 
+    public int baseAbilityID = 0;
+    public int abilityID;
+
     public AttackType attackType = AttackType.Melee;
-    public string towerSynergy = string.Empty;
 
     public PlayerData() { }
 
@@ -49,8 +51,6 @@ public class PlayerData
         this.baseCriticalDamage = baseCriticalDamage;
         this.basePenetration = basePenetration;
         this.baseCooldownReduction = baseCooldownReduction;
-
-        this.towerSynergy = towerSynergy;
 
         ResetToBaseStats();
     }

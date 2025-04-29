@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.XR;
 
 public class BaseObstacle : MonoBehaviour
 {
@@ -144,6 +145,25 @@ public class BaseObstacle : MonoBehaviour
         }
     }
 
+    private void EffectToMonster(BaseMonster baseMonster)
+    {
+        if(obstacle== null) return;
+
+        switch (obstacle.obstacleEffect_Monster)
+        {
+            case ObstacleEffect.Speed:
+                baseMonster.ApplySlowdown(0.7f, 0.2f);
+                break;
+
+            case ObstacleEffect.Dotdamage:
+                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.2f);
+                break;
+            case ObstacleEffect.Dead:
+                baseMonster.TakeDamage(9999999);
+                break;
+        }
+    }
+
     private void DestroyZone()
     {
         foreach (var zone in zones)
@@ -174,8 +194,7 @@ public class BaseObstacle : MonoBehaviour
     {
         if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
         {
-            Debug.Log("슬로우");
-            baseMonster.ApplySlowdown(0.7f, 0.2f);
+            EffectToMonster(baseMonster);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossMonster : BaseMonster
 {
-    public override void TakeDamage(float amount)
+    public override void TakeDamage(float amount, float penetration = 0)
     {
         base.TakeDamage(amount);
         DamageText damageText = PoolManager.Instance.Spawn<DamageText>(InGameManager.Instance.DamageTextPrefab);

@@ -25,7 +25,7 @@ public class BaseMonster : MonoBehaviour
     public float BuffDefModifier { get; set; } = 1f;
     public float CurrentSkillValue { get; set; }
     public float SkillValueModifier { get; set; } = 1f;
-    public float DefConstant { get; private set } = 10f;
+    public float DefConstant { get; private set; } = 10f;
 
     //근접사거리 원거리 사거리
     private float meleeAttackRange = 0.8f;

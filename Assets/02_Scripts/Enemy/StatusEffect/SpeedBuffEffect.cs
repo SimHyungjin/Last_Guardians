@@ -12,7 +12,6 @@ public class SpeedBuffEffect : StatusEffect
     {
         base.ApplyEffect(target);
         target.BuffSpeedModifier = Amount;
-        Debug.Log($"속도 {target.BuffSpeedModifier} 상승");
     }
 
     public override void RemoveEffect(BaseMonster target)

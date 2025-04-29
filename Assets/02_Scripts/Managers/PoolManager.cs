@@ -108,7 +108,7 @@ public class PoolManager : Singleton<PoolManager>
 
     public void Despawn2<T>(T obj) where T : Component
     {
-        string key = obj.gameObject.name.Replace("(Clone)", "").Trim(); // <-- 여기 주의
+        string key = obj.gameObject.name.Replace("(Clone)", "").Trim(); // 프리팹 기준으로
 
         if (obj is IPoolable poolable)
             poolable.OnDespawn();

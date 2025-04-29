@@ -60,4 +60,18 @@ public class RewardManager : Singleton<RewardManager>
 
         Debug.Log($"[RewardManager] 골드: {Gold}, 강화석: {Stone}, 장비: {(Equip != 0 ? Equip.ToString() : "없음")}");
     }
+    public bool GiveRandomEquip(ItemGrade grade)
+    {
+        var candidates = GameManager.Instance.ItemManager.ItemDatas()
+            .Values.Where(i => i.ItemGrade == grade).ToList();
+
+        if (candidates.Count == 0) return false;
+
+        var selected = candidates[UnityEngine.Random.Range(0, candidates.Count)];
+        SaveSystem.SaveEquipReward(selected.ItemIndex);
+        return true;
+    }
+
+
+
 }

@@ -39,6 +39,9 @@ public abstract class BaseTower : MonoBehaviour
     public bool isCliked;
     public SpriteRenderer sprite;
 
+    [Header("타워 애니메이션")]
+    protected Animator animator;
+
 
     private GameObject towerGhost;
     Vector2 curPos;
@@ -58,6 +61,7 @@ public abstract class BaseTower : MonoBehaviour
 
         if (towerData != null)
         {
+            OverrideAnimator();
             sprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
             towerGhost = towerData.towerGhostPrefab;       
         }
@@ -207,6 +211,15 @@ public abstract class BaseTower : MonoBehaviour
 
             }
         }
+    }
+    protected void OverrideAnimator()
+    {
+        if (animator == null) animator = GetComponent<Animator>();
+        AnimatorOverrideController overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        overrideController["EmptySpawn"] = towerData.spawnClip;
+        overrideController["EmptyIdle"] = towerData.idleClip;
+        overrideController["EmptyActive"] = towerData.activeClip;
+        animator.runtimeAnimatorController = overrideController;
     }
     public virtual void DestroyBuffTower()
     {

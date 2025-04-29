@@ -116,6 +116,7 @@ public class AttackTower : BaseTower
         bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
         lastCheckTime = Time.time;
+        animator.SetTrigger("TowerActive");
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Blast:

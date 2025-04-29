@@ -31,7 +31,8 @@ public class MonsterData : ScriptableObject
     [SerializeField] private bool hasSkill;
     [SerializeField] private int monsterSkillID;
     [SerializeField] private MonAttackPattern monsterAttackPattern;
-    [SerializeField] private Sprite image;
+    [SerializeField] private Sprite icon;
+    [SerializeField] private SPUM_Prefabs prefab;
 
     public int MonsterIndex => monsterIndex;
     public string MonsterName => monsterName;
@@ -45,7 +46,8 @@ public class MonsterData : ScriptableObject
     public bool HasSkill => hasSkill;
     public int MonsterSkillID => monsterSkillID;
     public MonAttackPattern MonsterAttackPattern => monsterAttackPattern;
-    public Sprite Image => image;
+    public Sprite Icon => icon;
+    public SPUM_Prefabs Prefab => prefab;
 
 
     public void SetData(int monsterIndex, string monsterName, float monsterHP,float monsterSpeed, int monsterDamage, float monsterDef, int exp, string monsterDescription, MonType monsterType, bool hasSkill, int monsterSkillID, MonAttackPattern attackPattern)

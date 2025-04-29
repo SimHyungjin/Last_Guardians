@@ -32,17 +32,29 @@ public class MainSceneManager : Singleton<MainSceneManager>
     }
 
 
-    public void ShowPanel(string panelName, GameObject obj = null)
+    public void ShowPanel(string panelName, GameObject obj = null, bool useBlocker = true)
     {
         if (!panelMap.TryGetValue(panelName, out var panel))
         {
             if (obj != null) panel = obj;
             else panel = Utils.InstantiatePrefabFromResource($"UI/MainScene/{panelName}", canvas.transform);
+
             panelMap[panelName] = panel;
         }
+
         panel.SetActive(true);
-        ShowInteractionBlocker(panel, true);
+
+        var childCanvas = panel.GetComponentInChildren<Canvas>(true);
+        if (childCanvas != null) childCanvas.enabled = true;
+
+        if (useBlocker)
+            ShowInteractionBlocker(panel, true);
+        else
+            interactionBlocker.SetActive(false);
+
+        panel.transform.SetSiblingIndex(panel.transform.parent.childCount - 1);
     }
+
 
     public void HidePanel(string panelName)
     {

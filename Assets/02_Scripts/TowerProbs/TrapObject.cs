@@ -46,7 +46,7 @@ public class TrapObject : MonoBehaviour
         this.towerData = towerData;
         cooldownTime = towerData.EffectDuration;
         creationTime = Time.time;
-        
+        environmentEffect = new EnvironmentEffect();
         buffTowerIndex = new List<int>();
         trapEffectList= new List<ITrapEffect>();
         sr = GetComponent<SpriteRenderer>();

@@ -18,6 +18,7 @@ public class MonsterWaveData : ScriptableObject
     [SerializeField] private int monster3Value;
     [SerializeField] private int monster4ID;
     [SerializeField] private int monster4Value;
+    [SerializeField] private float bossMultiplier;
 
     public int WaveIndex => waveIndex;
     public int WaveLevel => waveLevel;
@@ -32,8 +33,9 @@ public class MonsterWaveData : ScriptableObject
     public int Monster3Value => monster3Value;
     public int Monster4ID => monster4ID;
     public int Monster4Value => monster4Value;
+    public float BossMultiplier => bossMultiplier;
 
-    public void SetData(int waveIndex, int waveLevel, bool isBoss, float waveStartDelay, float monsterSpawnInterval, int monster1ID, int monster1Value, int monster2ID, int monster2Value, int monster3ID, int monster3Value, int monster4ID, int monster4Value)
+    public void SetData(int waveIndex, int waveLevel, bool isBoss, float waveStartDelay, float monsterSpawnInterval, int monster1ID, int monster1Value, int monster2ID, int monster2Value, int monster3ID, int monster3Value, int monster4ID, int monster4Value, float bossMultiplier)
     {
         this.waveIndex = waveIndex;
         this.waveLevel = waveLevel;
@@ -48,5 +50,6 @@ public class MonsterWaveData : ScriptableObject
         this.monster3Value = monster3Value;
         this.monster4ID = monster4ID;
         this.monster4Value = monster4Value;
+        this.bossMultiplier = bossMultiplier;
     }
 }

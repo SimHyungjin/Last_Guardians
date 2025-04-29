@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.U2D;
 public enum TowerType
@@ -65,6 +66,9 @@ public class TowerData: ScriptableObject
     [Header("타워 외관")]
     [SerializeField] public GameObject towerGhostPrefab;
     [SerializeField] public SpriteAtlas atlas;
+    [SerializeField] public AnimationClip spawnClip;
+    [SerializeField] public AnimationClip idleClip;
+    [SerializeField] public AnimationClip activeClip;
 
     [Header("타워 스텟")]
     [SerializeField] private int towerIndex;
@@ -85,7 +89,6 @@ public class TowerData: ScriptableObject
     [SerializeField] private int upgradeLevel;
     [SerializeField] private string towerDescription;
     [SerializeField] private Sprite icon;
-
     public int TowerIndex => towerIndex;
     public string TowerName => towerName;
     public float AttackPower => attackPower;
@@ -131,6 +134,11 @@ public class TowerData: ScriptableObject
         this.bossImmune = bossImmune;
         this.upgradeLevel = upgradeLevel;
         this.towerDescription = towerDescription;
+        int spriteIndex = Utils.GetSpriteIndex(towerIndex);
+        string path = "Assets/99_ThirdParty/Towers/00_Animation/";
+        spawnClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path+$"Tower_{spriteIndex}_Spawn.anim");
+        idleClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Idle.anim");
+        activeClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Active.anim");
     }
 }
 

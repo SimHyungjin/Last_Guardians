@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -98,7 +99,17 @@ public class BaseMonster : MonoBehaviour
         //currentPrefab = Instantiate(MonsterData.Prefab,prefabSlot);
         currentPrefab = PoolManager.Instance.Spawn2(MonsterData.Prefab, prefabSlot);
         currentPrefab.transform.SetParent(prefabSlot);
-        
+
+        if (this.transform.position.x < 0)
+        {
+            this.transform.localScale = rightScale;
+        }
+        else
+        {
+            this.transform.localScale = leftScale;
+        }
+        currentPrefab.transform.localScale = rightScale;
+
         if (skillData != null)
             this.MonsterSkillBaseData = skillData;
         else this.MonsterSkillBaseData = null;
@@ -107,7 +118,6 @@ public class BaseMonster : MonoBehaviour
 
     private void Init()
     {
-        AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
         var existingConnect = currentPrefab.GetComponentInChildren<AnimationConnect>();
         if (existingConnect == null)
         {
@@ -121,8 +131,7 @@ public class BaseMonster : MonoBehaviour
         animationConnect.Animator = currentPrefab.GetComponentInChildren<Animator>();
         animationConnect.BaseMonster = null;
         animationConnect.BaseMonster = this;
-        //animationConnect.AddAnimationEvent();
-        //animator = currentPrefab.GetComponentInChildren<Animator>();
+        
         originalColors.Clear();
         spriteRenderers.Clear();
         spriteRenderers = currentPrefab.GetComponentsInChildren<SpriteRenderer>().ToList();
@@ -130,11 +139,14 @@ public class BaseMonster : MonoBehaviour
         {
             originalColors.Add(spriteRenderers[i].color);
         }
+
+        AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
         CurrentHP = MonsterData.MonsterHP;
         CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;
         agent.isStopped = false;
         agent.speed = MonsterData.MonsterSpeed;
+        
         isAttack = false;
         firstHit = false;
         colorCoroutine = null;
@@ -287,16 +299,6 @@ public class BaseMonster : MonoBehaviour
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
         }
     }
-
-    private void DestroyAllChildren(Transform parent)
-    {
-        foreach (Transform child in parent)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
@@ -330,8 +332,6 @@ public class BaseMonster : MonoBehaviour
             colorCoroutine = StartCoroutine(BlinkCoroutine());
         }
     }
-
-    
 
     private IEnumerator BlinkCoroutine()
     {

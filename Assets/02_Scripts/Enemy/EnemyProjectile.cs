@@ -37,4 +37,9 @@ public class EnemyProjectile : ProjectileBase
             PoolManager.Instance.Despawn(this);
         }
     }
+
+    public void ProjectileDespawn()
+    {
+        PoolManager.Instance.Despawn(this);
+    }
 }

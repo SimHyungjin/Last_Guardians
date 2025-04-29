@@ -30,7 +30,7 @@ public class SpawnBountyMonster : MonoBehaviour
 
     public void Init(MonsterData data)
     {
-        spawnImage.sprite = data.Image;
+        spawnImage.sprite = data.Icon;
         spawnText.text = data.MonsterName;
         spawnIndex = data.MonsterIndex;
     }

@@ -2,8 +2,10 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -11,6 +13,8 @@ public class BaseMonster : MonoBehaviour
 {
     public MonsterData MonsterData { get; private set; }
     public MonsterSkillBase MonsterSkillBaseData { get; private set; }
+    [SerializeField] private Transform prefabSlot;
+    private SPUM_Prefabs currentPrefab;
 
     //몬스터 스탯관련
     public float CurrentHP { get; set; }
@@ -43,12 +47,16 @@ public class BaseMonster : MonoBehaviour
     public LayerMask targetLayer;
     public Transform Target { get; set; } // 목표지점
 
-    private SpriteRenderer spriteRenderer;
-    private Color originalColor;
+    private AnimationConnect animationConnect;
+    //private Animator animator;
+    private List<SpriteRenderer> spriteRenderers = new();
+    private List<Color> originalColors = new();
     private Color hitColor = Color.red; // 데미지 입었을 때 색상
     private int blinkCount = 2; // 번쩍이는 횟수
     private float blinkInterval = 0.1f; // 깜빡이는 주기
     private Coroutine colorCoroutine;
+    private readonly Vector3 rightScale = new Vector3(1, 1, 1);
+    private readonly Vector3 leftScale = new Vector3(-1, 1, 1);
 
     protected NavMeshAgent agent;
 
@@ -78,8 +86,6 @@ public class BaseMonster : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        originalColor = spriteRenderer.color;
         effectHandler = GetComponent<EffectHandler>();
         blinkSeconds = new WaitForSeconds(blinkInterval);
     }
@@ -87,6 +93,23 @@ public class BaseMonster : MonoBehaviour
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
         this.MonsterData = data;
+        //DestroyAllChildren(prefabSlot);
+        if(currentPrefab != null)
+            PoolManager.Instance.Despawn2(currentPrefab);
+        //currentPrefab = Instantiate(MonsterData.Prefab,prefabSlot);
+        currentPrefab = PoolManager.Instance.Spawn2(MonsterData.Prefab, prefabSlot);
+        currentPrefab.transform.SetParent(prefabSlot);
+
+        if (this.transform.position.x < 0)
+        {
+            this.transform.localScale = rightScale;
+        }
+        else
+        {
+            this.transform.localScale = leftScale;
+        }
+        currentPrefab.transform.localScale = rightScale;
+
         if (skillData != null)
             this.MonsterSkillBaseData = skillData;
         else this.MonsterSkillBaseData = null;
@@ -95,14 +118,35 @@ public class BaseMonster : MonoBehaviour
 
     private void Init()
     {
+        var existingConnect = currentPrefab.GetComponentInChildren<AnimationConnect>();
+        if (existingConnect == null)
+        {
+            animationConnect = currentPrefab.gameObject.AddComponent<AnimationConnect>();
+        }
+        else
+        {
+            animationConnect = existingConnect;
+        }
+        animationConnect.Animator = null;
+        animationConnect.Animator = currentPrefab.GetComponentInChildren<Animator>();
+        animationConnect.BaseMonster = null;
+        animationConnect.BaseMonster = this;
+        
+        originalColors.Clear();
+        spriteRenderers.Clear();
+        spriteRenderers = currentPrefab.GetComponentsInChildren<SpriteRenderer>().ToList();
+        for (int i = 0; i < spriteRenderers.Count; i++)
+        {
+            originalColors.Add(spriteRenderers[i].color);
+        }
+
         AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
-        spriteRenderer.sprite = MonsterData.Image;
-        spriteRenderer.color = originalColor;
         CurrentHP = MonsterData.MonsterHP;
         CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;
         agent.isStopped = false;
         agent.speed = MonsterData.MonsterSpeed;
+        
         isAttack = false;
         firstHit = false;
         colorCoroutine = null;
@@ -129,10 +173,7 @@ public class BaseMonster : MonoBehaviour
 
         if (isAttack && !isSturn && AttackTimer <= 0)
         {
-            if (MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
-                RangeAttack();
-            else
-                MeleeAttack();
+            StartAttack();
         }
 
         if (MonsterSkillBaseData != null)
@@ -149,6 +190,11 @@ public class BaseMonster : MonoBehaviour
         }
 
         ApplyStatus();
+
+        if (agent.speed == 0)
+        {
+            animationConnect.StopMoveAnimation();
+        }
     }
 
     private void ApplyStatus()
@@ -187,32 +233,45 @@ public class BaseMonster : MonoBehaviour
 
         if (movedirection.x > 0)
         {
-            spriteRenderer.flipX = false;
+            this.transform.localScale = leftScale;
         }
-        else
+        else if(movedirection.x < 0)
         {
-            spriteRenderer.flipX = true;
+            this.transform.localScale = rightScale;
         }
     }   
 
     private void Move()
     {
+        animationConnect.StartMoveAnimation();
         agent.SetDestination(Target.position);
     }
 
-    protected virtual void MeleeAttack()
+    private void StartAttack()
     {
+        animationConnect.StartAttackAnimation();
         agent.isStopped = true;
-        agent.speed = 0f;
+        agent.speed = 0f;   
+    }
+
+    public void Attack()
+    {
+        if (MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
+            RangeAttack();
+        else
+            MeleeAttack();
+    }
+
+    public virtual void MeleeAttack()
+    {
         //타입별 몬스터에서 구현
     }
 
-    protected virtual void RangeAttack()
+    public virtual void RangeAttack()
     {
-        agent.isStopped = true;
-        agent.speed = 0f;
-        //타입별 몬스터에서 구현
         
+        //타입별 몬스터에서 구현
+
     }
 
     protected void AfterAttack()
@@ -226,20 +285,20 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
-    protected virtual void Death()
+    public virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
         MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
-
         if (!isDisable)
         {
+            animationConnect.StartDeathAnimaiton();
             MonsterManager.Instance.MonsterKillCount++;
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
             bead.Init(MonsterData.Exp, this.transform);
+            PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
         }
     }
-
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
@@ -260,8 +319,8 @@ public class BaseMonster : MonoBehaviour
         //데미지 관련 공식 들어가야 함
         CurrentHP -= amount;
 
-        if(CurrentHP <= 0)
-            Death();
+        if (CurrentHP <= 0)
+            animationConnect.StartDeathAnimaiton();
         
         //피격시 몬스터 색 변경
         if (this.gameObject.activeSelf)
@@ -278,9 +337,17 @@ public class BaseMonster : MonoBehaviour
     {
         for (int i = 0; i < blinkCount; i++)
         {
-            spriteRenderer.color = hitColor;
+            for (int j = 0; j < spriteRenderers.Count; j++)
+            {
+                spriteRenderers[j].color = hitColor;
+            }
+            //spriteRenderers.color = hitColor;
             yield return blinkSeconds;
-            spriteRenderer.color = originalColor;
+            for (int j = 0; j < spriteRenderers.Count; j++)
+            {
+                spriteRenderers[j].color = originalColors[j];
+            }
+            //spriteRenderers.color = originalColors;
             yield return blinkSeconds;
         }
 

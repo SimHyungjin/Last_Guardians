@@ -1444,6 +1444,8 @@ MonoBehaviour:
   target:
   - {fileID: 5073691358447936586}
   - {fileID: 3360045662071807015}
+  normalAnim: {fileID: 9100000, guid: e9358c226bb09e24da9c5f7064768810, type: 2}
+  horseAnim: {fileID: 9100000, guid: 87250caa4eec27040bc5650f38894ee7, type: 2}
 --- !u!4 &296661908
 Transform:
   m_ObjectHideFlags: 0
@@ -2787,7 +2789,7 @@ Transform:
   m_GameObject: {fileID: 761361665}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.5196004, y: 1.9781601, z: -10.002667}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

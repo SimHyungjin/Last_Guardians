@@ -6,7 +6,7 @@ public class TowerEntryUI : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI towerNameText;
-    public TextMeshProUGUI descriptionText; // ← 설명 하나로 통합
+    public TextMeshProUGUI descriptionText;
     public Button entryButton;
 
     private TowerData myData;
@@ -16,10 +16,9 @@ public class TowerEntryUI : MonoBehaviour
         myData = data;
 
         towerNameText.text = data.TowerName;
-        descriptionText.text = data.TowerDescription; // ← 여기로 대체
+        descriptionText.text = data.TowerDescription;
 
-        int spriteIndex = GetSpriteIndex(data.TowerIndex);
-        icon.sprite = data.atlas?.GetSprite($"Tower_{spriteIndex}");
+        icon.sprite = TowerManager.Instance.GetSprite(data.TowerIndex);
 
         entryButton.onClick.RemoveAllListeners();
         entryButton.onClick.AddListener(() =>
@@ -27,16 +26,7 @@ public class TowerEntryUI : MonoBehaviour
             if (TowerCombinationUI.Instance.HasCombinationFor(data))
             {
                 TowerCombinationUI.Instance.ShowCombinationFor(data);
-                
             }
         });
-    }
-
-    private int GetSpriteIndex(int index)
-    {
-        if (index > 49 && index < 99) return index - 49;
-        if (index > 98 && index < 109) return index - 98;
-        if (index > 108) return index - 59;
-        return index;
     }
 }

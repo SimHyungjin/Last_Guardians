@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
+  spawnClip: {fileID: 7400000, guid: 473adcc2ed950ea40a8b35866574b82f, type: 2}
+  idleClip: {fileID: 7400000, guid: cb4376bf22db58f4e8a85196589c8330, type: 2}
+  activeClip: {fileID: 7400000, guid: 0fc8a1c79c473b5419abb3702fe40ec5, type: 2}
   towerIndex: 91
   towerName: "\uC2E0\uC131\uD55C \uAD81\uC218 \uD0C0\uC6CCII"
-  attackPower: 39
-  attackSpeed: 0.9
+  attackPower: 50
+  attackSpeed: 0.5
   attackRange: 6
   towerType: 2
   projectileType: 1
@@ -25,10 +28,10 @@ MonoBehaviour:
   specialEffect: 5
   effectChance: 0
   effectDuration: 0
-  effectValue: 0.5
+  effectValue: 2
   effectTarget: 3
   effectTargetCount: 1
   bossImmune: 0
   upgradeLevel: 2
-  towerDescription: "\uBCF4\uC2A4\uC5D0\uAC8C 50% \uCD94\uAC00 \uD53C\uD574"
+  towerDescription: "\uBCF4\uC2A4 \uD53C\uD574\uB7C9 2\uBC30 \uC99D\uAC00"
   icon: {fileID: 0}

@@ -10,14 +10,22 @@ public class PlayerMoveController : MonoBehaviour
     private bool canMove = true;
     private bool isSwiping = false;
     private NavMeshAgent agent;
+    private PlayerView playerView;
+
+    private Coroutine moveCoroutine;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = true;
+
+        agent.updateRotation = false;
         agent.updatePosition = true;
     }
 
+    private void Start()
+    {
+        playerView = InGameManager.Instance.playerManager.playerController.playerView;
+    }
     public void Init()
     {
         agent.speed = InGameManager.Instance.playerManager.player.playerData.moveSpeed;
@@ -25,7 +33,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void SwipeStart()
@@ -41,7 +49,28 @@ public class PlayerMoveController : MonoBehaviour
 
         Vector3 target = InputManager.Instance.GetTouchWorldPosition();
         target.z = transform.position.z;
+
         agent.SetDestination(target);
+        playerView.OnMove();
+
+        if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+        moveCoroutine = StartCoroutine(WaitUntilArrival());
+    }
+
+    private IEnumerator WaitUntilArrival()
+    {
+        while (true)
+        {
+            if (!agent.pathPending)
+            {
+                if (agent.remainingDistance <= agent.stoppingDistance) break;
+                playerView.UpdateMoveDirection(agent.velocity);
+            }
+            yield return null;
+        }
+
+        playerView.OnIdle();
+        moveCoroutine = null;
     }
 
     public void SetCanMove(bool value)
@@ -49,48 +78,4 @@ public class PlayerMoveController : MonoBehaviour
         canMove = value;
         if(!value) agent.ResetPath();
     }
-
-    ///// <summary>
-    ///// 드래그 입력이 시작될 때 호출됩니다.
-    ///// 화면 클릭시 위치값을 저장합니다.
-    ///// </summary>
-    //public void SwipeStart()
-    //{
-    //    if (isSwiping) return;
-    //    isSwiping = true;
-    //    if(moveCoroutine != null)
-    //    {
-    //        StopCoroutine(moveCoroutine);
-    //        moveCoroutine = null;
-    //    }
-    //}
-    ///// <summary>
-    ///// 드래그 입력이 끝날 때 호출됩니다.
-    ///// </summary>
-    //public void SwipeStop()
-    //{
-    //    if (!isSwiping) return;
-
-    //    isSwiping = false;
-    //    endPos = InputManager.Instance.GetTouchWorldPosition();
-    //    moveCoroutine = StartCoroutine(Move());
-    //}
-
-    //IEnumerator Move()
-    //{
-    //    if (endPos == null) yield break;
-    //    while (Vector2.Distance(transform.position, endPos) > 0.01f)
-    //    {
-    //        Vector2 direction = endPos - (Vector2)transform.position;
-    //        if (direction.sqrMagnitude > 0.001f)
-    //        {
-    //            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
-    //            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-    //        }
-    //        transform.position = Vector2.MoveTowards(transform.position, endPos, InGameManager.Instance.playerManager.player.playerData.moveSpeed * Time.deltaTime);
-    //        yield return null;
-    //    }
-    //    transform.position = endPos;
-    //}
 }

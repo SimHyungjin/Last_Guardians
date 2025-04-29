@@ -20,11 +20,13 @@ public class BaseMonster : MonoBehaviour
     public float CurrentHP { get; set; }
     public float DeBuffSpeedModifier { get; set; } = 1f;
     public float BuffSpeedModifier {  get; set; } = 1f;
+    public float CurrentSpeed;
     public float CurrentDef { get; set; }
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
-    public float CurrentSkillValue { get; set; }
+    public float CurrentSkillValue { get; set; } = 1f;
     public float SkillValueModifier { get; set; } = 1f;
+    public float DefConstant { get; private set; } = 10f;
 
     //근접사거리 원거리 사거리
     private float meleeAttackRange = 0.8f;
@@ -90,14 +92,16 @@ public class BaseMonster : MonoBehaviour
         blinkSeconds = new WaitForSeconds(blinkInterval);
     }
 
+
+
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
         this.MonsterData = data;
         //DestroyAllChildren(prefabSlot);
         if(currentPrefab != null)
-            PoolManager.Instance.Despawn2(currentPrefab);
+            PoolManager.Instance.DespawnbyPrefabName(currentPrefab);
         //currentPrefab = Instantiate(MonsterData.Prefab,prefabSlot);
-        currentPrefab = PoolManager.Instance.Spawn2(MonsterData.Prefab, prefabSlot);
+        currentPrefab = PoolManager.Instance.SpawnbyPrefabName(MonsterData.Prefab, prefabSlot);
         currentPrefab.transform.SetParent(prefabSlot);
 
         if (this.transform.position.x < 0)
@@ -141,7 +145,10 @@ public class BaseMonster : MonoBehaviour
         }
 
         AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
-        CurrentHP = MonsterData.MonsterHP;
+        if(MonsterData.MonsterType != MonType.Standard)
+            CurrentHP = MonsterData.MonsterHP * MonsterManager.Instance.nowWave.BossMultiplier;
+        else
+            CurrentHP = MonsterData.MonsterHP;
         CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;
         agent.isStopped = false;
@@ -199,7 +206,8 @@ public class BaseMonster : MonoBehaviour
 
     private void ApplyStatus()
     {
-        agent.speed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        CurrentSpeed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        agent.speed = CurrentSpeed;
         CurrentDef = MonsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
         if (MonsterData.HasSkill)
         {
@@ -288,6 +296,8 @@ public class BaseMonster : MonoBehaviour
     public virtual void Death()
     {
         //사망애니메이션 재생 후 오브젝트 풀에 반납하기 오브젝트 풀 반납은 상속받은 스크립트에서
+        for (int i = 0; i < spriteRenderers.Count; i++)
+            spriteRenderers[i].color = originalColors[i];
         MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
         if (!isDisable)
@@ -305,7 +315,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //데미지 받을 떄 호출되는 함수
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount, float penetration = 0)
     {
         Debug.Log($"데미지 입음{amount}");
         if(EvasionRate != -1f)
@@ -317,7 +327,8 @@ public class BaseMonster : MonoBehaviour
         }
 
         //데미지 관련 공식 들어가야 함
-        CurrentHP -= amount;
+        //CurrentHP -= amount;
+        CurrentHP -= amount * (1 - CurrentDef * (1-penetration)/ (CurrentDef * (1 - penetration) + DefConstant));
 
         if (CurrentHP <= 0)
             animationConnect.StartDeathAnimaiton();
@@ -351,6 +362,7 @@ public class BaseMonster : MonoBehaviour
             yield return blinkSeconds;
         }
 
+       
         colorCoroutine = null;
     }
     //도트 데미지 적용

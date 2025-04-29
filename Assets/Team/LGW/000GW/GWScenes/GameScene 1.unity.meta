@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/99_ThirdParty/Character.meta
+guid: 7b251433302319743bf304ae75efe4a5
+folderAsset: yes
+========
 guid: dcd693861b0af574da123f80737ee6e5
+>>>>>>>> Dev:Assets/Team/LGW/000GW/GWScenes/GameScene 1.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

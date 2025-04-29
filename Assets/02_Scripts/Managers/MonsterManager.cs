@@ -1,8 +1,10 @@
+using NavMeshPlus.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class MonsterManager : Singleton<MonsterManager>
@@ -35,6 +37,9 @@ public class MonsterManager : Singleton<MonsterManager>
     private int alliveCount = 0;
     public int RemainMonsterCount {  get; private set; }
     public int MonsterKillCount { get; set; }
+
+    public List<NavMeshPlus.Components.NavMeshModifier> NavMeshModifiers { get; private set; } = new();
+    public List<NavMeshPlus.Components.NavMeshModifier> nearbyModifiers { get; private set; } = new();
     private void Start()
     {
         AlliveMonsters = new List<BaseMonster>();
@@ -42,6 +47,7 @@ public class MonsterManager : Singleton<MonsterManager>
         InitMonsters();
         AnimationConnect.AddAnimationEvent(normalAnim);
         AnimationConnect.AddAnimationEvent(horseAnim);
+        NavMeshModifiers = FindObjectsOfType<NavMeshPlus.Components.NavMeshModifier>().ToList();
 
         MaxWave = PlayerPrefs.GetInt("IdleMaxWave", 0);
     }
@@ -165,6 +171,19 @@ public class MonsterManager : Singleton<MonsterManager>
             monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
             //AlliveMonsters.Add(monster);
         }
+    }
+
+    public void SummonMonster(int index, Vector2 pos)
+    {
+        MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
+        NormalEnemy monster = PoolManager.Instance.SpawnbyPrefabName(NormalPrefab);
+        monster.Setup(data);
+        monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
+        monster.transform.position = pos;
+        monster.transform.SetParent(PoolManager.Instance.transform);
+        AlliveMonsters.Add(monster);
+        alliveCount++;
+        RemainMonsterCount++;
     }
 
     public void OnMonsterDeath(BaseMonster monster)

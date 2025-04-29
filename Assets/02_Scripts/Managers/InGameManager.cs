@@ -9,7 +9,7 @@ public class InGameManager : Singleton<InGameManager>
 {
     public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
-    private int playerMaxHP = 5000;
+    private int playerMaxHP = 100;
     public int PlayerHP { get; private set; }
     public DamageText DamageTextPrefab { get; private set; }
     public Canvas DamageUICanvas { get; private set; }
@@ -27,8 +27,8 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private GameOverUI gameoverUI;
 
     public int level;
-    public int exp;
-    private int maxExp = 1000;
+    public float exp;
+    private double maxExp = 50;
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class InGameManager : Singleton<InGameManager>
         mulliganUI.StartSelectCard();
     }
 
-    public void GetExp(int exp)
+    public void GetExp(float exp)
     {
         this.exp += exp;
         UpdateExp();
@@ -65,7 +65,8 @@ public class InGameManager : Singleton<InGameManager>
     {
         Time.timeScale = 0f;
         level++;
-        exp = exp - maxExp;
+        exp = (float)(exp - maxExp);
+        maxExp = 50 + 25 * Math.Pow(level - 1, 1.4);
         UpdateExp();
         levelText.text = $"Lv {level}";
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
@@ -82,7 +83,7 @@ public class InGameManager : Singleton<InGameManager>
     public void GameStart()
     {
         MonsterManager.Instance.GameStart();
-        GetExp(maxExp);
+        GetExp((float)maxExp);
         //장애물 배치
     }
 
@@ -131,7 +132,7 @@ public class InGameManager : Singleton<InGameManager>
 
     private void UpdateExp()
     {
-        playerEXPbar.fillAmount = (float)exp / maxExp;
+        playerEXPbar.fillAmount = (float)(exp / maxExp);
         playerEXPText.text = $"경험치 : {exp} / {maxExp}";
     }
 }

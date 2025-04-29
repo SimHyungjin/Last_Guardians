@@ -141,7 +141,10 @@ public class BaseMonster : MonoBehaviour
         }
 
         AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
-        CurrentHP = MonsterData.MonsterHP;
+        if(MonsterData.MonsterType != MonType.Standard)
+            CurrentHP = MonsterData.MonsterHP * MonsterManager.Instance.nowWave.BossMultiplier;
+        else
+            CurrentHP = MonsterData.MonsterHP;
         CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;
         agent.isStopped = false;

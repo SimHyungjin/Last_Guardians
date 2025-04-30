@@ -9,7 +9,6 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
     {
         if (towerData.EffectTargetCount == 0)
         {
-            Debug.LogError($"[ChainAttack] EffectTargetCount is 0. TowerData: {towerData.TowerIndex}");
             if (towerData.EffectTarget == EffectTarget.All)
             {
                 target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
@@ -25,7 +24,6 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
         }
         else
         {
-            Debug.Log($"[ChainAttack] EffectTargetCount: {towerData.EffectTargetCount}");
             TowerData ownerTowerData = this.gameObject.GetComponent<ProjectileBase>().GetTowerData();
             if(ownerTowerData.EffectTarget==EffectTarget.BossOnly)
             {

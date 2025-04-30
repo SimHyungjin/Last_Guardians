@@ -23,7 +23,9 @@ public class Card : MonoBehaviour
     public event Action<Card> onClicked;
     public event Action<Card> onClickEnd;
     public TextMeshProUGUI Text;
+
     private bool isMoving = false;
+
     Vector2 screenPos;
     Vector2 curPos;
     public int TowerIndex => towerIndex;
@@ -37,6 +39,11 @@ public class Card : MonoBehaviour
         stack = 1;
         ShowStack();
     }
+    /// <summary>
+    /// 카드에 클릭이 들어왔을때
+    /// 덱핸들러에게 메세지를 보낸다.
+    /// </summary>
+    /// <param name="ctx"></param>
     public void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (!ctx.started) return;
@@ -71,6 +78,7 @@ public class Card : MonoBehaviour
             onClickEnd?.Invoke(this);
         }
     }
+
     public void OnDestroy()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);

@@ -10,9 +10,11 @@ using UnityEngine;
 public class MonsterManager : Singleton<MonsterManager>
 {
     [SerializeField] private Transform[] spawnPoint;
-    [SerializeField] private Transform[] target;
+    //[SerializeField] private Transform[] target;
     [SerializeField] private RuntimeAnimatorController normalAnim;
     [SerializeField] private RuntimeAnimatorController horseAnim;
+
+    public Transform Target { get; set; }
     public int MaxWave { get; private set; } = 0;
     public List<MonsterWaveData> WaveDatas { get; private set; }
     public NormalEnemy NormalPrefab { get; private set; }
@@ -117,7 +119,8 @@ public class MonsterManager : Singleton<MonsterManager>
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
             NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
-            monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            monster.Target = Target;
+            //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
             alliveCount++;
             spawnCount++;
@@ -128,7 +131,8 @@ public class MonsterManager : Singleton<MonsterManager>
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
-            monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            monster.Target = Target;
+            //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
             alliveCount++;
             spawnCount++;
@@ -139,7 +143,8 @@ public class MonsterManager : Singleton<MonsterManager>
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
             monster.Setup(data);
-            monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
+            monster.Target = Target;
+            //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
         }
         
@@ -172,7 +177,8 @@ public class MonsterManager : Singleton<MonsterManager>
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
             BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[nowWave.WaveLevel % 2]);
             monster.Setup(data);
-            monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
+            monster.Target = Target;
+            //monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
             //AlliveMonsters.Add(monster);
         }
     }
@@ -182,7 +188,8 @@ public class MonsterManager : Singleton<MonsterManager>
         MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
         NormalEnemy monster = PoolManager.Instance.SpawnbyPrefabName(NormalPrefab);
         monster.Setup(data);
-        monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
+        monster.Target = Target;
+        //monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
         monster.transform.position = pos;
         monster.transform.SetParent(PoolManager.Instance.transform);
         AlliveMonsters.Add(monster);

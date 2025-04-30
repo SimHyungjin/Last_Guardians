@@ -8,8 +8,6 @@ public interface IEffect
     void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance,EnvironmentEffect environmentEffect);
 }
 
-
-
 public class ProjectileFactory : MonoBehaviour
 {
     [System.Serializable]
@@ -51,6 +49,17 @@ public class ProjectileFactory : MonoBehaviour
                 Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
     }
+
+    /// <summary>
+    /// 단일 발사체 발사, 각각의 타워에 맞는 프로젝타일을 생성하여 발사
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="targetPos"></param>
+    /// <param name="towerData"></param>
+    /// <param name="adaptedTowerData"></param>
+    /// <param name="parent"></param>
+    /// <param name="buffTowerIndex"></param>
+    /// <param name="environmentEffect"></param>
     public void SpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData,AdaptedTowerData adaptedTowerData ,Transform parent,List<int> buffTowerIndex,EnvironmentEffect environmentEffect) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab))
@@ -71,6 +80,19 @@ public class ProjectileFactory : MonoBehaviour
         AddAllEffects(projectile, buffTowerIndex);
         projectile.Launch(targetPos); // 이펙트 추가
     }
+
+    /// <summary>
+    /// 다중 발사체 발사, 각 발사체가 서로 다른 각도로 발사됨
+    /// 각각의 타워에 맞는 프로젝타일을 생성하여 발사
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="targetPos"></param>
+    /// <param name="towerData"></param>
+    /// <param name="adaptedTowerData"></param>
+    /// <param name="parent"></param>
+    /// <param name="buffTowerIndex"></param>
+    /// <param name="shotCount"></param>
+    /// <param name="environmentEffect"></param>
     public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedTowerData adaptedTowerData ,Transform parent, List<int> buffTowerIndex,int shotCount, EnvironmentEffect environmentEffect) where T : ProjectileBase
     {
         
@@ -103,11 +125,16 @@ public class ProjectileFactory : MonoBehaviour
             }
         }
 
+    /// <summary>
+    /// 프리팹을 반환하는 메서드, 체인샷에서 사용됨
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="towerData"></param>
+    /// <returns></returns>
     public T ReturnPrefabs<T>(TowerData towerData) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var basePrefab))
         {
-            Debug.LogError($"[ProjectileFactory] 타입에 맞는 프리팹 없음: {towerData.ProjectileType}");
             return null;
         }
 
@@ -115,11 +142,14 @@ public class ProjectileFactory : MonoBehaviour
         {
             return casted;
         }
-
-        Debug.LogError($"[ProjectileFactory] 프리팹 타입이 기대한 {typeof(T)}이 아님: 실제는 {basePrefab.GetType()}");
         return null;
     }
 
+    /// <summary>
+    /// 타워에서 저장된 이펙트 리스트를 가져와 프로젝타일에 실제 이펙트를 저장
+    /// </summary>
+    /// <param name="projectile"></param>
+    /// <param name="buffTowerIndex"></param>
     public void AddAllEffects(ProjectileBase projectile,List<int> buffTowerIndex)
     {
         var go = projectile.gameObject;

@@ -1,11 +1,10 @@
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileCriticalEffect : MonoBehaviour, IEffect
 {
+    ///////////==========================크리티컬 추가데미지================================/////////////////////
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         target.TakeDamage(adaptedTowerData.attackPower * (towerData.EffectValue - 1));

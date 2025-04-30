@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
 {
+    ///////////==========================슬로우 이펙트================================/////////////////////
+
     private float addObstacleValue = 0f;
     public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
@@ -14,6 +16,10 @@ public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
         }
     }
 
+    /// <summary>
+    /// 계절에 따라 물속성 적용
+    /// </summary>
+    /// <param name="environmentEffect"></param>
     private void IsWater(EnvironmentEffect environmentEffect)
     {
         if (EnviromentManager.Instance.Season == Season.winter)

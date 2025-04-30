@@ -24,8 +24,8 @@ MonoBehaviour:
   <equipIndex>k__BackingField: 1103
   <equipType>k__BackingField: 0
   <attackType>k__BackingField: 2
-  <attackPower>k__BackingField: 24
-  <attackSpeed>k__BackingField: 1.2
+  <attackPower>k__BackingField: 30
+  <attackSpeed>k__BackingField: 1.1
   <moveSpeed>k__BackingField: 0
   <criticalChance>k__BackingField: 0
   <criticalDamage>k__BackingField: 0

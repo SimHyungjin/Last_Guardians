@@ -29,7 +29,7 @@ MonoBehaviour:
   <moveSpeed>k__BackingField: 0
   <criticalChance>k__BackingField: 0
   <criticalDamage>k__BackingField: 0
-  <penetration>k__BackingField: 5
+  <penetration>k__BackingField: 0.05
   <attackRange>k__BackingField: 0
   <specialEffectID>k__BackingField: 0
   <linkedItem>k__BackingField: {fileID: 11400000, guid: 00cc9bde15ffa044b82240d7737993ee, type: 2}

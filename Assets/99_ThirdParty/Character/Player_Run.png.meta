@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 044863a7c43990e47b3a439ad090aeed
+guid: 93918b8ee0b961844ac0ae65f3878cf4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Idle_0
+      name: Player_Run_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 89e43a8a57d1d0843b2c7df7e68d2862
-      internalID: -458521860
+      spriteID: e4d20e28318319d4599700e2264914f3
+      internalID: -1302740922
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Idle_1
+      name: Player_Run_1
       rect:
         serializedVersion: 2
         x: 64
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cb0dd16a717884439a14db1dcbee8f0
-      internalID: -647749835
+      spriteID: 777572509dc631649bc521d50cc57707
+      internalID: 1073902903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Idle_2
+      name: Player_Run_2
       rect:
         serializedVersion: 2
         x: 128
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d83f72d4addff343825556d27fa1b72
-      internalID: -638282824
+      spriteID: 16367d7dab19ac2439de6faaa24c8643
+      internalID: 1360392370
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Idle_3
+      name: Player_Run_3
       rect:
         serializedVersion: 2
         x: 192
@@ -187,8 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10992f078a60ac14dab654b8505a46ff
-      internalID: -1624865959
+      spriteID: 09ca97501a8bde542a119e739aad11ea
+      internalID: -280976454
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Idle_0: -458521860
-      Player_Idle_1: -647749835
-      Player_Idle_2: -638282824
-      Player_Idle_3: -1624865959
+      Player_Run_0: -1302740922
+      Player_Run_1: 1073902903
+      Player_Run_2: 1360392370
+      Player_Run_3: -280976454
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

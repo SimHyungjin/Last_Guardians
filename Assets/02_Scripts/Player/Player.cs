@@ -17,7 +17,8 @@ public class Player
 
         playerData.attackType = equipment.attackType;
         playerData.attackPower = playerData.baseAttackPower + equipment.attack;
-        playerData.attackSpeed = playerData.baseAttackSpeed + equipment.attackSpeed;
+        if (equipment.attackSpeed == 0) playerData.attackSpeed = playerData.baseAttackSpeed;
+        else playerData.attackSpeed = equipment.attackSpeed;
         playerData.attackRange = playerData.baseAttackRange + equipment.attackRange;
         playerData.moveSpeed = playerData.baseMoveSpeed + equipment.moveSpeed;
         playerData.criticalChance = playerData.baseCriticalChance + equipment.criticalChance;

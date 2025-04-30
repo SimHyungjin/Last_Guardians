@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class InventorySlotContainer : MonoBehaviour
 {
-    [SerializeField] private int slotNum = 50;
+    private int slotNum = 18;
     private List<Slot> slots = new();
+    [SerializeField] private RectTransform slotContainerView;
 
     private Inventory inventory;
     private Equipment equipment;
@@ -16,37 +17,65 @@ public class InventorySlotContainer : MonoBehaviour
         for (int i = 0; i < slotNum; i++)
         {
             var slot = Utils.InstantiateComponentFromResource<Slot>("UI/MainScene/Slot", transform);
+            slot.gameObject.SetActive(false);
             slots.Add(slot);
         }
     }
-
-    private void Start()
+    public void Init()
     {
         var home = MainSceneManager.Instance;
         inventory = home.inventory;
         equipment = home.equipment;
-        selectionController = home.selectionController;
+        selectionController = home.inventoryGroup.selectionController; 
 
-        inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView());
+        inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView()); 
+    }
+    private Slot GetOrCreateSlot()
+    {
+        foreach (var slot in slots)
+        {
+            if (!slot.gameObject.activeSelf)
+                return slot;
+        }
+        var newSlot = Utils.InstantiateComponentFromResource<Slot>("UI/MainScene/Slot", slotContainerView);
+        newSlot.gameObject.SetActive(false);
+        slots.Add(newSlot);
+        return newSlot;
+    }
+    private void RectSizeValue(int activeSlotCount)
+    {
+        int rowCount = Mathf.CeilToInt((float)activeSlotCount / 6f);
+        float newHeight = rowCount * 180f;
+
+        var size = slotContainerView.sizeDelta;
+        size.y = newHeight;
+        slotContainerView.sizeDelta = size;
     }
 
     public void Display(IReadOnlyList<ItemInstance> items)
     {
-        ApplySlotActions(items, (slot, item) =>
+        foreach (var slot in slots)
+            slot.gameObject.SetActive(false);
+
+        bool hasSelection = selectionController.selectedSlot != null;
+        int selectedID = selectionController.selectedData?.UniqueID ?? -1;
+
+        for (int i = 0; i < items.Count; i++)
         {
-            slot.SetData(item);
+            var slot = GetOrCreateSlot();
+            slot.gameObject.SetActive(true);
 
-            var equipData = item.AsEquipData;
-            slot.SetEquipped(equipData != null && equipment.IsEquipped(item));
+            slot.SetData(items[i]);
 
-            if (selectionController.selectedSlot != null)
-            {
-                slot.SetSelected(selectionController.selectedData != null && slot.GetData()?.UniqueID == selectionController.selectedData.UniqueID);
-            }
-
+            var equipData = items[i].AsEquipData;
+            slot.SetEquipped(equipData != null && equipment.IsEquipped(items[i]));
+            slot.SetSelected(hasSelection && items[i].UniqueID == selectedID);
             slot.Refresh();
-        });
+        }
+
+        RectSizeValue(items.Count);
     }
+
 
     public void Refresh()
     {
@@ -73,21 +102,5 @@ public class InventorySlotContainer : MonoBehaviour
             slot.Clear();
         }
     }
-
-    private void ApplySlotActions(IReadOnlyList<ItemInstance> items, Action<Slot, ItemInstance> action)
-    {
-        for (int i = 0; i < slots.Count; i++)
-        {
-            if (i < items.Count)
-            {
-                action.Invoke(slots[i], items[i]);
-            }
-            else
-            {
-                slots[i].Clear();
-            }
-        }
-    }
-
     public IReadOnlyList<Slot> GetSlots() => slots;
 }

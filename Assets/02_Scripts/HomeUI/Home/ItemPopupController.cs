@@ -21,14 +21,14 @@ public class ItemPopupController : MonoBehaviour
 
     private ItemInstance currentData;
 
-    private void Start()
+    public void Init()
     {
         var home = MainSceneManager.Instance;
         equipment = home.equipment;
         inventory = home.inventory;
-        equipmentSlotContainer = home.equipmentSlotContainer;
-        inventorySlotContainer = home.inventorySlotContainer;
-        selectionController = home.selectionController;
+        equipmentSlotContainer = home.inventoryGroup.equipmentSlotContainer;
+        inventorySlotContainer = home.inventoryGroup.inventorySlotContainer;
+        selectionController = home.inventoryGroup.selectionController;
 
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);

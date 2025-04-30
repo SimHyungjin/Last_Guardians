@@ -19,7 +19,7 @@ public class EquipmentSlotContainer : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Init()
     {
         equipment = MainSceneManager.Instance.equipment;
         equipment.OnEquip += BindSlot;

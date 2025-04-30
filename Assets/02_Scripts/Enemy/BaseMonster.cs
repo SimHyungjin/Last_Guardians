@@ -156,8 +156,8 @@ public class BaseMonster : MonoBehaviour
         firstHit = false;
         colorCoroutine = null;
         FirstHitDamage = MonsterData.MonsterDamage;
-        SecondHitDamage = 2;
-        disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 3 : 11;
+        SecondHitDamage = 1;
+        disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 6 : 26;
         attackCount = 0;
         isDisable = false;
         if (MonsterData.HasSkill)

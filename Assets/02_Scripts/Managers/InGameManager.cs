@@ -25,6 +25,8 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private TextMeshProUGUI waveInfoText;
     [SerializeField] private TextMeshProUGUI remainMonsterCountText;
     [SerializeField] private GameOverUI gameoverUI;
+    [SerializeField] private TextMeshProUGUI weatherInfo;
+    private string seasonText;
 
     public int level;
     public float exp;
@@ -48,6 +50,8 @@ public class InGameManager : Singleton<InGameManager>
         DateTime now = DateTime.Now;
         GameManager.Instance.NowTime = now.Minute;
         EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
+        SetSeasonText();
+        //UpdateWeatherInfo();
         mulliganUI.StartSelectCard();
     }
 
@@ -134,5 +138,29 @@ public class InGameManager : Singleton<InGameManager>
     {
         playerEXPbar.fillAmount = (float)(exp / maxExp);
         playerEXPText.text = $"경험치 : {(int)exp} / {(int)maxExp}";
+    }
+
+    private void SetSeasonText()
+    {
+        switch (EnviromentManager.Instance.Season)
+        {
+            case Season.spring:
+                seasonText = "봄";
+                break;
+            case Season.summer:
+                seasonText = "여름";
+                break;
+            case Season.autumn:
+                seasonText = "가을";
+                break;
+            case Season.winter:
+                seasonText = "겨울";
+                break;
+        }
+    }
+
+    public void UpdateWeatherInfo()
+    {
+        weatherInfo.text = $"{seasonText} / {EnviromentManager.Instance.WeatherState.GetWeatherName()}";
     }
 }

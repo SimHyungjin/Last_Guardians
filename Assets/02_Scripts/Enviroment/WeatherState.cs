@@ -115,4 +115,31 @@ public class WeatherState
     {
         return currentState;
     }
+
+    public string GetWeatherName()
+    {
+        string str = GetCurrentState().ToString();
+        switch (str)
+        {
+            case "FogWeather":
+                str = "안개";
+                break;
+            case "StrongWindWeather":
+                str = "강풍";
+                break;
+            case "RainWeather":
+                str = "비";
+                break;
+            case "DroughtWeather":
+                str = "가뭄";
+                break;
+            case "SnowWeather":
+                str = "눈";
+                break;
+            case "SunnyWeather":
+                str = "맑음";
+                break;
+        }
+        return str;
+    }
 }

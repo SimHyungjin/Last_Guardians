@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower25
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
-  atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
+  towerGhostPrefab: {fileID: 0}
   spawnClip: {fileID: 7400000, guid: f0c5a086c91f33f4db39d6dae9c1a0d8, type: 2}
   idleClip: {fileID: 7400000, guid: 39e6159627b31c34082400555192d800, type: 2}
   activeClip: {fileID: 7400000, guid: 0bdd096d3df229f4aa898d8de3c869c4, type: 2}
@@ -32,7 +31,6 @@ MonoBehaviour:
   effectTarget: 1
   effectTargetCount: 0
   bossImmune: 0
-  upgradeLevel: 1
+  upgradeLevel: 2
   towerDescription: "3\uCD08 \uB3D9\uC548 \uB3D9\uC548 \uBCF4\uC2A4\uC640 \uC8FC\uBCC0
     \uC801\uC758 \uBC29\uC5B4\uB825 15% \uAC10\uC18C"
-  icon: {fileID: 0}

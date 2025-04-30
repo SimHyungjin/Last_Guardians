@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower110
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
-  atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
-  spawnClip: {fileID: 7400000, guid: dfeeb9c54644ba648a91cbbb4243f656, type: 2}
-  idleClip: {fileID: 7400000, guid: f2dddea6e8e56bb47b9c121e3110c3fc, type: 2}
-  activeClip: {fileID: 7400000, guid: a88cec7eb766a8e42811914574de1903, type: 2}
+  towerGhostPrefab: {fileID: 0}
+  spawnClip: {fileID: 0}
+  idleClip: {fileID: 0}
+  activeClip: {fileID: 0}
   towerIndex: 110
   towerName: "\uC2E0\uC131\uD55C \uD3ED\uD48D"
   attackPower: 60
@@ -32,7 +31,6 @@ MonoBehaviour:
   effectTarget: 3
   effectTargetCount: 3
   bossImmune: 0
-  upgradeLevel: 3
+  upgradeLevel: 4
   towerDescription: "\uBCF4\uC2A4 \uD0C0\uACA9\uC2DC \uC8FC\uBCC0 \uC801 3\uBC29\uD5A5\uC73C\uB85C
     \uCD94\uAC00 \uACF5\uACA9"
-  icon: {fileID: 0}

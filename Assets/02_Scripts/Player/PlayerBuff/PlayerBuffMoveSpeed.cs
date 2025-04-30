@@ -14,6 +14,8 @@ public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerData>
         Value = value;
         Duration = duration;
         IsDebuff = isDebuff;
+        if (IsDebuff) Value = 1 - value;
+        else Value = 1 + value;
     }
 
     public void Apply(PlayerData playerData)

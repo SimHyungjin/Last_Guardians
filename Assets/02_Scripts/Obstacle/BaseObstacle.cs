@@ -136,7 +136,7 @@ public class BaseObstacle : MonoBehaviour
         switch (obstacle.obstacleEffect_Player)
         {
             case ObstacleEffect.Speed:
-                handler.ApplyBuff(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, Mathf.Infinity, true));
+                handler.ApplyBuff(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, 0.2f, true));
                 break;
 
             case ObstacleEffect.Stun:
@@ -174,24 +174,12 @@ public class BaseObstacle : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
             EffectToPlayer(controller);
-        }   
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<PlayerController>(out var controller))
-        {
-            controller.playerBuffHandler.ClearAllBuffs();
-        }    
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
+        }
         if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
         {
             EffectToMonster(baseMonster);

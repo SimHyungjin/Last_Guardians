@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -24,26 +23,35 @@ public class InventoryUIButton : MonoBehaviour
     [field: SerializeField] public Button ringBtn { get; private set; }
     [field: SerializeField] public Button necklaceBtn { get; private set; }
 
-    public UnityEvent<Inventory.InventorySortType> onSortButtonClicked;
+    public UnityEvent<InventorySortType> onSortButtonClicked;
     public UnityEvent<ItemType> onItemTypeFilter;
     public UnityEvent<EquipType> onEquipTypeFilter;
 
     private void Awake()
     {
-        sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(Inventory.InventorySortType.GradeDescending));
-        sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(Inventory.InventorySortType.NameAscending));
-        sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(Inventory.InventorySortType.Recent));
-    
-        allTypeBtn.onClick.AddListener(() => onItemTypeFilter?.Invoke(ItemType.Equipment));
-        equipmentBtn.onClick.AddListener(() => onItemTypeFilter?.Invoke(ItemType.Equipment));
+        sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.GradeDescending));
+        sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));
+        sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.Recent));
+
+        allTypeBtn.onClick.AddListener(() => { onEquipTypeFilter?.Invoke(EquipType.Count); onItemTypeFilter?.Invoke(ItemType.Count); });
+        equipmentBtn.onClick.AddListener(() => { onEquipTypeFilter?.Invoke(EquipType.Count); onItemTypeFilter?.Invoke(ItemType.Equipment); });
         upgradeStoneBtn.onClick.AddListener(() => onItemTypeFilter?.Invoke(ItemType.UpgradeStone));
 
-        allEquipBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Count));
-        weaponBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Weapon));
-        helmetBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Helmet));
-        armorBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Armor));
-        shoesBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Shoes));
-        ringBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Ring));
-        necklaceBtn.onClick.AddListener(() => onEquipTypeFilter?.Invoke(EquipType.Necklace));
+        EquipBtnListener(allEquipBtn, EquipType.Count);
+        EquipBtnListener(weaponBtn, EquipType.Weapon);
+        EquipBtnListener(helmetBtn, EquipType.Helmet);
+        EquipBtnListener(armorBtn, EquipType.Armor);
+        EquipBtnListener(shoesBtn, EquipType.Shoes);
+        EquipBtnListener(ringBtn, EquipType.Ring);
+        EquipBtnListener(necklaceBtn, EquipType.Necklace);
+    }
+
+    private void EquipBtnListener(Button button, EquipType equipType)
+    {
+        button.onClick.AddListener(() =>
+        {
+            onItemTypeFilter?.Invoke(ItemType.Equipment);
+            onEquipTypeFilter?.Invoke(equipType);
+        });
     }
 }

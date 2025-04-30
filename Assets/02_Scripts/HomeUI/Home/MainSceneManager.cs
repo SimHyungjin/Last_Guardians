@@ -11,28 +11,23 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public Inventory inventory;
     public Equipment equipment;
     public Upgrade upgrade;
-
-    public InventorySlotContainer inventorySlotContainer;
-    public EquipmentSlotContainer equipmentSlotContainer;
-
-    public SelectionController selectionController;
-    public ItemPopupController itemPopupController;
+    public InventoryGroup inventoryGroup;
 
     private void Awake()
     {
-        // TowerManager ÀÚµ¿ »ı¼º
+        // TowerManager ìë™ ìƒì„±
         if (FindObjectOfType<TowerManager>() == null)
         {
             GameObject towerManagerPrefab = Resources.Load<GameObject>("Prefabs/TowerManager");
             if (towerManagerPrefab != null)
             {
                 var go = Instantiate(towerManagerPrefab);
-                go.name = "TowerManager"; // ÀÌ¸§ Á¤¸®
-                DontDestroyOnLoad(go);    // ¾À ÀüÈ¯ À¯Áö
+                go.name = "TowerManager"; // ì´ë¦„ ì •ë¦¬
+                DontDestroyOnLoad(go);    // ì”¬ ì „í™˜ ìœ ì§€
             }
             else
             {
-                Debug.LogError("TowerManager ÇÁ¸®ÆÕÀÌ Resources/Prefabs Æú´õ¿¡ ¾ø½À´Ï´Ù!");
+                Debug.LogError("TowerManager í”„ë¦¬íŒ¹ì´ Resources/Prefabs í´ë”ì— ì—†ìŠµë‹ˆë‹¤!");
             }
         }
 
@@ -116,24 +111,10 @@ public class MainSceneManager : Singleton<MainSceneManager>
         if (panelMap.ContainsKey("InventoryGroup")) return;
 
         var groupObj = Utils.InstantiatePrefabFromResource("UI/MainScene/InventoryGroup", obj.transform);
-        var inventoryGroup = groupObj.GetComponent<InventoryGroup>();
-
-        inventorySlotContainer = inventoryGroup.inventorySlotContainer;
-        equipmentSlotContainer = inventoryGroup.equipmentSlotContainer;
-        selectionController = inventoryGroup.selectionController;
-        itemPopupController = inventoryGroup.itemPopupController;
-
-        StartCoroutine(DisplayItem());
+        inventoryGroup = groupObj.GetComponent<InventoryGroup>();
 
         upgrade.Init();
+        inventoryGroup.Init();
         panelMap["InventoryGroup"] = groupObj;
-    }
-
-    private IEnumerator DisplayItem()
-    {
-        yield return new WaitForEndOfFrame();
-        inventorySlotContainer.Display(inventory.GetFilteredView());
-        equipmentSlotContainer.BindAll();
-        equipmentSlotContainer.Refresh();
     }
 }

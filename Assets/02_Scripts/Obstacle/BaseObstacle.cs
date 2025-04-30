@@ -15,6 +15,7 @@ public class BaseObstacle : MonoBehaviour
     [SerializeField] private ObstacleType obstacleType;
     [SerializeField] private Season season;
     [SerializeField] private Weather weather;
+    [SerializeField] private Sprite sprite;
 
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
@@ -60,11 +61,16 @@ public class BaseObstacle : MonoBehaviour
     public void ChangeObstacleData(ObstacleData data)
     {
         obstacle = data;
-        //spriteRenderer.sprite = data.sprite;
+
+        if (spriteRenderer != null && data.sprite != null)
+        {
+            spriteRenderer.sprite = data.sprite;  // ¡ç ¿©±â!
+        }
 
         ChangeNavActive();
         SetZone();
     }
+
 
     private ObstacleData FindObstacle()
     {

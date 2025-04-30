@@ -160,8 +160,10 @@ public class MulliganUI : MonoBehaviour
         
         if (count <= 1)
         {
+            Utils.Shuffle(elementalDataList);
             ShowCardSelect(elementalDataList, cardNum);
             MaxSelectedCards = 1;
+
         }
         else if (count == 2)
         {

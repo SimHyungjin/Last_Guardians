@@ -34,7 +34,6 @@ public abstract class BaseTower : MonoBehaviour
     public EnvironmentEffect environmentEffect;
 
     [Header("타워 결합")]
-    public GameObject towerGhostPrefab;
     public bool isMoving;
     public bool isCliked;
     public SpriteRenderer sprite;
@@ -43,19 +42,18 @@ public abstract class BaseTower : MonoBehaviour
     protected Animator animator;
 
 
-    private GameObject towerGhost;
     Vector2 curPos;
 
     protected float maxbuffRadius = 3f;
     protected bool disable;
 
-
+    protected float touchTime = 1f;
+    protected float touchStartTime = 0f;
 
     public virtual void Init(TowerData _towerData)
     {
         towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
-        towerGhostPrefab = _towerData.towerGhostPrefab;
         sprite = GetComponent<SpriteRenderer>();
         TowerManager.Instance.AddTower(this);
 
@@ -63,8 +61,6 @@ public abstract class BaseTower : MonoBehaviour
         {
             OverrideAnimator();
             sprite.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
-                         //= towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
-            towerGhost = towerData.towerGhostPrefab;       
         }
 
         environmentEffect = new EnvironmentEffect();
@@ -119,11 +115,6 @@ public abstract class BaseTower : MonoBehaviour
     protected virtual void Update()
     {
 
-        if (isMoving)
-        {
-            curPos = InputManager.Instance.GetTouchWorldPosition();
-            towerGhost.transform.position = curPos;
-        }
     }
 
     private void OnTouchStart(InputAction.CallbackContext ctx)

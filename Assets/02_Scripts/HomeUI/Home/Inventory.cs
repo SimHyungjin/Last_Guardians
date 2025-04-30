@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public enum InventorySortType
 {
@@ -12,8 +13,8 @@ public class Inventory
     private List<ItemInstance> inventory = new();
 
     private InventorySortType currentSortType = InventorySortType.GradeDescending;
-    private ItemType currentFilter = ItemType.Equipment;
-    private EquipType currentEquipFilter = EquipType.Count;
+    private List<ItemType> currentFilter = new() { ItemType.Equipment };
+    private List<EquipType> currentEquipFilter = new() { EquipType.Count };
 
     public event Action OnInventoryChanged;
 
@@ -55,17 +56,15 @@ public class Inventory
         OnInventoryChanged?.Invoke();
     }
 
-    public void SetItemType(ItemType type)
+    public void SetItemTypeFilter(params ItemType[] types)
     {
-        if (currentFilter == type) return;
-        currentFilter = type;
+        currentFilter = new List<ItemType>(types);
         OnInventoryChanged?.Invoke();
     }
 
-    public void SetEquipTypeFilter(EquipType type)
+    public void SetEquipTypeFilter(params EquipType[] types)
     {
-        if (currentEquipFilter == type) return;
-        currentEquipFilter = type;
+        currentEquipFilter = new List<EquipType>(types);
         OnInventoryChanged?.Invoke();
     }
 
@@ -77,28 +76,12 @@ public class Inventory
 
     public IReadOnlyList<ItemInstance> GetFilteredView()
     {
-        List<ItemInstance> viewList;
-        if (currentFilter == ItemType.Count)
-            viewList = inventory;
-        else
-            viewList = inventory.FindAll(x =>
-        {
-            if (x.Data.ItemType != currentFilter) return false;
-
-            if (currentFilter == ItemType.Equipment && x.AsEquipData != null)
-            {
-                return currentEquipFilter == EquipType.Count || x.AsEquipData.equipType == currentEquipFilter;
-            }
-
-            return true;
-        });
-
+        List<ItemInstance> viewList = FilterList();
         switch (currentSortType)
         {
             case InventorySortType.GradeDescending:
                 viewList.Sort((a, b) => b.Data.ItemGrade.CompareTo(a.Data.ItemGrade));
                 break;
-
             case InventorySortType.NameAscending:
                 viewList.Sort((a, b) => string.Compare(a.Data.ItemName, b.Data.ItemName, StringComparison.Ordinal));
                 break;
@@ -108,6 +91,25 @@ public class Inventory
         }
 
         return viewList;
+    }
+
+    private List<ItemInstance> FilterList()
+    {
+        if (currentFilter.Count == 0 || currentFilter.Contains(ItemType.Count))
+            return new List<ItemInstance>(inventory);
+
+        return inventory.FindAll(x =>
+        {
+            if (!currentFilter.Contains(x.Data.ItemType))
+                return false;
+
+            if (x.Data.ItemType == ItemType.Equipment && x.AsEquipData != null)
+            {
+                return currentEquipFilter.Count == 0 || currentEquipFilter.Contains(EquipType.Count) || currentEquipFilter.Contains(x.AsEquipData.equipType);
+            }
+
+            return true;
+        });
     }
 
     public IReadOnlyList<ItemInstance> ModifyAndGetFiltered(Action<Inventory> modification)

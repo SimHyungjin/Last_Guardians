@@ -9,6 +9,16 @@ public class InventoryGroup : MonoBehaviour
     public SelectionController selectionController;
     public ItemPopupController itemPopupController;
 
+    public void Init()
+    {
+        inventorySlotContainer.Init();
+        equipmentSlotContainer.Init();
+        itemPopupController.Init();
+
+        inventorySlotContainer.Display(MainSceneManager.Instance.inventory.GetFilteredView());
+        equipmentSlotContainer.BindAll();
+        equipmentSlotContainer.Refresh();
+    }
     private void OnEnable()
     {
         StartCoroutine(DelayedClose());

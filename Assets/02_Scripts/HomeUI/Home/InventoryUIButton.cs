@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,23 +11,29 @@ public class InventoryUIButton : MonoBehaviour
     [field: SerializeField] public Button sortByNameBtn { get; private set; }
     [field: SerializeField] public Button sortByRecentBtn { get; private set; }
 
-    [field: Header("ItemType 필터 버튼")]
+    [field: Header("정렬 선택 판넬 버튼")]
+    [field: SerializeField] public Button filterSelectBtn { get; private set; }
+    [field: SerializeField] public GameObject filterSelectPanel { get; private set; }
+
+    [field: Header("필터 버튼")]
     [field: SerializeField] public Button allTypeBtn { get; private set; }
-    [field: SerializeField] public Button equipmentBtn { get; private set; }
-    [field: SerializeField] public Button upgradeStoneBtn { get; private set; }
+    [field: SerializeField] public Button weaponTypeBtn { get; private set; }
+    [field: SerializeField] public Button armorTypeBtn { get; private set; }
+    [field: SerializeField] public Button accessorieTypeBtn { get; private set; }
+    [field: SerializeField] public Button upgradeStoneTypeBtn { get; private set; }
 
-    [field: Header("EquipType 필터 버튼 (장비 세부 필터)")]
-    [field: SerializeField] public Button allEquipBtn { get; private set; }
-    [field: SerializeField] public Button weaponBtn { get; private set; }
-    [field: SerializeField] public Button helmetBtn { get; private set; }
-    [field: SerializeField] public Button armorBtn { get; private set; }
-    [field: SerializeField] public Button shoesBtn { get; private set; }
-    [field: SerializeField] public Button ringBtn { get; private set; }
-    [field: SerializeField] public Button necklaceBtn { get; private set; }
+    public Action<InventorySortType> onSortButtonClicked;
+    public Action<ItemType[]> onItemTypeFilter;
+    public Action<EquipType[]> onEquipTypeFilter;
 
-    public UnityEvent<InventorySortType> onSortButtonClicked;
-    public UnityEvent<ItemType> onItemTypeFilter;
-    public UnityEvent<EquipType> onEquipTypeFilter;
+    private readonly ItemType[] EquipmentOnly = { ItemType.Equipment };
+    private readonly ItemType[] UpgradeStoneOnly = { ItemType.UpgradeStone };
+    private readonly ItemType[] AllTypes = { ItemType.Count };
+
+    private readonly EquipType[] AllEquip = { EquipType.Count };
+    private readonly EquipType[] WeaponOnly = { EquipType.Weapon };
+    private readonly EquipType[] ArmorTypes = { EquipType.Armor, EquipType.Helmet, EquipType.Shoes };
+    private readonly EquipType[] AccessoryTypes = { EquipType.Ring, EquipType.Necklace };
 
     private void Awake()
     {
@@ -33,25 +41,45 @@ public class InventoryUIButton : MonoBehaviour
         sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));
         sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.Recent));
 
-        allTypeBtn.onClick.AddListener(() => { onEquipTypeFilter?.Invoke(EquipType.Count); onItemTypeFilter?.Invoke(ItemType.Count); });
-        equipmentBtn.onClick.AddListener(() => { onEquipTypeFilter?.Invoke(EquipType.Count); onItemTypeFilter?.Invoke(ItemType.Equipment); });
-        upgradeStoneBtn.onClick.AddListener(() => onItemTypeFilter?.Invoke(ItemType.UpgradeStone));
+        filterSelectBtn.onClick.AddListener(() =>filterSelectPanel.SetActive(!filterSelectPanel.activeSelf));
 
-        EquipBtnListener(allEquipBtn, EquipType.Count);
-        EquipBtnListener(weaponBtn, EquipType.Weapon);
-        EquipBtnListener(helmetBtn, EquipType.Helmet);
-        EquipBtnListener(armorBtn, EquipType.Armor);
-        EquipBtnListener(shoesBtn, EquipType.Shoes);
-        EquipBtnListener(ringBtn, EquipType.Ring);
-        EquipBtnListener(necklaceBtn, EquipType.Necklace);
+        allTypeBtn.onClick.AddListener(() =>
+        {
+            onItemTypeFilter?.Invoke(AllTypes);
+            onEquipTypeFilter?.Invoke(AllEquip);
+        });
+
+        weaponTypeBtn.onClick.AddListener(() =>
+        {
+            onItemTypeFilter?.Invoke(EquipmentOnly);
+            onEquipTypeFilter?.Invoke(WeaponOnly);
+        });
+
+        armorTypeBtn.onClick.AddListener(() =>
+        {
+            onItemTypeFilter?.Invoke(EquipmentOnly);
+            onEquipTypeFilter?.Invoke(ArmorTypes);
+        });
+
+        accessorieTypeBtn.onClick.AddListener(() =>
+        {
+            onItemTypeFilter?.Invoke(EquipmentOnly);
+            onEquipTypeFilter?.Invoke(AccessoryTypes);
+        });
+
+        upgradeStoneTypeBtn.onClick.AddListener(() =>
+        {
+            onItemTypeFilter?.Invoke(UpgradeStoneOnly);
+            onEquipTypeFilter?.Invoke(AllEquip);
+        });
     }
 
     private void EquipBtnListener(Button button, EquipType equipType)
     {
         button.onClick.AddListener(() =>
         {
-            onItemTypeFilter?.Invoke(ItemType.Equipment);
-            onEquipTypeFilter?.Invoke(equipType);
+            onItemTypeFilter?.Invoke(new[] { ItemType.Equipment });
+            onEquipTypeFilter?.Invoke(new[] { equipType });
         });
     }
 }

@@ -66,6 +66,7 @@ public class AttackTower : BaseTower
             adaptedTowerData.buffTowerIndex.Add(towerData.TowerIndex);
         }
         ScanBuffTower();
+        ScanPlantedObstacle();
     }
 
     ///////////=====================주변스캔 및 공격=====================================/////////////////////
@@ -250,6 +251,7 @@ public class AttackTower : BaseTower
 
     public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
+        Debug.Log($"버프받음,environmentEffect={environmentEffect}");
         if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage)
         {
             this.environmentEffect.isBuffAffectedByFire = true;

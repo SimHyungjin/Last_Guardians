@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public enum Season
 {
@@ -18,6 +19,8 @@ public class EnviromentManager : Singleton<EnviromentManager>
 {
     public WeatherState WeatherState { get; private set; }
     public Season Season { get; private set; }
+
+    public List<ParticleSystem> Particles { get; private set; } = new();
 
     private List<GameObject> firstObjectTemplates = new();
     private List<GameObject> secondObjectTemplates = new();
@@ -54,7 +57,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
             obstacle.Init(Season);
         }
 
-        
+        WheaterInit();
     }
 
     public void SetSeason(int min)
@@ -105,6 +108,16 @@ public class EnviromentManager : Singleton<EnviromentManager>
         Utils.Shuffle(secondObjectTemplates);
         Utils.Shuffle(thirdObjectTemplates);
         Utils.Shuffle(fourthObjectTemplates);
+    }
+
+    private void WheaterInit()
+    {
+        foreach (ParticleSystem particle in Resources.LoadAll<ParticleSystem>("Enviroment/Particle").ToList())
+        {
+            ParticleSystem particleSystem = Instantiate(particle, this.transform);
+            Particles.Add(particleSystem);
+            particleSystem.gameObject.SetActive(false);
+        }
     }
 
     private void OnDisable()

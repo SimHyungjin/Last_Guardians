@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
 {
+    ///////////============================방어력감소==============================/////////////////////
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileSlowEffect : MonoBehaviour, IEffect
 {
+    ///////////==========================슬로우 이펙트================================/////////////////////
     private float addObstacleValue = 0f;
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
@@ -11,7 +12,6 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.ApplySlowdown(towerData.EffectValue+ addObstacleValue, towerData.EffectDuration);
-            Debug.Log($"기본 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
         }
     }
 
@@ -23,11 +23,14 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
             if (Random.value < chance)
             {
                 target.ApplySlowdown(towerData.EffectValue+ addObstacleValue, towerData.EffectDuration);
-                Debug.Log($"찬스 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
             }
         }
     }
 
+    /// <summary>
+    /// 물 장애물 근처에있을때 적용되는 로직
+    /// </summary>
+    /// <param name="environmentEffect"></param>
     private void IsWater(EnvironmentEffect environmentEffect)
     {
         if (EnviromentManager.Instance.Season == Season.winter)

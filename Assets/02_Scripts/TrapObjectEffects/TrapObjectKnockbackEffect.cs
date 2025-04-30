@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TrapObjectKnockbackEffect : MonoBehaviour,ITrapEffect
 {
+    ///////////==========================≥ÀπÈ ¿Ã∆Â∆Æ================================/////////////////////
+
     public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
         if (Utils.ShouldApplyEffect(target, towerData,bossImmunebuff))

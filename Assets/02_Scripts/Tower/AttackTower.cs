@@ -46,6 +46,12 @@ public class AttackTower : BaseTower
     float windSpeedBuff = 1f;
     public bool isSpeedBuffed = false;
     public bool isWindBuffed = false;
+
+    /// <summary>
+    /// 초기화 함수
+    /// 자기 자신의 이펙트를 저장한다.
+    /// </summary>
+    /// <param name="data"></param>
     public override void Init(TowerData data)
     {
 
@@ -61,6 +67,9 @@ public class AttackTower : BaseTower
         }
         ScanBuffTower();
     }
+
+    ///////////=====================주변스캔 및 공격=====================================/////////////////////
+
     protected override void Update()
     {
         base.Update();
@@ -148,6 +157,7 @@ public class AttackTower : BaseTower
                 break;
         }
     }
+
     private void HandleTargetDeath()
     {
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격대상 사망");
@@ -167,6 +177,12 @@ public class AttackTower : BaseTower
         }
     }
 
+    ///////////=====================버프=====================================/////////////////////
+
+    /// <summary>
+    /// 공격력 버프
+    /// </summary>
+    /// <param name="buff"></param>
     public void AttackPowerBuff(float buff)
     {
         if(towerData.AttackPower + towerData.AttackPower * buff> adaptedTowerData.attackPower)
@@ -174,6 +190,9 @@ public class AttackTower : BaseTower
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
 
+    /// <summary>
+    /// 공격속도 버프
+    /// </summary>
     void UpdateAttackSpeed()
     {
         if (isSpeedBuffed && isWindBuffed) windSpeedBuff = 1.2f;
@@ -265,12 +284,14 @@ public class AttackTower : BaseTower
         }
     }
 
+    /// <summary>
+    /// 플랫폼 위에 설치 시 사거리 증가
+    /// </summary>
     private void OnPlatform()
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
         foreach (var hit in hits)
         {
-            //나중에 계절도 추가
             if(EnviromentManager.Instance.Season==Season.winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
             else
             adaptedTowerData.attackRange = towerData.AttackRange*1.15f;

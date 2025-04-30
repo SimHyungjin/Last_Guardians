@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileBossDamageEffect : MonoBehaviour, IEffect
 {
+    ///////////=====================보스추가데미지=====================================/////////////////////
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)

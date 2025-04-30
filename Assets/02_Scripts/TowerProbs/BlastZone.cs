@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class BlastZone : MonoBehaviour
 {
+    ///////////==========================BlastProject폭발시 바닥에 표시되는 장판================================/////////////////////
+
     public void Init(TowerData towerData,Transform _blastpos)
     {
 #if UNITY_EDITOR

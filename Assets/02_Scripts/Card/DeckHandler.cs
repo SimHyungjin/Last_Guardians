@@ -12,6 +12,7 @@ using static UnityEditor.PlayerSettings;
 
 public class DeckHandler : MonoBehaviour
 {
+    [Header("Deck")]
     public List<Card> cards = new List<Card>();
     [SerializeField] private Card cardPrefab;
     private float radius = 500f;
@@ -20,6 +21,7 @@ public class DeckHandler : MonoBehaviour
     public Vector2 dragEndPos;
     float dragDistance;
 
+    [Header("HighLight")]
     [SerializeField] private Card highlightedCard = null;
     private bool isHighlighting = false;
     private int highlightedIndex = -1;
@@ -31,7 +33,14 @@ public class DeckHandler : MonoBehaviour
     private float Deadzone = 80f;
     public bool IsHighlighting => isHighlighting;
     public Card HighlightedCard => highlightedCard;
-    public int HighlightedIndex => highlightedIndex;    
+    public int HighlightedIndex => highlightedIndex; 
+    
+    ///////////==========================카드 이동================================/////////////////////
+    
+    /// <summary>
+    /// 클릭이후 클릭된 카드가 손에서 멀어지면 타워설치
+    /// 안멀어지고 클릭이 취소되면 다시 손으로 들어가는 연출
+    /// </summary>
     private void Update()
     {
         if (isDragging)
@@ -49,10 +58,6 @@ public class DeckHandler : MonoBehaviour
                     SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
                     TowerData towerData = TowerManager.Instance.GetTowerData(highlightedIndex);
                     ghostsprite.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
-                    //ghostsprite.sprite = towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}");
-                    //towerGhost = towerData.towerGhostPrefab;
-
-
                 }
                 else
                 {
@@ -68,6 +73,9 @@ public class DeckHandler : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// 덱에 카드위치 정렬
+    /// </summary>
     private void UpdateLayout()
     {
         int count = cards.Count;
@@ -94,10 +102,16 @@ public class DeckHandler : MonoBehaviour
             dragStartPos = InputManager.Instance.GetTouchPosition();
             dragDistance = 0;
         }
-        else
-        {
-        }
     }
+
+    /// <summary>
+    /// 카드 이동 종료시
+    /// 1. 드래그 거리가 데드존보다 작으면 카드가 손으로 들어감
+    /// 2. 드래그 거리가 데드존보다 크면 카드가 타워설치여부 판별
+    /// 3. 타워설치가 가능하면 해당위치에 타워설치 및 카드 사용
+    /// 4. 타워설치가 불가능하면 카드가 손으로 복귀
+    /// </summary>
+    /// <param name="card"></param>
 
     public void MoveCardEnd(Card card)
     {
@@ -153,6 +167,11 @@ public class DeckHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 카드획득시 이미 덱에 있는 카드라면 스택을 증가시킨다.
+    /// 덱에 없는 카드라면 새로운 위치를 부여해주고 해당위치에 카드를 배치한다.
+    /// </summary>
+    /// <param name="index"></param>
     public void AddCard(int index)
     {
         foreach (Card card in cards)
@@ -181,6 +200,10 @@ public class DeckHandler : MonoBehaviour
         GetCardLayout(cardIndex, total, cardRect);
     }
 
+    /// <summary>
+    /// 카드 클릭시 덱에서 노출시켜주는 메서드
+    /// </summary>
+    /// <param name="card"></param>
     public void HighlightCard(Card card)
     {
         if (isHighlighting) return;
@@ -219,6 +242,9 @@ public class DeckHandler : MonoBehaviour
         handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
     }
 
+    /// <summary>
+    /// 하이라이트된 카드 동작을 원래위치로 돌려주는 메서드
+    /// </summary>
     public void UnHighlightCard()
     {
         RectTransform handRect = GetComponent<RectTransform>();
@@ -265,29 +291,10 @@ public class DeckHandler : MonoBehaviour
         isHighlighting = false;
         TowerManager.Instance.EndInteraction(InteractionState.CardMoving);
     }
-    public void UseCard(int index)
-    {
-        foreach (Card card in cards)
-        {
-            if (card.TowerIndex == index && card.Stack > 1)
-            {
-                card.subtractStack();
-                card.ShowStack();
-                return;
-            }
-            else if (card.TowerIndex == index && card.Stack == 1)
-            {
 
-                card.onClicked -= MoveCardStart;
-                card.onClickEnd -= MoveCardEnd;
-                card.transform.DOKill();
-                cards.Remove(card);
-                Destroy(card.gameObject);
-                UpdateLayout();
-                return;
-            }
-        }
-    }
+    /// <summary>
+    /// 카드 사용시 카드가 사라지는 연출
+    /// </summary>
     public void UseCard()
     {
         RectTransform handRect = GetComponent<RectTransform>();
@@ -298,6 +305,12 @@ public class DeckHandler : MonoBehaviour
         ResetHighlightState();
     }
 
+    /// <summary>
+    /// 덱에서의 카드의 위치를 계산하는 메서드
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="totalCount"></param>
+    /// <param name="rect"></param>
     private void GetCardLayout(int index, int totalCount,RectTransform rect)
     {
         float dynamicMaxAngle = Mathf.Min(9f * (totalCount - 1), 36f);

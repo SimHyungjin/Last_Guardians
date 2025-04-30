@@ -5,6 +5,7 @@ public enum ItemType
 {
     Equipment,
     UpgradeStone,
+    Count
 }
 
 public enum ItemGrade

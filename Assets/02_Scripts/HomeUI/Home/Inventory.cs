@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 
+public enum InventorySortType
+{
+    GradeDescending,
+    NameAscending,
+    Recent
+}
 public class Inventory
 {
-    public enum InventorySortType
-    {
-        GradeDescending,
-        NameAscending,
-        Recent
-    }
-
     private List<ItemInstance> inventory = new();
 
     private InventorySortType currentSortType = InventorySortType.GradeDescending;
@@ -26,10 +25,10 @@ public class Inventory
         {
             var existing = inventory.Find(i => i.Data.ItemIndex == item.Data.ItemIndex);
             if (existing != null) existing.AddCount(count);
-            else inventory.Add(item); 
+            else inventory.Add(item);
         }
         else inventory.Add(item);
-        if(updateUI) OnInventoryChanged?.Invoke();
+        if (updateUI) OnInventoryChanged?.Invoke();
     }
 
     public void RemoveItem(ItemInstance item, int count = 1, bool updateUI = true)
@@ -43,10 +42,10 @@ public class Inventory
                 existing.SubtractCount(count);
                 if (existing.Count <= 0) inventory.Remove(existing);
             }
-        }  
+        }
         else inventory.Remove(item);
 
-        if(updateUI) OnInventoryChanged?.Invoke();
+        if (updateUI) OnInventoryChanged?.Invoke();
     }
 
     public void SetSortType(InventorySortType sortType)
@@ -78,7 +77,11 @@ public class Inventory
 
     public IReadOnlyList<ItemInstance> GetFilteredView()
     {
-        List<ItemInstance> viewList = inventory.FindAll(x =>
+        List<ItemInstance> viewList;
+        if (currentFilter == ItemType.Count)
+            viewList = inventory;
+        else
+            viewList = inventory.FindAll(x =>
         {
             if (x.Data.ItemType != currentFilter) return false;
 

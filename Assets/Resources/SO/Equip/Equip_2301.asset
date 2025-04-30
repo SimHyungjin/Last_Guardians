@@ -28,8 +28,8 @@ MonoBehaviour:
   <attackPower>k__BackingField: 0
   <attackSpeed>k__BackingField: 0
   <moveSpeed>k__BackingField: 0
-  <criticalChance>k__BackingField: 20
-  <criticalDamage>k__BackingField: 1.7
+  <criticalChance>k__BackingField: 18
+  <criticalDamage>k__BackingField: 1.6
   <penetration>k__BackingField: 0
   <attackRange>k__BackingField: 0
   <specialEffectID>k__BackingField: 0

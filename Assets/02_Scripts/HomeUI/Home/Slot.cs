@@ -13,7 +13,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void SetData(ItemInstance newData)
     {
-        Debug.Log($"[Slot] SetData called: newData ID = {newData?.UniqueID}");
         data = newData;
         icon.sprite = data?.Data?.icon;
         Refresh();

@@ -64,9 +64,13 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
         clikedTower = _cilkedTower;
-        isTowerMoving = !isTowerMoving;
+        isTowerMoving = true;
     }
-
+    public void ChangeTowerDontMove(BaseTower _cilkedTower)
+    {
+        clikedTower = _cilkedTower;
+        isTowerMoving = false;
+    }
     public void TowerToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
@@ -275,7 +279,6 @@ public class Towerbuilder : MonoBehaviour
         {
             ghostTower = Instantiate(ghostTowerPrefab);
             ghostTower.GetComponent<SpriteRenderer>().sprite=TowerManager.Instance.GetSprite(clikedTower.towerData.TowerIndex);
-            // = clikedTower.towerData.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(clikedTower.towerData.TowerIndex)}");
             clikedTower.sprite.color = new Color(clikedTower.sprite.color.r, clikedTower.sprite.color.g, clikedTower.sprite.color.b, 0.3f);
         }
         else

@@ -65,8 +65,6 @@ public class TowerData: ScriptableObject
 {
     [Header("타워 외관")]
     [SerializeField] public GameObject towerGhostPrefab;
-    [SerializeField] public Sprite towerIcon;
-    [SerializeField] public SpriteAtlas atlas;
     [SerializeField] public AnimationClip spawnClip;
     [SerializeField] public AnimationClip idleClip;
     [SerializeField] public AnimationClip activeClip;
@@ -89,7 +87,6 @@ public class TowerData: ScriptableObject
     [SerializeField] private bool bossImmune;
     [SerializeField] private int upgradeLevel;
     [SerializeField] private string towerDescription;
-    [SerializeField] private Sprite icon;
     public int TowerIndex => towerIndex;
     public string TowerName => towerName;
     public float AttackPower => attackPower;
@@ -108,7 +105,6 @@ public class TowerData: ScriptableObject
     public int UpgradeLevel => upgradeLevel;
     public string TowerDescription => towerDescription;
 
-    public Sprite Icon => icon;
 
     public void SetData(GameObject towerGhostPrefab,SpriteAtlas towerAtlas, int towerIndex, string towerName, float attackPower, float attackSpeed,
                         float attackRange, TowerType towerType, ProjectileType projectileType, ElementType elementType,
@@ -117,7 +113,6 @@ public class TowerData: ScriptableObject
                         bool bossImmune, int upgradeLevel, string towerDescription)
     {
         this.towerGhostPrefab = towerGhostPrefab;
-        this.atlas = towerAtlas;
         this.towerIndex = towerIndex;
         this.towerName = towerName;
         this.attackPower = attackPower;

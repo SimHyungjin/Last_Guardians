@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower63
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
-  atlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}
+  towerGhostPrefab: {fileID: 0}
   spawnClip: {fileID: 7400000, guid: ac4fa82c257908d4597e87864ea11bb2, type: 2}
   idleClip: {fileID: 7400000, guid: a6b7e8272a9f7754bb0cbbcee8a293e3, type: 2}
   activeClip: {fileID: 7400000, guid: dee6860462db1564fb46679a2a6dc5e8, type: 2}
   towerIndex: 63
   towerName: "\uD0DC\uC591 \uD0C0\uC6CCII"
-  attackPower: 52
+  attackPower: 48
   attackSpeed: 1.3
   attackRange: 4
   towerType: 2
@@ -32,6 +31,5 @@ MonoBehaviour:
   effectTarget: 3
   effectTargetCount: 1
   bossImmune: 0
-  upgradeLevel: 2
+  upgradeLevel: 3
   towerDescription: "\uBCF4\uC2A4\uB9CC 3\uCD08 \uB3D9\uC548 \uC9C0\uC18D \uD53C\uD574"
-  icon: {fileID: 0}

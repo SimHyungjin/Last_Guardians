@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -34,21 +36,22 @@ public abstract class BaseTower : MonoBehaviour
     public EnvironmentEffect environmentEffect;
 
     [Header("타워 결합")]
-    public bool isMoving;
-    public bool isCliked;
+    public bool isClicked;
     public SpriteRenderer sprite;
 
-    [Header("타워 애니메이션")]
+    [Header("타워 외관")]
     protected Animator animator;
-
+    private GradeStar gradeStar;
+    [SerializeField]private TextMeshPro towerNameText;
 
     Vector2 curPos;
 
     protected float maxbuffRadius = 3f;
     protected bool disable;
 
-    protected float touchTime = 1f;
-    protected float touchStartTime = 0f;
+    private float touchTime = 0.5f;
+    private bool hasTriggeredHold = false;
+    private Coroutine holdCheckCoroutine;
 
     public virtual void Init(TowerData _towerData)
     {
@@ -57,11 +60,15 @@ public abstract class BaseTower : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         TowerManager.Instance.AddTower(this);
 
-        if (towerData != null)
-        {
-            OverrideAnimator();
-            sprite.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
-        }
+        OverrideAnimator();
+        sprite.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
+
+        gradeStar = GetComponentInChildren<GradeStar>();
+        gradeStar.Init(towerData.UpgradeLevel);
+
+        towerNameText = GetComponentInChildren<TextMeshPro>();
+        towerNameText.text = towerData.TowerName;
+        towerNameText.gameObject.SetActive(false);
 
         environmentEffect = new EnvironmentEffect();
         environmentEffect.ClearEffect();
@@ -120,33 +127,70 @@ public abstract class BaseTower : MonoBehaviour
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (this == null) return;
-        if (!isCliked)
+        if (!isClicked)
         {
             curPos = InputManager.Instance.GetTouchWorldPosition();
             Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMaskData.tower);
             if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
-                isCliked = true;
-                TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
-                TowerManager.Instance.StartInteraction(InteractionState.TowerMoving);
+                Debug.Log("Tower Touch Start");
+                isClicked = true;
+                hasTriggeredHold = false;
+                if (holdCheckCoroutine != null) StopCoroutine(holdCheckCoroutine);
+                holdCheckCoroutine = StartCoroutine(CheckHoldTrigger());
             }
         }
     }
 
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
-        if (isCliked)
+        if (this == null) return;
+        if (isClicked)
         {
-            TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
-            isCliked = false;
-            TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
-            TowerManager.Instance.EndInteraction(InteractionState.TowerMoving);
-            if (TowerManager.Instance.towerbuilder.CanTowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition()))
+            if (!hasTriggeredHold)
             {
-                TowerManager.Instance.towerbuilder.TowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
+                isClicked = false;
+                ShowTowerName();
             }
+            else
+            {
+
+                isClicked = false;
+                TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
+                TowerManager.Instance.towerbuilder.ChangeTowerDontMove(this);
+                TowerManager.Instance.EndInteraction(InteractionState.TowerMoving);
+                if (TowerManager.Instance.towerbuilder.CanTowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition()))
+                {
+                    TowerManager.Instance.towerbuilder.TowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
+                }
+            }
+
         }
     }
+
+    private IEnumerator CheckHoldTrigger()
+    {
+        yield return new WaitForSeconds(touchTime);
+
+        if (isClicked)
+        {
+            hasTriggeredHold = true;
+            TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
+            TowerManager.Instance.StartInteraction(InteractionState.TowerMoving);
+            Debug.Log("Hold Activated");
+        }
+    }
+
+    private void ShowTowerName()
+    {
+        Debug.Log("Show Tower Name");
+        if (towerNameText != null)
+        {
+            towerNameText.gameObject.SetActive(true);
+            DOVirtual.DelayedCall(1f, () => towerNameText.gameObject.SetActive(false));
+        }
+    }
+
     protected virtual void OnDisable()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
@@ -154,7 +198,6 @@ public abstract class BaseTower : MonoBehaviour
     }
     protected virtual void OnDestroy()
     {
-        isMoving = false;
         if (isActiveAndEnabled)TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 

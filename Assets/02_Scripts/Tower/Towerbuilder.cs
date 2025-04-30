@@ -263,7 +263,6 @@ public class Towerbuilder : MonoBehaviour
         {
             ghostTower = Instantiate(ghostTowerPrefab);
             ghostTower.transform.position = PostionArray(InputManager.Instance.GetTouchWorldPosition());
-            SpriteRenderer ghostsprite = ghostTower.GetComponent<SpriteRenderer>();
             GetSprite(TowerManager.Instance.hand.HighlightedIndex);
         }
         else

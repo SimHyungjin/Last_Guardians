@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
 {
+    ///////////======================도트데미지 이펙트====================================/////////////////////
     float addObtacleValue = 0f;
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
@@ -36,6 +37,11 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
             }
         }
     }
+
+    /// <summary>
+    /// 불 장애물 근처에 있을때 적용되는 로직
+    /// </summary>
+    /// <param name="environmentEffect"></param>
     public void IsFire(EnvironmentEffect environmentEffect)
     {
         if (EnviromentManager.Instance.WeatherState.GetCurrentState() is RainWeather)

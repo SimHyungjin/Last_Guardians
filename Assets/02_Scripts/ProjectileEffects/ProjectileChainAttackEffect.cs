@@ -7,6 +7,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
+        //주변에 스플레시 대미지
         if (towerData.EffectTargetCount == 0)
         {
             if (towerData.EffectTarget == EffectTarget.All)
@@ -22,6 +23,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                 }
             }
         }
+        //피격시 피격위치에서 추가탄환 발사
         else
         {
             TowerData ownerTowerData = this.gameObject.GetComponent<ProjectileBase>().GetTowerData();
@@ -40,6 +42,14 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 
     }
 
+    /// <summary>
+    /// 추가탄환 발사로직
+    /// 기존의 Projectile에서 추가로 발사하되 ChainAttackRffect를 제거하고 발사(무한증식 방지)
+    /// 블래스터도 구현되어있으나 사용하지 않아서 주석처리
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="ownerTowerData"></param>
+    /// <param name="adaptedTowerData"></param>
     private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedTowerData adaptedTowerData)
     {
         Debug.Log($"[ChainAttack] ChainShot called. TowerData: {ownerTowerData.TowerIndex}");

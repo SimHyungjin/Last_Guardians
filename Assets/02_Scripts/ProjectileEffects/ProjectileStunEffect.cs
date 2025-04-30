@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ProjectileStunEffect : MonoBehaviour,IEffect
 {
+    ///////////=========================스턴 이펙트=================================/////////////////////
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData,EnvironmentEffect environmentEffect)
     {
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.ApplySturn(towerData.EffectValue, towerData.EffectDuration);
-            Debug.Log($"기본 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
         }
     }
 
@@ -20,7 +20,6 @@ public class ProjectileStunEffect : MonoBehaviour,IEffect
             if (Random.value < chance)
             {
                 target.ApplySturn(towerData.EffectValue, towerData.EffectDuration);
-                Debug.Log($"찬스 슬로우 {towerData.EffectValue}, {towerData.EffectDuration}");
             }
         }
     }

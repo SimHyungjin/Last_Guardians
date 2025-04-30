@@ -17,16 +17,16 @@ public enum TrapObjectState
 }
 public class TrapObject : MonoBehaviour
 {
-    
+    [Header("Data")]
     [SerializeField] private List<int> buffTowerIndex;
     [SerializeField] private List<ITrapEffect> trapEffectList;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
-
     public EnvironmentEffect environmentEffect;
     private Coroutine activeEffectCoroutine;
     private Coroutine checkOverlapCoroutine;
     private TowerData towerData;
+
     private TrapObjectState currentState;
 
     private Dictionary<Type, int> currentEffectSources = new();
@@ -93,6 +93,9 @@ public class TrapObject : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 트랩에 적용되는 이팩트 리스트
+    /// </summary>
     private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
     {
         { SpecialEffect.DotDamage, typeof(TrapObjectDotDamageEffect) },
@@ -101,6 +104,9 @@ public class TrapObject : MonoBehaviour
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },
     };
 
+    /// <summary>
+    /// 설치 가능여부 판별
+    /// </summary>
     public void CanPlant()
     {
         Vector2 pos = PostionArray();
@@ -147,6 +153,12 @@ public class TrapObject : MonoBehaviour
         Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMaskData.trapObject);
         checkOverlapCoroutine=StartCoroutine(CheckTrapOverlap(trapHits));
     }
+
+    /// <summary>
+    /// 트랩 오브젝트가 겹치는지 체크하는 코루틴 가장 먼저 생성된 트랩활성화된다.
+    /// </summary>
+    /// <param name="trapHits"></param>
+    /// <returns></returns>
     private IEnumerator CheckTrapOverlap(Collider2D[] trapHits)
     {
         yield return null;
@@ -167,17 +179,22 @@ public class TrapObject : MonoBehaviour
         ChageState(TrapObjectState.Ready);
     }
 
+
     public bool IsAnyObjectOnTile()
     {
         Collider2D hit = Physics2D.OverlapPoint(PostionArray(), LayerMaskData.buildBlock);
         return hit != null;
     }
+
     public Vector2 PostionArray()
     {
         return new Vector2(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y));
     }
 
-
+    /// <summary>
+    /// 트랩에 몬스터가 닿았을때 호출된다.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (currentState != TrapObjectState.Ready) return;
@@ -194,6 +211,13 @@ public class TrapObject : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 트랩이팩트 적용
+    /// 타겟이 멀티인지 싱글인지 구분하여 일정시간동안 이팩트적용 후 쿨타임으로 전환 
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     private IEnumerator ApplyEffectsToArea(BaseMonster target)
     {
         float elapsed = 0f;
@@ -233,7 +257,10 @@ public class TrapObject : MonoBehaviour
         ChageState(TrapObjectState.Cooldown);
     }
 
-
+    /// <summary>
+    /// 트렙에 적용되는 이팩트 추가
+    /// </summary>
+    /// <param name="index"></param>
     public void AddTrapEffect(int index)
     {
         TowerData data = TowerManager.Instance.GetTowerData(index);
@@ -314,7 +341,10 @@ public class TrapObject : MonoBehaviour
     {
         disable = false;
     }
-    public  void DestroyBuffTower()
+
+    ///////////==========================상태초기화 함수들================================/////////////////////
+
+    public void DestroyBuffTower()
     {
         ClearAllbuff();
         ScanBuffTower();
@@ -329,6 +359,10 @@ public class TrapObject : MonoBehaviour
         buffTowerIndex.Add(towerData.TowerIndex);
         AddTrapEffect(towerData.TowerIndex);
     }
+
+    /// <summary>
+    /// 버프타워를 스캔하여 버프를 재적용한다.
+    /// </summary>
     private void ScanBuffTower()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
@@ -342,6 +376,10 @@ public class TrapObject : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 주변에 장애물들을 스캔하여 버프를 재적용한다.
+    /// </summary>
     public void ScanPlantedObstacle()
     {
         environmentEffect.isNearWater = false;

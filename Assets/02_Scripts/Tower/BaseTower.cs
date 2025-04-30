@@ -53,6 +53,10 @@ public abstract class BaseTower : MonoBehaviour
     private bool hasTriggeredHold = false;
     private Coroutine holdCheckCoroutine;
 
+    /// <summary>
+    /// 타워의 데이터 초기화
+    /// </summary>
+    /// <param name="_towerData"></param>
     public virtual void Init(TowerData _towerData)
     {
         towerData = _towerData;
@@ -76,6 +80,10 @@ public abstract class BaseTower : MonoBehaviour
         StartCoroutine(AfterInit());
     }
 
+    /// <summary>
+    /// 초기화 이후 한프레임 대기 후 설치위치에 있는 장애물과 트랩을 체크한다.
+    /// </summary>
+    /// <returns></returns>
     protected IEnumerator AfterInit()
     {
         yield return null;
@@ -116,14 +124,21 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
-    
-
-    
+        
     protected virtual void Update()
     {
 
     }
 
+    ///////////=====================터치관련=====================================/////////////////////
+    
+    /// <summary>
+    /// 터치시 호출된다.
+    /// 일반터치와 홀드터치로 나뉘어져있다.
+    /// 일반터치시 타워의 이름을 보여준다.
+    /// 홀드터치시 타워고스트를 이동시키며(타워빌더에서 처리) 합성여부반별을한다
+    /// </summary>
+    /// <param name="ctx"></param>
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
         if (this == null) return;
@@ -142,6 +157,12 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 터치가 끝났을때 호출된다.
+    /// 일반터치시 타워의 이름을 보여준다.
+    /// 홀드터치시 합성가능하면 합성후 타워를 파괴하고, 합성불가능하면 원상복구한다.
+    /// </summary>
+    /// <param name="ctx"></param>
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
         if (this == null) return;
@@ -168,6 +189,10 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 터치가 touchTime이상이되면 홀드터치로 간주한다.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator CheckHoldTrigger()
     {
         yield return new WaitForSeconds(touchTime);
@@ -211,6 +236,12 @@ public abstract class BaseTower : MonoBehaviour
         disable = false;
     }
 
+    ///////////=====================버프 적용=====================================/////////////////////
+
+    /// <summary>
+    /// 타워의 범위내에 있는 타워를 스캔한다.
+    /// 범위내에 버프타워가 있다면 재적용한다.
+    /// </summary>
     protected void ScanBuffTower()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
@@ -224,6 +255,11 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 타워의 범위내에 있는 장애물과 트랩을 스캔한다.
+    /// 범위내에 장애물이 있다면 재적용한다.
+    /// </summary>
     public virtual void ScanPlantedObstacle()
     {
         environmentEffect.isNearWater = false;

@@ -26,7 +26,6 @@ public class TowerManager : Singleton<TowerManager>
 
     [Header("Towers")]
     public List<BaseTower> Towers;
-
     public Sprite[] TowerIcons;
 
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
@@ -42,6 +41,18 @@ public class TowerManager : Singleton<TowerManager>
     {
         return towerDataMap.TryGetValue(index, out var data) ? data : null;
     }
+    public Sprite GetSprite(int towerindex)
+    {
+        int adjustedIndex = Utils.GetSpriteIndex(towerindex);
+        adjustedIndex = adjustedIndex - 1; 
+        if (adjustedIndex >= 0 && adjustedIndex < TowerIcons.Length)
+            return TowerIcons[adjustedIndex];
+        else
+            return null;
+    }
+
+    ///////////=========================상태전환=================================/////////////////////
+    
     public bool CanStartInteraction()
     {
         return CurrentState == InteractionState.None;
@@ -58,6 +69,28 @@ public class TowerManager : Singleton<TowerManager>
             CurrentState = InteractionState.None;
     }
 
+
+
+    ///////////============================타워 리스트 관리용==============================/////////////////////
+    
+    public void AddTower(BaseTower tower)
+    {
+        Towers.Add(tower);
+    }
+
+    public void RemoveTower(BaseTower tower)
+    {
+        Towers.Remove(tower);
+    }
+
+    ///////////============================기타 메서드==============================/////////////////////
+    
+    /// <summary>
+    /// 트랩오브젝트 파괴후 다음 프레임에 호출되는 메서드
+    /// 오브젝트가 파괴 후 호출해줄 수 있는 위치가 없어서 타워매니저에서 관리 
+    /// </summary>
+    /// <param name="destroyedPos"></param>
+    /// <returns></returns>
     public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
     {
         yield return null; 
@@ -73,24 +106,5 @@ public class TowerManager : Singleton<TowerManager>
                 Debug.Log(trapObject.transform);
             }
         }
-    }
-    public Sprite GetSprite(int towerindex)
-    {
-        int adjustedIndex = Utils.GetSpriteIndex(towerindex);
-        adjustedIndex = adjustedIndex - 1; 
-        if (adjustedIndex >= 0 && adjustedIndex < TowerIcons.Length)
-            return TowerIcons[adjustedIndex];
-        else
-            return null;
-    }
-
-    public void AddTower(BaseTower tower)
-    {
-        Towers.Add(tower);
-    }
-
-    public void RemoveTower(BaseTower tower)
-    {
-        Towers.Remove(tower);
     }
 }

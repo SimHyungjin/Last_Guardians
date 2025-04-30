@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
+    ///////////=====================보스미적용 방어력감소=====================================/////////////////////
     float addWeatherValue = 0f;
     public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
@@ -27,7 +28,9 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
             }
         }
     }
-
+    /// <summary>
+    /// 안개날씨일때 추가 방어력 감소
+    /// </summary>
     public void isFog()
     {
         if (EnviromentManager.Instance.WeatherState.GetCurrentState() is FogWeather)

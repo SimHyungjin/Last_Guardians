@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
 public class ArrowProjectile : ProjectileBase
 {
     public BaseMonster target;
     [SerializeField] private bool hasHit = false;
+
+    /// <summary>
+    /// 타워의 데이터와 적응된 타워의 데이터, 이펙트 리스트, 환경 이펙트를 초기화합니다.
+    /// </summary>
+    /// <param name="_towerData"></param>
+    /// <param name="_adaptedTowerData"></param>
+    /// <param name="_effectslist"></param>
+    /// <param name="_environmentEffect"></param>
     public override void Init(TowerData _towerData,AdaptedTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         base.Init(_towerData, _adaptedTowerData, _effectslist,_environmentEffect);
@@ -46,6 +53,11 @@ public class ArrowProjectile : ProjectileBase
         //effect = null;
         effects.Clear();
     }
+
+    /// <summary>
+    /// 충돌시 데미지를주고, 저장된 이펙트를 적용
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit) return;

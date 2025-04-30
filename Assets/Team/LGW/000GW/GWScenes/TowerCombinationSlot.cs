@@ -21,7 +21,5 @@ public class TowerCombinationSlot : MonoBehaviour
         towerData = data;
         towerNameText.text = data.TowerName;
         icon.sprite = TowerManager.Instance.GetSprite(towerData.TowerIndex);
-        //data.atlas.GetSprite($"Tower_{Utils.GetSpriteIndex(towerData.TowerIndex)}"); // 아이콘이 있으면
     }
 }
-

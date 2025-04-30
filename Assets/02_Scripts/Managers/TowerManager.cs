@@ -36,6 +36,7 @@ public class TowerManager : Singleton<TowerManager>
         towerDataMap = Resources.LoadAll<TowerData>("SO/Tower")
             .ToDictionary(td => td.TowerIndex, td => td);
     }
+    
 
     public TowerData GetTowerData(int index)
     {

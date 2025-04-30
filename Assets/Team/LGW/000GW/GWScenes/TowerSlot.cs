@@ -1,6 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TowerSlot : MonoBehaviour
 {
@@ -33,12 +33,7 @@ public class TowerSlot : MonoBehaviour
             return;
         }
 
-        int spriteIndex = data.TowerIndex;
-        if (spriteIndex > 49 && spriteIndex < 99) spriteIndex -= 49;
-        else if (spriteIndex > 98 && spriteIndex < 109) spriteIndex -= 98;
-        else if (spriteIndex > 108) spriteIndex -= 59;
-
-        icon.sprite = data.atlas.GetSprite($"Tower_{spriteIndex}");
+        icon.sprite = TowerManager.Instance.GetSprite(data.TowerIndex);
         nameText.text = data.TowerName;
     }
 }

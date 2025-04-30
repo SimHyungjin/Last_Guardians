@@ -77,22 +77,7 @@ public class Inventory
 
     public IReadOnlyList<ItemInstance> GetFilteredView()
     {
-        List<ItemInstance> viewList;
-        if (currentFilter == ItemType.Count)
-            viewList = inventory;
-        else
-            viewList = inventory.FindAll(x =>
-        {
-            if (x.Data.ItemType != currentFilter) return false;
-
-            if (currentFilter == ItemType.Equipment && x.AsEquipData != null)
-            {
-                return currentEquipFilter == EquipType.Count || x.AsEquipData.equipType == currentEquipFilter;
-            }
-
-            return true;
-        });
-
+        List<ItemInstance> viewList = FilterItemTypeList(currentFilter);
         switch (currentSortType)
         {
             case InventorySortType.GradeDescending:
@@ -108,6 +93,25 @@ public class Inventory
         }
 
         return viewList;
+    }
+
+    private List<ItemInstance> FilterItemTypeList(ItemType type)
+    {
+        if (type == ItemType.Count)
+            return new List<ItemInstance>(inventory);
+
+        if (type == ItemType.Equipment)
+        {
+            if (currentEquipFilter == EquipType.Count)
+                return inventory.FindAll(x => x.Data.ItemType == ItemType.Equipment);
+
+            return inventory.FindAll(x =>
+                x.Data.ItemType == ItemType.Equipment &&
+                x.AsEquipData != null &&
+                x.AsEquipData.equipType == currentEquipFilter
+            );
+        }
+        return inventory.FindAll(x => x.Data.ItemType == type);
     }
 
     public IReadOnlyList<ItemInstance> ModifyAndGetFiltered(Action<Inventory> modification)

@@ -35,26 +35,26 @@ public class WeatherState
             case Season.spring:
                 weatherList.Add((fogWeather, 15f));
                 weatherList.Add((strongWindWeather, 25f));
-                //weatherList.Add((sunnyWeather, 60f));
+                weatherList.Add((sunnyWeather, 60f));
                 break;
 
             case Season.summer:
                 weatherList.Add((fogWeather, 10f));
                 weatherList.Add((rainWeather, 25f));
                 weatherList.Add((droughtWeather, 15f));
-                //weatherList.Add((sunnyWeather, 50f));
+                weatherList.Add((sunnyWeather, 50f));
                 break;
 
             case Season.autumn:
                 weatherList.Add((fogWeather, 15f));
                 weatherList.Add((strongWindWeather, 25f));
-                //weatherList.Add((sunnyWeather, 60f));
+                weatherList.Add((sunnyWeather, 60f));
                 break;
 
             case Season.winter:
                 weatherList.Add((fogWeather, 15f));
                 weatherList.Add((snowWeather, 30f));
-                //weatherList.Add((sunnyWeather, 55f));
+                weatherList.Add((sunnyWeather, 55f));
                 break;
         }
     }

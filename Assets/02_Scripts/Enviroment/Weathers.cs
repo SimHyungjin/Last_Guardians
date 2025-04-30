@@ -36,7 +36,7 @@ public class StrongWindWeather : IWeatherState
     public void Enter()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name}");
-        ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
+        ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Wind"));
         particle.gameObject.SetActive(true);
 
         foreach (var obs in EnviromentManager.Instance.Obstacles)// 장애물
@@ -57,7 +57,7 @@ public class StrongWindWeather : IWeatherState
     public void Exit()
     {
         Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
-        ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
+        ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Wind"));
         particle.gameObject.SetActive (false);
         foreach (BaseTower tower in TowerManager.Instance.Towers)
         {

@@ -26,6 +26,8 @@ public class EnviromentManager : Singleton<EnviromentManager>
     private List<GameObject> secondObjectTemplates = new();
     private List<GameObject> thirdObjectTemplates = new();
     private List<GameObject> fourthObjectTemplates = new();
+    
+    public List<GameObject> MapPrefabs { get; private set; } = new();
 
     public List<BaseObstacle> Obstacles { get; private set; } = new();
 
@@ -103,6 +105,9 @@ public class EnviromentManager : Singleton<EnviromentManager>
         secondObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/Second").ToList();
         thirdObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/Third").ToList();
         fourthObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/Fourth").ToList();
+
+        MapPrefabs.Add(Resources.Load<GameObject>("Enviroment/Maps/MapBase"));
+        MapPrefabs.Add(Resources.Load<GameObject>("Enviroment/Maps/MapWinter"));
 
         Utils.Shuffle(firstObjectTemplates);
         Utils.Shuffle(secondObjectTemplates);

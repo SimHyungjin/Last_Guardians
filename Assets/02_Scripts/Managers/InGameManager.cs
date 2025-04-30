@@ -14,6 +14,8 @@ public class InGameManager : Singleton<InGameManager>
     public DamageText DamageTextPrefab { get; private set; }
     public Canvas DamageUICanvas { get; private set; }
 
+    private Transform target;
+
     private Canvas damageUICanvasPrefab;
 
     [SerializeField] private MulliganUI mulliganUI;
@@ -27,10 +29,15 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private GameOverUI gameoverUI;
     [SerializeField] private TextMeshProUGUI weatherInfo;
     private string seasonText;
+    [SerializeField] private GameObject mapSlot;
+
+    public List<GameObject> MapPrefabs { get; private set; } = new();
 
     public int level;
     public float exp;
     private double maxExp = 50;
+
+    private GameObject map;
 
     private void Awake()
     {
@@ -50,8 +57,13 @@ public class InGameManager : Singleton<InGameManager>
         DateTime now = DateTime.Now;
         GameManager.Instance.NowTime = now.Minute;
         EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
-        SetSeasonText();
-        //UpdateWeatherInfo();
+        if(EnviromentManager.Instance.Season != Season.winter)
+            map = Instantiate(MapPrefabs[0],mapSlot.transform);
+        else
+            map = Instantiate(MapPrefabs[1], mapSlot.transform);
+        target = map.transform.Find("Center");
+        MonsterManager.Instance.Target = target;
+        TowerManager.Instance.towerbuilder.targetPosition = target;
         mulliganUI.StartSelectCard();
     }
 
@@ -112,6 +124,9 @@ public class InGameManager : Singleton<InGameManager>
     {
         DamageTextPrefab = Resources.Load<DamageText>("UI/DamageUI/DamageIndicator");
         damageUICanvasPrefab = Resources.Load<Canvas>("UI/DamageUI/DamageCanvas");
+
+        MapPrefabs.Add(Resources.Load<GameObject>("Enviroment/Maps/MapBase"));
+        MapPrefabs.Add(Resources.Load<GameObject>("Enviroment/Maps/MapWinter"));
     }
 
     private void GameOver()
@@ -140,27 +155,8 @@ public class InGameManager : Singleton<InGameManager>
         playerEXPText.text = $"경험치 : {(int)exp} / {(int)maxExp}";
     }
 
-    private void SetSeasonText()
-    {
-        switch (EnviromentManager.Instance.Season)
-        {
-            case Season.spring:
-                seasonText = "봄";
-                break;
-            case Season.summer:
-                seasonText = "여름";
-                break;
-            case Season.autumn:
-                seasonText = "가을";
-                break;
-            case Season.winter:
-                seasonText = "겨울";
-                break;
-        }
-    }
-
     public void UpdateWeatherInfo()
     {
-        weatherInfo.text = $"{seasonText} / {EnviromentManager.Instance.WeatherState.GetWeatherName()}";
+        weatherInfo.text = $"{EnviromentManager.Instance.WeatherState.GetSeasonText(seasonText)} / {EnviromentManager.Instance.WeatherState.GetWeatherName()}";
     }
 }

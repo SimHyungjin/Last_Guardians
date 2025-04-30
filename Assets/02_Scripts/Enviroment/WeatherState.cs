@@ -116,6 +116,26 @@ public class WeatherState
         return currentState;
     }
 
+    public string GetSeasonText(string str)
+    {
+        switch (EnviromentManager.Instance.Season)
+        {
+            case Season.spring:
+                str = "봄";
+                break;
+            case Season.summer:
+                str = "여름";
+                break;
+            case Season.autumn:
+                str = "가을";
+                break;
+            case Season.winter:
+                str = "겨울";
+                break;
+        }
+        return str;
+    }
+
     public string GetWeatherName()
     {
         string str = GetCurrentState().ToString();

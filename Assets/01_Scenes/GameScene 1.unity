@@ -280,6 +280,7 @@ MonoBehaviour:
   waveInfoText: {fileID: 3628706274517874741}
   remainMonsterCountText: {fileID: 4961813683336431140}
   gameoverUI: {fileID: 2708376430539389137}
+  weatherInfo: {fileID: 3628706274517874741}
   level: 0
   exp: 0
 --- !u!4 &63205871
@@ -2185,7 +2186,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: 1276c8dfe09ff2746b4a2c05311baee0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 6aff07fd04e396044b66ff28ce62fc43, type: 2}
 --- !u!4 &978944793
 Transform:
   m_ObjectHideFlags: 0
@@ -2953,7 +2954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9047212350670628783, guid: 173ce0eed2b2d014592344f472d792ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 9047212350670628783, guid: 173ce0eed2b2d014592344f472d792ad, type: 3}
       propertyPath: m_LocalPosition.y

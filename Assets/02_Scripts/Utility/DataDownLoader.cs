@@ -492,15 +492,15 @@ public class DataDownLoader : MonoBehaviour
 
             int index = int.TryParse(row["monsterskillIndex"]?.ToString(), out int parsedindex) ? parsedindex : default;
             string dataname = row["monsterskillName"]?.ToString() ?? "";
+            MonsterSkillType skillType = Enum.TryParse(row["monsterskillType"]?.ToString(), out MonsterSkillType parsedskillType) ? parsedskillType : MonsterSkillType.Clean;
             float range = float.TryParse(row["monsterskillRange"]?.ToString(), out float parseSkillRange) ? parseSkillRange : default;
             int spawnMonsterID = int.TryParse(row["spawnMonsterID"]?.ToString(), out int parsedSpawnMonsterID) ? parsedSpawnMonsterID : default;
             int spawnMonsterNum = int.TryParse(row["spawnMonsterNum"]?.ToString(), out int parsedSpawnMonsterNum) ? parsedSpawnMonsterNum : default;
             float duration = float.TryParse(row["monsterskillDuration"]?.ToString(), out float parseduration) ? parseduration : default;
-            MonsterSkillType skillType = Enum.TryParse(row["monsterskillType"]?.ToString(), out MonsterSkillType type) ? type : MonsterSkillType.DefBuff;
-            string description = row["monsterskillDescripttion"]?.ToString() ?? "";
             float effectValue = float.TryParse(row["monsterskillEffectValue"]?.ToString(), out float parseeffectValue) ? parseeffectValue : default;
+            string description = row["monsterskillDescripttion"]?.ToString() ?? "";
             float skillPro = float.TryParse(row["monsterskillProbablilty"]?.ToString(), out float parseskillPro) ? parseskillPro : default;
-            float skillCool = float.TryParse(row["monsterskillProbablilty"]?.ToString(), out float parseskillCool) ? parseskillCool : default;
+            float skillCool = float.TryParse(row["monsterskillCoolTime"]?.ToString(), out float parseskillCool) ? parseskillCool : default;
 
 
             MonsterSkillData data = ScriptableObject.CreateInstance<MonsterSkillData>();

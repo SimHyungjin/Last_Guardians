@@ -15,14 +15,14 @@ MonoBehaviour:
   skillIndex: 9
   skillName: "\uADF8\uB9BC\uC790 \uBD84\uC2E0"
   skillType: 3
-  skillRange: 0
+  skillRange: 0.2
   skillDescription: "\uACF5\uACA9\uD558\uC9C0 \uC54A\uB294 \uBD84\uC2E0\uC744 \uC0DD\uC131\uD558\uC5EC,
-    4\uCD08\uB3D9\uC548 \uD0C0\uC6CC\uC758 \uACF5\uACA9\uC744 \uBD84\uC0B0 \uC2DC\uD0A8\uB2E4.
-    \uB2E8, \uBD84\uC2E0\uC740 \uACF5\uACA9\uC744 \uD558\uC9C0 \uC54A\uC9C0\uB9CC,
-    \uBCF4\uC2A4\uB791 \uAC19\uC740 \uC2A4\uD0EF\uC744 \uBCF4\uC720\uD55C\uB2E4."
-  duration: 4
-  skillCoolTime: 0.25
-  monsterskillEffectValue: 50
-  monsterskillProbablilty: 0.25
-  monsterID: 0
-  monsterNum: 0
+    \uD0C0\uC6CC\uC758 \uACF5\uACA9\uC744 \uBD84\uC0B0 \uC2DC\uD0A8\uB2E4. \uB2E8,
+    \uBD84\uC2E0\uC740 \uACF5\uACA9\uC744 \uD558\uC9C0 \uC54A\uC9C0\uB9CC, \uBCF4\uC2A4
+    \uB791 \uAC19\uC740 \uC2A4\uD0EF\uC744 \uBCF4\uC720\uD55C\uB2E4."
+  duration: 0
+  skillCoolTime: 18
+  monsterskillEffectValue: 0
+  monsterskillProbablilty: 0.5
+  monsterID: 199
+  monsterNum: 1

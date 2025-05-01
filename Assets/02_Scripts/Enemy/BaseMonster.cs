@@ -302,7 +302,7 @@ public class BaseMonster : MonoBehaviour
         {
             animationConnect.StartDeathAnimaiton();
             MonsterManager.Instance.MonsterKillCount++;
-            EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab);
+            EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
         }

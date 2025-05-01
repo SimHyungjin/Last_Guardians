@@ -80,21 +80,23 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     public void ClaimReward()
     {
-        if (pendingGold > 0) SaveSystem.SaveGoldReward(pendingGold);
-        if (pendingStone > 0) SaveSystem.SaveUpgradeStonedReward(pendingStone);
-        for (int i = 0; i < pendingEquip; i++)
-            SaveSystem.SaveEquipReward(0); // 실제 장비 인덱스로 대체 가능
+        GameManager.Instance.gold += pendingGold;
+        GameManager.Instance.upgradeStones += pendingStone;
+
+       
 
         Debug.Log($"[보상 수령 완료] 골드: {pendingGold}, 강화석: {pendingStone}, 장비: {pendingEquip}");
 
         pendingGold = 0;
         pendingStone = 0;
         pendingEquip = 0;
+        accumulatedStone = 0f;
 
         lastRewardClaimTime = DateTime.Now;
         sessionStartTime = DateTime.Now;
-
         PlayerPrefs.SetInt("IdleRewardCount", 0);
+
+        
         SaveAll();
         SaveSystem.SaveGame();
     }

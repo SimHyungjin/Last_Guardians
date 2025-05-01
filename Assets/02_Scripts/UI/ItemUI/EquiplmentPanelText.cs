@@ -23,14 +23,12 @@ public class EquiplmentPanelText : MonoBehaviour
         equipment.OnEquip += UpdateText;
         equipment.OnUnequip += UpdateText;
 
-        if(equipment.GetEquipped().Count > 0)
-            UpdateText(equipment.GetEquipped()[EquipType.Weapon]);
+        UpdateText(null);
     }
 
     private void UpdateText(ItemInstance instance)
     {
         var info = equipment.InfoToPlayer();
-
         string attackType = info.attackType switch
         {
             AttackType.Melee => "근접",

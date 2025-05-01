@@ -27,27 +27,23 @@ public class EquiplmentPanelText : MonoBehaviour
 
     private void UpdateText(ItemInstance instance)
     {
-        string attackType;
-        switch(equipment.changeAttackType)
+        var info = equipment.InfoToPlayer();
+
+        string attackType = info.attackType switch
         {
-            case AttackType.Melee:
-                attackType = "근접";
-                break;
-            case AttackType.Ranged:
-                attackType = "화살";
-                break;
-            default:
-                attackType = "마법";
-                break;
-        }
-        attackTypeText.text = "공격 타입 = " + attackType;
-        attackPowerText.text = "공격력 + " + equipment.totalAttack.ToString();
-        attackSpeedText.text = "공격 속도 = " + equipment.totalAttackSpeed.ToString();
-        attackRangeText.text = "공격 사거리 + " + equipment.totalAttackRange.ToString();
-        moveSpeedText.text = "이동 속도 + " + equipment.totalMoveSpeed.ToString();
-        criticalChanceText.text = "치명타 확률 + " + equipment.totalCriticalChance.ToString() + "%";
-        criticalDamageText.text = "치명타 피해 + " + equipment.totalCriticalDamage.ToString() + "%";
-        penetrationText.text = "관통력 + " + equipment.totalPenetration.ToString();
+            AttackType.Melee => "근접",
+            AttackType.Ranged => "화살",
+            _ => "마법"
+        };
+
+        attackTypeText.text = $"공격 타입 = {attackType}";
+        attackPowerText.text = $"공격력 + {info.attack}";
+        attackSpeedText.text = $"공격 속도 = {info.attackSpeed}";
+        attackRangeText.text = $"공격 사거리 + {info.attackRange}";
+        moveSpeedText.text = $"이동 속도 + {info.moveSpeed}";
+        criticalChanceText.text = $"치명타 확률 + {info.criticalChance}%";
+        criticalDamageText.text = $"치명타 피해 + {info.criticalDamage}%";
+        penetrationText.text = $"관통력 + {info.penetration}";
     }
 
     //private void UpdateText(ItemInstance instance)

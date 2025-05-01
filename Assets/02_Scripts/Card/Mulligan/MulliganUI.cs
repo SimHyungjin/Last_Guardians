@@ -18,17 +18,17 @@ public class MulliganUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI remianCardNumText;
 
-    private int MaxSelectedCards = 2;
-    private float timer = 30f;
-    private int count = 0;
+    private int MaxSelectedCards = 2; //멀리건에서 선택해야 하는 카드 수
+    private float timer = 30f; // 멀리건 타이머
+    private int count = 0; // 멀리건에서 고른 카드 수
     private bool isTimerOn = false;
 
-    public List<int> MyCardIndexList { get; private set; }
-    public List<TowerData> MyCardList { get; private set; }
+    public List<int> MyCardIndexList { get; private set; } //선택한 카드 인덱스
+    public List<TowerData> MyCardList { get; private set; } // 선택한 카드 리스트
 
-    private List<TowerData> elementalDataList;
-    private List<TowerData> standardDataList;
-    private List<MulliganCard> selectedCard;
+    private List<TowerData> elementalDataList; // 속성타워 카드리스트
+    private List<TowerData> standardDataList; // 일반타워 카드시르트
+    private List<MulliganCard> selectedCard; // 멀리건에서 고른 카드 리스트
 
     private void Awake()
     {
@@ -211,7 +211,7 @@ public class MulliganUI : MonoBehaviour
 
         if (availableCards.Count == 0)
         {
-            Debug.Log("자동 선택 카드가 부족");
+            Debug.Log("자동 선택 카드 부족");
             return;
         }
 

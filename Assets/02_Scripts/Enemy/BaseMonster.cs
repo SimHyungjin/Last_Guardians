@@ -221,7 +221,7 @@ public class BaseMonster : MonoBehaviour
     private void FixedUpdate()
     {
         //왼쪽 오른쪽 뒤집기
-        FlipSpritebyDirection();
+        FlipMonsterbyDirection();
 
         if (!isAttack && !isSturn)
             Move();
@@ -233,7 +233,7 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
-    private void FlipSpritebyDirection()
+    private void FlipMonsterbyDirection()
     {
         movedirection = new Vector2(agent.velocity.x,agent.velocity.y).normalized;
 
@@ -373,7 +373,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            dotDamage.UpdateEffect(amount, duration);
+            dotDamage.UpdateEffectTime(amount, duration);
         }
     }
 
@@ -394,7 +394,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            sturn.UpdateEffect(amount, duration);
+            sturn.UpdateEffectTime(amount, duration);
         }
     }
 
@@ -419,7 +419,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            slowDown.UpdateEffect(amount, duration);
+            slowDown.UpdateEffectTime(amount, duration);
         }
     }
 
@@ -439,7 +439,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            defDown.UpdateEffect(amount, duration);
+            defDown.UpdateEffectTime(amount, duration);
         }
     }
 
@@ -459,7 +459,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            defBuff.UpdateEffect(amount, duration);
+            defBuff.UpdateEffectTime(amount, duration);
         }
     }
 
@@ -479,7 +479,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            speedBuff.UpdateEffect(amount, duration);
+            speedBuff.UpdateEffectTime(amount, duration);
         }
     }
 
@@ -499,7 +499,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            evasionBuff.UpdateEffect(amount,duration);
+            evasionBuff.UpdateEffectTime(amount,duration);
         }
     }
 
@@ -518,7 +518,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            skillValueDebuff.UpdateEffect(amount,duration);
+            skillValueDebuff.UpdateEffectTime(amount,duration);
         }
     }
 
@@ -536,7 +536,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            silenceDebuff.UpdateEffect(0, duration);
+            silenceDebuff.UpdateEffectTime(0, duration);
         }
     }
 

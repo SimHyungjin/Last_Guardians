@@ -22,9 +22,9 @@ MonoBehaviour:
   monsterDescription: "\uB9E4\uD639\uC801\uC778 \uB9C8\uB825\uC744 \uC9C0\uB2CC \uB9C8\uC871.
     \uC801\uC758 \uD0C0\uC6CC\uB97C \uB9E4\uD639\uD558\uC5EC \uC77C\uC2DC\uC801\uC73C\uB85C
     \uC791\uB3D9\uC744 \uBA48\uCD94\uAC8C \uD55C\uB2E4."
-  monsterType: 0
+  monsterType: 1
   hasSkill: 1
   monsterSkillID: 6
-  monsterAttackPattern: 0
+  monsterAttackPattern: 1
   icon: {fileID: 0}
   prefab: {fileID: 4921341579351612238, guid: 70767327aa7eab744bb94df71c3f57eb, type: 3}

@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// 장비를 관리하는 클래스입니다.
+/// </summary>
 public class Equipment
 {
     private Dictionary<EquipType, ItemInstance> equipped = new();
@@ -18,6 +21,11 @@ public class Equipment
     public float totalMoveSpeed { get; private set; }
     public int specialEffectID { get; private set; }
 
+    /// <summary>
+    /// 장비를 장착합니다. 이미 있을 경우 해제 후 장착합니다.
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="updateUI"></param>
     public void Equip(ItemInstance instance, bool updateUI = true)
     {
         if (instance?.AsEquipData == null) return;
@@ -34,6 +42,11 @@ public class Equipment
         if (updateUI) OnEquip?.Invoke(instance);
     }
 
+    /// <summary>
+    /// 장비를 해제합니다.장비가 없을 경우 아무것도 하지 않습니다.
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="updateUI"></param>
     public void UnEquip(ItemInstance instance, bool updateUI = true)
     {
         if (instance?.AsEquipData == null) return;
@@ -46,7 +59,9 @@ public class Equipment
         RecalculateStats();
         if (updateUI) OnUnequip?.Invoke(instance);
     }
-
+    /// <summary>
+    /// 장비의 능력치를 계산하여 업데이트합니다.
+    /// </summary>
     void RecalculateStats()
     {
         changeAttackType = AttackType.Melee;
@@ -69,7 +84,11 @@ public class Equipment
             specialEffectID = data.specialEffectID > 0 ? data.specialEffectID : 0;
         }
     }
-
+    /// <summary>
+    /// 장비가 장착되어 있는지 확인합니다.
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <returns></returns>
     public bool IsEquipped(ItemInstance instance)
     {
         if (instance?.AsEquipData == null) return false;
@@ -79,6 +98,10 @@ public class Equipment
 
     public IReadOnlyDictionary<EquipType, ItemInstance> GetEquipped() => equipped;
 
+    /// <summary>
+    /// 장비의 능력치를 플레이어에게 전달하기 위한 정보를 반환합니다.
+    /// </summary>
+    /// <returns></returns>
     public EquipmentInfo InfoToPlayer()
     {
         return new EquipmentInfo

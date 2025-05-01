@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// 인벤토리 슬롯을 관리하는 클래스입니다.
+/// </summary>
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image icon;

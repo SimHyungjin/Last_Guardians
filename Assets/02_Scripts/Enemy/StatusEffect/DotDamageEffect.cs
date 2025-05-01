@@ -9,7 +9,7 @@ public class DotDamageEffect : StatusEffect
 
     public DotDamageEffect(float duration, float damage) : base(duration, damage)
     {
-        timer = tickTime;
+        timer = 0;
         BuffDeBuff = BuffDeBuff.DeBuff;
     }
 
@@ -35,5 +35,11 @@ public class DotDamageEffect : StatusEffect
         base.RemoveEffect(target);
         Duration = 0f;
         Amount = 0f;
+    }
+
+    public override void UpdateEffectTime(float amout, float duration)
+    {
+        base.UpdateEffectTime(amout, duration);
+        timer = 0;
     }
 }

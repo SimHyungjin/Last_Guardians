@@ -1,10 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.XR;
 
+/// <summary>
+/// BaseObstacle는 장애물의 기본 클래스입니다.
+/// ObstacleData를 사용하여 장애물의 속성을 설정합니다.
+/// </summary>
 public class BaseObstacle : MonoBehaviour
 {
     [SerializeField] private ObstacleData obstacle;
@@ -20,11 +22,8 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
-    //private void Start()
-    //{
-    //    Init(ObstacleType.Water);
-    //    Init(Season.summer);
-    //}
+    private readonly float effectInterval = 0.2f;
+    private Dictionary<Collider2D, float> effectTimers = new();
 
     private void Awake()
     {
@@ -34,8 +33,6 @@ public class BaseObstacle : MonoBehaviour
 
     public void Init(ObstacleType _obstacleType)
     {
-        //spriteRenderer = GetComponent<SpriteRenderer>();
-        //navMeshObstacle = GetComponent<NavMeshObstacle>();
         obstacleType = _obstacleType;
         season = Season.Default;
         weather = Weather.Default;
@@ -46,6 +43,7 @@ public class BaseObstacle : MonoBehaviour
     {
         DestroyZone();
     }
+
     public void Init(Season _season)
     {
         season = _season;
@@ -64,7 +62,7 @@ public class BaseObstacle : MonoBehaviour
 
         if (spriteRenderer != null && data.sprite != null)
         {
-            spriteRenderer.sprite = data.sprite;  // �� ����!
+            spriteRenderer.sprite = data.sprite;  // ← 여기!
         }
 
         ChangeNavActive();
@@ -90,7 +88,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void ChangeLayer()
     {
-        switch(obstacleType)
+        switch (obstacleType)
         {
             case ObstacleType.Rock:
             case ObstacleType.Ruin:
@@ -110,7 +108,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void ChangeNavActive()
     {
-        if(obstacle == null) return;
+        if (obstacle == null) return;
         navMeshObstacle.enabled = !(obstacle.passbyPlayer && obstacle.passbyMonster);
     }
 
@@ -153,7 +151,7 @@ public class BaseObstacle : MonoBehaviour
 
     private void EffectToMonster(BaseMonster baseMonster)
     {
-        if(obstacle== null) return;
+        if (obstacle == null) return;
 
         switch (obstacle.obstacleEffect_Monster)
         {
@@ -162,7 +160,7 @@ public class BaseObstacle : MonoBehaviour
                 break;
 
             case ObstacleEffect.Dotdamage:
-                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.2f);
+                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.5f);
                 break;
             case ObstacleEffect.Dead:
                 baseMonster.TakeDamage(9999999);
@@ -182,13 +180,38 @@ public class BaseObstacle : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (!effectTimers.ContainsKey(collision))
+        {
+            effectTimers[collision] = 0f;
+        }
+
+        effectTimers[collision] += Time.deltaTime;
+
+        if (effectTimers[collision] >= effectInterval)
+        {
+            if (collision.TryGetComponent<PlayerController>(out var controller))
+            {
+                EffectToPlayer(controller);
+            }
+
+            if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+            {
+                EffectToMonster(baseMonster);
+            }
+
+            effectTimers[collision] = 0f; // 타이머 초기화
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (effectTimers.ContainsKey(collision))
+        {
+            effectTimers.Remove(collision); // 나가면 제거
+        }
         if (collision.TryGetComponent<PlayerController>(out var controller))
         {
-            EffectToPlayer(controller);
-        }
-        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
-        {
-            EffectToMonster(baseMonster);
+            controller.playerBuffHandler.ClearAllBuffs();
         }
     }
 }

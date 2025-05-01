@@ -11,6 +11,7 @@ public class DarkCurseDispel : MonsterSkillBase
         {
             if (var.gameObject.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
             {
+                //디버프 취소
                 baseMonster.CancelAllDebuff();
             }
         }

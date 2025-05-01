@@ -24,7 +24,7 @@ MonoBehaviour:
     \uC545\uBA85 \uB192\uC740 \uC0B4\uC778\uB9C8. \uAE08\uC9C0\uB41C \uB9C8\uBC95\uC744
     \uC0AC\uC6A9\uD574 \uD53C\uBD80\uB97C \uAC15\uCCA0\uCC98\uB7FC \uB2E8\uB2E8\uD558\uAC8C
     \uB9CC\uB4DC\uB294 \uB2A5\uB825\uC774 \uC788\uB2E4."
-  monsterType: 0
+  monsterType: 1
   hasSkill: 1
   monsterSkillID: 4
   monsterAttackPattern: 0

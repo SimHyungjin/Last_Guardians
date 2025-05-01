@@ -23,7 +23,8 @@ public class EquiplmentPanelText : MonoBehaviour
         equipment.OnEquip += UpdateText;
         equipment.OnUnequip += UpdateText;
 
-        UpdateText(equipment.GetEquipped()[EquipType.Weapon]);
+        if(equipment.GetEquipped().Count > 0)
+            UpdateText(equipment.GetEquipped()[EquipType.Weapon]);
     }
 
     private void UpdateText(ItemInstance instance)

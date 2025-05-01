@@ -32,7 +32,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Home_SHJ_Scene")
+        if (scene.name == "MainScene")
         {
             StartCoroutine(DelayLoadGame());
         }

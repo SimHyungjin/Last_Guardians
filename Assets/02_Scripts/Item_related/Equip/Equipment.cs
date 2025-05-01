@@ -21,6 +21,14 @@ public class Equipment
     public float totalMoveSpeed { get; private set; }
     public int specialEffectID { get; private set; }
 
+
+    public Equipment()
+    {
+        foreach (EquipType type in Enum.GetValues(typeof(EquipType)))
+        {
+            equipped[type] = null;
+        }
+    }
     /// <summary>
     /// 장비를 장착합니다. 이미 있을 경우 해제 후 장착합니다.
     /// </summary>

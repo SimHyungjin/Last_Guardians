@@ -39,7 +39,7 @@ public class ItemPopupController : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
-        if(BaseState()) return;
+        if (BaseState()) return;
         SetData(inventory.GetAll()[inventory.GetAll().Count - 1]);
         selectionController.RefreshSlot(currentData);
         UpdatePopupUI();

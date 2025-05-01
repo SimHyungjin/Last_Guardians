@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public enum InventorySortType
 {
@@ -8,6 +7,9 @@ public enum InventorySortType
     NameAscending,
     Recent
 }
+/// <summary>
+/// 인벤토리 클래스입니다.
+/// </summary>
 public class Inventory
 {
     private List<ItemInstance> inventory = new();
@@ -18,6 +20,12 @@ public class Inventory
 
     public event Action OnInventoryChanged;
 
+    /// <summary>
+    /// 인벤토리에 아이템을 추가합니다. 같은 아이템이 있을 경우 수량을 증가시킵니다.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="count"></param>
+    /// <param name="updateUI"></param>
     public void AddItem(ItemInstance item, int count = 1, bool updateUI = true)
     {
         if (item == null) return;
@@ -32,6 +40,12 @@ public class Inventory
         if (updateUI) OnInventoryChanged?.Invoke();
     }
 
+    /// <summary>
+    /// 인벤토리에서 아이템을 제거합니다. 같은 아이템이 있을 경우 수량을 감소시킵니다.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="count"></param>
+    /// <param name="updateUI"></param>
     public void RemoveItem(ItemInstance item, int count = 1, bool updateUI = true)
     {
         if (item == null) return;
@@ -73,7 +87,10 @@ public class Inventory
         inventory.Clear();
         OnInventoryChanged?.Invoke();
     }
-
+    /// <summary>
+    /// 인벤토리의 필터링된 뷰를 반환합니다. 필터링된 아이템을 정렬합니다.
+    /// </summary>
+    /// <returns></returns>
     public IReadOnlyList<ItemInstance> GetFilteredView()
     {
         List<ItemInstance> viewList = FilterList();
@@ -93,6 +110,10 @@ public class Inventory
         return viewList;
     }
 
+    /// <summary>
+    /// 인벤토리의 필터링된 리스트를 반환합니다. 필터링된 아이템을 정렬하지 않습니다.
+    /// </summary>
+    /// <returns></returns>
     private List<ItemInstance> FilterList()
     {
         if (currentFilter.Count == 0 || currentFilter.Contains(ItemType.Count))
@@ -111,7 +132,11 @@ public class Inventory
             return true;
         });
     }
-
+    /// <summary>
+    /// 메서드 체이닝을 위한 필터링된 뷰를 반환합니다.
+    /// </summary>
+    /// <param name="modification"></param>
+    /// <returns></returns>
     public IReadOnlyList<ItemInstance> ModifyAndGetFiltered(Action<Inventory> modification)
     {
         if (modification == null) return default;

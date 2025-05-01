@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// 장비 패널의 텍스트를 업데이트하는 클래스입니다.
+/// </summary>
 public class EquiplmentPanelText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI attackTypeText;
@@ -45,18 +46,4 @@ public class EquiplmentPanelText : MonoBehaviour
         criticalDamageText.text = $"치명타 피해 + {info.criticalDamage}%";
         penetrationText.text = $"관통력 + {info.penetration}";
     }
-
-    //private void UpdateText(ItemInstance instance)
-    //{
-    //    if (instance?.AsEquipData == null) return;
-    //    var data = instance.AsEquipData;
-    //    attackTypeText.text = data.attackType.ToString();
-    //    attackPowerText.text = data.attackPower.ToString();
-    //    attackSpeedText.text = data.attackSpeed.ToString();
-    //    attackRangeText.text = data.attackRange.ToString();
-    //    moveSpeedText.text = data.moveSpeed.ToString();
-    //    criticalChanceText.text = data.criticalChance.ToString();
-    //    criticalDamageText.text = data.criticalDamage.ToString();
-    //    penetrationText.text = data.penetration.ToString();
-    //}
 }

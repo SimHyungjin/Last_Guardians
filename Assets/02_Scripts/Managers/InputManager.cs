@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// 터치 입력을 관리하는 매니저입니다.
+/// </summary>
 public class InputManager : Singleton<InputManager>
 {
     private PointerInput pointerInput;
@@ -15,6 +18,10 @@ public class InputManager : Singleton<InputManager>
         pointerInput.Enable();
     }
 
+    /// <summary>
+    /// 터치 입력을 통해 월드 좌표를 가져옵니다.
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetTouchWorldPosition()
     {
         Vector3 screenPos = pointerInput.Pointer.Position.ReadValue<Vector2>();
@@ -22,16 +29,29 @@ public class InputManager : Singleton<InputManager>
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         return new Vector2(worldPos.x, worldPos.y);
     }
-
+    /// <summary>
+    /// 터치 입력을 통해 스크린 좌표를 가져옵니다.
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetTouchPosition()
     {
         return pointerInput.Pointer.Position.ReadValue<Vector2>();
     }
+    /// <summary>
+    /// 터치를 시작할 때와 끝날 때의 콜백을 바인딩합니다.
+    /// </summary>
+    /// <param name="onStart"></param>
+    /// <param name="onEnd"></param>
     public void BindTouchPressed(Action<InputAction.CallbackContext> onStart, Action<InputAction.CallbackContext> onEnd)
     {
         pointerAction.Pressed.started += onStart;
         pointerAction.Pressed.canceled += onEnd;
     }
+    /// <summary>
+    /// 터치 입력을 시작할 때와 끝날 때의 콜백을 언바인딩합니다.
+    /// </summary>
+    /// <param name="onStart"></param>
+    /// <param name="onEnd"></param>
     public void UnBindTouchPressed(Action<InputAction.CallbackContext> onStart, Action<InputAction.CallbackContext> onEnd)
     {
         pointerAction.Pressed.started -= onStart;

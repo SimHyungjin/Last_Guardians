@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerData>
 {
     public float? Value { get; private set; }

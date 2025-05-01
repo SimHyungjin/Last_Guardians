@@ -1,9 +1,10 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
+/// <summary>
+/// 인벤토리 UI의 버튼을 관리하는 클래스입니다.
+/// </summary>
 public class InventoryUIButton : MonoBehaviour
 {
     [field: Header("정렬 버튼")]
@@ -41,7 +42,7 @@ public class InventoryUIButton : MonoBehaviour
         sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));
         sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.Recent));
 
-        filterSelectBtn.onClick.AddListener(() =>filterSelectPanel.SetActive(!filterSelectPanel.activeSelf));
+        filterSelectBtn.onClick.AddListener(() => filterSelectPanel.SetActive(!filterSelectPanel.activeSelf));
 
         allTypeBtn.onClick.AddListener(() =>
         {

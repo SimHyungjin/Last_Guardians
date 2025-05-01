@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// UI 애니메이션을 위한 클래스입니다.
+/// </summary>
 public class UIAnimator : MonoBehaviour
 {
     [SerializeField] private Image image;
@@ -22,6 +25,9 @@ public class UIAnimator : MonoBehaviour
             enabled = false;
         }
     }
+    /// <summary>
+    /// 애니메이션을 업데이트합니다.
+    /// </summary>
     private void Update()
     {
         if (sprites.Length == 0 || image == null) return;

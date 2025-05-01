@@ -221,7 +221,7 @@ public class BaseMonster : MonoBehaviour
     private void FixedUpdate()
     {
         //왼쪽 오른쪽 뒤집기
-        FlipSpritebyDirection();
+        FlipMonsterbyDirection();
 
         if (!isAttack && !isSturn)
             Move();
@@ -233,7 +233,7 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
-    private void FlipSpritebyDirection()
+    private void FlipMonsterbyDirection()
     {
         movedirection = new Vector2(agent.velocity.x,agent.velocity.y).normalized;
 

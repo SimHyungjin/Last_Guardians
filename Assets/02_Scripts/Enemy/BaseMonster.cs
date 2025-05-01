@@ -92,6 +92,7 @@ public class BaseMonster : MonoBehaviour
         blinkSeconds = new WaitForSeconds(blinkInterval);
     }
 
+    //몬스터 초기설정
     public void Setup(MonsterData data, MonsterSkillBase skillData = null)
     {
         this.MonsterData = data;
@@ -194,6 +195,7 @@ public class BaseMonster : MonoBehaviour
             }
         }
 
+        //스탯 매 프레임 적용 --> 추후 타이머 적용
         ApplyStatus();
 
         if (agent.speed == 0)

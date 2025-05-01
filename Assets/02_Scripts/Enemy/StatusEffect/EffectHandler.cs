@@ -28,6 +28,7 @@ public class EffectHandler : MonoBehaviour
         }
     }
 
+    //상태이상 추가
     public void AddEffect(StatusEffect effect)
     {
         //중복처리
@@ -51,7 +52,7 @@ public class EffectHandler : MonoBehaviour
             effect.ApplyEffect(baseMonster);
         }
     }
-
+    // 상태이상 제거
     public void RemoveEffect(StatusEffect effect)
     {
         if (effects.Contains(effect))
@@ -77,6 +78,7 @@ public class EffectHandler : MonoBehaviour
         
     }
 
+    // 모든상태이상 제거
     public void ClearAllEffect()
     {
         foreach(var effect in effects)
@@ -86,6 +88,7 @@ public class EffectHandler : MonoBehaviour
         effects.Clear();
     }
 
+    // 모든 버프 제거
     public void RemoveAllBuff()
     {
         for (int i = effects.Count - 1; i >= 0; i--)
@@ -98,6 +101,7 @@ public class EffectHandler : MonoBehaviour
         }
     }
 
+    // 모든 디버프 제거
     public void RemoveAllDeBuff()
     {
         for (int i = effects.Count - 1; i >= 0; i--)

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// PopupCloseButton은 팝업을 닫는 버튼을 관리하는 클래스입니다.
+/// </summary>
 public class PopupCloseButton : MonoBehaviour
 {
     private MainSceneManager mainSceneManager;
@@ -12,7 +15,9 @@ public class PopupCloseButton : MonoBehaviour
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClickClose);
     }
-
+    /// <summary>
+    /// 팝업을 닫는 메서드입니다.
+    /// </summary>
     public void OnClickClose()
     {
         var blocker = mainSceneManager.interactionBlocker.transform;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,6 +33,10 @@ public class EquipmentSlotContainer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 장비 슬롯에 장비를 바인딩합니다.
+    /// </summary>
+    /// <param name="instance"></param>
     public void BindSlot(ItemInstance instance)
     {
         if (instance?.AsEquipData == null) return;
@@ -42,13 +45,20 @@ public class EquipmentSlotContainer : MonoBehaviour
             slot.SetData(instance);
         }
     }
+    /// <summary>
+    /// 장비 슬롯에 장비를 언바인딩합니다.
+    /// </summary>
+    /// <param name="instance"></param>
     private void UnbindSlot(ItemInstance instance)
     {
         if (instance?.AsEquipData is not EquipData data) return;
 
         ClearSlot(data.equipType);
     }
-
+    /// <summary>
+    /// 장비 슬롯을 초기화합니다. 장비가 해제됩니다.
+    /// </summary>
+    /// <param name="type"></param>
     public void ClearSlot(EquipType type)
     {
         if (equipSlots.TryGetValue(type, out var slot))

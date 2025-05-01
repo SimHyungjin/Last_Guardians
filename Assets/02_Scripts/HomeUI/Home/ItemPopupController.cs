@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 인벤토리 아이템 팝업 UI를 관리하는 클래스입니다.
+/// </summary>
 public class ItemPopupController : MonoBehaviour
 {
     [SerializeField] private GameObject root;
@@ -36,12 +39,16 @@ public class ItemPopupController : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
-        SetData(inventory.GetAll()[inventory.GetAll().Count-1]);
+        SetData(inventory.GetAll()[inventory.GetAll().Count - 1]);
         selectionController.RefreshSlot(currentData);
         UpdatePopupUI();
         //root.SetActive(false);
     }
 
+    /// <summary>
+    /// 인벤토리 슬롯에서 아이템을 선택했을 때 호출됩니다. 액션을 위한 메서드입니다.
+    /// </summary>
+    /// <param name="instance"></param>
     public void SetData(ItemInstance instance)
     {
         if (instance == null) return;
@@ -49,19 +56,27 @@ public class ItemPopupController : MonoBehaviour
         OnItemSelected?.Invoke(currentData);
 
     }
+    /// <summary>
+    /// 인벤토리 슬롯에서 아이템을 선택했을 때 호출됩니다. 팝업을 열기 위한 메서드입니다.
+    /// </summary>
+    /// <param name="slot"></param>
     public void Open(Slot slot)
     {
         SetData(slot.GetData());
         root.SetActive(true);
         UpdatePopupUI();
     }
-
+    /// <summary>
+    /// 팝업을 닫습니다. 현재 선택된 아이템을 초기화합니다.
+    /// </summary>
     public void Close()
     {
         currentData = null;
         root.SetActive(false);
     }
-
+    /// <summary>
+    /// 팝업 UI를 업데이트합니다. 아이템의 정보를 표시합니다.
+    /// </summary>
     private void UpdatePopupUI()
     {
         if (currentData == null || currentData.AsEquipData == null) return;
@@ -79,14 +94,16 @@ public class ItemPopupController : MonoBehaviour
         equipButton.gameObject.SetActive(!isEquipped);
         unequipButton.gameObject.SetActive(isEquipped);
     }
-
+    /// <summary>
+    /// 업그레이드 버튼 클릭 시 호출됩니다. 아이템을 업그레이드합니다.
+    /// </summary>
     public void OnClickUpgrade()
     {
         if (currentData == null || currentData.AsEquipData == null) return;
 
         MainSceneManager.Instance.upgrade.TryUpgrade(currentData, out var result);
 
-         SaveSystem.RemoveEquip(currentData.UniqueID);
+        SaveSystem.RemoveEquip(currentData.UniqueID);
         inventory.RemoveItem(currentData);
 
         SaveSystem.SaveEquipReward(result);
@@ -100,7 +117,9 @@ public class ItemPopupController : MonoBehaviour
         SetData(result);
         UpdatePopupUI();
     }
-
+    /// <summary>
+    /// 장비 버튼 클릭 시 호출됩니다. 아이템을 장착합니다.
+    /// </summary>
     public void OnClickEquip()
     {
         if (currentData?.AsEquipData != null)
@@ -109,7 +128,9 @@ public class ItemPopupController : MonoBehaviour
             UpdatePopupUI();
         }
     }
-
+    /// <summary>
+    /// 장비 해제 버튼 클릭 시 호출됩니다. 아이템을 해제합니다.
+    /// </summary>
     public void OnClickUnEquip()
     {
         if (currentData?.AsEquipData != null)

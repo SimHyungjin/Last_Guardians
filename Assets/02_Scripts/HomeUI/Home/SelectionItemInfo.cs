@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// 인벤토리 아이템 팝업 UI에서 선택된 아이템의 정보를 표시하는 클래스입니다.
+/// </summary>
 public class SelectionItemInfo : MonoBehaviour
 {
     [SerializeField] ItemPopupController itemPopupController;
@@ -26,6 +29,12 @@ public class SelectionItemInfo : MonoBehaviour
         UpdateText(itemPopupController.currentData);
     }
 
+    /// <summary>
+    /// 아이템 팝업에서 아이템을 선택했을 때 호출됩니다.
+    /// 값이 있을 경우 텍스트를 업데이트합니다.
+    /// 없다면 모든 텍스트를 비활성화합니다.
+    /// </summary>
+    /// <param name="instance"></param>
     private void UpdateText(ItemInstance instance)
     {
         var data = itemPopupController.currentData?.AsEquipData;

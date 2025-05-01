@@ -222,8 +222,11 @@ public abstract class BaseTower : MonoBehaviour
         TowerManager.Instance.RemoveTower(this);
     }
     protected virtual void OnDestroy()
-    {
-        if (isActiveAndEnabled)TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+    {   
+        if (TowerManager.Instance.gameObject.activeInHierarchy)
+        {
+            TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        }
     }
 
     public void OnDisabled()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5181722435357034180}
   - component: {fileID: 1979612038087270669}
   m_Layer: 0
-  m_Name: FadeManager
+  m_Name: FadeHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,16 +17,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/01_Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Team/LGW/000GW/GWScenes/GWStartScene.unity
     guid: a77b88db8bd8d404190b2ce56f59f687
-  - enabled: 1
+  - enabled: 0
     path: Assets/Team/LGW/000GW/GWScenes/00GWUI.unity
     guid: 24c827f1a311d8d45b6bae9313be33e6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Team/LGW/000GW/GWScenes/GWGameSceneUI.unity
     guid: dac62c3a5abad934d8a587e32719e672
-  - enabled: 1
+  - enabled: 0
     path: Assets/Team/SHJ/Home_SHJ_Scene.unity
     guid: 3df3e34fc0072cd4f88e16307f0d99ae
   m_configObjects: {}

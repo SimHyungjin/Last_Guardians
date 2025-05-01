@@ -162,7 +162,7 @@ public class BaseObstacle : MonoBehaviour
                 break;
 
             case ObstacleEffect.Dotdamage:
-                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.2f);
+                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 1f);
                 break;
             case ObstacleEffect.Dead:
                 baseMonster.TakeDamage(9999999);

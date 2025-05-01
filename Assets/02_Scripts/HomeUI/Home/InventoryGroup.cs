@@ -19,14 +19,14 @@ public class InventoryGroup : MonoBehaviour
         equipmentSlotContainer.BindAll();
         equipmentSlotContainer.Refresh();
     }
-    private void OnEnable()
-    {
-        StartCoroutine(DelayedClose());
-    }
+    //private void OnEnable()
+    //{
+    //    StartCoroutine(DelayedClose());
+    //}
 
-    private IEnumerator DelayedClose()
-    {
-        yield return null;
-        itemPopupController.Close();
-    }
+    //private IEnumerator DelayedClose()
+    //{
+    //    yield return null;
+    //    itemPopupController.Close();
+    //}
 }

@@ -15,7 +15,7 @@ public class CameraSwitcher : MonoBehaviour
 
     private bool isFocused = false;
 
-    PlayerController playerController;
+    PlayerHandler playerController;
 
     private Coroutine focusCoroutine;
 
@@ -23,7 +23,7 @@ public class CameraSwitcher : MonoBehaviour
     {
         freeCamBoundary = freeCam.GetComponent<CinemachineConfiner2D>();
         focusCamBoundary = focusCam.GetComponent<CinemachineConfiner2D>();
-        playerController = InGameManager.Instance.playerManager.playerController;
+        playerController = InGameManager.Instance.playerManager.playerHandler;
         focusCam.Priority = 0;
         freeCam.Priority = 10;
     }

@@ -1,19 +1,19 @@
 public class PlayerManager
 {
     public Player player;
-    public PlayerController playerController;
-    public PlayerInputHandler playerHandler;
+    public PlayerHandler playerHandler;
+    public PlayerInputHandler playerInputHandler;
 
     public void Init()
     {
         if (player == null) player = new();
 
-        playerController = Utils.InstantiatePrefabFromResource("Player").GetComponent<PlayerController>();
-        playerHandler = playerController.GetComponent<PlayerInputHandler>();
+        playerHandler = Utils.InstantiatePrefabFromResource("Player/Player").GetComponent<PlayerHandler>();
+        playerInputHandler = playerHandler.GetComponent<PlayerInputHandler>();
 
         player.Init();
         player.SetStatus();
-        playerController.Init(player);
-        playerHandler.Init();
+        playerHandler.Init(player);
+        playerInputHandler.Init();
     }
 }

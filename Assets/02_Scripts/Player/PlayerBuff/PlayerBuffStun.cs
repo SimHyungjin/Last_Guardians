@@ -3,10 +3,10 @@ public class PlayerBuffStun : IPlayerBuff<PlayerData>
     public float? Value => null;
     public float Duration { get; private set; }
 
-    private PlayerController controller;
+    private PlayerHandler controller;
     private PlayerView view;
 
-    public PlayerBuffStun(float duration, PlayerController controller)
+    public PlayerBuffStun(float duration, PlayerHandler controller)
     {
         Duration = duration;
         this.controller = controller;

@@ -25,6 +25,6 @@ public class Player
         playerData.criticalDamage = playerData.baseCriticalDamage + equipment.criticalDamage;
         playerData.penetration = playerData.basePenetration + equipment.penetration;
 
-        InGameManager.Instance.playerManager.playerController.weaponHandler.SetWeapon(playerData.attackType);
+        InGameManager.Instance.playerManager.playerHandler.weaponHandler.SetWeapon(playerData.attackType);
     }
 }

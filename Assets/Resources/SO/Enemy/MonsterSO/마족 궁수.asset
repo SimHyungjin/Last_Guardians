@@ -24,6 +24,6 @@ MonoBehaviour:
   monsterType: 0
   hasSkill: 0
   monsterSkillID: 0
-  monsterAttackPattern: 0
+  monsterAttackPattern: 1
   icon: {fileID: 0}
   prefab: {fileID: 8968366794543394753, guid: 219c112607667a740ab0c2889e7c6a5c, type: 3}

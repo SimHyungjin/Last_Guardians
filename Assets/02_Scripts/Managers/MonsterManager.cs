@@ -40,8 +40,6 @@ public class MonsterManager : Singleton<MonsterManager>
     public int RemainMonsterCount {  get; private set; }
     public int MonsterKillCount { get; set; }
 
-    public List<NavMeshPlus.Components.NavMeshModifier> NavMeshModifiers { get; private set; } = new();
-    public List<NavMeshPlus.Components.NavMeshModifier> nearbyModifiers { get; private set; } = new();
     private void Start()
     {
         AlliveMonsters = new List<BaseMonster>();
@@ -49,7 +47,6 @@ public class MonsterManager : Singleton<MonsterManager>
         InitMonsters();
         AnimationConnect.AddAnimationEvent(normalAnim);
         AnimationConnect.AddAnimationEvent(horseAnim);
-        NavMeshModifiers = FindObjectsOfType<NavMeshPlus.Components.NavMeshModifier>().ToList();
 
         MaxWave = PlayerPrefs.GetInt("IdleMaxWave", 0);
     }

@@ -1,32 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DarkSummon : MonsterSkillBase
 {
     public override void UseSkill(BaseMonster caster)
     {
-        Utils.Shuffle(MonsterManager.Instance.NavMeshModifiers);
-        foreach (var modifier in MonsterManager.Instance.NavMeshModifiers)
+        int i = 0;
+        MonsterData data = MonsterManager.Instance.MonsterDatas.Find(a => a.MonsterIndex == skillData.MonsterID);
+        while (i < skillData.MonsterNum)
         {
-            if (Vector2.Distance(caster.transform.position, modifier.transform.position) <= skillData.SkillRange / 2)
-            {
-                MonsterManager.Instance.nearbyModifiers.Add(modifier);
+            Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * (skillData.SkillRange / 2);
+            NavMeshPath path = new NavMeshPath();
+            bool isPath = NavMesh.CalculatePath(randomPos, caster.Target.transform.position, NavMesh.AllAreas, path);
 
-                if (MonsterManager.Instance.nearbyModifiers.Count > skillData.MonsterNum)
-                    break;
+            if (isPath)
+            {
+                MonsterManager.Instance.SummonMonster(skillData.MonsterID, randomPos);
+                i++;
             }
         }
-
-        MonsterData data = MonsterManager.Instance.MonsterDatas.Find(a => a.MonsterIndex == skillData.MonsterID);
-        for (int i = 0; i < skillData.MonsterNum; i++)
-        {
-            if (i >= MonsterManager.Instance.nearbyModifiers.Count)
-                MonsterManager.Instance.SummonMonster(skillData.MonsterID, MonsterManager.Instance.nearbyModifiers[i - MonsterManager.Instance.nearbyModifiers.Count].transform.position);
-            else
-                MonsterManager.Instance.SummonMonster(skillData.MonsterID, MonsterManager.Instance.nearbyModifiers[i].transform.position);
-        }
-
-        MonsterManager.Instance.nearbyModifiers.Clear();
     }
 }

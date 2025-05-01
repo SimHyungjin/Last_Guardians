@@ -21,9 +21,9 @@ MonoBehaviour:
   exp: 160
   monsterDescription: "\uD3C9\uD654\uB85C\uC6B4 \uB9C8\uC744\uC744 \uC2B5\uACA9\uD558\uC5EC
     \uC8FC\uBBFC\uB4E4\uC758 \uC601\uD63C\uC744 \uBE7C\uC557\uC740 \uC545\uB839"
-  monsterType: 0
+  monsterType: 2
   hasSkill: 1
   monsterSkillID: 7
-  monsterAttackPattern: 0
+  monsterAttackPattern: 1
   icon: {fileID: 21300000, guid: 5b3fc94cb1f512b4b99dc2416f47ffdb, type: 3}
   prefab: {fileID: 8031698967807661072, guid: 2dc2cd1b63e621247a74fe84d1522bb5, type: 3}

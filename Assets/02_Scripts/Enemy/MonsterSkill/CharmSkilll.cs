@@ -11,6 +11,7 @@ public class CharmSkilll : MonsterSkillBase
         {
             if (var.gameObject.TryGetComponent<BaseTower>(out BaseTower baseTower))
             {
+                //타워 무력화
                 baseTower.OnDisabled();
             }
         }

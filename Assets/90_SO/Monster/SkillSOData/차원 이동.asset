@@ -16,12 +16,12 @@ MonoBehaviour:
   skillName: "\uCC28\uC6D0 \uC774\uB3D9"
   skillType: 0
   skillRange: 0
-  skillDescription: "1.5\uCD08\uAC04 \uB2E4\uB978 \uCC28\uC6D0\uC73C\uB85C \uC774\uB3D9\uD558\uC5EC
+  skillDescription: "1.8\uCD08\uAC04 \uB2E4\uB978 \uCC28\uC6D0\uC73C\uB85C \uC774\uB3D9\uD558\uC5EC
     \uBAA8\uB4E0 \uACF5\uACA9\uC744 \uD68C\uD53C\uD55C \uD6C4 \uBAA9\uD45C\uBB3C\uC5D0
     \uB354 \uAC00\uAE4C\uC6B4 \uC704\uCE58\uC5D0 \uC7AC\uCD9C\uD604\uD55C\uB2E4."
-  duration: 1.5
-  skillCoolTime: 0.2
-  monsterskillEffectValue: 100
-  monsterskillProbablilty: 0.2
+  duration: 1.8
+  skillCoolTime: 18
+  monsterskillEffectValue: 1.8
+  monsterskillProbablilty: 0.4
   monsterID: 0
   monsterNum: 0

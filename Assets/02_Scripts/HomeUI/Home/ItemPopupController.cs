@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,9 @@ public class ItemPopupController : MonoBehaviour
     private InventorySlotContainer inventorySlotContainer;
     private SelectionController selectionController;
 
-    private ItemInstance currentData;
+    public ItemInstance currentData { get; private set; }
+
+    public Action<ItemInstance> OnItemSelected;
 
     public void Init()
     {
@@ -33,14 +36,22 @@ public class ItemPopupController : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
-        currentData = inventory.GetAll()[inventory.GetAll().Count-1];
+        SetData(inventory.GetAll()[inventory.GetAll().Count-1]);
+        selectionController.RefreshSlot(currentData);
         UpdatePopupUI();
         //root.SetActive(false);
     }
 
+    public void SetData(ItemInstance instance)
+    {
+        if (instance == null) return;
+        currentData = instance;
+        OnItemSelected?.Invoke(currentData);
+
+    }
     public void Open(Slot slot)
     {
-        currentData = slot.GetData();
+        SetData(slot.GetData());
         root.SetActive(true);
         UpdatePopupUI();
     }
@@ -86,7 +97,7 @@ public class ItemPopupController : MonoBehaviour
         if (equipment.IsEquipped(currentData))
             equipment.Equip(result);
 
-        currentData = result;
+        SetData(result);
         UpdatePopupUI();
     }
 

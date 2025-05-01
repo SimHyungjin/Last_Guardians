@@ -15,11 +15,11 @@ MonoBehaviour:
   skillIndex: 2
   skillName: "\uC5B4\uB460\uC758 \uC18C\uD658"
   skillType: 3
-  skillRange: 2
+  skillRange: 5
   skillDescription: "\uB9C8\uC871\uC744 5\uB9C8\uB9AC \uC18C\uD658\uD55C\uB2E4."
   duration: 0
-  skillCoolTime: 7
+  skillCoolTime: 15
   monsterskillEffectValue: 0
-  monsterskillProbablilty: 1
+  monsterskillProbablilty: 0.5
   monsterID: 1
   monsterNum: 5

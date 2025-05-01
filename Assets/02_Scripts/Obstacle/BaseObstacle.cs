@@ -20,6 +20,9 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
+    private readonly float effectInterval = 1f;
+    private Dictionary<Collider2D, float> effectTimers = new();
+
     //private void Start()
     //{
     //    Init(ObstacleType.Water);
@@ -64,7 +67,7 @@ public class BaseObstacle : MonoBehaviour
 
         if (spriteRenderer != null && data.sprite != null)
         {
-            spriteRenderer.sprite = data.sprite;  // �� ����!
+            spriteRenderer.sprite = data.sprite;  // ← 여기!
         }
 
         ChangeNavActive();
@@ -162,7 +165,7 @@ public class BaseObstacle : MonoBehaviour
                 break;
 
             case ObstacleEffect.Dotdamage:
-                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 1f);
+                baseMonster.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.5f);
                 break;
             case ObstacleEffect.Dead:
                 baseMonster.TakeDamage(9999999);
@@ -182,13 +185,34 @@ public class BaseObstacle : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PlayerController>(out var controller))
+        if (!effectTimers.ContainsKey(collision))
         {
-            EffectToPlayer(controller);
+            effectTimers[collision] = 0f;
         }
-        if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+
+        effectTimers[collision] += Time.deltaTime;
+
+        if (effectTimers[collision] >= effectInterval)
         {
-            EffectToMonster(baseMonster);
+            if (collision.TryGetComponent<PlayerController>(out var controller))
+            {
+                EffectToPlayer(controller);
+            }
+
+            if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
+            {
+                EffectToMonster(baseMonster);
+            }
+
+            effectTimers[collision] = 0f; // 타이머 초기화
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (effectTimers.ContainsKey(collision))
+        {
+            effectTimers.Remove(collision); // 나가면 제거
         }
     }
 }

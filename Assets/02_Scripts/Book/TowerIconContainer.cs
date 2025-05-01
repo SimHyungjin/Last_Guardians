@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+// TowerIconContainer.cs
 using UnityEngine;
 
 public class TowerIconContainer : MonoBehaviour
 {
+    public static TowerIconContainer Instance { get; private set; }
+
+    [Tooltip("인덱스별 스프라이트 (Utils.GetSpriteIndex값 -1 순서)")]
     public Sprite[] TowerIcons;
 
-    public Sprite GetSprite(int towerindex)
+    private void Awake()
     {
-        int adjustedIndex = Utils.GetSpriteIndex(towerindex);
-        adjustedIndex = adjustedIndex - 1;
-        if (adjustedIndex >= 0 && adjustedIndex < TowerIcons.Length)
-            return TowerIcons[adjustedIndex];
-        else
-            return null;
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// towerIndex를 Utils.GetSpriteIndex로 보정한 뒤, 배열에서 꺼내 리턴
+    /// </summary>
+    public Sprite GetSprite(int towerIndex)
+    {
+        int adjusted = Utils.GetSpriteIndex(towerIndex) - 1;
+        if (adjusted >= 0 && adjusted < TowerIcons.Length)
+            return TowerIcons[adjusted];
+        return null;
     }
 }

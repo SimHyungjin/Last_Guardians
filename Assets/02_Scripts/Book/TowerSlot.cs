@@ -1,9 +1,11 @@
+// TowerSlot.cs
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class TowerSlot : MonoBehaviour
 {
+    [Header("UI References")]
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Button button;
@@ -14,14 +16,12 @@ public class TowerSlot : MonoBehaviour
     private void Awake()
     {
         if (button != null)
-        {
-            button.onClick.AddListener(() =>
-            {
-                TowerCombinationUI.Instance.OnClickSlot(slotIndex);
-            });
-        }
+            button.onClick.AddListener(() => TowerCombinationUI.Instance.OnClickSlot(slotIndex));
     }
 
+    /// <summary>
+    /// 슬롯에 타워 데이터를 세팅합니다.
+    /// </summary>
     public void SetData(TowerData data)
     {
         Data = data;
@@ -33,7 +33,8 @@ public class TowerSlot : MonoBehaviour
             return;
         }
 
-        icon.sprite = TowerManager.Instance.GetSprite(data.TowerIndex);
+        // ← 여기만 변경
+        icon.sprite = TowerIconContainer.Instance.GetSprite(data.TowerIndex);
         nameText.text = data.TowerName;
     }
 }

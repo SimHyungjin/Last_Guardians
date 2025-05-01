@@ -20,7 +20,7 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     [SerializeField] private GameObject zonePrefab;
 
-    private readonly float effectInterval = 1f;
+    private readonly float effectInterval = 0.2f;
     private Dictionary<Collider2D, float> effectTimers = new();
 
     //private void Start()

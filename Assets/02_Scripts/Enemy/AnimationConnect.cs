@@ -2,16 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationConnect : MonoBehaviour
+public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이션 컨트롤러
 {
     public BaseMonster BaseMonster { get; set; }
     public Animator Animator { get; set; }
     public static bool IsAnimationEventInit { get; private set; } = false;
-
-    private void Awake()
-    {
-        //AddAnimationEvent();
-    }
 
     public void StartMoveAnimation()
     {

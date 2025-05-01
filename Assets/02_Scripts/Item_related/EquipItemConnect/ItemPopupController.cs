@@ -39,12 +39,25 @@ public class ItemPopupController : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
+        if(BaseState()) return;
         SetData(inventory.GetAll()[inventory.GetAll().Count - 1]);
         selectionController.RefreshSlot(currentData);
         UpdatePopupUI();
         //root.SetActive(false);
     }
 
+    private bool BaseState()
+    {
+        if (inventory.GetAll().Count == 0)
+        {
+            currentData = null;
+            icon.gameObject.SetActive(false);
+            itemName.text = string.Empty;
+            description.text = string.Empty;
+            return true;
+        }
+        return false;
+    }
     /// <summary>
     /// 인벤토리 슬롯에서 아이템을 선택했을 때 호출됩니다. 액션을 위한 메서드입니다.
     /// </summary>
@@ -52,6 +65,8 @@ public class ItemPopupController : MonoBehaviour
     public void SetData(ItemInstance instance)
     {
         if (instance == null) return;
+        if (inventory.GetAll().Count == 0) { BaseState(); return; }
+        icon.gameObject.SetActive(true);
         currentData = instance;
         OnItemSelected?.Invoke(currentData);
 

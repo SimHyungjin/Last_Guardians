@@ -14,7 +14,7 @@ public class FogWeather : IWeatherState
         Debug.Log($"날씨상태 : {this.GetType().Name}");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
         particle.gameObject.SetActive(true);
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
+        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
     }
 
     public void Exit()
@@ -22,11 +22,11 @@ public class FogWeather : IWeatherState
         Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
         particle.gameObject.SetActive(false);
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.RemoveBuff(playerAttackRange);
+        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.RemoveBuff(playerAttackRange);
     }
     public void Update()
     {
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerAttackRange);
+        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange);
 
     }
 }
@@ -147,7 +147,7 @@ public class SnowWeather : IWeatherState
         Debug.Log($"날씨상태 : {this.GetType().Name}");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));
         particle.gameObject.SetActive(true);
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
+        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.ApplySlowdown(0.85f, 1f);
@@ -163,7 +163,7 @@ public class SnowWeather : IWeatherState
         Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));
         particle.gameObject.SetActive(false);
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.RemoveBuff(playerBuffMoveSpeed);
+        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.RemoveBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.CancelSlowdown();
@@ -172,7 +172,7 @@ public class SnowWeather : IWeatherState
 
     public void Update()
     {
-        InGameManager.Instance.playerManager.playerController.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
+        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.ApplySlowdown(0.85f, 0.2f);

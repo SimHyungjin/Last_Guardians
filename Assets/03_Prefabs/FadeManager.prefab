@@ -41,9 +41,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3403899252860795760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52ee9001a4112dd4ea5ecf9a7b89e619, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b96d94c22d6fbe45bfc7ccca0a01758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 0}
   fadeDuration: 1
-  sceneToLoad: 00GWUI
+  sceneToLoad: MainScene

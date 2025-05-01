@@ -72,7 +72,7 @@ public class BaseObstacle : MonoBehaviour
 
     private ObstacleData FindObstacle()
     {
-        var list = ObstacleManager.Instance.GetAllObstacleData()
+        var list = InGameManager.Instance.obstacleContainer.GetAllObstacleData()
         .Where(data => data.obstacleType == obstacleType)
         .ToList();
 
@@ -133,7 +133,7 @@ public class BaseObstacle : MonoBehaviour
         }
     }
 
-    private void EffectToPlayer(PlayerController controller)
+    private void EffectToPlayer(PlayerHandler controller)
     {
         if (obstacle == null) return;
         var handler = controller.playerBuffHandler;
@@ -189,7 +189,7 @@ public class BaseObstacle : MonoBehaviour
 
         if (effectTimers[collision] >= effectInterval)
         {
-            if (collision.TryGetComponent<PlayerController>(out var controller))
+            if (collision.TryGetComponent<PlayerHandler>(out var controller))
             {
                 EffectToPlayer(controller);
             }
@@ -209,7 +209,7 @@ public class BaseObstacle : MonoBehaviour
         {
             effectTimers.Remove(collision); // 나가면 제거
         }
-        if (collision.TryGetComponent<PlayerController>(out var controller))
+        if (collision.TryGetComponent<PlayerHandler>(out var controller))
         {
             controller.playerBuffHandler.ClearAllBuffs();
         }

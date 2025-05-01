@@ -17,13 +17,13 @@ public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerData>
     public void Apply(PlayerData playerData)
     {
         playerData.moveSpeed *= Value.Value;
-        InGameManager.Instance.playerManager.playerController.moveController.Init();
+        InGameManager.Instance.playerManager.playerHandler.moveController.Init();
     }
 
     public void Remove(PlayerData playerData)
     {
         playerData.moveSpeed /= Value.Value;
-        InGameManager.Instance.playerManager.playerController.moveController.Init();
+        InGameManager.Instance.playerManager.playerHandler.moveController.Init();
     }
 
     public bool IsStrongerThan(IPlayerBuff<PlayerData> other)

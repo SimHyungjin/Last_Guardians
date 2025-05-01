@@ -49,7 +49,7 @@ public class Equipment
 
     void RecalculateStats()
     {
-
+        changeAttackType = AttackType.Melee;
         totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
             totalCriticalDamage = totalPenetration = totalMoveSpeed = 0;
 

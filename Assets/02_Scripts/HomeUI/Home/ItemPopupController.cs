@@ -33,7 +33,9 @@ public class ItemPopupController : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
-        root.SetActive(false);
+        currentData = inventory.GetAll()[inventory.GetAll().Count-1];
+        UpdatePopupUI();
+        //root.SetActive(false);
     }
 
     public void Open(Slot slot)

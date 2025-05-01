@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterIndex: 102
   monsterName: "\uB9C8\uC871 \uD751\uB9C8\uBC95\uC0AC"
-  monsterHP: 60
+  monsterHP: 600
   monsterSpeed: 0.9
   monsterDamage: 3
   monsterDef: 3

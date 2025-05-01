@@ -80,6 +80,7 @@ public class Towerbuilder : MonoBehaviour
     public void TowerToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
+        if (cheakedTower == null) return;
         int combineTowerIndex = towerCombinationData.TryCombine(clikedTower.towerData.TowerIndex, cheakedTower.towerData.TowerIndex);
 
         TowerConstruct(CombinePos, combineTowerIndex);

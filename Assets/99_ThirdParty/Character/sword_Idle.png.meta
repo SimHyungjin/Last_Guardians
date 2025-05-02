@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a0d04d205afcb9a429dd46971ede284d
+guid: 2b7b888338561bb48a4fc24c5daa18d2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 156
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sword_Idle_0
+      name: Sword_Idle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 20
-        height: 28
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de347ef11d826df45a174a0551e63df7
-      internalID: -1939896404
+      spriteID: 75f32a87f504b5841bd220deae423c39
+      internalID: -93200133
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: sword_Idle_1
+      name: Sword_Idle_1
       rect:
         serializedVersion: 2
-        x: 20
+        x: 64
         y: 0
-        width: 20
-        height: 28
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +145,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a22ab01c6bedc040948fbe2c132ea09
-      internalID: 1693415616
+      spriteID: da413f1645a21894e995300e72d7d283
+      internalID: -1130313828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sword_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b568a4e85119d9440949e9bfe3bf5285
+      internalID: -1450285100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sword_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4635f207831f1394e8ed2319729de36b
+      internalID: 522828845
       vertices: []
       indices: 
       edges: []
@@ -162,8 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sword_Idle_0: -1939896404
-      sword_Idle_1: 1693415616
+      Sword_Idle_0: -93200133
+      Sword_Idle_1: -1130313828
+      Sword_Idle_2: -1450285100
+      Sword_Idle_3: 522828845
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

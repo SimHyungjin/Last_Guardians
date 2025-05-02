@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ShadowClone : MonsterSkillBase
 {
     public override void UseSkill(BaseMonster caster)
     {
+        int i = 0;
         MonsterData data = MonsterManager.Instance.MonsterDatas.Find(a => a.MonsterIndex == skillData.MonsterID);
-        for (int i = 0; i < skillData.MonsterNum; i++)
+        while (i < skillData.MonsterNum)
         {
-            Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * skillData.SkillRange;
-            NormalEnemy spwanMonster = PoolManager.Instance.Spawn(MonsterManager.Instance.NormalPrefab, caster.transform);
-            spwanMonster.transform.position = randomPos;
-            spwanMonster.Setup(data);
+            Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * (skillData.SkillRange / 2);
+            NavMeshPath path = new NavMeshPath();
+            bool isPath = NavMesh.CalculatePath(randomPos, caster.Target.transform.position, NavMesh.AllAreas, path);
+
+            if (isPath)
+            {
+                MonsterManager.Instance.SummonMonster(skillData.MonsterID, randomPos);
+                i++;
+            }
         }
     }
 

@@ -67,7 +67,6 @@ public class InGameManager : Singleton<InGameManager>
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
         mulliganUI.StartSelectCard();
-
     }
 
     public void GetExp(float exp)

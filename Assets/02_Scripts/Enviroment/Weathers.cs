@@ -140,7 +140,7 @@ public class DroughtWeather : IWeatherState
 
 public class SnowWeather : IWeatherState
 {
-    PlayerBuffMoveSpeed playerBuffMoveSpeed = new PlayerBuffMoveSpeed(-15f, 0.2f, true);
+    PlayerBuffMoveSpeed playerBuffMoveSpeed = new PlayerBuffMoveSpeed(0.3f, 0.2f, true);
     
     public void Enter()
     {

@@ -20,8 +20,8 @@ public class BaseMonster : MonoBehaviour
     public float CurrentHP { get; set; }
     public float DeBuffSpeedModifier { get; set; } = 1f;
     public float BuffSpeedModifier {  get; set; } = 1f;
-    public float CurrentSpeed;
-    public float CurrentDef { get; set; }
+    public float CurrentSpeed { get; set; } = 1f;
+    public float CurrentDef { get; set; } = 1f;
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
     public float CurrentSkillValue { get; set; } = 1f;

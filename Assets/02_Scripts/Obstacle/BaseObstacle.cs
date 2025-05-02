@@ -141,6 +141,7 @@ public class BaseObstacle : MonoBehaviour
         {
             case ObstacleEffect.Speed:
                 handler.ApplyBuff(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, 0.2f, true));
+                controller.playerView.InWater();
                 break;
 
             case ObstacleEffect.Stun:
@@ -212,6 +213,7 @@ public class BaseObstacle : MonoBehaviour
         if (collision.TryGetComponent<PlayerHandler>(out var controller))
         {
             controller.playerBuffHandler.ClearAllBuffs();
+            controller.playerView.OutWater();
         }
     }
 }

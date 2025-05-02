@@ -16,6 +16,7 @@ public class PlayerView : MonoBehaviour
     [SerializeField] private PlayerAnimState curState = PlayerAnimState.Idle;
     [SerializeField] private bool isMoving = false;
     [SerializeField] private bool isAttacking = false;
+    private Material material;
 
     private void Awake()
     {
@@ -23,6 +24,9 @@ public class PlayerView : MonoBehaviour
         animator = GetComponent<Animator>();
         weaponHandler.attackAction += OnAttack;
         weaponHandler.attackActionExit += ExitAttack;
+        material = new Material(spriteRenderer.sharedMaterial);
+        spriteRenderer.material = material;
+        //OutWater();
     }
 
     public void ChangeState(PlayerAnimState state)
@@ -93,5 +97,19 @@ public class PlayerView : MonoBehaviour
     private void EnterStun()
     {
 
+    }
+
+    public void InWater()
+    {
+        spriteRenderer.material.SetFloat("_Cutoff", 0.3f);
+        spriteRenderer.material.SetFloat("_Alpha", 0.3f);
+        spriteRenderer.material.SetFloat("_WaveStrength", 0.02f);
+    }
+
+    public void OutWater()
+    {
+        spriteRenderer.material.SetFloat("_Cutoff", 0f);
+        spriteRenderer.material.SetFloat("_Alpha", 1f);
+        spriteRenderer.material.SetFloat("_WaveStrength", 0f);
     }
 }

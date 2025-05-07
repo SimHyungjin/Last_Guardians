@@ -1,8 +1,10 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public interface IProjectile
 {
@@ -16,7 +18,6 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     public IEffect effect;
     protected float speed = 5f;
     protected TowerData towerData;
-    //protected float Range = 5f;
     protected float offset = 0.2f;
     protected AdaptedTowerData adaptedTower;
     protected EnvironmentEffect environmentEffect;
@@ -25,6 +26,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected Vector2 targetPos;
     protected Coroutine lifeTimeCoroutine;
     protected Rigidbody2D rb;
+
+    [SerializeField]protected SpriteAtlas projectileAtlas;
 
     public BaseMonster OriginTarget { get; set; }
 
@@ -80,32 +83,6 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         ProjectileMove();
     }
 
-    protected void GetProjectileColor()
-    {
-        switch (towerData.ElementType)
-        {
-            case ElementType.Fire:
-                GetComponent<SpriteRenderer>().color = Color.red;
-                break;
-            case ElementType.Water:
-                GetComponent<SpriteRenderer>().color = Color.blue;
-                break;
-            case ElementType.Earth:
-                GetComponent<SpriteRenderer>().color = Color.grey;
-                break;
-            case ElementType.Wind:
-                GetComponent<SpriteRenderer>().color = Color.cyan;
-                break;
-            case ElementType.Light:
-                GetComponent<SpriteRenderer>().color = Color.yellow;
-                break;
-            case ElementType.Dark:
-                GetComponent<SpriteRenderer>().color = Color.black;
-                break;
-            default:
-                break;
-        }
-    }
     public TowerData GetTowerData()
     { return towerData; }
     protected virtual void ProjectileMove(){}

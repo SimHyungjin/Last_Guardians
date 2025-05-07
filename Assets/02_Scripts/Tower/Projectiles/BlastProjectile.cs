@@ -28,13 +28,8 @@ public class BlastProjectile : ProjectileBase
     public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         base.Init(_towerData, _adaptedTowerData, _effectslist, _environmentEffect);
-#if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
-        speed = 2f;
-        string path = $"Assets/91_Disign/Sprite/ProjectileImage/Blasts/{spritename}.png";
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-        GetComponent<SpriteRenderer>().sprite = sprite;
-#endif
+        GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
     }
 
     public override void Update()

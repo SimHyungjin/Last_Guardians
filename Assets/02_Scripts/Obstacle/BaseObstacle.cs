@@ -133,19 +133,32 @@ public class BaseObstacle : MonoBehaviour
         }
     }
 
-    private void EffectToPlayer(PlayerHandler controller)
+    private void EffectToPlayer(PlayerHandler handler)
     {
         if (obstacle == null) return;
-        var handler = controller.playerBuffHandler;
+        var buffHandler = handler.playerBuffHandler;
         switch (obstacle.obstacleEffect_Player)
         {
             case ObstacleEffect.Speed:
-                handler.ApplyBuff(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, 0.2f, true));
-                controller.playerView.InWater();
+                handler.playerObstacleDebuff.EnterZone(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue,float.MaxValue,true));
                 break;
 
             case ObstacleEffect.Stun:
-                handler.ApplyBuff(new PlayerBuffStun(obstacle.obstacleEffect_PlayerValue, controller));
+                buffHandler.ApplyBuff(new PlayerBuffStun(obstacle.obstacleEffect_PlayerValue, handler));
+                break;
+        }
+    }
+    private void ClearEffectToPlayer(PlayerHandler handler)
+    {
+        if (obstacle == null) return;
+        var buffHandler = handler.playerBuffHandler;
+        switch (obstacle.obstacleEffect_Player)
+        {
+            case ObstacleEffect.Speed:
+                handler.playerObstacleDebuff.ExitZone(new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, float.MaxValue, true));
+                break;
+            case ObstacleEffect.Stun:
+                buffHandler.RemoveBuff(new PlayerBuffStun(obstacle.obstacleEffect_PlayerValue, handler));
                 break;
         }
     }
@@ -179,6 +192,13 @@ public class BaseObstacle : MonoBehaviour
     }
 
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<PlayerHandler>(out var controller))
+        {
+            EffectToPlayer(controller);
+        }
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!effectTimers.ContainsKey(collision))
@@ -192,7 +212,7 @@ public class BaseObstacle : MonoBehaviour
         {
             if (collision.TryGetComponent<PlayerHandler>(out var controller))
             {
-                EffectToPlayer(controller);
+                //EffectToPlayer(controller);
             }
 
             if (collision.TryGetComponent<BaseMonster>(out var baseMonster))
@@ -212,8 +232,7 @@ public class BaseObstacle : MonoBehaviour
         }
         if (collision.TryGetComponent<PlayerHandler>(out var controller))
         {
-            controller.playerBuffHandler.ClearAllBuffs();
-            controller.playerView.OutWater();
+            ClearEffectToPlayer(controller);
         }
     }
 }

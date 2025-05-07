@@ -404,14 +404,20 @@ public class BaseMonster : MonoBehaviour
         effectHandler.RemoveEffect(dotDamage);
     }
 
+    public void StopSturnAnimation()
+    {
+        animationConnect.StopSturnAnimation();
+    }
+
     //스턴 구현
     public void ApplySturn(float duration, float amount = 0)
     {
-        TakeDamage(amount);
+        //TakeDamage(amount);
         if (effectHandler.IsInEffect(sturn))
         {
             sturn = new SturnEffect(amount, duration);
             effectHandler.AddEffect(sturn);
+            animationConnect.StartSturnAnimation();
         }
         else
         {

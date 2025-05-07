@@ -8,6 +8,7 @@ public class PlayerHandler : MonoBehaviour
     public PlayerBuffHandler playerBuffHandler { get; private set; }
     public PlayerView playerView { get; private set; }
     public PlayerWeaponHandler weaponHandler { get; private set; }
+    public PlayerObstacleDebuff playerObstacleDebuff { get; private set; }
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class PlayerHandler : MonoBehaviour
 
         playerView = GetComponentInChildren<PlayerView>();
         weaponHandler = GetComponentInChildren<PlayerWeaponHandler>();
+        playerObstacleDebuff = GetComponentInChildren<PlayerObstacleDebuff>();
 
         gameObject.transform.position = new Vector3(0.5f, -2f, 0);
     }
@@ -27,5 +29,6 @@ public class PlayerHandler : MonoBehaviour
         attackController.Init();
         moveController.Init();
         playerBuffHandler.Init();
+        playerObstacleDebuff.Init();
     }
 }

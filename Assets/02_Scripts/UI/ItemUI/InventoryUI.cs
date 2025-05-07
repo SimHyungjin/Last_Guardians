@@ -1,12 +1,17 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
 /// 인벤토리 UI의 버튼을 관리하는 클래스입니다.
 /// </summary>
-public class InventoryUIButton : MonoBehaviour
+public class InventoryUI : MonoBehaviour
 {
+    [field: Header("재화 UI 버튼")]
+    [field: SerializeField] public TextMeshProUGUI goldText { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI upgradeStoneText { get; private set; }
+
     [field: Header("정렬 버튼")]
     [field: SerializeField] public Button sortByGradeBtn { get; private set; }
     [field: SerializeField] public Button sortByNameBtn { get; private set; }
@@ -38,6 +43,7 @@ public class InventoryUIButton : MonoBehaviour
 
     private void Awake()
     {
+        GoodsRefresh();
         sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.GradeDescending));
         sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));
         sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.Recent));
@@ -73,6 +79,15 @@ public class InventoryUIButton : MonoBehaviour
             onItemTypeFilter?.Invoke(UpgradeStoneOnly);
             onEquipTypeFilter?.Invoke(AllEquip);
         });
+    }
+    private void Start()
+    {
+        MainSceneManager.Instance.inventoryGroup.itemPopupController.clickUpgrade += GoodsRefresh;
+    }
+    private void GoodsRefresh()
+    {
+        goldText.text = GameManager.Instance.gold.ToString();
+        upgradeStoneText.text = GameManager.Instance.upgradeStones.ToString();
     }
 
     private void EquipBtnListener(Button button, EquipType equipType)

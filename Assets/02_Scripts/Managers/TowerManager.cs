@@ -61,7 +61,6 @@ public class TowerManager : Singleton<TowerManager>
     public void StartInteraction(InteractionState newState)
     {
         CurrentState = newState;
-        Time.timeScale = 0.2f;
         Debug.Log($"Interaction started: {newState}");
     }
 

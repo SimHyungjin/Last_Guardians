@@ -58,11 +58,13 @@ public class Towerbuilder : MonoBehaviour
     ///////////=====================상태변환=====================================/////////////////////
     public void ChangeCardMove()
     {
+        Time.timeScale = 0.2f;
         isCardMoving = !isCardMoving;
     }
 
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
+        Time.timeScale = 0.2f;
         clikedTower = _cilkedTower;
         isTowerMoving = true;
     }

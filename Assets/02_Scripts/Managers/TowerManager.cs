@@ -60,13 +60,17 @@ public class TowerManager : Singleton<TowerManager>
 
     public void StartInteraction(InteractionState newState)
     {
+        Time.timeScale = 0.2f;
         CurrentState = newState;
+        Debug.Log($"Interaction started: {newState}");
     }
 
     public void EndInteraction(InteractionState endState)
     {
+        Time.timeScale = 1f;
         if (CurrentState == endState)
             CurrentState = InteractionState.None;
+        Debug.Log($"Interaction ended: {endState}");
     }
 
 

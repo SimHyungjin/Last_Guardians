@@ -34,6 +34,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public Action spawnAction;
 
     public int currentWaveIndex { get; private set; } = 0;
+    public int WaveLevel { get; private set; } = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
     private int alliveCount = 0;
@@ -60,10 +61,13 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         if (currentWaveIndex >= WaveDatas.Count)
         {
+            currentWaveIndex = 0;
             Debug.Log("모든 웨이브 완료");
-            yield break;
+            //yield break;
+            StartCoroutine(StartNextWave());
         }
 
+        WaveLevel++;
         nowWave = WaveDatas[currentWaveIndex];
         currentWaveMonsterCount = nowWave.Monster1Value + nowWave.Monster2Value + nowWave.Monster3Value + nowWave.Monster4Value;
         RemainMonsterCount = currentWaveMonsterCount;

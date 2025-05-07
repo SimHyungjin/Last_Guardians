@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2938368166805201077}
   - component: {fileID: 3293921478443195213}
   - component: {fileID: 1632978675559162797}
+  - component: {fileID: -8959854484833457070}
   m_Layer: 0
   m_Name: MagicProjectile
   m_TagString: Untagged
@@ -28,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520322559635510891}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.46183494, w: 0.88696593}
+  m_LocalRotation: {x: 0, y: 0, z: 0.46183378, w: 0.8869665}
   m_LocalPosition: {x: -2.3598073, y: 0.763254, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 55.011}
 --- !u!212 &1713169656150150948
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -164,3 +165,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &-8959854484833457070
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520322559635510891}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c8989b977fe49244782b0c76dc1e37c1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

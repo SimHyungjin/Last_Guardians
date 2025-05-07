@@ -32,7 +32,7 @@ public class Towerbuilder : MonoBehaviour
     private Dictionary<Vector2, bool> constructCache;
 
     private float lastCheckTime = 0f;
-    private float checkCooldown = 0.2f;
+    private float checkCooldown = 0.01f;
     private Vector2 lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
     private void Start()
     {
@@ -58,11 +58,13 @@ public class Towerbuilder : MonoBehaviour
     ///////////=====================상태변환=====================================/////////////////////
     public void ChangeCardMove()
     {
+        Time.timeScale = 0.2f;
         isCardMoving = !isCardMoving;
     }
 
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
+        Time.timeScale = 0.2f;
         clikedTower = _cilkedTower;
         isTowerMoving = true;
     }

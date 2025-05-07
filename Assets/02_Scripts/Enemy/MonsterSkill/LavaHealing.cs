@@ -11,7 +11,7 @@ public class LavaHealing : MonsterSkillBase
         {
             if (var.gameObject.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
             {
-                baseMonster.CurrentHP = Mathf.Max(baseMonster.CurrentHP * baseMonster.CurrentSkillValue + baseMonster.CurrentHP, baseMonster.MonsterData.MonsterHP);
+                baseMonster.CurrentHP = Mathf.Max(baseMonster.CurrentHP * baseMonster.CurrentSkillValue + baseMonster.CurrentHP, baseMonster.ResultHP);
                 //baseMonster.CurrentHP += baseMonster.CurrentHP * baseMonster.CurrentSkillValue;
             }
         }

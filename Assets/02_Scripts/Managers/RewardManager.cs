@@ -53,13 +53,22 @@ public class RewardManager : Singleton<RewardManager>
 
     public void GiveRewardForWave(int wave)
     {
-        Debug.Log($"[RewardManager] 웨이브 {wave} 보상 지급 시작");
+        if (wave == 1)
+        {
+            Gold = 0;
+            Stone = 0;
+            Equip = 0;
+        }
+        else
+        {
+            Debug.Log($"[RewardManager] 웨이브 {wave} 보상 지급 시작");
 
-        Gold = GetGold(wave);
-        Stone = GetUpgradeStone(wave);
-        Equip = GetEquip(wave);
+            Gold = GetGold(wave);
+            Stone = GetUpgradeStone(wave);
+            Equip = GetEquip(wave);
 
-        Debug.Log($"[RewardManager] 골드: {Gold}, 강화석: {Stone}, 장비: {(Equip != 0 ? Equip.ToString() : "없음")}");
+            Debug.Log($"[RewardManager] 골드: {Gold}, 강화석: {Stone}, 장비: {(Equip != 0 ? Equip.ToString() : "없음")}");
+        }
     }
     public bool GiveRandomEquip(ItemGrade grade)
     {

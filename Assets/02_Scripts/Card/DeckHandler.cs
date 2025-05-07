@@ -97,7 +97,6 @@ public class DeckHandler : MonoBehaviour
     {
         if (isHighlighting&&card.TowerIndex==highlightedIndex)
         {
-
             isDragging = true;
             dragStartPos = InputManager.Instance.GetTouchPosition();
             dragDistance = 0;
@@ -247,8 +246,6 @@ public class DeckHandler : MonoBehaviour
     /// </summary>
     public void UnHighlightCard()
     {
-        RectTransform handRect = GetComponent<RectTransform>();
-        handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
         bool stackExists=false;
         foreach (Card card in cards)
         {
@@ -285,6 +282,8 @@ public class DeckHandler : MonoBehaviour
 
     private void ResetHighlightState()
     {
+        RectTransform handRect = GetComponent<RectTransform>();
+        handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
         highlightedCard = null;
         highlightedIndex = -1;
         highlightedOrder = -1;
@@ -297,8 +296,6 @@ public class DeckHandler : MonoBehaviour
     /// </summary>
     public void UseCard()
     {
-        RectTransform handRect = GetComponent<RectTransform>();
-        handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
         highlightedCard.onClicked -= MoveCardStart;
         highlightedCard.onClickEnd -= MoveCardEnd;
         Destroy(highlightedCard.gameObject);

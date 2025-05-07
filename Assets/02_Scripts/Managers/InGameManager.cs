@@ -136,7 +136,7 @@ public class InGameManager : Singleton<InGameManager>
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);
-        Time.timeScale = 1.0f;
+        Time.timeScale = 0f;
     }
     public void GameExit()
     {
@@ -145,7 +145,7 @@ public class InGameManager : Singleton<InGameManager>
     public void SetWaveInfoText(int wave,int count)
     {
         waveInfoText.text = $"{wave} Wave";
-        remainMonsterCountText.text = $"다음 웨이브까지 남은 몬스터 수 {count}";
+        remainMonsterCountText.text = $"남은 몬스터 수 {count}";
     }
 
     private void UpdateHP()

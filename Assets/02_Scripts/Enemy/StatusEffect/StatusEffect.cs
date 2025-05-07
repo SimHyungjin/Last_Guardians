@@ -29,14 +29,8 @@ public abstract class StatusEffect
         }
     }
 
-    public virtual void ApplyEffect(BaseMonster target)
-    {
-
-    }
-    public virtual void RemoveEffect(BaseMonster target)
-    {
-
-    }
+    public abstract void ApplyEffect(BaseMonster target);
+    public abstract void RemoveEffect(BaseMonster target);
 
     public virtual void UpdateEffectTime(float amout, float duration)
     {

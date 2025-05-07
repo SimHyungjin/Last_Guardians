@@ -19,12 +19,6 @@ public class ArrowProjectile : ProjectileBase
         base.Init(_towerData, _adaptedTowerData, _effectslist,_environmentEffect);
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
-//#if UNITY_EDITOR
-//        string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
-//        string path = $"Assets/91_Disign/Sprite/ProjectileImage/Arrows/{spritename}.png";
-//        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-//        GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
-//#endif
     }
     public override void Update()
     {

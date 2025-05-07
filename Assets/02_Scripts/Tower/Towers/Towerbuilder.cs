@@ -290,6 +290,7 @@ public class Towerbuilder : MonoBehaviour
                     {
                         if (canPlace)
                         {
+                            if (ghostTower == null) return;
                             ghostTower.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 0.3f);
                             OnAttackRangeCircle(currentTile, TowerManager.Instance.GetTowerData(TowerManager.Instance.hand.HighlightedIndex));
                         }
@@ -336,8 +337,9 @@ public class Towerbuilder : MonoBehaviour
                     precolor.a = 1.0f;
                     cheakedTower.GetComponent<SpriteRenderer>().color = precolor;
                     cheakedTower = null;
-                    GetSprite(clikedTower.towerData.TowerIndex);
                 }
+                GetSprite(clikedTower.towerData.TowerIndex);
+                lastCheckedTile = currentTile;
             }
             ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
             if (CanTowerToTowerCombine(currentTile))

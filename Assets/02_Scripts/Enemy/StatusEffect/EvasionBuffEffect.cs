@@ -11,13 +11,11 @@ public class EvasionBuffEffect : StatusEffect
 
     public override void ApplyEffect(BaseMonster target)
     {
-        base.ApplyEffect(target);
         target.EvasionRate = Amount;
     }
 
     public override void RemoveEffect(BaseMonster target)
     {
-        base.RemoveEffect(target);
         target.EvasionRate = -1f;
     }
 }

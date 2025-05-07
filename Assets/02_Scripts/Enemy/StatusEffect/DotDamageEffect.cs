@@ -29,10 +29,13 @@ public class DotDamageEffect : StatusEffect
         }
         
     }
+    public override void ApplyEffect(BaseMonster target)
+    {
+
+    }
 
     public override void RemoveEffect(BaseMonster target)
     {
-        base.RemoveEffect(target);
         Duration = 0f;
         Amount = 0f;
     }
@@ -42,4 +45,6 @@ public class DotDamageEffect : StatusEffect
         base.UpdateEffectTime(amout, duration);
         timer = 0;
     }
+
+    
 }

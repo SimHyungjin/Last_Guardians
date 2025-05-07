@@ -175,7 +175,6 @@ public abstract class BaseTower : MonoBehaviour
             }
             else
             {
-
                 isClicked = false;
                 TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
                 TowerManager.Instance.towerbuilder.ChangeTowerDontMove(this);
@@ -184,6 +183,7 @@ public abstract class BaseTower : MonoBehaviour
                 {
                     TowerManager.Instance.towerbuilder.TowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
                 }
+
             }
 
         }

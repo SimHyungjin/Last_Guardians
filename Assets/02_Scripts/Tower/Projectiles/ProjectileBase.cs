@@ -16,8 +16,8 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     public IEffect effect;
     protected float speed = 5f;
     protected TowerData towerData;
-    protected float Range = 5f;
-    protected float offset = 0.5f;
+    //protected float Range = 5f;
+    protected float offset = 0.2f;
     protected AdaptedTowerData adaptedTower;
     protected EnvironmentEffect environmentEffect;
     protected Vector2 direction;

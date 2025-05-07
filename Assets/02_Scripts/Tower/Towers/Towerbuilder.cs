@@ -32,7 +32,7 @@ public class Towerbuilder : MonoBehaviour
     private Dictionary<Vector2, bool> constructCache;
 
     private float lastCheckTime = 0f;
-    private float checkCooldown = 0.2f;
+    private float checkCooldown = 0.01f;
     private Vector2 lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
     private void Start()
     {

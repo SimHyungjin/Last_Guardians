@@ -17,16 +17,19 @@ public class BaseMonster : MonoBehaviour
     private SPUM_Prefabs currentPrefab;
 
     //몬스터 스탯관련
+    public float ResultHP { get; private set; }
     public float CurrentHP { get; set; }
     public float DeBuffSpeedModifier { get; set; } = 1f;
     public float BuffSpeedModifier {  get; set; } = 1f;
     public float CurrentSpeed { get; set; } = 1f;
+    public float ResultDef { get; private set; }
     public float CurrentDef { get; set; } = 1f;
     public float DeBuffDefModifier { get; set; } = 1f;
     public float BuffDefModifier { get; set; } = 1f;
     public float CurrentSkillValue { get; set; } = 1f;
     public float SkillValueModifier { get; set; } = 1f;
     public float DefConstant { get; private set; } = 10f;
+    public float MonsterStatWeight { get; private set; } = 1f;
 
     //근접사거리 원거리 사거리
     private float meleeAttackRange = 0.8f;
@@ -144,11 +147,27 @@ public class BaseMonster : MonoBehaviour
         }
 
         AttackRange = MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged ? rangedAttackRange : meleeAttackRange;
-        if(MonsterData.MonsterType != MonType.Standard)
-            CurrentHP = MonsterData.MonsterHP * MonsterManager.Instance.nowWave.BossMultiplier;
+
+        MonsterStatWeight = (float)(1.0 + Mathf.Max(0, (float)((MonsterManager.Instance.WaveLevel - 11) * 0.03)));
+
+        if (MonsterData.MonsterType != MonType.Standard)
+        {
+            ResultHP = MonsterData.MonsterHP * MonsterManager.Instance.nowWave.BossMultiplier * MonsterStatWeight;
+            CurrentHP = ResultHP;
+            CurrentDef = MonsterData.MonsterDef;
+            ResultDef = CurrentDef;
+        }
         else
-            CurrentHP = MonsterData.MonsterHP;
-        CurrentDef = MonsterData.MonsterDef;
+        {
+            ResultHP = (float)(MonsterData.MonsterHP * (1.0 + (MonsterManager.Instance.WaveLevel * 0.12))) * MonsterStatWeight;
+            CurrentHP = ResultHP;
+            ResultDef = MonsterData.MonsterDef * (float)(1.0 + (MonsterManager.Instance.WaveLevel * 0.08)) * MonsterStatWeight;
+            CurrentDef = ResultDef;
+        }
+
+        Debug.Log($"몬스터 최대체력 : {ResultHP} 방어력 : {ResultDef}");
+            
+        //CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;
         agent.isStopped = false;
         agent.speed = MonsterData.MonsterSpeed;
@@ -208,7 +227,7 @@ public class BaseMonster : MonoBehaviour
     {
         CurrentSpeed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
         agent.speed = CurrentSpeed;
-        CurrentDef = MonsterData.MonsterDef * BuffDefModifier * DeBuffDefModifier;
+        CurrentDef = ResultDef * BuffDefModifier * DeBuffDefModifier;
         if (MonsterData.HasSkill)
         {
             CurrentSkillValue = MonsterSkillBaseData.skillData.MonsterskillEffectValue * SkillValueModifier;

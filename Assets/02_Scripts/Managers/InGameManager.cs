@@ -145,7 +145,7 @@ public class InGameManager : Singleton<InGameManager>
     public void SetWaveInfoText(int wave,int count)
     {
         waveInfoText.text = $"{wave} Wave";
-        remainMonsterCountText.text = $"다음 웨이브까지 남은 몬스터 수 {count}";
+        remainMonsterCountText.text = $"남은 몬스터 수 {count}";
     }
 
     private void UpdateHP()

@@ -18,6 +18,17 @@ public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이
         Animator.SetBool("1_Move", false);
     }
 
+    public void StartSturnAnimation()
+    {
+        Animator.SetBool("1_Move", false);
+        Animator.SetBool("5_Debuff", true);
+    }
+
+    public void StopSturnAnimation()
+    {
+        Animator.SetBool("5_Debuff", false);
+    }
+
     public void StartAttackAnimation()
     {
         Animator.SetTrigger("2_Attack");

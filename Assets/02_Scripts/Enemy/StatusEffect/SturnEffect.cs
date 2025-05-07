@@ -12,11 +12,13 @@ public class SturnEffect : StatusEffect
     public override void ApplyEffect(BaseMonster target)
     {
         target.isSturn = true;
+        Debug.Log($"스턴 : {target.isSturn}");
         target.SetDestination(target.transform);
     }
 
     public override void RemoveEffect(BaseMonster target)
     {
         target.isSturn = false;
+        target.StopSturnAnimation();
     }
 }

@@ -31,7 +31,7 @@ public class MagicProjectile : ProjectileBase
         base.Update();
         float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range + offset)
+        if (distance > towerData.AttackRange/2 + offset)
         {
             PoolManager.Instance.Despawn<MagicProjectile>(this);
         }
@@ -63,7 +63,6 @@ public class MagicProjectile : ProjectileBase
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit) return;
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             BaseMonster target = collision.GetComponent<BaseMonster>();

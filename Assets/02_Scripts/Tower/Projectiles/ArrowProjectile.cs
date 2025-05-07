@@ -29,7 +29,7 @@ public class ArrowProjectile : ProjectileBase
         base.Update();
         float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > Range + offset)
+        if (distance > towerData.AttackRange / 2 + offset)
         {
             PoolManager.Instance.Despawn<ArrowProjectile>(this);
         }

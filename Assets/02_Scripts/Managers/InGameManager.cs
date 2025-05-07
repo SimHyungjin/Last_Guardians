@@ -136,8 +136,12 @@ public class InGameManager : Singleton<InGameManager>
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);
+        Time.timeScale = 1.0f;
     }
-
+    public void GameExit()
+    {
+        GameOver();
+    }
     public void SetWaveInfoText(int wave,int count)
     {
         waveInfoText.text = $"{wave} Wave";

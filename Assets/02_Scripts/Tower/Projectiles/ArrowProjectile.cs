@@ -73,20 +73,15 @@ public class ArrowProjectile : ProjectileBase
          
             target.TakeDamage(adaptedTower.attackPower);
             //이펙트적용부분
-            if (effects == null)
+            if (effects != null && effects.Count > 0)
             {
-                OnDespawn();
-                PoolManager.Instance.Despawn<ArrowProjectile>(this);
-                return;
+                for (int i = 0; i < effects.Count; i++)
+                {
+                    if (effects[i] == null) continue;
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
+                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, environmentEffect);
+                }
             }
-            for (int i = 0; i < effects.Count; i++)
-            {
-                if (effects[i] == null) continue;
-                if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance,environmentEffect);
-                else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower,environmentEffect);
-
-            }
-
             OnDespawn();
             PoolManager.Instance.Despawn<ArrowProjectile>(this);
 

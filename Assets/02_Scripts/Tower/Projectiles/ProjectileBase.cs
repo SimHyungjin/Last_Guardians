@@ -80,6 +80,32 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         ProjectileMove();
     }
 
+    protected void GetProjectileColor()
+    {
+        switch (towerData.ElementType)
+        {
+            case ElementType.Fire:
+                GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+            case ElementType.Water:
+                GetComponent<SpriteRenderer>().color = Color.blue;
+                break;
+            case ElementType.Earth:
+                GetComponent<SpriteRenderer>().color = Color.grey;
+                break;
+            case ElementType.Wind:
+                GetComponent<SpriteRenderer>().color = Color.cyan;
+                break;
+            case ElementType.Light:
+                GetComponent<SpriteRenderer>().color = Color.yellow;
+                break;
+            case ElementType.Dark:
+                GetComponent<SpriteRenderer>().color = Color.black;
+                break;
+            default:
+                break;
+        }
+    }
     public TowerData GetTowerData()
     { return towerData; }
     protected virtual void ProjectileMove(){}

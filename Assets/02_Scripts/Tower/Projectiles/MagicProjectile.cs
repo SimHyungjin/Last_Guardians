@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -6,8 +7,8 @@ using UnityEngine;
 public class MagicProjectile : ProjectileBase
 {
     public BaseMonster target;
-    [SerializeField]private bool hasHit = false;
-
+    [SerializeField] private bool hasHit = false;
+    private Animator animator;
     /// <summary>
     /// 타워의 데이터와 적응된 타워의 데이터, 이펙트 리스트, 환경 이펙트를 초기화합니다.
     /// </summary>
@@ -17,7 +18,10 @@ public class MagicProjectile : ProjectileBase
     /// <param name="_environmentEffect"></param>
     public override void Init(TowerData _towerData, AdaptedTowerData adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
-        base.Init(_towerData,adaptedTower,_effectslist, _environmentEffect);
+        base.Init(_towerData, adaptedTower, _effectslist, _environmentEffect);
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetProjectileColor();
+        animator = GetComponent<Animator>();
 #if UNITY_EDITOR
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         string path = $"Assets/91_Disign/Sprite/ProjectileImage/Magics/{spritename}.png";
@@ -31,7 +35,7 @@ public class MagicProjectile : ProjectileBase
         base.Update();
         float distance = Vector2.Distance(transform.position, startPos);
 
-        if (distance > towerData.AttackRange/2 + offset)
+        if (distance > towerData.AttackRange / 2 + offset)
         {
             PoolManager.Instance.Despawn<MagicProjectile>(this);
         }
@@ -71,7 +75,7 @@ public class MagicProjectile : ProjectileBase
                 return;
 
             hasHit = true;
-            
+
             if (target != null)
             {
                 target.TakeDamage(adaptedTower.attackPower);
@@ -86,12 +90,25 @@ public class MagicProjectile : ProjectileBase
                 {
                     if (effects[i] == null) continue;
                     if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
-                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower,environmentEffect);
+                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, environmentEffect);
                 }
             }
             OnDespawn();
-            PoolManager.Instance.Despawn<MagicProjectile>(this);
+            animator.SetTrigger("isHit");
+            StartCoroutine(WaitAndDespawn());
+            //PoolManager.Instance.Despawn<MagicProjectile>(this);
         }
     }
-
+    /// <summary>
+    /// 현재 애니메이션(폭발)의 길이를 가져와 대기후 Despawn  
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitAndDespawn()
+    {
+        yield return null;
+        float animLength = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(animLength-0.01f);
+        GetComponent<SpriteRenderer>().enabled = false;
+        PoolManager.Instance.Despawn<MagicProjectile>(this);
+    }
 }

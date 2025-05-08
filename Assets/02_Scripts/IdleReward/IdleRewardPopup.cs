@@ -13,9 +13,15 @@ public class IdleRewardPopup : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private GameObject ScreenBlocker;
 
+    private void Awake()
+    {
+       
+        panel.SetActive(false);
+        ScreenBlocker.SetActive(false);
+    }
+
     private void Start()
     {
-        panel.SetActive(false);
         claimButton.onClick.AddListener(OnClickClaim);
         closeButton.onClick.AddListener(ClosePopup);
     }
@@ -26,10 +32,18 @@ public class IdleRewardPopup : MonoBehaviour
             UpdateTexts();
     }
 
+  
     public void OpenPopup()
     {
         panel.SetActive(true);
         ScreenBlocker.SetActive(true);
+
+        
+        transform.SetAsLastSibling();
+
+      
+        ScreenBlocker.transform.SetSiblingIndex(0);
+
         UpdateTexts();
     }
 
@@ -43,7 +57,6 @@ public class IdleRewardPopup : MonoBehaviour
     {
         goldText.text = $"골드 +{IdleRewardManager.Instance.Gold}";
         stoneText.text = $"강화석 +{IdleRewardManager.Instance.Stone}";
-        
 
         var elapsed = IdleRewardManager.Instance.TotalElapsed;
         elapsedTimeText.text = $"누적 시간: {Mathf.FloorToInt((float)elapsed.TotalHours)}시간";

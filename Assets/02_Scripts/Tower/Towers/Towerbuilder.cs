@@ -59,7 +59,15 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeCardMove()
     {
         Time.timeScale = 0.2f;
-        isCardMoving = !isCardMoving;
+        isCardMoving = true;
+    }
+
+    public void ChangeCardDontMove()
+    {
+        Time.timeScale = 1f;
+        lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
+        EndAttackRangeCircle();
+        isCardMoving = false;
     }
 
     public void ChangeTowerMove(BaseTower _cilkedTower)
@@ -274,6 +282,7 @@ public class Towerbuilder : MonoBehaviour
             Vector2 currentTile = PostionArray(InputManager.Instance.GetTouchWorldPosition());
             if (currentTile != lastCheckedTile)
             {
+                Debug.Log($"[HandCardMoving] 타일 체크: {currentTile}");
                 if (cheakedTower != null)
                 {
                     Color precolor = cheakedTower.GetComponent<SpriteRenderer>().color;

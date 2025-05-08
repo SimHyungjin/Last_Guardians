@@ -159,9 +159,9 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            ResultHP = (float)(MonsterData.MonsterHP * (1.0 + (MonsterManager.Instance.WaveLevel * 0.12))) * MonsterStatWeight;
+            ResultHP = (float)(MonsterData.MonsterHP * (1.0 + (MonsterManager.Instance.WaveLevel * 0.06))) * MonsterStatWeight;
             CurrentHP = ResultHP;
-            ResultDef = MonsterData.MonsterDef * (float)(1.0 + (MonsterManager.Instance.WaveLevel * 0.08)) * MonsterStatWeight;
+            ResultDef = MonsterData.MonsterDef * (float)(1.0 + (MonsterManager.Instance.WaveLevel * 0.015)) * MonsterStatWeight;
             CurrentDef = ResultDef;
         }
 

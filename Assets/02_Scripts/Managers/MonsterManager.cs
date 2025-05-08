@@ -195,7 +195,7 @@ public class MonsterManager : Singleton<MonsterManager>
             monster.agent.enabled = false;
             monster.transform.position = pos;
             monster.agent.enabled = true;
-            monster.agent.Warp(pos); // 이중 보장
+            monster.agent.Warp(pos);
         }
         else
         {

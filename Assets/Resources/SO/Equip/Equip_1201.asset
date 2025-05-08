@@ -20,7 +20,7 @@ MonoBehaviour:
   itemStackLimit: 1
   itemDropRate: 0.0175
   itemSellPrice: 300
-  icon: {fileID: 584323054, guid: 7ce0d427e76880c4894aa3cfc32a83b4, type: 3}
+  icon: {fileID: 2054360625, guid: 7ce0d427e76880c4894aa3cfc32a83b4, type: 3}
   <equipIndex>k__BackingField: 1201
   <equipType>k__BackingField: 0
   <attackType>k__BackingField: 0

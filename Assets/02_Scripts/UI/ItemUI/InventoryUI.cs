@@ -82,7 +82,7 @@ public class InventoryUI : MonoBehaviour
     }
     public void Init()
     {
-        MainSceneManager.Instance.inventoryGroup.itemPopupController.clickUpgrade += GoodsRefresh;
+        MainSceneManager.Instance.inventoryGroup.itemPopupController.clickToUpdateText += GoodsRefresh;
     }
     private void GoodsRefresh()
     {

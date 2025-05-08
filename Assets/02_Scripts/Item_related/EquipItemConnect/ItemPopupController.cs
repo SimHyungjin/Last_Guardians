@@ -16,6 +16,7 @@ public class ItemPopupController : MonoBehaviour
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button equipButton;
     [SerializeField] private Button unequipButton;
+    [SerializeField] private Button sellButton;
 
     private Equipment equipment;
     private Inventory inventory;
@@ -26,7 +27,7 @@ public class ItemPopupController : MonoBehaviour
     public ItemInstance currentData { get; private set; }
 
     public Action<ItemInstance> OnItemSelected;
-    public Action clickUpgrade;
+    public Action clickToUpdateText;
 
     public void Init()
     {
@@ -40,14 +41,14 @@ public class ItemPopupController : MonoBehaviour
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
-        if (BaseState()) return;
+        sellButton.onClick.AddListener(OnClickSell);
+        if (FirstState()) return;
         SetData(inventory.GetAll()[inventory.GetAll().Count - 1]);
         selectionController.RefreshSlot(currentData);
         UpdatePopupUI();
-        //root.SetActive(false);
     }
 
-    private bool BaseState()
+    private bool FirstState()
     {
         if (inventory.GetAll().Count == 0)
         {
@@ -66,7 +67,7 @@ public class ItemPopupController : MonoBehaviour
     public void SetData(ItemInstance instance)
     {
         if (instance == null) return;
-        if (inventory.GetAll().Count == 0) { BaseState(); return; }
+        if (inventory.GetAll().Count == 0) { FirstState(); return; }
         icon.gameObject.SetActive(true);
         currentData = instance;
         OnItemSelected?.Invoke(currentData);
@@ -79,6 +80,7 @@ public class ItemPopupController : MonoBehaviour
     public void Open(Slot slot)
     {
         SetData(slot.GetData());
+        icon.gameObject.SetActive(true);
         root.SetActive(true);
         UpdatePopupUI();
     }
@@ -93,6 +95,15 @@ public class ItemPopupController : MonoBehaviour
     public void Close()
     {
         root.SetActive(false);
+    }
+
+    public void Clear()
+    {
+        currentData = null;
+        icon.gameObject.SetActive(false);
+        itemName.text = string.Empty;
+        description.text = string.Empty;
+
     }
     /// <summary>
     /// 팝업 UI를 업데이트합니다. 아이템의 정보를 표시합니다.
@@ -137,7 +148,18 @@ public class ItemPopupController : MonoBehaviour
         SetData(result);
         UpdatePopupUI();
 
-        clickUpgrade?.Invoke();
+        clickToUpdateText?.Invoke();
+    }
+
+    public void OnClickSell()
+    {
+        if(equipment.IsEquipped(currentData)) equipment.UnEquip(currentData);
+        inventory.RemoveItem(currentData);
+        SaveSystem.SaveGame();
+        Clear();
+        Close();
+
+        clickToUpdateText?.Invoke();
     }
     /// <summary>
     /// 장비 버튼 클릭 시 호출됩니다. 아이템을 장착합니다.

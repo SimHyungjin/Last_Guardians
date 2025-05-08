@@ -8,11 +8,11 @@ public enum PlayerAnimState
     Stun,
 }
 
-public class PlayerView : MonoBehaviour
+public class PlayerModelView : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-    [SerializeField] private PlayerWeaponHandler weaponHandler;
+    [SerializeField] private PlayerWeaponController weaponHandler;
     [SerializeField] private PlayerAnimState curState = PlayerAnimState.Idle;
     [SerializeField] private bool isMoving = false;
     [SerializeField] private bool isAttacking = false;

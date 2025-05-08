@@ -9,7 +9,7 @@ public struct WeaponAnimatorEntry
     public AnimatorOverrideController animatorController;
 }
 
-public class PlayerWeaponHandler : MonoBehaviour
+public class PlayerWeaponController : MonoBehaviour
 {
     [SerializeField] private Animator weaponAnimator;
     [SerializeField] private SpriteRenderer weaponRenderer;

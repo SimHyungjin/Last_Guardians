@@ -16,7 +16,7 @@ public interface IAttackBehavior
 public class PlayerAttackController : MonoBehaviour
 {
     private Player player;
-    private PlayerWeaponHandler weaponHandler;
+    private PlayerWeaponController weaponHandler;
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;

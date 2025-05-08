@@ -6,8 +6,8 @@ public class PlayerHandler : MonoBehaviour
     public PlayerAttackController attackController { get; private set; }
     public PlayerMoveController moveController { get; private set; }
     public PlayerBuffHandler playerBuffHandler { get; private set; }
-    public PlayerView playerView { get; private set; }
-    public PlayerWeaponHandler weaponHandler { get; private set; }
+    public PlayerModelView playerView { get; private set; }
+    public PlayerWeaponController weaponHandler { get; private set; }
     public PlayerObstacleDebuff playerObstacleDebuff { get; private set; }
 
     private void Awake()
@@ -16,8 +16,8 @@ public class PlayerHandler : MonoBehaviour
         moveController = GetComponent<PlayerMoveController>();
         playerBuffHandler = GetComponent<PlayerBuffHandler>();
 
-        playerView = GetComponentInChildren<PlayerView>();
-        weaponHandler = GetComponentInChildren<PlayerWeaponHandler>();
+        playerView = GetComponentInChildren<PlayerModelView>();
+        weaponHandler = GetComponentInChildren<PlayerWeaponController>();
         playerObstacleDebuff = GetComponentInChildren<PlayerObstacleDebuff>();
 
         gameObject.transform.position = new Vector3(0.5f, -2f, 0);

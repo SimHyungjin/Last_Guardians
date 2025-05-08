@@ -17,7 +17,7 @@ public class EquiplmentPanelText : MonoBehaviour
 
     private Equipment equipment;
 
-    private void Awake()
+    private void Start()
     {
         equipment = MainSceneManager.Instance.equipment;
         equipment.OnEquip += UpdateText;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 313663710693198005}
   - component: {fileID: -6911492075898494675}
   - component: {fileID: 2530111282139302248}
+  - component: {fileID: 8470360618079290988}
   m_Layer: 11
   m_Name: TrapObject
   m_TagString: Untagged
@@ -98,18 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e678391fd94be504dacd403d59bd2763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapEffectIndex: 
-  buildBlockMask:
-    serializedVersion: 2
-    m_Bits: 1152
-  TrapObjectMask:
-    serializedVersion: 2
-    m_Bits: 2048
-  MonsterMask:
-    serializedVersion: 2
-    m_Bits: 64
+  buffTowerIndex: 
   sr: {fileID: 0}
   col: {fileID: 0}
+  bossImmunebuff: 1
 --- !u!58 &2530111282139302248
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -144,4 +137,25 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 1
+--- !u!95 &8470360618079290988
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4118459537282430882}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a2fa0854b8d902c43ac7369bb576bdf7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

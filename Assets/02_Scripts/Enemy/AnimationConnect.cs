@@ -40,39 +40,7 @@ public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이
     {
         Animator.SetTrigger("4_Death");
     }
-    public static void AddAnimationEvent(RuntimeAnimatorController contorller)
-    {
-        //RuntimeAnimatorController contorller = animator.runtimeAnimatorController;
-        foreach (var clip in contorller.animationClips)
-        {
-            var events = AnimationUtility.GetAnimationEvents(clip);
-            if (events.Length > 0)
-            {
-                return;
-            }
-        }
-
-        foreach (var clip in contorller.animationClips)
-        {
-            if (clip.name == "ATTACK")
-            {
-                AnimationEvent animationEvent = new AnimationEvent();
-                animationEvent.time = 0.25f;
-                animationEvent.functionName = nameof(Attack);
-
-                clip.AddEvent(animationEvent);
-            }
-
-            if (clip.name == "DEATH")
-            {
-                AnimationEvent animationEvent = new AnimationEvent();
-                animationEvent.time = 0.4f;
-                animationEvent.functionName = nameof(Death);
-
-                clip.AddEvent(animationEvent);
-            }
-        }
-    }
+   
 
 
     public void Attack()

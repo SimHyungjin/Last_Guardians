@@ -48,9 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectslist: 
+  projectileAtlas: {fileID: 100100200, guid: 61315acb22aec2a4ea825857199ece71, type: 3}
   blastEffect: {fileID: 3020305618590296890, guid: d84b22aa4cb49ba45acc227cdc7aa695, type: 3}
   target: {fileID: 0}
-  hasHit: 0
 --- !u!212 &-2044109952141429672
 SpriteRenderer:
   m_ObjectHideFlags: 0

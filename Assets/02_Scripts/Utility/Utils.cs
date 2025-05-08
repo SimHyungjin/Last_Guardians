@@ -110,4 +110,31 @@ public class Utils
         }
     }
 
+    public static void GetColor(TowerData towerData, SpriteRenderer spriteRenderer)
+    {
+        switch (towerData.ElementType)
+        {
+            case ElementType.Fire:
+                spriteRenderer.color = Color.red;
+                break;
+            case ElementType.Water:
+                spriteRenderer.color = Color.blue;
+                break;
+            case ElementType.Earth:
+                spriteRenderer.color = Color.grey;
+                break;
+            case ElementType.Wind:
+                spriteRenderer.color = Color.cyan;
+                break;
+            case ElementType.Light:
+                spriteRenderer.color = Color.yellow;
+                break;
+            case ElementType.Dark:
+                spriteRenderer.color = Color.black;
+                break;
+            default:
+                break;
+        }
+    }
+
 }

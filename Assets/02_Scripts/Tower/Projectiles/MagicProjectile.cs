@@ -20,14 +20,8 @@ public class MagicProjectile : ProjectileBase
     {
         base.Init(_towerData, adaptedTower, _effectslist, _environmentEffect);
         GetComponent<SpriteRenderer>().enabled = true;
-        GetProjectileColor();
+        Utils.GetColor(towerData, GetComponent<SpriteRenderer>());
         animator = GetComponent<Animator>();
-#if UNITY_EDITOR
-        string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
-        string path = $"Assets/91_Disign/Sprite/ProjectileImage/Magics/{spritename}.png";
-        Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-        GetComponent<SpriteRenderer>().sprite = sprite;
-#endif
     }
 
     public override void Update()

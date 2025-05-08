@@ -43,7 +43,7 @@ public class DotDamageEffect : StatusEffect
     public override void UpdateEffectTime(float amout, float duration)
     {
         base.UpdateEffectTime(amout, duration);
-        timer = 0;
+        //timer = 0;
     }
 
     

@@ -122,7 +122,8 @@ public class AttackTower : BaseTower
     void Attack()
     {
         if (disable) return;
-        bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
+        //bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
+        bool isMultyTarget = towerData.EffectTarget == EffectTarget.Multiple;
         bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
         lastCheckTime = Time.time;

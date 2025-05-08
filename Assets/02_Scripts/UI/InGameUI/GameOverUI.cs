@@ -45,15 +45,15 @@ public class GameOverUI : MonoBehaviour
 
     private void Retry()
     {
-        SceneLoader.LoadSceneWithFade("GameScene", true);
         Time.timeScale = 1.0f;
+        SceneLoader.LoadSceneWithFade("GameScene", true);
         //SceneManager.LoadScene("GameScene");
     }
 
     private void Exit()
     {
-        SceneLoader.LoadSceneWithFade("MainScene", true);
         Time.timeScale = 1.0f;
+        SceneLoader.LoadSceneWithFade("MainScene", true);
         //SceneManager.LoadScene("MainScene");
     }
 }

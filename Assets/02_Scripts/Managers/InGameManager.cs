@@ -133,6 +133,9 @@ public class InGameManager : Singleton<InGameManager>
 
     private void GameOver()
     {
+        if (gameoverUI.gameObject.activeSelf)
+            return;
+
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);

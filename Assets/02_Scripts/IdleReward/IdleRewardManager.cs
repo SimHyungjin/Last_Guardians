@@ -11,11 +11,9 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     private int pendingGold;
     private int pendingStone;
-    private int pendingEquip;
     private float accumulatedStone = 0f;
     public int Gold => pendingGold;
     public int Stone => pendingStone;
-    public int Equip => pendingEquip;
 
     public TimeSpan TotalElapsed => GetCappedElapsed();
     public TimeSpan NextRewardIn => TimeSpan.FromMinutes(REWARD_INTERVAL_MINUTES) - TimeSpan.FromMinutes(TotalElapsed.TotalMinutes % REWARD_INTERVAL_MINUTES);
@@ -27,7 +25,7 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
         pendingGold = PlayerPrefs.GetInt("IdlePendingGold", 0);
         pendingStone = PlayerPrefs.GetInt("IdlePendingStone", 0);
-        pendingEquip = PlayerPrefs.GetInt("IdlePendingEquip", 0);
+        
 
         ApplyOfflineRewards();
     }
@@ -64,13 +62,11 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
             accumulatedStone -= 1f;
         }
 
-        // 장비: 5% 확률
-        if (UnityEngine.Random.value < 0.05f)
-            pendingEquip++;
+       
 
         SavePendingRewards();
 
-        Debug.Log($"[보상 지급] 골드+{gold}, 누적 골드:{pendingGold}, 강화석:{pendingStone}, 장비:{pendingEquip}");
+        Debug.Log($"[보상 지급] 골드+{gold}, 누적 골드:{pendingGold}, 강화석:{pendingStone}");
     }
 
     private void ApplyOfflineRewards()
@@ -85,11 +81,11 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
        
 
-        Debug.Log($"[보상 수령 완료] 골드: {pendingGold}, 강화석: {pendingStone}, 장비: {pendingEquip}");
+        Debug.Log($"[보상 수령 완료] 골드: {pendingGold}, 강화석: {pendingStone}");
 
         pendingGold = 0;
         pendingStone = 0;
-        pendingEquip = 0;
+        
         accumulatedStone = 0f;
 
         lastRewardClaimTime = DateTime.Now;
@@ -105,7 +101,7 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
     {
         PlayerPrefs.SetInt("IdlePendingGold", pendingGold);
         PlayerPrefs.SetInt("IdlePendingStone", pendingStone);
-        PlayerPrefs.SetInt("IdlePendingEquip", pendingEquip);
+        
     }
 
     private void SaveAll()

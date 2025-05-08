@@ -7,7 +7,6 @@ public class IdleRewardPopup : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI stoneText;
-    [SerializeField] private TextMeshProUGUI equipText;
     [SerializeField] private TextMeshProUGUI elapsedTimeText;
     [SerializeField] private TextMeshProUGUI nextRewardText;
     [SerializeField] private Button claimButton;
@@ -44,7 +43,7 @@ public class IdleRewardPopup : MonoBehaviour
     {
         goldText.text = $"골드 +{IdleRewardManager.Instance.Gold}";
         stoneText.text = $"강화석 +{IdleRewardManager.Instance.Stone}";
-        equipText.text = $"장비 +{IdleRewardManager.Instance.Equip}";
+        
 
         var elapsed = IdleRewardManager.Instance.TotalElapsed;
         elapsedTimeText.text = $"누적 시간: {Mathf.FloorToInt((float)elapsed.TotalHours)}시간";

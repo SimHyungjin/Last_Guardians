@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 40a8fa74f3bd3424f80f083f0259210e
+guid: c80917cce590c1f42a1588640a82126c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,64 +136,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WaterOb_0
+      name: WaterRule_0
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 928
+        height: 1024
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3506a409c84f5843b1325b0c384f06c
+      internalID: 1453940460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaterRule_1
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 753
+        width: 928
         height: 1024
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d398f79d3ff2b24d80c01adf6f5cd81
-      internalID: -683179775
+      spriteID: 20f0c9496564b1e4681e308cb521a319
+      internalID: 475995593
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WaterOb_1
+      name: WaterRule_2
       rect:
         serializedVersion: 2
-        x: 249
+        x: 0
         y: 0
-        width: 775
+        width: 1024
         height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 985c7fa8751ad6447890c78abca3782e
-      internalID: 668467538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WaterOb_2
-      rect:
-        serializedVersion: 2
-        x: 248
-        y: 0
-        width: 505
-        height: 1024
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8d7fd6797ebbde2468fca64e973b8143
-      internalID: 1489845096
+      spriteID: ce2a3be84a29f21448613e986142c448
+      internalID: 1692782042
       vertices: []
       indices: 
       edges: []
@@ -209,9 +209,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WaterOb_0: 1444029767
-      WaterOb_1: -992175870
-      WaterOb_2: -683179775
+      WaterRule_0: 1453940460
+      WaterRule_1: -1806191984
+      WaterRule_2: 1692782042
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

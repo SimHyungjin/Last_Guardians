@@ -6,7 +6,9 @@ public class EXPBead : MonoBehaviour
 {
     private Collider2D collider;
     private Coroutine disappearCorutine;
-    private float disTime = 30f;
+    private float disTime = 15f;
+    private readonly float Interval = 0.2f;
+    private float timer = 0f;
     public int EXP { get; private set; }
 
     private void Awake()
@@ -22,6 +24,7 @@ public class EXPBead : MonoBehaviour
     private IEnumerator Disappear()
     {
         yield return new WaitForSeconds(disTime);
+        InGameManager.Instance.GetExp((int)EXP/2);
         PoolManager.Instance.Despawn<EXPBead>(this);
     }
 
@@ -36,10 +39,14 @@ public class EXPBead : MonoBehaviour
         if (Time.timeScale == 0)
             return;
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        timer += Time.deltaTime;
+        if (timer >= Interval)
         {
-            InGameManager.Instance.GetExp(EXP);
-            PoolManager.Instance.Despawn<EXPBead>(this);
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                InGameManager.Instance.GetExp(EXP);
+                PoolManager.Instance.Despawn<EXPBead>(this);
+            }
         }
     }
 }

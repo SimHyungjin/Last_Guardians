@@ -6,7 +6,7 @@ using UnityEngine;
 public class InventoryUIController : MonoBehaviour
 {
     [SerializeField] private InventorySlotContainer inventorySlotContainer;
-    [SerializeField] private InventoryUIButton inventoryUIButton;
+    [SerializeField] private InventoryUI inventoryUIButton;
 
     private void Start()
     {

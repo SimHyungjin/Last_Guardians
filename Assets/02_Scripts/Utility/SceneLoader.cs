@@ -6,24 +6,31 @@ using UnityEngine.UI;
 
 public static class SceneLoader
 {
+    private static bool isLoading = false;
+
     public static void LoadScene(string sceneName, Action beforeSceneLoad = null, Action afterSceneLoad = null)
     {
+        if(isLoading) return;
+        isLoading = true;
+
         beforeSceneLoad?.Invoke();
 
         var go = new GameObject("SceneLoaderTemp");
         GameObject.DontDestroyOnLoad(go);
         var loader = go.AddComponent<SceneLoaderRunner>();
-        loader.StartLoading(sceneName, afterSceneLoad);
+        loader.StartLoading(sceneName, () => { isLoading = false; afterSceneLoad?.Invoke(); });
     }
 
     public static void LoadSceneWithFade(string sceneName, bool selectFadeOut, Action beforeSceneLoad = null, Action afterSceneLoad = null)
     {
+        if(isLoading) return;
+        isLoading = true;
         beforeSceneLoad?.Invoke();
 
         var go = new GameObject("SceneLoaderTemp");
         GameObject.DontDestroyOnLoad(go);
         var loader = go.AddComponent<SceneLoaderRunner>();
-        loader.StartLoadingWithFade(sceneName, selectFadeOut, afterSceneLoad);
+        loader.StartLoadingWithFade(sceneName, selectFadeOut, () => { isLoading = false; afterSceneLoad?.Invoke(); });
     }
 
     private class SceneLoaderRunner : MonoBehaviour

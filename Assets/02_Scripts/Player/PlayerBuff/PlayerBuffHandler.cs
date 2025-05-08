@@ -23,10 +23,10 @@ public class PlayerBuffHandler : MonoBehaviour
         playerData = InGameManager.Instance.playerManager.player.playerData;
     }
 
-    private void OnDestroy()
-    {
-        ClearAllBuffs();
-    }
+    //private void OnDestroy()
+    //{
+    //    ClearAllBuffs();
+    //}
 
     /// <summary>
     /// 새로운 버프를 적용합니다. 같은 타입의 기존 버프가 있다면 제거 후 덮어씌웁니다.

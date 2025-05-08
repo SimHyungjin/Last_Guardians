@@ -20,7 +20,7 @@ MonoBehaviour:
   towerName: "\uCD95\uBCF5 \uC99D\uD3ED\uAE30 \uD0C0\uC6CCII"
   attackPower: 0
   attackSpeed: 0
-  attackRange: 3.9
+  attackRange: 4
   towerType: 2
   projectileType: 3
   elementType: 4

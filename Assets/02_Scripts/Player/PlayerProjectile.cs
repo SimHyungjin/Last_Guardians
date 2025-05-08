@@ -57,8 +57,15 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
         damage = _damage;
         isMulti = _isMulti;
         direction = (targetPos - (Vector2)transform.position).normalized;
-        transform.right = direction;
-
+        if(!isMulti)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle + 135f);
+        }
+        else
+        {
+            transform.right = direction;
+        }
         rb.velocity = direction * speed;
     }
 

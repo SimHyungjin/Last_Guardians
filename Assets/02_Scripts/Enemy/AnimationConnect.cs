@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이션 컨트롤러
 {
@@ -43,6 +45,15 @@ public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이
         //RuntimeAnimatorController contorller = animator.runtimeAnimatorController;
         foreach (var clip in contorller.animationClips)
         {
+            var events = AnimationUtility.GetAnimationEvents(clip);
+            if (events.Length > 0)
+            {
+                return;
+            }
+        }
+
+        foreach (var clip in contorller.animationClips)
+        {
             if (clip.name == "ATTACK")
             {
                 AnimationEvent animationEvent = new AnimationEvent();
@@ -60,9 +71,7 @@ public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이
 
                 clip.AddEvent(animationEvent);
             }
-
         }
-
     }
 
 

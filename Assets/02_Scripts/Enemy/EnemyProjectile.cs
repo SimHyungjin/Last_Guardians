@@ -7,6 +7,20 @@ public class EnemyProjectile : ProjectileBase
     public MonsterData Data {  get; set; }
     public BaseMonster BaseMonster { get; set; }
 
+    private SpriteRenderer spriteRenderer;
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        spriteRenderer.sprite = projectileAtlas.GetSprite("DarkArrow");
+    }
+
     public override void Update()
     {
         base.Update();

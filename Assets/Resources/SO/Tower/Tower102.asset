@@ -25,7 +25,7 @@ MonoBehaviour:
   projectileType: 0
   elementType: 3
   specialEffect: 4
-  effectChance: 0.35
+  effectChance: 0.45
   effectDuration: 5
   effectValue: 0
   effectTarget: 0

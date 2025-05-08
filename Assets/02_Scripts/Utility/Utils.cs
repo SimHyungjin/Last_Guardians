@@ -90,10 +90,10 @@ public class Utils
         {
             spriteIndex = towerIndex - 98;
         }
-        //else if (towerIndex >= 109)
-        //{
-        //    spriteIndex = towerIndex - 59;
-        //}
+        else if (towerIndex >= 109)
+        {
+            spriteIndex = towerIndex - 59;
+        }
         else
         {
             spriteIndex = towerIndex;

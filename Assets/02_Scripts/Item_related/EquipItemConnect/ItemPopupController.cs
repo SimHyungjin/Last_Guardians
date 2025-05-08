@@ -155,9 +155,11 @@ public class ItemPopupController : MonoBehaviour
     {
         if(equipment.IsEquipped(currentData)) equipment.UnEquip(currentData);
         inventory.RemoveItem(currentData);
+        GameManager.Instance.gold += currentData.Data.ItemSellPrice;
         SaveSystem.SaveGame();
         Clear();
         Close();
+
 
         clickToUpdateText?.Invoke();
     }

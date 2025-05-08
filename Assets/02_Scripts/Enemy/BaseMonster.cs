@@ -63,7 +63,7 @@ public class BaseMonster : MonoBehaviour
     private readonly Vector3 rightScale = new Vector3(1, 1, 1);
     private readonly Vector3 leftScale = new Vector3(-1, 1, 1);
 
-    protected NavMeshAgent agent;
+    public NavMeshAgent agent { get; protected set; }
 
     //상태이상 핸들러 관련 필드
     private EffectHandler effectHandler;

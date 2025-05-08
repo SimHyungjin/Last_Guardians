@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
@@ -176,7 +177,7 @@ public class MonsterManager : Singleton<MonsterManager>
         if (index >= 201 && index <= 300)
         {
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
-            BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[nowWave.WaveLevel % 2]);
+            BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[WaveLevel % 2]);
             monster.Setup(data);
             monster.Target = Target;
             //monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
@@ -184,18 +185,31 @@ public class MonsterManager : Singleton<MonsterManager>
         }
     }
 
-    public void SummonMonster(int index, Vector2 pos)
+    public BaseMonster SummonMonster(int index, Vector2 pos)
     {
+        
         MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
         NormalEnemy monster = PoolManager.Instance.SpawnbyPrefabName(NormalPrefab);
+        if (monster.agent != null)
+        {
+            monster.agent.enabled = false;
+            monster.transform.position = pos;
+            monster.agent.enabled = true;
+            monster.agent.Warp(pos); // 이중 보장
+        }
+        else
+        {
+            monster.transform.position = pos;
+        }
         monster.Setup(data);
-        monster.Target = Target;
-        //monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
-        monster.transform.position = pos;
+        //monster.transform.position = pos;
         monster.transform.SetParent(PoolManager.Instance.transform);
         AlliveMonsters.Add(monster);
         alliveCount++;
         RemainMonsterCount++;
+        InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
+
+        return monster;
     }
 
     public void OnMonsterDeath(BaseMonster monster)

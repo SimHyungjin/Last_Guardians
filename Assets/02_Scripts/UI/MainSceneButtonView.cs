@@ -2,9 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// 메인 씬의 버튼을 관리하는 클래스입니다.
-/// </summary>
 public class MainSceneButtonView : MonoBehaviour
 {
     [SerializeField] private Button startBtn;
@@ -12,6 +9,9 @@ public class MainSceneButtonView : MonoBehaviour
     [SerializeField] private Button bookBtn;
     [SerializeField] private Button soundOptionBtn;
     [SerializeField] private Button idleBtn;
+
+   
+    [SerializeField] private IdleRewardPopup idlePopup;
 
     public void Init(MainSceneManager mainSceneManager)
     {
@@ -36,16 +36,11 @@ public class MainSceneButtonView : MonoBehaviour
             mainSceneManager.ShowPanel("SoundOption");
         });
 
-        idleBtn.onClick.AddListener(() =>
-        {
-            mainSceneManager.ShowPanel("IdleRewardPopup", null, false); 
-        });
-
+       
+        idleBtn.onClick.RemoveAllListeners();
+        idleBtn.onClick.AddListener(idlePopup.OpenPopup);
     }
 
-    /// <summary>
-    /// 게임 씬으로 전환합니다. 게임 씬을 로드하고, 장비 정보를 플레이어에게 전달합니다.
-    /// </summary>
     private void ToGameScene()
     {
         GameManager.Instance.stats = MainSceneManager.Instance.equipment.InfoToPlayer();

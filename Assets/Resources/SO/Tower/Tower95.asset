@@ -25,12 +25,12 @@ MonoBehaviour:
   projectileType: 1
   elementType: 5
   specialEffect: 7
-  effectChance: 0.2
+  effectChance: 0.3
   effectDuration: 6
   effectValue: 0.25
   effectTarget: 0
   effectTargetCount: 1
   bossImmune: 0
   upgradeLevel: 3
-  towerDescription: "20% \uD655\uB960\uB85C \uC801 \uBC29\uC5B4\uB825 25% \uAC10\uC18C
+  towerDescription: "30% \uD655\uB960\uB85C \uC801 \uBC29\uC5B4\uB825 25% \uAC10\uC18C
     6\uCD08 \uB3D9\uC548 \uC9C0\uC18D"

@@ -19,16 +19,22 @@ public class DeckHandler : MonoBehaviour
     private int highlightedIndex = -1;
     private int highlightedOrder = -1;
     private int originalSiblingIndex;
+    private Vector2 originalPosition;
     private bool isDragging = false;
     public GameObject ghostTowerPrefab;
     private GameObject ghostTower;
     private float Deadzone = 80f;
     public bool IsHighlighting => isHighlighting;
     public Card HighlightedCard => highlightedCard;
-    public int HighlightedIndex => highlightedIndex; 
-    
+    public int HighlightedIndex => highlightedIndex;
+
+    private void Awake()
+    {
+        originalPosition = GetComponent<RectTransform>().anchoredPosition;
+    }
+
     ///////////==========================카드 이동================================/////////////////////
-    
+
     /// <summary>
     /// 클릭이후 클릭된 카드가 손에서 멀어지면 타워설치
     /// 안멀어지고 클릭이 취소되면 다시 손으로 들어가는 연출
@@ -234,7 +240,9 @@ public class DeckHandler : MonoBehaviour
         rect.DOScale(1.2f * Vector3.one, 0.3f).SetEase(Ease.OutBack);
 
         RectTransform handRect = GetComponent<RectTransform>();
-        handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
+        handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic)
+            .OnComplete(() => {handRect.anchoredPosition = originalPosition - new Vector2(0, 100f); });
+        
     }
 
     /// <summary>
@@ -279,7 +287,8 @@ public class DeckHandler : MonoBehaviour
     private void ResetHighlightState()
     {
         RectTransform handRect = GetComponent<RectTransform>();
-        handRect.DOAnchorPos(handRect.anchoredPosition + new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic);
+        handRect.DOAnchorPos(originalPosition, 0.3f).SetEase(Ease.OutCubic)
+            .OnComplete(() => { handRect.anchoredPosition = originalPosition;});
         highlightedCard = null;
         highlightedIndex = -1;
         highlightedOrder = -1;

@@ -26,6 +26,7 @@ public class TrapObject : MonoBehaviour
     private Coroutine activeEffectCoroutine;
     private Coroutine checkOverlapCoroutine;
     private TowerData towerData;
+    private Animator animator;
 
     private TrapObjectState currentState;
 
@@ -51,31 +52,8 @@ public class TrapObject : MonoBehaviour
         trapEffectList= new List<ITrapEffect>();
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
-        //Å×½ºÆ®¿ë »ö±ò³îÀÌ
-        switch (towerData.ElementType)
-        {
-            case ElementType.Fire:
-                sr.color = Color.red;
-                break;
-            case ElementType.Water:
-                sr.color = Color.blue;
-                break;
-            case ElementType.Wind:
-                sr.color = Color.cyan;
-                break;
-            case ElementType.Earth:
-                sr.color = Color.green;
-                break;
-            case ElementType.Light:
-                sr.color = Color.yellow;
-                break;
-            case ElementType.Dark:
-                sr.color = Color.black;
-                break;
-            default:
-                sr.color = Color.white;
-                break;
-        }
+        animator = GetComponent<Animator>();
+        Utils.GetColor(towerData, GetComponent<SpriteRenderer>());
         buffTowerIndex.Add(towerData.TowerIndex);
         AddTrapEffect(towerData.TowerIndex);
         CanPlant();
@@ -254,6 +232,9 @@ public class TrapObject : MonoBehaviour
             elapsed += applyInterval;
         }
         activeEffectCoroutine = null;
+        animator.SetTrigger("TrapObjectDespawn");
+        yield return new WaitForSeconds(0.1f);
+        animator.enabled = false;
         ChageState(TrapObjectState.Cooldown);
     }
 
@@ -419,12 +400,15 @@ public class TrapObject : MonoBehaviour
         switch (trapObjectState)
         {
             case TrapObjectState.CantActive:
+                animator.enabled = false;
                 UnActive();
                 break;
             case TrapObjectState.Ready:
+                animator.enabled = true;
                 OnActive();
                 break;
             case TrapObjectState.Triggered:
+                animator.SetTrigger("TrapObjectActive");
                 break;
             case TrapObjectState.Cooldown:
                 UnActive();

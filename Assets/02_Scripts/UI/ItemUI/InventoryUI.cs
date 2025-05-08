@@ -80,7 +80,7 @@ public class InventoryUI : MonoBehaviour
             onEquipTypeFilter?.Invoke(AllEquip);
         });
     }
-    private void Start()
+    public void Init()
     {
         MainSceneManager.Instance.inventoryGroup.itemPopupController.clickUpgrade += GoodsRefresh;
     }

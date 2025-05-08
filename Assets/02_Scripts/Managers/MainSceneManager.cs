@@ -17,8 +17,6 @@ public class MainSceneManager : Singleton<MainSceneManager>
 
     private void Awake()
     {
-        
-
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();

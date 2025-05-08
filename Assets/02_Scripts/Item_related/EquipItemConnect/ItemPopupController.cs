@@ -82,12 +82,16 @@ public class ItemPopupController : MonoBehaviour
         root.SetActive(true);
         UpdatePopupUI();
     }
+    public void Open()
+    {
+        root.SetActive(true);
+        UpdatePopupUI();
+    }
     /// <summary>
-    /// 팝업을 닫습니다. 현재 선택된 아이템을 초기화합니다.
+    /// 팝업을 닫습니다.
     /// </summary>
     public void Close()
     {
-        currentData = null;
         root.SetActive(false);
     }
     /// <summary>

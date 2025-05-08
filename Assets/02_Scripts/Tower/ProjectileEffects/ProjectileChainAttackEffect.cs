@@ -93,15 +93,16 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                     TowerManager.Instance.projectileFactory.AddAllEffects(magicprojectile, effectsubself);
                     magicprojectile.Launch(origin + dir * 10f);
                     break;
-                //case ProjectileType.Blast:
-                //    BlastProjectile blastProjectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData));
+                case ProjectileType.Blast:
+                    BlastProjectile blastProjectile = PoolManager.Instance.Spawn(TowerManager.Instance.projectileFactory.ReturnPrefabs<BlastProjectile>(ownerTowerData));
 
-                //    blastProjectile.OriginTarget = target;
-                //    blastProjectile.transform.position = spawnPosition;
-                //    blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                //    blastProjectile.Init(ownerTowerData, adaptedTowerData, null);
-                //    blastProjectile.Launch(origin + dir * 0.3f);
-                //    break;
+                    blastProjectile.OriginTarget = target;
+                    blastProjectile.transform.position = spawnPosition;
+                    blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
+                    blastProjectile.Init(ownerTowerData, adaptedTowerData, effectsubself, null);
+                    TowerManager.Instance.projectileFactory.AddAllEffects(blastProjectile, effectsubself);
+                    blastProjectile.Launch(origin + dir * 0.3f);
+                    break;
             }
         }
     }

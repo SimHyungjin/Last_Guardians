@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EnemyProjectile : ProjectileBase
 {
@@ -24,7 +25,24 @@ public class EnemyProjectile : ProjectileBase
     public override void Update()
     {
         base.Update();
+        //spriteRenderer.
+        FlipProjectilebyDirection();
     }
+
+    private void FlipProjectilebyDirection()
+    {
+        Vector2 movedirection = new Vector2(rb.velocity.x, rb.velocity.y).normalized;
+
+        if (movedirection.x > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (movedirection.x < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+
 
     protected override void ProjectileMove()
     {

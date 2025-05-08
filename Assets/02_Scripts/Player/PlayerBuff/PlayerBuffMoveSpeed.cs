@@ -24,10 +24,10 @@ public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerData>
 
     public void Remove(PlayerData playerData)
     {
-        if(playerData == null) { Debug.Log("playerData null"); return; }
+        if(playerData == null) { Debug.LogError("playerData null"); return; }
         playerData.moveSpeed /= Value.Value;
         var moveController = InGameManager.Instance.playerManager.playerHandler.moveController;
-        if (moveController == null) { Debug.Log("moveController null"); return; }
+        if (moveController == null) { Debug.LogError("moveController null"); return; }
         moveController.Init();
     }
 

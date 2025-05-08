@@ -50,5 +50,6 @@ public class ObstacleData : ScriptableObject
     public float towerBuffValue;
 
     public Sprite sprite;
+    public RuleTile ruleTile;
     public string obstacleDescription;
 }

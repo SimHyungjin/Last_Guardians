@@ -33,4 +33,4 @@ MonoBehaviour:
   bossImmune: 1
   upgradeLevel: 3
   towerDescription: "5\uCD08 \uB3D9\uC548 \uCD5C\uB300 3\uBA85\uC758 \uC801 \uBC29\uC5B4\uB825
-    15% \uAC10\uC18C(\uBCF4\uC2A4 \uBBF8\uC801\uC6A9)"
+    25% \uAC10\uC18C(\uBCF4\uC2A4 \uBBF8\uC801\uC6A9)"

@@ -63,7 +63,7 @@ public class BaseMonster : MonoBehaviour
     private readonly Vector3 rightScale = new Vector3(1, 1, 1);
     private readonly Vector3 leftScale = new Vector3(-1, 1, 1);
 
-    protected NavMeshAgent agent;
+    public NavMeshAgent agent { get; protected set; }
 
     //상태이상 핸들러 관련 필드
     private EffectHandler effectHandler;
@@ -159,9 +159,9 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            ResultHP = (float)(MonsterData.MonsterHP * (1.0 + (MonsterManager.Instance.WaveLevel * 0.12))) * MonsterStatWeight;
+            ResultHP = (float)(MonsterData.MonsterHP * (1.0 + (MonsterManager.Instance.WaveLevel * 0.06))) * MonsterStatWeight;
             CurrentHP = ResultHP;
-            ResultDef = MonsterData.MonsterDef * (float)(1.0 + (MonsterManager.Instance.WaveLevel * 0.08)) * MonsterStatWeight;
+            ResultDef = MonsterData.MonsterDef * (float)(1.0 + (MonsterManager.Instance.WaveLevel * 0.015)) * MonsterStatWeight;
             CurrentDef = ResultDef;
         }
 

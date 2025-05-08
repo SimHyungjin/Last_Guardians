@@ -26,6 +26,7 @@ public class ItemPopupController : MonoBehaviour
     public ItemInstance currentData { get; private set; }
 
     public Action<ItemInstance> OnItemSelected;
+    public Action clickUpgrade;
 
     public void Init()
     {
@@ -81,12 +82,16 @@ public class ItemPopupController : MonoBehaviour
         root.SetActive(true);
         UpdatePopupUI();
     }
+    public void Open()
+    {
+        root.SetActive(true);
+        UpdatePopupUI();
+    }
     /// <summary>
-    /// 팝업을 닫습니다. 현재 선택된 아이템을 초기화합니다.
+    /// 팝업을 닫습니다.
     /// </summary>
     public void Close()
     {
-        currentData = null;
         root.SetActive(false);
     }
     /// <summary>
@@ -131,6 +136,8 @@ public class ItemPopupController : MonoBehaviour
 
         SetData(result);
         UpdatePopupUI();
+
+        clickUpgrade?.Invoke();
     }
     /// <summary>
     /// 장비 버튼 클릭 시 호출됩니다. 아이템을 장착합니다.

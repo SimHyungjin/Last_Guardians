@@ -16,7 +16,7 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     public TimeSpan TotalElapsed => GetCappedElapsed();
 
-    // 수정된 NextRewardIn: 60분 배수일 땐 TimeSpan.Zero
+    
     public TimeSpan NextRewardIn
     {
         get
@@ -70,26 +70,31 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         SavePendingRewards();
     }
 
-    private void ApplyOfflineRewards() => Update();
+    public void ApplyOfflineRewards() => Update();
 
     public void ClaimReward()
     {
-        // 보상이 하나도 없거나 아직 60분 안 찼으면 무시
-        if ((pendingGold == 0 && pendingStone == 0) || NextRewardIn.TotalSeconds > 0)
+       
+        if (pendingGold == 0 && pendingStone == 0)
             return;
 
+        
         GameManager.Instance.gold += pendingGold;
         GameManager.Instance.upgradeStones += pendingStone;
 
+        
         pendingGold = 0;
         pendingStone = 0;
         accumulatedStone = 0f;
+
         sessionStartTime = DateTime.Now;
         PlayerPrefs.SetInt("IdleRewardCount", 0);
 
         SaveAll();
         SaveSystem.SaveGame();
     }
+
+
 
     private void SavePendingRewards()
     {
@@ -114,4 +119,5 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     private void OnApplicationPause(bool pause) { if (pause) SaveAll(); }
     private void OnApplicationQuit() { SaveAll(); }
+  
 }

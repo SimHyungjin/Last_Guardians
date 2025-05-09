@@ -11,7 +11,12 @@ public class IdleRewardPopupUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nextRewardText;
     [SerializeField] private Button claimButton;
     [SerializeField] private Button closeButton;
+
+ 
+
     [SerializeField] private GameObject screenBlocker;
+
+   
 
     private void Awake()
     {
@@ -23,6 +28,8 @@ public class IdleRewardPopupUI : MonoBehaviour
     {
         claimButton.onClick.AddListener(OnClickClaim);
         closeButton.onClick.AddListener(ClosePopup);
+
+       
     }
 
     private void Update()
@@ -55,14 +62,19 @@ public class IdleRewardPopupUI : MonoBehaviour
         elapsedTimeText.text = $"누적 시간: {Mathf.FloorToInt((float)elapsed.TotalHours)}시간";
 
         var next = mgr.NextRewardIn;
-        nextRewardText.text = $"다음 보상까지: {Mathf.CeilToInt((float)next.TotalMinutes)}분 남음";
+        nextRewardText.text = $"다음 보상까지: {next.Hours:D2}:{next.Minutes:D2}:{next.Seconds:D2} 남음";
 
-        claimButton.interactable = (mgr.Gold > 0 || mgr.Stone > 0) && next.TotalSeconds <= 0;
+        
+        claimButton.interactable = (mgr.Gold > 0 || mgr.Stone > 0);
     }
+
 
     private void OnClickClaim()
     {
         IdleRewardManager.Instance.ClaimReward();
         UpdateTexts();
     }
+
+    
+   
 }

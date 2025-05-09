@@ -24,6 +24,7 @@ public class EXPBead : MonoBehaviour
     private IEnumerator Disappear()
     {
         yield return new WaitForSeconds(disTime);
+        disappearCorutine = null;
         InGameManager.Instance.GetExp((int)EXP/2);
         PoolManager.Instance.Despawn<EXPBead>(this);
     }
@@ -44,6 +45,8 @@ public class EXPBead : MonoBehaviour
         {
             if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
+                StopCoroutine(disappearCorutine);
+                disappearCorutine = null;
                 InGameManager.Instance.GetExp(EXP);
                 PoolManager.Instance.Despawn<EXPBead>(this);
             }

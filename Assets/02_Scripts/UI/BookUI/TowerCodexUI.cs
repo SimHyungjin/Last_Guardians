@@ -85,16 +85,23 @@ public class TowerCodexUI : MonoBehaviour
             entry.SetData(data);
         }
 
-        if (dummySpacerPrefab != null)
+        // 마지막에 더미 오브젝트 4개 추가
+        for (int i = 0; i < 4; i++)
+        {
             Instantiate(dummySpacerPrefab, gridParent);
+        }
 
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 1f;
     }
 
     private bool IsBasicElement(ElementType e)
-        => e == ElementType.Fire || e == ElementType.Water || e == ElementType.Wind
-        || e == ElementType.Earth || e == ElementType.Light || e == ElementType.Dark;
+        => e == ElementType.Fire
+        || e == ElementType.Water
+        || e == ElementType.Wind
+        || e == ElementType.Earth
+        || e == ElementType.Light
+        || e == ElementType.Dark;
 
     public void ScrollToTower(TowerData data)
     {

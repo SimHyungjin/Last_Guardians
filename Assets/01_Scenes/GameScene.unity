@@ -39977,6 +39977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 899115900635885535}
   - component: {fileID: 4446821384125440164}
+  - component: {fileID: 7299708671408734073}
   m_Layer: 0
   m_Name: MapContainer
   m_TagString: Untagged
@@ -39984,6 +39985,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!33 &7299708671408734073
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299708671408734072}
+  m_Mesh: {fileID: 0}
 --- !u!222 &7304410999744352799
 CanvasRenderer:
   m_ObjectHideFlags: 0

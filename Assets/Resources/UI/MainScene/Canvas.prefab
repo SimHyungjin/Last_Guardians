@@ -2386,7 +2386,7 @@ MonoBehaviour:
   nextRewardText: {fileID: 1618110078635202414}
   claimButton: {fileID: 6953351982015219659}
   closeButton: {fileID: 8925486730569125917}
-  ScreenBlocker: {fileID: 3518551288407891562}
+  screenBlocker: {fileID: 3518551288407891562}
 --- !u!1 &7674959573105008852
 GameObject:
   m_ObjectHideFlags: 0

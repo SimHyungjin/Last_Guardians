@@ -7,11 +7,28 @@ public class GameOptionUI : MonoBehaviour
     public GameObject optionSlot;
     public GameObject optionPanel;
     public GameObject HomePanel;
+    public GameObject BookPanel;
 
     private bool isOptionPanelOpen = false;
     private bool isHomePanelOpen = false;
     private bool isOptionOpen = false;
+    private bool isBookPanelOpen = false;
 
+    public void OpenBook()
+    {
+        if (isBookPanelOpen) return;
+        isBookPanelOpen = true;
+        BookPanel.SetActive(true);
+        optionSlot.SetActive(false);
+        Time.timeScale = 0;
+    }
+    public void CloseBook()
+    {
+        if (!isBookPanelOpen) return;
+        isBookPanelOpen = false;
+        BookPanel.SetActive(false);
+        Time.timeScale = 1;
+    }
     public void OpenOption()
     {
         isOptionOpen = !isOptionOpen;

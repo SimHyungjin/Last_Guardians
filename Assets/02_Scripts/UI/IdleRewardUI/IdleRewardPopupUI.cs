@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IdleRewardPopup : MonoBehaviour
+public class IdleRewardPopupUI : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
     [SerializeField] private TextMeshProUGUI goldText;
@@ -15,7 +15,6 @@ public class IdleRewardPopup : MonoBehaviour
 
     private void Awake()
     {
-       
         panel.SetActive(false);
         ScreenBlocker.SetActive(false);
     }
@@ -55,14 +54,14 @@ public class IdleRewardPopup : MonoBehaviour
 
     private void UpdateTexts()
     {
-        goldText.text = $"°ñµå +{IdleRewardManager.Instance.Gold}";
-        stoneText.text = $"°­È­¼® +{IdleRewardManager.Instance.Stone}";
+        goldText.text = $"ê³¨ë“œ +{IdleRewardManager.Instance.Gold}";
+        stoneText.text = $"ê°•í™”ì„ +{IdleRewardManager.Instance.Stone}";
 
         var elapsed = IdleRewardManager.Instance.TotalElapsed;
-        elapsedTimeText.text = $"´©Àû ½Ã°£: {Mathf.FloorToInt((float)elapsed.TotalHours)}½Ã°£";
+        elapsedTimeText.text = $"ëˆ„ì  ì‹œê°„: {Mathf.FloorToInt((float)elapsed.TotalHours)}ì‹œê°„";
 
         var next = IdleRewardManager.Instance.NextRewardIn;
-        nextRewardText.text = $"´ÙÀ½ º¸»ó±îÁö: {Mathf.FloorToInt((float)next.TotalMinutes)}ºĞ ³²À½";
+        nextRewardText.text = $"ë‹¤ìŒ ë³´ìƒê¹Œì§€: {Mathf.FloorToInt((float)next.TotalMinutes)}ë¶„ ë‚¨ìŒ";
     }
 
     private void OnClickClaim()

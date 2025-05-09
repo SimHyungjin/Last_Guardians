@@ -85,7 +85,7 @@ public class RainWeather : IWeatherState
 
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters) // 몬스터
         {
-            monsters.ApplySlowdown(0.9f, 1f);
+            monsters.ApplySlowdown(0.1f, 1f);
         }
 
 
@@ -111,7 +111,7 @@ public class RainWeather : IWeatherState
     {
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
-            monsters.ApplySlowdown(0.9f, 0.2f);
+            monsters.ApplySlowdown(0.1f, 0.2f);
         }
     }
 }
@@ -150,7 +150,7 @@ public class SnowWeather : IWeatherState
         InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
-            monsters.ApplySlowdown(0.85f, 1f);
+            monsters.ApplySlowdown(0.15f, 1f);
         }
         foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
@@ -175,7 +175,7 @@ public class SnowWeather : IWeatherState
         InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
-            monsters.ApplySlowdown(0.85f, 0.2f);
+            monsters.ApplySlowdown(0.15f, 0.2f);
         }
     }
 }

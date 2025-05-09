@@ -47,8 +47,8 @@ public class MonsterManager : Singleton<MonsterManager>
         AlliveMonsters = new List<BaseMonster>();
         spawnSeconds = new WaitForSeconds(0.1f);
         InitMonsters();
-        AnimationConnect.AddAnimationEvent(normalAnim);
-        AnimationConnect.AddAnimationEvent(horseAnim);
+        //AnimationConnect.AddAnimationEvent(normalAnim);
+        //AnimationConnect.AddAnimationEvent(horseAnim);
 
         MaxWave = PlayerPrefs.GetInt("IdleMaxWave", 0);
     }

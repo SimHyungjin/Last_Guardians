@@ -22,7 +22,7 @@ public class AttackMeleeFan : IAttackBehavior
         Vector2 origin = attackController.transform.position;
         Vector2 direction = (targetPos - origin).normalized;
 
-        angle = 90f;
+        angle = 60f;
         radius = player.playerData.attackRange * 2;
         var rawHits = Physics2D.OverlapCircleAll(origin, radius, LayerMaskData.monster);
 

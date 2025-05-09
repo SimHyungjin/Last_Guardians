@@ -13,7 +13,7 @@ public class AttackRangedMulti : IAttackBehavior
     {
         PlayerProjectile prefab = Resources.Load<PlayerProjectile>("Player/PlayerProjectile");
         PlayerProjectile projectile = PoolManager.Instance.Spawn(prefab);
-        projectile.transform.position = (Vector2)attackController.transform.position + new Vector2(0.2f,0.5f);
+        projectile.transform.position = (Vector2)attackController.transform.position;
         projectile.Launch(targetPos, damage, true);
     }
 

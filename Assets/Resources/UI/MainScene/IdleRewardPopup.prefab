@@ -110,7 +110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -35, y: -116}
-  m_SizeDelta: {x: 400, y: 50}
+  m_SizeDelta: {x: 450, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1808350599092552559
 CanvasRenderer:
@@ -817,12 +817,11 @@ MonoBehaviour:
   panel: {fileID: 4535736174392179552}
   goldText: {fileID: 5816332775054798421}
   stoneText: {fileID: 8185207042680151134}
-  equipText: {fileID: 0}
   elapsedTimeText: {fileID: 9058835999911596033}
   nextRewardText: {fileID: 5572594726906257021}
   claimButton: {fileID: 4277926117965762264}
   closeButton: {fileID: 2376995767156513038}
-  ScreenBlocker: {fileID: 7779154903426537337}
+  screenBlocker: {fileID: 7779154903426537337}
 --- !u!1 &6300984033454021991
 GameObject:
   m_ObjectHideFlags: 0

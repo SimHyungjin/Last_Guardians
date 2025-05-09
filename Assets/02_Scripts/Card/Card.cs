@@ -22,7 +22,7 @@ public class Card : MonoBehaviour
 
     public event Action<Card> onClicked;
     public event Action<Card> onClickEnd;
-    public TextMeshProUGUI Text;
+    public TextMeshProUGUI text;
 
     private bool isMoving = false;
 
@@ -38,6 +38,10 @@ public class Card : MonoBehaviour
         GetComponent<Image>().sprite = atlas.GetSprite($"Card_{index}");
         stack = 1;
         ShowStack();
+        if(EnviromentManager.Instance.Season==Season.winter)
+        {
+            text.color = Color.black;
+        }
     }
     /// <summary>
     /// 카드에 클릭이 들어왔을때
@@ -90,11 +94,11 @@ public class Card : MonoBehaviour
     {
         if (stack > 1)
         {
-            Text.text = "X"+stack.ToString();
+            text.text = "X"+stack.ToString();
         }
         else
         {
-            Text.text = "";
+            text.text = "";
         }
     }
     public void AddStack()

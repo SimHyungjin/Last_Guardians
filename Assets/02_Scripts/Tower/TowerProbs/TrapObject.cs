@@ -33,7 +33,7 @@ public class TrapObject : MonoBehaviour
     private float cooldownTime;
     private float creationTime;
 
-    private float effectRadius = 0.5f;
+    private float effectRadius = 1f;
     public bool bossImmunebuff = false;
 
 

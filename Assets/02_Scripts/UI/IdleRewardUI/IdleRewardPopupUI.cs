@@ -11,18 +11,25 @@ public class IdleRewardPopupUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nextRewardText;
     [SerializeField] private Button claimButton;
     [SerializeField] private Button closeButton;
-    [SerializeField] private GameObject ScreenBlocker;
+
+ 
+
+    [SerializeField] private GameObject screenBlocker;
+
+   
 
     private void Awake()
     {
         panel.SetActive(false);
-        ScreenBlocker.SetActive(false);
+        screenBlocker.SetActive(false);
     }
 
     private void Start()
     {
         claimButton.onClick.AddListener(OnClickClaim);
         closeButton.onClick.AddListener(ClosePopup);
+
+       
     }
 
     private void Update()
@@ -31,42 +38,43 @@ public class IdleRewardPopupUI : MonoBehaviour
             UpdateTexts();
     }
 
-  
     public void OpenPopup()
     {
         panel.SetActive(true);
-        ScreenBlocker.SetActive(true);
-
-        
+        screenBlocker.SetActive(true);
         transform.SetAsLastSibling();
-
-      
-        ScreenBlocker.transform.SetSiblingIndex(0);
-
+        screenBlocker.transform.SetSiblingIndex(0);
         UpdateTexts();
     }
 
     public void ClosePopup()
     {
         panel.SetActive(false);
-        ScreenBlocker.SetActive(false);
+        screenBlocker.SetActive(false);
     }
 
     private void UpdateTexts()
     {
-        goldText.text = $"골드 +{IdleRewardManager.Instance.Gold}";
-        stoneText.text = $"강화석 +{IdleRewardManager.Instance.Stone}";
-
-        var elapsed = IdleRewardManager.Instance.TotalElapsed;
+        var mgr = IdleRewardManager.Instance;
+        goldText.text = $"골드 +{mgr.Gold}";
+        stoneText.text = $"강화석 +{mgr.Stone}";
+        var elapsed = mgr.TotalElapsed;
         elapsedTimeText.text = $"누적 시간: {Mathf.FloorToInt((float)elapsed.TotalHours)}시간";
 
-        var next = IdleRewardManager.Instance.NextRewardIn;
-        nextRewardText.text = $"다음 보상까지: {Mathf.FloorToInt((float)next.TotalMinutes)}분 남음";
+        var next = mgr.NextRewardIn;
+        nextRewardText.text = $"다음 보상까지: {next.Hours:D2}:{next.Minutes:D2}:{next.Seconds:D2} 남음";
+
+        
+        claimButton.interactable = (mgr.Gold > 0 || mgr.Stone > 0);
     }
+
 
     private void OnClickClaim()
     {
         IdleRewardManager.Instance.ClaimReward();
         UpdateTexts();
     }
+
+    
+   
 }

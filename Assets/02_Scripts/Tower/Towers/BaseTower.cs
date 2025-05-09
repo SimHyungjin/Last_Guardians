@@ -71,6 +71,10 @@ public abstract class BaseTower : MonoBehaviour
         gradeStar.Init(towerData.UpgradeLevel);
 
         towerNameText = GetComponentInChildren<TextMeshPro>();
+        if (EnviromentManager.Instance.Season == Season.winter)
+        {
+            towerNameText.color = Color.black;
+        }
         towerNameText.text = towerData.TowerName;
         towerNameText.gameObject.SetActive(false);
 

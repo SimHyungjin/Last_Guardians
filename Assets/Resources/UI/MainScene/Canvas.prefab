@@ -1885,7 +1885,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2084773761, guid: f5d95d11b9309374e927f09f5a701970, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 099e03fd55f926c40bf627e9bff63361, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1929,8 +1929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -35, y: -116}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: -10, y: -116}
+  m_SizeDelta: {x: 450, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4772116464322169468
 CanvasRenderer:
@@ -2386,7 +2386,7 @@ MonoBehaviour:
   nextRewardText: {fileID: 1618110078635202414}
   claimButton: {fileID: 6953351982015219659}
   closeButton: {fileID: 8925486730569125917}
-  ScreenBlocker: {fileID: 3518551288407891562}
+  screenBlocker: {fileID: 3518551288407891562}
 --- !u!1 &7674959573105008852
 GameObject:
   m_ObjectHideFlags: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1685624775, guid: f5d95d11b9309374e927f09f5a701970, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c998e22cd0dd814c816a3e238964d42, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

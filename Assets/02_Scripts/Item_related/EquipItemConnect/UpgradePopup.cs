@@ -40,6 +40,7 @@ public class UpgradePopup : MonoBehaviour
         upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(instance.AsEquipData.ItemIndex + 100);
         upgradeSlot.SetData(upgradeData);
         RefreshText();
+        upgradeSlot.gameObject.SetActive(true);
     }
 
     private void RefreshText()
@@ -52,10 +53,20 @@ public class UpgradePopup : MonoBehaviour
         {
             upgradeResultText.text = "최종 상태";
             upgradeButton.interactable = false;
+            upgradeSlot.gameObject.SetActive(false);
+
+            SetStatText(attackPower, 0, 0, "공격력");
+            SetStatText(attackSpeed, 0, 0, "공격 속도");
+            SetStatText(attackRange, 0, 0, "공격 사거리");
+            SetStatText(criticalChance, 0, 0, "치명타 확률");
+            SetStatText(criticalDamage, 0, 0, "치명타 피해");
+            SetStatText(penetration, 0, 0, "관통력");
+            SetStatText(moveSpeed, 0, 0, "이동속도");
+
+            gold.text = "";
+            stone.text = "";
             return;
         }
-
-        upgradeResultText.text = $"{currectData.Data.itemGrade} → {upgradeData.Data.itemGrade}\n성공확률 : {rule.successRate}%";
 
         EquipData before = currectData.AsEquipData;
         EquipData after = upgradeData.AsEquipData;
@@ -68,42 +79,47 @@ public class UpgradePopup : MonoBehaviour
         SetStatText(penetration, before.penetration, after.penetration, "관통력");
         SetStatText(moveSpeed, before.moveSpeed, after.moveSpeed, "이동속도");
 
+        upgradeResultText.text = $"{currectData.Data.itemGrade} → {upgradeData.Data.itemGrade}\n성공확률 : {rule.successRate}%";
         gold.text = rule.requiredGold.ToString();
         stone.text = rule.requiredUpgradeStones.ToString();
     }
 
-    private float StatComparison(float current, float upgrade)
-    {
-        return Mathf.Approximately(upgrade, current) ? 0 : upgrade - current;
-    }
-
     private void SetStatText(TextMeshProUGUI text, float before, float after, string label = "")
     {
-        float diff = StatComparison(before, after);
-        if (diff == 0)
+        float rawDiff = after - before;
+        float roundedDiff = Mathf.Round(rawDiff * 10f) / 10f;
+
+        if (Mathf.Abs(roundedDiff) < 0.05f)
         {
+            text.text = "";
             text.gameObject.SetActive(false);
+            return;
         }
-        else
-        {
-            text.gameObject.SetActive(true);
-            text.text = $"{label} : {before} → {after}  (<color=green>+{diff}</color>)";
-        }
+
+        string sign = roundedDiff > 0 ? "+" : "";
+        text.text = $"{label} : {before:F1} → {after:F1}  (<color=green>{sign}{roundedDiff:F1}</color>)";
+        text.gameObject.SetActive(true);
     }
 
     private void OnUpgradeClick()
     {
-        var upgradeSystem = MainSceneManager.Instance.upgrade;
+        var mainSceneManager = MainSceneManager.Instance;
 
-        if (upgradeSystem.TryUpgrade(currectData, out var result))
-        {
-            Debug.Log("Upgrade 성공");
-            Init(result);
-        }
-        else
-        {
-            Debug.Log("Upgrade 실패");
-            Init(result);
-        }
+        mainSceneManager.upgrade.TryUpgrade(currectData, out var result);
+
+        SaveSystem.RemoveEquip(currectData.UniqueID);
+        mainSceneManager.inventory.RemoveItem(currectData);
+
+        SaveSystem.SaveEquipReward(result);
+        mainSceneManager.inventory.AddItem(result);
+
+        if (mainSceneManager.equipment.IsEquipped(currectData))
+            mainSceneManager.equipment.Equip(result);
+
+        mainSceneManager.inventoryGroup.itemPopupController.SetData(result);
+        mainSceneManager.inventoryGroup.itemPopupController.UpdatePopupUI();
+        mainSceneManager.inventoryGroup.selectionController.RefreshSlot(result);
+        mainSceneManager.inventoryGroup.inventorySlotContainer.Display(mainSceneManager.inventory.GetFilteredView());
+        Init(result);
     }
 }

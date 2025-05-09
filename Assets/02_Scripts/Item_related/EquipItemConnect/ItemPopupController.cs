@@ -23,6 +23,7 @@ public class ItemPopupController : MonoBehaviour
     private EquipmentSlotContainer equipmentSlotContainer;
     private InventorySlotContainer inventorySlotContainer;
     private SelectionController selectionController;
+    private UpgradePopup upgradePopup;
 
     public ItemInstance currentData { get; private set; }
 
@@ -37,6 +38,7 @@ public class ItemPopupController : MonoBehaviour
         equipmentSlotContainer = home.inventoryGroup.equipmentSlotContainer;
         inventorySlotContainer = home.inventoryGroup.inventorySlotContainer;
         selectionController = home.inventoryGroup.selectionController;
+        upgradePopup = home.inventoryGroup.upgradePopup;
 
         upgradeButton.onClick.AddListener(OnClickUpgrade);
         equipButton.onClick.AddListener(OnClickEquip);
@@ -108,7 +110,7 @@ public class ItemPopupController : MonoBehaviour
     /// <summary>
     /// 팝업 UI를 업데이트합니다. 아이템의 정보를 표시합니다.
     /// </summary>
-    private void UpdatePopupUI()
+    public void UpdatePopupUI()
     {
         if (currentData == null || currentData.AsEquipData == null) return;
 
@@ -124,6 +126,7 @@ public class ItemPopupController : MonoBehaviour
         bool isEquipped = equipment.IsEquipped(currentData);
         equipButton.gameObject.SetActive(!isEquipped);
         unequipButton.gameObject.SetActive(isEquipped);
+        clickToUpdateText?.Invoke();
     }
     /// <summary>
     /// 업그레이드 버튼 클릭 시 호출됩니다. 아이템을 업그레이드합니다.
@@ -131,24 +134,7 @@ public class ItemPopupController : MonoBehaviour
     public void OnClickUpgrade()
     {
         if (currentData == null || currentData.AsEquipData == null) return;
-
-        MainSceneManager.Instance.upgrade.TryUpgrade(currentData, out var result);
-
-        SaveSystem.RemoveEquip(currentData.UniqueID);
-        inventory.RemoveItem(currentData);
-
-        SaveSystem.SaveEquipReward(result);
-        inventory.AddItem(result);
-
-        selectionController.RefreshSlot(result);
-
-        if (equipment.IsEquipped(currentData))
-            equipment.Equip(result);
-
-        SetData(result);
-        UpdatePopupUI();
-
-        clickToUpdateText?.Invoke();
+        upgradePopup.gameObject.SetActive(true);
     }
 
     public void OnClickSell()
@@ -157,11 +143,9 @@ public class ItemPopupController : MonoBehaviour
         inventory.RemoveItem(currentData);
         GameManager.Instance.gold += currentData.Data.ItemSellPrice;
         SaveSystem.SaveGame();
+        UpdatePopupUI();
         Clear();
         Close();
-
-
-        clickToUpdateText?.Invoke();
     }
     /// <summary>
     /// 장비 버튼 클릭 시 호출됩니다. 아이템을 장착합니다.

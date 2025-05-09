@@ -84,7 +84,7 @@ public class InGameManager : Singleton<InGameManager>
         Time.timeScale = 0f;
         level++;
         exp = (float)(exp - maxExp);
-        maxExp = (50 + 25 * Math.Pow(level - 1, 1.4))/2;
+        maxExp = 13 + 14 * Math.Pow(level - 1, 0.98);
         UpdateExp();
         levelText.text = $"Lv {level}";
         TowerManager.Instance.StartInteraction(InteractionState.Pause);

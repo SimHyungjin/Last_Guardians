@@ -1,7 +1,5 @@
-using Unity;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 using System.Collections.Generic;
 using System.Collections;
 

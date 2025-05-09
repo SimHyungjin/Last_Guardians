@@ -21,7 +21,7 @@ MonoBehaviour:
     \uB354 \uAC00\uAE4C\uC6B4 \uC704\uCE58\uC5D0 \uC7AC\uCD9C\uD604\uD55C\uB2E4."
   duration: 1.8
   skillCoolTime: 18
-  monsterskillEffectValue: 1.8
+  monsterskillEffectValue: 1
   monsterskillProbablilty: 0.4
   monsterID: 0
   monsterNum: 0

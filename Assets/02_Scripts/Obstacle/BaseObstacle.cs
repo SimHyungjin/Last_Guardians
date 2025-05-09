@@ -170,7 +170,7 @@ public class BaseObstacle : MonoBehaviour
         switch (obstacle.obstacleEffect_Monster)
         {
             case ObstacleEffect.Speed:
-                baseMonster.ApplySlowdown(0.7f, 0.2f);
+                baseMonster.ApplySlowdown(0.3f, 0.2f);
                 break;
 
             case ObstacleEffect.Dotdamage:

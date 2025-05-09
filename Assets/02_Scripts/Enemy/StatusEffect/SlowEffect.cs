@@ -16,6 +16,6 @@ public class SlowEffect : StatusEffect
 
     public override void RemoveEffect(BaseMonster target)
     {
-        target.DeBuffSpeedModifier = 1f;
+        target.DeBuffSpeedModifier = 0f;
     }
 }

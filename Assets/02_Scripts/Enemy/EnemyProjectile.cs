@@ -29,6 +29,11 @@ public class EnemyProjectile : ProjectileBase
         FlipProjectilebyDirection();
     }
 
+    public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    {
+
+    }
+
     private void FlipProjectilebyDirection()
     {
         Vector2 movedirection = new Vector2(rb.velocity.x, rb.velocity.y).normalized;

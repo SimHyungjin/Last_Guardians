@@ -20,7 +20,7 @@ MonoBehaviour:
     60% \uC99D\uAC00"
   duration: 5
   skillCoolTime: 16
-  monsterskillEffectValue: 1.6
+  monsterskillEffectValue: 0.6
   monsterskillProbablilty: 0.8
   monsterID: 0
   monsterNum: 0

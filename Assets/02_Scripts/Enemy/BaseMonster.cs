@@ -225,9 +225,9 @@ public class BaseMonster : MonoBehaviour
 
     private void ApplyStatus()
     {
-        CurrentSpeed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        CurrentSpeed = MonsterData.MonsterSpeed * (1 + BuffSpeedModifier) * (1-DeBuffSpeedModifier);
         agent.speed = CurrentSpeed;
-        CurrentDef = ResultDef * BuffDefModifier * DeBuffDefModifier;
+        CurrentDef = ResultDef * (1 + BuffDefModifier) * (1 - DeBuffDefModifier);
         if (MonsterData.HasSkill)
         {
             CurrentSkillValue = MonsterSkillBaseData.skillData.MonsterskillEffectValue * SkillValueModifier;
@@ -339,7 +339,7 @@ public class BaseMonster : MonoBehaviour
         Debug.Log($"데미지 입음{amount}");
         if(EvasionRate != -1f)
         {
-            if (Random.Range(0f, 1f) * 100 < EvasionRate)
+            if (Random.Range(0f, 1f) * 100 < EvasionRate * 100)
             {
                 return;
             }

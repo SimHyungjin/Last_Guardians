@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// 장비를 관리하는 클래스입니다.
@@ -11,6 +12,7 @@ public class Equipment
     public event Action<ItemInstance> OnEquip;
     public event Action<ItemInstance> OnUnequip;
 
+    public Sprite icon { get; private set; }
     public AttackType changeAttackType { get; private set; }
     public float totalAttack { get; private set; }
     public float totalAttackSpeed { get; private set; }
@@ -64,6 +66,7 @@ public class Equipment
     /// </summary>
     void RecalculateStats()
     {
+        icon = null;
         changeAttackType = AttackType.Melee;
         totalAttack = totalAttackSpeed = totalAttackRange = totalCriticalChance =
             totalCriticalDamage = totalPenetration = totalMoveSpeed = 0;
@@ -72,8 +75,11 @@ public class Equipment
         {
             if (instance?.AsEquipData is not EquipData data) continue;
 
-            if (data.equipType == EquipType.Weapon) changeAttackType = data.attackType;
-
+            if (data.equipType == EquipType.Weapon)
+            {
+                changeAttackType = data.attackType;
+                icon = data.icon;
+            }
             totalAttack += data.attackPower;
             totalAttackSpeed += data.attackSpeed;
             totalAttackRange += data.attackRange;
@@ -106,6 +112,7 @@ public class Equipment
     {
         return new EquipmentInfo
         {
+            icon = icon,
             attackType = changeAttackType,
             attack = totalAttack,
             attackSpeed = totalAttackSpeed,
@@ -121,6 +128,7 @@ public class Equipment
 
 public class EquipmentInfo
 {
+    public Sprite icon;
     public AttackType attackType;
     public float attack;
     public float attackSpeed;

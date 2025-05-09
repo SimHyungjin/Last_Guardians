@@ -41,7 +41,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private int alliveCount = 0;
     public int RemainMonsterCount {  get; private set; }
     public int MonsterKillCount { get; set; }
-
+    public int EXPCount { get; set; } = 0;
     private void Start()
     {
         AlliveMonsters = new List<BaseMonster>();
@@ -220,7 +220,7 @@ public class MonsterManager : Singleton<MonsterManager>
             RemainMonsterCount--;
         }
 
-        MonsterKillCount++;
+        //MonsterKillCount++;
 
         if (AlliveMonsters.Contains(monster))
         {

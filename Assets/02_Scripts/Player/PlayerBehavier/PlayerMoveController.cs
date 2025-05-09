@@ -10,7 +10,7 @@ public class PlayerMoveController : MonoBehaviour
     private bool canMove = true;
     private bool isSwiping = false;
     private NavMeshAgent agent;
-    private PlayerView playerView;
+    private PlayerModelView playerView;
 
     private Coroutine moveCoroutine;
 

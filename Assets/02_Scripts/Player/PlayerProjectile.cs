@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerProjectile : MonoBehaviour,IPoolable
 {
+    [SerializeField] Sprite arrowSprite;
+    [SerializeField] Sprite magicSprite;
+
     private float speed = 10f;
     private float lifeTime = 5f;
     private float multiSpread = 1f;
@@ -17,10 +20,12 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
     private Coroutine lifeTimeCoroutine;
 
     private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void OnSpawn()
@@ -57,8 +62,17 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
         damage = _damage;
         isMulti = _isMulti;
         direction = (targetPos - (Vector2)transform.position).normalized;
-        transform.right = direction;
-
+        if(!isMulti)
+        {
+            spriteRenderer.sprite = arrowSprite;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle + 135f);
+        }
+        else
+        {
+            spriteRenderer.sprite = magicSprite;
+            transform.right = direction;
+        }
         rb.velocity = direction * speed;
     }
 

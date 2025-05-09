@@ -4,7 +4,7 @@ public class PlayerBuffStun : IPlayerBuff<PlayerData>
     public float Duration { get; private set; }
 
     private PlayerHandler controller;
-    private PlayerView view;
+    private PlayerModelView view;
 
     public PlayerBuffStun(float duration, PlayerHandler controller)
     {

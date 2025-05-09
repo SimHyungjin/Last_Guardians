@@ -6,10 +6,10 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OverrideBow
+  m_Name: OverrideMelee
   m_Controller: {fileID: 9100000, guid: 513a4a4b7f2778f41a875e35ef341f6c, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 30cd8d2dabb10bb4fa26df176889cabe, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 9373fa5009132b241a7fe489dfd2e1cc, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 3a0930b5243a7be4f897109d7bcb532f, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 3a0930b5243a7be4f897109d7bcb532f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: bf7b099c3b9ec184384cfbcef83382bc, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: bf7b099c3b9ec184384cfbcef83382bc, type: 2}

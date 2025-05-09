@@ -16,7 +16,7 @@ public interface IAttackBehavior
 public class PlayerAttackController : MonoBehaviour
 {
     private Player player;
-    private PlayerWeaponHandler weaponHandler;
+    private PlayerWeaponController weaponHandler;
     private GameObject target;
     private Coroutine attackCoroutine;
     private bool isAttacking = false;
@@ -89,6 +89,7 @@ public class PlayerAttackController : MonoBehaviour
 
                 if (target != null && !isAttacking)
                 {
+                    isAttacking = true;
                     currentTargetPos = target.transform.position;
                     weaponHandler.CallAttackEnter((Vector2)currentTargetPos);
                     target = null;
@@ -127,9 +128,6 @@ public class PlayerAttackController : MonoBehaviour
     /// </summary>
     private void Attack()
     {
-        if (currentTargetPos == null || isAttacking) return;
-
-        isAttacking = true;
         attackBehavior.Attack(currentTargetPos.Value, CalculateDamage());
         attackBehavior.ShowRange();
         StartCoroutine(AttackDelay());

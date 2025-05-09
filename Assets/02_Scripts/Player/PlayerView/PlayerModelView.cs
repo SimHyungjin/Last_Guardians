@@ -8,11 +8,12 @@ public enum PlayerAnimState
     Stun,
 }
 
-public class PlayerView : MonoBehaviour
+public class PlayerModelView : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private Animator animator;
-    [SerializeField] private PlayerWeaponHandler weaponHandler;
+    [SerializeField] private PlayerHandler playerController;
+    [SerializeField] private PlayerWeaponController weaponHandler;
     [SerializeField] private PlayerAnimState curState = PlayerAnimState.Idle;
     [SerializeField] private bool isMoving = false;
     [SerializeField] private bool isAttacking = false;
@@ -26,7 +27,6 @@ public class PlayerView : MonoBehaviour
         weaponHandler.attackActionExit += ExitAttack;
         material = new Material(spriteRenderer.sharedMaterial);
         spriteRenderer.material = material;
-        //OutWater();
     }
 
     public void ChangeState(PlayerAnimState state)
@@ -55,8 +55,7 @@ public class PlayerView : MonoBehaviour
     {
         if (moveDir.x == 0 || isAttacking) return;
         bool flip = moveDir.x < 0;
-        spriteRenderer.flipX = flip;
-        weaponHandler?.SetFlip(flip);
+        playerController.transform.localScale = new Vector3(flip ? -1 : 1, 1, 1);
     }
 
     public void OnIdle() => ChangeState(PlayerAnimState.Idle);

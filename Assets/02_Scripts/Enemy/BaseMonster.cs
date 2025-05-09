@@ -19,8 +19,8 @@ public class BaseMonster : MonoBehaviour
     //몬스터 스탯관련
     public float ResultHP { get; private set; }
     public float CurrentHP { get; set; }
-    public float DeBuffSpeedModifier { get; set; } = 1f;
-    public float BuffSpeedModifier {  get; set; } = 1f;
+    public float DeBuffSpeedModifier { get; set; } = 0f;
+    public float BuffSpeedModifier {  get; set; } = 0f;
     public float CurrentSpeed { get; set; } = 1f;
     public float ResultDef { get; private set; }
     public float CurrentDef { get; set; } = 1f;

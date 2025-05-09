@@ -29,6 +29,8 @@ public class EnemyProjectile : ProjectileBase
         FlipProjectilebyDirection();
     }
 
+    
+
     private void FlipProjectilebyDirection()
     {
         Vector2 movedirection = new Vector2(rb.velocity.x, rb.velocity.y).normalized;

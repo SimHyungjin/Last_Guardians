@@ -39,8 +39,8 @@ public class UpgradePopup : MonoBehaviour
         currentSlot.SetData(currectData);
         upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(instance.AsEquipData.ItemIndex + 100);
         upgradeSlot.SetData(upgradeData);
-        RefreshText();
         upgradeSlot.gameObject.SetActive(true);
+        RefreshText();
     }
 
     private void RefreshText()

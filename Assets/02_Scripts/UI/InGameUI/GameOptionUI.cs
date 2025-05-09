@@ -1,42 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOptionUI : MonoBehaviour
 {
     public GameObject optionSlot;
     public GameObject optionPanel;
-    public GameObject HomePanel;
+    public GameObject homePanel;
+    public GameObject bookPanel;
 
-    private bool isOptionPanelOpen = false;
-    private bool isHomePanelOpen = false;
-    private bool isOptionOpen = false;
+    private bool isOptionPanelOpen;
+    private bool isHomePanelOpen;
+    private bool isBookPanelOpen;
 
-    public void OpenOption()
+    public void OpenBook()
     {
-        isOptionOpen = !isOptionOpen;
-        optionSlot.SetActive(isOptionOpen);
+        if (isBookPanelOpen) return;
+        isBookPanelOpen = true;
+        bookPanel.SetActive(true);
+        optionSlot.SetActive(false);
+        Time.timeScale = 0;
+    }
+    public void CloseBook()
+    {
+        if (!isBookPanelOpen) return;
+        isBookPanelOpen = false;
+        bookPanel.SetActive(false);
+        Time.timeScale = 1;
     }
 
-    public void CloseOption()
+   
+    public void OpenOption()
     {
-        optionSlot.SetActive(false);
+        bool next = !optionSlot.activeSelf;
+        optionSlot.SetActive(next);
     }
 
     public void OpenOptionPanel()
     {
         if (isOptionPanelOpen) return;
-
         isOptionPanelOpen = true;
         optionPanel.SetActive(true);
         optionSlot.SetActive(false);
         Time.timeScale = 0;
     }
-
     public void CloseOptionPanel()
     {
         if (!isOptionPanelOpen) return;
-
         isOptionPanelOpen = false;
         optionPanel.SetActive(false);
         Time.timeScale = 1;
@@ -45,19 +53,16 @@ public class GameOptionUI : MonoBehaviour
     public void OpenHomePanel()
     {
         if (isHomePanelOpen) return;
-
         isHomePanelOpen = true;
-        HomePanel.SetActive(true);
+        homePanel.SetActive(true);
         optionSlot.SetActive(false);
         Time.timeScale = 0;
     }
-
     public void CloseHomePanel()
     {
         if (!isHomePanelOpen) return;
-
         isHomePanelOpen = false;
-        HomePanel.SetActive(false);
+        homePanel.SetActive(false);
         Time.timeScale = 1;
     }
 }

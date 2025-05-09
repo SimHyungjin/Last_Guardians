@@ -1,4 +1,3 @@
-// TowerCodexUI.cs
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,6 @@ public class TowerCodexUI : MonoBehaviour
 {
     public static TowerCodexUI Instance;
 
-    [Header("Prefabs & References")]
     public GameObject entryPrefab;
     public Transform gridParent;
     public GameObject dummySpacerPrefab;
@@ -30,18 +28,30 @@ public class TowerCodexUI : MonoBehaviour
         else Destroy(gameObject);
 
         allTowerData = Resources.LoadAll<TowerData>("SO/Tower").ToList();
-
         if (entryPrefab == null) entryPrefab = Resources.Load<GameObject>("UI/MainScene/TowerEntry");
         if (dummySpacerPrefab == null) dummySpacerPrefab = Resources.Load<GameObject>("UI/MainScene/TowerDummySpacer");
     }
 
-    private void OnEnable() => RefreshToAll();
+    private void OnEnable()
+    {
+        StartCoroutine(DelayedRefresh());
+    }
+
+    private IEnumerator DelayedRefresh()
+    {
+        yield return null;
+        RefreshToAll();
+    }
 
     public void OnFilterButtonClicked(int filterIndex)
-        => SetFilter((TowerElementFilter)(filterIndex - 1));
+    {
+        SetFilter((TowerElementFilter)(filterIndex - 1));
+    }
 
     public void RefreshToAll()
-        => SetFilter(TowerElementFilter.All);
+    {
+        SetFilter(TowerElementFilter.All);
+    }
 
     private void SetFilter(TowerElementFilter filter)
     {
@@ -58,18 +68,16 @@ public class TowerCodexUI : MonoBehaviour
             TowerElementFilter.Mix => allTowerData.Where(t => !IsBasicElement(t.ElementType)).ToList(),
             _ => allTowerData.Where(t => (int)t.ElementType == (int)currentFilter).ToList()
         };
-
         towerDataList = towerDataList.OrderBy(t => t.TowerIndex).ToList();
         GenerateCodex(towerDataList);
     }
 
     private void GenerateCodex(List<TowerData> list)
     {
-        // 이전 항목 제거
+        Canvas.ForceUpdateCanvases();
         foreach (Transform child in gridParent)
             Destroy(child.gameObject);
 
-        // 새 항목 생성
         foreach (var data in list)
         {
             var go = Instantiate(entryPrefab, gridParent);
@@ -77,23 +85,24 @@ public class TowerCodexUI : MonoBehaviour
             entry.SetData(data);
         }
 
-        // 더미 스페이서 추가
-        if (dummySpacerPrefab != null)
+        // 마지막에 더미 오브젝트 4개 추가
+        for (int i = 0; i < 4; i++)
+        {
             Instantiate(dummySpacerPrefab, gridParent);
+        }
 
-        // 스크롤 위치 초기화
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 1f;
     }
 
     private bool IsBasicElement(ElementType e)
-        => e == ElementType.Fire || e == ElementType.Water || e == ElementType.Wind
-        || e == ElementType.Earth || e == ElementType.Light || e == ElementType.Dark;
+        => e == ElementType.Fire
+        || e == ElementType.Water
+        || e == ElementType.Wind
+        || e == ElementType.Earth
+        || e == ElementType.Light
+        || e == ElementType.Dark;
 
-   
-    /// <summary>
-    /// 외부에서 특정 타워로 스크롤 이동을 요청할 때 호출
-    /// </summary>
     public void ScrollToTower(TowerData data)
     {
         StartCoroutine(ScrollAfterRebuild(data));
@@ -101,15 +110,11 @@ public class TowerCodexUI : MonoBehaviour
 
     private IEnumerator ScrollAfterRebuild(TowerData data)
     {
-        // All 필터로 초기화
         SetFilter(TowerElementFilter.All);
-        yield return null; // 한 프레임 대기
-
+        yield return null;
         int index = towerDataList.FindIndex(t => t == data);
         if (index < 0) yield break;
-
-        yield return new WaitForEndOfFrame(); // 레이아웃 적용 대기
-
+        yield return new WaitForEndOfFrame();
         float normalized = 1f - (index / (float)(towerDataList.Count - 1));
         scrollRect.verticalNormalizedPosition = Mathf.Clamp01(normalized);
     }

@@ -11,14 +11,21 @@ public class ShadowClone : MonsterSkillBase
         MonsterData data = MonsterManager.Instance.MonsterDatas.Find(a => a.MonsterIndex == skillData.MonsterID);
         while (i < skillData.MonsterNum)
         {
-            Vector2 randomPos = (Vector2)caster.transform.position + Random.insideUnitCircle * (skillData.SkillRange / 2);
-            NavMeshPath path = new NavMeshPath();
-            bool isPath = NavMesh.CalculatePath(randomPos, caster.Target.transform.position, NavMesh.AllAreas, path);
+            Vector2 randomCircle = Random.insideUnitCircle * (skillData.SkillRange / 2f);
+            Vector3 randomPos = caster.transform.position + new Vector3(randomCircle.x, randomCircle.y, 0f);
 
-            if (isPath)
+            if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 1f, NavMesh.AllAreas))
             {
-                MonsterManager.Instance.SummonMonster(skillData.MonsterID, randomPos);
-                i++;
+                NavMeshPath path = new NavMeshPath();
+                bool isPath = NavMesh.CalculatePath(hit.position, caster.Target.transform.position, NavMesh.AllAreas, path);
+
+                if (isPath && path.status == NavMeshPathStatus.PathComplete)
+                {
+                    BaseMonster baseMonster = MonsterManager.Instance.SummonMonster(skillData.MonsterID, hit.position);
+                    baseMonster.Target = caster.Target;
+                    baseMonster.agent.Warp(hit.position);
+                    i++;
+                }
             }
         }
     }

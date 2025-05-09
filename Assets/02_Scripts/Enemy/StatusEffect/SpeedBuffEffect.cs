@@ -15,6 +15,6 @@ public class SpeedBuffEffect : StatusEffect
 
     public override void RemoveEffect(BaseMonster target)
     {
-        target.BuffSpeedModifier = 1f;
+        target.BuffSpeedModifier = 0f;
     }
 }

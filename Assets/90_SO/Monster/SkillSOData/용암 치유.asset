@@ -20,7 +20,7 @@ MonoBehaviour:
     \uD68C\uBCF5 \uC2DC\uD0A8\uB2E4."
   duration: 0
   skillCoolTime: 15
-  monsterskillEffectValue: 1.25
+  monsterskillEffectValue: 0.25
   monsterskillProbablilty: 0.6
   monsterID: 0
   monsterNum: 0

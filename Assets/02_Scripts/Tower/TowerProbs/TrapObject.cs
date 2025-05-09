@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static UnityEditor.PlayerSettings;
-using Unity.VisualScripting;
 using System.Collections;
 public interface ITrapEffect
 {

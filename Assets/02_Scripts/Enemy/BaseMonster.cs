@@ -19,13 +19,13 @@ public class BaseMonster : MonoBehaviour
     //몬스터 스탯관련
     public float ResultHP { get; private set; }
     public float CurrentHP { get; set; }
-    public float DeBuffSpeedModifier { get; set; } = 1f;
-    public float BuffSpeedModifier {  get; set; } = 1f;
+    public float DeBuffSpeedModifier { get; set; } = 0f;
+    public float BuffSpeedModifier {  get; set; } = 0f;
     public float CurrentSpeed { get; set; } = 1f;
     public float ResultDef { get; private set; }
     public float CurrentDef { get; set; } = 1f;
-    public float DeBuffDefModifier { get; set; } = 1f;
-    public float BuffDefModifier { get; set; } = 1f;
+    public float DeBuffDefModifier { get; set; } = 0f;
+    public float BuffDefModifier { get; set; } = 0f;
     public float CurrentSkillValue { get; set; } = 1f;
     public float SkillValueModifier { get; set; } = 1f;
     public float DefConstant { get; private set; } = 10f;
@@ -225,9 +225,9 @@ public class BaseMonster : MonoBehaviour
 
     private void ApplyStatus()
     {
-        CurrentSpeed = MonsterData.MonsterSpeed * BuffSpeedModifier * DeBuffSpeedModifier;
+        CurrentSpeed = MonsterData.MonsterSpeed * (1 + BuffSpeedModifier) * (1-DeBuffSpeedModifier);
         agent.speed = CurrentSpeed;
-        CurrentDef = ResultDef * BuffDefModifier * DeBuffDefModifier;
+        CurrentDef = ResultDef * (1 + BuffDefModifier) * (1 - DeBuffDefModifier);
         if (MonsterData.HasSkill)
         {
             CurrentSkillValue = MonsterSkillBaseData.skillData.MonsterskillEffectValue * SkillValueModifier;
@@ -339,7 +339,7 @@ public class BaseMonster : MonoBehaviour
         Debug.Log($"데미지 입음{amount}");
         if(EvasionRate != -1f)
         {
-            if (Random.Range(0f, 1f) * 100 < EvasionRate)
+            if (Random.Range(0f, 1f) * 100 < EvasionRate * 100)
             {
                 return;
             }

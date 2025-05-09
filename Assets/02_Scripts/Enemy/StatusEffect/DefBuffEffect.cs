@@ -16,6 +16,6 @@ public class DefBuffEffect : StatusEffect
 
     public override void RemoveEffect(BaseMonster target)
     {
-        target.BuffDefModifier = 1f;
+        target.BuffDefModifier = 0f;
     }
 }

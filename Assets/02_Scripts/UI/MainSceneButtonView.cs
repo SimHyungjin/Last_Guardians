@@ -11,7 +11,7 @@ public class MainSceneButtonView : MonoBehaviour
     [SerializeField] private Button idleBtn;
 
    
-    [SerializeField] private IdleRewardPopup idlePopup;
+    [SerializeField] private IdleRewardPopupUI idlePopup;
 
     public void Init(MainSceneManager mainSceneManager)
     {

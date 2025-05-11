@@ -4,19 +4,20 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;   
 
 public class InGameManager : Singleton<InGameManager>
 {
     public ObstacleContainer obstacleContainer;
     public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
+
     private int playerMaxHP = 100;
     public int PlayerHP { get; private set; }
     public DamageText DamageTextPrefab { get; private set; }
     public Canvas DamageUICanvas { get; private set; }
 
     private Transform target;
-
     private Canvas damageUICanvasPrefab;
 
     [SerializeField] private MulliganUI mulliganUI;
@@ -29,10 +30,10 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private TextMeshProUGUI remainMonsterCountText;
     [SerializeField] private GameOverUI gameoverUI;
     [SerializeField] private TextMeshProUGUI weatherInfo;
-    private string seasonText;
     [SerializeField] private GameObject mapSlot;
 
     public List<GameObject> MapPrefabs { get; private set; } = new();
+    public Tilemap ObstacleTilemap { get; private set; }   // ← 추가
 
     public int level;
     public float exp;
@@ -45,24 +46,36 @@ public class InGameManager : Singleton<InGameManager>
         InItTowerData();
         PlayerHP = playerMaxHP;
     }
+
     private void Start()
     {
-        playerManager = new();
-        obstacleContainer = new();
+        playerManager = new PlayerManager();
+        obstacleContainer = new ObstacleContainer();
         playerManager.Init();
+
         PrefabInit();
-        if(DamageUICanvas==null)
+
+        if (DamageUICanvas == null)
             DamageUICanvas = Instantiate(damageUICanvasPrefab);
+
         UpdateHP();
         UpdateExp();
         exp = 0;
+
         DateTime now = DateTime.Now;
         GameManager.Instance.NowTime = now.Minute;
         EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
-        if(EnviromentManager.Instance.Season != Season.winter)
-            map = Instantiate(MapPrefabs[0],mapSlot.transform);
+
+        // 맵 동적 생성
+        if (EnviromentManager.Instance.Season != Season.winter)
+            map = Instantiate(MapPrefabs[0], mapSlot.transform);
         else
             map = Instantiate(MapPrefabs[1], mapSlot.transform);
+
+        // 생성된 맵 안의 Tilemap 캐싱
+        ObstacleTilemap = map.GetComponentInChildren<Tilemap>();
+
+        // 기존 로직
         target = map.transform.Find("Center");
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
@@ -74,9 +87,7 @@ public class InGameManager : Singleton<InGameManager>
         this.exp += exp;
         UpdateExp();
         if (this.exp >= maxExp)
-        {
             LevelUp();
-        }
     }
 
     public void LevelUp()
@@ -102,7 +113,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         MonsterManager.Instance.GameStart();
         GetExp((float)maxExp);
-        //장애물 배치
+        // 장애물 배치는 BaseObstacle.Init() 내부에서 처리
     }
 
     public void AddCardTOHand(int index)
@@ -115,11 +126,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         PlayerHP = Mathf.Max(0, PlayerHP - amount);
         UpdateHP();
-        if (PlayerHP <= 0)
-        {
-            GameOver();
-        }
-            
+        if (PlayerHP <= 0) GameOver();
     }
 
     private void PrefabInit()
@@ -133,19 +140,16 @@ public class InGameManager : Singleton<InGameManager>
 
     private void GameOver()
     {
-        if (gameoverUI.gameObject.activeSelf)
-            return;
-
+        if (gameoverUI.gameObject.activeSelf) return;
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);
         Time.timeScale = 0f;
     }
-    public void GameExit()
-    {
-        GameOver();
-    }
-    public void SetWaveInfoText(int wave,int count)
+
+    public void GameExit() => GameOver();
+
+    public void SetWaveInfoText(int wave, int count)
     {
         waveInfoText.text = $"{wave} Wave";
         remainMonsterCountText.text = $"남은 몬스터 수 {count}";
@@ -154,7 +158,6 @@ public class InGameManager : Singleton<InGameManager>
     private void UpdateHP()
     {
         playerHPbar.fillAmount = (float)PlayerHP / playerMaxHP;
-        
         playerHPText.text = $"현재 체력 : {PlayerHP} / {playerMaxHP}";
     }
 
@@ -166,6 +169,6 @@ public class InGameManager : Singleton<InGameManager>
 
     public void UpdateWeatherInfo()
     {
-        weatherInfo.text = $"{EnviromentManager.Instance.WeatherState.GetSeasonText(seasonText)} / {EnviromentManager.Instance.WeatherState.GetWeatherName()}";
+        weatherInfo.text = $"{EnviromentManager.Instance.WeatherState.GetSeasonText("")} / {EnviromentManager.Instance.WeatherState.GetWeatherName()}";
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Tilemaps;   // ← 추가
+using UnityEngine.Tilemaps;  
 
 /// <summary>
 /// BaseObstacle는 장애물의 기본 클래스입니다.

@@ -33,7 +33,7 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private GameObject mapSlot;
 
     public List<GameObject> MapPrefabs { get; private set; } = new();
-    public Tilemap ObstacleTilemap { get; private set; }   // ← 추가
+    public Tilemap ObstacleTilemap { get; private set; }  
 
     public int level;
     public float exp;
@@ -72,7 +72,7 @@ public class InGameManager : Singleton<InGameManager>
         else
             map = Instantiate(MapPrefabs[1], mapSlot.transform);
 
-        // 생성된 맵 안의 Tilemap 캐싱
+       
         ObstacleTilemap = map.GetComponentInChildren<Tilemap>();
 
         // 기존 로직
@@ -113,7 +113,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         MonsterManager.Instance.GameStart();
         GetExp((float)maxExp);
-        // 장애물 배치는 BaseObstacle.Init() 내부에서 처리
+      
     }
 
     public void AddCardTOHand(int index)

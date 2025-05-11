@@ -27,6 +27,6 @@ MonoBehaviour:
   towerBuff: 3
   targetTower: 2
   towerBuffValue: 0
-  sprite: {fileID: 0}
-  ruleTile: {fileID: 11400000, guid: 28ccb9639e9361e46bc27710d94ed356, type: 2}
+  sprite: {fileID: 21300000, guid: 6393016f2aa5d074dbad4caba283c083, type: 3}
+  ruleTile: {fileID: 0}
   obstacleDescription: 

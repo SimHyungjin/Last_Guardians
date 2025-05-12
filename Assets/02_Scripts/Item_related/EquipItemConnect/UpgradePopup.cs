@@ -87,17 +87,17 @@ public class UpgradePopup : MonoBehaviour
     private void SetStatText(TextMeshProUGUI text, float before, float after, string label = "")
     {
         float rawDiff = after - before;
-        float roundedDiff = Mathf.Round(rawDiff * 10f) / 10f;
+        //float roundedDiff = Mathf.Round(rawDiff * 10f) / 10f;
 
-        if (Mathf.Abs(roundedDiff) < 0.05f)
+        if (Mathf.Abs(rawDiff) < 0.0005f)
         {
             text.text = "";
             text.gameObject.SetActive(false);
             return;
         }
 
-        string sign = roundedDiff > 0 ? "+" : "";
-        text.text = $"{label} : {before:F1} → {after:F1}  (<color=green>{sign}{roundedDiff:F1}</color>)";
+        string sign = rawDiff > 0 ? "+" : "";
+        text.text = $"{label} : {before:F1} → {after:F1}  (<color=green>{sign}{rawDiff:F1}</color>)";
         text.gameObject.SetActive(true);
     }
 

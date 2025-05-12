@@ -105,7 +105,6 @@ public class ItemPopupController : MonoBehaviour
         icon.gameObject.SetActive(false);
         itemName.text = string.Empty;
         description.text = string.Empty;
-
     }
     /// <summary>
     /// 팝업 UI를 업데이트합니다. 아이템의 정보를 표시합니다.
@@ -134,6 +133,7 @@ public class ItemPopupController : MonoBehaviour
     public void OnClickUpgrade()
     {
         if (currentData == null || currentData.AsEquipData == null) return;
+        upgradePopup.Init(currentData);
         upgradePopup.gameObject.SetActive(true);
     }
 

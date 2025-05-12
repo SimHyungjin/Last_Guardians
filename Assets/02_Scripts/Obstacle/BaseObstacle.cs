@@ -171,13 +171,43 @@ public class BaseObstacle : MonoBehaviour
             effectTimers[collision] = 0f;
 
         effectTimers[collision] += Time.deltaTime;
-        if (effectTimers[collision] >= effectInterval)
-        {
-            if (collision.TryGetComponent<BaseMonster>(out var m))
-                // 예: 독 피해
-                m.DotDamage(obstacle.obstacleEffect_MonsterValue, 0.5f);
 
-            effectTimers[collision] = 0f;
+        if (effectTimers[collision] <= effectInterval)
+            return;
+
+        if (!collision.TryGetComponent<BaseMonster>(out var monster))
+            return;
+
+        Season season = EnviromentManager.Instance.Season;
+        effectTimers[collision] = 0f;
+
+        switch (ObstacleData.obstacleType)
+        {
+            case ObstacleType.Mud:
+                monster.ApplySlowdown(season == Season.spring ? 0.15f : 0.3f, 0.2f);
+                break;
+
+            case ObstacleType.Water:
+                float slowdown = season switch
+                {
+                    Season.spring => 0.2f,
+                    Season.summer => 0.25f,
+                    Season.autumn => 0.3f,
+                    Season.winter => 0.35f,
+                    _ => 0.2f
+                };
+                monster.ApplySlowdown(slowdown, 0.2f);
+                break;
+
+            case ObstacleType.Fire:
+                float damage = season switch
+                {
+                    Season.summer => 6f,
+                    Season.winter => 4f,
+                    _ => 5f
+                };
+                monster.DotDamage(damage, 0.2f);
+                break;
         }
     }
 

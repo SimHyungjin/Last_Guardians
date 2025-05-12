@@ -70,8 +70,9 @@ public class Utils
     {
         if (bossImmunebuff) return true;
 
-        if (towerData.BossImmune && target.MonsterData.MonsterType == MonType.Boss)
+        if (towerData.BossImmune && (target.MonsterData.MonsterType == MonType.Boss || target.MonsterData.MonsterType==MonType.Bounty))
         {
+            Debug.Log($"[ShouldApplyEffect] {target.name} 보스 면역");
             return false;
         }
 

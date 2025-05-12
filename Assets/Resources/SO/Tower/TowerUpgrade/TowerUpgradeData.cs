@@ -7,8 +7,11 @@ using UnityEngine;
 [System.Serializable]
 public class TowerUpgradeData : ScriptableObject
 {
+    [Header("마스터리 포인트")]
+    public int totalMasteryPoint;
+    public int currentMasteryPoint;
+
     [Header("공격마스터리")]
-    ////////// 공격마스터리
     [Header("티어1")]
     //티어 1
     public int attackPowerUpgrade;
@@ -23,15 +26,13 @@ public class TowerUpgradeData : ScriptableObject
     public int combetMasteryUpgrade;
     public int multipleAttackUpgrade;
     public int bossSlayerUpgrade;
+
     [Header("효과마스터리")]
-    ////////// 효과마스터리
     [Header("티어1")]
-    //티어 1
     public int effectValueUpgrade;
     public int effectDurationUpgrade;
     public int effectRangeUpgrade;
     [Header("티어2")]
-    //티어 2
     public int catalysisUpgrade;
     public int effecttransferUpgrade;
 

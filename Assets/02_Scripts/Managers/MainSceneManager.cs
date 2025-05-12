@@ -14,12 +14,13 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public Equipment equipment;
     public Upgrade upgrade;
     public InventoryGroup inventoryGroup;
-
+    public TowerUpgrade towerUpgrade;
     private void Awake()
     {
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
+        towerUpgrade ??= new();
 
         SaveSystem.LoadGame();
 

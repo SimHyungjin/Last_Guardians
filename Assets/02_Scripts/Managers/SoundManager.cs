@@ -1,171 +1,120 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
+using UnityEngine.Tilemaps;
 
 public class SoundManager : Singleton<SoundManager>
 {
-    public static SoundManager instance;
-
     [Header("Audio Clips")]
-    [SerializeField] private AudioClip[] audioClips; // 오디오 클립 배열
+    [SerializeField] private AudioClip[] audioClips;
 
     [Header("Object Pool Settings")]
-    [SerializeField] private int poolSize = 30;           // 풀 크기
+    [SerializeField] private int poolSize = 30;
 
-    private Dictionary<string, AudioClip> soundDict;      // SFX와 BGM을 저장할 Dictionary
-    private Queue<AudioSource> audioSourcePool;           // 오브젝트 풀
+    private Dictionary<string, AudioClip> soundDict;
+    private Queue<AudioSource> audioSourcePool;
+    private AudioSource bgmPlayer;
 
-    private AudioSource bgmPlayer;                        // BGM 재생용 AudioSource
-    private float sfxVolume;
-    private float bgmVolume;
+    private float sfxVolume = 0.3f;     // 사용자 설정 SFX 볼륨
+    private float bgmVolume = 0.3f;     // 사용자 설정 BGM 볼륨
+    private float masterVolume = 0.3f;  // 전체 볼륨
 
-    private void OnEnable()
+    private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        Init();
+    }
+    private void Start()
+    {
+        PlayBGM("beanfeast");
     }
 
-    private void Update()
-    {
-        // 마우스 왼쪽 버튼 클릭 시 클릭 효과음 재생
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlayClickSound();
-        }
-    }
 
-    /// <summary>
-    /// 클릭 효과음 재생
-    /// </summary>
-    public void PlayClickSound()
-    {
-        PlaySFX("Click");
-    }
-
-    /// <summary>
-    /// 최초 세팅
-    /// </summary>
     private void Init()
     {
-        // Dictionary 초기화
+        DontDestroyOnLoad(gameObject);
+
+        // 사운드 딕셔너리 초기화
         soundDict = new Dictionary<string, AudioClip>();
         foreach (var clip in audioClips)
-        {
             soundDict[clip.name] = clip;
-        }
 
         // BGM 플레이어 초기화
         bgmPlayer = gameObject.AddComponent<AudioSource>();
         bgmPlayer.loop = true;
+        bgmPlayer.playOnAwake = false;
 
-        InitPool();
-    }
-
-    /// <summary>
-    /// 오브젝트 풀 초기화
-    /// </summary>
-    private void InitPool()
-    {
+        // SFX 오디오소스 풀 초기화
         audioSourcePool = new Queue<AudioSource>();
         for (int i = 0; i < poolSize; i++)
         {
-            AudioSource source = gameObject.AddComponent<AudioSource>();
-            source.playOnAwake = false;
-            source.enabled = false;
-            audioSourcePool.Enqueue(source);
+            var src = gameObject.AddComponent<AudioSource>();
+            src.playOnAwake = false;
+            src.enabled = false;
+            audioSourcePool.Enqueue(src);
         }
     }
 
-    /// <summary>
-    /// SFX 재생 (Object Pooling 사용)    /// </summary>
-    /// <param name="soundName">사운드 이름</param>
+    // SFX 재생
     public void PlaySFX(string soundName)
     {
-        if (soundDict.TryGetValue(soundName, out var clip))
-        {
-            if (audioSourcePool.Count > 0)
-            {
-                AudioSource source = audioSourcePool.Dequeue();
-                source.clip = clip;
-                source.volume = sfxVolume;
-                source.enabled = true;
-                source.Play();
+        if (!soundDict.TryGetValue(soundName, out var clip)) return;
 
-                StartCoroutine(ReturnToPool(source, clip.length));
-            }
-            else
-            {
-                // 풀에 오디오 소스가 없을 경우, 새로 생성하여 사용
-                AudioSource newSource = gameObject.AddComponent<AudioSource>();
-                newSource.clip = clip;
-                newSource.volume = sfxVolume;
-                newSource.playOnAwake = false;
-                newSource.enabled = true;
-                newSource.Play();
+        AudioSource src;
+        if (audioSourcePool.Count > 0)
+            src = audioSourcePool.Dequeue();
+        else
+            src = gameObject.AddComponent<AudioSource>();
 
-                // 새로 생성한 소스는 재사용 후 풀에 다시 넣을 수 있도록 코루틴을 사용
-                StartCoroutine(ReturnToPool(newSource, clip.length));
-            }
-        }
+        src.clip = clip;
+        src.volume = sfxVolume * masterVolume;  // ← masterVolume 곱하기
+        src.enabled = true;
+        src.Play();
+
+        StartCoroutine(ReturnToPool(src, clip.length));
     }
 
-    /// <summary>
-    /// BGM 재생
-    /// </summary>
-    /// <param name="bgmName">사운드 이름</param>
+    private IEnumerator ReturnToPool(AudioSource src, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        src.enabled = false;
+        audioSourcePool.Enqueue(src);
+    }
+
+    // BGM 재생
     public void PlayBGM(string bgmName)
     {
-        if (soundDict.TryGetValue(bgmName, out var clip))
-        {
-            if (bgmPlayer.clip != clip)
-            {
-                bgmPlayer.clip = clip;
-                bgmPlayer.volume = bgmVolume;
-                bgmPlayer.Play();
-            }
-        }
+        if (!soundDict.TryGetValue(bgmName, out var clip)) return;
+        if (bgmPlayer.clip == clip) return;
+
+        bgmPlayer.clip = clip;
+        bgmPlayer.volume = bgmVolume * masterVolume;  // ← masterVolume 곱하기
+        bgmPlayer.Play();
     }
 
-    /// <summary>
-    /// 현재 재생 중인 BGM 정지
-    /// </summary>
     public void StopBGM()
     {
         if (bgmPlayer.isPlaying)
-        {
             bgmPlayer.Stop();
-        }
     }
 
-    /// <summary>
-    /// 재생 끝난 소스 풀로 되돌리는 과정
-    /// </summary>
-    /// <param name="source"></param>
-    /// <param name="delay"></param>
-    /// <returns></returns>
-    private IEnumerator ReturnToPool(AudioSource source, float delay)
+    // SFX 볼륨 설정 (0~1)
+    public void SetSFXVolume(float vol)
     {
-        yield return new WaitForSeconds(delay);
-        source.enabled = false;
-        audioSourcePool.Enqueue(source);
+        sfxVolume = Mathf.Clamp01(vol);
     }
 
-    /// <summary>
-    /// SFX 볼륨 조절
-    /// </summary>
-    /// <param name="volume">0~1 사이의 볼륨 값</param>
-    public void SetSFXVolume(float volume)
+    // BGM 볼륨 설정 (0~1)
+    public void SetBGMVolume(float vol)
     {
-        sfxVolume = Mathf.Clamp01(volume);
+        bgmVolume = Mathf.Clamp01(vol);
+        bgmPlayer.volume = bgmVolume * masterVolume;  // ← 즉시 반영
     }
 
-    /// <summary>
-    /// BGM 볼륨 조절
-    /// </summary>
-    /// <param name="volume">0~1 사이의 볼륨 값</param>
-    public void SetBGMVolume(float volume)
+    // 전체(마스터) 볼륨 설정 (0~1)
+    public void SetMasterVolume(float vol)
     {
-        bgmVolume = Mathf.Clamp01(volume);
-        bgmPlayer.volume = bgmVolume;
+        masterVolume = Mathf.Clamp01(vol);
+        // 기존 BGM 볼륨 즉시 업데이트
+        bgmPlayer.volume = bgmVolume * masterVolume;
     }
 }

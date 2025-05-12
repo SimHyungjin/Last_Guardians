@@ -8,7 +8,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
 
     private float speed = 10f;
     private float lifeTime = 5f;
-    private float multiSpread = 1f;
+    private float multiSpread = 3f;
 
     private bool hitTarget;
 

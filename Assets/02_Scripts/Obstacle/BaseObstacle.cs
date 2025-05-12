@@ -172,7 +172,7 @@ public class BaseObstacle : MonoBehaviour
 
         effectTimers[collision] += Time.deltaTime;
 
-        if (effectTimers[collision] <= effectInterval)
+        if (effectTimers[collision] < effectInterval)
             return;
 
         if (!collision.TryGetComponent<BaseMonster>(out var monster))

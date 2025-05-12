@@ -32,15 +32,16 @@ public class CameraMove : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
 #else
+        
+#endif
         if (Input.touchCount > 0 && EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
-#endif
 
         Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
-        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player")) && !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower")))
+        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player")) && !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"))&& !TowerManager.Instance.CanStartInteraction())
         {
             if (onCamMove) return;
-            onCamMove = true;
+                onCamMove = true;
 
             lastTouchWorldPos = curPos;
 

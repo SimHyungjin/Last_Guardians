@@ -25,6 +25,8 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     private Dictionary<Collider2D, float> effectTimers = new();
 
+    private Dictionary<PlayerHandler, IPlayerBuff<PlayerData>> playerEffects = new();
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -151,6 +153,24 @@ public class BaseObstacle : MonoBehaviour
         }
     }
 
+    private void DebuffToPlayer(PlayerHandler controller)
+    {
+        if (controller == null) return;
+
+        IPlayerBuff<PlayerData> effect = obstacle.obstacleEffect_Player switch
+        {
+            ObstacleEffect.Speed => new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, float.MaxValue, true),
+            ObstacleEffect.Stun => new PlayerBuffStun(obstacle.obstacleEffect_PlayerValue, controller),
+            _ => null
+        };
+
+        if (effect == null) return;
+
+        playerEffects[controller] = effect;
+        controller.playerObstacleDebuff.EnterZone(effect);
+    }
+
+
     private void DestroyZone()
     {
         foreach (var z in zones) Destroy(z);
@@ -160,9 +180,7 @@ public class BaseObstacle : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<PlayerHandler>(out var controller))
-            controller.playerObstacleDebuff.EnterZone(
-                new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, float.MaxValue, true)
-            );
+            DebuffToPlayer(controller);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -216,9 +234,10 @@ public class BaseObstacle : MonoBehaviour
         if (effectTimers.ContainsKey(collision))
             effectTimers.Remove(collision);
 
-        if (collision.TryGetComponent<PlayerHandler>(out var controller))
-            controller.playerObstacleDebuff.ExitZone(
-                new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, float.MaxValue, true)
-            );
+        if (collision.TryGetComponent<PlayerHandler>(out var controller) && playerEffects.TryGetValue(controller, out var effect))
+        {
+            controller.playerObstacleDebuff.ExitZone(effect);
+            playerEffects.Remove(controller);
+        }
     }
 }

@@ -6,25 +6,22 @@ using UnityEngine.InputSystem;
 
 public class CameraMove : MonoBehaviour
 {
-    [Header("Cinemachine Cameras")]
+    [Header("Cinemachine Camera")]
     [SerializeField] private CinemachineVirtualCamera freeCam;
-    [SerializeField] private CinemachineVirtualCamera focusCam;
-
-    private CinemachineVirtualCamera currentCam;
-
     [SerializeField] private GameObject dummyObj;
 
+    private CinemachineConfiner2D freeCamBoundary;
+    private Vector2 lastTouchWorldPos;
     private bool onCamMove = false;
     private Coroutine moveCoroutine;
-
-    private Vector2 lastTouchWorldPos;
 
     private void Start()
     {
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         freeCam.Follow = dummyObj.transform;
-        focusCam.Follow = dummyObj.transform;
+        freeCamBoundary = freeCam.GetComponent<CinemachineConfiner2D>();
     }
+
     private void OnDestroy()
     {
         InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
@@ -40,7 +37,7 @@ public class CameraMove : MonoBehaviour
 #endif
 
         Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
-        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player"))&& !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower")))
+        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player")) && !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower")))
         {
             if (onCamMove) return;
             onCamMove = true;
@@ -77,10 +74,9 @@ public class CameraMove : MonoBehaviour
             Vector2 curTouchWorldPos = InputManager.Instance.GetTouchWorldPosition();
             Vector2 delta = curTouchWorldPos - lastTouchWorldPos;
 
-            currentCam = freeCam.Priority > focusCam.Priority ? freeCam : focusCam;
-
-            Vector3 newPos = dummyObj.transform.position - (Vector3)delta * 10;
-            newPos = GetConfinedPosition(currentCam, newPos);
+            float zoomScale = freeCam.m_Lens.OrthographicSize;
+            Vector3 newPos = dummyObj.transform.position - (Vector3)delta * zoomScale;
+            newPos = GetConfinedPosition(freeCam, newPos);
 
             dummyObj.transform.position = newPos;
             lastTouchWorldPos = curTouchWorldPos;
@@ -102,9 +98,48 @@ public class CameraMove : MonoBehaviour
         float minY = bounds.min.y + halfHeight;
         float maxY = bounds.max.y - halfHeight;
 
-        float clampedX = Mathf.Clamp(desiredPos.x, minX, maxX);
-        float clampedY = Mathf.Clamp(desiredPos.y, minY, maxY);
+        float clampedX = (halfWidth * 2f > bounds.size.x) ? bounds.center.x : Mathf.Clamp(desiredPos.x, minX, maxX);
+        float clampedY = (halfHeight * 2f > bounds.size.y) ? bounds.center.y : Mathf.Clamp(desiredPos.y, minY, maxY);
 
         return new Vector3(clampedX, clampedY, desiredPos.z);
+    }
+
+    public void FocusOnPlayer(Vector3 playerPosition)
+    {
+        if (moveCoroutine != null)
+        {
+            StopCoroutine(moveCoroutine);
+            moveCoroutine = null;
+        }
+        StartCoroutine(LerpToPosition(playerPosition));
+    }
+
+    private IEnumerator LerpToPosition(Vector3 targetPos)
+    {
+        Vector3 startPos = dummyObj.transform.position;
+        targetPos.z = startPos.z;
+
+        float duration = 0.1f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            dummyObj.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;
+        }
+
+        dummyObj.transform.position = targetPos;
+        freeCamBoundary.InvalidateCache();
+    }
+}
+
+public static class VectorExtensions
+{
+    public static Vector3 WithZ(this Vector3 v, float z)
+    {
+        v.z = z;
+        return v;
     }
 }

@@ -9,6 +9,7 @@ public class InventoryGroup : MonoBehaviour
     public EquipmentSlotContainer equipmentSlotContainer;
     public SelectionController selectionController;
     public ItemPopupController itemPopupController;
+    public UpgradePopup upgradePopup;
     public InventoryUI inventoryUI;
 
     public void Init()
@@ -24,15 +25,10 @@ public class InventoryGroup : MonoBehaviour
 
         if(MainSceneManager.Instance.inventory.GetAll().Count == 0) itemPopupController.Close();
         else itemPopupController.Open();
+        
     }
-    //private void OnEnable()
-    //{
-    //    StartCoroutine(DelayedClose());
-    //}
-
-    //private IEnumerator DelayedClose()
-    //{
-    //    yield return null;
-    //    itemPopupController.Close();
-    //}
+    private void OnEnable()
+    {
+        upgradePopup.gameObject.SetActive(false);
+    }
 }

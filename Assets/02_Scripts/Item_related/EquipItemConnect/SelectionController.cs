@@ -19,9 +19,11 @@ public class SelectionController : MonoBehaviour
         if (selectedSlot != null)
             selectedSlot.SetSelected(false);
 
+        
         selectedSlot = slot;
         selectedData = slot.GetData();
         selectedSlot.SetSelected(true);
+        MainSceneManager.Instance.inventoryGroup.upgradePopup.Init(selectedData);
         itemPopupController.Open(slot);
     }
 
@@ -48,7 +50,9 @@ public class SelectionController : MonoBehaviour
         if (selectedSlot != null)
         {
             selectedSlot.SetData(instance);
+            selectedSlot.SetSelected(true);
             selectedData = instance;
+            MainSceneManager.Instance.inventoryGroup.upgradePopup.Init(selectedData);
         }
     }
 }

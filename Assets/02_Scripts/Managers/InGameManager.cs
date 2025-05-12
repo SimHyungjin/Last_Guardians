@@ -99,6 +99,7 @@ public class InGameManager : Singleton<InGameManager>
         UpdateExp();
         levelText.text = $"Lv {level}";
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
+        if(TowerManager.Instance.hand.IsHighlighting)TowerManager.Instance.hand.CancleCard();
         mulliganUI.gameObject.SetActive(true);
         mulliganUI.LevelUPSelect();
     }

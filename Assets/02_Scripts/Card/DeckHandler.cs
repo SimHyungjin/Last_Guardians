@@ -244,7 +244,18 @@ public class DeckHandler : MonoBehaviour
             .OnComplete(() => {handRect.anchoredPosition = originalPosition - new Vector2(0, 100f); });
         
     }
-
+    /// <summary>
+    /// 중간에 카드 동작을 취소하는 메서드
+    /// </summary>
+    public void CancleCard()
+    {
+        if(isDragging) isDragging = false;
+        TowerManager.Instance.towerbuilder.ChangeCardDontMove();
+        Destroy(ghostTower);
+        highlightedCard.gameObject.SetActive(true);
+        highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
+        UnHighlightCard();
+    }
     /// <summary>
     /// 하이라이트된 카드 동작을 원래위치로 돌려주는 메서드
     /// </summary>

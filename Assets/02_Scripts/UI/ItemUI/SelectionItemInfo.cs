@@ -21,7 +21,7 @@ public class SelectionItemInfo : MonoBehaviour
 
     private void OnEnable()
     {
-        itemPopupController.OnItemSelected += UpdateText;
+        itemPopupController.OnEnableCurretData += UpdateText;
     }
 
     private void Start()
@@ -114,12 +114,12 @@ public class SelectionItemInfo : MonoBehaviour
 
     private void OnDestroy()
     {
-        itemPopupController.OnItemSelected -= UpdateText;
+        itemPopupController.OnEnableCurretData -= UpdateText;
     }
 
     private void OnDisable()
     {
-        itemPopupController.OnItemSelected -= UpdateText;
+        itemPopupController.OnEnableCurretData -= UpdateText;
     }   
 
 }

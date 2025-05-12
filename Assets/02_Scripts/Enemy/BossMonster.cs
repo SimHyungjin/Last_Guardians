@@ -22,12 +22,10 @@ public class BossMonster : BaseMonster
         {
             firstHit = true;
             InGameManager.Instance.TakeDmage(FirstHitDamage);
-            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : {FirstHitDamage}");
         }
         else
         {
             InGameManager.Instance.TakeDmage(SecondHitDamage);
-            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 {SecondHitDamage}");
         }
         AttackTimer = attackDelay;
         AfterAttack();

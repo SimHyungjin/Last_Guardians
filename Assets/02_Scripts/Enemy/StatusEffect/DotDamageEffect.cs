@@ -22,8 +22,6 @@ public class DotDamageEffect : StatusEffect
             if (timer <= 0f)
             {
                 target.TakeDamage(Amount);
-                Debug.Log($"도트데미지 적용 {Amount} 현재체력 : {target.CurrentHP}");
-                Debug.Log($"남은시간 : {Duration}");
                 timer = tickTime;
             }
         }

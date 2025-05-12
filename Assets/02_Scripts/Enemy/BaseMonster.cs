@@ -84,7 +84,10 @@ public class BaseMonster : MonoBehaviour
 
     private WaitForSeconds blinkSeconds;
 
-    private Vector2 movedirection;
+    //진행방향 애니메이션 필드
+    private Vector2 previousDirection = Vector2.zero;
+    private float directionHoldTimer = 0f; // 몬스터 뒤집기 타이머
+    private const float directionThreshold = 0.25f; // 유지 시간
 
     private void Awake()
     {
@@ -256,22 +259,47 @@ public class BaseMonster : MonoBehaviour
 
     private void FlipMonsterbyDirection()
     {
-        movedirection = new Vector2(agent.velocity.x,agent.velocity.y).normalized;
+        Vector2 currentDirection = new Vector2(agent.velocity.x, agent.velocity.y).normalized;
 
-        if (movedirection.x > 0)
+        // x 방향이 명확하지 않은 경우 무시
+        if (Mathf.Abs(currentDirection.x) < 0.01f)
+            return;
+
+        // 이전 방향과 유사한 방향이면 타이머 증가
+        if (Mathf.Sign(currentDirection.x) == Mathf.Sign(previousDirection.x))
         {
-            this.transform.localScale = leftScale;
+            directionHoldTimer += Time.deltaTime;
         }
-        else if(movedirection.x < 0)
+        else
         {
-            this.transform.localScale = rightScale;
+            // 방향이 바뀌었으면 타이머 초기화
+            directionHoldTimer = 0f;
+            previousDirection = currentDirection;
+        }
+
+        // 방향이 일정 시간 유지되었을 때만 스케일 반전
+        if (directionHoldTimer >= directionThreshold)
+        {
+            if (currentDirection.x > 0)
+            {
+                transform.localScale = leftScale;
+            }
+            else if (currentDirection.x < 0)
+            {
+                transform.localScale = rightScale;
+            }
+
+            // 갱신 이후에는 다시 초기화하여 같은 방향일 때에도 새로 측정
+            directionHoldTimer = 0f;
+            previousDirection = currentDirection;
         }
     }   
 
     private void Move()
     {
         animationConnect.StartMoveAnimation();
-        agent.SetDestination(Target.position);
+        if(agent.destination != Target.position)
+            agent.SetDestination(Target.position);
     }
 
     private void StartAttack()
@@ -321,7 +349,7 @@ public class BaseMonster : MonoBehaviour
         OnMonsterDeathAction?.Invoke();
         if (!isDisable)
         {
-            animationConnect.StartDeathAnimaiton();
+            //animationConnect.StartDeathAnimaiton();
             MonsterManager.Instance.MonsterKillCount++;
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);

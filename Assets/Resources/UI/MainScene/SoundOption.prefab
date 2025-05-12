@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 7243069376535060502}
   - component: {fileID: 719059253945692195}
   m_Layer: 5
-  m_Name: BGMSlider
+  m_Name: BGM_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3e45d378832d7d341a876c4d4358a50f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 195689b0d8fe58f44a845238c5f6b188, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -583,15 +583,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.62352943, g: 0.62352943, b: 0.62352943, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 195689b0d8fe58f44a845238c5f6b188, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -828,7 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.62352943, g: 0.62352943, b: 0.62352943, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -931,6 +931,7 @@ GameObject:
   - component: {fileID: 7020666142275115622}
   - component: {fileID: 1224890966373980928}
   - component: {fileID: 713620340119161371}
+  - component: {fileID: 6921123620300967310}
   m_Layer: 5
   m_Name: SoundOption
   m_TagString: Untagged
@@ -1000,6 +1001,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6921123620300967310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3390920540316112011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b97c9613a94d89041ad97511245fedcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3905943433817518414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1024,7 @@ GameObject:
   - component: {fileID: 1948851600878044644}
   - component: {fileID: 970629745885749884}
   m_Layer: 5
-  m_Name: SFXSlider
+  m_Name: SFX_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1102,7 +1115,7 @@ GameObject:
   - component: {fileID: 1197611450698149182}
   - component: {fileID: 7012955748980348293}
   m_Layer: 5
-  m_Name: VolumeSlider
+  m_Name: Master_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1374,7 +1387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6226415, g: 0.61970454, b: 0.61970454, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

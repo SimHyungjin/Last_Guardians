@@ -8,6 +8,7 @@ public class SaveData
 {
     public List<ItemInstanceSave> inventory = new();
     public List<EquippedItemSave> equipped = new();
+    public TowerUpgradeData data;
     public int gold;
     public int upgradeStones;
 }

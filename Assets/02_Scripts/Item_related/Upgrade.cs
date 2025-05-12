@@ -111,4 +111,6 @@ public class Upgrade
             return new ItemInstance(data);
         }
     }
+
+    public IReadOnlyList<UpgradeRuleData> GetUpgradeRules() { return upgradeRules; }
 }

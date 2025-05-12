@@ -21,6 +21,12 @@ public class InventoryUI : MonoBehaviour
     [field: SerializeField] public Button filterSelectBtn { get; private set; }
     [field: SerializeField] public GameObject filterSelectPanel { get; private set; }
 
+    [field: Header("판매/분해 선택 버튼")]
+    [field: SerializeField] public Button sellBtn { get; private set; }
+
+    [field: Header("강화 버튼")]
+    [field: SerializeField] public Button upgradeBtn { get; private set; }
+
     [field: Header("필터 버튼")]
     [field: SerializeField] public Button allTypeBtn { get; private set; }
     [field: SerializeField] public Button weaponTypeBtn { get; private set; }
@@ -82,20 +88,20 @@ public class InventoryUI : MonoBehaviour
     }
     public void Init()
     {
-        MainSceneManager.Instance.inventoryGroup.itemPopupController.OnItemPopupUIUpdate += GoodsRefresh;
+        ItemConnecter itemConnecter = MainSceneManager.Instance.inventoryGroup.itemConnecter;
+        itemConnecter.itemPopupController.OnItemPopupUIUpdate += GoodsRefresh;
+        itemConnecter.sellPopupContoroller.OnSellAction += GoodsRefresh;
+        sellBtn.onClick.AddListener(() => {
+            itemConnecter.OpenPopup(PopupType.Sell);
+        });
+        upgradeBtn.onClick.AddListener(() =>
+        {
+            itemConnecter.OpenPopup(PopupType.Upgrade);
+        });
     }
     private void GoodsRefresh()
     {
         goldText.text = GameManager.Instance.gold.ToString();
         upgradeStoneText.text = GameManager.Instance.upgradeStones.ToString();
-    }
-
-    private void EquipBtnListener(Button button, EquipType equipType)
-    {
-        button.onClick.AddListener(() =>
-        {
-            onItemTypeFilter?.Invoke(new[] { ItemType.Equipment });
-            onEquipTypeFilter?.Invoke(new[] { equipType });
-        });
     }
 }

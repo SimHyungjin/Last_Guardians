@@ -5,30 +5,22 @@ using UnityEngine;
 /// </summary>
 public class InventoryGroup : MonoBehaviour
 {
-    public InventorySlotContainer inventorySlotContainer;
     public EquipmentSlotContainer equipmentSlotContainer;
-    public SelectionController selectionController;
-    public ItemPopupController itemPopupController;
-    public UpgradePopup upgradePopup;
+    public InventorySlotContainer inventorySlotContainer;
+    public ItemConnecter itemConnecter;
+
     public InventoryUI inventoryUI;
 
     public void Init()
     {
         inventorySlotContainer.Init();
         equipmentSlotContainer.Init();
-        itemPopupController.Init();
+        itemConnecter.Init();
         inventoryUI.Init();
 
         inventorySlotContainer.Display(MainSceneManager.Instance.inventory.GetFilteredView());
         equipmentSlotContainer.BindAll();
         equipmentSlotContainer.Refresh();
-
-        if(MainSceneManager.Instance.inventory.GetAll().Count == 0) itemPopupController.Close();
-        else itemPopupController.Open();
-        
     }
-    private void OnEnable()
-    {
-        upgradePopup.gameObject.SetActive(false);
-    }
+    
 }

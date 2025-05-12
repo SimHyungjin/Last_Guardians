@@ -1,14 +1,35 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
+public enum SelectionMode
+{
+    Single,
+    Multi
+}
 /// <summary>
 /// 인벤토리 슬롯을 선택하는 컨트롤러입니다.
 /// </summary>
 public class SelectionController : MonoBehaviour
 {
     [SerializeField] private ItemPopupController itemPopupController;
+    [SerializeField] private UpgradePopupController upgradePopup;
 
-    public Slot selectedSlot { get; private set; } = null;
     public ItemInstance selectedData { get; private set; } = null;
+    public List<ItemInstance> selectedDataList { get; private set; } = new();
+
+    public SelectionMode selectionMode { get; private set; } = SelectionMode.Single;
+
+    public Action<Slot> SelectSlotListAction;
+
+    public void ToggleMode(SelectionMode selectionMode)
+    {
+        this.selectionMode = selectionMode;
+        selectedData = null;
+        selectedDataList.Clear();
+        itemPopupController.Close();
+        itemPopupController.UpdatePopupUI();
+    }
 
     /// <summary>
     /// 슬롯을 선택합니다. 슬롯을 선택하면 팝업이 열립니다.
@@ -16,28 +37,38 @@ public class SelectionController : MonoBehaviour
     /// <param name="slot"></param>
     public void SelectSlot(Slot slot)
     {
-        if (selectedSlot != null)
-            selectedSlot.SetSelected(false);
+        if (selectedData != null && selectedData.UniqueID == slot.GetData().UniqueID) return;
 
-        
-        selectedSlot = slot;
         selectedData = slot.GetData();
-        selectedSlot.SetSelected(true);
-        MainSceneManager.Instance.inventoryGroup.upgradePopup.Init(selectedData);
-        itemPopupController.Open(slot);
+        upgradePopup.SetData(selectedData);
+
+        itemPopupController.SetData(selectedData);
+        itemPopupController.Open();
     }
 
+    public void SelectSlotList(Slot slot)
+    {
+        ItemInstance data = slot.GetData();
+        if (data == null) return;
+
+        for (int i = 0; i < selectedDataList.Count; i++)
+        {
+            if (selectedDataList[i].UniqueID == data.UniqueID)
+            {
+                selectedDataList.RemoveAt(i);
+                SelectSlotListAction?.Invoke(slot);
+                return;
+            }
+        }
+        selectedDataList.Add(data);
+        SelectSlotListAction?.Invoke(slot);
+    }
     /// <summary>
     /// 슬롯을 선택 해제합니다. 슬롯을 선택 해제하면 팝업이 닫힙니다.
     /// </summary>
     public void DeselectSlot()
     {
-        if (selectedSlot != null)
-        {
-            selectedSlot.SetSelected(false);
-            selectedSlot = null;
-            selectedData = null;
-        }
+        selectedData = null;
         itemPopupController.Close();
     }
 
@@ -47,12 +78,8 @@ public class SelectionController : MonoBehaviour
     /// <param name="instance"></param>
     public void RefreshSlot(ItemInstance instance)
     {
-        if (selectedSlot != null)
-        {
-            selectedSlot.SetData(instance);
-            selectedSlot.SetSelected(true);
-            selectedData = instance;
-            MainSceneManager.Instance.inventoryGroup.upgradePopup.Init(selectedData);
-        }
+        selectedData = instance;
+        itemPopupController.SetData(selectedData);
+        upgradePopup.SetData(selectedData);
     }
 }

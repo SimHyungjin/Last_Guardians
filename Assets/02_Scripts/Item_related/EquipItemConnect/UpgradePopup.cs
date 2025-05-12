@@ -87,7 +87,7 @@ public class UpgradePopup : MonoBehaviour
     private void SetStatText(TextMeshProUGUI text, float before, float after, string label = "")
     {
         float rawDiff = after - before;
-        float roundedDiff = (float)Mathf.Round(rawDiff * 100f) / 100f;
+        float roundedDiff = Mathf.Round(rawDiff * 100f) / 100f;
 
         if (Mathf.Abs(roundedDiff) < 0.01f)
         {
@@ -99,13 +99,15 @@ public class UpgradePopup : MonoBehaviour
         bool isAttackSpeed = label.Contains("공격 속도");
         string sign = roundedDiff > 0 ? "+" : "-";
 
-        string color;
-        if (isAttackSpeed)
-            color = roundedDiff > 0 ? "red" : "green";
-        else
-            color = roundedDiff > 0 ? "green" : "red";
+        string color = isAttackSpeed
+            ? (roundedDiff > 0 ? "red" : "green")
+            : (roundedDiff > 0 ? "green" : "red");
 
-        text.text = $"{label} : {before:F1} → {after:F1}  (<color={color}>{sign}{roundedDiff:F1}</color>)";
+        string beforeStr = before.ToString("0.##");
+        string afterStr = after.ToString("0.##");
+        string diffStr = $"{sign}{Mathf.Abs(roundedDiff).ToString("0.##")}";
+
+        text.text = $"{label} : {beforeStr} → {afterStr}  (<color={color}>{diffStr}</color>)";
         text.gameObject.SetActive(true);
     }
 

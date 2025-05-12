@@ -51,7 +51,7 @@ public class ItemInstance
 
     public ItemInstance(ItemData data)
     {
-        Data = data;
+        Data = Object.Instantiate(data);
         UniqueID = System.Guid.NewGuid().GetHashCode();
     }
 

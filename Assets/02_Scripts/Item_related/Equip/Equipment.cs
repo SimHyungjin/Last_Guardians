@@ -78,7 +78,7 @@ public class Equipment
             if (data.equipType == EquipType.Weapon)
             {
                 changeAttackType = data.attackType;
-                icon = data.icon;
+                icon = data.Icon;
             }
             totalAttack += data.attackPower;
             totalAttackSpeed += data.attackSpeed;

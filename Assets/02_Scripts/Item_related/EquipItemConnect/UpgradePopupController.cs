@@ -1,9 +1,10 @@
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradePopup : MonoBehaviour
+public class UpgradePopupController : PopupBase
 {
     [SerializeField] private Slot currentSlot;
     [SerializeField] private Slot upgradeSlot;
@@ -27,44 +28,65 @@ public class UpgradePopup : MonoBehaviour
     ItemInstance currectData;
     ItemInstance upgradeData;
 
-    private void Awake()
+    public override void Init()
     {
         upgradeButton.onClick.AddListener(OnUpgradeClick);
-        cancelButton.onClick.AddListener(() => gameObject.SetActive(false));
-    }
-
-    public void Init(ItemInstance instance)
-    {
-        currectData = instance;
-        currentSlot.SetData(currectData);
-        upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(instance.AsEquipData.ItemIndex + 100);
-        upgradeSlot.SetData(upgradeData);
-        upgradeSlot.gameObject.SetActive(true);
+        cancelButton.onClick.AddListener(() => Close());
         RefreshText();
     }
 
+    public override void Open()
+    {
+        base.Open();
+        //SetData(currectData);
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        currectData = null;
+        upgradeData = null;
+    }
+
+
+    public void SetData(ItemInstance instance)
+    {
+        NeedInit();
+        currectData = instance;
+        upgradeData = null;
+        if (currectData != null && currectData.AsEquipData != null)
+        {
+            currentSlot.SetData(currectData);
+            upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(currectData.AsEquipData.ItemIndex + 100);
+            upgradeSlot.SetData(upgradeData);
+            upgradeSlot.gameObject.SetActive(true);
+        }
+        else
+        {
+            currentSlot.Clear();
+            upgradeSlot.Clear();
+            upgradeSlot.gameObject.SetActive(false);
+        }
+        RefreshText();
+    }
+
+
     private void RefreshText()
     {
+        if(currectData == null || upgradeData == null)
+        {
+            EmptyText();
+            upgradeResultText.text = "선택된 장비가 없습니다";
+            return;
+        }
         upgradeButton.interactable = true;
         var upgradeSystem = MainSceneManager.Instance.upgrade;
-        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currectData.Data.itemGrade);
+        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currectData.Data.ItemGrade);
 
         if (rule == null)
         {
+            EmptyText();
             upgradeResultText.text = "최종 상태";
-            upgradeButton.interactable = false;
-            upgradeSlot.gameObject.SetActive(false);
-
-            SetStatText(attackPower, 0, 0, "공격력");
-            SetStatText(attackSpeed, 0, 0, "공격 속도");
-            SetStatText(attackRange, 0, 0, "공격 사거리");
-            SetStatText(criticalChance, 0, 0, "치명타 확률");
-            SetStatText(criticalDamage, 0, 0, "치명타 피해");
-            SetStatText(penetration, 0, 0, "관통력");
-            SetStatText(moveSpeed, 0, 0, "이동속도");
-
-            gold.text = "";
-            stone.text = "";
             return;
         }
 
@@ -79,9 +101,27 @@ public class UpgradePopup : MonoBehaviour
         SetStatText(penetration, before.penetration, after.penetration, "관통력");
         SetStatText(moveSpeed, before.moveSpeed, after.moveSpeed, "이동속도");
 
-        upgradeResultText.text = $"{currectData.Data.itemGrade} → {upgradeData.Data.itemGrade}\n성공확률 : {rule.successRate}%";
+        upgradeResultText.text = $"{currectData.Data.ItemGrade} → {upgradeData.Data.ItemGrade}\n성공확률 : {rule.successRate}%";
         gold.text = rule.requiredGold.ToString();
         stone.text = rule.requiredUpgradeStones.ToString();
+    }
+
+    private void EmptyText()
+    {
+        upgradeButton.interactable = false;
+        upgradeSlot.gameObject.SetActive(false);
+
+        upgradeResultText.text = "";
+        SetStatText(attackPower, 0, 0, "공격력");
+        SetStatText(attackSpeed, 0, 0, "공격 속도");
+        SetStatText(attackRange, 0, 0, "공격 사거리");
+        SetStatText(criticalChance, 0, 0, "치명타 확률");
+        SetStatText(criticalDamage, 0, 0, "치명타 피해");
+        SetStatText(penetration, 0, 0, "관통력");
+        SetStatText(moveSpeed, 0, 0, "이동속도");
+
+        gold.text = "";
+        stone.text = "";
     }
 
     private void SetStatText(TextMeshProUGUI text, float before, float after, string label = "")
@@ -113,23 +153,24 @@ public class UpgradePopup : MonoBehaviour
 
     private void OnUpgradeClick()
     {
-        var mainSceneManager = MainSceneManager.Instance;
+        var main = MainSceneManager.Instance;
 
-        mainSceneManager.upgrade.TryUpgrade(currectData, out var result);
+        main.upgrade.TryUpgrade(currectData, out var result);
 
         SaveSystem.RemoveEquip(currectData.UniqueID);
-        mainSceneManager.inventory.RemoveItem(currectData);
+        main.inventory.RemoveItem(currectData);
 
         SaveSystem.SaveEquipReward(result);
-        mainSceneManager.inventory.AddItem(result);
+        main.inventory.AddItem(result);
 
-        if (mainSceneManager.equipment.IsEquipped(currectData))
-            mainSceneManager.equipment.Equip(result);
+        if (main.equipment.IsEquipped(currectData))
+            main.equipment.Equip(result);
 
-        mainSceneManager.inventoryGroup.itemPopupController.SetData(result);
-        mainSceneManager.inventoryGroup.itemPopupController.UpdatePopupUI();
-        mainSceneManager.inventoryGroup.selectionController.RefreshSlot(result);
-        mainSceneManager.inventoryGroup.inventorySlotContainer.Display(mainSceneManager.inventory.GetFilteredView());
-        Init(result);
+        main.inventoryGroup.itemConnecter.itemPopupController.SetData(result);
+        main.inventoryGroup.itemConnecter.itemPopupController.UpdatePopupUI();
+        main.inventoryGroup.itemConnecter.selectionController.RefreshSlot(result);
+        main.inventoryGroup.inventorySlotContainer.Display(main.inventory.GetFilteredView());
+
+        SetData(result);
     }
 }

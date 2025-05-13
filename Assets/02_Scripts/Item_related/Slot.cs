@@ -17,7 +17,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public void SetData(ItemInstance newData)
     {
         data = newData;
-        icon.sprite = data?.Data?.icon;
+        icon.sprite = data?.Data?.Icon;
         Refresh();
     }
 
@@ -55,7 +55,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         }
 
         gradeEffect.gameObject.SetActive(true);
-        switch (data.Data.itemGrade)
+        switch (data.Data.ItemGrade)
         {
             case ItemGrade.Normal:
                 gradeEffect.color = new Color(1f, 1f, 1f);
@@ -78,7 +78,9 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (data == null) return;
-        MainSceneManager.Instance.inventoryGroup.selectionController.SelectSlot(this);
+        SelectionController selectionController = MainSceneManager.Instance.inventoryGroup.itemConnecter.selectionController;
+        if(selectionController.selectionMode == SelectionMode.Single)selectionController.SelectSlot(this);
+        else selectionController.SelectSlotList(this);
     }
 
     public ItemInstance GetData() => data;

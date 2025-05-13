@@ -37,7 +37,7 @@ public class GameOverUI : MonoBehaviour
         else
         {
             rewardEquipImage.sprite = GameManager.Instance.ItemManager.GetItemInstanceByIndex(RewardManager.Instance.Equip).Data.Icon;
-            rewardEquipText.text = GameManager.Instance.ItemManager.GetItemInstanceByIndex(RewardManager.Instance.Equip).Data.itemName;
+            rewardEquipText.text = GameManager.Instance.ItemManager.GetItemInstanceByIndex(RewardManager.Instance.Equip).Data.ItemName;
         }
         retryBtn.onClick.AddListener(Retry);
         exitBtn.onClick.AddListener(Exit);

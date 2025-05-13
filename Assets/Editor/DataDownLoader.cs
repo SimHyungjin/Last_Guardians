@@ -726,7 +726,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 42, startCol: 0, endCol: 7);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 42, startCol: 0, endCol: 8);
             JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
             ApplyItemDataToSO(jsonData, renameFiles);
         }
@@ -756,6 +756,7 @@ public class DataDownLoader : MonoBehaviour
             int itemStackLimit = int.TryParse(row["itemStackLimit"]?.ToString(), out int parsedStack) ? parsedStack : 1;
             float itemDropRate = float.TryParse(row["itemDropRate"]?.ToString(), out float parsedDropRate) ? parsedDropRate : 0f;
             int itemSellPrice = int.TryParse(row["itemSellPrice"]?.ToString(), out int parsedSellPrice) ? parsedSellPrice : 0;
+            int itemApartPrice = int.TryParse(row["itemApartPrice"]?.ToString(), out int parsedApartPrice) ? parsedApartPrice : 0;
 
             string dataname = $"Item_{itemIndex}";
 
@@ -776,7 +777,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameItemDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(itemIndex, itemName, itemDescript, itemType, itemGrade, itemStackLimit, itemDropRate, itemSellPrice);
+            data.SetData(itemIndex, itemName, itemDescript, itemType, itemGrade, itemStackLimit, itemDropRate, itemSellPrice, itemApartPrice);
 
             EditorUtility.SetDirty(data);
         }

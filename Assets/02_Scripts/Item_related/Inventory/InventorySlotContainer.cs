@@ -20,12 +20,13 @@ public class InventorySlotContainer : MonoBehaviour
     {
         CreateSlotCount(baseSlotCount);
     }
+
     public void Init()
     {
-        var home = MainSceneManager.Instance;
-        inventory = home.inventory;
-        equipment = home.equipment;
-        selectionController = home.inventoryGroup.selectionController;
+        var mainSceneManager = MainSceneManager.Instance;
+        inventory = mainSceneManager.inventory;
+        equipment = mainSceneManager.equipment;
+        selectionController = mainSceneManager.inventoryGroup.itemConnecter.selectionController;
 
         inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView());
     }
@@ -68,27 +69,20 @@ public class InventorySlotContainer : MonoBehaviour
         for (int i = 0; i < slots.Count; i++)
             slots[i].gameObject.SetActive(i < targetCount);
 
-        bool hasSelection = selectionController?.selectedSlot != null;
-        int selectedID = selectionController?.selectedData?.UniqueID ?? -1;
-
         for (int i = 0; i < targetCount; i++)
         {
             var slot = slots[i];
 
             if (i < items.Count)
             {
-                var item = items[i];
-                slot.SetData(item);
-                slot.SetEquipped(item.AsEquipData != null && equipment.IsEquipped(item));
-                slot.SetSelected(hasSelection && item.UniqueID == selectedID);
-                slot.Refresh();
+                slot.SetData(items[i]);
             }
             else
             {
                 slot.Clear();
             }
         }
-
+        Refresh();
         RectSizeValue(targetCount);
     }
 
@@ -100,8 +94,13 @@ public class InventorySlotContainer : MonoBehaviour
         foreach (var slot in slots)
         {
             var instance = slot.GetData();
-            if (instance?.AsEquipData != null) slot.SetEquipped(equipment.IsEquipped(instance));
-            else slot.SetEquipped(false);
+
+            slot.SetEquipped(instance?.AsEquipData != null && equipment.IsEquipped(instance));
+            if (selectionController.selectionMode == SelectionMode.Single) slot.SetSelected(instance?.UniqueID == selectionController.selectedData?.UniqueID);
+            else
+            {
+                slot.SetSelected(selectionController.selectedDataList.Exists(i => i.UniqueID == instance?.UniqueID));
+            }
             slot.Refresh();
         }
     }

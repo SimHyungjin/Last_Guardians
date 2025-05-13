@@ -41,75 +41,43 @@ public class SelectionItemInfo : MonoBehaviour
 
         if (data == null)
         {
-            attackTypeText.gameObject.SetActive(false);
-            attackPowerText.gameObject.SetActive(false);
-            attackSpeedText.gameObject.SetActive(false);
-            attackRangeText.gameObject.SetActive(false);
-            moveSpeedText.gameObject.SetActive(false);
-            criticalChanceText.gameObject.SetActive(false);
-            criticalDamageText.gameObject.SetActive(false);
-            penetrationText.gameObject.SetActive(false);
+            SetStatVisibility(false);
             return;
         }
 
-        if (data.equipType == EquipType.Weapon)
+        SetStatText(attackTypeText, data.equipType == EquipType.Weapon ? $"공격 타입 : {data.attackType}" : null);
+        SetStatText(attackPowerText, data.attackPower != 0 ? $"공격력 : {data.attackPower}" : null);
+        SetStatText(attackSpeedText, data.attackSpeed != 0 ? $"공격 속도 : {data.attackSpeed}" : null);
+        SetStatText(attackRangeText, data.attackRange != 0 ? $"공격 범위 : {data.attackRange}" : null);
+        SetStatText(moveSpeedText, data.moveSpeed != 0 ? $"이동 속도 : {data.moveSpeed}" : null);
+        SetStatText(criticalChanceText, data.criticalChance != 0 ? $"치명타 확률 : {data.criticalChance}%" : null);
+        SetStatText(criticalDamageText, data.criticalDamage != 0 ? $"치명타 데미지 : {data.criticalDamage}배" : null);
+        SetStatText(penetrationText, data.penetration != 0 ? $"관통력 : {data.penetration}" : null);
+    }
+
+    private void SetStatText(TextMeshProUGUI text, string value)
+    {
+        if (string.IsNullOrEmpty(value))
         {
-            attackTypeText.text = $"공격 타입 : {data.attackType}";
-            attackTypeText.gameObject.SetActive(true);
+            text.gameObject.SetActive(false);
         }
         else
         {
-            attackTypeText.gameObject.SetActive(false);
+            text.text = value;
+            text.gameObject.SetActive(true);
         }
+    }
 
-        if (data.attackPower != 0)
-        {
-            attackPowerText.text = $"공격력 : {data.attackPower}";
-            attackPowerText.gameObject.SetActive(true);
-        }
-        else attackPowerText.gameObject.SetActive(false);
-
-        if (data.attackSpeed != 0)
-        {
-            attackSpeedText.text = $"공격 속도 : {data.attackSpeed}";
-            attackSpeedText.gameObject.SetActive(true);
-        }
-        else attackSpeedText.gameObject.SetActive(false);
-
-        if (data.attackRange != 0)
-        {
-            attackRangeText.text = $"공격 범위 : {data.attackRange}";
-            attackRangeText.gameObject.SetActive(true);
-        }
-        else attackRangeText.gameObject.SetActive(false);
-
-        if (data.moveSpeed != 0)
-        {
-            moveSpeedText.text = $"이동 속도 : {data.moveSpeed}";
-            moveSpeedText.gameObject.SetActive(true);
-        }
-        else moveSpeedText.gameObject.SetActive(false);
-
-        if (data.criticalChance != 0)
-        {
-            criticalChanceText.text = $"치명타 확률 : {data.criticalChance}%";
-            criticalChanceText.gameObject.SetActive(true);
-        }
-        else criticalChanceText.gameObject.SetActive(false);
-
-        if (data.criticalDamage != 0)
-        {
-            criticalDamageText.text = $"치명타 데미지 : {data.criticalDamage}배";
-            criticalDamageText.gameObject.SetActive(true);
-        }
-        else criticalDamageText.gameObject.SetActive(false);
-
-        if (data.penetration != 0)
-        {
-            penetrationText.text = $"관통력 : {data.penetration}";
-            penetrationText.gameObject.SetActive(true);
-        }
-        else penetrationText.gameObject.SetActive(false);
+    private void SetStatVisibility(bool visible)
+    {
+        attackTypeText.gameObject.SetActive(visible);
+        attackPowerText.gameObject.SetActive(visible);
+        attackSpeedText.gameObject.SetActive(visible);
+        attackRangeText.gameObject.SetActive(visible);
+        moveSpeedText.gameObject.SetActive(visible);
+        criticalChanceText.gameObject.SetActive(visible);
+        criticalDamageText.gameObject.SetActive(visible);
+        penetrationText.gameObject.SetActive(visible);
     }
 
     private void OnDestroy()

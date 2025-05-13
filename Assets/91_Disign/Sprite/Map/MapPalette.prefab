@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6868020542029381002}
   - component: {fileID: 1477547803851039720}
   m_Layer: 0
-  m_Name: GWP
+  m_Name: MapPalette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

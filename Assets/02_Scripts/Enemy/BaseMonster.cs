@@ -15,10 +15,7 @@ public class BaseMonster : MonoBehaviour
     public MonsterData MonsterData { get; private set; }
     public MonsterSkillBase MonsterSkillBaseData { get; private set; }
 
-    //몬스터 외형
-    [SerializeField] private Transform prefabSlot;
-    private SPUM_Prefabs currentPrefab;
-
+   
     //몬스터 스탯관련
     public float ResultHP { get; private set; }
     public float CurrentHP { get; set; }
@@ -50,22 +47,27 @@ public class BaseMonster : MonoBehaviour
     protected int disableAttackCount; // 이 숫자만큼 몬스터가 공격하면 사라짐
     protected int attackCount = 0;
     protected bool isDisable = false;
+    private bool isDead = false;
 
     //목표지점 관련
     public LayerMask targetLayer;
     public Transform Target { get; set; } // 목표지점
 
-    // 애니메이션 / 렌더러 관련
+    // 몬스터 외형
+    [SerializeField] private Transform prefabSlot;
+    private SPUM_Prefabs currentPrefab;
     private AnimationConnect animationConnect;
     private List<SpriteRenderer> spriteRenderers = new();
     private List<Color> originalColors = new();
     private Color hitColor = Color.red; // 데미지 입었을 때 색상
     private int blinkCount = 2; // 번쩍이는 횟수
     private float blinkInterval = 0.1f; // 깜빡이는 주기
+    private WaitForSeconds blinkSeconds;
     private Coroutine colorCoroutine;
     private readonly Vector3 rightScale = new Vector3(1, 1, 1);
     private readonly Vector3 leftScale = new Vector3(-1, 1, 1);
 
+    //네브메쉬
     public NavMeshAgent agent { get; protected set; }
 
     //상태이상 핸들러 관련 필드
@@ -84,10 +86,6 @@ public class BaseMonster : MonoBehaviour
     public float EvasionRate { get; set; } = -1f;
 
     public Action OnMonsterDeathAction;
-
-    private WaitForSeconds blinkSeconds;
-
-    private bool isDead = false;
 
     //진행방향 애니메이션 필드
     private Vector2 previousDirection = Vector2.zero;
@@ -202,14 +200,17 @@ public class BaseMonster : MonoBehaviour
 
     private void Update()
     {
+        //공격중일때만 타이머 체크
         if (isAttack)
             AttackTimer -= Time.deltaTime;
 
+        //공격시작 조건이 됐을때
         if (isAttack && !isSturn && AttackTimer <= 0)
         {
             StartAttack();
         }
 
+        //스킬이 있을때
         if (MonsterSkillBaseData != null)
         {
             if (!isSturn || !isSilence)
@@ -223,16 +224,14 @@ public class BaseMonster : MonoBehaviour
             }
         }
 
-        //스탯 매 프레임 적용 --> 추후 타이머 적용
-        ApplyStatus();
-
         if (agent.speed == 0)
         {
             animationConnect.StopMoveAnimation();
         }
     }
 
-    private void ApplyStatus()
+    //스탯 적용
+    public void ApplyStatus()
     {
         CurrentSpeed = MonsterData.MonsterSpeed * (1 + BuffSpeedModifier) * (1-DeBuffSpeedModifier);
         agent.speed = CurrentSpeed;
@@ -243,10 +242,6 @@ public class BaseMonster : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(this.transform.position, AttackRange);
-    }
 
     private void FixedUpdate()
     {
@@ -308,6 +303,7 @@ public class BaseMonster : MonoBehaviour
             agent.SetDestination(Target.position);
     }
 
+    //공격 시작
     private void StartAttack()
     {
         animationConnect.StartAttackAnimation();
@@ -315,6 +311,7 @@ public class BaseMonster : MonoBehaviour
         agent.speed = 0f;   
     }
 
+    //어택 애니메이션에서 호출됨
     public void Attack()
     {
         if (MonsterData.MonsterAttackPattern == MonAttackPattern.Ranged)
@@ -335,6 +332,7 @@ public class BaseMonster : MonoBehaviour
 
     }
 
+    //공격 후
     protected void AfterAttack()
     {
         attackCount++;
@@ -354,7 +352,7 @@ public class BaseMonster : MonoBehaviour
         OnMonsterDeathAction?.Invoke();
         if (!isDisable)
         {
-            //animationConnect.StartDeathAnimaiton();
+            //데미지받아서 죽은게 아니라면
             MonsterManager.Instance.MonsterKillCount++;
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);
@@ -430,7 +428,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            dotDamage.UpdateEffectTime(amount, duration);
+            dotDamage.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -457,7 +455,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            sturn.UpdateEffectTime(amount, duration);
+            sturn.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -482,7 +480,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            slowDown.UpdateEffectTime(amount, duration);
+            slowDown.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -502,7 +500,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            defDown.UpdateEffectTime(amount, duration);
+            defDown.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -522,7 +520,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            defBuff.UpdateEffectTime(amount, duration);
+            defBuff.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -542,7 +540,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            speedBuff.UpdateEffectTime(amount, duration);
+            speedBuff.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -562,7 +560,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            evasionBuff.UpdateEffectTime(amount,duration);
+            evasionBuff.UpdateEffectTime(amount,duration, this);
         }
     }
 
@@ -581,7 +579,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            skillValueDebuff.UpdateEffectTime(amount,duration);
+            skillValueDebuff.UpdateEffectTime(amount,duration, this);
         }
     }
 
@@ -599,7 +597,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            silenceDebuff.UpdateEffectTime(0, duration);
+            silenceDebuff.UpdateEffectTime(0, duration, this);
         }
     }
 

@@ -11,8 +11,10 @@ public interface IWeatherState
 
 public class WeatherState
 {
+    //현재 날씨
     private IWeatherState currentState;
 
+    //날씨상태
     private FogWeather fogWeather = new FogWeather();
     private StrongWindWeather strongWindWeather = new StrongWindWeather();
     private RainWeather rainWeather = new RainWeather();
@@ -20,14 +22,17 @@ public class WeatherState
     private SnowWeather snowWeather = new SnowWeather();
     private SunnyWeather sunnyWeather = new SunnyWeather();
 
+    //날씨상태 + 가중치 리스트
     private List<(IWeatherState, float weight)> weatherList = new List<(IWeatherState, float wegiht)>();
 
 
     public void SetWeather()
     {
+        //날씨 랜덤으로 바꾸기
         ChangeState(GetRandomWeather(weatherList));
     }
 
+    //계절별 날씨 리스트
     public void WeatherListInit(Season season)
     {
         switch (season)
@@ -75,7 +80,6 @@ public class WeatherState
     {
         if (weathers == null || weathers.Count == 0)
         {
-            Debug.LogError("날씨 리스트가 비어있음");
             return null;
         }
 
@@ -115,6 +119,7 @@ public class WeatherState
         return currentState;
     }
 
+    //계절 텍스트 반환
     public string GetSeasonText(string str)
     {
         switch (EnviromentManager.Instance.Season)
@@ -135,6 +140,7 @@ public class WeatherState
         return str;
     }
 
+    //날씨 텍스트 반환
     public string GetWeatherName()
     {
         string str = GetCurrentState().ToString();

@@ -82,7 +82,7 @@ public class SelectionController : MonoBehaviour
     public void RefreshSlot(ItemInstance instance)
     {
         selectedData = instance;
-        itemPopupController.SetData(selectedData);
-        upgradePopup.SetData(selectedData);
+        //itemPopupController.SetData(selectedData);
+        //upgradePopup.SetData(selectedData);
     }
 }

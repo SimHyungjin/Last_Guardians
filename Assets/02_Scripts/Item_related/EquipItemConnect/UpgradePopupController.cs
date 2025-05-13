@@ -38,7 +38,7 @@ public class UpgradePopupController : PopupBase
     public override void Open()
     {
         base.Open();
-        SetData(null);
+        //SetData(currectData);
     }
 
     public override void Close()
@@ -51,6 +51,7 @@ public class UpgradePopupController : PopupBase
 
     public void SetData(ItemInstance instance)
     {
+        NeedInit();
         currectData = instance;
         upgradeData = null;
         if (currectData != null && currectData.AsEquipData != null)
@@ -80,7 +81,7 @@ public class UpgradePopupController : PopupBase
         }
         upgradeButton.interactable = true;
         var upgradeSystem = MainSceneManager.Instance.upgrade;
-        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currectData.Data.itemGrade);
+        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currectData.Data.ItemGrade);
 
         if (rule == null)
         {
@@ -100,7 +101,7 @@ public class UpgradePopupController : PopupBase
         SetStatText(penetration, before.penetration, after.penetration, "관통력");
         SetStatText(moveSpeed, before.moveSpeed, after.moveSpeed, "이동속도");
 
-        upgradeResultText.text = $"{currectData.Data.itemGrade} → {upgradeData.Data.itemGrade}\n성공확률 : {rule.successRate}%";
+        upgradeResultText.text = $"{currectData.Data.ItemGrade} → {upgradeData.Data.ItemGrade}\n성공확률 : {rule.successRate}%";
         gold.text = rule.requiredGold.ToString();
         stone.text = rule.requiredUpgradeStones.ToString();
     }

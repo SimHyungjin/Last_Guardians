@@ -19,6 +19,8 @@ public class ItemConnecter : MonoBehaviour
         itemPopupController.Close();
         upgradePopupController.Close();
         sellPopupController.Close();
+
+        selectionController.RefreshSlot(null);
     }
 
     public void OpenPopup(PopupType popupType)

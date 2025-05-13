@@ -20,8 +20,9 @@ MonoBehaviour:
   itemGrade: 4
   itemStackLimit: 1
   itemDropRate: 0.0022
-  itemSellPrice: 1440
-  icon: {fileID: -1921726468, guid: b7e4d0f6063f7f7468da9674868c5515, type: 3}
+  itemSellPrice: 2000
+  itemApartPrice: 30
+  icon: {fileID: 1759996210, guid: b7e4d0f6063f7f7468da9674868c5515, type: 3}
   <equipIndex>k__BackingField: 3401
   <equipType>k__BackingField: 4
   <attackType>k__BackingField: 0
@@ -33,4 +34,4 @@ MonoBehaviour:
   <penetration>k__BackingField: 0.4
   <attackRange>k__BackingField: 0
   <specialEffectID>k__BackingField: 0
-  <linkedItem>k__BackingField: {fileID: 11400000, guid: c1f4829b5b704fc40a0d5cb418e30af2, type: 2}
+  <linkedItem>k__BackingField: {fileID: 0}

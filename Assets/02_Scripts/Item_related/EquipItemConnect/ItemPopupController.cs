@@ -80,8 +80,8 @@ public class ItemPopupController : PopupBase
 
         if (currentData == null) return;
 
-        icon.sprite = currentData.Data.icon;
-        itemName.text = currentData.Data.itemName;
+        icon.sprite = currentData.Data.Icon;
+        itemName.text = currentData.Data.ItemName;
         description.text = currentData.Data.ItemDescript;
 
         bool isEquipped = equipment.IsEquipped(currentData);

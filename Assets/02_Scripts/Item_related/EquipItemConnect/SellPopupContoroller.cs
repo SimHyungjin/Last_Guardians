@@ -34,10 +34,10 @@ public class SellPopupContoroller : PopupBase
         {
             var slot = Utils.InstantiateComponentFromResource<Slot>("UI/MainScene/Slot", slotContainerView);
             slots.Add(slot);
-        }
+        } 
 
-        sellButton.onClick.AddListener(OnSellButtonClicked);
-        // apartButton.onClick.AddListener(OnApartButtonClicked);
+        sellButton.onClick.AddListener(() => OnSellButtonClicked(true));
+        apartButton.onClick.AddListener(() => OnSellButtonClicked(false));
         cancelButton.onClick.AddListener(Close);
         selectionController.SelectSlotListAction += SetData;
     }
@@ -82,6 +82,7 @@ public class SellPopupContoroller : PopupBase
                     var item = selectedItems[i];
                     slots[i].SetData(item);
                     totalGold += item.Data.ItemSellPrice;
+                    totalStones += item.Data.ItemApartPrice;
                 }
                 else
                 {
@@ -99,10 +100,10 @@ public class SellPopupContoroller : PopupBase
         MainSceneManager.Instance.inventoryGroup.inventorySlotContainer.Display(MainSceneManager.Instance.inventory.GetFilteredView());
     }
 
-    private void OnSellButtonClicked()
+    private void OnSellButtonClicked(bool money)
     {
         var selectedItems = selectionController.selectedDataList;
-        int goldToAdd = 0;
+        int goods = 0;
 
         foreach (var item in selectedItems)
         {
@@ -110,21 +111,20 @@ public class SellPopupContoroller : PopupBase
                 equipment.UnEquip(item);
 
             inventory.RemoveItem(item);
-            goldToAdd += item.Data.ItemSellPrice;
+            if(money)
+                goods += item.Data.ItemSellPrice;
+            else
+                goods += item.Data.ItemApartPrice;
         }
 
-        GameManager.Instance.gold += goldToAdd;
-        SaveSystem.SaveGame();
+        if(money) GameManager.Instance.gold += goods;
+        else GameManager.Instance.upgradeStones += goods;
 
         selectedItems.Clear();
+        SaveSystem.SaveGame();
         MainSceneManager.Instance.inventoryGroup.inventorySlotContainer.Refresh();
 
         OnSellAction?.Invoke();
         Close();
-    }
-
-    private void OnApartButtonClicked()
-    {
-
     }
 }

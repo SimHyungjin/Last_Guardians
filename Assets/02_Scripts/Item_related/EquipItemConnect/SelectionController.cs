@@ -50,6 +50,7 @@ public class SelectionController : MonoBehaviour
 
     public void SelectSlotList(Slot slot)
     {
+        if (selectedDataList.Count == 20) return;
         ItemInstance data = slot.GetData();
         if (data == null) return;
 

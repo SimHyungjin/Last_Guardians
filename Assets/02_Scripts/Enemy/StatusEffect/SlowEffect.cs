@@ -12,10 +12,12 @@ public class SlowEffect : StatusEffect
     public override void ApplyEffect(BaseMonster target)
     {
         target.DeBuffSpeedModifier = Amount;
+        RefreshStatus(target);
     }
 
     public override void RemoveEffect(BaseMonster target)
     {
         target.DeBuffSpeedModifier = 0f;
+        RefreshStatus(target);
     }
 }

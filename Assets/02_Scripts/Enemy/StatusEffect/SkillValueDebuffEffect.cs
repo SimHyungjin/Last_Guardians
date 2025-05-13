@@ -15,6 +15,7 @@ public class SkillValueDebuffEffect : StatusEffect
         if (target.MonsterData.HasSkill)
         {
             target.SkillValueModifier = Amount;
+            RefreshStatus(target);
         }
     }
 
@@ -23,6 +24,7 @@ public class SkillValueDebuffEffect : StatusEffect
         if (target.MonsterData.HasSkill)
         {
             target.SkillValueModifier = 1f;
+            RefreshStatus(target);
         }
     }
 }

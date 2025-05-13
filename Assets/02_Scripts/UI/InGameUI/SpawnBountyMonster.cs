@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpawnBountyMonster : MonoBehaviour
+public class SpawnBountyMonster : MonoBehaviour // 현상금 몬스터 UI
 {
     private Button spawnBtn;
     [SerializeField] private Image spawnImage;
@@ -23,6 +23,7 @@ public class SpawnBountyMonster : MonoBehaviour
     }
     private void Start()
     {
+        //버튼추가
         spawnBtn.onClick.AddListener(SpwanBountyMonster);
         MonsterManager.Instance.spawnAction += ImageTimerStart;
 
@@ -35,6 +36,7 @@ public class SpawnBountyMonster : MonoBehaviour
         spawnIndex = data.MonsterIndex;
     }
 
+    //현상금 몬스터 소환
     private void SpwanBountyMonster()
     {
         if(MonsterManager.Instance != null && MonsterManager.Instance.SpawnTimer <= 0f)

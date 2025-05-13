@@ -37,12 +37,22 @@ public class EquiplmentPanelText : MonoBehaviour
         };
 
         attackTypeText.text = $"공격 타입 = {attackType}";
-        attackPowerText.text = $"공격력 + {info.attack}";
-        attackSpeedText.text = $"공격 속도 = {info.attackSpeed}";
-        attackRangeText.text = $"공격 사거리 + {info.attackRange}";
-        moveSpeedText.text = $"이동 속도 + {info.moveSpeed}";
-        criticalChanceText.text = $"치명타 확률 + {info.criticalChance}%";
-        criticalDamageText.text = $"치명타 피해 + {info.criticalDamage}%";
-        penetrationText.text = $"관통력 + {info.penetration}";
+        attackPowerText.text = $"공격력  {FormatStat(info.attack)}";
+        attackSpeedText.text = $"공격 속도  {FormatStat(info.attackSpeed)}";
+        attackRangeText.text = $"공격 사거리  {FormatStat(info.attackRange)}";
+        moveSpeedText.text = $"이동 속도  {FormatStat(info.moveSpeed)}";
+        criticalChanceText.text = $"치명타 확률  {FormatStat(info.criticalChance)}%";
+        criticalDamageText.text = $"치명타 피해  {FormatStat(info.criticalDamage)}%";
+        penetrationText.text = $"관통력  {FormatStat(info.penetration)}";
+    }
+
+    string FormatStat(float value, int decimalPlaces = 2)
+    {
+        string sign = value > 0 ? "+" : value < 0 ? "-" : " ";
+
+        float absValue = Mathf.Abs(value);
+        string number = absValue.ToString($"F{decimalPlaces}").TrimEnd('0').TrimEnd('.');
+
+        return $"{sign} {number}";
     }
 }

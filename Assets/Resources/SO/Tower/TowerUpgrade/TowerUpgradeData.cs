@@ -1,8 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+
+[System.Serializable]
+public class SerializableUpgradeData
+{
+    public int totalMasteryPoint;
+    public int currentMasteryPoint;
+    public int usedMasteryPoint;
+    public string[] upgradeType;
+    public int[] currentLevel; 
+}
 
 public class TowerUpgradeInfo
 {
@@ -35,12 +46,12 @@ public class TowerUpgradeData : ScriptableObject
     public int totalMasteryPoint;
     public int currentMasteryPoint;
     public int usedMasteryPoint;
-    public string[] description;
     public Dictionary<TowerUpgradeType, TowerUpgradeInfo> upgradeData;
 
+    [Header("설명스크립트")]
+    public string[] description;
     public void Init()
     {
-        usedMasteryPoint = totalMasteryPoint - currentMasteryPoint;
         upgradeData = new Dictionary<TowerUpgradeType, TowerUpgradeInfo>
         {
             { TowerUpgradeType.AttackPower, new TowerUpgradeInfo() },
@@ -57,7 +68,7 @@ public class TowerUpgradeData : ScriptableObject
             { TowerUpgradeType.Catalysis, new TowerUpgradeInfo() },
             { TowerUpgradeType.EffectTransfer, new TowerUpgradeInfo() }
         };
-
+        
         string savePath = Application.persistentDataPath + "/save.json";
         if (!File.Exists(savePath))
         {
@@ -66,12 +77,49 @@ public class TowerUpgradeData : ScriptableObject
         }
         else
         {
-            //string json = File.ReadAllText(savePath);
-            //TowerUpgradeData data = JsonUtility.FromJson<TowerUpgradeData>(json);
-            //foreach (var kvp in data.upgradeData)
-            //{
-            //    upgradeData[kvp.Key] = kvp.Value;
-            //}
+            string json = File.ReadAllText(savePath);
+            var save = JsonUtility.FromJson<SaveData>(json);
+            LoadTowerUpgradeData(save.TowerUpgradeData);
+        }
+        usedMasteryPoint = totalMasteryPoint - currentMasteryPoint;
+    }
+
+    public SerializableUpgradeData SetTowerUpgradeData()
+    {
+        int Length = Enum.GetValues(typeof(TowerUpgradeType)).Length;   
+        SerializableUpgradeData serializableUpgradeData = new SerializableUpgradeData();
+        serializableUpgradeData.upgradeType = new string[Length];
+        serializableUpgradeData.currentLevel = new int[Length];
+        serializableUpgradeData.totalMasteryPoint = totalMasteryPoint;
+        serializableUpgradeData.currentMasteryPoint = currentMasteryPoint;
+        serializableUpgradeData.usedMasteryPoint = usedMasteryPoint;
+        for(int i = 0; i < Length; i++)
+        {
+            TowerUpgradeType type = (TowerUpgradeType)i;
+            serializableUpgradeData.upgradeType[i] = type.ToString();
+            serializableUpgradeData.currentLevel[i] = upgradeData[type].currentLevel;
+        }
+        return serializableUpgradeData;
+    }
+
+    public void LoadTowerUpgradeData(SerializableUpgradeData serializableUpgradeData)
+    {
+        int Length = Enum.GetValues(typeof(TowerUpgradeType)).Length;
+        totalMasteryPoint = serializableUpgradeData.totalMasteryPoint;
+        currentMasteryPoint = serializableUpgradeData.currentMasteryPoint;
+        usedMasteryPoint = serializableUpgradeData.usedMasteryPoint;
+        upgradeData.Clear();
+        for (int i = 0; i < Length; i++)
+        {
+            TowerUpgradeType type = (TowerUpgradeType)Enum.Parse(typeof(TowerUpgradeType), serializableUpgradeData.upgradeType[i]);
+            if (upgradeData.ContainsKey(type))
+            {
+                upgradeData[type].currentLevel = serializableUpgradeData.currentLevel[i];
+            }
+            else
+            {
+                upgradeData.Add(type, new TowerUpgradeInfo { currentLevel = serializableUpgradeData.currentLevel[i] });
+            }
         }
     }
 }

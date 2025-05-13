@@ -26,13 +26,13 @@ public class TowerUpgrade :MonoBehaviour
         }
         if ((type == TowerUpgradeType.Penetration || type == TowerUpgradeType.ContinuousAttack ||
             type==TowerUpgradeType.Catalysis||type==TowerUpgradeType.EffectTransfer) 
-            && towerUpgradeData.usedMasteryPoint <= 10)
+            && towerUpgradeData.usedMasteryPoint < 10)
         {
             Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 10을 초과해야 합니다.");
             return false;
         }
         if ((type == TowerUpgradeType.CombetMastery||type==TowerUpgradeType.MultipleAttack||type==TowerUpgradeType.BossSlayer)
-            && towerUpgradeData.usedMasteryPoint <= 20)
+            && towerUpgradeData.usedMasteryPoint < 20)
         {
             Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 20을 초과해야 합니다.");
             return false;
@@ -51,7 +51,7 @@ public class TowerUpgrade :MonoBehaviour
             towerUpgradeData.upgradeData[type].currentLevel++;
             towerUpgradeData.usedMasteryPoint += 1;
             towerUpgradeData.currentMasteryPoint--;
-            SaveSystem.SaveTowerUpgradeData(towerUpgradeData);
+            SaveSystem.SaveTowerUpgradeData(towerUpgradeData.SetTowerUpgradeData());
             return;
         }
     }

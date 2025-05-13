@@ -8,7 +8,7 @@ public class SaveData
 {
     public List<ItemInstanceSave> inventory = new();
     public List<EquippedItemSave> equipped = new();
-    public TowerUpgradeData TowerUpgradeData;
+    public SerializableUpgradeData TowerUpgradeData;
     public int gold;
     public int upgradeStones;
 }
@@ -130,7 +130,7 @@ public static class SaveSystem
         File.WriteAllText(SavePath, newJson);
     }
 
-    public static void SaveTowerUpgradeData(TowerUpgradeData towerUpgradeData)
+    public static void SaveTowerUpgradeData(SerializableUpgradeData towerUpgradeData)
     {
         Debug.Log("[SaveSystem] SaveTowerUpgradeData 실행");
         if (!File.Exists(SavePath))

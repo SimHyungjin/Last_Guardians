@@ -62,7 +62,6 @@ public class WeatherState
     {
         if (currentState == newState)
         {
-            Debug.Log("날씨 변화 없음");
             return;
         }
             

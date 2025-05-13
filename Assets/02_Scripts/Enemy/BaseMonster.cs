@@ -11,8 +11,11 @@ using Random = UnityEngine.Random;
 
 public class BaseMonster : MonoBehaviour
 {
+    //몬스터 정보
     public MonsterData MonsterData { get; private set; }
     public MonsterSkillBase MonsterSkillBaseData { get; private set; }
+
+    //몬스터 외형
     [SerializeField] private Transform prefabSlot;
     private SPUM_Prefabs currentPrefab;
 
@@ -52,8 +55,8 @@ public class BaseMonster : MonoBehaviour
     public LayerMask targetLayer;
     public Transform Target { get; set; } // 목표지점
 
+    // 애니메이션 / 렌더러 관련
     private AnimationConnect animationConnect;
-    //private Animator animator;
     private List<SpriteRenderer> spriteRenderers = new();
     private List<Color> originalColors = new();
     private Color hitColor = Color.red; // 데미지 입었을 때 색상
@@ -83,6 +86,8 @@ public class BaseMonster : MonoBehaviour
     public Action OnMonsterDeathAction;
 
     private WaitForSeconds blinkSeconds;
+
+    private bool isDead = false;
 
     //진행방향 애니메이션 필드
     private Vector2 previousDirection = Vector2.zero;
@@ -183,6 +188,7 @@ public class BaseMonster : MonoBehaviour
         disableAttackCount = MonsterData.MonsterType == MonType.Standard ? 6 : 26;
         attackCount = 0;
         isDisable = false;
+        isDead = false;
         if (MonsterData.HasSkill)
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
@@ -335,7 +341,6 @@ public class BaseMonster : MonoBehaviour
         if (attackCount >= disableAttackCount)
         {
             isDisable = true;
-            Debug.Log("횟수 다 되서 죽음");
             Death();
         }
     }
@@ -364,7 +369,6 @@ public class BaseMonster : MonoBehaviour
     //데미지 받을 떄 호출되는 함수
     public virtual void TakeDamage(float amount, float penetration = 0)
     {
-        Debug.Log($"데미지 입음{amount}");
         if(EvasionRate != -1f)
         {
             if (Random.Range(0f, 1f) * 100 < EvasionRate * 100)
@@ -377,8 +381,12 @@ public class BaseMonster : MonoBehaviour
         //CurrentHP -= amount;
         CurrentHP -= amount * (1 - CurrentDef * (1-penetration)/ (CurrentDef * (1 - penetration) + DefConstant));
 
-        if (CurrentHP <= 0)
+        if (CurrentHP <= 0 && !isDead)
+        {
             animationConnect.StartDeathAnimaiton();
+            isDead = true;
+        }
+            
         
         //피격시 몬스터 색 변경
         if (this.gameObject.activeSelf)

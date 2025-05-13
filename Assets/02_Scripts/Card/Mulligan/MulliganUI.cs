@@ -157,7 +157,6 @@ public class MulliganUI : MonoBehaviour
     //멀리건UI 분기점
     private void ProceedToNextStep()
     {
-        
         if (count <= 1)
         {
             Utils.Shuffle(elementalDataList);
@@ -174,6 +173,8 @@ public class MulliganUI : MonoBehaviour
         {
             EndMulligan();
         }
+
+       
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 
@@ -187,6 +188,7 @@ public class MulliganUI : MonoBehaviour
         timerText.gameObject.SetActive(false);
         gameObject.SetActive(false);
         InGameManager.Instance.GameStart();
+        
     }
     
     //타이머 다 됐을때 카드 자동선택
@@ -259,9 +261,14 @@ public class MulliganUI : MonoBehaviour
         }
 
         ClearUI();
+        remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
         gameObject.SetActive(false);
         Time.timeScale = 1f;
         MaxSelectedCards = 1;
-        remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
+        
+        if (InGameManager.Instance.exp >= InGameManager.Instance.GetMaxExp())
+        {
+            InGameManager.Instance.LevelUp();
+        }
     }
 }

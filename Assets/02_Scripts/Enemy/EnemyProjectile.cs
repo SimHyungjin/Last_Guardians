@@ -19,6 +19,7 @@ public class EnemyProjectile : ProjectileBase
 
     private void Start()
     {
+        //스프라이트 가져오기
         spriteRenderer.sprite = projectileAtlas.GetSprite("DarkArrow");
     }
 
@@ -31,9 +32,10 @@ public class EnemyProjectile : ProjectileBase
 
     public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
-
+        //안쓰는 함수
     }
 
+    //왼쪽 오른쪽 뒤집기
     private void FlipProjectilebyDirection()
     {
         Vector2 movedirection = new Vector2(rb.velocity.x, rb.velocity.y).normalized;

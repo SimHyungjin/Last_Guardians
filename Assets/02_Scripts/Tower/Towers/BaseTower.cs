@@ -60,7 +60,7 @@ public abstract class BaseTower : MonoBehaviour
     /// <param name="_towerData"></param>
     public virtual void Init(TowerData _towerData)
     {
-        towerUpgradeData= Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
+        towerUpgradeData= Resources.Load<TowerUpgradeData>("SO/Tower/towerUpgrade/towerUpgrade");
         towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         sprite = GetComponent<SpriteRenderer>();

@@ -12,16 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba615e3bdefb0b241ac479342c7d795e, type: 3}
   m_Name: TowerUpgrade
   m_EditorClassIdentifier: 
-  attackPowerUpgrade: 0
-  attackSpeedUpgrade: 0
-  attackRangeUpgrade: 0
-  penetrationUpgrade: 0
-  continuousAttackUpgrade: 0
-  combetMasteryUpgrade: 0
-  multipleAttackUpgrade: 0
-  bossSlayerUpgrade: 0
-  effectValueUpgrade: 0
-  effectDurationUpgrade: 0
-  effectRangeUpgrade: 0
-  catalysisUpgrade: 0
-  effecttransferUpgrade: 0
+  totalMasteryPoint: 100
+  currentMasteryPoint: 100
+  usedMasteryPoint: 0
+  description:
+  - " \uBAA8\uB4E0 \uACF5\uACA9 \uD0C0\uC6CC\uC758 \uAE30\uBCF8 \uB370\uBBF8\uC9C0
+    +3%/6%/9%"
+  - "\uBAA8\uB4E0 \uACF5\uACA9 \uD0C0\uC6CC\uC758 \uACF5\uACA9 \uC18D\uB3C4 +2%/4%/6%"
+  - "\uBAA8\uB4E0 \uACF5\uACA9 \uD0C0\uC6CC\uC758 \uC0AC\uAC70\uB9AC/\uBC94\uC704
+    +5%/10%/15%"
+  - "\uBAA8\uB4E0 \uACF5\uACA9\uC758 \uBC29\uC5B4\uB825 \uAD00\uD1B5 \uC218\uCE58
+    +3%/6%/9%"
+  - "\uAC19\uC740 \uB300\uC0C1 \uC5F0\uC18D \uACF5\uACA9 \uC2DC \uB370\uBBF8\uC9C0
+    +2%/4%/6%"
+  - "\uACF5\uACA9 \uD0C0\uC6CC\uC758 \uBAA8\uB4E0 \uAE30\uBCF8 \uACF5\uACA9 \uB2A5\uB825\uCE58(\uACF5\uACA9\uB825/\uC18D\uB3C4/\uBC94\uC704)
+    \uC99D\uAC00 +3%/6%/9%"
+  - "\uCD94\uAC00 \uACF5\uACA9 \uAC00\uB2A5\uD55C \uB300\uC0C1 \uC218 +1/2/3"
+  - "\uBCF4\uC2A4 \uCC98\uCE58 \uC218\uC5D0 \uBE44\uB840\uD574 \uCD94\uAC00 \uB370\uBBF8\uC9C0
+    +1%/2%/3% "
+  - "\uBAA8\uB4E0 \uD0C0\uC6CC\uAC00 \uAC00\uC9C4 \uACE0\uC720 \uD6A8\uACFC\uC758
+    \uAE30\uBCF8 \uAC15\uB3C4 +5%/10%/15%"
+  - "\uBAA8\uB4E0 \uC0C1\uD0DC \uD6A8\uACFC \uC9C0\uC18D\uC2DC\uAC04 +8%/16%/24%"
+  - "\uBAA8\uB4E0 \uAD11\uC5ED \uD6A8\uACFC\uC758 \uC601\uD5A5 \uBC94\uC704 +5%/10%/15%"
+  - "\uD6A8\uACFC\uB97C \uBC1B\uB294 \uC801\uC774 \uB370\uBBF8\uC9C0\uB97C \uBC1B\uC744
+    \uB54C\uB9C8\uB2E4 \uD6A8\uACFC \uC9C0\uC18D\uC2DC\uAC04 \uC99D\uAC00 +1%/2%/3%"
+  - "\uD6A8\uACFC\uB97C \uBC1B\uC740 \uC801 \uCC98\uCE58 \uC2DC \uC8FC\uBCC0 \uC801\uC5D0\uAC8C
+    \uD6A8\uACFC \uC804\uC774 \uD655\uB960 +8%/16%/24%"

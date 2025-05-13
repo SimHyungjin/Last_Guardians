@@ -39,7 +39,7 @@ public class MainSceneButtonView : MonoBehaviour
 
         TowerUpgradeBtn.onClick.AddListener(() =>
         {
-            mainSceneManager.ShowPanel("TowerUpgrade");
+            mainSceneManager.ShowPanel("towerUpgrade");
         });
 
         idleBtn.onClick.RemoveAllListeners();

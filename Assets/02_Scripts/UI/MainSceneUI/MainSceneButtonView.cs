@@ -9,8 +9,9 @@ public class MainSceneButtonView : MonoBehaviour
     [SerializeField] private Button bookBtn;
     [SerializeField] private Button soundOptionBtn;
     [SerializeField] private Button idleBtn;
+    [SerializeField] private Button TowerUpgradeBtn;
 
-   
+
     [SerializeField] private IdleRewardPopupUI idlePopup;
 
     public void Init(MainSceneManager mainSceneManager)
@@ -36,7 +37,11 @@ public class MainSceneButtonView : MonoBehaviour
             mainSceneManager.ShowPanel("SoundOption");
         });
 
-       
+        TowerUpgradeBtn.onClick.AddListener(() =>
+        {
+            mainSceneManager.ShowPanel("TowerUpgrade");
+        });
+
         idleBtn.onClick.RemoveAllListeners();
         idleBtn.onClick.AddListener(idlePopup.OpenPopup);
     }

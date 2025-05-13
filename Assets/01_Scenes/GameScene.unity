@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineVirtualCamera: {fileID: 98788410}
   freeCamBoundary: {fileID: 0}
-  zoomSpeed: 2
+  zoomSpeed: 0.3
   minZoom: 2
   maxZoom: 5.5
   mainCamera: {fileID: 0}

@@ -33,6 +33,7 @@ public abstract class BaseTower : MonoBehaviour
 {
     [Header("타워 데이터")]
     public TowerData towerData;
+    public TowerUpgradeData towerUpgradeData;
     public EnvironmentEffect environmentEffect;
 
     [Header("타워 결합")]
@@ -59,6 +60,7 @@ public abstract class BaseTower : MonoBehaviour
     /// <param name="_towerData"></param>
     public virtual void Init(TowerData _towerData)
     {
+        towerUpgradeData= Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
         towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         sprite = GetComponent<SpriteRenderer>();

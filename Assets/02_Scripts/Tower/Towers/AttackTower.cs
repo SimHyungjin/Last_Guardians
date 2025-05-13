@@ -121,6 +121,7 @@ public class AttackTower : BaseTower
 
     void Attack()
     {
+        //마스터리포인트 1/1000 ->인게임매니저 ->게임매니저
         if (disable) return;
         //bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
         bool isMultyTarget = towerData.EffectTarget == EffectTarget.Multiple;

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     public ItemManager ItemManager { get; private set; } = new();
-
+    public TowerUpgrade towerUpgrade;
     public int gold = 0;
     public int upgradeStones = 0;
 
@@ -25,6 +25,10 @@ public class GameManager : Singleton<GameManager>
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        if (GetComponent<TowerUpgrade>() == null)
+        {
+            gameObject.AddComponent<TowerUpgrade>();
+        }
     }
 
     private void OnDisable()

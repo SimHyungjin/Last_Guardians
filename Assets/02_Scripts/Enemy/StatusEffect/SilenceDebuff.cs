@@ -12,12 +12,10 @@ public class SilenceDebuff : StatusEffect
     public override void ApplyEffect(BaseMonster target)
     {
         target.isSilence = true;
-        RefreshStatus(target);
     }
 
     public override void RemoveEffect(BaseMonster target)
     {
         target.isSilence = false;
-        RefreshStatus(target);
     }
 }

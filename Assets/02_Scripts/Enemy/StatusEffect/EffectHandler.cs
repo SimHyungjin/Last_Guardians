@@ -41,6 +41,10 @@ public class EffectHandler : MonoBehaviour
                 existEffect.Amount = Mathf.Max(existEffect.Amount, effect.Amount);
             }
             existEffect.Duration = effect.Duration;
+            //existEffect.RemoveEffect(baseMonster);
+            //effects.Remove(existEffect);
+            //effects.Add(effect);
+            //effect.ApplyEffect(baseMonster);
         }
         else
         {
@@ -58,7 +62,7 @@ public class EffectHandler : MonoBehaviour
         }
     }
 
-    //리스트에 이펙트가 있는지 없는지
+    //null이면 true 아니면 false
     public bool IsInEffect(StatusEffect effect)
     {
         if (effect == null)

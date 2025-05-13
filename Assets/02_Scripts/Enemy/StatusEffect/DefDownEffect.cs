@@ -12,12 +12,10 @@ public class DefDownEffect : StatusEffect
     public override void ApplyEffect(BaseMonster target)
     {
         target.DeBuffDefModifier = Amount;
-        RefreshStatus(target);
     }
 
     public override void RemoveEffect(BaseMonster target)
     {
         target.DeBuffDefModifier = 0f;
-        RefreshStatus(target);
     }
 }

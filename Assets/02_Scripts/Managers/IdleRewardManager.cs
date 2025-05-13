@@ -128,6 +128,12 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
             ? TimeSpan.FromMinutes(MAX_IDLE_MINUTES)
             : elapsed;
     }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void AutoStartTimer()
+    {
+        
+        var _ = Instance;
+    }
 
     private void OnApplicationPause(bool pause) => SaveAll();
     private void OnApplicationQuit() => SaveAll();

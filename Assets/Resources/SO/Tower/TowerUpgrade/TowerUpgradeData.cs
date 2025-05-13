@@ -70,10 +70,6 @@ public class TowerUpgradeData : ScriptableObject
     }
 }
 
-
-
-
-
 //[Header("공격마스터리")]
 //[Header("티어1")]
 //public int attackPowerUpgrade;

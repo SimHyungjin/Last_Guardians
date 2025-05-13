@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     public ItemManager ItemManager { get; private set; } = new();
-    public TowerUpgrade towerUpgrade;
     public int gold = 0;
     public int upgradeStones = 0;
 

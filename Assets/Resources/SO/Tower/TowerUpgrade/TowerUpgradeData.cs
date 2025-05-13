@@ -61,6 +61,10 @@ public class TowerUpgradeData : ScriptableObject
         {
             string json = File.ReadAllText(savePath);
             var save = JsonUtility.FromJson<SaveData>(json);
+            totalMasteryPoint = save.towerUpgradedata.totalMasteryPoint;
+            currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
+            usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
+            currentLevel = new List<int>(save.towerUpgradedata.currentLevel);
         }
         usedMasteryPoint = totalMasteryPoint - currentMasteryPoint;
     }

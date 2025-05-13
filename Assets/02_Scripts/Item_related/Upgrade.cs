@@ -31,7 +31,7 @@ public class Upgrade
         {
             var upgradedData = GetSuccessItem(instance);
             upgradedInstance = upgradedData;
-            Debug.Log($"Upgrade success: {instance.Data.itemName}");
+            Debug.Log($"Upgrade success: {instance.Data.ItemName}");
             return true;
         }
         else
@@ -49,7 +49,7 @@ public class Upgrade
     /// <returns></returns>
     private bool CanUpgrade(ItemData data, out UpgradeRuleData rule)
     {
-        rule = upgradeRules.Find(x => x.sourceGrade == data.itemGrade);
+        rule = upgradeRules.Find(x => x.sourceGrade == data.ItemGrade);
         if (rule == null)
         {
             Debug.Log("No upgrade rule found");

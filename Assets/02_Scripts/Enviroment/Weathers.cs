@@ -11,7 +11,6 @@ public class FogWeather : IWeatherState
     
     public void Enter()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name}");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
         particle.gameObject.SetActive(true);
         InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
@@ -19,7 +18,6 @@ public class FogWeather : IWeatherState
 
     public void Exit()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
         particle.gameObject.SetActive(false);
         InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.RemoveBuff(playerAttackRange);
@@ -35,7 +33,6 @@ public class StrongWindWeather : IWeatherState
 {
     public void Enter()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name}");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Wind"));
         particle.gameObject.SetActive(true);
 
@@ -56,7 +53,6 @@ public class StrongWindWeather : IWeatherState
 
     public void Exit()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Wind"));
         particle.gameObject.SetActive (false);
         foreach (BaseTower tower in TowerManager.Instance.Towers)
@@ -79,7 +75,6 @@ public class RainWeather : IWeatherState
     
     public void Enter()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name}");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Rain"));
         particle.gameObject.SetActive(true);
 
@@ -98,7 +93,6 @@ public class RainWeather : IWeatherState
 
     public void Exit()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Rain"));
         particle.gameObject.SetActive(false);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
@@ -120,7 +114,6 @@ public class DroughtWeather : IWeatherState
 {
     public void Enter()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name}");
         foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Drought);
@@ -129,7 +122,7 @@ public class DroughtWeather : IWeatherState
 
     public void Exit()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
+
     }
 
     public void Update()
@@ -144,7 +137,6 @@ public class SnowWeather : IWeatherState
     
     public void Enter()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name}");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));
         particle.gameObject.SetActive(true);
         InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
@@ -160,7 +152,6 @@ public class SnowWeather : IWeatherState
 
     public void Exit()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));
         particle.gameObject.SetActive(false);
         InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.RemoveBuff(playerBuffMoveSpeed);
@@ -184,7 +175,6 @@ public class SunnyWeather : IWeatherState
 {
     public void Enter()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name}");
         foreach (var obs in EnviromentManager.Instance.Obstacles)
         {
             obs.Init(Weather.Default);
@@ -193,7 +183,7 @@ public class SunnyWeather : IWeatherState
 
     public void Exit()
     {
-        Debug.Log($"날씨상태 : {this.GetType().Name} 종료");
+
     }
 
     public void Update()

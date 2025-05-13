@@ -7,6 +7,7 @@ public class BossMonster : BaseMonster
     public override void TakeDamage(float amount, float penetration = 0)
     {
         base.TakeDamage(amount);
+        //공격받을떄 데미지 텍스트 띄우기
         DamageText damageText = PoolManager.Instance.Spawn<DamageText>(InGameManager.Instance.DamageTextPrefab);
         damageText.gameObject.transform.SetParent(InGameManager.Instance.DamageUICanvas.transform);
         Vector3 worldPos = transform.position + Vector3.up * 0.1f;
@@ -17,17 +18,16 @@ public class BossMonster : BaseMonster
 
     public override void MeleeAttack()
     {
+        //근접공격시
         base.MeleeAttack();
         if (!firstHit)
         {
             firstHit = true;
             InGameManager.Instance.TakeDmage(FirstHitDamage);
-            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 : {FirstHitDamage}");
         }
         else
         {
             InGameManager.Instance.TakeDmage(SecondHitDamage);
-            Debug.Log($"보스몬스터 {MonsterData.name} 공격 데미지 {SecondHitDamage}");
         }
         AttackTimer = attackDelay;
         AfterAttack();
@@ -35,7 +35,9 @@ public class BossMonster : BaseMonster
 
     public override void RangeAttack()
     {
+        //원거리 공격시
         base.RangeAttack();
+        //투사체 생성
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
@@ -46,6 +48,7 @@ public class BossMonster : BaseMonster
 
     protected override void MonsterSkill()
     {
+        //스킬사용
         Debug.Log($"{MonsterData.name} {MonsterSkillBaseData.skillData.name} 사용");
         MonsterSkillBaseData.UseSkill(this);
         SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;

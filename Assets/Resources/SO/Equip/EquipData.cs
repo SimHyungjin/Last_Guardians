@@ -84,7 +84,8 @@ public class EquipData : ItemData
                 linkedItem.ItemGrade,
                 linkedItem.ItemStackLimit,
                 linkedItem.ItemDropRate,
-                linkedItem.ItemSellPrice
+                linkedItem.ItemSellPrice, 
+                linkedItem.ItemApartPrice
             );
         }
 #endif
@@ -99,7 +100,8 @@ public class EquipData : ItemData
             item.ItemGrade,
             item.ItemStackLimit,
             item.ItemDropRate,
-            item.ItemSellPrice
+            item.ItemSellPrice,
+            item.ItemApartPrice
         );
 
         icon = item.Icon; // 아이콘도 복사

@@ -21,6 +21,7 @@ public class EXPBead : MonoBehaviour
     private void OnEnable()
     {
         isCollected = false;
+        //경험치 구슬 사라지는 코루틴
         disappearCorutine = StartCoroutine(Disappear());
     }
 
@@ -28,8 +29,8 @@ public class EXPBead : MonoBehaviour
     {
         yield return new WaitForSeconds(disTime);
         disappearCorutine = null;
+        //경험치 반만 획득
         InGameManager.Instance.GetExp((int)EXP / 2);
-        //Debug.Log($"EXPCount : {MonsterManager.Instance.EXPCount}, MonsterKill : {MonsterManager.Instance.MonsterKillCount}");
         PoolManager.Instance.Despawn<EXPBead>(this);
     }
 
@@ -55,8 +56,6 @@ public class EXPBead : MonoBehaviour
             }
             InGameManager.Instance.GetExp(EXP);
             MonsterManager.Instance.EXPCount++;
-            Debug.Log($"EXPCount : {MonsterManager.Instance.EXPCount}, MonsterKill : {MonsterManager.Instance.MonsterKillCount}");
-            Debug.Log($"경험치 획득 : {EXP}, 총경험치 : {InGameManager.Instance.exp}");
             PoolManager.Instance.Despawn<EXPBead>(this);
         }
     }

@@ -18,6 +18,8 @@ public class GameManager : Singleton<GameManager>
         DontDestroyOnLoad(gameObject);
 
         ItemManager.LoadAllItems();
+
+        var idle = IdleRewardManager.Instance;
     }
 
     private void OnEnable()
@@ -46,5 +48,6 @@ public class GameManager : Singleton<GameManager>
     {
         yield return null;
         SaveSystem.LoadGame();
+        
     }
 }

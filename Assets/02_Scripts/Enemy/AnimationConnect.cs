@@ -40,8 +40,6 @@ public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이
     {
         Animator.SetTrigger("4_Death");
     }
-   
-
 
     public void Attack()
     {

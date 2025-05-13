@@ -21,14 +21,15 @@ public enum ItemGrade
 public class ItemData : ScriptableObject
 {
     [SerializeField] private int itemIndex;
-    [SerializeField] public string itemName;
-    [SerializeField] public string itemDescript;
+    [SerializeField] private string itemName;
+    [SerializeField] private string itemDescript;
     [SerializeField] private ItemType itemType;
-    [SerializeField] public ItemGrade itemGrade;
+    [SerializeField] private ItemGrade itemGrade;
     [SerializeField] private int itemStackLimit;
     [SerializeField] private float itemDropRate;
     [SerializeField] private int itemSellPrice;
-    [SerializeField] public Sprite icon;
+    [SerializeField] private int itemApartPrice;
+    [SerializeField] protected Sprite icon;
 
     public int ItemIndex => itemIndex;
     public string ItemName => itemName;
@@ -38,9 +39,10 @@ public class ItemData : ScriptableObject
     public int ItemStackLimit => itemStackLimit;
     public float ItemDropRate => itemDropRate;
     public int ItemSellPrice => itemSellPrice;
+    public int ItemApartPrice => itemApartPrice;
     public Sprite Icon => icon;
 
-    public void SetData(int index, string name, string descript, ItemType type, ItemGrade grade, int stackLimit, float dropRate, int sellPrice)
+    public void SetData(int index, string name, string descript, ItemType type, ItemGrade grade, int stackLimit, float dropRate, int sellPrice, int apartPrice)
     {
         itemIndex = index;
         itemName = name;
@@ -50,6 +52,7 @@ public class ItemData : ScriptableObject
         itemStackLimit = stackLimit;
         itemDropRate = dropRate;
         itemSellPrice = sellPrice;
+        itemApartPrice = apartPrice;
     }
 
 

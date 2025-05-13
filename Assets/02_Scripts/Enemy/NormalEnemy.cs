@@ -11,12 +11,10 @@ public class NormalEnemy : BaseMonster
         {
             firstHit = true;
             InGameManager.Instance.TakeDmage(FirstHitDamage);
-            Debug.Log($"노말공격 데미지 {FirstHitDamage}");
         }
         else
         {
             InGameManager.Instance.TakeDmage(SecondHitDamage);
-            Debug.Log($"노말공격 데미지 {SecondHitDamage}");
         }
         AttackTimer = attackDelay;
         AfterAttack();

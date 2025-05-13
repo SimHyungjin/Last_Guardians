@@ -148,6 +148,8 @@ public class MonsterManager : Singleton<MonsterManager>
             monster.Target = Target;
             //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
+            alliveCount++;
+            spawnCount++;
         }
         
     }
@@ -181,7 +183,7 @@ public class MonsterManager : Singleton<MonsterManager>
             monster.Setup(data);
             monster.Target = Target;
             //monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
-            //AlliveMonsters.Add(monster);
+            AlliveMonsters.Add(monster);
         }
     }
 
@@ -206,6 +208,7 @@ public class MonsterManager : Singleton<MonsterManager>
         monster.transform.SetParent(PoolManager.Instance.transform);
         AlliveMonsters.Add(monster);
         alliveCount++;
+        spawnCount++;
         RemainMonsterCount++;
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
@@ -216,11 +219,9 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         if (monster.MonsterData.MonsterType != MonType.Bounty)
         {
-            alliveCount--;
             RemainMonsterCount--;
+            alliveCount--;
         }
-
-        //MonsterKillCount++;
 
         if (AlliveMonsters.Contains(monster))
         {
@@ -230,7 +231,7 @@ public class MonsterManager : Singleton<MonsterManager>
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
         
-        if (alliveCount <= 0 && spawnCount == currentWaveMonsterCount)
+        if (IsWaveComplete())
         {
             if (InGameManager.Instance.PlayerHP <= 0)
                 return;
@@ -248,17 +249,19 @@ public class MonsterManager : Singleton<MonsterManager>
                 Debug.Log($"[최고 웨이브] {MaxWave}");
             }
 
-            
             spawnCount = 0;
             currentWaveMonsterCount = 0;
             RemainMonsterCount = 0;
             alliveCount = 0;
-            AlliveMonsters.Clear();
 
             StartCoroutine(StartNextWave());
         }
     }
 
+    private bool IsWaveComplete()
+    {
+        return alliveCount <= 0 && spawnCount == currentWaveMonsterCount;
+    }
 
     private void InitMonsters()
     {

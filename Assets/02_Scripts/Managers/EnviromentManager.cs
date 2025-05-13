@@ -85,7 +85,6 @@ public class EnviromentManager : Singleton<EnviromentManager>
             Season = Season.winter;
         }
 
-        Debug.Log($"현재계절 : {Season}");
     }
 
    

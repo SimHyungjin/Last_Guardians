@@ -55,8 +55,6 @@ public class EXPBead : MonoBehaviour
             }
             InGameManager.Instance.GetExp(EXP);
             MonsterManager.Instance.EXPCount++;
-            Debug.Log($"EXPCount : {MonsterManager.Instance.EXPCount}, MonsterKill : {MonsterManager.Instance.MonsterKillCount}");
-            Debug.Log($"경험치 획득 : {EXP}, 총경험치 : {InGameManager.Instance.exp}");
             PoolManager.Instance.Despawn<EXPBead>(this);
         }
     }

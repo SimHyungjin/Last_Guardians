@@ -17,24 +17,29 @@ public enum Season
 
 public class EnviromentManager : Singleton<EnviromentManager>
 {
+    //날씨 상태
     public WeatherState WeatherState { get; private set; }
     public Season Season { get; private set; }
-
     public List<ParticleSystem> Particles { get; private set; } = new();
 
+    //맵에 배치될 장애물 템플릿 리스트
     private List<GameObject> firstObjectTemplates = new();
     private List<GameObject> secondObjectTemplates = new();
     private List<GameObject> thirdObjectTemplates = new();
     private List<GameObject> fourthObjectTemplates = new();
     
+    //맵 프리팹
     public List<GameObject> MapPrefabs { get; private set; } = new();
 
+    //장애물 리스트
     public List<BaseObstacle> Obstacles { get; private set; } = new();
 
+    //날씨 사이클
     public int WeatherCycle { get; private set; } = 5;
 
+    //날씨상태에 따른 효과적용 코루틴
     private Coroutine stateCorutine;
-    private static readonly WaitForSeconds waitForSeconds = new(0.2f);
+    private static readonly WaitForSeconds waitForSeconds = new(0.2f);//체크 딜레이
 
     private void Start()
     {
@@ -62,6 +67,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
         WheaterInit();
     }
 
+    //시간에 따라 계절 적용
     public void SetSeason(int min)
     {
         if (min >= 0 && min < 15)
@@ -98,6 +104,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
         
     }
 
+    //템플릿 불러오기
     private void InitTempleats()
     {
         firstObjectTemplates = Resources.LoadAll<GameObject>("Enviroment/First").ToList();
@@ -114,6 +121,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
         Utils.Shuffle(fourthObjectTemplates);
     }
 
+    //날씨효과 적용
     private void WheaterInit()
     {
         foreach (ParticleSystem particle in Resources.LoadAll<ParticleSystem>("Enviroment/Particle").ToList())

@@ -102,6 +102,7 @@ public class InGameManager : Singleton<InGameManager>
         if(TowerManager.Instance.hand.IsHighlighting)TowerManager.Instance.hand.CancleCard();
         mulliganUI.gameObject.SetActive(true);
         mulliganUI.LevelUPSelect();
+        
     }
 
     private void InItTowerData()
@@ -171,5 +172,10 @@ public class InGameManager : Singleton<InGameManager>
     public void UpdateWeatherInfo()
     {
         weatherInfo.text = $"{EnviromentManager.Instance.WeatherState.GetSeasonText("")} / {EnviromentManager.Instance.WeatherState.GetWeatherName()}";
+    }
+
+    public double GetMaxExp()
+    {
+        return maxExp;
     }
 }

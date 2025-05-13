@@ -9,7 +9,7 @@ public class TowerUpgrade :MonoBehaviour
     public TowerUpgradeData towerUpgradeData;
     private void Start()
     {
-        towerUpgradeData = Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/towerUpgrade");
+        towerUpgradeData = Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
         towerUpgradeData.Init();
     }
     public bool CanUpgrade(TowerUpgradeType type)
@@ -19,7 +19,7 @@ public class TowerUpgrade :MonoBehaviour
             Debug.Log("마스터리 포인트가 부족합니다.");
             return false;
         }
-        if (towerUpgradeData.upgradeData[type].currentLevel >= towerUpgradeData.upgradeData[type].maxLevel)
+        if (towerUpgradeData.currentLevel[(int)type] >= towerUpgradeData.maxLevel)
         {
             Debug.Log("업그레이드 최대 레벨에 도달했습니다.");
             return false;
@@ -37,21 +37,20 @@ public class TowerUpgrade :MonoBehaviour
             Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 20을 초과해야 합니다.");
             return false;
         }
-        if (towerUpgradeData.upgradeData.ContainsKey(type))
+        else
         {
-            return towerUpgradeData.upgradeData[type].currentLevel < towerUpgradeData.upgradeData[type].maxLevel;
+            return towerUpgradeData.currentLevel[(int)type] < towerUpgradeData.maxLevel;
         }
-        return false;
     }
 
     public void Upgrade(TowerUpgradeType type)
     {
         if (CanUpgrade(type))
         {
-            towerUpgradeData.upgradeData[type].currentLevel++;
+            towerUpgradeData.currentLevel[(int)type]++;
             towerUpgradeData.usedMasteryPoint += 1;
             towerUpgradeData.currentMasteryPoint--;
-            SaveSystem.SaveTowerUpgradeData(towerUpgradeData.SetTowerUpgradeData());
+            SaveSystem.SaveTowerUpgradeData(this);
             return;
         }
     }

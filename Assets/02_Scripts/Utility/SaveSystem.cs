@@ -8,7 +8,7 @@ public class SaveData
 {
     public List<ItemInstanceSave> inventory = new();
     public List<EquippedItemSave> equipped = new();
-    public SerializableUpgradeData TowerUpgradeData;
+    public SerializableTowerUpgradeData towerUpgradedata;
     public int gold;
     public int upgradeStones;
 }
@@ -130,20 +130,23 @@ public static class SaveSystem
         File.WriteAllText(SavePath, newJson);
     }
 
-    public static void SaveTowerUpgradeData(SerializableUpgradeData towerUpgradeData)
+    public static void SaveTowerUpgradeData(TowerUpgrade towerUpgrade)
     {
         Debug.Log("[SaveSystem] SaveTowerUpgradeData 실행");
+
         if (!File.Exists(SavePath))
         {
             File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
             Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
         }
+
         string json = File.ReadAllText(SavePath);
-        var save = JsonUtility.FromJson<SaveData>(json);
-        save.TowerUpgradeData = towerUpgradeData;
-        Debug.Log($"[SaveSystem] 타워 업그레이드 데이터 저장 완료");
+        SaveData save = JsonUtility.FromJson<SaveData>(json);
+        SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(towerUpgrade.towerUpgradeData);
+        save.towerUpgradedata = towerUpgradeData;
         string newJson = JsonUtility.ToJson(save, true);
         File.WriteAllText(SavePath, newJson);
+        Debug.Log("[SaveSystem] 타워 업그레이드 데이터 저장 완료");
     }
     public static void SaveGame()
     {

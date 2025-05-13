@@ -166,11 +166,11 @@ public class TowerUpgradeUI : MonoBehaviour
 
     private void UpdateButtonColor(Button button, int index)
     {
-        if (towerUpgrade.towerUpgradeData.upgradeData[(TowerUpgradeType)index].currentLevel >= 1)
+        if (towerUpgrade.towerUpgradeData.currentLevel[index] >= 1)
         {
             button.GetComponent<Image>().color = Color.white;
             level[index].gameObject.SetActive(true);
-            String levelText = "Lv.  "+ towerUpgrade.towerUpgradeData.upgradeData[(TowerUpgradeType)index].currentLevel.ToString();
+            String levelText = "Lv.  "+ towerUpgrade.towerUpgradeData.currentLevel[index].ToString();
             level[index].text = levelText;
         }
     }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SellPopupContoroller : MonoBehaviour
+public class SellPopupContoroller : PopupBase
 {
     [Header("UI References")]
     [SerializeField] private Transform slotContainerView;
@@ -21,8 +22,14 @@ public class SellPopupContoroller : MonoBehaviour
 
     public Action OnSellAction;
 
-    private void Awake()
+    public override void Init()
     {
+        base.Init();
+        var main = MainSceneManager.Instance;
+        inventory = main.inventory;
+        equipment = main.equipment;
+        selectionController = main.inventoryGroup.itemConnecter.selectionController;
+
         for (int i = 0; i < 20; i++)
         {
             var slot = Utils.InstantiateComponentFromResource<Slot>("UI/MainScene/Slot", slotContainerView);
@@ -30,41 +37,26 @@ public class SellPopupContoroller : MonoBehaviour
         }
 
         sellButton.onClick.AddListener(OnSellButtonClicked);
-        //apartButton.onClick.AddListener(OnApartButtonClicked);
-        cancelButton.onClick.AddListener(OnCancelButtonClicked);
-    }
-    private void OnEnable()
-    {
-        if (selectionController == null) return;
-
-        if (selectionController.selectionMode == SelectionMode.Multi)
-            SetData(null);
-    }
-
-    private void Start()
-    {
-        var main = MainSceneManager.Instance;
-        inventory = main.inventory;
-        equipment = main.equipment;
-        selectionController = main.inventoryGroup.itemConnecter.selectionController;
-
+        // apartButton.onClick.AddListener(OnApartButtonClicked);
+        cancelButton.onClick.AddListener(Close);
         selectionController.SelectSlotListAction += SetData;
-
-        if (selectionController.selectionMode == SelectionMode.Multi && selectionController.selectedDataList.Count > 0)
-        {
-            SetData(null);
-        }
     }
-    private void OnDisable()
+
+    public override void Open()
     {
+        base.Open();
+
+        if (selectionController.selectionMode != SelectionMode.Multi)
+            selectionController.ToggleMode(SelectionMode.Multi);
+
+        SetData(null);
+    }
+
+    public override void Close()
+    {
+        base.Close();
         if (selectionController == null) return;
         selectionController.ToggleMode(SelectionMode.Single);
-    }
-
-
-    private void OnDestroy()
-    {
-        if (selectionController != null) selectionController.SelectSlotListAction -= SetData;
     }
 
     private void SetData(Slot _)
@@ -74,17 +66,27 @@ public class SellPopupContoroller : MonoBehaviour
         int totalGold = 0;
         int totalStones = 0;
 
-        for (int i = 0; i < slots.Count; i++)
+        if (selectedItems.Count == 0)
         {
-            if (i < selectedItems.Count)
-            {
-                var item = selectedItems[i];
-                slots[i].SetData(item);
-                totalGold += item.Data.ItemSellPrice;
-            }
-            else
+            for (int i = 0; i < slots.Count; i++)
             {
                 slots[i].Clear();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (i < selectedItems.Count)
+                {
+                    var item = selectedItems[i];
+                    slots[i].SetData(item);
+                    totalGold += item.Data.ItemSellPrice;
+                }
+                else
+                {
+                    slots[i].Clear();
+                }
             }
         }
 
@@ -118,15 +120,11 @@ public class SellPopupContoroller : MonoBehaviour
         MainSceneManager.Instance.inventoryGroup.inventorySlotContainer.Refresh();
 
         OnSellAction?.Invoke();
-        gameObject.SetActive(false);
+        Close();
     }
 
     private void OnApartButtonClicked()
     {
 
-    }
-    private void OnCancelButtonClicked()
-    {
-        gameObject.SetActive(false);
     }
 }

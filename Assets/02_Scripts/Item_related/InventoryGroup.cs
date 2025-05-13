@@ -15,7 +15,6 @@ public class InventoryGroup : MonoBehaviour
     {
         inventorySlotContainer.Init();
         equipmentSlotContainer.Init();
-        itemConnecter.Init();
         inventoryUI.Init();
 
         inventorySlotContainer.Display(MainSceneManager.Instance.inventory.GetFilteredView());

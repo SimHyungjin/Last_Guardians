@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradePopupController : MonoBehaviour
+public class UpgradePopupController : PopupBase
 {
     [SerializeField] private Slot currentSlot;
     [SerializeField] private Slot upgradeSlot;
@@ -28,18 +28,26 @@ public class UpgradePopupController : MonoBehaviour
     ItemInstance currectData;
     ItemInstance upgradeData;
 
-    private void Awake()
+    public override void Init()
     {
         upgradeButton.onClick.AddListener(OnUpgradeClick);
-        cancelButton.onClick.AddListener(() => gameObject.SetActive(false));
+        cancelButton.onClick.AddListener(() => Close());
+        RefreshText();
     }
 
-    private void OnDisable()
+    public override void Open()
     {
-        currentSlot.Clear();
-        upgradeSlot.Clear();
-        EmptyText();
+        base.Open();
+        SetData(null);
     }
+
+    public override void Close()
+    {
+        base.Close();
+        currectData = null;
+        upgradeData = null;
+    }
+
 
     public void SetData(ItemInstance instance)
     {
@@ -61,10 +69,6 @@ public class UpgradePopupController : MonoBehaviour
         RefreshText();
     }
 
-    public void Open()
-    {
-        gameObject.SetActive(true);
-    }
 
     private void RefreshText()
     {
@@ -148,23 +152,24 @@ public class UpgradePopupController : MonoBehaviour
 
     private void OnUpgradeClick()
     {
-        var mainSceneManager = MainSceneManager.Instance;
+        var main = MainSceneManager.Instance;
 
-        mainSceneManager.upgrade.TryUpgrade(currectData, out var result);
+        main.upgrade.TryUpgrade(currectData, out var result);
 
         SaveSystem.RemoveEquip(currectData.UniqueID);
-        mainSceneManager.inventory.RemoveItem(currectData);
+        main.inventory.RemoveItem(currectData);
 
         SaveSystem.SaveEquipReward(result);
-        mainSceneManager.inventory.AddItem(result);
+        main.inventory.AddItem(result);
 
-        if (mainSceneManager.equipment.IsEquipped(currectData))
-            mainSceneManager.equipment.Equip(result);
+        if (main.equipment.IsEquipped(currectData))
+            main.equipment.Equip(result);
 
-        mainSceneManager.inventoryGroup.itemConnecter.itemPopupController.SetData(result);
-        mainSceneManager.inventoryGroup.itemConnecter.itemPopupController.UpdatePopupUI();
-        mainSceneManager.inventoryGroup.itemConnecter.selectionController.RefreshSlot(result);
-        mainSceneManager.inventoryGroup.inventorySlotContainer.Display(mainSceneManager.inventory.GetFilteredView());
+        main.inventoryGroup.itemConnecter.itemPopupController.SetData(result);
+        main.inventoryGroup.itemConnecter.itemPopupController.UpdatePopupUI();
+        main.inventoryGroup.itemConnecter.selectionController.RefreshSlot(result);
+        main.inventoryGroup.inventorySlotContainer.Display(main.inventory.GetFilteredView());
+
         SetData(result);
     }
 }

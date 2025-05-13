@@ -47,9 +47,13 @@ public class InventoryUI : MonoBehaviour
     private readonly EquipType[] ArmorTypes = { EquipType.Armor, EquipType.Helmet, EquipType.Shoes };
     private readonly EquipType[] AccessoryTypes = { EquipType.Ring, EquipType.Necklace };
 
-    private void Awake()
+    public void Init()
     {
-        GoodsRefresh();
+        var itemConnecter = MainSceneManager.Instance.inventoryGroup.itemConnecter;
+
+        itemConnecter.itemPopupController.OnItemPopupUIUpdate += RefreshGoods;
+        itemConnecter.sellPopupController.OnSellAction += RefreshGoods;
+
         sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.GradeDescending));
         sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));
         sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.Recent));
@@ -85,21 +89,14 @@ public class InventoryUI : MonoBehaviour
             onItemTypeFilter?.Invoke(UpgradeStoneOnly);
             onEquipTypeFilter?.Invoke(AllEquip);
         });
+
+        sellBtn.onClick.AddListener(() => itemConnecter.OpenPopup(PopupType.Sell));
+        upgradeBtn.onClick.AddListener(() => itemConnecter.OpenPopup(PopupType.Upgrade));
+
+        RefreshGoods();
     }
-    public void Init()
-    {
-        ItemConnecter itemConnecter = MainSceneManager.Instance.inventoryGroup.itemConnecter;
-        itemConnecter.itemPopupController.OnItemPopupUIUpdate += GoodsRefresh;
-        itemConnecter.sellPopupContoroller.OnSellAction += GoodsRefresh;
-        sellBtn.onClick.AddListener(() => {
-            itemConnecter.OpenPopup(PopupType.Sell);
-        });
-        upgradeBtn.onClick.AddListener(() =>
-        {
-            itemConnecter.OpenPopup(PopupType.Upgrade);
-        });
-    }
-    private void GoodsRefresh()
+
+    private void RefreshGoods()
     {
         goldText.text = GameManager.Instance.gold.ToString();
         upgradeStoneText.text = GameManager.Instance.upgradeStones.ToString();

@@ -12,6 +12,7 @@ public enum SelectionMode
 /// </summary>
 public class SelectionController : MonoBehaviour
 {
+    [SerializeField] private InventorySlotContainer inventorySlotContainer;
     [SerializeField] private ItemPopupController itemPopupController;
     [SerializeField] private UpgradePopupController upgradePopup;
 
@@ -44,6 +45,7 @@ public class SelectionController : MonoBehaviour
 
         itemPopupController.SetData(selectedData);
         itemPopupController.Open();
+        inventorySlotContainer.Refresh();
     }
 
     public void SelectSlotList(Slot slot)
@@ -61,6 +63,7 @@ public class SelectionController : MonoBehaviour
             }
         }
         selectedDataList.Add(data);
+        inventorySlotContainer.Refresh();
         SelectSlotListAction?.Invoke(slot);
     }
     /// <summary>

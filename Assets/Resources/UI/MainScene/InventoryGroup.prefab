@@ -3469,7 +3469,7 @@ MonoBehaviour:
   selectionController: {fileID: 4291139372764446734}
   itemPopupController: {fileID: 1412693921106278078}
   upgradePopupController: {fileID: 1291353593493065353}
-  sellPopupContoroller: {fileID: 1507776687666467052}
+  sellPopupController: {fileID: 1507776687666467052}
 --- !u!1 &2293740734121047777
 GameObject:
   m_ObjectHideFlags: 0
@@ -4275,6 +4275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b1aeb15ea197dc419d37701266f5f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsInit: 0
   root: {fileID: 2476297112242928763}
   icon: {fileID: 8628242491314246326}
   itemName: {fileID: 6855869697783710257}
@@ -8088,7 +8089,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAC15\uD654"
+  m_text: "\uD310\uB9E4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b23ac7c4942ca5349b6c0669ef5e2bf9, type: 2}
   m_sharedMaterial: {fileID: 1825958623717316332, guid: b23ac7c4942ca5349b6c0669ef5e2bf9, type: 2}
@@ -8889,6 +8890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8cbc4d961a3cb42a9550f26bb4a0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventorySlotContainer: {fileID: 1133048745831635618}
   itemPopupController: {fileID: 1412693921106278078}
   upgradePopup: {fileID: 1291353593493065353}
 --- !u!1 &6068416464679555916
@@ -9241,6 +9243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5e7a4a1923faa4793bfd44c0e1537c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsInit: 0
   slotContainerView: {fileID: 4285705657973701605}
   slots: []
   sellButton: {fileID: 5733169688968028699}
@@ -12589,6 +12592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915ed01c6f5ad4347838f6cc3789136b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsInit: 0
   currentSlot: {fileID: 2088353709534837481}
   upgradeSlot: {fileID: 2733586196395042255}
   upgradeResultText: {fileID: 4880223851635676757}

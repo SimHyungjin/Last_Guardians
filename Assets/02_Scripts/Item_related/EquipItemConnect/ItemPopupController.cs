@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 인벤토리 아이템 팝업 UI를 관리하는 클래스입니다.
 /// </summary>
-public class ItemPopupController : MonoBehaviour
+public class ItemPopupController : PopupBase
 {
     [SerializeField] private GameObject root;
     [SerializeField] private Image icon;
@@ -26,59 +26,34 @@ public class ItemPopupController : MonoBehaviour
     public Action<ItemInstance> OnItemSelected;
     public Action OnItemPopupUIUpdate;
 
-    public void Init()
+    public override void Init()
     {
-        var home = MainSceneManager.Instance;
-        equipment = home.equipment;
-        inventory = home.inventory;
-        equipmentSlotContainer = home.inventoryGroup.equipmentSlotContainer;
-        inventorySlotContainer = home.inventoryGroup.inventorySlotContainer;
+        base.Init();
+        var mainSceneManager = MainSceneManager.Instance;
+        equipment = mainSceneManager.equipment;
+        inventory = mainSceneManager.inventory;
+        equipmentSlotContainer = mainSceneManager.inventoryGroup.equipmentSlotContainer;
+        inventorySlotContainer = mainSceneManager.inventoryGroup.inventorySlotContainer;
 
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
+
         UpdatePopupUI();
     }
 
-    private bool TryClearIfInventoryEmpty()
+    public override void Open()
     {
-        if (inventory.GetAll().Count == 0)
-        {
-            currentData = null;
-            icon.gameObject.SetActive(false);
-            itemName.text = string.Empty;
-            description.text = string.Empty;
-            return true;
-        }
-        return false;
-    }
-    /// <summary>
-    /// 인벤토리 슬롯에서 아이템을 선택했을 때 호출됩니다. 액션을 위한 메서드입니다.
-    /// </summary>
-    /// <param name="instance"></param>
-    public void SetData(ItemInstance instance)
-    {
-        if (instance == null) return;
-        if (TryClearIfInventoryEmpty()) return;
-        currentData = instance;
-        OnItemSelected?.Invoke(currentData);
-    }
-    /// <summary>
-    /// 인벤토리 슬롯에서 아이템을 선택했을 때 호출됩니다. 팝업을 열기 위한 메서드입니다.
-    /// </summary>
-    /// <param name="slot"></param>
-    public void Open()
-    {
-        if(currentData == null) return;
+        base.Open();
+        if (currentData == null) return;
         icon.gameObject.SetActive(true);
         root.SetActive(true);
         UpdatePopupUI();
     }
 
-    /// <summary>
-    /// 팝업을 닫습니다.
-    /// </summary>
-    public void Close()
+    public override void Close()
     {
+        base.Close();
+
         currentData = null;
         icon.gameObject.SetActive(false);
         itemName.text = string.Empty;
@@ -86,12 +61,19 @@ public class ItemPopupController : MonoBehaviour
         root.SetActive(false);
     }
 
-    /// <summary>
-    /// 팝업 UI를 업데이트합니다. 아이템의 정보를 표시합니다.
-    /// </summary>
+    public void SetData(ItemInstance instance)
+    {
+        NeedInit();
+        if (instance == null) return;
+        if (TryClearIfInventoryEmpty()) return;
+        currentData = instance;
+        OnItemSelected?.Invoke(currentData);
+    }
+
     public void UpdatePopupUI()
     {
-        if(TryClearIfInventoryEmpty()) return;
+        NeedInit();
+        if (TryClearIfInventoryEmpty()) return;
 
         inventorySlotContainer.Display(inventory.GetFilteredView());
         equipmentSlotContainer.Refresh();
@@ -109,9 +91,19 @@ public class ItemPopupController : MonoBehaviour
         OnItemPopupUIUpdate?.Invoke();
     }
 
-    /// <summary>
-    /// 장비 버튼 클릭 시 호출됩니다. 아이템을 장착합니다.
-    /// </summary>
+    private bool TryClearIfInventoryEmpty()
+    {
+        if (inventory.GetAll().Count == 0)
+        {
+            currentData = null;
+            icon.gameObject.SetActive(false);
+            itemName.text = string.Empty;
+            description.text = string.Empty;
+            return true;
+        }
+        return false;
+    }
+
     public void OnClickEquip()
     {
         if (currentData?.AsEquipData == null) return;
@@ -119,9 +111,6 @@ public class ItemPopupController : MonoBehaviour
         UpdatePopupUI();
     }
 
-    /// <summary>
-    /// 장비 해제 버튼 클릭 시 호출됩니다. 아이템을 해제합니다.
-    /// </summary>
     public void OnClickUnEquip()
     {
         if (currentData?.AsEquipData == null) return;

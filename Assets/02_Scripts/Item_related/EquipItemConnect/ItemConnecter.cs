@@ -9,42 +9,42 @@ public enum PopupType
 public class ItemConnecter : MonoBehaviour
 {
     public SelectionController selectionController;
+
     public ItemPopupController itemPopupController;
     public UpgradePopupController upgradePopupController;
-    public SellPopupContoroller sellPopupContoroller;
-
-    public void Init()
-    {
-        itemPopupController.Init();
-    }
+    public SellPopupContoroller sellPopupController;
 
     private void OnEnable()
     {
-        itemPopupController.gameObject.SetActive(false);
-        sellPopupContoroller.gameObject.SetActive(false);
-        upgradePopupController.gameObject.SetActive(false);
+        itemPopupController.Close();
+        upgradePopupController.Close();
+        sellPopupController.Close();
     }
 
     public void OpenPopup(PopupType popupType)
     {
-        upgradePopupController.gameObject.SetActive(false);
-        sellPopupContoroller.gameObject.SetActive(false);
+        if ((popupType == PopupType.Item && itemPopupController.IsOpen) ||
+            (popupType == PopupType.Upgrade && upgradePopupController.IsOpen) ||
+            (popupType == PopupType.Sell && sellPopupController.IsOpen))
+            return;
+
+        itemPopupController.Close();
+        upgradePopupController.Close();
+        sellPopupController.Close();
 
         switch (popupType)
         {
             case PopupType.Item:
                 itemPopupController.Open();
                 break;
-
             case PopupType.Upgrade:
                 upgradePopupController.Open();
                 break;
-
             case PopupType.Sell:
-                selectionController.ToggleMode(SelectionMode.Multi);
-                sellPopupContoroller.gameObject.SetActive(true);
+                sellPopupController.Open();
                 break;
         }
-        itemPopupController.UpdatePopupUI();
+
+        //itemPopupController.UpdatePopupUI();
     }
 }

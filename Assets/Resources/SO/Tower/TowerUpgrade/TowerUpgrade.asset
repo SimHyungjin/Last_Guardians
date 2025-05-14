@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba615e3bdefb0b241ac479342c7d795e, type: 3}
   m_Name: TowerUpgrade
   m_EditorClassIdentifier: 
-  totalMasteryPoint: 50
-  currentMasteryPoint: 50
-  usedMasteryPoint: 0
-  currentLevel: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  totalMasteryPoint: 59
+  currentMasteryPoint: 53
+  usedMasteryPoint: 6
+  towerPoint: 5
+  currentLevel: 02000000010000000300000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   maxLevel: 3
   description:
   - "\uBAA8\uB4E0 \uACF5\uACA9 \uD0C0\uC6CC\uC758 \uAE30\uBCF8 \uB370\uBBF8\uC9C0

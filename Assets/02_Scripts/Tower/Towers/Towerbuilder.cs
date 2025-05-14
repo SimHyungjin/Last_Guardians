@@ -431,6 +431,8 @@ public class Towerbuilder : MonoBehaviour
     public void OnAttackRangeCircle(Vector2 constructPos, TowerData towerData)
     {
         float scaleMultiplier = 1f;
+        int AttackRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
+        float Upgradescale= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
         Collider2D[] hits = Physics2D.OverlapPointAll(
             constructPos,
             LayerMaskData.platform
@@ -446,8 +448,8 @@ public class Towerbuilder : MonoBehaviour
         attackRangeCircle.transform.position = constructPos;
         attackRangeCircle.transform.localScale =
             new Vector3(
-                towerData.AttackRange * scaleMultiplier,
-                towerData.AttackRange * scaleMultiplier,
+                towerData.AttackRange * scaleMultiplier* Upgradescale,
+                towerData.AttackRange * scaleMultiplier* Upgradescale,
                 1
             );
         attackRangeCircle.gameObject.SetActive(true);

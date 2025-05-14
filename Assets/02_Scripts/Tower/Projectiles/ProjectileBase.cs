@@ -26,7 +26,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected Vector2 targetPos;
     protected Coroutine lifeTimeCoroutine;
     protected Rigidbody2D rb;
-
+    protected float penetration;
     [SerializeField]protected SpriteAtlas projectileAtlas;
 
     public BaseMonster OriginTarget { get; set; }
@@ -53,6 +53,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         effectslist = _effectslist;
         adaptedTower = _adaptedTower;
         environmentEffect = _environmentEffect;
+        penetration = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Penetration].levels[TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Penetration]];
     }
     public virtual void OnSpawn()
     {

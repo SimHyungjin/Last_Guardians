@@ -29,6 +29,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public EXPBead EXPBeadPrefab { get; private set; }
     public List<MonsterData> BountyMonsterList {  get; private set; }
     public float BountySpwanCoolTime { get; private set; }
+    public int BossKillCount { get; set; }
     public float SpawnTimer { get; set; }
     private Coroutine spawnTimerCorutine;
     private WaitForSeconds spawnSeconds;
@@ -182,7 +183,6 @@ public class MonsterManager : Singleton<MonsterManager>
             BountyMonster monster = PoolManager.Instance.Spawn(BountyPrefab, spawnPoint[WaveLevel % 2]);
             monster.Setup(data);
             monster.Target = Target;
-            //monster.Target = nowWave.WaveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
         }
     }
@@ -230,7 +230,6 @@ public class MonsterManager : Singleton<MonsterManager>
 
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
-        
         if (IsWaveComplete())
         {
             if (InGameManager.Instance.PlayerHP <= 0)

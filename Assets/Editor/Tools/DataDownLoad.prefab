@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4c105faa76f74841b3aacb5dd80276a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityDataSO: []
   monsterDataSO: []
   monsterSkillDataSO: []
   monsterWaveDataSO: []
@@ -52,6 +53,5 @@ MonoBehaviour:
   equipDataSO: []
   towerCombinationData: {fileID: 11400000, guid: 060ff4346da3587429fa3ec707665ab3, type: 2}
   rewardDataSO: []
-  towerUpgradeValueSO: {fileID: 11400000, guid: a919dcc22813360469f6a244eb4061ff, type: 2}
   towerGhostPrefabs: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   towerAtlas: {fileID: 100100200, guid: 55604e1adf3066443a5c3bee68019029, type: 3}

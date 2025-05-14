@@ -21,7 +21,7 @@ public class DotDamageEffect : StatusEffect
             timer -= time;
             if (timer <= 0f)
             {
-                target.TakeDamage(Amount);
+                target.TakeDamage(Amount, 0, true);
                 timer = tickTime;
             }
         }

@@ -210,6 +210,7 @@ public class MonsterManager : Singleton<MonsterManager>
         alliveCount++;
         spawnCount++;
         RemainMonsterCount++;
+        currentWaveMonsterCount++;
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
         return monster;

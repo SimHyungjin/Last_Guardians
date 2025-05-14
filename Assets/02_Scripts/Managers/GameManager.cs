@@ -22,6 +22,12 @@ public class GameManager : Singleton<GameManager>
         PlayerManager.InitBaseStat();
     }
 
+    private void Start()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 120;
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;

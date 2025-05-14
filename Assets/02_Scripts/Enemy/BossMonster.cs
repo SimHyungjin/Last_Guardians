@@ -38,10 +38,9 @@ public class BossMonster : BaseMonster
 
     public override void RangeAttack()
     {
-        //원거리 공격시
         base.RangeAttack();
-        //투사체 생성
         EnemyProjectile projectile = PoolManager.Instance.Spawn<EnemyProjectile>(MonsterManager.Instance.ProjectilePrefab, this.transform);
+        projectile.transform.SetParent(PoolManager.Instance.transform);
         projectile.Data = MonsterData;
         projectile.BaseMonster = this;
         projectile.Launch(Target.transform.position);

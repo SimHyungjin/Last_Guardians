@@ -114,11 +114,11 @@ public class BaseMonster : MonoBehaviour
 
         if (this.transform.position.x < 0)
         {
-            this.transform.localScale = rightScale;
+            this.transform.localScale = leftScale;
         }
         else
         {
-            this.transform.localScale = leftScale;
+            this.transform.localScale = rightScale;
         }
         currentPrefab.transform.localScale = rightScale;
 
@@ -187,6 +187,7 @@ public class BaseMonster : MonoBehaviour
         attackCount = 0;
         isDisable = false;
         isDead = false;
+
         if (MonsterData.HasSkill)
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
@@ -360,6 +361,25 @@ public class BaseMonster : MonoBehaviour
             TowerManager.Instance.towerUpgradeData.GetTowerPoint();
         }
     }
+
+    private void DebuffTransition()
+    {
+        foreach(var monster in Utils.OverlapCircleAllSorted(this.transform.position, 2f, LayerMaskData.monster))
+        {
+            if(monster.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
+            {
+                baseMonster.AdaptStatusEffectsInList(effectHandler.GetStatusEffects());
+            }
+        }
+    }
+    public void AdaptStatusEffectsInList(List<StatusEffect> effects)
+    {
+        foreach (var effect in effects)
+        {
+            effect.ApplyEffect(this);
+            Debug.Log($"효과 전이됨 name : {effect}, amount : {effect.Amount}, duration : {effect.Duration}");
+        }
+    }
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
@@ -378,9 +398,19 @@ public class BaseMonster : MonoBehaviour
 
         //데미지 관련 공식 들어가야 함
         if (trueDamage)
+        {
             CurrentHP -= amount;
+        }
         else
+        {
             CurrentHP -= amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
+            //effectHandler.AllDebuffTimerPlus();
+        }
+
+        float calculatedDamage = amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
+        float finalDamage = trueDamage ? amount : calculatedDamage;
+
+        Debug.Log($"포탑이 주는 데미지{amount}, 실제로 받은 데미지 {finalDamage}");
 
         if (CurrentHP <= 0 && !isDead)
         {
@@ -411,6 +441,7 @@ public class BaseMonster : MonoBehaviour
             yield return blinkSeconds;
             for (int j = 0; j < spriteRenderers.Count; j++)
             {
+                
                 spriteRenderers[j].color = originalColors[j];
             }
             //spriteRenderers.color = originalColors;

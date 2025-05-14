@@ -156,6 +156,7 @@ public static class SaveSystem
 
         var inventory = MainSceneManager.Instance.inventory;
         var equipment = MainSceneManager.Instance.equipment;
+        var towerUpgrade = MainSceneManager.Instance.TowerUpgrade;
 
         foreach (var item in inventory.GetAll())
         {
@@ -168,7 +169,10 @@ public static class SaveSystem
             save.equipped.Add(new EquippedItemSave { equipType = kvp.Key, uniqueID = kvp.Value.UniqueID });
             Debug.Log($"[SaveSystem] 장비 저장 - {kvp.Key} : uniqueID: {kvp.Value.UniqueID}");
         }
-
+        
+        SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(towerUpgrade.towerUpgradeData);
+        save.towerUpgradedata = towerUpgradeData;
+        
         save.gold = GameManager.Instance.gold;
         save.upgradeStones = GameManager.Instance.upgradeStones;
         Debug.Log($"[SaveSystem] 골드: {save.gold}, 강화석: {save.upgradeStones}");
@@ -194,6 +198,7 @@ public static class SaveSystem
         var itemManager = GameManager.Instance.ItemManager;
         var inventory = MainSceneManager.Instance.inventory;
         var equipment = MainSceneManager.Instance.equipment;
+        var towerUpgrade = MainSceneManager.Instance.TowerUpgrade;
 
         inventory.ClearAll();
         Debug.Log("[SaveSystem] 인벤토리 초기화");
@@ -227,6 +232,27 @@ public static class SaveSystem
             {
                 Debug.LogWarning($"[SaveSystem] 장비 로드 실패 - uniqueID {equipSave.uniqueID} 를 인벤토리에서 찾을 수 없음");
             }
+        }
+
+        if (save.towerUpgradedata == null)
+        {
+            Debug.LogWarning("[SaveSystem] 타워 업그레이드 데이터 없음, 로드 스킵");
+            return;
+        }
+        if (towerUpgrade==null)
+        {
+            Debug.LogWarning("towerUpgrade없음");
+        }
+        if (towerUpgrade.towerUpgradeData == null)
+        {
+            Debug.LogWarning("towerUpgradeData없음");
+        }
+        else
+        {
+            towerUpgrade.towerUpgradeData.totalMasteryPoint = save.towerUpgradedata.totalMasteryPoint;
+            towerUpgrade.towerUpgradeData.currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
+            towerUpgrade.towerUpgradeData.usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
+            towerUpgrade.towerUpgradeData.currentLevel = new List<int>(save.towerUpgradedata.currentLevel);
         }
 
         GameManager.Instance.gold = save.gold;

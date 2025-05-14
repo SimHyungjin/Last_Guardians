@@ -33,6 +33,10 @@ public class AdaptedTowerData
         int attackPowerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackPower];
         attackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
         Debug.Log($"어택파워업그레이드가{attackPowerupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel]}만큼 수치올렷다 ");
+    
+        int attackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
+        attackSpeed = 1f / (TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel] * attackSpeed);
+        Debug.Log($"어택스피드업그레이드가{attackSpeedupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel]}만큼 수치올렷다 ");
     }
 
 }

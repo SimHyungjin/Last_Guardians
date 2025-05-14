@@ -20,7 +20,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
-        TowerUpgrade ??= new();
+        TowerUpgrade=Resources.Load<TowerUpgrade>("UI/MainScene/TowerUpgrade");
 
         SaveSystem.LoadGame();
 

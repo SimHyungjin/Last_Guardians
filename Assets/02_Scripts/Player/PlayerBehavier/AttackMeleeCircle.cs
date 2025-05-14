@@ -29,7 +29,6 @@ public class AttackMeleeCircle : IAttackBehavior
         foreach (var hit in validHits)
         {
             hit.GetComponent<BaseMonster>().TakeDamage(damage);
-            Debug.Log("범위 근접 공격");
         }
 
     }

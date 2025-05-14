@@ -102,16 +102,12 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
             foreach (var hit in hits)
             {
                 hit.GetComponent<BaseMonster>().TakeDamage(damage);
-                // TODO:
-                Debug.Log("멀티 불릿 공격" + hit.name);
             }
         }
         else if(!hitTarget)
         {
             hitTarget = true;
             collision.GetComponent<BaseMonster>().TakeDamage(damage);
-            // TODO:
-            Debug.Log("단일 불릿 공격");
         }
         PoolManager.Instance.Despawn(this);
     }

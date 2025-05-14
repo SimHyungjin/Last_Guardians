@@ -60,8 +60,8 @@ public class TowerUpgradeData : ScriptableObject
         else
         {
             string json = File.ReadAllText(savePath);
-            var save = JsonUtility.FromJson<SaveData>(json);
-            if (save.towerUpgradedata.currentLevel.Count < currentLevel.Count || save.towerUpgradedata.currentLevel==null)
+            SaveData save = JsonUtility.FromJson<SaveData>(json);
+            if (save ==null || save.towerUpgradedata.currentLevel == null || save.towerUpgradedata.currentLevel.Count < currentLevel.Count)
             {
                 SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(this);
                 save.towerUpgradedata = towerUpgradeData;

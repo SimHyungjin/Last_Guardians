@@ -252,7 +252,7 @@ public static class SaveSystem
             towerUpgrade.towerUpgradeData.totalMasteryPoint = save.towerUpgradedata.totalMasteryPoint;
             towerUpgrade.towerUpgradeData.currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
             towerUpgrade.towerUpgradeData.usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
-            towerUpgrade.towerUpgradeData.currentLevel = new List<int>(save.towerUpgradedata.currentLevel);
+            towerUpgrade.towerUpgradeData.currentLevel = save.towerUpgradedata.currentLevel;
         }
 
         GameManager.Instance.gold = save.gold;

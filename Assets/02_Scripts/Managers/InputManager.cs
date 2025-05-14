@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -36,6 +38,27 @@ public class InputManager : Singleton<InputManager>
     public Vector2 GetTouchPosition()
     {
         return pointerInput.Pointer.Position.ReadValue<Vector2>();
+    }
+    /// <summary>
+    /// UI 위에 터치가 있는지 확인합니다. 터치 입력이 없거나 UI 위에 터치가 없다면 false를 반환합니다.
+    /// </summary>
+    /// <returns></returns>
+
+    public bool IsTouchOverUI()
+    {
+#if UNITY_EDITOR
+        return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+#else
+    if (EventSystem.current == null)
+        return false;
+
+    PointerEventData eventData = new PointerEventData(EventSystem.current);
+    eventData.position = pointerInput.Pointer.Position.ReadValue<Vector2>();
+
+    var results = new List<RaycastResult>();
+    EventSystem.current.RaycastAll(eventData, results);
+    return results.Count > 0;
+#endif
     }
     /// <summary>
     /// 터치를 시작할 때와 끝날 때의 콜백을 바인딩합니다.

@@ -17,5 +17,5 @@ MonoBehaviour:
   targetGrade: 3
   requiredUpgradeStones: 15
   requiredGold: 5000
-  successRate: 30
+  successRate: 40
   failureEffect: 1

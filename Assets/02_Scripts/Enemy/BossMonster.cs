@@ -57,6 +57,7 @@ public class BossMonster : BaseMonster
     public override void Death()
     {
         base.Death();
+        MonsterManager.Instance.BossKillCount++;
         PoolManager.Instance.Despawn(this);
     }
 }

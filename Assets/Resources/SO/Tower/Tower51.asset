@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower51
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 0}
-  spawnClip: {fileID: 0}
-  idleClip: {fileID: 0}
-  activeClip: {fileID: 0}
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  spawnClip: {fileID: 7400000, guid: b89e9d17e1f0c5845b13307e047ab382, type: 2}
+  idleClip: {fileID: 7400000, guid: e73bce3fd597fb0488e9fbabce8956a0, type: 2}
+  activeClip: {fileID: 7400000, guid: f112dd8be95997140826a301d85926c8, type: 2}
   towerIndex: 51
   towerName: "\uBB3C \uD0C0\uC6CCII"
   attackPower: 40

@@ -8,18 +8,12 @@ public class TowerUpgradeValue
 {
     public int index;
     public string upgradeName;
-    public float lv0;
-    public float lv1;
-    public float lv2;
-    public float lv3;
+    public float[] levels;
     public TowerUpgradeValue(int index, string upgradeName, float lv0, float lv1, float lv2, float lv3)
     {
         this.index = index;
         this.upgradeName = upgradeName;
-        this.lv0 = lv0;
-        this.lv1 = lv1;
-        this.lv2 = lv2;
-        this.lv3 = lv3;
+        this.levels = new float[] { lv0, lv1, lv2, lv3 };
     }
 }
 

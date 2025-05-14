@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower90
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 0}
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   spawnClip: {fileID: 7400000, guid: fcab7310d4b34524d9ebe8db558a1930, type: 2}
   idleClip: {fileID: 7400000, guid: 8de3ca025e6535645a99067bad738af4, type: 2}
   activeClip: {fileID: 7400000, guid: 3d432c513023efc4c8d51b758484c3c7, type: 2}
@@ -20,18 +20,17 @@ MonoBehaviour:
   towerName: "\uC9C0\uBC18 \uD568\uC815 \uD0C0\uC6CCII"
   attackPower: 0
   attackSpeed: 0
-  attackRange: 3
+  attackRange: 5
   towerType: 2
   projectileType: 4
   elementType: 3
   specialEffect: 1
   effectChance: 1
   effectDuration: 5
-  effectValue: 0.25
+  effectValue: 0
   effectTarget: 1
   effectTargetCount: 0
   bossImmune: 0
   upgradeLevel: 3
-  towerDescription: "\uBC18\uACBD \uB0B4 \uC801 \uC774\uB3D9\uC18D\uB3C4 25% \uAC10\uC18C
-    \uC2DC\uD0A4\uB294 \uC624\uBE0C\uC81D\uD2B8 \uC0DD\uC131 5\uCD08 \uB3D9\uC548
-    \uC9C0\uC18D"
+  towerDescription: "\uBC18\uACBD \uB0B4 \uC801\uC744 \uAE30\uC808\uC2DC\uD0A4\uB294
+    \uC624\uBE0C\uC81D\uD2B8 \uC0DD\uC131 5\uCD08 \uB3D9\uC548 \uC9C0\uC18D"

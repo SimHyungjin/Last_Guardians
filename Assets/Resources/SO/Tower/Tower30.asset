@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower30
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 0}
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   spawnClip: {fileID: 7400000, guid: 53c47fd72a93fbd4198076378aac67f0, type: 2}
   idleClip: {fileID: 7400000, guid: 1c68864bf666e6a4baa898e09edfc014, type: 2}
   activeClip: {fileID: 7400000, guid: d7cfa4029360ee44091a970888fad7c2, type: 2}
   towerIndex: 30
   towerName: "\uC5BC\uC74C \uAD81\uC218 \uD0C0\uC6CC"
-  attackPower: 25
+  attackPower: 30
   attackSpeed: 1
-  attackRange: 4
+  attackRange: 5
   towerType: 2
   projectileType: 1
   elementType: 1

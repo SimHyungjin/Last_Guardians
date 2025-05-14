@@ -130,9 +130,9 @@ public class TowerData: ScriptableObject
         this.bossImmune = bossImmune;
         this.upgradeLevel = upgradeLevel;
         this.towerDescription = towerDescription;
-        int spriteIndex = Utils.GetSpriteIndex(towerIndex);
+        //int spriteIndex = Utils.GetSpriteIndex(towerIndex);
         //string path = "Assets/99_ThirdParty/Towers/00_Animation/Tower/";
-        //spawnClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path+$"Tower_{spriteIndex}_Spawn.anim");
+        //spawnClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Spawn.anim");
         //idleClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Idle.anim");
         //activeClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Active.anim");
     }

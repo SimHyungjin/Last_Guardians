@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower93
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 0}
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   spawnClip: {fileID: 7400000, guid: 59af9e8d45274454492bf7b2fb0a4257, type: 2}
   idleClip: {fileID: 7400000, guid: 222a34b89ffb6754bb9ac54cb2a8d72a, type: 2}
   activeClip: {fileID: 7400000, guid: e593a545d5fe97a4896f2ddf3a30369d, type: 2}
@@ -20,7 +20,7 @@ MonoBehaviour:
   towerName: "\uCD95\uBCF5 \uC99D\uD3ED\uAE30 \uD0C0\uC6CCII"
   attackPower: 0
   attackSpeed: 0
-  attackRange: 4
+  attackRange: 5
   towerType: 2
   projectileType: 3
   elementType: 4

@@ -21,6 +21,8 @@ public class TowerManager : Singleton<TowerManager>
     [Header("Datas")]
     public GameObject TrapObjectPrefab;
     private Dictionary<int, TowerData> towerDataMap;
+    public TowerUpgradeData towerUpgradeData;
+    public TowerUpgradeValueData towerUpgradeValueData;
 
     [Header("Towers")]
     public List<BaseTower> Towers;

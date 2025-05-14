@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
   m_Name: Tower58
   m_EditorClassIdentifier: 
-  towerGhostPrefab: {fileID: 0}
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
   spawnClip: {fileID: 7400000, guid: e0ba4c3eda9cb374489cf077d3ce3761, type: 2}
   idleClip: {fileID: 7400000, guid: 4b60daf4456280743afcde8aa31bd422, type: 2}
   activeClip: {fileID: 7400000, guid: c2874145adf209f4f9315c68c4267c29, type: 2}

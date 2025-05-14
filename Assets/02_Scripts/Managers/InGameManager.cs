@@ -144,6 +144,7 @@ public class InGameManager : Singleton<InGameManager>
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);
+        TowerManager.Instance.towerUpgradeData.Save();
         Time.timeScale = 0f;
     }
 

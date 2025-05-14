@@ -8,6 +8,9 @@ public class SerializableTowerUpgradeData
     public int totalMasteryPoint;
     public int currentMasteryPoint;
     public int usedMasteryPoint;
+
+    public int towerPoint;
+
     public List<int> currentLevel;
     // 생성자
     public SerializableTowerUpgradeData(TowerUpgradeData towerUpgradeData)
@@ -15,6 +18,7 @@ public class SerializableTowerUpgradeData
         totalMasteryPoint = towerUpgradeData.totalMasteryPoint;
         currentMasteryPoint = towerUpgradeData.currentMasteryPoint;
         usedMasteryPoint = towerUpgradeData.usedMasteryPoint;
+        towerPoint = towerUpgradeData.towerPoint;
         currentLevel = new List<int>(towerUpgradeData.currentLevel);
     }
 }
@@ -43,14 +47,21 @@ public class TowerUpgradeData : ScriptableObject
     public int totalMasteryPoint;
     public int currentMasteryPoint;
     public int usedMasteryPoint;
-    public List<int> currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+    public int towerPoint;
+
+    public List<int> currentLevel;
     public int maxLevel = 3;
     [Header("설명스크립트")]
     public string[] description;
 
     public void Init()
     {
-
+        totalMasteryPoint = 0;
+        currentMasteryPoint = 0;
+        usedMasteryPoint = 0;
+        towerPoint = 0;
+        currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         string savePath = Application.persistentDataPath + "/save.json";
         if (!File.Exists(savePath))
         {
@@ -60,8 +71,8 @@ public class TowerUpgradeData : ScriptableObject
         else
         {
             string json = File.ReadAllText(savePath);
-            var save = JsonUtility.FromJson<SaveData>(json);
-            if (save.towerUpgradedata.currentLevel.Count < currentLevel.Count || save.towerUpgradedata.currentLevel==null)
+            SaveData save = JsonUtility.FromJson<SaveData>(json);
+            if (save == null || save.towerUpgradedata.currentLevel == null || save.towerUpgradedata.currentLevel.Count < currentLevel.Count)
             {
                 SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(this);
                 save.towerUpgradedata = towerUpgradeData;
@@ -73,10 +84,39 @@ public class TowerUpgradeData : ScriptableObject
                 totalMasteryPoint = save.towerUpgradedata.totalMasteryPoint;
                 currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
                 usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
+                towerPoint = save.towerUpgradedata.towerPoint;
                 currentLevel = new List<int>(save.towerUpgradedata.currentLevel);
             }
         }
         usedMasteryPoint = totalMasteryPoint - currentMasteryPoint;
+    }
+    public void Save()
+    {
+        string savePath = Application.persistentDataPath + "/save.json";
+        if (!File.Exists(savePath))
+        {
+            File.WriteAllText(savePath, JsonUtility.ToJson(this, true));
+            Debug.Log("[TowerUpgradeData] save.json이 없어서 새로 생성함.");
+        }
+        else
+        {
+            string json = File.ReadAllText(savePath);
+            SaveData save = JsonUtility.FromJson<SaveData>(json);
+            SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(this);
+            save.towerUpgradedata = towerUpgradeData;
+            string newJson = JsonUtility.ToJson(save, true);
+            File.WriteAllText(savePath, newJson);
+        }
+    }
+    public void GetTowerPoint()
+    {
+        towerPoint++;
+        if (towerPoint > 99)
+        {
+            totalMasteryPoint += 1;
+            currentMasteryPoint += 1;
+            towerPoint = 0;
+        }
     }
 }
 

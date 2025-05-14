@@ -357,6 +357,7 @@ public class BaseMonster : MonoBehaviour
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
+            TowerManager.Instance.towerUpgradeData.GetTowerPoint();
         }
     }
     protected virtual void MonsterSkill()
@@ -365,7 +366,7 @@ public class BaseMonster : MonoBehaviour
     }
 
     //데미지 받을 떄 호출되는 함수
-    public virtual void TakeDamage(float amount, float penetration = 0)
+    public virtual void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {
         if(EvasionRate != -1f)
         {
@@ -376,15 +377,16 @@ public class BaseMonster : MonoBehaviour
         }
 
         //데미지 관련 공식 들어가야 함
-        //CurrentHP -= amount;
-        CurrentHP -= amount * (1 - CurrentDef * (1-penetration)/ (CurrentDef * (1 - penetration) + DefConstant));
+        if (trueDamage)
+            CurrentHP -= amount;
+        else
+            CurrentHP -= amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
 
         if (CurrentHP <= 0 && !isDead)
         {
             animationConnect.StartDeathAnimaiton();
             isDead = true;
         }
-            
         
         //피격시 몬스터 색 변경
         if (this.gameObject.activeSelf)

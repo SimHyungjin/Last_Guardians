@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+[Serializable]
 public class AdaptedTowerData
 {
     public int towerIndex;
@@ -23,8 +24,21 @@ public class AdaptedTowerData
         this.attackSpeed = attackSpeed;
         this.bossImmunebuff = false;
         this.attackRange = attackRange;
+        Upgrade();
         buffTowerIndex = new List<int>();
     }
+    //////////////////////////////////////////업그레이드////////////////////////////////////////////////
+    public void Upgrade()
+    {
+        int attackPowerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackPower];
+        attackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
+        Debug.Log($"어택파워업그레이드가{attackPowerupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel]}만큼 수치올렷다 ");
+    
+        int attackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
+        attackSpeed = 1f / (TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel] * attackSpeed);
+        Debug.Log($"어택스피드업그레이드가{attackSpeedupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel]}만큼 수치올렷다 ");
+    }
+
 }
 public class AttackTower : BaseTower
 {
@@ -121,7 +135,7 @@ public class AttackTower : BaseTower
 
     void Attack()
     {
-        //마스터리포인트 1/1000 ->인게임매니저 ->게임매니저
+        
         if (disable) return;
         //bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
         bool isMultyTarget = towerData.EffectTarget == EffectTarget.Multiple;

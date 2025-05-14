@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;              
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,46 +25,53 @@ public class GameOverUI : MonoBehaviour
 
     private void OnEnable()
     {
-        // 보상 계산
+        // 1) 보상 계산
         int wave = MonsterManager.Instance.nowWave.WaveIndex;
         RewardManager.Instance.GiveRewardForWave(wave);
 
-        // 결과 텍스트
+        // 2) 결과 텍스트
         resultWaveText.text = $"wave : {wave}";
         resultMonsterCountText.text = $"잡은 몬스터 수 : {MonsterManager.Instance.MonsterKillCount}";
         reslutPlayerLvText.text = $"플레이어 레벨 : {InGameManager.Instance.level}";
 
-        // 골드/강화석
+        // 3) 골드/강화석
         rewardGoldText.text = $"획득한 골드 : {RewardManager.Instance.Gold}";
         rewardStoneText.text = $"획득한 강화석 : {RewardManager.Instance.Stone}";
 
-        // 장비 처리
+        // 4) 장비 처리 (여러 개 나열)
         var equips = RewardManager.Instance.EquipIndices;
         if (equips == null || equips.Count == 0)
         {
-            // 장비 없음
+            // 장비가 하나도 없으면 UI 숨기기
             rewardEquipImage.gameObject.SetActive(false);
             rewardEquipText.gameObject.SetActive(false);
         }
         else
         {
-            // 최소 첫 번째 장비만 표시
+            // 첫 번째 장비 아이콘은 그대로 사용
             int firstIndex = equips[0];
-            var itemData = GameManager.Instance
+            var firstItem = GameManager.Instance
                 .ItemManager
                 .GetItemInstanceByIndex(firstIndex)
                 .Data;
 
             rewardEquipImage.gameObject.SetActive(true);
+            rewardEquipImage.sprite = firstItem.Icon;
+
+            // EquipIndices 전부 돌면서 이름만 추출 → "이름1, 이름2, 이름3"
+            var names = equips
+                .Select(idx =>
+                    GameManager.Instance
+                        .ItemManager
+                        .GetItemInstanceByIndex(idx)
+                        .Data.ItemName
+                );
+
             rewardEquipText.gameObject.SetActive(true);
-
-            rewardEquipImage.sprite = itemData.Icon;
-            rewardEquipText.text = itemData.ItemName;
-
-           
+            rewardEquipText.text = string.Join(", ", names);
         }
 
-        // 버튼
+        // 5) 버튼 리스너
         retryBtn.onClick.AddListener(Retry);
         exitBtn.onClick.AddListener(Exit);
     }

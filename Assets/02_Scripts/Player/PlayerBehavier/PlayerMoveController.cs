@@ -24,11 +24,11 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Start()
     {
-        playerView = InGameManager.Instance.playerManager.playerHandler.playerView;
+        playerView = GameManager.Instance.PlayerManager.playerHandler.playerView;
     }
     public void Init()
     {
-        agent.speed = InGameManager.Instance.playerManager.player.playerData.moveSpeed;
+        agent.speed = GameManager.Instance.PlayerManager.playerStatus.moveSpeed;
     }
 
     private void LateUpdate()

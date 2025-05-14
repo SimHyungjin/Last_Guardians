@@ -9,7 +9,6 @@ using UnityEngine.Tilemaps;
 public class InGameManager : Singleton<InGameManager>
 {
     public ObstacleContainer obstacleContainer;
-    public PlayerManager playerManager { get; private set; }
     public List<TowerData> TowerDatas { get; private set; }
 
     private int playerMaxHP = 100;
@@ -49,9 +48,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private void Start()
     {
-        playerManager = new PlayerManager();
         obstacleContainer = new ObstacleContainer();
-        playerManager.Init();
+        GameManager.Instance.PlayerManager.SpawnPlayerModel();
 
         PrefabInit();
 

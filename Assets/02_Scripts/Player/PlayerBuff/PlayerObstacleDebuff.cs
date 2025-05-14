@@ -6,7 +6,7 @@ public class PlayerObstacleDebuff : MonoBehaviour
 {
     private int zoneCount = 0;
     private bool isInZone = false;
-    private readonly Dictionary<Type, IPlayerBuff<PlayerData>> activeBuffs = new();
+    private readonly Dictionary<Type, IPlayerBuff<PlayerStatus>> activeBuffs = new();
 
     private PlayerHandler playerHandler;
     private PlayerBuffHandler playerBuffHandler;
@@ -17,7 +17,7 @@ public class PlayerObstacleDebuff : MonoBehaviour
         playerBuffHandler = playerHandler.playerBuffHandler;
     }
 
-    public void EnterZone(IPlayerBuff<PlayerData> effect)
+    public void EnterZone(IPlayerBuff<PlayerStatus> effect)
     {
         zoneCount++;
 
@@ -30,7 +30,7 @@ public class PlayerObstacleDebuff : MonoBehaviour
         }
     }
 
-    public void ExitZone(IPlayerBuff<PlayerData> effect)
+    public void ExitZone(IPlayerBuff<PlayerStatus> effect)
     {
         zoneCount = Mathf.Max(0, zoneCount - 1);
         activeBuffs.Remove(effect.GetType());
@@ -42,7 +42,7 @@ public class PlayerObstacleDebuff : MonoBehaviour
         }
     }
 
-    private void ApplyEffect(IPlayerBuff<PlayerData> effect)
+    private void ApplyEffect(IPlayerBuff<PlayerStatus> effect)
     {
         if (effect is PlayerBuffMoveSpeed)
         {
@@ -52,7 +52,7 @@ public class PlayerObstacleDebuff : MonoBehaviour
         playerBuffHandler.ApplyBuff(effect);
     }
 
-    private void RemoveEffect(IPlayerBuff<PlayerData> effect)
+    private void RemoveEffect(IPlayerBuff<PlayerStatus> effect)
     {
         if (effect is PlayerBuffMoveSpeed)
         {

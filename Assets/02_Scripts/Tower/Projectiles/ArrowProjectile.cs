@@ -67,7 +67,7 @@ public class ArrowProjectile : ProjectileBase
 
             hasHit = true;
          
-            target.TakeDamage(adaptedTower.attackPower);
+            target.TakeDamage(adaptedTower.attackPower, penetration);
             //이펙트적용부분
             if (effects != null && effects.Count > 0)
             {

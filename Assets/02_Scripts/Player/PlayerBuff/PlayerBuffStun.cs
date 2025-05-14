@@ -1,4 +1,4 @@
-public class PlayerBuffStun : IPlayerBuff<PlayerData>
+public class PlayerBuffStun : IPlayerBuff<PlayerStatus>
 {
     public float? Value => null;
     public float Duration { get; private set; }
@@ -13,21 +13,21 @@ public class PlayerBuffStun : IPlayerBuff<PlayerData>
         view = controller.playerView;
     }
 
-    public void Apply(PlayerData playerData)
+    public void Apply(PlayerStatus playerData)
     {
         controller.attackController.AutoAttackStop();
         controller.moveController.SetCanMove(false);
         view.OnStun();
     }
 
-    public void Remove(PlayerData playerData)
+    public void Remove(PlayerStatus playerData)
     {
         controller.attackController.AutoAttackStart();
         controller.moveController.SetCanMove(true);
         view.OnStateEnd();
     }
 
-    public bool IsStrongerThan(IPlayerBuff<PlayerData> other)
+    public bool IsStrongerThan(IPlayerBuff<PlayerStatus> other)
     {
         if (other is not PlayerBuffStun o) return true;
         return this.Duration > o.Duration;

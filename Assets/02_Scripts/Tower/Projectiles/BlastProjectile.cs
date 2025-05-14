@@ -94,7 +94,7 @@ public class BlastProjectile : ProjectileBase
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
             moveTween.Kill();
-            target.TakeDamage(adaptedTower.attackPower);
+            target.TakeDamage(adaptedTower.attackPower,penetration);
             Explode();
         }
     }

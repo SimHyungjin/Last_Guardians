@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class AdaptedTowerData
 {
     public int towerIndex;
+    public float baseAttackPower;
     public float attackPower;
     public float attackSpeed;
     public float attackRange;
@@ -20,7 +21,7 @@ public class AdaptedTowerData
     public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange)
     {
         this.towerIndex = towerIndex;
-        this.attackPower = attackPower;
+        this.baseAttackPower = attackPower;
         this.attackSpeed = attackSpeed;
         this.bossImmunebuff = false;
         this.attackRange = attackRange;
@@ -31,7 +32,7 @@ public class AdaptedTowerData
     public void Upgrade()
     {
         int attackPowerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackPower];
-        attackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
+        baseAttackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
         Debug.Log($"어택파워업그레이드가{attackPowerupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel]}만큼 수치올렷다 ");
     
         int attackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
@@ -43,6 +44,14 @@ public class AdaptedTowerData
         int AttackRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
         attackRange *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
         Debug.Log($"어택레인지업그레이드가{AttackRangeupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel]}만큼 수치올렷다 ");
+        
+        int CombetMasteryupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.CombetMastery];
+        float CombetMasteryupgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[CombetMasteryupgradeLevel];
+        Debug.Log($"콤벳마스터리업그레이드가{CombetMasteryupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[CombetMasteryupgradeLevel]}만큼 수치올렷다 ");
+        baseAttackPower *= CombetMasteryupgradeValue;
+        attackSpeed = attackSpeed / CombetMasteryupgradeValue;
+        attackRange *= CombetMasteryupgradeValue;
+
     }
 
 }
@@ -67,6 +76,10 @@ public class AttackTower : BaseTower
     public bool isSpeedBuffed = false;
     public bool isWindBuffed = false;
 
+    [Header("공격력 계산")]
+    private float attackPowerBuff = 1f;
+    private float ContinuousAttackBuff = 1f;
+    private bool ContinuousAttack = false;
     /// <summary>
     /// 초기화 함수
     /// 자기 자신의 이펙트를 저장한다.
@@ -101,7 +114,7 @@ public class AttackTower : BaseTower
             {
                 return;  
             }
-            Attack();
+            if(target!=null)Attack();
         }
     }
 
@@ -126,7 +139,21 @@ public class AttackTower : BaseTower
                 closest = hit.transform;
             }
         }
-        if (target == closest) return;
+        if (target == closest)
+        {
+            if (!ContinuousAttack)
+            {
+                StartContinuousAttack();
+                return;
+            }
+        }
+        else 
+        {
+            if(ContinuousAttack)
+            {
+                StopContinuousAttack();
+            }
+        }
         if (currentTargetMonster != null)
         {
             currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
@@ -138,12 +165,30 @@ public class AttackTower : BaseTower
             currentTargetMonster.OnMonsterDeathAction += HandleTargetDeath;
         }
     }
+    void StartContinuousAttack()
+    {
+        ContinuousAttack = true;
+        int ContinuousAttackupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.ContinuousAttack];
+        ContinuousAttackBuff= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.ContinuousAttack].levels[ContinuousAttackupgradeLevel];
+        CalculateDamage();
+        Debug.Log($"연속타격업그레이드가{ContinuousAttackupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[ContinuousAttackupgradeLevel]}만큼 수치올렷다 ");
 
+    }
+    void StopContinuousAttack()
+    {
+        ContinuousAttack = false;
+        ContinuousAttackBuff = 1f;
+        CalculateDamage();
+    }
+
+    private void CalculateDamage()
+    {
+        adaptedTowerData.attackPower = adaptedTowerData.baseAttackPower * attackPowerBuff * ContinuousAttackBuff;
+    }
     void Attack()
     {
-        
         if (disable) return;
-        //bool isMultyTarget = towerData.SpecialEffect == SpecialEffect.MultyTarget;
+        Debug.Log($"[BaseTower]공격력 {adaptedTowerData.attackPower} ");
         bool isMultyTarget = towerData.EffectTarget == EffectTarget.Multiple;
         bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
@@ -208,11 +253,16 @@ public class AttackTower : BaseTower
     /// <param name="buff"></param>
     public void AttackPowerBuff(float buff)
     {
-        if(towerData.AttackPower + towerData.AttackPower * buff> adaptedTowerData.attackPower)
-        adaptedTowerData.attackPower = towerData.AttackPower + towerData.AttackPower * buff;
+        Debug.Log("버프타워설치");
+        if((float)1+buff> attackPowerBuff) attackPowerBuff = (float)1 + buff;
+        CalculateDamage();
         Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
-
+    public void RemoveAttackPowerBuff()
+    {
+        attackPowerBuff = 1f;
+        CalculateDamage();
+    }
     /// <summary>
     /// 공격속도 버프
     /// </summary>
@@ -260,10 +310,7 @@ public class AttackTower : BaseTower
         Debug.Log($"[BaseTower] {towerData.TowerName} 보스 면역 증가: {adaptedTowerData.bossImmunebuff}");
     }
 
-    public void RemoveAttackPowerBuff()
-    {
-        adaptedTowerData.attackPower = towerData.AttackPower;
-    }
+
 
     public void RemoveBossImmuneBuff()
     {

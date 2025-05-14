@@ -73,10 +73,16 @@ public class UpgradePopupController : PopupBase
 
     private void RefreshText()
     {
-        if(currectData == null || upgradeData == null)
+        if(currectData == null)
         {
             EmptyText();
             upgradeResultText.text = "선택된 장비가 없습니다";
+            return;
+        }
+        if(upgradeData == null)
+        {
+            EmptyText();
+            upgradeResultText.text = "최종 형태입니다.";
             return;
         }
         upgradeButton.interactable = true;

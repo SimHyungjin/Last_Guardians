@@ -62,36 +62,44 @@ public class CameraZoom : MonoBehaviour
     {
         var lens = cinemachineVirtualCamera.m_Lens;
         float targetSize = Mathf.Clamp(lens.OrthographicSize - deltaMagnitude * zoomSpeed, minZoom, maxZoom);
-
         if (Mathf.Approximately(lens.OrthographicSize, targetSize)) return;
 
-        Vector3 worldBefore = mainCamera.ScreenToWorldPoint(screenPosition);
+        float fixedZ = mainCamera.transform.position.z;
+        Vector3 screenPosWithZ = new Vector3(screenPosition.x, screenPosition.y, -fixedZ);
+        Vector3 worldBefore = mainCamera.ScreenToWorldPoint(screenPosWithZ);
 
         lens.OrthographicSize = Mathf.Lerp(lens.OrthographicSize, targetSize, Time.deltaTime * zoomSpeed * 20f);
         cinemachineVirtualCamera.m_Lens = lens;
 
-        Vector3 worldAfter = mainCamera.ScreenToWorldPoint(screenPosition);
+        Vector3 worldAfter = mainCamera.ScreenToWorldPoint(screenPosWithZ);
         Vector3 delta = worldBefore - worldAfter;
 
         Vector3 targetPos = cinemachineVirtualCamera.transform.position + delta;
+
+        targetPos.z = cinemachineVirtualCamera.transform.position.z;
+
         targetPos = GetConfinedPosition(targetPos);
 
         cinemachineVirtualCamera.transform.position = Vector3.Lerp(cinemachineVirtualCamera.transform.position, targetPos, Time.deltaTime * 10f);
+
         if (cinemachineVirtualCamera.Follow != null)
-            cinemachineVirtualCamera.Follow.position = cinemachineVirtualCamera.transform.position;
+            cinemachineVirtualCamera.Follow.position = new Vector3(
+                cinemachineVirtualCamera.transform.position.x,
+                cinemachineVirtualCamera.transform.position.y,
+                cinemachineVirtualCamera.Follow.position.z
+            );
 
         freeCamBoundary.InvalidateCache();
     }
 
     private Vector3 GetConfinedPosition(Vector3 desiredPos)
     {
-        var confiner = freeCamBoundary;
-        if (confiner == null || confiner.m_BoundingShape2D == null) return desiredPos;
+        if (freeCamBoundary == null || freeCamBoundary.m_BoundingShape2D == null) return desiredPos;
 
         float halfHeight = cinemachineVirtualCamera.m_Lens.OrthographicSize;
         float halfWidth = halfHeight * cinemachineVirtualCamera.m_Lens.Aspect;
 
-        Bounds bounds = confiner.m_BoundingShape2D.bounds;
+        Bounds bounds = freeCamBoundary.m_BoundingShape2D.bounds;
 
         float minX = bounds.min.x + halfWidth;
         float maxX = bounds.max.x - halfWidth;
@@ -100,8 +108,9 @@ public class CameraZoom : MonoBehaviour
 
         float clampedX = Mathf.Clamp(desiredPos.x, minX, maxX);
         float clampedY = Mathf.Clamp(desiredPos.y, minY, maxY);
+        float fixedZ = cinemachineVirtualCamera.transform.position.z;
 
-        return new Vector3(clampedX, clampedY, desiredPos.z);
+        return new Vector3(clampedX, clampedY, fixedZ);
     }
 
     private bool IsPointerOverUI(Touch touch)

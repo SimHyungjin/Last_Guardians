@@ -16,7 +16,7 @@ public class DamageText : MonoBehaviour
 
     public void Show(float damage)
     {
-        text.text = damage.ToString();
+        text.text = damage.ToString("FO");
         text.color = Color.blue;
 
         // 초기 위치 저장

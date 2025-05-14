@@ -109,4 +109,17 @@ public class EffectHandler : MonoBehaviour
             }
         }
     }
+
+    public void AllDebuffTimerPlus(float duration)
+    {
+        foreach(var effect in effects)
+        {
+            effect.Duration = duration + effect.Duration;
+        }
+    }
+
+    public List<StatusEffect> GetStatusEffects()
+    {
+        return effects;
+    }
 }

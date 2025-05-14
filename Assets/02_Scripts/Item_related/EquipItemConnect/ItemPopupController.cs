@@ -67,7 +67,6 @@ public class ItemPopupController : PopupBase
         if (instance == null) return;
         if (TryClearIfInventoryEmpty()) return;
         currentData = instance;
-        OnItemSelected?.Invoke(currentData);
     }
 
     public void UpdatePopupUI()
@@ -88,6 +87,7 @@ public class ItemPopupController : PopupBase
         equipButton.gameObject.SetActive(!isEquipped);
         unequipButton.gameObject.SetActive(isEquipped);
 
+        OnItemSelected?.Invoke(currentData);
         OnItemPopupUIUpdate?.Invoke();
     }
 

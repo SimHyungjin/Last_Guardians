@@ -91,6 +91,7 @@ public class InventorySlotContainer : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
+        if (selectionController == null) return;
         foreach (var slot in slots)
         {
             var instance = slot.GetData();

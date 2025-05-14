@@ -80,6 +80,7 @@ public class SelectionController : MonoBehaviour
     public void RefreshSlot(ItemInstance instance)
     {
         selectedData = instance;
+        inventorySlotContainer.Refresh();
         //itemPopupController.SetData(selectedData);
         //upgradePopup.SetData(selectedData);
     }

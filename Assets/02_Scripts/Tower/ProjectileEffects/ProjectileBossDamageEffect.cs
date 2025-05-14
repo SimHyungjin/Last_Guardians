@@ -9,7 +9,7 @@ public class ProjectileBossDamageEffect : MonoBehaviour, IEffect
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {
-            target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+            target.TakeDamage(adaptedTowerData.attackPower * towerData.EffectValue);
         }
     }
 
@@ -18,7 +18,7 @@ public class ProjectileBossDamageEffect : MonoBehaviour, IEffect
         if (target.MonsterData.MonsterType == MonType.Boss)
         {
             if (Random.value < chance)
-                target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+                target.TakeDamage(adaptedTowerData.attackPower * towerData.EffectValue);
         }
     }
 }

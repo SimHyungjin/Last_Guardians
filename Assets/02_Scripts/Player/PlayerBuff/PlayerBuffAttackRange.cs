@@ -1,4 +1,4 @@
-public class PlayerBuffAttackRange : IPlayerBuff<PlayerData>
+public class PlayerBuffAttackRange : IPlayerBuff<PlayerStatus>
 {
     public float? Value { get; private set; }
     public float Duration { get; private set; }
@@ -12,17 +12,17 @@ public class PlayerBuffAttackRange : IPlayerBuff<PlayerData>
         multiplier = 1f - value;
     }
 
-    public void Apply(PlayerData playerData)
+    public void Apply(PlayerStatus playerData)
     {
         playerData.attackRange *= multiplier;
     }
 
-    public void Remove(PlayerData playerData)
+    public void Remove(PlayerStatus playerData)
     {
         playerData.attackRange /= multiplier;
     }
 
-    public bool IsStrongerThan(IPlayerBuff<PlayerData> other)
+    public bool IsStrongerThan(IPlayerBuff<PlayerStatus> other)
     {
         if (other is not PlayerBuffAttackRange o) return true;
         return this.Value > o.Value || this.Duration > o.Duration;

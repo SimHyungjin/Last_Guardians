@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryGroup: {fileID: 0}
+  TowerUpgrade: {fileID: 0}
 --- !u!4 &1009567942
 Transform:
   m_ObjectHideFlags: 0

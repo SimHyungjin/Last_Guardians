@@ -48,7 +48,7 @@ public class MainSceneButtonView : MonoBehaviour
 
     private void ToGameScene()
     {
-        GameManager.Instance.stats = MainSceneManager.Instance.equipment.InfoToPlayer();
+        GameManager.Instance.PlayerManager.SaveEquipmentStat(MainSceneManager.Instance.equipment.InfoToPlayer());
         SaveSystem.SaveGame();
     }
 }

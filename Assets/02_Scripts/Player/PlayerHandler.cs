@@ -2,33 +2,44 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
-    public Player player {  get; private set; }
-    public PlayerAttackController attackController { get; private set; }
+    public PlayerStatus player {  get; private set; }
+
+    public PlayerInputHandler playerInputHandler { get; private set; }
     public PlayerMoveController moveController { get; private set; }
+    public PlayerAttackController attackController { get; private set; }
+
     public PlayerBuffHandler playerBuffHandler { get; private set; }
+    public PlayerObstacleDebuff playerObstacleDebuff { get; private set; }
+
     public PlayerModelView playerView { get; private set; }
     public PlayerWeaponController weaponHandler { get; private set; }
-    public PlayerObstacleDebuff playerObstacleDebuff { get; private set; }
+
+
 
     private void Awake()
     {
-        attackController = GetComponent<PlayerAttackController>();
+        playerInputHandler = GetComponentInChildren<PlayerInputHandler>();
         moveController = GetComponent<PlayerMoveController>();
+        attackController = GetComponent<PlayerAttackController>();
+        
         playerBuffHandler = GetComponent<PlayerBuffHandler>();
+        playerObstacleDebuff = GetComponentInChildren<PlayerObstacleDebuff>();
 
         playerView = GetComponentInChildren<PlayerModelView>();
         weaponHandler = GetComponentInChildren<PlayerWeaponController>();
-        playerObstacleDebuff = GetComponentInChildren<PlayerObstacleDebuff>();
-
-        gameObject.transform.position = new Vector3(0.5f, -2f, 0);
     }
 
-    public void Init(Player _player)
+    public void Init(PlayerStatus _player)
     {
         player = _player;
-        attackController.Init();
+
+        playerInputHandler.Init();
         moveController.Init();
+        attackController.Init();
+        
         playerBuffHandler.Init();
         playerObstacleDebuff.Init();
+
+        gameObject.transform.position = new Vector3(0.5f, -2f, 0);
     }
 }

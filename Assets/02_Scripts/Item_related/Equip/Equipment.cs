@@ -108,9 +108,9 @@ public class Equipment
     /// 장비의 능력치를 플레이어에게 전달하기 위한 정보를 반환합니다.
     /// </summary>
     /// <returns></returns>
-    public EquipmentInfo InfoToPlayer()
+    public EquipmentStat InfoToPlayer()
     {
-        return new EquipmentInfo
+        return new EquipmentStat
         {
             icon = icon,
             attackType = changeAttackType,
@@ -126,7 +126,7 @@ public class Equipment
     }
 }
 
-public class EquipmentInfo
+public class EquipmentStat
 {
     public Sprite icon;
     public AttackType attackType;

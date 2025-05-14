@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     public ItemManager ItemManager { get; private set; } = new();
+    public PlayerManager PlayerManager { get; private set; } = new();
+
     public int gold = 0;
     public int upgradeStones = 0;
-
-    public EquipmentInfo stats = new();
 
     public int NowTime { get; set; }
 
@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
         ItemManager.LoadAllItems();
 
         var idle = IdleRewardManager.Instance;
+        PlayerManager.InitBaseStat();
     }
 
     private void OnEnable()

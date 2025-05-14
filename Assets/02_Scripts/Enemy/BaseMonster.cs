@@ -357,6 +357,7 @@ public class BaseMonster : MonoBehaviour
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
+            TowerManager.Instance.towerUpgradeData.GetTowerPoint();
         }
     }
     protected virtual void MonsterSkill()

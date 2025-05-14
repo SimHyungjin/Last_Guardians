@@ -56,7 +56,10 @@ public class SheetDownButton : Editor
         {
             fnc.StartRewardDataDownload(true);
         }
-
+        if (GUILayout.Button("Download TowerUpgradeData"))
+        {
+            fnc.StartTowerUpgradeDatDownload(true);
+        }
     }
 }
 
@@ -71,7 +74,8 @@ public class DataDownLoader : MonoBehaviour
     [SerializeField] private List<EquipData> equipDataSO = new List<EquipData>();
     [SerializeField] public TowerCombinationData towerCombinationData;
     [SerializeField] private List<RewardData> rewardDataSO = new List<RewardData>();
-   
+    [SerializeField] private TowerUpgradeValueData towerUpgradeValueSO;
+
     string ConvertTSVToJson(string tsv, int startRow, int endRow, int startCol, int endCol)
     {
         string[] lines = tsv.Split('\n');
@@ -153,6 +157,61 @@ public class DataDownLoader : MonoBehaviour
         UnityEditor.AssetDatabase.Refresh();
 #endif
     }
+    /////////////////////////////////업그레이드수치//////////////////////////////////////////////////////////////
+
+    const string URL_TowerUpgradeData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=1089053928";
+
+    public void StartTowerUpgradeDatDownload(bool renameFiles)
+    {
+        StartCoroutine(DownloadTowerUpgradeData(renameFiles));
+    }
+
+    private IEnumerator DownloadTowerUpgradeData(bool renameFiles)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(URL_TowerUpgradeData);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success)
+        {
+            string tsvText = www.downloadHandler.text;
+            string json = ConvertTSVToJson(tsvText, startRow: 1, endRow: 14, startCol: 0, endCol: 5);
+            JArray jsonData = JArray.Parse(json); // JSON 문자열을 JArray로 변환
+            ApplyTowerUpgradeDatToSO(jsonData, renameFiles);
+        }
+        else
+        {
+            Debug.LogError("데이터 가져오기 실패: " + www.error);
+        }
+    }
+
+    public void ApplyTowerUpgradeDatToSO(JArray jsonData, bool renameFiles)
+    {
+        towerUpgradeValueSO.towerUpgradeValues.Clear();
+        for (int i = 0; i < jsonData.Count; i++)
+        {
+
+            JObject row = (JObject)jsonData[i];
+            foreach (var prop in row.Properties())
+            {
+                Debug.Log($"Key: '{prop.Name}', Value: '{prop.Value}'");
+            }
+            int index = int.TryParse(row["index"]?.ToString(), out int parsedIndex) ? parsedIndex : default;
+            string UpgradeName = row["UpgradeName"]?.ToString() ?? "";
+
+            float Lv0 = float.TryParse(row["Lv0"]?.ToString(), out float parsedLv0) ? parsedLv0 : default;
+            float Lv1 = float.TryParse(row["Lv1"]?.ToString(), out float parsedLv1) ? parsedLv1 : default;
+
+            float Lv2 = float.TryParse(row["Lv2"]?.ToString(), out float parsedLv2) ? parsedLv2 : default;
+
+            float Lv3 = float.TryParse(row["Lv3"]?.ToString(), out float parsedLv3) ? parsedLv3 : default;
+            towerUpgradeValueSO.SetData(index, UpgradeName,Lv0, Lv1, Lv2, Lv3);
+        }
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(towerCombinationData);
+        UnityEditor.AssetDatabase.SaveAssets();
+        UnityEditor.AssetDatabase.Refresh();
+#endif
+    }
+
 
     /////////////////////////////////몬스터테이블//////////////////////////////////////////////////////////////
     const string URL_MonsterData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=1602775567";

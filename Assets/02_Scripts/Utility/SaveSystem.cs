@@ -252,6 +252,7 @@ public static class SaveSystem
             towerUpgrade.towerUpgradeData.totalMasteryPoint = save.towerUpgradedata.totalMasteryPoint;
             towerUpgrade.towerUpgradeData.currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
             towerUpgrade.towerUpgradeData.usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
+            towerUpgrade.towerUpgradeData.towerPoint = save.towerUpgradedata.towerPoint;
             towerUpgrade.towerUpgradeData.currentLevel = save.towerUpgradedata.currentLevel;
         }
 

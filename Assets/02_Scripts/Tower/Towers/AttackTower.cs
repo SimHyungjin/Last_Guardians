@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+[Serializable]
 public class AdaptedTowerData
 {
     public int towerIndex;
@@ -23,7 +24,15 @@ public class AdaptedTowerData
         this.attackSpeed = attackSpeed;
         this.bossImmunebuff = false;
         this.attackRange = attackRange;
+        Upgrade();
         buffTowerIndex = new List<int>();
+    }
+    //////////////////////////////////////////업그레이드////////////////////////////////////////////////
+    public void Upgrade()
+    {
+        int attackPowerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackPower];
+        attackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
+        Debug.Log($"어택파워업그레이드가{attackPowerupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel]}만큼 수치올렷다 ");
     }
 
 }

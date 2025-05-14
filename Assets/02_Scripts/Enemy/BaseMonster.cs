@@ -114,11 +114,11 @@ public class BaseMonster : MonoBehaviour
 
         if (this.transform.position.x < 0)
         {
-            this.transform.localScale = rightScale;
+            this.transform.localScale = leftScale;
         }
         else
         {
-            this.transform.localScale = leftScale;
+            this.transform.localScale = rightScale;
         }
         currentPrefab.transform.localScale = rightScale;
 
@@ -187,6 +187,7 @@ public class BaseMonster : MonoBehaviour
         attackCount = 0;
         isDisable = false;
         isDead = false;
+
         if (MonsterData.HasSkill)
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
@@ -371,12 +372,12 @@ public class BaseMonster : MonoBehaviour
             }
         }
     }
-
     public void AdaptStatusEffectsInList(List<StatusEffect> effects)
     {
         foreach (var effect in effects)
         {
             effect.ApplyEffect(this);
+            Debug.Log($"효과 전이됨 name : {effect}, amount : {effect.Amount}, duration : {effect.Duration}");
         }
     }
     protected virtual void MonsterSkill()
@@ -440,6 +441,7 @@ public class BaseMonster : MonoBehaviour
             yield return blinkSeconds;
             for (int j = 0; j < spriteRenderers.Count; j++)
             {
+                
                 spriteRenderers[j].color = originalColors[j];
             }
             //spriteRenderers.color = originalColors;

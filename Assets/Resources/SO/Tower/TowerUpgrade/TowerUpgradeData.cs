@@ -43,14 +43,17 @@ public class TowerUpgradeData : ScriptableObject
     public int totalMasteryPoint;
     public int currentMasteryPoint;
     public int usedMasteryPoint;
-    public List<int> currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    public List<int> currentLevel;
     public int maxLevel = 3;
     [Header("설명스크립트")]
     public string[] description;
 
     public void Init()
     {
-
+        totalMasteryPoint = 0;
+        currentMasteryPoint = 0;
+        usedMasteryPoint = 0;
+        currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         string savePath = Application.persistentDataPath + "/save.json";
         if (!File.Exists(savePath))
         {

@@ -38,8 +38,6 @@ public class AttackMeleeFront : IAttackBehavior
         foreach (var hit in validHits)
         {
             hit.GetComponent<BaseMonster>().TakeDamage(damage);
-            // TODO:
-            Debug.Log("정면 근접 공격");
         }
     }
     public void ShowRange()

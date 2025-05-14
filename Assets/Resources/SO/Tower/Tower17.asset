@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Tower17
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 0}
-  spawnClip: {fileID: 7400000, guid: 13488ac0c67f20742ac61d2140dce11f, type: 2}
-  idleClip: {fileID: 7400000, guid: 2b50e2e7d886bb14385bf29269b55b3f, type: 2}
-  activeClip: {fileID: 7400000, guid: bb69fcb2f66d5f04ebb9c304b5e07376, type: 2}
+  spawnClip: {fileID: 0}
+  idleClip: {fileID: 0}
+  activeClip: {fileID: 0}
   towerIndex: 17
   towerName: "\uB2AA\uC9C0 \uD0C0\uC6CC"
   attackPower: 0
@@ -23,11 +23,11 @@ MonoBehaviour:
   attackRange: 4
   towerType: 2
   projectileType: 3
-  elementType: 10
+  elementType: 1
   specialEffect: 1
   effectChance: 1
   effectDuration: 0.2
-  effectValue: 0.35
+  effectValue: 0.25
   effectTarget: 1
   effectTargetCount: 0
   bossImmune: 0

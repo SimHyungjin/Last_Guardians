@@ -47,7 +47,7 @@ public class SelectionItemInfo : MonoBehaviour
 
         SetStatText(attackTypeText, data.equipType == EquipType.Weapon ? $"공격 타입 : {data.attackType}" : null);
         SetStatText(attackPowerText, data.attackPower != 0 ? $"공격력 : {data.attackPower}" : null);
-        SetStatText(attackSpeedText, data.attackSpeed != 0 ? $"공격 속도 : {data.attackSpeed}" : null);
+        SetStatText(attackSpeedText, data.attackSpeed != 0 ? $"공격 속도 : {-data.attackSpeed * 100} %" : null);
         SetStatText(attackRangeText, data.attackRange != 0 ? $"공격 범위 : {data.attackRange}" : null);
         SetStatText(moveSpeedText, data.moveSpeed != 0 ? $"이동 속도 : {data.moveSpeed}" : null);
         SetStatText(criticalChanceText, data.criticalChance != 0 ? $"치명타 확률 : {data.criticalChance}%" : null);

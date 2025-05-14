@@ -25,7 +25,7 @@ public class BaseObstacle : MonoBehaviour
     private List<GameObject> zones = new();
     private Dictionary<Collider2D, float> effectTimers = new();
 
-    private Dictionary<PlayerHandler, IPlayerBuff<PlayerData>> playerEffects = new();
+    private Dictionary<PlayerHandler, IPlayerBuff<PlayerStatus>> playerEffects = new();
 
     private void Awake()
     {
@@ -157,7 +157,7 @@ public class BaseObstacle : MonoBehaviour
     {
         if (controller == null) return;
 
-        IPlayerBuff<PlayerData> effect = obstacle.obstacleEffect_Player switch
+        IPlayerBuff<PlayerStatus> effect = obstacle.obstacleEffect_Player switch
         {
             ObstacleEffect.Speed => new PlayerBuffMoveSpeed(obstacle.obstacleEffect_PlayerValue, float.MaxValue, true),
             ObstacleEffect.Stun => new PlayerBuffStun(obstacle.obstacleEffect_PlayerValue, controller),

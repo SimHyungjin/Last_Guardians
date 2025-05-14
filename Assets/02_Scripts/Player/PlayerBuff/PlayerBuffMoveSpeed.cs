@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerData>
+public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerStatus>
 {
     public float? Value { get; private set; }
     public float Duration { get; private set; }
@@ -16,22 +16,22 @@ public class PlayerBuffMoveSpeed : IPlayerBuff<PlayerData>
         else Value = 1 + value;
     }
 
-    public void Apply(PlayerData playerData)
+    public void Apply(PlayerStatus playerData)
     {
         playerData.moveSpeed *= Value.Value;
-        InGameManager.Instance.playerManager.playerHandler.moveController.Init();
+        GameManager.Instance.PlayerManager.playerHandler.moveController.Init();
     }
 
-    public void Remove(PlayerData playerData)
+    public void Remove(PlayerStatus playerData)
     {
         if(playerData == null) { Debug.LogError("playerData null"); return; }
         playerData.moveSpeed /= Value.Value;
-        var moveController = InGameManager.Instance.playerManager.playerHandler.moveController;
+        var moveController = GameManager.Instance.PlayerManager.playerHandler.moveController;
         if (moveController == null) { Debug.LogError("moveController null"); return; }
         moveController.Init();
     }
 
-    public bool IsStrongerThan(IPlayerBuff<PlayerData> other)
+    public bool IsStrongerThan(IPlayerBuff<PlayerStatus> other)
     {
         if (other is not PlayerBuffMoveSpeed o) return true;
 

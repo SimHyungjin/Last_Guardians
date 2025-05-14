@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public interface IAttackBehavior
 {
@@ -15,7 +14,7 @@ public interface IAttackBehavior
 /// </summary>
 public class PlayerAttackController : MonoBehaviour
 {
-    private Player player;
+    private PlayerStatus player;
     private PlayerWeaponController weaponHandler;
     private GameObject target;
     private Coroutine attackCoroutine;
@@ -29,9 +28,9 @@ public class PlayerAttackController : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        player = InGameManager.Instance.playerManager.playerHandler.player;
-        weaponHandler = InGameManager.Instance.playerManager.playerHandler.weaponHandler;
-        SetAttackBehavior(player.playerData.attackType);
+        player = GameManager.Instance.PlayerManager.playerHandler.player;
+        weaponHandler = GameManager.Instance.PlayerManager.playerHandler.weaponHandler;
+        SetAttackBehavior(player.attackType);
         AutoAttackStart();
         if (weaponHandler.attackAction != null) weaponHandler.attackAction -= Attack;
         weaponHandler.attackAction += Attack;
@@ -65,7 +64,7 @@ public class PlayerAttackController : MonoBehaviour
 
         while (true)
         {
-            var hits = Physics2D.OverlapCircleAll(transform.position, player.playerData.attackRange * 2, layerMask);
+            var hits = Physics2D.OverlapCircleAll(transform.position, player.attackRange * 2, layerMask);
 
             if (hits.Length == 0)
             {
@@ -93,7 +92,7 @@ public class PlayerAttackController : MonoBehaviour
                     currentTargetPos = target.transform.position;
                     weaponHandler.CallAttackEnter((Vector2)currentTargetPos);
                     target = null;
-                    yield return new WaitForSeconds(player.playerData.attackSpeed);
+                    yield return new WaitForSeconds(player.attackSpeed);
                 }
             }
 
@@ -140,7 +139,7 @@ public class PlayerAttackController : MonoBehaviour
     /// </summary>
     private IEnumerator AttackDelay()
     {
-        yield return new WaitForSeconds(player.playerData.attackSpeed);
+        yield return new WaitForSeconds(player.attackSpeed);
         isAttacking = false;
     }
 
@@ -149,11 +148,11 @@ public class PlayerAttackController : MonoBehaviour
     /// </summary>
     private float CalculateDamage()
     {
-        float damage = player.playerData.attackPower;
+        float damage = player.attackPower;
         float randomFloat = Random.Range(0, 100);
 
-        if (randomFloat <= player.playerData.criticalChance)
-            damage *= player.playerData.criticalDamage;
+        if (randomFloat <= player.criticalChance)
+            damage *= player.criticalDamage;
 
         return damage;
     }
@@ -167,7 +166,7 @@ public class PlayerAttackController : MonoBehaviour
 
         // 감지 범위 (빨간 원)
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, player.playerData.attackRange * 2);
+        Gizmos.DrawWireSphere(transform.position, player.attackRange * 2);
 
         Gizmos.color = new Color(1f, 0f, 0f, 0.4f); // 반투명 빨간색
     }

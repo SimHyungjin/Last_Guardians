@@ -13,18 +13,18 @@ public class FogWeather : IWeatherState
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
         particle.gameObject.SetActive(true);
-        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
+        GameManager.Instance.PlayerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange); //플레이어
     }
 
     public void Exit()
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
         particle.gameObject.SetActive(false);
-        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.RemoveBuff(playerAttackRange);
+        GameManager.Instance.PlayerManager.playerHandler.playerBuffHandler.RemoveBuff(playerAttackRange);
     }
     public void Update()
     {
-        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange);
+        GameManager.Instance.PlayerManager.playerHandler.playerBuffHandler.ApplyBuff(playerAttackRange);
 
     }
 }
@@ -139,7 +139,7 @@ public class SnowWeather : IWeatherState
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));
         particle.gameObject.SetActive(true);
-        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
+        GameManager.Instance.PlayerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.ApplySlowdown(0.15f, 1f);
@@ -154,7 +154,7 @@ public class SnowWeather : IWeatherState
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));
         particle.gameObject.SetActive(false);
-        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.RemoveBuff(playerBuffMoveSpeed);
+        GameManager.Instance.PlayerManager.playerHandler.playerBuffHandler.RemoveBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.CancelSlowdown();
@@ -163,7 +163,7 @@ public class SnowWeather : IWeatherState
 
     public void Update()
     {
-        InGameManager.Instance.playerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
+        GameManager.Instance.PlayerManager.playerHandler.playerBuffHandler.ApplyBuff(playerBuffMoveSpeed);
         foreach (var monsters in MonsterManager.Instance.AlliveMonsters)
         {
             monsters.ApplySlowdown(0.15f, 0.2f);

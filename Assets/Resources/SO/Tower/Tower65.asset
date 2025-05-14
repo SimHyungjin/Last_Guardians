@@ -13,25 +13,25 @@ MonoBehaviour:
   m_Name: Tower65
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 0}
-  spawnClip: {fileID: 7400000, guid: 75ff7c5f3f1311a49b904f49adf8ffa3, type: 2}
-  idleClip: {fileID: 7400000, guid: 04783e7c6eafe424ebe814de07cbb48b, type: 2}
-  activeClip: {fileID: 7400000, guid: 1c54b18aee985cd43bda6d6ce65cfcc1, type: 2}
+  spawnClip: {fileID: 0}
+  idleClip: {fileID: 0}
+  activeClip: {fileID: 0}
   towerIndex: 65
   towerName: "\uD3ED\uD48D\uC6B0 \uD0C0\uC6CCII"
   attackPower: 0
   attackSpeed: 0
-  attackRange: 4
+  attackRange: 5
   towerType: 2
   projectileType: 4
-  elementType: 9
+  elementType: 1
   specialEffect: 1
   effectChance: 1
   effectDuration: 7
-  effectValue: 0.25
+  effectValue: 0.5
   effectTarget: 1
   effectTargetCount: 0
   bossImmune: 1
   upgradeLevel: 3
-  towerDescription: "\uBC18\uACBD \uB0B4 \uC801 \uC774\uB3D9\uC18D\uB3C4 25% \uAC10\uC18C
+  towerDescription: "\uBC18\uACBD \uB0B4 \uC801 \uC774\uB3D9\uC18D\uB3C4 50% \uAC10\uC18C
     \uC624\uBE0C\uC81D\uD2B8 \uC0DD\uC131 7\uCD08 \uB3D9\uC548 \uC9C0\uC18D (\uBCF4\uC2A4
     \uBBF8\uC801\uC6A9)"

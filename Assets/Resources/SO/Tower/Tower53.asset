@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Tower53
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 0}
-  spawnClip: {fileID: 7400000, guid: 724343dc29b563141b1632149ef827b6, type: 2}
-  idleClip: {fileID: 7400000, guid: 9ef0a2a64a800c74891c548e2b54d36e, type: 2}
-  activeClip: {fileID: 7400000, guid: 43181399041ebf54d9e25d158b3551aa, type: 2}
+  spawnClip: {fileID: 0}
+  idleClip: {fileID: 0}
+  activeClip: {fileID: 0}
   towerIndex: 53
   towerName: "\uB545 \uD0C0\uC6CCII"
   attackPower: 42
   attackSpeed: 1.7
-  attackRange: 3
+  attackRange: 4
   towerType: 2
   projectileType: 0
   elementType: 3

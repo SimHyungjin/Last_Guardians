@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Tower107
   m_EditorClassIdentifier: 
   towerGhostPrefab: {fileID: 0}
-  spawnClip: {fileID: 7400000, guid: e0ba4c3eda9cb374489cf077d3ce3761, type: 2}
-  idleClip: {fileID: 7400000, guid: 4b60daf4456280743afcde8aa31bd422, type: 2}
-  activeClip: {fileID: 7400000, guid: c2874145adf209f4f9315c68c4267c29, type: 2}
+  spawnClip: {fileID: 0}
+  idleClip: {fileID: 0}
+  activeClip: {fileID: 0}
   towerIndex: 107
   towerName: "\uC9C0\uC6D0 \uD0C0\uC6CCIII"
   attackPower: 0

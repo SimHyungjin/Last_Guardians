@@ -171,7 +171,7 @@ public class BaseMonster : MonoBehaviour
             CurrentDef = ResultDef;
         }
 
-        Debug.Log($"몬스터 최대체력 : {ResultHP} 방어력 : {ResultDef}");
+        //Debug.Log($"몬스터 최대체력 : {ResultHP} 방어력 : {ResultDef}");
             
         //CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;

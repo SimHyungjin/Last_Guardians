@@ -25,12 +25,12 @@ public class BuffTower : BaseTower
     public override void Init(TowerData data)
     {
         base.Init(data);
+        adaptiveRange = towerData.AttackRange;
         buffTowerIndex = new List<int>();
         buffMonterDebuffs = new List<ITowerBuff>();
         BuffSelect(data);
         ScanBuffTower();
         ApplyBuffOnPlacement();
-        adaptiveRange = towerData.AttackRange;
         OnPlatform();
     }
 
@@ -100,9 +100,9 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
-
         foreach (var hit in hits)
         {
+            Debug.Log(hit);
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {

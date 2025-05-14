@@ -102,6 +102,24 @@ public class Utils
         return spriteIndex;
     }
 
+    public static int GetAnimatorindex(int towerIndex) 
+    {
+        int spriteIndex;
+        if (towerIndex > 49 && towerIndex < 99)
+        {
+            spriteIndex = towerIndex - 49;
+        }
+        else if (towerIndex >= 99 && towerIndex < 109)
+        {
+            spriteIndex = towerIndex - 98;
+        }
+        else
+        {
+            spriteIndex = towerIndex;
+        }
+        return spriteIndex;
+    }
+
     public static void Shuffle<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)

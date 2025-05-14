@@ -15,43 +15,44 @@ public class AdaptedTowerData
     public float attackSpeed;
     public float attackRange;
     public bool bossImmunebuff;
+    public int projectileCount;
     public  List<int> buffTowerIndex;
 
 
-    public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange)
+    public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange, int projectileCount)
     {
         this.towerIndex = towerIndex;
         this.baseAttackPower = attackPower;
         this.attackSpeed = attackSpeed;
         this.bossImmunebuff = false;
         this.attackRange = attackRange;
+        this.projectileCount = projectileCount;
         Upgrade();
         buffTowerIndex = new List<int>();
     }
+
     //////////////////////////////////////////업그레이드////////////////////////////////////////////////
     public void Upgrade()
     {
         int attackPowerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackPower];
         baseAttackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
-        Debug.Log($"어택파워업그레이드가{attackPowerupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel]}만큼 수치올렷다 ");
-    
+        
         int attackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
-        //attackSpeed = attackSpeed / (TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel] * attackSpeed);
         float attackSpeedUpgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel];
         attackSpeed = attackSpeed / attackSpeedUpgradeValue;
-        Debug.Log($"어택스피드업그레이드가{attackSpeedupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel]}만큼 수치올렷다 ");
-    
+       
         int AttackRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
         attackRange *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
-        Debug.Log($"어택레인지업그레이드가{AttackRangeupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel]}만큼 수치올렷다 ");
-        
+       
         int CombetMasteryupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.CombetMastery];
         float CombetMasteryupgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[CombetMasteryupgradeLevel];
-        Debug.Log($"콤벳마스터리업그레이드가{CombetMasteryupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[CombetMasteryupgradeLevel]}만큼 수치올렷다 ");
         baseAttackPower *= CombetMasteryupgradeValue;
         attackSpeed = attackSpeed / CombetMasteryupgradeValue;
         attackRange *= CombetMasteryupgradeValue;
 
+        int MultipleAttackLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.MultipleAttack];
+        projectileCount += (int)TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.MultipleAttack].levels[MultipleAttackLevel];
+        Debug.Log("프로젝타일 증가"+TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.MultipleAttack].levels[MultipleAttackLevel]);
     }
 
 }
@@ -79,6 +80,7 @@ public class AttackTower : BaseTower
     [Header("공격력 계산")]
     private float attackPowerBuff = 1f;
     private float ContinuousAttackBuff = 1f;
+    private float bossSlayerBuff = 1f;
     private bool ContinuousAttack = false;
     /// <summary>
     /// 초기화 함수
@@ -89,7 +91,7 @@ public class AttackTower : BaseTower
     {
 
         base.Init(data);
-        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange);
+        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount());
         OnPlatform();
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
@@ -171,8 +173,6 @@ public class AttackTower : BaseTower
         int ContinuousAttackupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.ContinuousAttack];
         ContinuousAttackBuff= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.ContinuousAttack].levels[ContinuousAttackupgradeLevel];
         CalculateDamage();
-        Debug.Log($"연속타격업그레이드가{ContinuousAttackupgradeLevel}이라서{TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[ContinuousAttackupgradeLevel]}만큼 수치올렷다 ");
-
     }
     void StopContinuousAttack()
     {
@@ -181,6 +181,28 @@ public class AttackTower : BaseTower
         CalculateDamage();
     }
 
+    private int projectileCount()
+    {
+        if(towerData.EffectTarget==EffectTarget.Multiple)
+        {
+            return towerData.EffectTargetCount;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    private int ModifyProjectileCount()
+    {
+        if (towerData.ElementType != ElementType.Wind || towerData.SpecialEffect != SpecialEffect.MultyTarget)
+        {
+            return adaptedTowerData.projectileCount;
+        }
+
+        return UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance
+            ? adaptedTowerData.projectileCount
+            : adaptedTowerData.projectileCount - (towerData.EffectTargetCount-1);
+    }
     private void CalculateDamage()
     {
         adaptedTowerData.attackPower = adaptedTowerData.baseAttackPower * attackPowerBuff * ContinuousAttackBuff;
@@ -189,36 +211,23 @@ public class AttackTower : BaseTower
     {
         if (disable) return;
         Debug.Log($"[BaseTower]공격력 {adaptedTowerData.attackPower} ");
-        bool isMultyTarget = towerData.EffectTarget == EffectTarget.Multiple;
-        bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
+        //bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
+        int modifyProjectileCount = ModifyProjectileCount();
+
         lastCheckTime = Time.time;
         animator.SetTrigger("TowerActive");
         switch (towerData.ProjectileType)
         {
             case ProjectileType.Blast:
-                projectileFactory.SpawnAndLaunch<BlastProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex,environmentEffect);
+                    projectileFactory.MultiSpawnAndLaunch<BlastProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, modifyProjectileCount, environmentEffect);
                 break;
             case ProjectileType.Magic:
 
-                if (shouldMultyShot)
-                {
-                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount, environmentEffect);
-                }
-                else
-                {
-                    projectileFactory.SpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, environmentEffect);
-                }
+                    projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, modifyProjectileCount, environmentEffect);
                 break;
             case ProjectileType.Arrow:
-                if (shouldMultyShot)
-                {
-                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, towerData.EffectTargetCount, environmentEffect);
-                }
-                else
-                {
-                    projectileFactory.SpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex,environmentEffect);
-                }
+                    projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, modifyProjectileCount, environmentEffect);
                 break;
             default:
                 Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");

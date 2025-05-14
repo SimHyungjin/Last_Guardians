@@ -19,7 +19,7 @@ MonoBehaviour:
   towerIndex: 100
   towerName: "\uBB3C \uD0C0\uC6CCIII"
   attackPower: 50
-  attackSpeed: 0.3
+  attackSpeed: 0.5
   attackRange: 5
   towerType: 2
   projectileType: 0

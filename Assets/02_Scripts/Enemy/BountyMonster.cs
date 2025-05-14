@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class BountyMonster : BaseMonster
 {
-    public override void TakeDamage(float amount, float penetration =0)
+    public override void TakeDamage(float amount, float penetration =0, bool trueDamage = false)
     {
-        base.TakeDamage(amount);
+        base.TakeDamage(amount, penetration, trueDamage);
         DamageText damageText = PoolManager.Instance.Spawn<DamageText>(InGameManager.Instance.DamageTextPrefab);
         damageText.gameObject.transform.SetParent(InGameManager.Instance.DamageUICanvas.transform);
         Vector3 worldPos = transform.position + Vector3.up * 0.1f;
         worldPos.z = 0;
         damageText.transform.position = worldPos;
-        damageText.Show(amount);
+        if (trueDamage)
+            damageText.Show(amount);
+        else
+            damageText.Show(amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant)));
     }
 
     public override void MeleeAttack()

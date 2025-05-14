@@ -40,6 +40,7 @@ public class ItemConnecter : MonoBehaviour
                 itemPopupController.Open();
                 break;
             case PopupType.Upgrade:
+                upgradePopupController.SetData(selectionController.selectedData);
                 upgradePopupController.Open();
                 break;
             case PopupType.Sell:

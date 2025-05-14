@@ -29,13 +29,8 @@ public class CameraMove : MonoBehaviour
 
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-#else
-        
-#endif
-        if (Input.touchCount > 0 && EventSystem.current != null &&
-            EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
+        //if (Input.touchCount == 0) return;
+        if (InputManager.Instance.IsTouchOverUI()) return;
 
         Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
         if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player")) && !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"))&& TowerManager.Instance.CanStartInteraction())
@@ -135,7 +130,6 @@ public class CameraMove : MonoBehaviour
         freeCamBoundary.InvalidateCache();
     }
 }
-
 public static class VectorExtensions
 {
     public static Vector3 WithZ(this Vector3 v, float z)

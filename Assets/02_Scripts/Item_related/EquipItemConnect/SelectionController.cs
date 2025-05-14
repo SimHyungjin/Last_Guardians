@@ -28,7 +28,6 @@ public class SelectionController : MonoBehaviour
         this.selectionMode = selectionMode;
         selectedData = null;
         selectedDataList.Clear();
-        itemPopupController.Close();
         itemPopupController.UpdatePopupUI();
     }
 
@@ -38,8 +37,6 @@ public class SelectionController : MonoBehaviour
     /// <param name="slot"></param>
     public void SelectSlot(Slot slot)
     {
-        if (selectedData != null && selectedData.UniqueID == slot.GetData().UniqueID) return;
-
         selectedData = slot.GetData();
         upgradePopup.SetData(selectedData);
 

@@ -190,7 +190,7 @@ public class TrapObject : MonoBehaviour
 
     /// <summary>
     /// 트랩이팩트 적용
-    /// 타겟이 멀티인지 싱글인지 구분하여 일정시간동안 이팩트적용 후 쿨타임으로 전환 
+    /// 일정시간동안 이팩트적용 후 쿨타임으로 전환 
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
@@ -205,25 +205,14 @@ public class TrapObject : MonoBehaviour
 
             foreach (var effect in trapEffectList)
             {
-                if (towerData.EffectTarget == EffectTarget.Single)
+                foreach (var hit in hits)
                 {
-                    foreach (var hit in hits)
-                    {
-                        if (hit.GetComponent<BaseMonster>() == target) 
-                        effect.Apply(target, towerData, bossImmunebuff, environmentEffect);
-                        break;
-                    }
-                }
-                else
-                {
-                    foreach (var hit in hits)
-                    {
-                        BaseMonster monster = hit.GetComponent<BaseMonster>();
-                        if (monster == null) continue;
+                    BaseMonster monster = hit.GetComponent<BaseMonster>();
+                    if (monster == null) continue;
 
-                        effect.Apply(monster, towerData, bossImmunebuff, environmentEffect);
-                    }
+                    effect.Apply(monster, towerData, bossImmunebuff, environmentEffect);
                 }
+
             }
 
             yield return new WaitForSeconds(applyInterval);

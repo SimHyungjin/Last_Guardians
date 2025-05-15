@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 public interface IEffect
 {
-    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData,EnvironmentEffect environmentEffect);
-    void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance,EnvironmentEffect environmentEffect);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData,EnvironmentEffect environmentEffect);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance,EnvironmentEffect environmentEffect);
 }
 
 public class ProjectileFactory : MonoBehaviour
@@ -61,7 +61,7 @@ public class ProjectileFactory : MonoBehaviour
     /// <param name="buffTowerIndex"></param>
     /// <param name="shotCount"></param>
     /// <param name="environmentEffect"></param>
-    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedTowerData adaptedTowerData, Transform parent, List<int> buffTowerIndex, int shotCount, EnvironmentEffect environmentEffect) where T : ProjectileBase
+    public void MultiSpawnAndLaunch<T>(Vector2 targetPos, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, Transform parent, List<int> buffTowerIndex, int shotCount, EnvironmentEffect environmentEffect) where T : ProjectileBase
     {
         if (!projectileMap.TryGetValue(towerData.ProjectileType, out var prefab)) return;
 

@@ -131,10 +131,12 @@ public class TowerData: ScriptableObject
         this.upgradeLevel = upgradeLevel;
         this.towerDescription = towerDescription;
         int spriteIndex = Utils.GetAnimatorindex(towerIndex);
+#if UNITY_EDITOR
         string path = "Assets/99_ThirdParty/Towers/00_Animation/Tower/";
         spawnClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Spawn.anim");
         idleClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Idle.anim");
         activeClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path + $"Tower_{spriteIndex}_Active.anim");
     }
+#endif
 }
 

@@ -7,28 +7,44 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [Serializable]
-public class AdaptedTowerData
+public class AdaptedAttackTowerData
 {
+
+    [Header("공격마스터리")]
     public int towerIndex;
     public float baseAttackPower;
+    public float baseattackSpeed;
     public float attackPower;
     public float attackSpeed;
     public float attackRange;
-    public bool bossImmunebuff;
     public int projectileCount;
+
+    [Header("효과마스터리")]
+    public float effectValue;
+    public float effectDuration;
+
+
+    [Header("타워버프")]
+    public bool bossImmunebuff;
     public  List<int> buffTowerIndex;
 
 
-    public AdaptedTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange, int projectileCount)
+    public AdaptedAttackTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange, int projectileCount, float effectValue ,float effectDuration)
     {
         this.towerIndex = towerIndex;
         this.baseAttackPower = attackPower;
-        this.attackSpeed = attackSpeed;
+        this.baseattackSpeed = attackSpeed;
         this.bossImmunebuff = false;
         this.attackRange = attackRange;
         this.projectileCount = projectileCount;
+
+        this.effectValue = effectValue;
+        this.effectDuration = effectDuration;
+
         Upgrade();
         buffTowerIndex = new List<int>();
+        this.attackSpeed = baseattackSpeed;
+        this.effectDuration = effectDuration;
     }
 
     //////////////////////////////////////////업그레이드////////////////////////////////////////////////
@@ -36,23 +52,28 @@ public class AdaptedTowerData
     {
         int attackPowerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackPower];
         baseAttackPower *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackPower].levels[attackPowerupgradeLevel];
-        
+
         int attackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
         float attackSpeedUpgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[attackSpeedupgradeLevel];
-        attackSpeed = attackSpeed / attackSpeedUpgradeValue;
-       
+        baseattackSpeed = baseattackSpeed / attackSpeedUpgradeValue;
+
         int AttackRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
         attackRange *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
-       
+
         int CombetMasteryupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.CombetMastery];
         float CombetMasteryupgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[CombetMasteryupgradeLevel];
         baseAttackPower *= CombetMasteryupgradeValue;
-        attackSpeed = attackSpeed / CombetMasteryupgradeValue;
+        baseattackSpeed = baseattackSpeed / CombetMasteryupgradeValue;
         attackRange *= CombetMasteryupgradeValue;
 
         int MultipleAttackLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.MultipleAttack];
         projectileCount += (int)TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.MultipleAttack].levels[MultipleAttackLevel];
-        Debug.Log("프로젝타일 증가"+TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.MultipleAttack].levels[MultipleAttackLevel]);
+
+        int EffectValueLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectValue];
+        effectValue *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectValue].levels[EffectValueLevel];
+        int EffectDurationLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectDuration];
+        effectDuration *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectDuration].levels[EffectDurationLevel];
+
     }
 
 }
@@ -66,7 +87,7 @@ public class AttackTower : BaseTower
     private BaseMonster currentTargetMonster;
 
     [Header("버프")]
-    public AdaptedTowerData adaptedTowerData;
+    public AdaptedAttackTowerData adaptedTowerData;
     List<int> buffTowerIndex;
     //private bool Disable;
 
@@ -91,7 +112,7 @@ public class AttackTower : BaseTower
     {
 
         base.Init(data);
-        adaptedTowerData = new AdaptedTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount());
+        adaptedTowerData = new AdaptedAttackTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount(),towerData.EffectValue,towerData.EffectDuration);
         OnPlatform();
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
@@ -270,6 +291,7 @@ public class AttackTower : BaseTower
             return 1;
         }
     }
+
     /// <summary>
     /// 발사체 수 조정
     /// </summary>
@@ -312,7 +334,7 @@ public class AttackTower : BaseTower
         if (isSpeedBuffed && isWindBuffed) windSpeedBuff = 1.2f;
         else windSpeedBuff = 1f;
         float totalBuff = attackSpeedBuff * windBuff* windSpeedBuff;
-        adaptedTowerData.attackSpeed = 1f / (towerData.AttackSpeed * totalBuff);
+        adaptedTowerData.attackSpeed = adaptedTowerData.baseattackSpeed / totalBuff;
     }
     public void AttackSpeedBuff(float buff)
     {

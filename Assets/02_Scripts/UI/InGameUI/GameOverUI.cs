@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;              
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,19 +9,29 @@ using UnityEngine.UI;
 public class GameOverUI : MonoBehaviour
 {
     // 게임 결과
-    [SerializeField] TextMeshProUGUI resultWaveText;
-    [SerializeField] TextMeshProUGUI resultMonsterCountText;
-    [SerializeField] TextMeshProUGUI reslutPlayerLvText;
+    [SerializeField] private TextMeshProUGUI resultWaveText;
+    [SerializeField] private TextMeshProUGUI resultMonsterCountText;
+    [SerializeField] private TextMeshProUGUI resultPlayerLvText;
 
     // 게임 보상
-    [SerializeField] TextMeshProUGUI rewardGoldText;
-    [SerializeField] TextMeshProUGUI rewardStoneText;
-    [SerializeField] Image rewardEquipImage;
-    [SerializeField] TextMeshProUGUI rewardEquipText;
+    [SerializeField] private TextMeshProUGUI rewardGoldText;
+    [SerializeField] private TextMeshProUGUI rewardStoneText;
+    [SerializeField] private Image rewardEquipImage;
+    [SerializeField] private TextMeshProUGUI rewardEquipText;
 
     // 버튼
-    [SerializeField] Button retryBtn;
-    [SerializeField] Button exitBtn;
+    [SerializeField] private Button retryBtn;
+    [SerializeField] private Button exitBtn;
+
+    // 등급별 텍스트 색상 매핑
+    private static readonly Dictionary<ItemGrade, string> GradeColorHex = new()
+    {
+        { ItemGrade.Normal, "#000000" }, // 검정
+        { ItemGrade.Rare,   "#0000FF" }, // 파랑
+        { ItemGrade.Unique, "#800080" }, // 보라
+        { ItemGrade.Hero,   "#00FF00" }, // 초록
+        { ItemGrade.Legend, "#FFFF00" }, // 노랑
+    };
 
     private void OnEnable()
     {
@@ -29,49 +39,52 @@ public class GameOverUI : MonoBehaviour
         int wave = MonsterManager.Instance.nowWave.WaveIndex;
         RewardManager.Instance.GiveRewardForWave(wave);
 
-        // 2) 결과 텍스트
+        // 2) 결과 텍스트 세팅
         resultWaveText.text = $"wave : {wave}";
         resultMonsterCountText.text = $"잡은 몬스터 수 : {MonsterManager.Instance.MonsterKillCount}";
-        reslutPlayerLvText.text = $"플레이어 레벨 : {InGameManager.Instance.level}";
+        resultPlayerLvText.text = $"플레이어 레벨 : {InGameManager.Instance.level}";
 
-        // 3) 골드/강화석
+        // 3) 골드/강화석 텍스트
         rewardGoldText.text = $"획득한 골드 : {RewardManager.Instance.Gold}";
         rewardStoneText.text = $"획득한 강화석 : {RewardManager.Instance.Stone}";
 
-        // 4) 장비 처리 (여러 개 나열)
+        // 4) 장비 처리 (여러 개 나열 + 등급별 색상)
         var equips = RewardManager.Instance.EquipIndices;
         if (equips == null || equips.Count == 0)
         {
-            // 장비가 하나도 없으면 UI 숨기기
             rewardEquipImage.gameObject.SetActive(false);
             rewardEquipText.gameObject.SetActive(false);
         }
         else
         {
-            // 첫 번째 장비 아이콘은 그대로 사용
-            int firstIndex = equips[0];
-            var firstItem = GameManager.Instance
+           
+            var firstData = GameManager.Instance
                 .ItemManager
-                .GetItemInstanceByIndex(firstIndex)
+                .GetItemInstanceByIndex(equips[0])
                 .Data;
-
             rewardEquipImage.gameObject.SetActive(true);
-            rewardEquipImage.sprite = firstItem.Icon;
+            rewardEquipImage.sprite = firstData.Icon;
 
-            // EquipIndices 전부 돌면서 이름만 추출 → "이름1, 이름2, 이름3"
-            var names = equips
-                .Select(idx =>
-                    GameManager.Instance
-                        .ItemManager
-                        .GetItemInstanceByIndex(idx)
-                        .Data.ItemName
-                );
+            
+            var coloredNames = equips.Select(idx =>
+            {
+                var data = GameManager.Instance
+                    .ItemManager
+                    .GetItemInstanceByIndex(idx)
+                    .Data;
+                
+                string hex = GradeColorHex.TryGetValue(data.ItemGrade, out var c) ? c : "#000000";
+                return $"<color={hex}>{data.ItemName}</color>";
+            });
 
+            rewardEquipText.richText = true;
             rewardEquipText.gameObject.SetActive(true);
-            rewardEquipText.text = string.Join(", ", names);
+            rewardEquipText.text = string.Join(", ", coloredNames);
         }
 
         // 5) 버튼 리스너
+        retryBtn.onClick.RemoveAllListeners();
+        exitBtn.onClick.RemoveAllListeners();
         retryBtn.onClick.AddListener(Retry);
         exitBtn.onClick.AddListener(Exit);
     }

@@ -44,7 +44,6 @@ public class AdaptedAttackTowerData
         Upgrade();
         buffTowerIndex = new List<int>();
         this.attackSpeed = baseattackSpeed;
-        this.effectDuration = effectDuration;
     }
 
     //////////////////////////////////////////업그레이드////////////////////////////////////////////////

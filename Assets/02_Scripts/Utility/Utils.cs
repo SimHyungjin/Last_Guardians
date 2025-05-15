@@ -66,7 +66,7 @@ public class Utils
     }
 
 
-    public static bool ShouldApplyEffect(BaseMonster target, TowerData towerData, bool bossImmunebuff)
+    public static bool ShouldApplyEffect(BaseMonster target,TowerData towerData, bool bossImmunebuff)
     {
         if (bossImmunebuff) return true;
 

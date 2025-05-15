@@ -43,6 +43,12 @@ public class MonsterManager : Singleton<MonsterManager>
     public int RemainMonsterCount {  get; private set; }
     public int MonsterKillCount { get; set; }
     public int EXPCount { get; set; } = 0;
+
+    public int Catalysis { get; private set; }
+    public float CatalysisValue {  get; private set; }
+    public int EffectTransfer { get; private set; }
+    public float EffectTransferUpgradeValue { get; private set; }
+
     private void Start()
     {
         AlliveMonsters = new List<BaseMonster>();
@@ -282,6 +288,11 @@ public class MonsterManager : Singleton<MonsterManager>
 
         BountySpwanCoolTime = 60f;
         SpawnTimer = 0f;
+
+        Catalysis = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Catalysis];
+        CatalysisValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Catalysis].levels[Catalysis];
+        EffectTransfer = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectTransfer];
+        EffectTransferUpgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectTransfer].levels[EffectTransfer];
     }
     public void ForceAddWave()
     {

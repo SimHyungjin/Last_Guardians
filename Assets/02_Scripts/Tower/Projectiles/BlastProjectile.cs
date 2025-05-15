@@ -13,7 +13,7 @@ public class BlastProjectile : ProjectileBase
     public BaseMonster target;
     private Tweener moveTween;
 
-    private float ExplosionRadius = 1f; // Æø¹ß ¹Ý°æ
+    private float explosionRadius; // Æø¹ß ¹Ý°æ
     private bool canHit = false;
     private float Totaldistance;
     private bool hasHit = false;
@@ -30,6 +30,7 @@ public class BlastProjectile : ProjectileBase
         base.Init(_towerData, _adaptedTowerData, _effectslist, _environmentEffect);
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
+        explosionRadius = 1f * TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectRange].levels[TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectRange]];
     }
 
     public override void Update()
@@ -107,7 +108,7 @@ public class BlastProjectile : ProjectileBase
         Debug.Log("Æø¹ß");
         blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
         blastEffectInstance.Init(towerData, this.transform);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius/2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius/2, LayerMaskData.monster);
         int count = 0;
         foreach (var hit in hits)
         {
@@ -119,8 +120,8 @@ public class BlastProjectile : ProjectileBase
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
-                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),adaptedTower ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
-                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, environmentEffect);
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]) ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
+                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]), environmentEffect);
                 }
             }
         }

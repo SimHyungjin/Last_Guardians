@@ -47,7 +47,7 @@ public abstract class BaseTower : MonoBehaviour
 
     Vector2 curPos;
 
-    protected float maxbuffRadius = 3f;
+    protected float maxbuffRadius = 5f;
     protected bool disable;
 
     private float touchTime = 0.5f;

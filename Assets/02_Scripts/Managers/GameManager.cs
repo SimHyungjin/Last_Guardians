@@ -10,6 +10,10 @@ public class GameManager : Singleton<GameManager>
     public int gold = 0;
     public int upgradeStones = 0;
 
+    //public int InGameTutorial = PlayerPrefs.GetInt("InGameTutorial");
+    //public int EquipTutorial = PlayerPrefs.GetInt("EquipTutorial");
+    //public int UpgradeTutorial = PlayerPrefs.GetInt("UpgradeTutorial");
+
     public int NowTime { get; set; }
 
     private void Awake()
@@ -42,6 +46,11 @@ public class GameManager : Singleton<GameManager>
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

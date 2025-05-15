@@ -62,16 +62,10 @@ public class EffectHandler : MonoBehaviour
     public bool IsInEffect(StatusEffect effect)
     {
         if (effect == null)
-        {
-            return true;
-        }
-        else
-        {
-            var existEffect = effects.Find(a => a.GetType() == effect.GetType());
+            return false;
 
-            return existEffect == null;
-        }
-        
+        var existEffect = effects.Find(e => e.GetType() == effect.GetType());
+        return existEffect != null;
     }
 
     // 모든상태이상 제거
@@ -115,11 +109,19 @@ public class EffectHandler : MonoBehaviour
         foreach(var effect in effects)
         {
             effect.Duration = duration + effect.Duration;
+            Debug.Log($"디버프 시간 늘어남 {effect}, 늘어난시간 : {duration} 최종 시간 : {effect.Duration}");
         }
     }
 
     public List<StatusEffect> GetStatusEffects()
     {
         return effects;
+    }
+
+    public StatusEffect GetEffect(StatusEffect effect)
+    {
+        if(effects.Contains(effect))
+            return effects.Find(a=>a.Equals(effect));
+        else return effect;
     }
 }

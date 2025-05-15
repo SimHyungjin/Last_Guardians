@@ -18700,7 +18700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resultWaveText: {fileID: 6745422733571268903}
   resultMonsterCountText: {fileID: 304118802027886112}
-  reslutPlayerLvText: {fileID: 8259312559435193153}
+  resultPlayerLvText: {fileID: 8259312559435193153}
   rewardGoldText: {fileID: 2073338447}
   rewardStoneText: {fileID: 288695971}
   rewardEquipImage: {fileID: 1307022732}

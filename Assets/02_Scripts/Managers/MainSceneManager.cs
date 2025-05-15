@@ -26,6 +26,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
 
         canvas = Utils.InstantiatePrefabFromResource("UI/MainScene/Canvas", this.transform);
         interactionBlocker = Utils.InstantiatePrefabFromResource("UI/MainScene/InteractionBlocker", canvas.transform);
+        interactionBlocker.SetActive(false);
         canvas.GetComponentInChildren<MainSceneButtonView>().Init(this);
     }
 

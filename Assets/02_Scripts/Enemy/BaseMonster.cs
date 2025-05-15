@@ -359,7 +359,9 @@ public class BaseMonster : MonoBehaviour
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
             TowerManager.Instance.towerUpgradeData.GetTowerPoint();
-            //DebuffTransition();
+            
+            if(MonsterManager.Instance.EffectTransfer>=1 && Random.Range(0f,1f)<=MonsterManager.Instance.EffectTransferUpgradeValue)
+                DebuffTransition();
         }
     }
 
@@ -417,7 +419,8 @@ public class BaseMonster : MonoBehaviour
         else
         {
             CurrentHP -= amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
-            //effectHandler.AllDebuffTimerPlus(2f);
+            if(MonsterManager.Instance.Catalysis>=1)
+                effectHandler.AllDebuffTimerPlus(MonsterManager.Instance.CatalysisValue);
         }
 
         float calculatedDamage = amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));

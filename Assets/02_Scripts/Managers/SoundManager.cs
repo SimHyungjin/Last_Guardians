@@ -15,35 +15,42 @@ public class SoundManager : Singleton<SoundManager>
     private Queue<AudioSource> audioSourcePool;
     private AudioSource bgmPlayer;
 
-    private float sfxVolume = 0.3f;     // 사용자 설정 SFX 볼륨
-    private float bgmVolume = 0.3f;     // 사용자 설정 BGM 볼륨
-    private float masterVolume = 0.3f;  // 전체 볼륨
+    // 볼륨 값(0~1)
+    private float sfxVolume;
+    private float bgmVolume;
+    private float masterVolume;
 
     private void Awake()
     {
         Init();
     }
+
     private void Start()
     {
         PlayBGM("beanfeast");
     }
 
-
     private void Init()
     {
         DontDestroyOnLoad(gameObject);
 
-        // 사운드 딕셔너리 초기화
+        // 1) 저장된 볼륨 설정 불러오기
+        sfxVolume = PlayerPrefs.GetFloat("SFX_VOLUME", 0.3f);
+        bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 0.3f);
+        masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 0.3f);
+
+        // 2) 사운드 딕셔너리 초기화
         soundDict = new Dictionary<string, AudioClip>();
         foreach (var clip in audioClips)
             soundDict[clip.name] = clip;
 
-        // BGM 플레이어 초기화
+        // 3) BGM 플레이어 초기화
         bgmPlayer = gameObject.AddComponent<AudioSource>();
         bgmPlayer.loop = true;
         bgmPlayer.playOnAwake = false;
+        bgmPlayer.volume = bgmVolume * masterVolume;
 
-        // SFX 오디오소스 풀 초기화
+        // 4) SFX 오디오소스 풀 초기화
         audioSourcePool = new Queue<AudioSource>();
         for (int i = 0; i < poolSize; i++)
         {
@@ -52,6 +59,11 @@ public class SoundManager : Singleton<SoundManager>
             src.enabled = false;
             audioSourcePool.Enqueue(src);
         }
+
+        // 5) 초기 볼륨 즉시 반영
+        SetMasterVolume(masterVolume);
+        SetBGMVolume(bgmVolume);
+        SetSFXVolume(sfxVolume);
     }
 
     // SFX 재생
@@ -66,7 +78,7 @@ public class SoundManager : Singleton<SoundManager>
             src = gameObject.AddComponent<AudioSource>();
 
         src.clip = clip;
-        src.volume = sfxVolume * masterVolume;  // ← masterVolume 곱하기
+        src.volume = sfxVolume * masterVolume;
         src.enabled = true;
         src.Play();
 
@@ -87,7 +99,7 @@ public class SoundManager : Singleton<SoundManager>
         if (bgmPlayer.clip == clip) return;
 
         bgmPlayer.clip = clip;
-        bgmPlayer.volume = bgmVolume * masterVolume;  // ← masterVolume 곱하기
+        bgmPlayer.volume = bgmVolume * masterVolume;
         bgmPlayer.Play();
     }
 
@@ -101,20 +113,25 @@ public class SoundManager : Singleton<SoundManager>
     public void SetSFXVolume(float vol)
     {
         sfxVolume = Mathf.Clamp01(vol);
+        PlayerPrefs.SetFloat("SFX_VOLUME", sfxVolume);
+        PlayerPrefs.Save();
     }
 
     // BGM 볼륨 설정 (0~1)
     public void SetBGMVolume(float vol)
     {
         bgmVolume = Mathf.Clamp01(vol);
-        bgmPlayer.volume = bgmVolume * masterVolume;  // ← 즉시 반영
+        bgmPlayer.volume = bgmVolume * masterVolume;
+        PlayerPrefs.SetFloat("BGM_VOLUME", bgmVolume);
+        PlayerPrefs.Save();
     }
 
     // 전체(마스터) 볼륨 설정 (0~1)
     public void SetMasterVolume(float vol)
     {
         masterVolume = Mathf.Clamp01(vol);
-        // 기존 BGM 볼륨 즉시 업데이트
         bgmPlayer.volume = bgmVolume * masterVolume;
+        PlayerPrefs.SetFloat("MASTER_VOLUME", masterVolume);
+        PlayerPrefs.Save();
     }
 }

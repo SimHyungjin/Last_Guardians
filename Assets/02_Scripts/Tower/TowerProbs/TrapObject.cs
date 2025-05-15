@@ -31,6 +31,7 @@ public class AdaptedTrapObjectData
         int buffEffectValueupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectValue];
         baseEffectValue *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectValue].levels[buffEffectValueupgradeLevel];
 
+
         int buffEffectRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectRange];
         attackRange *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectRange].levels[buffEffectRangeupgradeLevel];
 
@@ -51,7 +52,7 @@ public class AdaptedTrapObjectData
 
 public interface ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff, EnvironmentEffect environmentEffect);
+    public void Apply(BaseMonster target,TowerData towerData ,AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect);
 }
 public enum TrapObjectState
 {
@@ -103,6 +104,7 @@ public class TrapObject : MonoBehaviour
         Utils.GetColor(towerData, GetComponent<SpriteRenderer>());
         buffTowerIndex.Add(towerData.TowerIndex);
         AddTrapEffect(towerData.TowerIndex);
+        ScanBuffTower();
         CanPlant();
     }
     private  void Update()
@@ -252,19 +254,16 @@ public class TrapObject : MonoBehaviour
         while (elapsed < towerData.EffectDuration)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTrapObjectData.attackRange, LayerMaskData.monster);
-
-            foreach (var effect in trapEffectList)
+            foreach (var hit in hits)
             {
-                foreach (var hit in hits)
+                BaseMonster monster = hit.GetComponent<BaseMonster>();
+                if (monster == null) continue;
+                for(int i=0;i< buffTowerIndex.Count;i++)
                 {
-                    BaseMonster monster = hit.GetComponent<BaseMonster>();
-                    if (monster == null) continue;
-
-                    effect.Apply(monster, towerData, bossImmunebuff, environmentEffect);
+                    trapEffectList[i].Apply(monster,TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
                 }
 
             }
-
             yield return new WaitForSeconds(applyInterval);
             elapsed += applyInterval;
         }

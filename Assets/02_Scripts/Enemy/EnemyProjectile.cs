@@ -30,7 +30,7 @@ public class EnemyProjectile : ProjectileBase
         FlipProjectilebyDirection();
     }
 
-    public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    public override void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         //안쓰는 함수
     }

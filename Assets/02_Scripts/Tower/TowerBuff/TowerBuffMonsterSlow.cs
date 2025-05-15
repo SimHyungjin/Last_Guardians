@@ -4,17 +4,17 @@ public class TowerBuffMonsterSlow : ITowerBuff
 {
 
     private float addObstacleValue = 0f;
-    public void ApplyBuffToTower(BaseTower tower, TowerData datae, EnvironmentEffect environmentEffect)
+    public void ApplyBuffToTower(BaseTower tower, AdaptedBuffTowerData datae, EnvironmentEffect environmentEffect)
     {
 
     }
-    public void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect)
+    public void ApplyBuffToTrap(TrapObject trap, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)
     {
     }
-    public void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect)
+    public void ApplyDebuff(BaseMonster monster, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)
     {
         IsWater(environmentEffect);
-        monster.ApplySlowdown(data.EffectValue+ addObstacleValue, data.EffectDuration);
+        monster.ApplySlowdown(data.effectValue + addObstacleValue, data.effectDuration);
     }
     private void IsWater(EnvironmentEffect environmentEffect)
     {

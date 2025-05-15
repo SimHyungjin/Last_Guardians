@@ -25,7 +25,7 @@ public class BlastProjectile : ProjectileBase
     /// <param name="_adaptedTowerData"></param>
     /// <param name="_effectslist"></param>
     /// <param name="_environmentEffect"></param>
-    public override void Init(TowerData _towerData, AdaptedTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    public override void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         base.Init(_towerData, _adaptedTowerData, _effectslist, _environmentEffect);
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";

@@ -24,7 +24,9 @@ public class MainSceneButtonView : MonoBehaviour
         inventoryBtn.onClick.AddListener(() =>
         {
             mainSceneManager.LoadInventory(mainSceneManager.canvas);
+            
             mainSceneManager.ShowPanel("InventoryGroup");
+            mainSceneManager.ShowPanel("EquipTutorial",null,false);
         });
 
         bookBtn.onClick.AddListener(() =>

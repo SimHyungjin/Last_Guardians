@@ -78,6 +78,7 @@ public class TutorialUI : MonoBehaviour
     {
         //PlayerPrefs.SetInt("TutorialDone", 1);
         gameObject.SetActive(false);
-        InGameManager.Instance.MuliigunStart();
+        if(GameManager.Instance.GetSceneName() == "GameScene")
+            InGameManager.Instance.MuliigunStart();
     }
 }

@@ -15,12 +15,16 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public Upgrade upgrade;
     public InventoryGroup inventoryGroup;
     public TowerUpgrade TowerUpgrade;
+    public TutorialUI EquipTutorial;
+    public TutorialUI UpgradeTutorial;
     private void Awake()
     {
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
         TowerUpgrade=Resources.Load<TowerUpgrade>("UI/MainScene/TowerUpgrade");
+        EquipTutorial = Resources.Load<TutorialUI>("UI/MainScene/EquipTutorial");
+        UpgradeTutorial = Resources.Load<TutorialUI>("UI/MainScene/UpgradeTutorial");
 
         SaveSystem.LoadGame();
 

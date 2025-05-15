@@ -41,6 +41,11 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+    
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

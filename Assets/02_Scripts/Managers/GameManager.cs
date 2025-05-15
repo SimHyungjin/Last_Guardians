@@ -16,6 +16,8 @@ public class GameManager : Singleton<GameManager>
     {
         DontDestroyOnLoad(gameObject);
 
+        if (GetComponent<ServiceInitializer>() == null)
+            gameObject.AddComponent<ServiceInitializer>();
         ItemManager.LoadAllItems();
 
         var idle = IdleRewardManager.Instance;

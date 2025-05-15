@@ -187,6 +187,7 @@ public class MulliganUI : MonoBehaviour
         okBtn.onClick.AddListener(AddCardtoHands);
         timerText.gameObject.SetActive(false);
         gameObject.SetActive(false);
+        AnalyticsLogger.LogSelectStartCard(MyCardList);
         InGameManager.Instance.GameStart();
         
     }

@@ -26,7 +26,7 @@ public class PlayerManager
     {
         playerHandler = Utils.InstantiatePrefabFromResource("Player/Player").GetComponent<PlayerHandler>();
         playerStatus.SetStatus();
-        playerHandler.weaponHandler.SetWeapon(playerStatus.attackType, equipmentStat.icon);
+        AnalyticsLogger.LogSelectAttackType(playerHandler.weaponHandler.SetWeapon(playerStatus.attackType, equipmentStat.icon));
         playerHandler.Init(playerStatus);
     }
 }

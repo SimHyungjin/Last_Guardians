@@ -12,14 +12,14 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
         {
             if (towerData.EffectTarget == EffectTarget.All)
             {
-                target.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+                target.TakeDamage(adaptedTowerData.attackPower * towerData.EffectValue);
             }
             else
             {
                 BossMonster bossMonster = target.GetComponent<BossMonster>();
                 if (bossMonster != null)
                 {
-                    bossMonster.TakeDamage(towerData.AttackPower * towerData.EffectValue);
+                    bossMonster.TakeDamage(adaptedTowerData.attackPower * towerData.EffectValue);
                 }
             }
         }

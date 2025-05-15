@@ -56,7 +56,7 @@ public class BaseMonster : MonoBehaviour
     // 몬스터 외형
     [SerializeField] private Transform prefabSlot;
     private SPUM_Prefabs currentPrefab;
-    private AnimationConnect animationConnect;
+    public AnimationConnect AnimationConnect { get; private set; }
     private List<SpriteRenderer> spriteRenderers = new();
     private List<Color> originalColors = new();
     private Color hitColor = Color.red; // 데미지 입었을 때 색상
@@ -133,16 +133,16 @@ public class BaseMonster : MonoBehaviour
         var existingConnect = currentPrefab.GetComponentInChildren<AnimationConnect>();
         if (existingConnect == null)
         {
-            animationConnect = currentPrefab.gameObject.AddComponent<AnimationConnect>();
+            AnimationConnect = currentPrefab.gameObject.AddComponent<AnimationConnect>();
         }
         else
         {
-            animationConnect = existingConnect;
+            AnimationConnect = existingConnect;
         }
-        animationConnect.Animator = null;
-        animationConnect.Animator = currentPrefab.GetComponentInChildren<Animator>();
-        animationConnect.BaseMonster = null;
-        animationConnect.BaseMonster = this;
+        AnimationConnect.Animator = null;
+        AnimationConnect.Animator = currentPrefab.GetComponentInChildren<Animator>();
+        AnimationConnect.BaseMonster = null;
+        AnimationConnect.BaseMonster = this;
         
         originalColors.Clear();
         spriteRenderers.Clear();
@@ -227,7 +227,7 @@ public class BaseMonster : MonoBehaviour
 
         if (agent.speed == 0)
         {
-            animationConnect.StopMoveAnimation();
+            AnimationConnect.StopMoveAnimation();
         }
     }
 
@@ -299,7 +299,7 @@ public class BaseMonster : MonoBehaviour
 
     private void Move()
     {
-        animationConnect.StartMoveAnimation();
+        AnimationConnect.StartMoveAnimation();
         if(agent.destination != Target.position)
             agent.SetDestination(Target.position);
     }
@@ -307,7 +307,7 @@ public class BaseMonster : MonoBehaviour
     //공격 시작
     private void StartAttack()
     {
-        animationConnect.StartAttackAnimation();
+        AnimationConnect.StartAttackAnimation();
         agent.isStopped = true;
         agent.speed = 0f;   
     }
@@ -359,6 +359,7 @@ public class BaseMonster : MonoBehaviour
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
             TowerManager.Instance.towerUpgradeData.GetTowerPoint();
+            //DebuffTransition();
         }
     }
 
@@ -368,6 +369,7 @@ public class BaseMonster : MonoBehaviour
         {
             if(monster.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
             {
+                //if(baseMonster.effectHandler.IsInEffect())
                 baseMonster.AdaptStatusEffectsInList(effectHandler.GetStatusEffects());
             }
         }
@@ -376,10 +378,21 @@ public class BaseMonster : MonoBehaviour
     {
         foreach (var effect in effects)
         {
-            effect.ApplyEffect(this);
-            Debug.Log($"효과 전이됨 name : {effect}, amount : {effect.Amount}, duration : {effect.Duration}");
+            if (!this.effectHandler.IsInEffect(effect))
+            {
+                effect.Duration = effect.OriginDuration;
+                effect.ApplyEffect(this);
+                this.effectHandler.AddEffect(effect);
+                Debug.Log($"효과 전이됨 name : {effect}, amount : {effect.Amount}, duration : {effect.Duration}");
+            }
+            else
+            {
+                effect.UpdateEffectTime(Mathf.Max(effect.Amount, effectHandler.GetEffect(effect).Amount), Mathf.Max(effect.Duration, effectHandler.GetEffect(effect).OriginDuration), this);
+                Debug.Log($"효과 전이갱신됨 name : {effect}, amount : {Mathf.Max(effect.Amount, effectHandler.GetEffect(effect).Amount)}, duration : {Mathf.Max(effect.Duration, effectHandler.GetEffect(effect).OriginDuration)}");
+            }
         }
     }
+    
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
@@ -404,7 +417,7 @@ public class BaseMonster : MonoBehaviour
         else
         {
             CurrentHP -= amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
-            //effectHandler.AllDebuffTimerPlus();
+            //effectHandler.AllDebuffTimerPlus(2f);
         }
 
         float calculatedDamage = amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
@@ -414,7 +427,7 @@ public class BaseMonster : MonoBehaviour
 
         if (CurrentHP <= 0 && !isDead)
         {
-            animationConnect.StartDeathAnimaiton();
+            AnimationConnect.StartDeathAnimaiton();
             isDead = true;
         }
         
@@ -448,13 +461,12 @@ public class BaseMonster : MonoBehaviour
             yield return blinkSeconds;
         }
 
-       
         colorCoroutine = null;
     }
     //도트 데미지 적용
     public void DotDamage(float amount, float duration)
     {
-        if(effectHandler.IsInEffect(dotDamage))
+        if(!effectHandler.IsInEffect(dotDamage))
         {
             dotDamage = new DotDamageEffect(amount, duration);
             effectHandler.AddEffect(dotDamage);
@@ -473,18 +485,17 @@ public class BaseMonster : MonoBehaviour
 
     public void StopSturnAnimation()
     {
-        animationConnect.StopSturnAnimation();
+        AnimationConnect.StopSturnAnimation();
     }
 
     //스턴 구현
     public void ApplySturn(float duration, float amount = 0)
     {
         //TakeDamage(amount);
-        if (effectHandler.IsInEffect(sturn))
+        if (!effectHandler.IsInEffect(sturn))
         {
             sturn = new SturnEffect(amount, duration);
-            effectHandler.AddEffect(sturn);
-            animationConnect.StartSturnAnimation();
+            effectHandler.AddEffect(sturn);    
         }
         else
         {
@@ -506,7 +517,7 @@ public class BaseMonster : MonoBehaviour
     //슬로우 적용
     public void ApplySlowdown(float amount, float duration)
     {
-        if (effectHandler.IsInEffect(slowDown))
+        if (!effectHandler.IsInEffect(slowDown))
         {
             slowDown = new SlowEffect(amount, duration);
             effectHandler.AddEffect(slowDown);
@@ -526,7 +537,7 @@ public class BaseMonster : MonoBehaviour
     //방어력 감소 적용
     public void ApplyReducionDef(float amount, float duration)
     {
-        if (effectHandler.IsInEffect(defDown))
+        if (!effectHandler.IsInEffect(defDown))
         {
             defDown = new DefDownEffect(amount, duration);
             effectHandler.AddEffect(defDown);
@@ -546,7 +557,7 @@ public class BaseMonster : MonoBehaviour
     //방어력 버프
     public void ApplyDefBuff(float amount, float duration)
     {
-        if (effectHandler.IsInEffect(defBuff))
+        if (!effectHandler.IsInEffect(defBuff))
         {
             defBuff = new DefBuffEffect(amount, duration);
             effectHandler.AddEffect(defBuff);
@@ -566,7 +577,7 @@ public class BaseMonster : MonoBehaviour
     //이동속도 버프
     public void ApplySpeedBuff(float amount, float duration)
     {
-        if (effectHandler.IsInEffect(speedBuff))
+        if (!effectHandler.IsInEffect(speedBuff))
         {
             speedBuff = new SpeedBuffEffect(amount, duration);
             effectHandler.AddEffect(speedBuff);
@@ -586,7 +597,7 @@ public class BaseMonster : MonoBehaviour
     //회피율 버프
     public void ApplyEvasionBuff(float amount, float duration)
     {
-        if (effectHandler.IsInEffect(evasionBuff))
+        if (!effectHandler.IsInEffect(evasionBuff))
         {
             evasionBuff = new EvasionBuffEffect(amount, duration);
             effectHandler.AddEffect(evasionBuff);
@@ -605,7 +616,7 @@ public class BaseMonster : MonoBehaviour
 
     public void ApplySkillValueDebuff(float amount, float duration)
     {
-        if (effectHandler.IsInEffect(skillValueDebuff))
+        if (!effectHandler.IsInEffect(skillValueDebuff))
         {
             skillValueDebuff = new SkillValueDebuffEffect(amount, duration);
             effectHandler.AddEffect(skillValueDebuff);
@@ -623,7 +634,7 @@ public class BaseMonster : MonoBehaviour
 
     public void ApplySilenceDebuff(float duration)
     {
-        if (effectHandler.IsInEffect(silenceDebuff))
+        if (!effectHandler.IsInEffect(silenceDebuff))
         {
             silenceDebuff = new SilenceDebuff(0, duration);
             effectHandler.AddEffect(silenceDebuff);

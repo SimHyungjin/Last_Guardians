@@ -380,31 +380,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite-0001_12
-      rect:
-        serializedVersion: 2
-        x: 1390
-        y: 85
-        width: 120
-        height: 120
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d178d30d23b0d9245b65eceee40ae2e7
-      internalID: 1317084540
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Sprite-0001_13
       rect:
         serializedVersion: 2
-        x: 1570
+        x: 1390
         y: 85
         width: 120
         height: 120
@@ -425,7 +404,7 @@ TextureImporter:
       name: Sprite-0001_14
       rect:
         serializedVersion: 2
-        x: 1750
+        x: 1570
         y: 85
         width: 120
         height: 120
@@ -438,6 +417,48 @@ TextureImporter:
       bones: []
       spriteID: 87e36575cc88764438bb39131ebdf82b
       internalID: -1175927046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-0001_11
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 286
+        width: 120
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f68eb5013523eb4f824f206b7650ed6
+      internalID: -1091904060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite-0001_15
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 85
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73661ba06f8cb024eafd552e68a67887
+      internalID: 1063067725
       vertices: []
       indices: 
       edges: []
@@ -460,6 +481,7 @@ TextureImporter:
       Sprite-0001_12: 1317084540
       Sprite-0001_13: 2141168301
       Sprite-0001_14: -1175927046
+      Sprite-0001_15: 1063067725
       Sprite-0001_2: -1520041621
       Sprite-0001_3: -150574127
       Sprite-0001_4: 1100951118

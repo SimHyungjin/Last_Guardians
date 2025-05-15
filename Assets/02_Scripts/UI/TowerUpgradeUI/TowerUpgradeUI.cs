@@ -143,7 +143,8 @@ public class TowerUpgradeUI : MonoBehaviour
     {
         return type == TowerUpgradeType.CombetMastery ||
                type == TowerUpgradeType.MultipleAttack ||
-               type == TowerUpgradeType.BossSlayer;
+               type == TowerUpgradeType.BossSlayer ||
+               type == TowerUpgradeType.Emergencyresponse;
     }
 
     private void SetButtonActive(Button button, bool isActive)

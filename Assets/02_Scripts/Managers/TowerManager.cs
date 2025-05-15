@@ -152,4 +152,30 @@ public class TowerManager : Singleton<TowerManager>
             }
         }
     }
+
+    public void ApplyEmergencyResponse()
+    {
+        if (Towers == null)
+        {
+            Debug.LogWarning("Towers 리스트가 null입니다.");
+            return;
+        }
+        foreach (var tower in Towers)
+        {
+            tower.ApplyEmergencyResponse();
+        }
+    }
+
+    public void RemoveEmergencyResponse()
+    {
+        if (Towers == null)
+        {
+            Debug.LogWarning("Towers 리스트가 null입니다.");
+            return;
+        }
+        foreach (var tower in Towers)
+        {
+            tower.RemoveEmergencyResponse();
+        }
+    }
 }

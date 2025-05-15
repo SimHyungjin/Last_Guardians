@@ -21,6 +21,7 @@ public class AdaptedAttackTowerData
 
     [Header("효과마스터리")]
     public float effectValue;
+    public float baseEffectValue;
     public float effectDuration;
 
 
@@ -38,12 +39,13 @@ public class AdaptedAttackTowerData
         this.attackRange = attackRange;
         this.projectileCount = projectileCount;
 
-        this.effectValue = effectValue;
+        this.baseEffectValue = effectValue;
         this.effectDuration = effectDuration;
 
         Upgrade();
         buffTowerIndex = new List<int>();
         this.attackSpeed = baseattackSpeed;
+        this.effectValue = baseEffectValue;
     }
 
     //////////////////////////////////////////업그레이드////////////////////////////////////////////////
@@ -69,7 +71,7 @@ public class AdaptedAttackTowerData
         projectileCount += (int)TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.MultipleAttack].levels[MultipleAttackLevel];
 
         int EffectValueLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectValue];
-        effectValue *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectValue].levels[EffectValueLevel];
+        baseEffectValue *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectValue].levels[EffectValueLevel];
         int EffectDurationLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectDuration];
         effectDuration *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectDuration].levels[EffectDurationLevel];
 
@@ -101,7 +103,9 @@ public class AttackTower : BaseTower
     private float attackPowerBuff = 1f;
     private float ContinuousAttackBuff = 1f;
     private float bossSlayerBuff = 1f;
+    private float EmergencyResponseBuff = 1f;
     private bool ContinuousAttack = false;
+    
     /// <summary>
     /// 초기화 함수
     /// 자기 자신의 이펙트를 저장한다.
@@ -269,7 +273,6 @@ public class AttackTower : BaseTower
     {
         int BossSlayerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.BossSlayer];
         float bossSlayerBuffvalue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.BossSlayer].levels[BossSlayerupgradeLevel];
-        Debug.Log($"[BaseTower] {towerData.TowerName} 보스킬 증가: {bossSlayerBuffvalue}  몬스터 킬수: {MonsterManager.Instance.BossKillCount}");
         bossSlayerBuff = 1+(bossSlayerBuffvalue*Mathf.Min(MonsterManager.Instance.BossKillCount,10));
         CalculateDamage();
     }
@@ -305,6 +308,20 @@ public class AttackTower : BaseTower
         return UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance
             ? adaptedTowerData.projectileCount
             : adaptedTowerData.projectileCount - (towerData.EffectTargetCount-1);
+    }
+
+    public override void ApplyEmergencyResponse()
+    {
+        base.ApplyEmergencyResponse();
+        int emergencyResponseLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Emergencyresponse];
+        EmergencyResponseBuff = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Emergencyresponse].levels[emergencyResponseLevel];
+        adaptedTowerData.effectValue = adaptedTowerData.baseEffectValue* EmergencyResponseBuff;
+    }
+
+    public override void RemoveEmergencyResponse()
+    {
+        base.RemoveEmergencyResponse();
+        adaptedTowerData.effectValue = adaptedTowerData.baseEffectValue;
     }
 
     ///////////=====================버프=====================================/////////////////////

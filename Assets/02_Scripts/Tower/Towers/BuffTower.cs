@@ -70,6 +70,8 @@ public class BuffTower : BaseTower
 
     [Header("업그레이드")]
     public AdaptedBuffTowerData adaptedBuffTowerData;
+    private float EmergencyResponseBuff = 1f;
+
     public override void Init(TowerData data)
     {
         base.Init(data);
@@ -244,6 +246,21 @@ public class BuffTower : BaseTower
             buffMonterDebuffs.Add(BuffAdd(towerIndex));
         }
     }
+
+    public override void ApplyEmergencyResponse()
+    {
+        base.ApplyEmergencyResponse();
+        int emergencyResponseLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Emergencyresponse];
+        EmergencyResponseBuff = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Emergencyresponse].levels[emergencyResponseLevel];
+        adaptedBuffTowerData.effectValue = adaptedBuffTowerData.baseEffectValue * EmergencyResponseBuff;
+    }
+
+    public override void RemoveEmergencyResponse()
+    {
+        base.RemoveEmergencyResponse();
+        adaptedBuffTowerData.effectValue = adaptedBuffTowerData.baseEffectValue;
+    }
+
 
     public override void DestroyBuffTower()
     {

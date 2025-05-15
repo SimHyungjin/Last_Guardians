@@ -292,6 +292,19 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
+
+    public virtual void ApplyEmergencyResponse()
+    {
+    }
+
+    public virtual void RemoveEmergencyResponse()
+    {
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     protected void OverrideAnimator()
     {
         if (animator == null) animator = GetComponent<Animator>();

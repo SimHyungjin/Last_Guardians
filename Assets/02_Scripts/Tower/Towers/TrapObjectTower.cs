@@ -37,6 +37,25 @@ public class TrapObjectTower : BaseTower
         }
     }
 
+    public override void ApplyEmergencyResponse()
+    {
+        base.ApplyEmergencyResponse();
+        foreach (TrapObject trap in traps)
+        {
+            trap.ApplyEmergencyResponse();
+        }
+    }
+
+    public override void RemoveEmergencyResponse()
+    {
+        base.RemoveEmergencyResponse();
+        foreach (TrapObject trap in traps)
+        {
+            trap.RemoveEmergencyResponse();
+        }
+    }
+
+
     /// <summary>
     /// ÆÄ±«½Ã Æ®·¦ ¿ÀºêÁ§Æ®¸¦ ¸ðµÎ ÆÄ±«
     /// </summary>

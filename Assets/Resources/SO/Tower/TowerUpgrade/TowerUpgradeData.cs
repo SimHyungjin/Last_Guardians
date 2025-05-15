@@ -37,7 +37,8 @@ public enum TowerUpgradeType
     EffectDuration,
     EffectRange,
     Catalysis,
-    EffectTransfer
+    EffectTransfer,
+    Emergencyresponse
 }
 
 [CreateAssetMenu(fileName = "TowerUpgrade", menuName = "Data/TowerUpgrade Data")]
@@ -111,6 +112,11 @@ public class TowerUpgradeData : ScriptableObject
     public void GetTowerPoint()
     {
         towerPoint++;
+        if (totalMasteryPoint >= 30)
+        {
+            towerPoint = 0;
+            return; 
+        }
         if (towerPoint > 99)
         {
             totalMasteryPoint += 1;

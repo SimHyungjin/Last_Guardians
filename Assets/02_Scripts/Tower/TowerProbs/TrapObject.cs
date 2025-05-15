@@ -86,6 +86,7 @@ public class TrapObject : MonoBehaviour
 
     public bool bossImmunebuff = false;
 
+    private float EmergencyResponseBuff = 1f;
 
     private float maxbuffRadius = 5f;
 
@@ -138,7 +139,7 @@ public class TrapObject : MonoBehaviour
     public void CanPlant()
     {
         Vector2 pos = PostionArray();
-        Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlock);
+        Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlockTrap);
         foreach (var hit in blockHits)
         {
             if (hit != null && hit.gameObject != gameObject)
@@ -311,6 +312,18 @@ public class TrapObject : MonoBehaviour
             trapEffectList.Add(newEffect);
             currentEffectSources[effectType] = index;
         }
+    }
+
+    public void ApplyEmergencyResponse()
+    {
+        int emergencyResponseLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Emergencyresponse];
+        EmergencyResponseBuff = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Emergencyresponse].levels[emergencyResponseLevel];
+        adaptedTrapObjectData.effectValue = adaptedTrapObjectData.baseEffectValue * EmergencyResponseBuff;
+    }
+
+    public void RemoveEmergencyResponse()
+    {
+        adaptedTrapObjectData.effectValue = adaptedTrapObjectData.baseEffectValue;
     }
 
 

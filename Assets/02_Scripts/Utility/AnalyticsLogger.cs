@@ -41,6 +41,7 @@ public static class AnalyticsLogger
         Debug.Log($"선택 타입 = {attackType}");
     }
 
+<<<<<<< Updated upstream
     public static void LogGameOverWave(int wave)
     {
         if (ShouldSendAnalytics()) return;
@@ -52,4 +53,27 @@ public static class AnalyticsLogger
 
 
 
+=======
+    public static void LogEndGameWave(bool gameOver, int wave)
+    {
+        if (ShouldSendAnalytics()) return;
+        var customEvent = new CustomEvent("EndGameWave");
+        if (gameOver) customEvent.Add("GameOverWave", wave);
+        else customEvent.Add("GiveupWave", wave);
+            AnalyticsService.Instance.RecordEvent(customEvent);
+        Debug.Log($"선택 타입 = {wave}");
+    }
+
+    public static void LogUpgradeLevel(TowerUpgradeData upgradeData)
+    {
+        if (ShouldSendAnalytics()) return;
+
+        for(int i = 0; i < upgradeData.currentLevel.Count; i++)
+        {
+            var customEvent = new CustomEvent("Upgrade_Level_Distribution");
+            customEvent.Add($"TowerUpgradeType_{i}",upgradeData.currentLevel[i]);
+            AnalyticsService.Instance.RecordEvent(customEvent);
+        }
+    }
+>>>>>>> Stashed changes
 }

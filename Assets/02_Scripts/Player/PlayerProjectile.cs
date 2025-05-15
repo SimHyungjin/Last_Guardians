@@ -21,11 +21,13 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private Collider2D col;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
     }
 
     public void OnSpawn()
@@ -39,6 +41,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
             rb.velocity = Vector2.zero;
         lifeTimeCoroutine = StartCoroutine(DespawnProjectile(lifeTime));
         hitTarget = false;
+        col.enabled = true;
     }
 
     public void OnDespawn()
@@ -50,6 +53,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
         }
         if (rb != null)
             rb.velocity = Vector2.zero;
+        col.enabled = false;
     }
     /// <summary>
     /// damage,isMulti 초기화, targetPos를 향해 회전 후 발사
@@ -88,7 +92,10 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (hitTarget) return;
         if (((1 << collision.gameObject.layer) & (1 << LayerMask.NameToLayer("Monster"))) == 0) return;
+        hitTarget = true;
+        col.enabled = false;
 
         if (isMulti)
         {
@@ -104,9 +111,8 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
                 hit.GetComponent<BaseMonster>().TakeDamage(damage);
             }
         }
-        else if(!hitTarget)
+        else
         {
-            hitTarget = true;
             collision.GetComponent<BaseMonster>().TakeDamage(damage);
         }
         PoolManager.Instance.Despawn(this);

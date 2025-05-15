@@ -47,7 +47,13 @@ public class TowerManager : Singleton<TowerManager>
         AdaptedBuffTowerData adaptedBuffTowerData = new AdaptedBuffTowerData(index,towerdata.EffectValue,towerdata.AttackRange,towerdata.EffectDuration);
         return adaptedBuffTowerData;
     }
-
+    public AdaptedAttackTowerData GetAdaptedAttackTowerData(int index)
+    {
+        TowerData towerdata = towerDataMap.TryGetValue(index, out var data) ? data : null;
+        AdaptedAttackTowerData adaptedAttackTowerData = 
+            new AdaptedAttackTowerData(index, towerdata.AttackPower, towerdata.AttackSpeed, towerdata.AttackRange,towerdata.EffectTargetCount,towerdata.EffectValue,towerdata.EffectDuration);
+        return adaptedAttackTowerData;
+    }
 
     public Sprite GetSprite(int towerindex)
     {

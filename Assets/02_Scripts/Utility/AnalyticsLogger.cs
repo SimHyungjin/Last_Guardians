@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using Unity.Services.Analytics;
+using Unity.Services.Core;
 using UnityEngine;
 
 public static class AnalyticsLogger
 {
+    public static bool IsServiceOn = false;
+
     public static bool ShouldSendAnalytics()
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        return true;
-#else
-        return true;
-#endif
+        //작동 중지
+        if (!IsServiceOn || UnityServices.State != ServicesInitializationState.Initialized)
+            return true;
+        //작동
+        return false;
     }
 
     public static void LogSelectStartCard(List<TowerData> data)

@@ -7,11 +7,7 @@ public class ServiceInitializer : MonoBehaviour
 {
     private async void Awake()
     {
-<<<<<<< Updated upstream
-        if (AnalyticsLogger.ShouldSendAnalytics()) return;
-=======
         if (!AnalyticsLogger.IsServiceOn) return;
->>>>>>> Stashed changes
         try
         {
             await UnityServices.InitializeAsync();

@@ -156,6 +156,8 @@ public class InGameManager : Singleton<InGameManager>
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);
         TowerManager.Instance.towerUpgradeData.Save();
+
+        AnalyticsLogger.LogEndGameWave(isDie,MonsterManager.Instance.nowWave.WaveIndex);
         Time.timeScale = 0f;
     }
 

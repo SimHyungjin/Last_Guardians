@@ -16,7 +16,7 @@ public class MagicProjectile : ProjectileBase
     /// <param name="adaptedTower"></param>
     /// <param name="_effectslist"></param>
     /// <param name="_environmentEffect"></param>
-    public override void Init(TowerData _towerData, AdaptedTowerData adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    public override void Init(TowerData _towerData, AdaptedAttackTowerData adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         base.Init(_towerData, adaptedTower, _effectslist, _environmentEffect);
         GetComponent<SpriteRenderer>().enabled = true;
@@ -84,8 +84,8 @@ public class MagicProjectile : ProjectileBase
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
-                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
-                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), adaptedTower, environmentEffect);
+                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]), TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
+                    else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]), environmentEffect);
                 }
             }
             OnDespawn();

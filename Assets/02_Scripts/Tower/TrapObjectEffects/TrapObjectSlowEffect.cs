@@ -7,12 +7,13 @@ public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
     ///////////==========================슬로우 이펙트================================/////////////////////
 
     private float addObstacleValue = 0f;
-    public void Apply(BaseMonster target, TowerData towerData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData,AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
         if (Utils.ShouldApplyEffect(target, towerData, bossImmunebuff))
         {
             IsWater(environmentEffect);
-            target.ApplySlowdown(towerData.EffectValue + addObstacleValue, 0.1f);
+            target.ApplySlowdown(adaptedTrapObjectData.effectValue + addObstacleValue, adaptedTrapObjectData.effectDuration);
+            Debug.Log($"[Apply] {target.name} 슬로우 이펙트 적용됨 타워인덱스 : {towerData.TowerName},{towerData.EffectValue + addObstacleValue},{towerData.EffectDuration}");
         }
     }
 

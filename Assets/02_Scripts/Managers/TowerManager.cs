@@ -31,20 +31,42 @@ public class TowerManager : Singleton<TowerManager>
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
     private void OnEnable()
-    {        
+    {
         towerDataMap = Resources.LoadAll<TowerData>("SO/Tower")
             .ToDictionary(td => td.TowerIndex, td => td);
     }
-    
+
 
     public TowerData GetTowerData(int index)
     {
         return towerDataMap.TryGetValue(index, out var data) ? data : null;
     }
+
+    public AdaptedBuffTowerData GetAdaptedBuffTowerData(int index)
+    {
+        TowerData towerdata =towerDataMap.TryGetValue(index, out var data) ? data : null;
+        AdaptedBuffTowerData adaptedBuffTowerData = new AdaptedBuffTowerData(index,towerdata.EffectValue,towerdata.AttackRange,towerdata.EffectDuration);
+        return adaptedBuffTowerData;
+    }
+    public AdaptedAttackTowerData GetAdaptedAttackTowerData(int index)
+    {
+        TowerData towerdata = towerDataMap.TryGetValue(index, out var data) ? data : null;
+        AdaptedAttackTowerData adaptedAttackTowerData = 
+            new AdaptedAttackTowerData(index, towerdata.AttackPower, towerdata.AttackSpeed, towerdata.AttackRange,towerdata.EffectTargetCount,towerdata.EffectValue,towerdata.EffectDuration);
+        return adaptedAttackTowerData;
+    }
+    public AdaptedTrapObjectData GetAdaptedTrapObjectData(int index)
+    {
+        TowerData towerdata = towerDataMap.TryGetValue(index, out var data) ? data : null;
+        AdaptedTrapObjectData adaptedTrapObjectData = new AdaptedTrapObjectData(index, towerdata.EffectValue, towerdata.AttackRange);
+        return adaptedTrapObjectData;
+    }
+
+
     public Sprite GetSprite(int towerindex)
     {
         int adjustedIndex = Utils.GetSpriteIndex(towerindex);
-        adjustedIndex = adjustedIndex - 1; 
+        adjustedIndex = adjustedIndex - 1;
         if (adjustedIndex >= 0 && adjustedIndex < TowerIcons.Length)
             return TowerIcons[adjustedIndex];
         else
@@ -52,7 +74,7 @@ public class TowerManager : Singleton<TowerManager>
     }
 
     ///////////=========================상태전환=================================/////////////////////
-    
+
     public bool CanStartInteraction()
     {
         return CurrentState == InteractionState.None;
@@ -75,7 +97,7 @@ public class TowerManager : Singleton<TowerManager>
 
 
     ///////////============================타워 리스트 관리용==============================/////////////////////
-    
+
     public void AddTower(BaseTower tower)
     {
         Towers.Add(tower);
@@ -97,9 +119,9 @@ public class TowerManager : Singleton<TowerManager>
     /// <returns></returns>
     public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
     {
-        yield return null; 
-        
-        Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos,LayerMaskData.trapObject);
+        yield return null;
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMaskData.trapObject);
 
         foreach (var hit in hits)
         {
@@ -108,6 +130,25 @@ public class TowerManager : Singleton<TowerManager>
             {
                 trapObject.CanPlant();
                 Debug.Log(trapObject.transform);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 타워가 보스 슬레이어 버프를 적용하는 메서드
+    /// </summary>
+    public void ApplyBossSlayer()
+    {
+        if (Towers == null)
+        {
+            Debug.LogWarning("Towers 리스트가 null입니다.");
+            return;
+        }
+        foreach (var tower in Towers)
+        {
+            if (tower is AttackTower attackTower) 
+            {
+                attackTower.BossSlayerBuff();
             }
         }
     }

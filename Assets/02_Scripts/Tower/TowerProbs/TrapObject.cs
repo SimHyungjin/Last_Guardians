@@ -2,9 +2,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Collections;
+
+[Serializable]
+public class AdaptedTrapObjectData
+{
+    public int towerIndex;
+    public float baseEffectValue;
+    public float coolTime;
+    public float effectValue;
+    public float attackRange;
+    public float effectDuration;
+
+
+    public AdaptedTrapObjectData(int towerIndex, float effectValue,float effectDuration)
+    {
+        this.towerIndex = towerIndex;
+        this.baseEffectValue = effectValue;
+        this.attackRange = 1f;
+        this.effectDuration = effectDuration;
+        this.coolTime = effectDuration;
+        Upgrade();
+        this.effectValue = baseEffectValue;
+    }
+
+    //////////////////////////////////////////업그레이드////////////////////////////////////////////////
+    public void Upgrade()
+    {
+        int buffEffectValueupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectValue];
+        baseEffectValue *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectValue].levels[buffEffectValueupgradeLevel];
+
+
+        int buffEffectRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectRange];
+        attackRange *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectRange].levels[buffEffectRangeupgradeLevel];
+
+        int buffEffectDurationupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectDuration];
+        effectDuration *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectDuration].levels[buffEffectDurationupgradeLevel];
+
+        int buffEffectAttackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
+        float buffEffectAttackSpeed = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[buffEffectAttackSpeedupgradeLevel];
+        coolTime = coolTime / buffEffectAttackSpeed;
+
+        int buffEffectCombetMastery = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.CombetMastery];
+        float combetMasteryValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[buffEffectCombetMastery];
+        baseEffectValue *= combetMasteryValue;
+        attackRange *= combetMasteryValue;
+        coolTime = coolTime / combetMasteryValue;
+    }
+}
+
 public interface ITrapEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff, EnvironmentEffect environmentEffect);
+    public void Apply(BaseMonster target,TowerData towerData ,AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect);
 }
 public enum TrapObjectState
 {
@@ -20,30 +68,32 @@ public class TrapObject : MonoBehaviour
     [SerializeField] private List<ITrapEffect> trapEffectList;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Collider2D col;
+    AdaptedTrapObjectData adaptedTrapObjectData;
+    private TowerData towerData;
+
+
     public EnvironmentEffect environmentEffect;
     private Coroutine activeEffectCoroutine;
     private Coroutine checkOverlapCoroutine;
-    private TowerData towerData;
     private Animator animator;
 
     private TrapObjectState currentState;
 
     private Dictionary<Type, int> currentEffectSources = new();
 
-    private float cooldownTime;
     private float creationTime;
+    private float cooldownTime;
 
-    private float effectRadius = 1f;
     public bool bossImmunebuff = false;
 
 
-    private float maxbuffRadius = 2.5f;
+    private float maxbuffRadius = 5f;
 
     private bool disable = false;  
     public  void Init(TowerData towerData)
     {
         this.towerData = towerData;
-        cooldownTime = towerData.EffectDuration;
+        adaptedTrapObjectData = new AdaptedTrapObjectData(towerData.TowerIndex, towerData.EffectValue,towerData.EffectDuration);
         creationTime = Time.time;
         environmentEffect = new EnvironmentEffect();
         buffTowerIndex = new List<int>();
@@ -54,6 +104,7 @@ public class TrapObject : MonoBehaviour
         Utils.GetColor(towerData, GetComponent<SpriteRenderer>());
         buffTowerIndex.Add(towerData.TowerIndex);
         AddTrapEffect(towerData.TowerIndex);
+        ScanBuffTower();
         CanPlant();
     }
     private  void Update()
@@ -64,7 +115,7 @@ public class TrapObject : MonoBehaviour
             if (cooldownTime <= 0)
             {
                 ChageState(TrapObjectState.Ready);
-                cooldownTime = towerData.EffectDuration;
+                cooldownTime = adaptedTrapObjectData.coolTime;
             }
         }
     }
@@ -78,6 +129,7 @@ public class TrapObject : MonoBehaviour
         { SpecialEffect.Slow, typeof(TrapObjectSlowEffect) },
         { SpecialEffect.Silence, typeof(TrapObjectSilenceEffect) },
         { SpecialEffect.Knockback, typeof(TrapObjectKnockbackEffect) },
+        { SpecialEffect.Stun, typeof(TrapObjectStunEffect)},
     };
 
     /// <summary>
@@ -190,7 +242,7 @@ public class TrapObject : MonoBehaviour
 
     /// <summary>
     /// 트랩이팩트 적용
-    /// 타겟이 멀티인지 싱글인지 구분하여 일정시간동안 이팩트적용 후 쿨타임으로 전환 
+    /// 일정시간동안 이팩트적용 후 쿨타임으로 전환 
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
@@ -201,31 +253,17 @@ public class TrapObject : MonoBehaviour
 
         while (elapsed < towerData.EffectDuration)
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, effectRadius, LayerMaskData.monster);
-
-            foreach (var effect in trapEffectList)
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTrapObjectData.attackRange, LayerMaskData.monster);
+            foreach (var hit in hits)
             {
-                if (towerData.EffectTarget == EffectTarget.Single)
+                BaseMonster monster = hit.GetComponent<BaseMonster>();
+                if (monster == null) continue;
+                for(int i=0;i< buffTowerIndex.Count;i++)
                 {
-                    foreach (var hit in hits)
-                    {
-                        if (hit.GetComponent<BaseMonster>() == target) 
-                        effect.Apply(target, towerData, bossImmunebuff, environmentEffect);
-                        break;
-                    }
+                    trapEffectList[i].Apply(monster,TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
                 }
-                else
-                {
-                    foreach (var hit in hits)
-                    {
-                        BaseMonster monster = hit.GetComponent<BaseMonster>();
-                        if (monster == null) continue;
 
-                        effect.Apply(monster, towerData, bossImmunebuff, environmentEffect);
-                    }
-                }
             }
-
             yield return new WaitForSeconds(applyInterval);
             elapsed += applyInterval;
         }

@@ -40,6 +40,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private GameObject map;
 
+    public bool isDie = false;
+
     private void Awake()
     {
         InItTowerData();
@@ -77,7 +79,7 @@ public class InGameManager : Singleton<InGameManager>
         target = map.transform.Find("Center");
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
-        mulliganUI.StartSelectCard();
+        //mulliganUI.StartSelectCard();
     }
 
     public void GetExp(float exp)
@@ -108,6 +110,10 @@ public class InGameManager : Singleton<InGameManager>
         TowerDatas = Resources.LoadAll<TowerData>("SO/Tower").ToList();
         TowerDatas.Sort((a, b) => a.TowerIndex.CompareTo(b.TowerIndex));
     }
+    public void MuliigunStart()
+    {
+        mulliganUI.StartSelectCard();
+    }
 
     public void GameStart()
     {
@@ -126,7 +132,12 @@ public class InGameManager : Singleton<InGameManager>
     {
         PlayerHP = Mathf.Max(0, PlayerHP - amount);
         UpdateHP();
-        if (PlayerHP <= 0) GameOver();
+        if (PlayerHP <= 0)
+        {
+            isDie = true;
+            GameOver();
+        }
+            
     }
 
     private void PrefabInit()

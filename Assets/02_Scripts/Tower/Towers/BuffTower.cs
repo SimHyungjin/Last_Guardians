@@ -4,11 +4,58 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+[Serializable]
+public class AdaptedBuffTowerData
+{
+    public int towerIndex;
+    public float baseEffectValue;
+    public float coolTime;
+    public float effectValue;
+    public float attackRange;
+    public float effectDuration;
+
+
+    public AdaptedBuffTowerData(int towerIndex, float effectValue, float attackRange, float effectDuration)
+    {
+        this.towerIndex = towerIndex;
+        this.baseEffectValue = effectValue;
+        this.attackRange = attackRange;
+        this.effectDuration = effectDuration;
+        this.coolTime = effectDuration;
+        Upgrade();
+        this.effectValue = baseEffectValue;
+    }
+
+    //////////////////////////////////////////업그레이드////////////////////////////////////////////////
+    public void Upgrade()
+    {
+        int buffEffectValueupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectValue];
+        baseEffectValue *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectValue].levels[buffEffectValueupgradeLevel];
+
+        int buffEffectRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
+        attackRange *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[buffEffectRangeupgradeLevel];
+
+        int buffEffectDurationupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectDuration];
+        effectDuration *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectDuration].levels[buffEffectDurationupgradeLevel];
+
+        int buffEffectAttackSpeedupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackSpeed];
+        float buffEffectAttackSpeed = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackSpeed].levels[buffEffectAttackSpeedupgradeLevel];
+        coolTime = coolTime / buffEffectAttackSpeed;
+
+        int buffEffectCombetMastery = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.CombetMastery];
+        float combetMasteryValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[buffEffectCombetMastery];
+        baseEffectValue *= combetMasteryValue;
+        attackRange *= combetMasteryValue;
+        coolTime =coolTime / combetMasteryValue;
+    }
+
+}
 public interface ITowerBuff
 {
-    void ApplyBuffToTower(BaseTower tower, TowerData data,EnvironmentEffect environmentEffect);
-    void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect);
-    void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect);
+    void ApplyBuffToTower(BaseTower tower, AdaptedBuffTowerData data,EnvironmentEffect environmentEffect);
+    void ApplyBuffToTrap(TrapObject trap, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect);
+    void ApplyDebuff(BaseMonster monster, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect);
 }
 
 public class BuffTower : BaseTower
@@ -21,11 +68,12 @@ public class BuffTower : BaseTower
     public List<ITowerBuff> buffMonterDebuffs;
     private float lastCheckTime = 0f;
 
-    private float adaptiveRange;
+    [Header("업그레이드")]
+    public AdaptedBuffTowerData adaptedBuffTowerData;
     public override void Init(TowerData data)
     {
         base.Init(data);
-        adaptiveRange = towerData.AttackRange;
+        adaptedBuffTowerData = new AdaptedBuffTowerData(data.TowerIndex, data.EffectValue, data.AttackRange, data.EffectDuration);
         buffTowerIndex = new List<int>();
         buffMonterDebuffs = new List<ITowerBuff>();
         BuffSelect(data);
@@ -37,12 +85,11 @@ public class BuffTower : BaseTower
     protected override void Update()
     {
         base.Update();
-
-        if (Time.time - lastCheckTime < 0.1f) return;
-        if (towerData.EffectTarget == EffectTarget.All&&!disable) ApplyDebuffOnPlacement();
-        if (buffTowerIndex.Count > 0 && towerData.EffectTarget == EffectTarget.All && !disable) ApplyDebuffOnPlacementOnBuff();
-
-
+        if (towerData.EffectTarget == EffectTarget.All&&Time.time - lastCheckTime < adaptedBuffTowerData.coolTime) return;
+        {
+            if (buffTowerIndex.Count > 0 && towerData.EffectTarget == EffectTarget.All && !disable) ApplyDebuffOnPlacementOnBuff();
+            if (towerData.EffectTarget == EffectTarget.All && !disable) ApplyDebuffOnPlacement();
+        }
         lastCheckTime = Time.time;
     }
 
@@ -98,23 +145,31 @@ public class BuffTower : BaseTower
     }
     private void ApplyBuffOnPlacement()
     {
-        if (towerData.EffectTarget != EffectTarget.Towers) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
+        if (towerData.EffectTarget != EffectTarget.Towers) return; int combinedLayerMask = LayerMask.GetMask("Tower", "TrapObject");
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, combinedLayerMask);
+
         foreach (var hit in hits)
         {
-            Debug.Log(hit);
+            Debug.Log($"hit = {hit}");
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
-                towerBuff.ApplyBuffToTower(otherTower, towerData,environmentEffect);
+                towerBuff.ApplyBuffToTower(otherTower, adaptedBuffTowerData,environmentEffect);
             }
-        }
+        }     
         foreach (var hit in hits)
         {
+            Debug.Log($"hit = {hit}");
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
-            if (otherTrap != null && otherTrap != this)
+            Debug.Log($"otherTrap = {otherTrap}");
+            if (otherTrap != null)
             {
-                towerBuff.ApplyBuffToTrap(otherTrap, towerData, environmentEffect);
+                Debug.Log("트랩발견 버프줄게");
+                towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
+            }
+            else 
+            {
+                Debug.Log("트랩없음");
             }
         }
     }
@@ -123,14 +178,14 @@ public class BuffTower : BaseTower
     {
         if(towerData.EffectTarget != EffectTarget.All) return;
         animator.SetTrigger("TowerActive");
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
             BaseMonster otherMonster = hit.GetComponent<BaseMonster>();
             if (otherMonster != null && otherMonster != this)
             {
-                monsterDebuff.ApplyDebuff(otherMonster, towerData, environmentEffect);
+                monsterDebuff.ApplyDebuff(otherMonster, adaptedBuffTowerData, environmentEffect);
             }
         }
     }
@@ -138,7 +193,7 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.All) return;
         animator.SetTrigger("TowerActive");
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.monster);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.monster);
 
         foreach (var hit in hits)
         {
@@ -148,7 +203,7 @@ public class BuffTower : BaseTower
                 for(int i=0; i<buffMonterDebuffs.Count();i++)
                 {
                     Debug.Log($"buffTowerIndex.Count = {buffTowerIndex.Count}, buffMonterDebuffs.Count = {buffMonterDebuffs.Count}");
-                    buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]),environmentEffect);
+                    buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetAdaptedBuffTowerData(buffTowerIndex[i]), environmentEffect);
                 }
             }
         }
@@ -208,10 +263,10 @@ public class BuffTower : BaseTower
         {            
             if(EnviromentManager.Instance.Season==Season.winter)
             {
-                adaptiveRange = towerData.AttackRange*1.1f;
+                adaptedBuffTowerData.attackRange = towerData.AttackRange*1.1f;
             }
             else
-            adaptiveRange = towerData.AttackRange * 1.15f;
+                adaptedBuffTowerData.attackRange = towerData.AttackRange * 1.15f;
             return;
         }
     }
@@ -222,7 +277,7 @@ public class BuffTower : BaseTower
         base.ScanPlantedObstacle();
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -246,7 +301,7 @@ public class BuffTower : BaseTower
     {
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptiveRange / 2, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {

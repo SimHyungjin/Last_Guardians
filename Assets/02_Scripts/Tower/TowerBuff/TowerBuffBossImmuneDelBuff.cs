@@ -1,6 +1,6 @@
 public class TowerBuffBossImmuneDelBuff : ITowerBuff
 {
-    public void ApplyBuffToTower(BaseTower tower, TowerData data, EnvironmentEffect environmentEffect)
+    public void ApplyBuffToTower(BaseTower tower, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)
     {
         if (tower is AttackTower attackTower)
         {
@@ -8,7 +8,7 @@ public class TowerBuffBossImmuneDelBuff : ITowerBuff
             if (buffedattackTower != null) buffedattackTower.BossImmuneBuff();
         }
     }
-    public void ApplyBuffToTrap(TrapObject trap, TowerData data, EnvironmentEffect environmentEffect)
+    public void ApplyBuffToTrap(TrapObject trap, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)
     {
         if (trap is TrapObject trapObject)
         {
@@ -16,7 +16,7 @@ public class TowerBuffBossImmuneDelBuff : ITowerBuff
             if (buffedTrap != null) buffedTrap.BossImmuneBuff();
         }
     }
-    public void ApplyDebuff(BaseMonster monster, TowerData data, EnvironmentEffect environmentEffect)
+    public void ApplyDebuff(BaseMonster monster, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)
     {
 
     }

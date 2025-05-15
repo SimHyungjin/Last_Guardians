@@ -6,16 +6,16 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
 {
     ///////////==========================슬로우 이펙트================================/////////////////////
     private float addObstacleValue = 0f;
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         IsWater(environmentEffect);
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
-            target.ApplySlowdown(towerData.EffectValue+ addObstacleValue, towerData.EffectDuration);
+            target.ApplySlowdown(adaptedTowerData.effectValue+ addObstacleValue, adaptedTowerData.effectDuration);
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
         IsWater(environmentEffect);
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))

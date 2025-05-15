@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         //주변에 스플레시 대미지
         if (towerData.EffectTargetCount == 0)
         {
             if (towerData.EffectTarget == EffectTarget.All)
             {
-                target.TakeDamage(adaptedTowerData.attackPower * towerData.EffectValue);
+                target.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
             }
             else
             {
                 BossMonster bossMonster = target.GetComponent<BossMonster>();
                 if (bossMonster != null)
                 {
-                    bossMonster.TakeDamage(adaptedTowerData.attackPower * towerData.EffectValue);
+                    bossMonster.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
                 }
             }
         }
@@ -37,7 +37,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData,AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
 
     }
@@ -50,7 +50,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
     /// <param name="target"></param>
     /// <param name="ownerTowerData"></param>
     /// <param name="adaptedTowerData"></param>
-    private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedTowerData adaptedTowerData)
+    private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedAttackTowerData adaptedTowerData)
     {
         Debug.Log($"[ChainAttack] ChainShot called. TowerData: {ownerTowerData.TowerIndex}");
         float angleStep = 10f;

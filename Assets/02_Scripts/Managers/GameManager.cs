@@ -10,6 +10,10 @@ public class GameManager : Singleton<GameManager>
     public int gold = 0;
     public int upgradeStones = 0;
 
+    //public int InGameTutorial = PlayerPrefs.GetInt("InGameTutorial");
+    //public int EquipTutorial = PlayerPrefs.GetInt("EquipTutorial");
+    //public int UpgradeTutorial = PlayerPrefs.GetInt("UpgradeTutorial");
+
     public int NowTime { get; set; }
 
     private void Awake()

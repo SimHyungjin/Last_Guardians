@@ -436,6 +436,7 @@ MonoBehaviour:
   gameoverUI: {fileID: 2708376430539389137}
   weatherInfo: {fileID: 2115534516}
   mapSlot: {fileID: 7299708671408734072}
+  tutorial: {fileID: 1209083786}
   level: 0
   exp: 0
   isDie: 0
@@ -3746,12 +3747,12 @@ GameObject:
   - component: {fileID: 1209083789}
   - component: {fileID: 1209083788}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: InGameTutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1209083787
 RectTransform:
   m_ObjectHideFlags: 0

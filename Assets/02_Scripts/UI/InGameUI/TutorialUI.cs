@@ -76,7 +76,16 @@ public class TutorialUI : MonoBehaviour
 
     private void EndTutorial()
     {
-        //PlayerPrefs.SetInt("TutorialDone", 1);
+        //Debug.Log($"{this.gameObject.name}");
+        if (this.gameObject.name == "InGameTutorial")
+            PlayerPrefs.SetInt("InGameTutorial", 1);
+
+        if(this.gameObject.name == "UpgradeTutorial")
+            PlayerPrefs.SetInt("UpgradeTutorial", 1);
+
+        if(this.gameObject.name == "EquipTutorial")
+            PlayerPrefs.SetInt("EquipTutorial", 1);
+
         gameObject.SetActive(false);
         if(GameManager.Instance.GetSceneName() == "GameScene")
             InGameManager.Instance.MuliigunStart();

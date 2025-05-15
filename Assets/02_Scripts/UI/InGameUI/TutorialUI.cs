@@ -41,7 +41,6 @@ public class TutorialUI : MonoBehaviour
         {
             currentPage++;
             ShowPage(currentPage);
-            //StartCoroutine(FadePage());
         }
         else
         {
@@ -57,7 +56,6 @@ public class TutorialUI : MonoBehaviour
         {
             currentPage--;
             ShowPage(currentPage);
-            //StartCoroutine(FadePage());
         }
     }
 
@@ -76,35 +74,20 @@ public class TutorialUI : MonoBehaviour
         }
     }
 
-    private IEnumerator FadePage()
-    {
-        isTransitioning = true;
-
-        // 페이드 아웃
-        for (float t = 0; t < 1f; t += Time.deltaTime * 2f)
-        {
-            canvasGroup.alpha = 1f - t;
-            yield return null;
-        }
-        canvasGroup.alpha = 0f;
-
-        ShowPage(currentPage);
-
-        // 페이드 인
-        for (float t = 0; t < 1f; t += Time.deltaTime * 2f)
-        {
-            canvasGroup.alpha = t;
-            yield return null;
-        }
-        canvasGroup.alpha = 1f;
-
-        isTransitioning = false;
-    }
-
     private void EndTutorial()
     {
-        //PlayerPrefs.SetInt("TutorialDone", 1);
+        //Debug.Log($"{this.gameObject.name}");
+        if (this.gameObject.name == "InGameTutorial")
+            PlayerPrefs.SetInt("InGameTutorial", 1);
+
+        if(this.gameObject.name == "UpgradeTutorial")
+            PlayerPrefs.SetInt("UpgradeTutorial", 1);
+
+        if(this.gameObject.name == "EquipTutorial")
+            PlayerPrefs.SetInt("EquipTutorial", 1);
+
         gameObject.SetActive(false);
-        InGameManager.Instance.MuliigunStart();
+        if(GameManager.Instance.GetSceneName() == "GameScene")
+            InGameManager.Instance.MuliigunStart();
     }
 }

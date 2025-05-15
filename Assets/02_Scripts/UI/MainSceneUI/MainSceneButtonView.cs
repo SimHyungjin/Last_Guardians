@@ -42,6 +42,7 @@ public class MainSceneButtonView : MonoBehaviour
         TowerUpgradeBtn.onClick.AddListener(() =>
         {
             mainSceneManager.ShowPanel("TowerUpgrade");
+            mainSceneManager.ShowPanel("UpgradeTutorial", null, false);
         });
     
         idleBtn.onClick.AddListener(() =>

@@ -12,7 +12,11 @@ public class RuntimeSoundUIBinder : MonoBehaviour
         // SFX 슬라이더
         if (GameObject.Find(SFX_SLIDER_NAME)?.TryGetComponent<Slider>(out var sfxSlider) == true)
         {
-            sfxSlider.value = PlayerPrefs.GetFloat("SFX_VOLUME", 1f);
+            float sfxVal = PlayerPrefs.GetFloat("SFX_VOLUME", 1f);
+            sfxSlider.value = sfxVal;
+            // 메뉴 열 때 즉시 반영
+            SoundManager.Instance.SetSFXVolume(sfxVal);
+
             sfxSlider.onValueChanged.AddListener(val =>
             {
                 SoundManager.Instance.SetSFXVolume(val);
@@ -23,7 +27,11 @@ public class RuntimeSoundUIBinder : MonoBehaviour
         // BGM 슬라이더
         if (GameObject.Find(BGM_SLIDER_NAME)?.TryGetComponent<Slider>(out var bgmSlider) == true)
         {
-            bgmSlider.value = PlayerPrefs.GetFloat("BGM_VOLUME", 1f);
+            float bgmVal = PlayerPrefs.GetFloat("BGM_VOLUME", 1f);
+            bgmSlider.value = bgmVal;
+            // 메뉴 열 때 즉시 반영
+            SoundManager.Instance.SetBGMVolume(bgmVal);
+
             bgmSlider.onValueChanged.AddListener(val =>
             {
                 SoundManager.Instance.SetBGMVolume(val);
@@ -34,7 +42,11 @@ public class RuntimeSoundUIBinder : MonoBehaviour
         // Master 슬라이더
         if (GameObject.Find(MASTER_SLIDER_NAME)?.TryGetComponent<Slider>(out var masterSlider) == true)
         {
-            masterSlider.value = PlayerPrefs.GetFloat("MASTER_VOLUME", 1f);
+            float masterVal = PlayerPrefs.GetFloat("MASTER_VOLUME", 1f);
+            masterSlider.value = masterVal;
+            // 메뉴 열 때 즉시 반영
+            SoundManager.Instance.SetMasterVolume(masterVal);
+
             masterSlider.onValueChanged.AddListener(val =>
             {
                 SoundManager.Instance.SetMasterVolume(val);

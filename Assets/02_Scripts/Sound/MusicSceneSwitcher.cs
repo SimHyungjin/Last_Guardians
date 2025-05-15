@@ -16,7 +16,6 @@ public class MusicSceneSwitcher : MonoBehaviour
 
     private void OnActiveSceneChanged(Scene prev, Scene next)
     {
-        Debug.Log($"Active changed: {prev.name} ¡æ {next.name}");
         if (next.name == "StartScene")
             SoundManager.Instance.PlayBGM("beanfeast");
         if (next.name == "MainScene")

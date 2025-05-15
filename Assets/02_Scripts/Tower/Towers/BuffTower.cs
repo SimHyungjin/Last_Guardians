@@ -149,19 +149,28 @@ public class BuffTower : BaseTower
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.tower);
         foreach (var hit in hits)
         {
-            Debug.Log(hit);
+            Debug.Log($"hit = {hit}");
             BaseTower otherTower = hit.GetComponent<BaseTower>();
+            Debug.Log($"otherTower = {otherTower}");
             if (otherTower != null && otherTower != this)
             {
+                Debug.Log("타워발견 버프줄게");
                 towerBuff.ApplyBuffToTower(otherTower, adaptedBuffTowerData,environmentEffect);
             }
         }
         foreach (var hit in hits)
         {
+            Debug.Log($"hit = {hit}");
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
-            if (otherTrap != null && otherTrap != this)
+            Debug.Log($"otherTrap = {otherTrap}");
+            if (otherTrap != null)
             {
+                Debug.Log("트랩발견 버프줄게");
                 towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
+            }
+            else 
+            {
+                Debug.Log("트랩없음");
             }
         }
     }

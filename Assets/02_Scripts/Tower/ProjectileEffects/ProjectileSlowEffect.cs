@@ -12,8 +12,6 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.ApplySlowdown(adaptedTowerData.effectValue+ addObstacleValue, adaptedTowerData.effectDuration);
-            Debug.Log($"{adaptedTowerData.towerIndex} 슬로우이펙트 타워인덱스");
-            Debug.Log($"[ProjectileSlowEffect] {target.name} 슬로우 적용됨, 슬로우값 : {adaptedTowerData.effectValue + addObstacleValue},슬로우지속시간:{adaptedTowerData.effectDuration}");
         }
     }
 

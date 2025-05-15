@@ -34,7 +34,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    public string SetWeapon(AttackType attackType, Sprite icon)
+    public void SetWeapon(AttackType attackType, Sprite icon)
     {
         if (icon != null)
             weaponRenderer.sprite = icon;
@@ -45,17 +45,6 @@ public class PlayerWeaponController : MonoBehaviour
             : weaponAnimatorMap.GetValueOrDefault(AttackType.Melee);
 
         ApplyWeaponPivotByType(attackType);
-
-        string label;
-        if (icon == null)
-            label = "Default";
-        else if (attackType == AttackType.Melee)
-            label = "Melee";
-        else if (attackType == AttackType.Ranged)
-            label = "Bow";
-        else
-            label = "Magic";
-        return label;
     }
 
     private void ApplyWeaponPivotByType(AttackType type)

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class AnalyticsLogger
 {
-    public static bool IsServiceOn = true;
+    public static bool IsServiceOn = false;
 
     public static bool ShouldSkipAnalytics()
     {
@@ -16,55 +16,56 @@ public static class AnalyticsLogger
         return false;
     }
 
-    public static void LogSelectStartCard(List<TowerData> data)
+    public static void LogTowerSelect(List<TowerData> selectedCards)
     {
         if (ShouldSkipAnalytics()) return;
        
-        for (int i = 0; i < data.Count; i++)
+        for (int i = 0; i < selectedCards.Count; i++)
         {
-            var customEvent = new CustomEvent(i < 3 ? "Card_Selection_Page1" : "Card_Selection_Page2");
-            customEvent.Add("card_index", data[i].TowerIndex);
+            var customEvent = new CustomEvent("Tower_Select");
+            customEvent.Add("Tower_Name", selectedCards[i].TowerName);
+            customEvent.Add("Tower_Type", selectedCards[i].ElementType);
+            if(i < 2) customEvent.Add("Tower_Section", 1);
+            else if(i < 3) customEvent.Add("Tower_Section", 2);
+            else customEvent.Add("Tower_Section", 3);
 
             AnalyticsService.Instance.RecordEvent(customEvent);
         }
-        Debug.Log("카드 전송 완료");
+        Debug.Log("LogTowerSelect Complete");
     }
 
-    public static void LogSelectAttackType(string attackType)
+    public static void LogTowerUpgrade(string upgradeName, int hasResource, int level)
     {
         if (ShouldSkipAnalytics()) return;
-        var customEvent = new CustomEvent("Select_AttackType");
-        customEvent.Add("attackType", attackType);
+
+        var customEvent = new CustomEvent("Tower_Upgrade");
+        customEvent.Add("TowerUpgrade_Name", upgradeName);
+        customEvent.Add("TowerUpgrade_Resource", hasResource);
+        customEvent.Add("TowerUpgrade_Level", level);
+
         AnalyticsService.Instance.RecordEvent(customEvent);
-        Debug.Log($"선택 타입 = {attackType}");
+        Debug.Log("LogTowerUpgrade Complete");
     }
 
-    public static void LogEndGameWave(bool gameOver, int wave)
-    {
-        if (ShouldSkipAnalytics()) return;
-        var customEvent = new CustomEvent("EndGameWave");
-        if (gameOver) customEvent.Add("GameOverWave", wave);
-        else customEvent.Add("GiveupWave", wave);
-            AnalyticsService.Instance.RecordEvent(customEvent);
-        Debug.Log($"게임 종료 = {(gameOver ? "GameOver" : "Giveup")} / 웨이브 = {wave}");
-    }
-
-    public static void LogUpgradeLevel(TowerUpgradeData upgradeData)
+    public static void LogWaveEnd(bool isGameOver, int wave)
     {
         if (ShouldSkipAnalytics()) return;
 
-        for(int i = 0; i < upgradeData.currentLevel.Count; i++)
-        {
-            var customEvent = new CustomEvent("Upgrade_Level_Distribution");
+        var customEvent = new CustomEvent("Wave_End");
+        customEvent.Add("Gameover_Type", isGameOver ? "failed" : "exit");
+        customEvent.Add("Gameover_Wave", wave);
 
-            string type = ((TowerUpgradeType)i).ToString();
-            int level = upgradeData.currentLevel[i];
-
-            customEvent.Add("upgrade_type", type);
-            customEvent.Add("level", level);
-
-            AnalyticsService.Instance.RecordEvent(customEvent);
-        }
+        AnalyticsService.Instance.RecordEvent(customEvent);
+        Debug.Log("LogWaveEnd Complete");
     }
 
+    public static void LogUserEquip(int index, int wave)
+    {
+        if (ShouldSkipAnalytics()) return;
+        var customEvent = new CustomEvent("User_Equip");
+        customEvent.Add("Item_Index", index);
+        customEvent.Add("User_Wave", wave);
+        AnalyticsService.Instance.RecordEvent(customEvent);
+        Debug.Log("LogUserEquip Complete");
+    }
 }

@@ -16,25 +16,25 @@ public class TowerUpgrade :MonoBehaviour
     {
         if (towerUpgradeData.currentMasteryPoint <= 0)
         {
-            Debug.Log("¸¶½ºÅÍ¸® Æ÷ÀÎÆ®°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+            Debug.Log("ë§ˆìŠ¤í„°ë¦¬ í¬ì¸íŠ¸ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
             return false;
         }
         if (towerUpgradeData.currentLevel[(int)type] >= towerUpgradeData.maxLevel)
         {
-            Debug.Log("¾÷±×·¹ÀÌµå ÃÖ´ë ·¹º§¿¡ µµ´ŞÇß½À´Ï´Ù.");
+            Debug.Log("ì—…ê·¸ë ˆì´ë“œ ìµœëŒ€ ë ˆë²¨ì— ë„ë‹¬í–ˆìŠµë‹ˆë‹¤.");
             return false;
         }
         if ((type == TowerUpgradeType.Penetration || type == TowerUpgradeType.ContinuousAttack ||
             type==TowerUpgradeType.Catalysis||type==TowerUpgradeType.EffectTransfer) 
             && towerUpgradeData.usedMasteryPoint < 10)
         {
-            Debug.Log("ÇØ´ç ¾÷±×·¹ÀÌµå¸¦ ÁøÇàÇÏ·Á¸é »ç¿ë ¸¶½ºÅÍ¸® Æ÷ÀÎÆ®°¡ 10À» ÃÊ°úÇØ¾ß ÇÕ´Ï´Ù.");
+            Debug.Log("í•´ë‹¹ ì—…ê·¸ë ˆì´ë“œë¥¼ ì§„í–‰í•˜ë ¤ë©´ ì‚¬ìš© ë§ˆìŠ¤í„°ë¦¬ í¬ì¸íŠ¸ê°€ 10ì„ ì´ˆê³¼í•´ì•¼ í•©ë‹ˆë‹¤.");
             return false;
         }
         if ((type == TowerUpgradeType.CombetMastery||type==TowerUpgradeType.MultipleAttack||type==TowerUpgradeType.BossSlayer)
             && towerUpgradeData.usedMasteryPoint < 20)
         {
-            Debug.Log("ÇØ´ç ¾÷±×·¹ÀÌµå¸¦ ÁøÇàÇÏ·Á¸é »ç¿ë ¸¶½ºÅÍ¸® Æ÷ÀÎÆ®°¡ 20À» ÃÊ°úÇØ¾ß ÇÕ´Ï´Ù.");
+            Debug.Log("í•´ë‹¹ ì—…ê·¸ë ˆì´ë“œë¥¼ ì§„í–‰í•˜ë ¤ë©´ ì‚¬ìš© ë§ˆìŠ¤í„°ë¦¬ í¬ì¸íŠ¸ê°€ 20ì„ ì´ˆê³¼í•´ì•¼ í•©ë‹ˆë‹¤.");
             return false;
         }
         else
@@ -51,6 +51,8 @@ public class TowerUpgrade :MonoBehaviour
             towerUpgradeData.usedMasteryPoint += 1;
             towerUpgradeData.currentMasteryPoint--;
             SaveSystem.SaveTowerUpgradeData(this);
+
+            AnalyticsLogger.LogTowerUpgrade(type.ToString(), towerUpgradeData.totalMasteryPoint, towerUpgradeData.currentLevel[(int)type]);
             return;
         }
     }

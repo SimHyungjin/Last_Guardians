@@ -188,8 +188,7 @@ public class MulliganUI : MonoBehaviour
         timerText.gameObject.SetActive(false);
         gameObject.SetActive(false);
 
-        AnalyticsLogger.LogSelectStartCard(MyCardList);
-        AnalyticsLogger.LogUpgradeLevel(TowerManager.Instance.towerUpgradeData);
+        AnalyticsLogger.LogTowerSelect(MyCardList);
 
         InGameManager.Instance.GameStart();
         

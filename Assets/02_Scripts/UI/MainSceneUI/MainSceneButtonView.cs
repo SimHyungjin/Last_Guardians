@@ -41,9 +41,11 @@ public class MainSceneButtonView : MonoBehaviour
         {
             mainSceneManager.ShowPanel("TowerUpgrade");
         });
-
-        idleBtn.onClick.RemoveAllListeners();
-        idleBtn.onClick.AddListener(idlePopup.OpenPopup);
+    
+        idleBtn.onClick.AddListener(() =>
+        {                  
+            mainSceneManager.ShowPanel("IdleRewardPopup");
+        });
     }
 
     private void ToGameScene()

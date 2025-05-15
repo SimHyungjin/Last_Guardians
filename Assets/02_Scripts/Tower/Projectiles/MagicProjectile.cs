@@ -16,7 +16,7 @@ public class MagicProjectile : ProjectileBase
     /// <param name="adaptedTower"></param>
     /// <param name="_effectslist"></param>
     /// <param name="_environmentEffect"></param>
-    public override void Init(TowerData _towerData, AdaptedTowerData adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    public override void Init(TowerData _towerData, AdaptedAttackTowerData adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         base.Init(_towerData, adaptedTower, _effectslist, _environmentEffect);
         GetComponent<SpriteRenderer>().enabled = true;

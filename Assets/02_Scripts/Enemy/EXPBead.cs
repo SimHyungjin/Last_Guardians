@@ -7,8 +7,6 @@ public class EXPBead : MonoBehaviour
     private Collider2D collider;
     private Coroutine disappearCorutine;
     private float disTime = 15f;
-    private readonly float Interval = 0.2f;
-    private float timer = 0f;
     public int EXP { get; private set; }
 
     private bool isCollected = false;

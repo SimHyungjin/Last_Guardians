@@ -60,6 +60,7 @@ public class BossMonster : BaseMonster
     {
         base.Death();
         MonsterManager.Instance.BossKillCount++;
+        TowerManager.Instance.ApplyBossSlayer();
         PoolManager.Instance.Despawn(this);
     }
 }

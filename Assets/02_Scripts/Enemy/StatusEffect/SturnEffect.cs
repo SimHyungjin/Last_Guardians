@@ -13,6 +13,7 @@ public class SturnEffect : StatusEffect
     {
         target.isSturn = true;
         target.SetDestination(target.transform);
+        target.AnimationConnect.StartSturnAnimation();
         RefreshStatus(target);
     }
 

@@ -12,3 +12,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19fc8513f74706a439f5b9ebc107b3a7, type: 3}
   m_Name: TowerUpgradeValueData
   m_EditorClassIdentifier: 
+  towerUpgradeValues:
+  - index: 1
+    upgradeName: AttackPower
+    levels:
+    - 1
+    - 1.03
+    - 1.06
+    - 1.09
+  - index: 2
+    upgradeName: AttackSpeed
+    levels:
+    - 1
+    - 1.02
+    - 1.04
+    - 1.06
+  - index: 3
+    upgradeName: AttackRange
+    levels:
+    - 1
+    - 1.05
+    - 1.1
+    - 1.15
+  - index: 4
+    upgradeName: Penetration
+    levels:
+    - 0
+    - 0.05
+    - 0.1
+    - 0.2
+  - index: 5
+    upgradeName: ContinuousAttack
+    levels:
+    - 1
+    - 1.02
+    - 1.04
+    - 1.06
+  - index: 6
+    upgradeName: CombetMastery
+    levels:
+    - 1
+    - 1.03
+    - 1.06
+    - 1.09
+  - index: 7
+    upgradeName: MultipleAttack
+    levels:
+    - 0
+    - 1
+    - 2
+    - 3
+  - index: 8
+    upgradeName: BossSlayer
+    levels:
+    - 0
+    - 0.01
+    - 0.02
+    - 0.03
+  - index: 9
+    upgradeName: EffectValue
+    levels:
+    - 1
+    - 1.05
+    - 1.1
+    - 1.15
+  - index: 10
+    upgradeName: EffectDuration
+    levels:
+    - 1
+    - 1.08
+    - 1.16
+    - 1.24
+  - index: 11
+    upgradeName: EffectRange
+    levels:
+    - 1
+    - 1.05
+    - 1.1
+    - 1.15
+  - index: 12
+    upgradeName: Catalysis
+    levels:
+    - 1
+    - 1.01
+    - 1.02
+    - 1.03
+  - index: 13
+    upgradeName: EffectTransfer
+    levels:
+    - 1
+    - 0.08
+    - 0.16
+    - 0.24
+  - index: 14
+    upgradeName: Emergencyresponse
+    levels:
+    - 1
+    - 1.15
+    - 1.3
+    - 1.45

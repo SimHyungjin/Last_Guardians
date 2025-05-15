@@ -41,7 +41,6 @@ public class TutorialUI : MonoBehaviour
         {
             currentPage++;
             ShowPage(currentPage);
-            //StartCoroutine(FadePage());
         }
         else
         {
@@ -57,7 +56,6 @@ public class TutorialUI : MonoBehaviour
         {
             currentPage--;
             ShowPage(currentPage);
-            //StartCoroutine(FadePage());
         }
     }
 
@@ -74,31 +72,6 @@ public class TutorialUI : MonoBehaviour
         {
             nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "다음";
         }
-    }
-
-    private IEnumerator FadePage()
-    {
-        isTransitioning = true;
-
-        // 페이드 아웃
-        for (float t = 0; t < 1f; t += Time.deltaTime * 2f)
-        {
-            canvasGroup.alpha = 1f - t;
-            yield return null;
-        }
-        canvasGroup.alpha = 0f;
-
-        ShowPage(currentPage);
-
-        // 페이드 인
-        for (float t = 0; t < 1f; t += Time.deltaTime * 2f)
-        {
-            canvasGroup.alpha = t;
-            yield return null;
-        }
-        canvasGroup.alpha = 1f;
-
-        isTransitioning = false;
     }
 
     private void EndTutorial()

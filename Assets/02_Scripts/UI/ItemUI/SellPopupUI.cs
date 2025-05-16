@@ -63,6 +63,10 @@ public class SellPopupUI : PopupBase
         {
             slot.Clear();
         }
+        selectionController.ClearSelects();
+
+        equipmentSlotContainer.Refresh();
+        inventorySlotContainer.Display();
         base.Close();
     }
 

@@ -44,7 +44,7 @@ public class Equipment
         if (updateUI) OnEquip?.Invoke(instance);
 
         if(instance.AsEquipData.equipType == EquipType.Weapon)
-            AnalyticsLogger.LogUserEquip(instance.Data.ItemIndex, PlayerPrefs.GetInt("Wave", 0));
+            AnalyticsLogger.LogUserEquip(instance.Data.ItemIndex, PlayerPrefs.GetInt("IdleMaxWave", 0));
     }
 
     /// <summary>

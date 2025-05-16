@@ -62,7 +62,7 @@ public class TowerUpgradeData : ScriptableObject
         currentMasteryPoint = 0;
         usedMasteryPoint = 0;
         towerPoint = 0;
-        currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         string savePath = Application.persistentDataPath + "/save.json";
         if (!File.Exists(savePath))
         {

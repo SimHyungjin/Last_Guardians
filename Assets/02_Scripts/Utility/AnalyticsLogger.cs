@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public static class AnalyticsLogger
 {
@@ -24,7 +25,6 @@ public static class AnalyticsLogger
         {
             var customEvent = new CustomEvent("Tower_Select");
             customEvent.Add("Tower_Name", selectedCards[i].TowerName);
-            customEvent.Add("Tower_Type", selectedCards[i].ElementType);
             if(i < 2) customEvent.Add("Tower_Section", 1);
             else if(i < 3) customEvent.Add("Tower_Section", 2);
             else customEvent.Add("Tower_Section", 3);
@@ -34,16 +34,18 @@ public static class AnalyticsLogger
         Debug.Log("LogTowerSelect Complete");
     }
 
-    public static void LogTowerUpgrade(string upgradeName, int hasResource, int level)
+    public static void LogTowerUpgrade(TowerUpgradeData data)
     {
         if (ShouldSkipAnalytics()) return;
 
-        var customEvent = new CustomEvent("Tower_Upgrade");
-        customEvent.Add("TowerUpgrade_Name", upgradeName);
-        customEvent.Add("TowerUpgrade_Resource", hasResource);
-        customEvent.Add("TowerUpgrade_Level", level);
-
-        AnalyticsService.Instance.RecordEvent(customEvent);
+        for(int i = 0; i < data.currentLevel.Count ; i++)
+        {
+            var customEvent = new CustomEvent("Tower_Upgrade");
+            customEvent.Add("Towerupgrade_Name", ((TowerUpgradeType)i).ToString());
+            customEvent.Add("Towerupgrade_Resource", data.totalMasteryPoint);
+            customEvent.Add("Towerupgrade_Level", data.currentLevel[i]);
+            AnalyticsService.Instance.RecordEvent(customEvent);
+        }
         Debug.Log("LogTowerUpgrade Complete");
     }
 

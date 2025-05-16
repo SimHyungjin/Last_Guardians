@@ -43,7 +43,8 @@ public class Equipment
         RecalculateStats();
         if (updateUI) OnEquip?.Invoke(instance);
 
-        AnalyticsLogger.LogUserEquip(instance.Data.ItemIndex,1);
+        if(instance.AsEquipData.equipType == EquipType.Weapon)
+            AnalyticsLogger.LogUserEquip(instance.Data.ItemIndex, PlayerPrefs.GetInt("Wave", 0));
     }
 
     /// <summary>

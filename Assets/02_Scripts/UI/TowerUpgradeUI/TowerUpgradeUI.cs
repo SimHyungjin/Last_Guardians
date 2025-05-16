@@ -54,7 +54,9 @@ public class TowerUpgradeUI : MonoBehaviour
     }
     private void OnEnable()
     {
+        isResetPanelActive = false;
         resetPannel.gameObject.SetActive(false);
+        UpdateButtons();
     }
     private void Update()
     {

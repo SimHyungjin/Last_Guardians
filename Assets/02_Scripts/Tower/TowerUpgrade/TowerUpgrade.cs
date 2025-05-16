@@ -52,7 +52,7 @@ public class TowerUpgrade :MonoBehaviour
             towerUpgradeData.currentMasteryPoint--;
             SaveSystem.SaveTowerUpgradeData(this);
 
-            AnalyticsLogger.LogTowerUpgrade(type.ToString(), towerUpgradeData.totalMasteryPoint, towerUpgradeData.currentLevel[(int)type]);
+            AnalyticsLogger.LogTowerUpgrade(towerUpgradeData);
             return;
         }
     }

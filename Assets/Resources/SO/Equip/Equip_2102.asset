@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec207e345877c34c92cc719d7ed879c, type: 3}
+  m_Name: Equip_2102
+  m_EditorClassIdentifier: 
+  itemIndex: 2102
+  itemName: "\uD76C\uADC0 \uAC11\uC637"
+  itemDescript: "\uAC15\uD654\uB41C \uAE30\uBCF8 \uAC11\uC637"
+  itemType: 0
+  itemGrade: 1
+  itemStackLimit: 1
+  itemDropRate: 0.0328
+  itemSellPrice: 250
+  itemApartPrice: 5
+  icon: {fileID: 1970180898, guid: 9d115785b7809ec43b6d8ce9f7f08f6f, type: 3}
+  <equipIndex>k__BackingField: 2102
+  <equipType>k__BackingField: 2
+  <attackType>k__BackingField: 0
+  <attackPower>k__BackingField: 0
+  <attackSpeed>k__BackingField: 0
+  <moveSpeed>k__BackingField: 0
+  <criticalChance>k__BackingField: 0
+  <criticalDamage>k__BackingField: 0
+  <penetration>k__BackingField: 0.1
+  <attackRange>k__BackingField: 0
+  <specialEffectID>k__BackingField: 0
+  <linkedItem>k__BackingField: {fileID: 0}

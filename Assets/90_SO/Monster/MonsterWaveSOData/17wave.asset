@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e731b26251f2d4449250c42a880c9aa, type: 3}
+  m_Name: 17wave
+  m_EditorClassIdentifier: 
+  waveIndex: 17
+  waveLevel: 3
+  isBoss: 0
+  waveStartDelay: 4
+  monsterSpawnInterval: 0.9
+  monster1ID: 4
+  monster1Value: 8
+  monster2ID: 1
+  monster2Value: 11
+  monster3ID: 2
+  monster3Value: 14
+  monster4ID: 0
+  monster4Value: 0
+  bossMultiplier: 0.97

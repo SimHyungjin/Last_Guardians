@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b484b7857f378444b0be21e7043d212, type: 3}
+  m_Name: "\uB9C8\uC871 \uD751\uB9C8\uBC95\uC0AC"
+  m_EditorClassIdentifier: 
+  monsterIndex: 102
+  monsterName: "\uB9C8\uC871 \uD751\uB9C8\uBC95\uC0AC"
+  monsterHP: 600
+  monsterSpeed: 0.9
+  monsterDamage: 3
+  monsterDef: 3
+  exp: 120
+  monsterDescription: "\uC5B4\uB460\uC758 \uB9C8\uBC95\uC744 \uC0AC\uC6A9\uD558\uB294
+    \uB9C8\uC871 \uB9C8\uBC95\uC0AC. \uB9C8\uC871\uC744 5\uB9C8\uB9AC \uC18C\uD658\uD55C\uB2E4."
+  monsterType: 1
+  hasSkill: 1
+  monsterSkillID: 2
+  monsterAttackPattern: 1
+  icon: {fileID: 0}
+  prefab: {fileID: 1721024335923746346, guid: 1ad9f00e73438c141979d713507743b7, type: 3}

@@ -1,0 +1,1684 @@
+fileFormatVersion: 2
+guid: 5fe8ce875378e5144868ca8eaa4bac47
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 256
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a7483cbbcf0bcc4abc6319b02f37c4c
+      internalID: 77731790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d25c1bff38b250d499182c7ea5ce2d9e
+      internalID: 1555780421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4805e3410ba2dc44a96a42798391b70
+      internalID: 980490415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f870373713d96d444915e5a274a2d463
+      internalID: -1801918719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 663a5e9fa6ad17546bad388d12e0130d
+      internalID: -2086357765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 143c5cfec5e59304e8c9c2cbf7a5b303
+      internalID: -1534733368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45f987f85b797b246a5c0e4f0e67527c
+      internalID: -1299899073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ca26c1eeaebefb408a57814420b4932
+      internalID: -1568642433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17177c0abbc399a4bb71f52a1e9d506e
+      internalID: -1194031984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e54ca751e82cf204a861cd7e12c6ded3
+      internalID: 1995197595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca45771818ed9344895f7ed5b0d8ff5c
+      internalID: 1116319110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 663563b518b00784c945a5904b8b9d11
+      internalID: 1133846727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60bcdafab50ba2f4f9251e837908be85
+      internalID: -860977375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 3250
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 939a4a36a468f774ba4e2b26692d4975
+      internalID: -1310657474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61f4d6e60c931e649ab9548d74c940ba
+      internalID: -1914185244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 3750
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cd7fb11c36f7304eb907e2bab7a3ff2
+      internalID: 1178298654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6274993c449c58742ad1200e81f2a294
+      internalID: -1924056808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 4250
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f50e184746f86419bd9f4c24ed73c4
+      internalID: -1516072053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 4500
+        y: 960
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15364d0219a513a47b09a1de17ea9e7f
+      internalID: -475249442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6ef75203557d3141a814a8513077eeb
+      internalID: 401685100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a51d4deef06093c468939f020189ca8c
+      internalID: 1158882147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f901c262688cf664a802dc2b7ad82b63
+      internalID: 1611475576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec3a391dd429d524cb5fbeead9731f45
+      internalID: 2128701434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11d7d72070f77b54e81348edc406bb9e
+      internalID: -445798112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76c8d3c811df09d42b81ab0721195980
+      internalID: 92688578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6464edc1f8189b44d8f8f5aeeff556d0
+      internalID: -1400775426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa27a45856676f14183406b0687a7b06
+      internalID: 2030928773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6402358d5c24f2749b30f7a81bfa6fa6
+      internalID: -1748304433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b5b3d5741a3f74488984882e0cf26e
+      internalID: -1018620549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc950bbd9d55e68488f0845090493760
+      internalID: -1490901359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4973fe043a833844b2190bb88efc285
+      internalID: 165240772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55060bbb6ffaf9a449ca0cba49a0c3c9
+      internalID: -713810889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 3250
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db2de2adc8d7c92448887f36d6ad501c
+      internalID: 868636284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50de11571fb91e74a800fe5352f62958
+      internalID: -97589353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 3750
+        y: 640
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f29ee961d876ecb45a316c2a48f03199
+      internalID: -493429357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb7c9633cebb8f64b90e79876bb83109
+      internalID: 1688892851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 967685d288d191241be68e1f96fb094b
+      internalID: 1926219649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e71041c349e2fc47afe8d25d9ab6002
+      internalID: -1388793440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 367ea2ec81c1d5d4d954a7f347daecbd
+      internalID: -988177982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a1b1fb5c3116a34fa75c90c023dba89
+      internalID: 1103668551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c2ca6ab6f76ecf4d96938ad1ecea5a7
+      internalID: -2111764704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39ae772790671a4d9c5382a3e3568b2
+      internalID: 432974137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c56eeb36a31e9334db1e52fa5268d6e5
+      internalID: 255520866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5f7a42692a57134593cfd419b71d8b5
+      internalID: 707790087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6abab49a85b40b43980c84ed1033d11
+      internalID: 1368873171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbc88cadba463fb47a3454bac73e608f
+      internalID: 2068690811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff7e4a30d54f9b84e96a2a995f83588b
+      internalID: 180353501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69012e8cb613984428ce5727dc542761
+      internalID: -1440457830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 3250
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5638bc0b79b5a1499b66c72ff00ad27
+      internalID: -89845674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2428033de725d4549b3f753eec3849e7
+      internalID: 579375303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 3750
+        y: 320
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dfe9f3bc35d49e45a9321deca7da69b
+      internalID: -768722305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fe088cb8ee2bdc47b62ed0a229f9d20
+      internalID: -291816728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bc1364fbf3426348ab4038c775ec57f
+      internalID: -97943070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa58b2c4a05b1bb4091e983bbdc17ee2
+      internalID: 386117091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 875b7c41d2e38254fb4bb99f637ed81c
+      internalID: -908599296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42c29820306d1444f9bcd48a26af9208
+      internalID: 1493262598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df412fe34f8a7de429c7e21e9c875f47
+      internalID: -1441577130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a0c9e19c4c896f44b1b031aaf2c10ba
+      internalID: -358076253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 024fed2b06b3903449a518cd33c20fc0
+      internalID: -1750446217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8fa58767d3e45c4faf649ab7e1a52e0
+      internalID: 463995069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 829005f9effd6394ba858601aa2562f5
+      internalID: -1235147269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaa2d83f6d591e8449974f8ddbddf116
+      internalID: 1869621561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5388739c5bc8a544b03595d4e8a084c
+      internalID: -1447492016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9d4095064324f54ba1a02327274f4da
+      internalID: 105226824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 3250
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ee68c59418048345a8672520f355650
+      internalID: -1190056008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5918946e78d7fcb45a867635c057375a
+      internalID: 22673779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 3750
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a59c80d1997b1024ba86ce1db6cf822d
+      internalID: 39591487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dc2be4394ebdca4ea7ec8d70eaa9b4e
+      internalID: -922136873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Altar_Of_Consequences-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 4250
+        y: 0
+        width: 250
+        height: 320
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d93e1560ad34b0b418f8dbba487f9af1
+      internalID: -471665398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Altar_Of_Consequences-Sheet_0: 77731790
+      Altar_Of_Consequences-Sheet_1: 1555780421
+      Altar_Of_Consequences-Sheet_10: 1116319110
+      Altar_Of_Consequences-Sheet_11: 1133846727
+      Altar_Of_Consequences-Sheet_12: -860977375
+      Altar_Of_Consequences-Sheet_13: -1310657474
+      Altar_Of_Consequences-Sheet_14: -1914185244
+      Altar_Of_Consequences-Sheet_15: 1178298654
+      Altar_Of_Consequences-Sheet_16: -1924056808
+      Altar_Of_Consequences-Sheet_17: -1516072053
+      Altar_Of_Consequences-Sheet_18: -475249442
+      Altar_Of_Consequences-Sheet_19: 401685100
+      Altar_Of_Consequences-Sheet_2: 980490415
+      Altar_Of_Consequences-Sheet_20: 1158882147
+      Altar_Of_Consequences-Sheet_21: 1611475576
+      Altar_Of_Consequences-Sheet_22: 2128701434
+      Altar_Of_Consequences-Sheet_23: -445798112
+      Altar_Of_Consequences-Sheet_24: 92688578
+      Altar_Of_Consequences-Sheet_25: -1400775426
+      Altar_Of_Consequences-Sheet_26: 2030928773
+      Altar_Of_Consequences-Sheet_27: -1748304433
+      Altar_Of_Consequences-Sheet_28: -1018620549
+      Altar_Of_Consequences-Sheet_29: -1490901359
+      Altar_Of_Consequences-Sheet_3: -1801918719
+      Altar_Of_Consequences-Sheet_30: 165240772
+      Altar_Of_Consequences-Sheet_31: -713810889
+      Altar_Of_Consequences-Sheet_32: 868636284
+      Altar_Of_Consequences-Sheet_33: -97589353
+      Altar_Of_Consequences-Sheet_34: -493429357
+      Altar_Of_Consequences-Sheet_35: 1688892851
+      Altar_Of_Consequences-Sheet_36: 1926219649
+      Altar_Of_Consequences-Sheet_37: -1388793440
+      Altar_Of_Consequences-Sheet_38: -988177982
+      Altar_Of_Consequences-Sheet_39: 1103668551
+      Altar_Of_Consequences-Sheet_4: -2086357765
+      Altar_Of_Consequences-Sheet_40: -2111764704
+      Altar_Of_Consequences-Sheet_41: 432974137
+      Altar_Of_Consequences-Sheet_42: 255520866
+      Altar_Of_Consequences-Sheet_43: 707790087
+      Altar_Of_Consequences-Sheet_44: 1368873171
+      Altar_Of_Consequences-Sheet_45: 2068690811
+      Altar_Of_Consequences-Sheet_46: 180353501
+      Altar_Of_Consequences-Sheet_47: -1440457830
+      Altar_Of_Consequences-Sheet_48: -89845674
+      Altar_Of_Consequences-Sheet_49: 579375303
+      Altar_Of_Consequences-Sheet_5: -1534733368
+      Altar_Of_Consequences-Sheet_50: -768722305
+      Altar_Of_Consequences-Sheet_51: -291816728
+      Altar_Of_Consequences-Sheet_52: -97943070
+      Altar_Of_Consequences-Sheet_53: 386117091
+      Altar_Of_Consequences-Sheet_54: -908599296
+      Altar_Of_Consequences-Sheet_55: 1493262598
+      Altar_Of_Consequences-Sheet_56: -1441577130
+      Altar_Of_Consequences-Sheet_57: -358076253
+      Altar_Of_Consequences-Sheet_58: -1750446217
+      Altar_Of_Consequences-Sheet_59: 463995069
+      Altar_Of_Consequences-Sheet_6: -1299899073
+      Altar_Of_Consequences-Sheet_60: -1235147269
+      Altar_Of_Consequences-Sheet_61: 1869621561
+      Altar_Of_Consequences-Sheet_62: -1447492016
+      Altar_Of_Consequences-Sheet_63: 105226824
+      Altar_Of_Consequences-Sheet_64: -1190056008
+      Altar_Of_Consequences-Sheet_65: 22673779
+      Altar_Of_Consequences-Sheet_66: 39591487
+      Altar_Of_Consequences-Sheet_67: -922136873
+      Altar_Of_Consequences-Sheet_68: -471665398
+      Altar_Of_Consequences-Sheet_7: -1568642433
+      Altar_Of_Consequences-Sheet_8: -1194031984
+      Altar_Of_Consequences-Sheet_9: 1995197595
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

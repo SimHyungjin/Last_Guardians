@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
+  m_Name: Tower20
+  m_EditorClassIdentifier: 
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  spawnClip: {fileID: 7400000, guid: 86dde0c2cae15184db25d221cafb871f, type: 2}
+  idleClip: {fileID: 7400000, guid: 1e09e5255a38a9c4aac0d07274066e01, type: 2}
+  activeClip: {fileID: 7400000, guid: 9b2d226c270e0924fa93e69f7de2b008, type: 2}
+  towerIndex: 20
+  towerName: "\uBAA8\uB798\uD3ED\uD48D \uD0C0\uC6CC"
+  attackPower: 35
+  attackSpeed: 1
+  attackRange: 4
+  towerType: 2
+  projectileType: 0
+  elementType: 3
+  specialEffect: 4
+  effectChance: 0.25
+  effectDuration: 2
+  effectValue: 0
+  effectTarget: 2
+  effectTargetCount: 2
+  bossImmune: 1
+  upgradeLevel: 2
+  towerDescription: "2\uAC1C \uB300\uC0C1\uC744 25% \uD655\uB960\uB85C 2\uCD08 \uB3D9\uC548
+    \uAE30\uC808(\uBCF4\uC2A4 \uBBF8\uC801\uC6A9)"

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a0d12b720897d4a8db0339b0e86b37, type: 3}
+  m_Name: Tower21
+  m_EditorClassIdentifier: 
+  towerGhostPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
+  spawnClip: {fileID: 7400000, guid: e32a33847bacf944e90773bf5f45e1dc, type: 2}
+  idleClip: {fileID: 7400000, guid: b7e40584df0dd76448e6c198d082ab4d, type: 2}
+  activeClip: {fileID: 7400000, guid: cad5d681ad23d2149b3aea496f9c290c, type: 2}
+  towerIndex: 21
+  towerName: "\uCC9C\uC0C1\uC758 \uBC14\uB78C \uD0C0\uC6CC"
+  attackPower: 35
+  attackSpeed: 0.7
+  attackRange: 4
+  towerType: 2
+  projectileType: 0
+  elementType: 4
+  specialEffect: 3
+  effectChance: 1
+  effectDuration: 0
+  effectValue: 1
+  effectTarget: 3
+  effectTargetCount: 1
+  bossImmune: 0
+  upgradeLevel: 2
+  towerDescription: "\uBCF4\uC2A4 \uD0C0\uACA9\uC2DC \uBB34\uC791\uC704 \uC801 1\uBA85\uC5D0\uAC8C
+    \uCD94\uAC00 \uACF5\uACA9"

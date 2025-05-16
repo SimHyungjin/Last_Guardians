@@ -1,0 +1,1992 @@
+fileFormatVersion: 2
+guid: 183dc7bc993b13f4e8fc5d404f464d16
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LightTower-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9768e79b362425346a10d404ae07309e
+      internalID: -1140991134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b69e50c03cc67c24e8732d4826cb1798
+      internalID: 1751374184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77900584de711244a8bcaebdce36161f
+      internalID: 1461452472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d27919617513c947830fa6267c284e6
+      internalID: 502590025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46c6a7fa23d31c248be82d2c7891a5de
+      internalID: -875940135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d72c1000cad225429445d040ef257e5
+      internalID: 672025316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f73948878d3c6a048b6cc4b7d7fcbcd8
+      internalID: 1885716694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c100b7f7ea4bf464d910341808cbdd20
+      internalID: 736536731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9731d570d370fb54b9811120d233fe7d
+      internalID: 1281841514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60b21ee27b115be4fbfcb9f4064424e7
+      internalID: 1067524786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a22b59bab68eb6849bd74d7fbbc2b518
+      internalID: 985527975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26bb96987f5fe324a9fd37d40419b488
+      internalID: 843585751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c1cdac28be26b64aa9483f1c9c04282
+      internalID: -456925290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 780
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f004f6e421658d418ac73753aff0fda
+      internalID: -633874038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acf50bc6f60825c4fa2f34e907aaa342
+      internalID: 1200602974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43d21a56772208644bd86c5b81927417
+      internalID: -710855873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95f624df58c1e914282ac11b6e260279
+      internalID: 1642566396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 448c0e761de823b4da8110d5888ce272
+      internalID: -252887212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a554984f0f0417e4884906af281b302f
+      internalID: -62465464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89fdb79ecb305024a84850d54e19d861
+      internalID: -1091038142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e334b97721cfcb94b94a0e01c7446949
+      internalID: -1821403953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b68d670d268ecd4f84e2ce413e8daff
+      internalID: -24025240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2db7fe57a49dfd94f9a7bf0bc46f4f73
+      internalID: -565455041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b89cdf6db10df745956b4c53fe46002
+      internalID: 944587642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36367a48bca2e344684e218246db04b1
+      internalID: 1998241782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3903199845d3064da7a917448c28d40
+      internalID: -782873302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 429a1d27533470e4a857d39c36d78aef
+      internalID: -803144488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 463c85fb6c770a5439e68c6491796498
+      internalID: 1230716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 624
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cdd3b4315a77ee4b9d40f8aa0e08481
+      internalID: 1113558050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 545ddebb106393f4898062abc0856552
+      internalID: 1463825844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5221d8b6e5d633b4e977b6307da6637f
+      internalID: 19631902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15130cb72f133f146ba59c3b6231f140
+      internalID: 1817151287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 787bc4f4499d7cc419e2a61e6e9524e8
+      internalID: -1906636916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70c0a2573bb562b488b5ed24f89e9b7f
+      internalID: -66109617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 001e708f2c10b2e46837e8b6d969c726
+      internalID: 1193425713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 373c9e64218c0b842bb7eae13d5eb191
+      internalID: -669251260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1050393d8fc29c42a1249886ef1c082
+      internalID: -1997741810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d484a3e304151c4faf4f99806e515ec
+      internalID: -1872905788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 655d69ffad4d1c44fae0cffb79946300
+      internalID: -1001539512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 497e72349a0477c449053b35e2100da6
+      internalID: 127336471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ea7b1499c707ad4ab125614e90cb053
+      internalID: 1259135918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e2dda40146c6f642b9289a59db3e974
+      internalID: 1525476912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 468
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 406836549478f4640af1a3e0482e53d8
+      internalID: 1540985889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b56f0e52afc6bc4fa4f1b3cc053a5a2
+      internalID: 865850174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c69b8c3632675ea47a29fa946c8b0f6f
+      internalID: 1180392866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec4c60b613ba21a4aa2a95301db4347e
+      internalID: 365596076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b22350bbfc267a240b25cd7df0336e2d
+      internalID: -1943247073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f754ed7f5685c404f9e7ab0693f71f3d
+      internalID: -1127584844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58fe29952933d02419057dd3e07f2ce9
+      internalID: 651446624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9201cbcac21aac049821e6da8915db2a
+      internalID: -1090190108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a81a7b08c7848443a032c30a9aa8212
+      internalID: 1404313757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0ca09e618b3b98499bdf89b76d22dc4
+      internalID: -1897427142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e88d0b16fed077e439c053d19ed949f5
+      internalID: -1304937737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76715ae9c6d6e6b45a1f2d9bce631afe
+      internalID: 664703642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d855fff5b397030419aa0a58c2878375
+      internalID: 1546717971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40cff021b1c565c4cb4de984c9d3b2cb
+      internalID: -336721713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 860f14e5794768e44bc4de94e2fecaeb
+      internalID: 1666740885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 312
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37788328085cf0e46a7a4d3d7baac27b
+      internalID: -812757666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9721e181bd6de7b45b19e6202f000f76
+      internalID: 413521605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b2d067e191f15d4cba8b856ded77a12
+      internalID: -361924479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b511ffb0fac096418111da4470c89e0
+      internalID: 508188799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51c14f67af2f14a428976553f480504f
+      internalID: -282559674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f23f768de569db4cad718b546591414
+      internalID: 362406031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8655c91defeb65d43b81360c6925a7c9
+      internalID: 1378427455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 144afee9662ce2a498e002510fb2bed5
+      internalID: 132848030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365cb216b50430d45aca5df24c3ddcb5
+      internalID: 694284465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f690a941af8c48d4fb81d60ba3b6cda2
+      internalID: -1703700024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b741c051261a3cb4aab90004e6dd08bb
+      internalID: 1442215449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdac7941f4b3cb54fb170baf3bb40bfa
+      internalID: -1699009788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 878e928a8e2d34b438f13f92bd8aa5e6
+      internalID: -1864639412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6880e0d3bc95e0d4eaac39acba3a081a
+      internalID: 1644639368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59da816faa6eee1428ceef9cde79b10c
+      internalID: -2008764620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 156
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb0b2de2ebac09b49802a6aafba1f6e7
+      internalID: -1451207230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d4c2adef840ae349bcfe1bec992679a
+      internalID: -126885649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34320d42b6f6eff48a2210c40220cdd7
+      internalID: 420759812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fdbbbaf03df7084789c15eb31b58de9
+      internalID: -1087303564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31282319e46192a488009b60f44a34d8
+      internalID: 1029280966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_77
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eef6fb6a99e908449b8a187abb8ff677
+      internalID: -2100088695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_78
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3e834d2c42ec9e4fbb3d2c5f175fada
+      internalID: 1973846083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_79
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72acf1f61089bd04e8b35c5398c87550
+      internalID: -1827029243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_80
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29912e95d6fbba141b4faab48fb01f62
+      internalID: -1984763494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_81
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b98889fdb8272246aba1d5022cbe503
+      internalID: 2032175993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LightTower-Sheet_82
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 128
+        height: 156
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc3e9c6eeef578747835833893b96286
+      internalID: -1673145969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      LightTower-Sheet_0: -1140991134
+      LightTower-Sheet_1: 1751374184
+      LightTower-Sheet_10: 985527975
+      LightTower-Sheet_11: 843585751
+      LightTower-Sheet_12: -456925290
+      LightTower-Sheet_13: -633874038
+      LightTower-Sheet_14: 1200602974
+      LightTower-Sheet_15: -710855873
+      LightTower-Sheet_16: 1642566396
+      LightTower-Sheet_17: -252887212
+      LightTower-Sheet_18: -62465464
+      LightTower-Sheet_19: -1091038142
+      LightTower-Sheet_2: 1461452472
+      LightTower-Sheet_20: -1821403953
+      LightTower-Sheet_21: -24025240
+      LightTower-Sheet_22: -565455041
+      LightTower-Sheet_23: 944587642
+      LightTower-Sheet_24: 1998241782
+      LightTower-Sheet_25: -782873302
+      LightTower-Sheet_26: -803144488
+      LightTower-Sheet_27: 1230716
+      LightTower-Sheet_28: 1113558050
+      LightTower-Sheet_29: 1463825844
+      LightTower-Sheet_3: 502590025
+      LightTower-Sheet_30: 19631902
+      LightTower-Sheet_31: 1817151287
+      LightTower-Sheet_32: -1906636916
+      LightTower-Sheet_33: -66109617
+      LightTower-Sheet_34: 1193425713
+      LightTower-Sheet_35: -669251260
+      LightTower-Sheet_36: -1997741810
+      LightTower-Sheet_37: -1872905788
+      LightTower-Sheet_38: -1001539512
+      LightTower-Sheet_39: 127336471
+      LightTower-Sheet_4: -875940135
+      LightTower-Sheet_40: 1259135918
+      LightTower-Sheet_41: 1525476912
+      LightTower-Sheet_42: 1540985889
+      LightTower-Sheet_43: 865850174
+      LightTower-Sheet_44: 1180392866
+      LightTower-Sheet_45: 365596076
+      LightTower-Sheet_46: -1943247073
+      LightTower-Sheet_47: -1127584844
+      LightTower-Sheet_48: 651446624
+      LightTower-Sheet_49: -1090190108
+      LightTower-Sheet_5: 672025316
+      LightTower-Sheet_50: 1404313757
+      LightTower-Sheet_51: -1897427142
+      LightTower-Sheet_52: -1304937737
+      LightTower-Sheet_53: 664703642
+      LightTower-Sheet_54: 1546717971
+      LightTower-Sheet_55: -336721713
+      LightTower-Sheet_56: 1666740885
+      LightTower-Sheet_57: -812757666
+      LightTower-Sheet_58: 413521605
+      LightTower-Sheet_59: -361924479
+      LightTower-Sheet_6: 1885716694
+      LightTower-Sheet_60: 508188799
+      LightTower-Sheet_61: -282559674
+      LightTower-Sheet_62: 362406031
+      LightTower-Sheet_63: 1378427455
+      LightTower-Sheet_64: 132848030
+      LightTower-Sheet_65: 694284465
+      LightTower-Sheet_66: -1703700024
+      LightTower-Sheet_67: 1442215449
+      LightTower-Sheet_68: -1699009788
+      LightTower-Sheet_69: -1864639412
+      LightTower-Sheet_7: 736536731
+      LightTower-Sheet_70: 1644639368
+      LightTower-Sheet_71: -2008764620
+      LightTower-Sheet_72: -1451207230
+      LightTower-Sheet_73: -126885649
+      LightTower-Sheet_74: 420759812
+      LightTower-Sheet_75: -1087303564
+      LightTower-Sheet_76: 1029280966
+      LightTower-Sheet_77: -2100088695
+      LightTower-Sheet_78: 1973846083
+      LightTower-Sheet_79: -1827029243
+      LightTower-Sheet_8: 1281841514
+      LightTower-Sheet_80: -1984763494
+      LightTower-Sheet_81: 2032175993
+      LightTower-Sheet_82: -1673145969
+      LightTower-Sheet_9: 1067524786
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

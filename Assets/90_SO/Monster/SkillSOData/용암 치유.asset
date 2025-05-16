@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5878183462f4334295253e009046421, type: 3}
+  m_Name: "\uC6A9\uC554 \uCE58\uC720"
+  m_EditorClassIdentifier: 
+  skillIndex: 8
+  skillName: "\uC6A9\uC554 \uCE58\uC720"
+  skillType: 5
+  skillRange: 3
+  skillDescription: "\uBC94\uC704 \uB0B4 \uB9C8\uC871\uC758 \uCCB4\uB825\uC744 25%
+    \uD68C\uBCF5 \uC2DC\uD0A8\uB2E4."
+  duration: 0
+  skillCoolTime: 15
+  monsterskillEffectValue: 0.25
+  monsterskillProbablilty: 0.6
+  monsterID: 0
+  monsterNum: 0

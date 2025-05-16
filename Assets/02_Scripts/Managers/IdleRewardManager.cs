@@ -101,6 +101,7 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         // 실제 지급
         GameManager.Instance.gold += pendingGold;
         GameManager.Instance.upgradeStones += pendingStone;
+        SoundManager.Instance.PlaySFX("Reward");
 
         // 초기화
         pendingGold = 0;

@@ -106,6 +106,7 @@ public class BlastProjectile : ProjectileBase
     private void Explode()
     {
         Debug.Log("Æø¹ß");
+        SoundManager.Instance.PlaySFX("HitBlast");
         blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
         blastEffectInstance.Init(towerData, this.transform);
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius/2, LayerMaskData.monster);

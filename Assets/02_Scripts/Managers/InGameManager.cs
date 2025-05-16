@@ -92,6 +92,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         this.exp += exp;
         UpdateExp();
+        SoundManager.Instance.PlaySFX("EXP");
         if (this.exp >= maxExp)
             LevelUp();
     }
@@ -104,6 +105,7 @@ public class InGameManager : Singleton<InGameManager>
         maxExp = 13 + 14 * Math.Pow(level - 1, 0.98);
         UpdateExp();
         levelText.text = $"Lv {level}";
+        SoundManager.Instance.PlaySFX("LevelUp");
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         if(TowerManager.Instance.hand.IsHighlighting)TowerManager.Instance.hand.CancleCard();
         mulliganUI.gameObject.SetActive(true);

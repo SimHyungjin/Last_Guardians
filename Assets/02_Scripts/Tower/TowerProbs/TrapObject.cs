@@ -454,6 +454,7 @@ public class TrapObject : MonoBehaviour
                 break;
             case TrapObjectState.Ready:
                 animator.enabled = true;
+                CanPlant();
                 OnActive();
                 break;
             case TrapObjectState.Triggered:

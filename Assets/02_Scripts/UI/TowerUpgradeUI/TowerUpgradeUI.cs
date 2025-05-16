@@ -34,10 +34,12 @@ public class TowerUpgradeUI : MonoBehaviour
     private bool isButtonHeld = false;
     private int currentButtonIndex = -1;
 
-    private void Start()
+    private void Awake()
     {
         currentMasteryPoint.text = towerUpgrade.towerUpgradeData.currentMasteryPoint.ToString();
-        resetEntryButton.onClick.AddListener(OnResetButton);
+        resetEntryButton.onClick.AddListener(OnResetEntryButton);
+        cancleButton.onClick.AddListener(OnResetCancelButton);
+        resetButton.onClick.AddListener(OnResetButton);
         for (int i = 0; i < buttons.Count; i++)
         {
             Button button = buttons[i];
@@ -49,6 +51,10 @@ public class TowerUpgradeUI : MonoBehaviour
             }
         }
         UpdateButtons();
+    }
+    private void OnEnable()
+    {
+        resetPannel.gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -100,13 +106,23 @@ public class TowerUpgradeUI : MonoBehaviour
             {
                 SetButtonInactive(button);
             }
-            currentMasteryPoint.text = towerUpgrade.towerUpgradeData.currentMasteryPoint.ToString();
             UpdateButtonColor(button, i);
+            currentMasteryPoint.text = towerUpgrade.towerUpgradeData.currentMasteryPoint.ToString();
         }
     }
+    private void AllInActive()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Button button = buttons[i];
+            button.interactable = false;
 
+        }
+    }
+  
     private void HandleButtonHeld(Button button, bool isHeld)
     {
+
         if (isHeld)
         {
             isButtonHeld = true;
@@ -184,6 +200,11 @@ public class TowerUpgradeUI : MonoBehaviour
             String levelText = "Lv.  "+ towerUpgrade.towerUpgradeData.currentLevel[index].ToString();
             level[index].text = levelText;
         }
+        else
+        {
+            //button.GetComponent<Image>().color = Color.gray;
+            level[index].gameObject.SetActive(false);
+        }
     }
 
     public void ShowDescription(int index)
@@ -199,10 +220,26 @@ public class TowerUpgradeUI : MonoBehaviour
     }
 
 
-    public void OnResetButton()
+    public void OnResetEntryButton()
     {
         isResetPanelActive = true;
         resetPannel.gameObject.SetActive(true);
+        AllInActive();
+    }
+
+    public void OnResetCancelButton()
+    {
+        isResetPanelActive = false;
+        resetPannel.gameObject.SetActive(false);
+        UpdateButtons();
+    }
+
+    public void OnResetButton()
+    {
+        isResetPanelActive = false;
+        resetPannel.gameObject.SetActive(false);
+        towerUpgrade.Reset();
+        UpdateButtons();
     }
 }
 

@@ -56,5 +56,17 @@ public class TowerUpgrade :MonoBehaviour
             return;
         }
     }
+
+    public void Reset()
+    {
+        towerUpgradeData.currentLevel = new List<int>(new int[towerUpgradeData.currentLevel.Count]);
+        for (int i = 0; i < towerUpgradeData.currentLevel.Count; i++)
+        {
+            towerUpgradeData.currentLevel[i] = 0;
+        }
+        towerUpgradeData.usedMasteryPoint = 0;
+        towerUpgradeData.currentMasteryPoint = towerUpgradeData.totalMasteryPoint;
+        SaveSystem.SaveTowerUpgradeData(this);
+    }
 }
 

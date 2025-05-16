@@ -176,7 +176,7 @@ public class Towerbuilder : MonoBehaviour
             obstacleTilemap.SetTile(cell, null);
             obstacleTilemap.RefreshTile(cell);
         }
-
+        SoundManager.Instance.PlaySFX("TowerBuild");
         // 기존 타워 생성 로직
         GameObject go = Instantiate(
             towerPrefab,

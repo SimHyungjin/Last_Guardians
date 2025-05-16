@@ -437,7 +437,7 @@ MonoBehaviour:
   weatherInfo: {fileID: 2115534516}
   mapSlot: {fileID: 7299708671408734072}
   tutorial: {fileID: 1209083786}
-  hitEffectUI: {fileID: 731026894}
+  hitEffectUI: {fileID: 0}
   level: 0
   exp: 0
   isDie: 0

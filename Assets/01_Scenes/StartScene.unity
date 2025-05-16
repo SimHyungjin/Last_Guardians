@@ -801,6 +801,24 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: 8287263b28efb9e4c889e4f86447918d, type: 3}
   - {fileID: 8300000, guid: 39fcdc8fca983504f85b25051c8f3669, type: 3}
+  - {fileID: 8300000, guid: b317145c36dea2246bf00d890b901dda, type: 3}
+  - {fileID: 8300000, guid: 6d29874f828575c4c9784b8d93bedb09, type: 3}
+  - {fileID: 8300000, guid: 9c6f37f22b6371144a73a9780942e643, type: 3}
+  - {fileID: 8300000, guid: 8c61e5957e9eb284d979e9b7f01a5f98, type: 3}
+  - {fileID: 8300000, guid: 2cd5ba5a6454ebc4a8797b1ea53d94b1, type: 3}
+  - {fileID: 8300000, guid: 3e7174a39fa438648b3bc506fcc471bc, type: 3}
+  - {fileID: 8300000, guid: bf9a7e360dab9e849993de13c339653f, type: 3}
+  - {fileID: 8300000, guid: 89f7cec28bebe8149bea577040359499, type: 3}
+  - {fileID: 8300000, guid: dde4dbc54bb349141b572924a0e34202, type: 3}
+  - {fileID: 8300000, guid: 2430536c1c5dfa447ad3bd0630416350, type: 3}
+  - {fileID: 8300000, guid: fb36c0020709fbd4ca25e74294a1d8f4, type: 3}
+  - {fileID: 8300000, guid: 9f8bf73f42872a64db9cb5ec2e43c63c, type: 3}
+  - {fileID: 8300000, guid: 866219b59c28c7b41821b404bb16ed45, type: 3}
+  - {fileID: 8300000, guid: 99b61eccf3e490040b7cb1e6d90a1882, type: 3}
+  - {fileID: 8300000, guid: 1703cf073e761a544a95972add7ba2fa, type: 3}
+  - {fileID: 8300000, guid: 372915e76fb84a149a8402a3c6e6c895, type: 3}
+  - {fileID: 8300000, guid: 1579352079d91344ebcfe4aa4b0c2a0f, type: 3}
+  - {fileID: 8300000, guid: 014b4020a639e064a9255e45a03a6d17, type: 3}
   poolSize: 30
 --- !u!4 &1324375181
 Transform:

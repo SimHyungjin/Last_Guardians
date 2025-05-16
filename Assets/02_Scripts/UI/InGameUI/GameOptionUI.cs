@@ -13,6 +13,7 @@ public class GameOptionUI : MonoBehaviour
 
     public void OpenBook()
     {
+        SoundManager.Instance.PlaySFX("PopUp");
         if (isBookPanelOpen) return;
         isBookPanelOpen = true;
         bookPanel.SetActive(true);
@@ -30,12 +31,14 @@ public class GameOptionUI : MonoBehaviour
    
     public void OpenOption()
     {
+        
         bool next = !optionSlot.activeSelf;
         optionSlot.SetActive(next);
     }
 
     public void OpenOptionPanel()
     {
+        SoundManager.Instance.PlaySFX("PopUp");
         if (isOptionPanelOpen) return;
         isOptionPanelOpen = true;
         optionPanel.SetActive(true);
@@ -52,6 +55,7 @@ public class GameOptionUI : MonoBehaviour
 
     public void OpenHomePanel()
     {
+        SoundManager.Instance.PlaySFX("PopUp");
         if (isHomePanelOpen) return;
         isHomePanelOpen = true;
         homePanel.SetActive(true);

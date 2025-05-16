@@ -11,7 +11,7 @@ public class ExitButton : MonoBehaviour
     public void OnClickExit()
     {
         InGameManager.Instance.GameExit();
-        Time.timeScale = 1;
+        Time.timeScale = 0f;
         //SceneLoader.LoadSceneWithFade("MainScene", true);
     }
 

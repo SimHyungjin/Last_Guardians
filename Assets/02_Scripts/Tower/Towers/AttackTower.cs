@@ -217,13 +217,16 @@ public class AttackTower : BaseTower
         {
             case ProjectileType.Blast:
                 projectileFactory.MultiSpawnAndLaunch<BlastProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, modifyProjectileCount, environmentEffect);
+                SoundManager.Instance.PlaySFX("LunchBlast");
                 break;
             case ProjectileType.Magic:
 
                 projectileFactory.MultiSpawnAndLaunch<MagicProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, modifyProjectileCount, environmentEffect);
+                SoundManager.Instance.PlaySFX("LunchMagic");
                 break;
             case ProjectileType.Arrow:
                 projectileFactory.MultiSpawnAndLaunch<ArrowProjectile>(target.position, towerData, adaptedTowerData, this.transform, buffTowerIndex, modifyProjectileCount, environmentEffect);
+                SoundManager.Instance.PlaySFX("LunchArrow");
                 break;
             default:
                 Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");

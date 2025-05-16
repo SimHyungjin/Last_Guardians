@@ -25,4 +25,4 @@ MonoBehaviour:
   monster3Value: 38
   monster4ID: 105
   monster4Value: 1
-  bossMultiplier: 1
+  bossMultiplier: 1.21

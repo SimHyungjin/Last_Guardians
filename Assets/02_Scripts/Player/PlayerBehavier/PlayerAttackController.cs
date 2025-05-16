@@ -127,6 +127,7 @@ public class PlayerAttackController : MonoBehaviour
     /// </summary>
     private void Attack()
     {
+        SoundManager.Instance.PlaySFX("HitArrow");
         attackBehavior.Attack(currentTargetPos.Value, CalculateDamage());
         attackBehavior.ShowRange();
         StartCoroutine(AttackDelay());

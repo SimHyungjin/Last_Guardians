@@ -99,6 +99,7 @@ public class TrapObject : MonoBehaviour
         environmentEffect = new EnvironmentEffect();
         buffTowerIndex = new List<int>();
         trapEffectList= new List<ITrapEffect>();
+        bossImmunebuff = false;
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
@@ -262,6 +263,7 @@ public class TrapObject : MonoBehaviour
                 for(int i=0;i< buffTowerIndex.Count;i++)
                 {
                     trapEffectList[i].Apply(monster,TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
+                    Debug.Log(bossImmunebuff);
                 }
 
             }
@@ -454,6 +456,7 @@ public class TrapObject : MonoBehaviour
                 break;
             case TrapObjectState.Ready:
                 animator.enabled = true;
+                CanPlant();
                 OnActive();
                 break;
             case TrapObjectState.Triggered:

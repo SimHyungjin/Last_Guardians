@@ -4,24 +4,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Camera))]
 public class HitEffectUI : MonoBehaviour
 {
-    [SerializeField] private Image hitImage;
-    [SerializeField] private float flashAlpha = 0.5f;      // 피격 시 알파
-    [SerializeField] private float fadeDuration = 0.3f;    // 페이드 지속 시간
+    [SerializeField] private Material edgeFlashMaterial;
+    private float currentIntensity = 0f;
 
-    private void Awake()
+    private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        if (hitImage != null)
-            hitImage.color = new Color(1, 0, 0, 0); // 투명 빨강으로 초기화
+        if (edgeFlashMaterial != null)
+        {
+            edgeFlashMaterial.SetFloat("_Intensity", currentIntensity);
+            Graphics.Blit(src, dest, edgeFlashMaterial);
+        }
+        else
+        {
+            Graphics.Blit(src, dest);
+        }
     }
 
-    public void PlayHitEffect()
+    public void PlayHitEffect(float intensity = 0.7f, float fadeTime = 0.3f)
     {
-        if (InGameManager.Instance.isGameOver)
-            return;
+        DOTween.Kill(this); // 기존 트윈이 있다면 종료
+        DOTween.To(() => currentIntensity, x => currentIntensity = x, intensity, 0f)
+            .SetId(this) // 트윈 ID 설정
+            .OnUpdate(() => edgeFlashMaterial.SetFloat("_Intensity", currentIntensity))
+            .OnComplete(() => edgeFlashMaterial.SetFloat("_Intensity", 0));
 
-        hitImage.color = new Color(1, 0, 0, flashAlpha); // 알파 적용된 빨강
-        hitImage.DOFade(0, fadeDuration);                // 점점 투명하게
+        DOTween.To(() => currentIntensity, x => currentIntensity = x, 0f, fadeTime)
+            .SetEase(Ease.OutQuad)
+            .SetId(this)
+            .OnUpdate(() => edgeFlashMaterial.SetFloat("_Intensity", currentIntensity));
     }
 }

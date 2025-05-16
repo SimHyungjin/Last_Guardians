@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 1256849951774181873}
   - component: {fileID: 6824797600112762223}
   - component: {fileID: 5241834748197002896}
+  - component: {fileID: 8158121695559345907}
   m_Layer: 5
   m_Name: attackRangeUpgrade
   m_TagString: Untagged
@@ -172,7 +173,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &8158121695559345907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132380429686208109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &238831147383860070
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +200,7 @@ GameObject:
   - component: {fileID: 2542028965489963260}
   - component: {fileID: 5705341171711646337}
   - component: {fileID: 5203874641254860706}
+  - component: {fileID: 5563187654689685913}
   m_Layer: 5
   m_Name: attackPowerUpgrade
   m_TagString: Untagged
@@ -307,7 +322,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &5563187654689685913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238831147383860070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &543081597818947397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,6 +2335,7 @@ GameObject:
   - component: {fileID: 1905858067044089156}
   - component: {fileID: 1211662014217227895}
   - component: {fileID: 255404954104792242}
+  - component: {fileID: 8556436121842494414}
   m_Layer: 5
   m_Name: effectDurationUpgrade
   m_TagString: Untagged
@@ -2428,7 +2457,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &8556436121842494414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4439126047652919306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &4687504063176532325
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,6 +2562,7 @@ GameObject:
   - component: {fileID: 8124540392170700664}
   - component: {fileID: 1726349388918605834}
   - component: {fileID: 1573723598483607291}
+  - component: {fileID: 1558434874107397028}
   m_Layer: 5
   m_Name: Emergencyresponse
   m_TagString: Untagged
@@ -2641,7 +2684,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &1558434874107397028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984650428659533555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &5021578865448612334
 GameObject:
   m_ObjectHideFlags: 0
@@ -3134,6 +3190,7 @@ GameObject:
   - component: {fileID: 3085212066372205136}
   - component: {fileID: 3251436502384153716}
   - component: {fileID: 108105350043743090}
+  - component: {fileID: 2678091901980255102}
   m_Layer: 5
   m_Name: effectValueUpgrade
   m_TagString: Untagged
@@ -3255,7 +3312,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &2678091901980255102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328800376315549010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &5502003143531233666
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,6 +3622,7 @@ GameObject:
   - component: {fileID: 1236066716721199717}
   - component: {fileID: 6469262486560578783}
   - component: {fileID: 7862668158790358906}
+  - component: {fileID: 5432187610108228682}
   m_Layer: 5
   m_Name: multipleAttackUpgrade
   m_TagString: Untagged
@@ -3673,7 +3744,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &5432187610108228682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827978283581059269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &5873992883226962079
 GameObject:
   m_ObjectHideFlags: 0
@@ -3993,6 +4077,7 @@ GameObject:
   - component: {fileID: 3263209817666307104}
   - component: {fileID: 8520580510534921211}
   - component: {fileID: 4621615140230233417}
+  - component: {fileID: 8493289500337652167}
   m_Layer: 5
   m_Name: effectRangeUpgrade
   m_TagString: Untagged
@@ -4114,7 +4199,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &8493289500337652167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084521565220368727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &6162912010555177786
 GameObject:
   m_ObjectHideFlags: 0
@@ -4128,6 +4226,7 @@ GameObject:
   - component: {fileID: 6272210755079600341}
   - component: {fileID: 1832612307347283939}
   - component: {fileID: 8938322269054410462}
+  - component: {fileID: 6309234556333352841}
   m_Layer: 5
   m_Name: penetrationUpgrade
   m_TagString: Untagged
@@ -4249,7 +4348,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &6309234556333352841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162912010555177786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &6162951005176272886
 GameObject:
   m_ObjectHideFlags: 0
@@ -4263,6 +4375,7 @@ GameObject:
   - component: {fileID: 7005579541910872722}
   - component: {fileID: 479905430317811126}
   - component: {fileID: 7202748448848030293}
+  - component: {fileID: 5635040268256898554}
   m_Layer: 5
   m_Name: bossSlayerUpgrade
   m_TagString: Untagged
@@ -4384,7 +4497,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &5635040268256898554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162951005176272886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &6220526235277905536
 GameObject:
   m_ObjectHideFlags: 0
@@ -4746,6 +4872,7 @@ GameObject:
   - component: {fileID: 7995103174292717034}
   - component: {fileID: 7949366853060996612}
   - component: {fileID: 8860016599495576796}
+  - component: {fileID: 6199010806194645947}
   m_Layer: 5
   m_Name: catalysisUpgrade
   m_TagString: Untagged
@@ -4867,7 +4994,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &6199010806194645947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6484097686111927587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &6539522550079283045
 GameObject:
   m_ObjectHideFlags: 0
@@ -5283,6 +5423,7 @@ GameObject:
   - component: {fileID: 8365983801212265590}
   - component: {fileID: 1268204901468915111}
   - component: {fileID: 3461744595537837274}
+  - component: {fileID: 1049238669544991064}
   m_Layer: 5
   m_Name: effecttransferUpgrade
   m_TagString: Untagged
@@ -5405,7 +5546,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &1049238669544991064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6976135445473846153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &7244608114851334266
 GameObject:
   m_ObjectHideFlags: 0
@@ -5419,6 +5573,7 @@ GameObject:
   - component: {fileID: 5626892198822405572}
   - component: {fileID: 2562090852134253812}
   - component: {fileID: 9177227361174911986}
+  - component: {fileID: 4768617137785429478}
   m_Layer: 5
   m_Name: attackSpeedUpgrade
   m_TagString: Untagged
@@ -5540,7 +5695,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &4768617137785429478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244608114851334266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &7592086322019028741
 GameObject:
   m_ObjectHideFlags: 0
@@ -6510,6 +6678,7 @@ GameObject:
   - component: {fileID: 6143742735821696195}
   - component: {fileID: 5699974644149672801}
   - component: {fileID: 3516708629602015289}
+  - component: {fileID: 5950002227458997436}
   m_Layer: 5
   m_Name: continuousAttackUpgrade
   m_TagString: Untagged
@@ -6631,7 +6800,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &5950002227458997436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495606896241506451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade
 --- !u!1 &8602734525421147225
 GameObject:
   m_ObjectHideFlags: 0
@@ -6951,6 +7133,7 @@ GameObject:
   - component: {fileID: 3314342694345950697}
   - component: {fileID: 5896084823010330900}
   - component: {fileID: 8550625117282707263}
+  - component: {fileID: 7376232329442493365}
   m_Layer: 5
   m_Name: combetMasteryUpgrade
   m_TagString: Untagged
@@ -7072,4 +7255,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26aebcda875243438e729cf77a15a30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickedButton: {fileID: 0}
+  holdSoundName: Upgrade
+--- !u!114 &7376232329442493365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9117156459607371480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37116f5364f6c845be0e654b56feac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSoundName: Upgrade

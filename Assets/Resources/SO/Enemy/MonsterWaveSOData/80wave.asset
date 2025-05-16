@@ -16,7 +16,7 @@ MonoBehaviour:
   waveLevel: 16
   isBoss: 1
   waveStartDelay: 4
-  monsterSpawnInterval: 0.6
+  monsterSpawnInterval: 0.1
   monster1ID: 1
   monster1Value: 25
   monster2ID: 2
@@ -25,4 +25,4 @@ MonoBehaviour:
   monster3Value: 65
   monster4ID: 102
   monster4Value: 1
-  bossMultiplier: 1.15
+  bossMultiplier: 1.49

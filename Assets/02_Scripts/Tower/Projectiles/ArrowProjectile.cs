@@ -78,6 +78,7 @@ public class ArrowProjectile : ProjectileBase
                     else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]), environmentEffect);
                 }
             }
+            SoundManager.Instance.PlaySFX("HitArrow");
             OnDespawn();
             PoolManager.Instance.Despawn<ArrowProjectile>(this);
 

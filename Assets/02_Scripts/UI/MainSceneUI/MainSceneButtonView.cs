@@ -16,6 +16,16 @@ public class MainSceneButtonView : MonoBehaviour
 
     public void Init(MainSceneManager mainSceneManager)
     {
+        
+        inventoryBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
+        bookBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
+        soundOptionBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
+        idleBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
+        TowerUpgradeBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
+        startBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("FadeOut"));
+
+
+
         startBtn.onClick.AddListener(() =>
         {
             SceneLoader.LoadSceneWithFade("GameScene", true, ToGameScene);

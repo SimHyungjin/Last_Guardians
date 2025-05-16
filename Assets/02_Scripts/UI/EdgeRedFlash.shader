@@ -18,7 +18,6 @@ Shader "Custom/EdgeRedFlash"
             #include "UnityCG.cginc"
 
             sampler2D _MainTex;
-            float4 _MainTex_TexelSize;
             float _Intensity;
 
             struct appdata

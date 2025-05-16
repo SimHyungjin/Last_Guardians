@@ -162,6 +162,14 @@ public class InGameManager : Singleton<InGameManager>
     {
         if (gameoverUI.gameObject.activeSelf) return;
         isGameOver = true;
+
+        foreach(var tower in TowerManager.Instance.Towers)
+        {
+            if(tower is AttackTower)
+            {
+                tower.OnDisabled();
+            }
+        }
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);

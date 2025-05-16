@@ -106,14 +106,28 @@
 #### &emsp;&emsp;멀리건(초기카드선택)
 
 
+<img src="https://github.com/user-attachments/assets/83d16d1f-874b-4a20-9ddd-14b63ceb6ea5" width="800" height="400"/>
+
 
 #### &emsp;&emsp;타워설치
 
+<img src="https://github.com/user-attachments/assets/919ea827-803d-4a0d-83fd-d28c6f45b1be" width="800" height="400"/>
+
 #### &emsp;&emsp;레벨업
+
+
+<img src="https://github.com/user-attachments/assets/c1b4b830-b05d-4766-a89b-8c3a155ec380" width="800" height="400"/>
 
 #### &emsp;&emsp;현상금소환
 
+
+<img src="https://github.com/user-attachments/assets/91d5bb2a-bd0e-42a3-8b85-1d26de7c29e1" width="800" height="400"/>
+
 #### &emsp;&emsp;게임종료
  
+ 
+<img src="https://github.com/user-attachments/assets/268c2e94-5a8c-46e1-8f9f-e52276977be6" width="800" height="400"/>
+
+
 <br><br> 
 [목차로](#목차)<br>

@@ -22,12 +22,14 @@ public class ItemActionHandler : MonoBehaviour
     {
         if (itemInstance?.AsEquipData == null) return;
         equipment.Equip(itemInstance);
+        SaveSystem.SaveEquipData();
     }
 
     public void UnEquip(ItemInstance itemInstance)
     {
         if (itemInstance?.AsEquipData == null) return;
         equipment.UnEquip(itemInstance);
+        SaveSystem.SaveEquipData();
 
     }
     public ItemInstance Upgrade(ItemInstance selectItem)
@@ -43,7 +45,9 @@ public class ItemActionHandler : MonoBehaviour
 
         if (isEquipped) equipment.Equip(result);
 
-        SaveSystem.SaveGame();
+        SaveSystem.SaveEquipData();
+        SaveSystem.SaveInventoryData();
+        SaveSystem.SaveInventoryGoods();
         return result;
     }
 
@@ -62,7 +66,9 @@ public class ItemActionHandler : MonoBehaviour
         if (money) GameManager.Instance.gold += goods;
         else GameManager.Instance.upgradeStones += goods;
 
-        SaveSystem.SaveGame();
+        SaveSystem.SaveEquipData();
+        SaveSystem.SaveInventoryData();
+        SaveSystem.SaveInventoryGoods();
         return goods;
     }
 }

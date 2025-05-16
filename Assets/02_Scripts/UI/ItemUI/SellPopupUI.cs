@@ -20,7 +20,7 @@ public class SellPopupUI : PopupBase
     private ItemActionHandler itemActionHandler;
     private ItemSelectionController selectionController;
 
-    public Action OnSellAction;
+    public Action onSellAction;
 
     public override void Init()
     {
@@ -42,6 +42,7 @@ public class SellPopupUI : PopupBase
         cancelButton.onClick.AddListener(Close);
 
         selectionController.selectSlotListAction += RefreshSellPopupUI;
+        Close();
     }
 
     public override void Open()
@@ -115,6 +116,6 @@ public class SellPopupUI : PopupBase
         inventorySlotContainer.Display();
         Close();
 
-        OnSellAction?.Invoke();
+        onSellAction?.Invoke();
     }
 }

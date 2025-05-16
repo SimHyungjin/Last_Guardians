@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ItemPopupUI : PopupBase
 {
+    [SerializeField] private ItemPopupUIText itemPopupUIText;
     [SerializeField] private GameObject root;
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI itemName;
@@ -24,11 +25,11 @@ public class ItemPopupUI : PopupBase
     private InventorySlotContainer inventorySlotContainer;
 
     private ItemInstance itemInstance;
-    public Action equipAction;
 
     public override void Init()
     {
         base.Init();
+        itemPopupUIText.Init();
         var mainSceneManager = MainSceneManager.Instance;
         inventory = mainSceneManager.inventory;
         equipment = mainSceneManager.equipment;
@@ -47,15 +48,13 @@ public class ItemPopupUI : PopupBase
 
     public override void Open()
     {
-        itemInstance = selectionController.selectedData;
-        if (itemInstance == null) return;
         base.Open();
         SetViewActive(true);
+        UpdatePopupUI();
     }
 
     public override void Close()
     {
-        SetViewActive(false);
         base.Close();
     }
 
@@ -74,11 +73,12 @@ public class ItemPopupUI : PopupBase
 
     public void UpdatePopupUI()
     {
-        NeedInit();
         if (TryClearIfInventoryEmpty()) return;
 
         inventorySlotContainer.Refresh();
         equipmentSlotContainer.Refresh();
+
+        itemInstance = selectionController.selectedData;
 
         if (itemInstance == null) return;
 
@@ -89,8 +89,6 @@ public class ItemPopupUI : PopupBase
         bool isEquipped = equipment.IsEquipped(itemInstance);
         equipButton.gameObject.SetActive(!isEquipped);
         unequipButton.gameObject.SetActive(isEquipped);
-
-        equipAction?.Invoke();
     }
 
     private bool TryClearIfInventoryEmpty()

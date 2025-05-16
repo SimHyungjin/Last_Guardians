@@ -78,8 +78,8 @@ public class Upgrade
     {
         GameManager.Instance.gold -= rule.requiredGold;
         GameManager.Instance.upgradeStones -= rule.requiredUpgradeStones;
-        SaveSystem.SaveGoldReward(-rule.requiredGold);
-        SaveSystem.SaveUpgradeStonedReward(-rule.requiredUpgradeStones);
+        SaveSystem.SaveGetGold(-rule.requiredGold);
+        SaveSystem.SaveGetUpgradeStone(-rule.requiredUpgradeStones);
     }
     /// <summary>
     /// 업그레이드 성공 시 업그레이드된 아이템을 반환합니다. 업그레이드 규칙에 따라 업그레이드된 아이템을 찾습니다.

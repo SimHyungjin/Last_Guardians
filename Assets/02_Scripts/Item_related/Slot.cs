@@ -78,9 +78,16 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     {
         InventoryManager inventoryManager = MainSceneManager.Instance.inventoryManager;
         if (data == null || inventoryManager == null) return;
-        inventoryManager.inventoryUIManager.OpenPopup(PopupType.Item);
-        if (inventoryManager.inventorySelectionController.selectionMode == SelectionMode.Single) inventoryManager.inventorySelectionController.SetSelected(this);
-        else inventoryManager.inventorySelectionController.SelectSlotList(this);
+
+        if (inventoryManager.inventorySelectionController.selectionMode == SelectionMode.Single)
+        {
+            inventoryManager.inventorySelectionController.SetSelected(this);
+            inventoryManager.inventoryUIManager.OpenPopup(PopupType.Item);
+        }
+        else
+        {
+            inventoryManager.inventorySelectionController.SelectSlotList(this);
+        }
     }
 
     public ItemInstance GetData() => data;

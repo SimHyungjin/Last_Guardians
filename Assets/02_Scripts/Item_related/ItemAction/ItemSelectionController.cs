@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum SelectionMode
@@ -23,7 +24,7 @@ public class ItemSelectionController : MonoBehaviour
     public void ToggleMode(SelectionMode selectionMode)
     {
         this.selectionMode = selectionMode;
-        selectedData = null;
+        if(!MainSceneManager.Instance.inventory.GetAll().Any(item => item.UniqueID == selectedData?.UniqueID)) selectedData = null;
         selectedDataList.Clear();
     }
     public void SetSelected(Slot slot)
@@ -62,6 +63,7 @@ public class ItemSelectionController : MonoBehaviour
     {
         selectedData = null;
     }
+
     public void ClearSelects()
     {
         selectedDataList.Clear();

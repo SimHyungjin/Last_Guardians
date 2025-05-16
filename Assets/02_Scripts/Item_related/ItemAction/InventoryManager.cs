@@ -14,5 +14,6 @@ public class InventoryManager : MonoBehaviour
     {
         inventorySlotContainer.Init();
         equipmentSlotContainer.Init();
+        inventoryUIManager.Init();
     }
 }

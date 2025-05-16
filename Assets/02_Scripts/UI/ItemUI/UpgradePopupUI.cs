@@ -1,6 +1,6 @@
+using System;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +31,8 @@ public class UpgradePopupUI : PopupBase
 
     ItemInstance currentData;
     ItemInstance upgradeData;
+
+    public Action onUpgradeAction;
 
     public override void Init()
     {
@@ -78,13 +80,13 @@ public class UpgradePopupUI : PopupBase
 
     private void RefreshText()
     {
-        if(currentData == null)
+        if (currentData == null)
         {
             EmptyText();
             upgradeResultText.text = "선택된 장비가 없습니다";
             return;
         }
-        if(upgradeData == null)
+        if (upgradeData == null)
         {
             EmptyText();
             upgradeResultText.text = "최종 형태입니다.";
@@ -164,6 +166,11 @@ public class UpgradePopupUI : PopupBase
 
     private void OnUpgradeClick()
     {
-        SetData(actionHandler.Upgrade(currentData));
+        var data = actionHandler.Upgrade(currentData);
+        selectionController.SetSelected(data);
+        SetData(data);
+        RefreshText();
+
+        onUpgradeAction?.Invoke();
     }
 }

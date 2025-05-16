@@ -24,15 +24,8 @@ public class ItemPopupUIText : PopupBase
         base.Init();
         selectionController = MainSceneManager.Instance.inventoryManager.inventorySelectionController;
         selectionController.selectSlot += UpdateText;
-
-    }
-    public override void Open()
-    {
-        base.Open();
         UpdateText(selectionController.selectedData);
-
     }
-
     /// <summary>
     /// 아이템 팝업에서 아이템을 선택했을 때 호출됩니다.
     /// 값이 있을 경우 텍스트를 업데이트합니다.

@@ -51,8 +51,8 @@ public class InventoryUIButtonView : MonoBehaviour
     {
         var itemConnecter = MainSceneManager.Instance.inventoryManager.inventoryUIManager;
 
-        itemConnecter.itemPopupController.equipAction += RefreshGoods;
-        itemConnecter.sellPopupController.OnSellAction += RefreshGoods;
+        itemConnecter.sellPopupController.onSellAction += RefreshGoods;
+        itemConnecter.upgradePopupController.onUpgradeAction += RefreshGoods;
 
         sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.GradeDescending));
         sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));

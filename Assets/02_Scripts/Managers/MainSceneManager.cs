@@ -13,7 +13,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public Inventory inventory;
     public Equipment equipment;
     public Upgrade upgrade;
-    public InventoryGroup inventoryGroup;
+    public InventoryManager inventoryManager;
     public TowerUpgrade TowerUpgrade;
     public TutorialUI EquipTutorial;
     public TutorialUI UpgradeTutorial;
@@ -122,12 +122,12 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public void LoadInventory(GameObject obj)
     {
         if (panelMap.ContainsKey("InventoryGroup")) return;
+        upgrade.Init();
 
         var groupObj = Utils.InstantiatePrefabFromResource("UI/MainScene/InventoryGroup", obj.transform);
-        inventoryGroup = groupObj.GetComponent<InventoryGroup>();
-
-        upgrade.Init();
-        inventoryGroup.Init();
+        inventoryManager = groupObj.GetComponent<InventoryManager>();
+        inventoryManager.Init();
+        
         panelMap["InventoryGroup"] = groupObj;
     }
 }

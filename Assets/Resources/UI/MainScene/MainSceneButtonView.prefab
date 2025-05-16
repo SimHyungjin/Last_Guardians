@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 7787243274242550986}
   - component: {fileID: 4092137534037901495}
   - component: {fileID: 1940961156930511560}
-  - component: {fileID: 1190328621372032460}
+  - component: {fileID: 2722920271505168374}
   m_Layer: 5
   m_Name: IdleBtn
   m_TagString: Untagged
@@ -631,7 +631,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1190328621372032460
+--- !u!114 &2722920271505168374
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -640,10 +640,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2525276882595237617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb2b625d9e70d74a9c24913a32424bb, type: 3}
+  m_Script: {fileID: 11500000, guid: fa0714d3a44d1e74fa136331929c20a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popup: {fileID: 7349241184494464012, guid: b5151ea1b107e5b45bcb308de7ea0512, type: 3}
 --- !u!1 &2842898847554531191
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,6 +697,8 @@ MonoBehaviour:
   bookBtn: {fileID: 8704957689950158401}
   soundOptionBtn: {fileID: 7990749762578589508}
   idleBtn: {fileID: 1940961156930511560}
+  TowerUpgradeBtn: {fileID: 0}
+  idlePopup: {fileID: 0}
 --- !u!1 &6239335397694027470
 GameObject:
   m_ObjectHideFlags: 0

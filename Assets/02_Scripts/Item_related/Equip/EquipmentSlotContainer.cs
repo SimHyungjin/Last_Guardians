@@ -23,6 +23,7 @@ public class EquipmentSlotContainer : MonoBehaviour
         equipment = MainSceneManager.Instance.equipment;
         equipment.OnEquip += BindSlot;
         equipment.OnUnequip += UnbindSlot;
+        BindAll();
     }
 
     public void BindAll()
@@ -71,9 +72,6 @@ public class EquipmentSlotContainer : MonoBehaviour
     {
         foreach (var slot in equipSlots.Values)
         {
-            var instance = slot.GetData();
-            //if (instance?.AsEquipData != null) slot.SetEquipped(equipment.IsEquipped(instance));
-            //else slot.SetEquipped(false);
             slot.Refresh();
         }
     }

@@ -3444,6 +3444,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1191605606042867254}
+  - {fileID: 2796426781058952767}
   - {fileID: 2315018134901468075}
   - {fileID: 8810188247347987677}
   - {fileID: 2546245066552972205}
@@ -3469,7 +3470,7 @@ MonoBehaviour:
   selectionController: {fileID: 4291139372764446734}
   itemPopupController: {fileID: 1412693921106278078}
   upgradePopupController: {fileID: 1291353593493065353}
-  sellPopupController: {fileID: 1507776687666467052}
+  sellPopupController: {fileID: 5452252452309818475}
 --- !u!1 &2293740734121047777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3613,7 +3614,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7517952533089401941}
-  - component: {fileID: 1037954525305767962}
+  - component: {fileID: 2895417757113665649}
   m_Layer: 0
   m_Name: InventoryGroup
   m_TagString: Untagged
@@ -3640,7 +3641,7 @@ Transform:
   - {fileID: 7790182317418586122}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1037954525305767962
+--- !u!114 &2895417757113665649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3649,13 +3650,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2336566148953384149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47f11d1c2d2b87c4283ade366f5eb647, type: 3}
+  m_Script: {fileID: 11500000, guid: 462625131882f72488c07bdb9daa47e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipmentSlotContainer: {fileID: 1168947176450942081}
   inventorySlotContainer: {fileID: 1133048745831635618}
-  itemConnecter: {fileID: 1239798290926861943}
-  inventoryUI: {fileID: 4206990026796269286}
+  equipmentSlotContainer: {fileID: 1168947176450942081}
+  itemActionHandler: {fileID: 4619088927583625966}
+  inventorySelectionController: {fileID: 4291139372764446734}
+  inventoryUIManager: {fileID: 1239798290926861943}
 --- !u!1 &2344029631634078326
 GameObject:
   m_ObjectHideFlags: 0
@@ -8890,9 +8892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af8cbc4d961a3cb42a9550f26bb4a0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySlotContainer: {fileID: 1133048745831635618}
-  itemPopupController: {fileID: 1412693921106278078}
-  upgradePopup: {fileID: 1291353593493065353}
 --- !u!1 &6068416464679555916
 GameObject:
   m_ObjectHideFlags: 0
@@ -9159,7 +9158,7 @@ GameObject:
   - component: {fileID: 2546245066552972205}
   - component: {fileID: 3686305015955533076}
   - component: {fileID: 190266593339763703}
-  - component: {fileID: 1507776687666467052}
+  - component: {fileID: 5452252452309818475}
   m_Layer: 5
   m_Name: SellPopup
   m_TagString: Untagged
@@ -9231,7 +9230,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1507776687666467052
+--- !u!114 &5452252452309818475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9240,11 +9239,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6222673599845349014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae5e7a4a1923faa4793bfd44c0e1537c, type: 3}
+  m_Script: {fileID: 11500000, guid: ac09556d2ea67ff409be0a884f2eef8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsInit: 0
-  slotContainerView: {fileID: 4285705657973701605}
+  slotContainerView: {fileID: 0}
   slots: []
   sellButton: {fileID: 5733169688968028699}
   apartButton: {fileID: 1739472853548114555}
@@ -11089,6 +11088,54 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7520631206439029100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2796426781058952767}
+  - component: {fileID: 4619088927583625966}
+  m_Layer: 5
+  m_Name: ActionHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2796426781058952767
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7520631206439029100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8942796264705458106}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4619088927583625966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7520631206439029100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f85ccf6229c8d4d98bc968ab15046e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7596051167907501716
 GameObject:
   m_ObjectHideFlags: 0
@@ -11830,7 +11877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5af69f4231184b45bb92a2f2e700d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPopupController: {fileID: 1412693921106278078}
+  IsInit: 0
   attackTypeText: {fileID: 533062737843707976}
   attackPowerText: {fileID: 993143037025155536}
   attackSpeedText: {fileID: 2217155982680046829}

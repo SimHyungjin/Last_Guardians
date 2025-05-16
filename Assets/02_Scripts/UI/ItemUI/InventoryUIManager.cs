@@ -6,22 +6,31 @@ public enum PopupType
     Upgrade,
     Sell
 }
-public class ItemConnecter : MonoBehaviour
+public class InventoryUIManager : MonoBehaviour
 {
-    public SelectionController selectionController;
+    public ItemSelectionController selectionController;
 
-    public ItemPopupController itemPopupController;
-    public UpgradePopupController upgradePopupController;
-    public SellPopupContoroller sellPopupController;
+    public ItemPopupUI itemPopupController;
+    public UpgradePopupUI upgradePopupController;
+    public SellPopupUI sellPopupController;
 
-    private void OnEnable()
+    public void Init()
     {
+        itemPopupController.Init();
+        upgradePopupController.Init();
+        sellPopupController.Init();
+
         itemPopupController.Close();
         upgradePopupController.Close();
         sellPopupController.Close();
-
-        selectionController.RefreshSlot(null);
     }
+
+    //private void OnEnable()
+    //{
+    //    itemPopupController.Close();
+    //    upgradePopupController.Close();
+    //    sellPopupController.Close();
+    //}
 
     public void OpenPopup(PopupType popupType)
     {
@@ -40,14 +49,11 @@ public class ItemConnecter : MonoBehaviour
                 itemPopupController.Open();
                 break;
             case PopupType.Upgrade:
-                upgradePopupController.SetData(selectionController.selectedData);
                 upgradePopupController.Open();
                 break;
             case PopupType.Sell:
                 sellPopupController.Open();
                 break;
         }
-
-        //itemPopupController.UpdatePopupUI();
     }
 }

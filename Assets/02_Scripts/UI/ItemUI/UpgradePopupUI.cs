@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradePopupController : PopupBase
+public class UpgradePopupUI : PopupBase
 {
     [SerializeField] private Slot currentSlot;
     [SerializeField] private Slot upgradeSlot;
@@ -25,11 +25,18 @@ public class UpgradePopupController : PopupBase
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button cancelButton;
 
-    ItemInstance currectData;
+
+    private ItemActionHandler actionHandler;
+    private ItemSelectionController selectionController;
+
+    ItemInstance currentData;
     ItemInstance upgradeData;
 
     public override void Init()
     {
+        var inventoryManager = MainSceneManager.Instance.inventoryManager;
+        actionHandler = inventoryManager.itemActionHandler;
+        selectionController = inventoryManager.inventorySelectionController;
         upgradeButton.onClick.AddListener(OnUpgradeClick);
         cancelButton.onClick.AddListener(() => Close());
         RefreshText();
@@ -38,26 +45,24 @@ public class UpgradePopupController : PopupBase
     public override void Open()
     {
         base.Open();
-        //SetData(currectData);
+        SetData(selectionController.selectedData);
     }
 
     public override void Close()
     {
-        base.Close();
-        currectData = null;
         upgradeData = null;
+        base.Close();
     }
 
 
     public void SetData(ItemInstance instance)
     {
-        NeedInit();
-        currectData = instance;
+        currentData = instance;
         upgradeData = null;
-        if (currectData != null && currectData.AsEquipData != null)
+        if (currentData != null && currentData.AsEquipData != null)
         {
-            currentSlot.SetData(currectData);
-            upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(currectData.AsEquipData.ItemIndex + 100);
+            currentSlot.SetData(currentData);
+            upgradeData = GameManager.Instance.ItemManager.GetItemInstanceByIndex(currentData.AsEquipData.ItemIndex + 100);
             upgradeSlot.SetData(upgradeData);
             upgradeSlot.gameObject.SetActive(true);
         }
@@ -73,7 +78,7 @@ public class UpgradePopupController : PopupBase
 
     private void RefreshText()
     {
-        if(currectData == null)
+        if(currentData == null)
         {
             EmptyText();
             upgradeResultText.text = "선택된 장비가 없습니다";
@@ -87,7 +92,7 @@ public class UpgradePopupController : PopupBase
         }
         upgradeButton.interactable = true;
         var upgradeSystem = MainSceneManager.Instance.upgrade;
-        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currectData.Data.ItemGrade);
+        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currentData.Data.ItemGrade);
 
         if (rule == null)
         {
@@ -96,7 +101,7 @@ public class UpgradePopupController : PopupBase
             return;
         }
 
-        EquipData before = currectData.AsEquipData;
+        EquipData before = currentData.AsEquipData;
         EquipData after = upgradeData.AsEquipData;
 
         SetStatText(attackPower, before.attackPower, after.attackPower, "공격력");
@@ -107,7 +112,7 @@ public class UpgradePopupController : PopupBase
         SetStatText(penetration, before.penetration, after.penetration, "관통력");
         SetStatText(moveSpeed, before.moveSpeed, after.moveSpeed, "이동속도");
 
-        upgradeResultText.text = $"{currectData.Data.ItemGrade} → {upgradeData.Data.ItemGrade}\n성공확률 : {rule.successRate}%";
+        upgradeResultText.text = $"{currentData.Data.ItemGrade} → {upgradeData.Data.ItemGrade}\n성공확률 : {rule.successRate}%";
         gold.text = rule.requiredGold.ToString();
         stone.text = rule.requiredUpgradeStones.ToString();
     }
@@ -159,24 +164,6 @@ public class UpgradePopupController : PopupBase
 
     private void OnUpgradeClick()
     {
-        var main = MainSceneManager.Instance;
-
-        main.upgrade.TryUpgrade(currectData, out var result);
-
-        SaveSystem.RemoveEquip(currectData.UniqueID);
-        main.inventory.RemoveItem(currectData);
-
-        SaveSystem.SaveEquipReward(result);
-        main.inventory.AddItem(result);
-
-        if (main.equipment.IsEquipped(currectData))
-            main.equipment.Equip(result);
-
-        main.inventoryGroup.itemConnecter.itemPopupController.SetData(result);
-        main.inventoryGroup.itemConnecter.itemPopupController.UpdatePopupUI();
-        main.inventoryGroup.itemConnecter.selectionController.RefreshSlot(result);
-        main.inventoryGroup.inventorySlotContainer.Display(main.inventory.GetFilteredView());
-
-        SetData(result);
+        SetData(actionHandler.Upgrade(currentData));
     }
 }

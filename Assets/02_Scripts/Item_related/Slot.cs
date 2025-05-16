@@ -17,7 +17,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public void SetData(ItemInstance newData)
     {
         data = newData;
-        icon.sprite = data?.Data?.Icon;
         Refresh();
     }
 
@@ -32,12 +31,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void Refresh()
     {
-        if (data == null)
+        if (data == null || data.Data == null)
         {
             Clear();
             return;
         }
-
+        icon.sprite = data.Data.Icon;
         SetIcon(true);
         SetGradeEffect();
     }
@@ -77,10 +76,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (data == null) return;
-        SelectionController selectionController = MainSceneManager.Instance.inventoryGroup.itemConnecter.selectionController;
-        if(selectionController.selectionMode == SelectionMode.Single)selectionController.SelectSlot(this);
-        else selectionController.SelectSlotList(this);
+        InventoryManager inventoryManager = MainSceneManager.Instance.inventoryManager;
+        if (data == null || inventoryManager == null) return;
+        inventoryManager.inventoryUIManager.OpenPopup(PopupType.Item);
+        if (inventoryManager.inventorySelectionController.selectionMode == SelectionMode.Single) inventoryManager.inventorySelectionController.SetSelected(this);
+        else inventoryManager.inventorySelectionController.SelectSlotList(this);
     }
 
     public ItemInstance GetData() => data;

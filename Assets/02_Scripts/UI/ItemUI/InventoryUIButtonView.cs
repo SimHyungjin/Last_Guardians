@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 인벤토리 UI의 버튼을 관리하는 클래스입니다.
 /// </summary>
-public class InventoryUI : MonoBehaviour
+public class InventoryUIButtonView : MonoBehaviour
 {
     [field: Header("재화 UI 버튼")]
     [field: SerializeField] public TextMeshProUGUI goldText { get; private set; }
@@ -49,9 +49,9 @@ public class InventoryUI : MonoBehaviour
 
     public void Init()
     {
-        var itemConnecter = MainSceneManager.Instance.inventoryGroup.itemConnecter;
+        var itemConnecter = MainSceneManager.Instance.inventoryManager.inventoryUIManager;
 
-        itemConnecter.itemPopupController.OnItemPopupUIUpdate += RefreshGoods;
+        itemConnecter.itemPopupController.equipAction += RefreshGoods;
         itemConnecter.sellPopupController.OnSellAction += RefreshGoods;
 
         sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.GradeDescending));

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 장비 패널의 텍스트를 업데이트하는 클래스입니다.
 /// </summary>
-public class EquipmentPanelText : MonoBehaviour
+public class EquipmentUIText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI attackTypeText;
     [SerializeField] private TextMeshProUGUI attackPowerText;

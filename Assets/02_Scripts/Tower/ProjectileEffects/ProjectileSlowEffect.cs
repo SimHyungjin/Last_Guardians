@@ -11,7 +11,7 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
         IsWater(environmentEffect);
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
-            target.ApplySlowdown(towerData.EffectValue+ addObstacleValue, towerData.EffectDuration);
+            target.ApplySlowdown(adaptedTowerData.effectValue+ addObstacleValue, adaptedTowerData.effectDuration);
         }
     }
 

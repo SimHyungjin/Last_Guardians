@@ -354,6 +354,7 @@ public class BaseMonster : MonoBehaviour
         if (!isDisable)
         {
             //데미지받아서 죽은게 아니라면
+            if(this is BossMonster) TowerManager.Instance.ApplyBossSlayer();
             MonsterManager.Instance.MonsterKillCount++;
             EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);

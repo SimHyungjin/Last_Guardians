@@ -42,6 +42,8 @@ public class Equipment
 
         RecalculateStats();
         if (updateUI) OnEquip?.Invoke(instance);
+
+        AnalyticsLogger.LogUserEquip(instance.Data.ItemIndex,1);
     }
 
     /// <summary>

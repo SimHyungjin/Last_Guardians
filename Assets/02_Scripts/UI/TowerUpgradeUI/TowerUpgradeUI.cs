@@ -23,14 +23,23 @@ public class TowerUpgradeUI : MonoBehaviour
     [SerializeField] private List<TextMeshProUGUI> level;
     [SerializeField] private Image fillBox;
 
+    [Header("리셋 버튼")]
+    bool isResetPanelActive = false;
+    [SerializeField] private Button resetEntryButton;
+    [SerializeField] private Image resetPannel;
+    [SerializeField] private Button resetButton;
+    [SerializeField] private Button cancleButton;
 
     private float buttonHoldTime = 0f;
     private bool isButtonHeld = false;
     private int currentButtonIndex = -1;
 
-    private void Start()
+    private void Awake()
     {
         currentMasteryPoint.text = towerUpgrade.towerUpgradeData.currentMasteryPoint.ToString();
+        resetEntryButton.onClick.AddListener(OnResetEntryButton);
+        cancleButton.onClick.AddListener(OnResetCancelButton);
+        resetButton.onClick.AddListener(OnResetButton);
         for (int i = 0; i < buttons.Count; i++)
         {
             Button button = buttons[i];
@@ -43,24 +52,31 @@ public class TowerUpgradeUI : MonoBehaviour
         }
         UpdateButtons();
     }
+    private void OnEnable()
+    {
+        resetPannel.gameObject.SetActive(false);
+    }
     private void Update()
     {
-        if (isButtonHeld)
+        if (!isResetPanelActive)
         {
-            Debug.Log("Button Hold Time: " + buttonHoldTime);
-            buttonHoldTime += Time.deltaTime;
-            if (buttonHoldTime >= 0.5f && currentButtonIndex != -1)
+            if (isButtonHeld)
             {
-                if (towerUpgrade.CanUpgrade((TowerUpgradeType)currentButtonIndex))
+                Debug.Log("Button Hold Time: " + buttonHoldTime);
+                buttonHoldTime += Time.deltaTime;
+                if (buttonHoldTime >= 0.5f && currentButtonIndex != -1)
                 {
-                    float duration = 1f;
-                    fillBox.gameObject.SetActive(true);
-                    fillBox.transform.position = buttons[currentButtonIndex].transform.position;
-                    fillBox.fillAmount += (Time.deltaTime / duration);
-                    if (fillBox.fillAmount >= 1f)
+                    if (towerUpgrade.CanUpgrade((TowerUpgradeType)currentButtonIndex))
                     {
-                        towerUpgrade.Upgrade((TowerUpgradeType)currentButtonIndex);
-                        UpgradeCompleate();
+                        float duration = 1f;
+                        fillBox.gameObject.SetActive(true);
+                        fillBox.transform.position = buttons[currentButtonIndex].transform.position;
+                        fillBox.fillAmount += (Time.deltaTime / duration);
+                        if (fillBox.fillAmount >= 1f)
+                        {
+                            towerUpgrade.Upgrade((TowerUpgradeType)currentButtonIndex);
+                            UpgradeCompleate();
+                        }
                     }
                 }
             }
@@ -90,13 +106,23 @@ public class TowerUpgradeUI : MonoBehaviour
             {
                 SetButtonInactive(button);
             }
-            currentMasteryPoint.text = towerUpgrade.towerUpgradeData.currentMasteryPoint.ToString();
             UpdateButtonColor(button, i);
+            currentMasteryPoint.text = towerUpgrade.towerUpgradeData.currentMasteryPoint.ToString();
         }
     }
+    private void AllInActive()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            Button button = buttons[i];
+            button.interactable = false;
 
+        }
+    }
+  
     private void HandleButtonHeld(Button button, bool isHeld)
     {
+
         if (isHeld)
         {
             isButtonHeld = true;
@@ -143,7 +169,8 @@ public class TowerUpgradeUI : MonoBehaviour
     {
         return type == TowerUpgradeType.CombetMastery ||
                type == TowerUpgradeType.MultipleAttack ||
-               type == TowerUpgradeType.BossSlayer;
+               type == TowerUpgradeType.BossSlayer ||
+               type == TowerUpgradeType.Emergencyresponse;
     }
 
     private void SetButtonActive(Button button, bool isActive)
@@ -173,6 +200,11 @@ public class TowerUpgradeUI : MonoBehaviour
             String levelText = "Lv.  "+ towerUpgrade.towerUpgradeData.currentLevel[index].ToString();
             level[index].text = levelText;
         }
+        else
+        {
+            //button.GetComponent<Image>().color = Color.gray;
+            level[index].gameObject.SetActive(false);
+        }
     }
 
     public void ShowDescription(int index)
@@ -185,6 +217,29 @@ public class TowerUpgradeUI : MonoBehaviour
         descriptionPanel.transform.SetParent(buttons[index].transform);
         descriptionPanel.transform.localPosition = new Vector3(0,150,0);
         descriptionPanel.SetActive(true);
+    }
+
+
+    public void OnResetEntryButton()
+    {
+        isResetPanelActive = true;
+        resetPannel.gameObject.SetActive(true);
+        AllInActive();
+    }
+
+    public void OnResetCancelButton()
+    {
+        isResetPanelActive = false;
+        resetPannel.gameObject.SetActive(false);
+        UpdateButtons();
+    }
+
+    public void OnResetButton()
+    {
+        isResetPanelActive = false;
+        resetPannel.gameObject.SetActive(false);
+        towerUpgrade.Reset();
+        UpdateButtons();
     }
 }
 

@@ -30,6 +30,7 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private GameOverUI gameoverUI;
     [SerializeField] private TextMeshProUGUI weatherInfo;
     [SerializeField] private GameObject mapSlot;
+    [SerializeField] private GameObject tutorial;
 
     public List<GameObject> MapPrefabs { get; private set; } = new();
     public Tilemap ObstacleTilemap { get; private set; }  
@@ -79,6 +80,9 @@ public class InGameManager : Singleton<InGameManager>
         target = map.transform.Find("Center");
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
+        if(PlayerPrefs.GetInt("InGameTutorial")!=1)
+            tutorial.gameObject.SetActive(true);
+        else MuliigunStart();
         //mulliganUI.StartSelectCard();
     }
 
@@ -156,6 +160,8 @@ public class InGameManager : Singleton<InGameManager>
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);
         TowerManager.Instance.towerUpgradeData.Save();
+
+        AnalyticsLogger.LogWaveEnd(isDie,MonsterManager.Instance.nowWave.WaveIndex);
         Time.timeScale = 0f;
     }
 

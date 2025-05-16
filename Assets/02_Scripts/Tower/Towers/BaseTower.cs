@@ -47,7 +47,7 @@ public abstract class BaseTower : MonoBehaviour
 
     Vector2 curPos;
 
-    protected float maxbuffRadius = 3f;
+    protected float maxbuffRadius = 5f;
     protected bool disable;
 
     private float touchTime = 0.5f;
@@ -292,6 +292,19 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
+
+    public virtual void ApplyEmergencyResponse()
+    {
+    }
+
+    public virtual void RemoveEmergencyResponse()
+    {
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     protected void OverrideAnimator()
     {
         if (animator == null) animator = GetComponent<Animator>();

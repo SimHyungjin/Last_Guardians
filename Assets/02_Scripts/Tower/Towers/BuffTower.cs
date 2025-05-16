@@ -70,6 +70,8 @@ public class BuffTower : BaseTower
 
     [Header("업그레이드")]
     public AdaptedBuffTowerData adaptedBuffTowerData;
+    private float EmergencyResponseBuff = 1f;
+
     public override void Init(TowerData data)
     {
         base.Init(data);
@@ -145,23 +147,31 @@ public class BuffTower : BaseTower
     }
     private void ApplyBuffOnPlacement()
     {
-        if (towerData.EffectTarget != EffectTarget.Towers) return;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.tower);
+        if (towerData.EffectTarget != EffectTarget.Towers) return; int combinedLayerMask = LayerMask.GetMask("Tower", "TrapObject");
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, combinedLayerMask);
+
         foreach (var hit in hits)
         {
-            Debug.Log(hit);
+            Debug.Log($"hit = {hit}");
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
                 towerBuff.ApplyBuffToTower(otherTower, adaptedBuffTowerData,environmentEffect);
             }
-        }
+        }     
         foreach (var hit in hits)
         {
+            Debug.Log($"hit = {hit}");
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
-            if (otherTrap != null && otherTrap != this)
+            Debug.Log($"otherTrap = {otherTrap}");
+            if (otherTrap != null)
             {
+                Debug.Log("트랩발견 버프줄게");
                 towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
+            }
+            else 
+            {
+                Debug.Log("트랩없음");
             }
         }
     }
@@ -236,6 +246,21 @@ public class BuffTower : BaseTower
             buffMonterDebuffs.Add(BuffAdd(towerIndex));
         }
     }
+
+    public override void ApplyEmergencyResponse()
+    {
+        base.ApplyEmergencyResponse();
+        int emergencyResponseLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Emergencyresponse];
+        EmergencyResponseBuff = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Emergencyresponse].levels[emergencyResponseLevel];
+        adaptedBuffTowerData.effectValue = adaptedBuffTowerData.baseEffectValue * EmergencyResponseBuff;
+    }
+
+    public override void RemoveEmergencyResponse()
+    {
+        base.RemoveEmergencyResponse();
+        adaptedBuffTowerData.effectValue = adaptedBuffTowerData.baseEffectValue;
+    }
+
 
     public override void DestroyBuffTower()
     {

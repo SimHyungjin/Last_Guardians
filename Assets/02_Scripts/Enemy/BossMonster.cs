@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class BossMonster : BaseMonster
 {
+    private void OnEnable()
+    {
+        TowerManager.Instance.ApplyEmergencyResponse();
+    }
     public override void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {
         base.TakeDamage(amount, penetration, trueDamage);
@@ -60,7 +64,7 @@ public class BossMonster : BaseMonster
     {
         base.Death();
         MonsterManager.Instance.BossKillCount++;
-        TowerManager.Instance.ApplyBossSlayer();
+        TowerManager.Instance.RemoveEmergencyResponse();
         PoolManager.Instance.Despawn(this);
     }
 }

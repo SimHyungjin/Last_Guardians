@@ -6,11 +6,11 @@ public class TrapObjectKnockbackEffect : MonoBehaviour,ITrapEffect
 {
     ///////////==========================≥ÀπÈ ¿Ã∆Â∆Æ================================/////////////////////
 
-    public void Apply(BaseMonster target, TowerData towerData,bool bossImmunebuff, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target,TowerData towerData, AdaptedTrapObjectData adaptedTowerData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
         if (Utils.ShouldApplyEffect(target, towerData,bossImmunebuff))
         {
-            target.ApplyKnockBack(0.5f, 1f, this.transform.position);
+            target.ApplyKnockBack(0.5f, 0.5f, this.transform.position);
         }
     }
 }

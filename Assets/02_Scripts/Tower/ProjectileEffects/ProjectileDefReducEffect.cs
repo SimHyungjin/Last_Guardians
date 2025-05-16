@@ -11,8 +11,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             isFog();
-            target.ApplyReducionDef(towerData.EffectValue + addWeatherValue, towerData.EffectDuration);
-            Debug.Log($"±âº» ¹æ±ï {towerData.EffectValue}, {towerData.EffectDuration}");
+            target.ApplyReducionDef(adaptedTowerData.effectValue + addWeatherValue, adaptedTowerData.effectDuration);
         }
     }
 
@@ -23,8 +22,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
             isFog();
             if (Random.value < chance)
             {
-                target.ApplyReducionDef(towerData.EffectValue + addWeatherValue, towerData.EffectDuration);
-                Debug.Log($"Âù½º ¹æ±ï {towerData.EffectValue}, {towerData.EffectDuration}");
+                target.ApplyReducionDef(adaptedTowerData.effectValue + addWeatherValue, adaptedTowerData.effectDuration);
             }
         }
     }

@@ -437,7 +437,7 @@ MonoBehaviour:
   weatherInfo: {fileID: 2115534516}
   mapSlot: {fileID: 7299708671408734072}
   tutorial: {fileID: 1209083786}
-  hitEffectUI: {fileID: 0}
+  hitEffectUI: {fileID: 731026894}
   level: 0
   exp: 0
   isDie: 0
@@ -2373,6 +2373,7 @@ GameObject:
   - component: {fileID: 731026891}
   - component: {fileID: 731026890}
   - component: {fileID: 731026893}
+  - component: {fileID: 731026894}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2488,6 +2489,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &731026894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731026889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76f91c10d944a04a89199891a88b6e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edgeFlashMaterial: {fileID: 2100000, guid: 7e0b9bd39c66c8143998090ef22031fe, type: 2}
 --- !u!1 &737875820
 GameObject:
   m_ObjectHideFlags: 0

@@ -108,6 +108,9 @@ public class ItemPopupController : PopupBase
     {
         if (currentData?.AsEquipData == null) return;
         equipment.Equip(currentData);
+
+        if (currentData.AsEquipData.equipType == EquipType.Weapon)
+            AnalyticsLogger.LogUserEquip(currentData.Data.ItemIndex, PlayerPrefs.GetInt("IdleMaxWave", 0));
         UpdatePopupUI();
     }
 

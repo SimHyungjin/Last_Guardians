@@ -31,6 +31,7 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private TextMeshProUGUI weatherInfo;
     [SerializeField] private GameObject mapSlot;
     [SerializeField] private GameObject tutorial;
+    [SerializeField] private HitEffectUI hitEffectUI;
 
     public List<GameObject> MapPrefabs { get; private set; } = new();
     public Tilemap ObstacleTilemap { get; private set; }  
@@ -42,6 +43,7 @@ public class InGameManager : Singleton<InGameManager>
     private GameObject map;
 
     public bool isDie = false;
+    public bool isGameOver = false;
 
     private void Awake()
     {
@@ -135,6 +137,7 @@ public class InGameManager : Singleton<InGameManager>
     public void TakeDmage(int amount)
     {
         PlayerHP = Mathf.Max(0, PlayerHP - amount);
+        hitEffectUI.PlayHitEffect();
         UpdateHP();
         if (PlayerHP <= 0)
         {
@@ -156,6 +159,7 @@ public class InGameManager : Singleton<InGameManager>
     private void GameOver()
     {
         if (gameoverUI.gameObject.activeSelf) return;
+        isGameOver = true;
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
         gameoverUI.gameObject.SetActive(true);

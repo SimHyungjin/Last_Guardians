@@ -88,6 +88,7 @@ public class MagicProjectile : ProjectileBase
                     else effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]), environmentEffect);
                 }
             }
+            SoundManager.Instance.PlaySFX("HitMagic");
             OnDespawn();
             animator.SetTrigger("isHit");
             StartCoroutine(WaitAndDespawn());

@@ -36,12 +36,17 @@ public class Equipment
         if (equipped.TryGetValue(data.equipType, out var cur))
         {
             if (cur.UniqueID == instance.UniqueID) return;
-            UnEquip(cur);
+            UnEquip(cur, updateUI);
         }
         equipped[data.equipType] = instance;
 
         RecalculateStats();
-        if (updateUI) OnEquip?.Invoke(instance);
+
+        if (updateUI)
+        {
+            OnEquip?.Invoke(instance);
+            SoundManager.Instance.PlaySFX("ShopEquip");
+        }
     }
 
     /// <summary>
@@ -52,14 +57,17 @@ public class Equipment
     public void UnEquip(ItemInstance instance, bool updateUI = true)
     {
         if (instance?.AsEquipData == null) return;
-
         EquipData data = instance.AsEquipData;
         if (!equipped.ContainsKey(data.equipType)) return;
 
         equipped.Remove(data.equipType);
-
         RecalculateStats();
-        if (updateUI) OnUnequip?.Invoke(instance);
+
+        if (updateUI)
+        {
+            OnUnequip?.Invoke(instance);
+            SoundManager.Instance.PlaySFX("ShopEquip");
+        }
     }
     /// <summary>
     /// 장비의 능력치를 계산하여 업데이트합니다.

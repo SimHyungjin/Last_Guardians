@@ -116,8 +116,14 @@ public class SellPopupContoroller : PopupBase
             else
                 goods += item.Data.ItemApartPrice;
         }
-
-        if(money) GameManager.Instance.gold += goods;
+        if (goods > 0)
+        {
+            if (money)
+                SoundManager.Instance.PlaySFX("ShopSell");  
+            else
+                SoundManager.Instance.PlaySFX("ShopApart");  
+        }
+        if (money) GameManager.Instance.gold += goods;
         else GameManager.Instance.upgradeStones += goods;
 
         selectedItems.Clear();

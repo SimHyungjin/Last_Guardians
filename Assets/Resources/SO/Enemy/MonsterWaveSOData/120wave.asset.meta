@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Team/LGW/000GW/ZImage/clean_red_magic_circle_64x64.asset.meta
-guid: 897b01ef100da8f43864dce02479796c
-========
-guid: b24e04bb7e750bf41acae1dded382b24
->>>>>>>> Dev:Assets/Resources/SO/Enemy/MonsterWaveSOData/120wave.asset.meta
+guid: c989272e5a9c0f74b85547832b610164
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

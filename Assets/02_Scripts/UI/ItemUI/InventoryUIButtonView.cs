@@ -34,7 +34,7 @@ public class InventoryUIButtonView : MonoBehaviour
     [field: SerializeField] public Button accessorieTypeBtn { get; private set; }
     [field: SerializeField] public Button upgradeStoneTypeBtn { get; private set; }
 
-    public Action<InventorySortType> onSortButtonClicked;
+    public Action<InventorySortType, bool> onSortButtonClicked;
     public Action<ItemType[]> onItemTypeFilter;
     public Action<EquipType[]> onEquipTypeFilter;
 
@@ -50,13 +50,31 @@ public class InventoryUIButtonView : MonoBehaviour
     public void Init()
     {
         var itemConnecter = MainSceneManager.Instance.inventoryManager.inventoryUIManager;
+        var inventory = MainSceneManager.Instance.inventory;
 
         itemConnecter.sellPopupController.onSellAction += RefreshGoods;
         itemConnecter.upgradePopupController.onUpgradeAction += RefreshGoods;
 
-        sortByGradeBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.GradeDescending));
-        sortByNameBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.NameAscending));
-        sortByRecentBtn.onClick.AddListener(() => onSortButtonClicked?.Invoke(InventorySortType.Recent));
+        sortByGradeBtn.onClick.AddListener(() =>
+        {
+            bool current = inventory.GetSortDirection(InventorySortType.Grade);
+            onSortButtonClicked?.Invoke(InventorySortType.Grade, !current);
+            filterSelectPanel.gameObject.SetActive(false);
+        });
+
+        sortByNameBtn.onClick.AddListener(() =>
+        {
+            bool current = inventory.GetSortDirection(InventorySortType.Name);
+            onSortButtonClicked?.Invoke(InventorySortType.Name, !current);
+            filterSelectPanel.gameObject.SetActive(false);
+        });
+
+        sortByRecentBtn.onClick.AddListener(() =>
+        {
+            bool current = inventory.GetSortDirection(InventorySortType.Recent);
+            onSortButtonClicked?.Invoke(InventorySortType.Recent, !current);
+            filterSelectPanel.gameObject.SetActive(false);
+        });
 
         filterSelectBtn.onClick.AddListener(() => filterSelectPanel.SetActive(!filterSelectPanel.activeSelf));
 

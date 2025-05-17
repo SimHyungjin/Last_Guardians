@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 필터와 관련된 버튼을 연결하기 위한 UI 컨트롤러입니다.
 /// </summary>
-public class InvnetoryUIButtonController : MonoBehaviour
+public class InventoryUIButtonController : MonoBehaviour
 {
     [SerializeField] private InventorySlotContainer inventorySlotContainer;
     [SerializeField] private InventoryUIButtonView inventoryUIButton;
@@ -14,6 +14,9 @@ public class InvnetoryUIButtonController : MonoBehaviour
 
         inventoryUIButton.onItemTypeFilter = inventory.SetItemTypeFilter;
         inventoryUIButton.onEquipTypeFilter = inventory.SetEquipTypeFilter;
-        inventoryUIButton.onSortButtonClicked = inventory.SetSortType;
+        inventoryUIButton.onSortButtonClicked = (type, isDescending) =>
+        {
+            inventory.SetSortType(type, isDescending);
+        };
     }
 }

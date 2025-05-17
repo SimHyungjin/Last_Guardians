@@ -28,6 +28,7 @@ public class InventoryUIManager : MonoBehaviour
         itemPopupController.Close();
         upgradePopupController.Close();
         sellPopupController.Close();
+        inventoryUIButtonView.RefreshGoods();
     }
 
     public void OpenPopup(PopupType popupType)

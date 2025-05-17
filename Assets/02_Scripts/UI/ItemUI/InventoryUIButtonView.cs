@@ -114,7 +114,7 @@ public class InventoryUIButtonView : MonoBehaviour
         RefreshGoods();
     }
 
-    private void RefreshGoods()
+    public void RefreshGoods()
     {
         goldText.text = GameManager.Instance.gold.ToString();
         upgradeStoneText.text = GameManager.Instance.upgradeStones.ToString();

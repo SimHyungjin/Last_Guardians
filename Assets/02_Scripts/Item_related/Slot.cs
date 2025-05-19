@@ -82,6 +82,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         if (inventoryManager.inventorySelectionController.selectionMode == SelectionMode.Single)
         {
             inventoryManager.inventorySelectionController.SetSelected(this);
+            //if (inventoryManager.inventoryUIManager.upgradePopupController.IsOpen)
+            //{
+            //    inventoryManager.inventoryUIManager.OpenPopup(PopupType.Upgrade);
+            //    return;
+            //}
             inventoryManager.inventoryUIManager.OpenPopup(PopupType.Item);
         }
         else

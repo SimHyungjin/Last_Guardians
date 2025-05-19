@@ -799,8 +799,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 8287263b28efb9e4c889e4f86447918d, type: 3}
-  - {fileID: 8300000, guid: 39fcdc8fca983504f85b25051c8f3669, type: 3}
   - {fileID: 8300000, guid: b317145c36dea2246bf00d890b901dda, type: 3}
   - {fileID: 8300000, guid: 6d29874f828575c4c9784b8d93bedb09, type: 3}
   - {fileID: 8300000, guid: 9c6f37f22b6371144a73a9780942e643, type: 3}
@@ -820,12 +818,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1579352079d91344ebcfe4aa4b0c2a0f, type: 3}
   - {fileID: 8300000, guid: 014b4020a639e064a9255e45a03a6d17, type: 3}
   - {fileID: 8300000, guid: 6b08ccefe2c8c5e4fb69ec0c3d5d92df, type: 3}
-  - {fileID: 8300000, guid: 70b11bf620ea41043a07888402a26e6a, type: 3}
-  - {fileID: 8300000, guid: 8310c03f02828444fbb6c9371417d7a5, type: 3}
   - {fileID: 8300000, guid: 38c694ef7c0dced4a99f490930a9ef10, type: 3}
   - {fileID: 8300000, guid: 6afeebf44977acd4590dcb471bfbf928, type: 3}
   - {fileID: 8300000, guid: 97a3355649e9f1c4faf93f28eb2d3220, type: 3}
-  - {fileID: 8300000, guid: 7e7cfefe75c87a74f86741f831476580, type: 3}
   - {fileID: 8300000, guid: c5b5a86a05a4fa748bcf0f128662fd3a, type: 3}
   poolSize: 30
 --- !u!4 &1324375181

@@ -16,7 +16,7 @@ public class HoldSoundButton : MonoBehaviour,
     // 버튼을 누르는 순간마다 호출
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"HoldSoundButton: OnPointerDown on {gameObject.name}");
+        
         isHeld = true;
         SoundManager.Instance.PlaySFXLoop(holdSoundName);
     }
@@ -37,6 +37,10 @@ public class HoldSoundButton : MonoBehaviour,
     {
         if (!isHeld) return;
         isHeld = false;
-       
+
+        // 여기서 루프 재생을 반드시 중지
+        SoundManager.Instance.StopSFX();
+
+        
     }
 }

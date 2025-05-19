@@ -117,8 +117,8 @@ public class TowerManager : Singleton<TowerManager>
     /// <returns></returns>
     public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
     {
+        Debug.Log("타워사라진다");
         yield return null;
-
         Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMaskData.trapObject);
 
         foreach (var hit in hits)

@@ -7,6 +7,7 @@ public class BossMonster : BaseMonster
     private void OnEnable()
     {
         TowerManager.Instance.ApplyEmergencyResponse();
+        SoundManager.Instance.PlaySFX("BossAlarm");
     }
     public override void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {

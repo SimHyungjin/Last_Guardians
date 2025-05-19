@@ -95,6 +95,8 @@ public class TrapObject : MonoBehaviour
     {
         this.towerData = towerData;
         adaptedTrapObjectData = new AdaptedTrapObjectData(towerData.TowerIndex, towerData.EffectValue,towerData.EffectDuration);
+        cooldownTime = adaptedTrapObjectData.coolTime;
+        Debug.Log(cooldownTime);
         creationTime = Time.time;
         environmentEffect = new EnvironmentEffect();
         buffTowerIndex = new List<int>();
@@ -109,7 +111,7 @@ public class TrapObject : MonoBehaviour
         ScanBuffTower();
         CanPlant();
     }
-    private  void Update()
+    private void Update()
     {
         if (currentState == TrapObjectState.Cooldown)
         {
@@ -139,6 +141,7 @@ public class TrapObject : MonoBehaviour
     /// </summary>
     public void CanPlant()
     {
+        Debug.Log("CanPlant돌아가는중");
         Vector2 pos = PostionArray();
         Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlockTrap);
         foreach (var hit in blockHits)
@@ -252,7 +255,7 @@ public class TrapObject : MonoBehaviour
     {
         float elapsed = 0f;
         float applyInterval = 0.1f;
-
+        yield return new WaitForSeconds(0.5f);
         while (elapsed < towerData.EffectDuration)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTrapObjectData.attackRange, LayerMaskData.monster);
@@ -260,10 +263,9 @@ public class TrapObject : MonoBehaviour
             {
                 BaseMonster monster = hit.GetComponent<BaseMonster>();
                 if (monster == null) continue;
-                for(int i=0;i< buffTowerIndex.Count;i++)
+                for (int i = 0; i < buffTowerIndex.Count; i++)
                 {
-                    trapEffectList[i].Apply(monster,TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
-                    Debug.Log(bossImmunebuff);
+                    trapEffectList[i].Apply(monster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
                 }
 
             }
@@ -447,6 +449,7 @@ public class TrapObject : MonoBehaviour
 
     public void ChageState(TrapObjectState trapObjectState)
     {
+        Debug.Log($"상태변경{trapObjectState}");
         currentState = trapObjectState;
         switch (trapObjectState)
         {
@@ -456,7 +459,6 @@ public class TrapObject : MonoBehaviour
                 break;
             case TrapObjectState.Ready:
                 animator.enabled = true;
-                CanPlant();
                 OnActive();
                 break;
             case TrapObjectState.Triggered:

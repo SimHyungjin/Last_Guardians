@@ -61,12 +61,14 @@ public class Towerbuilder : MonoBehaviour
     ///////////=====================상태변환=====================================/////////////////////
     public void ChangeCardMove()
     {
+        Debug.Log("ChangeCardMove");
         Time.timeScale = 0.2f;
         isCardMoving = true;
     }
 
     public void ChangeCardDontMove()
     {
+        Debug.Log("ChangeCardDontMove");
         Time.timeScale = 1f;
         lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
         EndAttackRangeCircle();
@@ -75,6 +77,7 @@ public class Towerbuilder : MonoBehaviour
 
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
+        Debug.Log("ChangeTowerMove");
         Time.timeScale = 0.2f;
         clikedTower = _cilkedTower;
         isTowerMoving = true;
@@ -82,6 +85,7 @@ public class Towerbuilder : MonoBehaviour
 
     public void ChangeTowerDontMove(BaseTower _cilkedTower)
     {
+        Debug.Log("ChangeTowerDontMove");
         clikedTower = _cilkedTower;
         isTowerMoving = false;
     }

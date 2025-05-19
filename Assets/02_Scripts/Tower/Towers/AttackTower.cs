@@ -116,6 +116,7 @@ public class AttackTower : BaseTower
 
         base.Init(data);
         adaptedTowerData = new AdaptedAttackTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount(),towerData.EffectValue,towerData.EffectDuration);
+        CalculateDamage();
         OnPlatform();
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();

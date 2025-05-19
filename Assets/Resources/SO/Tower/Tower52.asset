@@ -18,7 +18,7 @@ MonoBehaviour:
   activeClip: {fileID: 7400000, guid: 0e9a1184ab6485649ba173a65eb11801, type: 2}
   towerIndex: 52
   towerName: "\uBC14\uB78C \uD0C0\uC6CCII"
-  attackPower: 40
+  attackPower: 25
   attackSpeed: 0.5
   attackRange: 5
   towerType: 2

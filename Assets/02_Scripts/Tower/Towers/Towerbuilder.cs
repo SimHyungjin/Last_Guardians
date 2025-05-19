@@ -136,6 +136,7 @@ public class Towerbuilder : MonoBehaviour
 
         GameObject dummyTower = Instantiate(dummyTowerPrefab, constructPos, Quaternion.identity);
         yield return null;
+        yield return null;
         bool allPathsExist = true;
         NavMeshPath path = new NavMeshPath();
         foreach (Transform spawn in spawnPoint)
@@ -183,7 +184,6 @@ public class Towerbuilder : MonoBehaviour
         TowerData data = TowerManager.Instance.GetTowerData(towerIndex);
         if (data == null)
         {
-            Debug.LogError($"[TowerConstruct] TowerData를 불러올 수 없습니다: {towerIndex}");
             return;
         }
 

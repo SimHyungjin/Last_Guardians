@@ -152,7 +152,6 @@ public class BuffTower : BaseTower
 
         foreach (var hit in hits)
         {
-            Debug.Log($"hit = {hit}");
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
@@ -161,7 +160,6 @@ public class BuffTower : BaseTower
         }     
         foreach (var hit in hits)
         {
-            Debug.Log($"hit = {hit}");
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
             if (otherTrap != null) towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
         }
@@ -195,7 +193,6 @@ public class BuffTower : BaseTower
             {
                 for(int i=0; i<buffMonterDebuffs.Count();i++)
                 {
-                    Debug.Log($"buffTowerIndex.Count = {buffTowerIndex.Count}, buffMonterDebuffs.Count = {buffMonterDebuffs.Count}");
                     buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetAdaptedBuffTowerData(buffTowerIndex[i]), environmentEffect);
                 }
             }

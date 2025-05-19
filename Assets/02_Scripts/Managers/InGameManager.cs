@@ -18,7 +18,7 @@ public class InGameManager : Singleton<InGameManager>
 
     private Transform target;
 
-    public int TimeScale { get; private set; } = 1;
+    public float TimeScale { get; private set; } = 1;
 
     private Canvas damageUICanvasPrefab;
 
@@ -215,8 +215,9 @@ public class InGameManager : Singleton<InGameManager>
 
     public void SetTimeScale()
     {
-        if(TimeScale==3) TimeScale = 1;
-        else TimeScale++;
+        if (TimeScale == 2.5) TimeScale = 1f;
+        else if (TimeScale == 1.5) TimeScale = 2.5f;
+        else if (TimeScale == 1) TimeScale = 1.5f;
 
         Time.timeScale = TimeScale;
     }

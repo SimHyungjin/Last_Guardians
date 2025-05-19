@@ -100,7 +100,7 @@ public class TowerUpgradeUI : MonoBehaviour
             {
                 SetButtonActive(button, true);
             }
-            else if (towerUpgrade.towerUpgradeData.usedMasteryPoint >= 20 && IsTier3(type))
+            else if (towerUpgrade.towerUpgradeData.usedMasteryPoint >= 30 && IsTier3(type))
             {
                 SetButtonActive(button, true);
             }

@@ -15,34 +15,37 @@ public class TowerUpgrade :MonoBehaviour
     }
     public bool CanUpgrade(TowerUpgradeType type)
     {
-        if (towerUpgradeData.currentMasteryPoint <= 0)
-        {
-            Debug.Log("마스터리 포인트가 부족합니다.");
-            return false;
-        }
         if (towerUpgradeData.currentLevel[(int)type] >= towerUpgradeData.maxLevel)
         {
-            Debug.Log("업그레이드 최대 레벨에 도달했습니다.");
             return false;
         }
-        if ((type == TowerUpgradeType.Penetration || type == TowerUpgradeType.ContinuousAttack ||
-            type==TowerUpgradeType.Catalysis||type==TowerUpgradeType.EffectTransfer) 
-            && towerUpgradeData.SumOfLevelUP < 10 && towerUpgradeData.currentMasteryPoint<2)
+        if (IsTier3(type))
         {
-            Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 10을 초과해야 합니다.");
-            Debug.Log("현재 마스터리 포인트가 부족합니다.");
+            if (towerUpgradeData.SumOfLevelUP < 20)
+            {
+                return false;
+            }
+            if (towerUpgradeData.currentMasteryPoint < 5)
+            {
+                return false;
+            }
+        }
+        else if (IsTier2(type))
+        {
+            if (towerUpgradeData.SumOfLevelUP < 10)
+            {
+                return false;
+            }
+            if (towerUpgradeData.currentMasteryPoint < 2)
+            {
+                return false;
+            }
+        }
+        else if (towerUpgradeData.currentMasteryPoint <= 0)
+        {
             return false;
         }
-        if ((type == TowerUpgradeType.CombetMastery||type==TowerUpgradeType.MultipleAttack||type==TowerUpgradeType.BossSlayer)
-            && towerUpgradeData.SumOfLevelUP < 20 && towerUpgradeData.currentMasteryPoint < 5)
-        {
-            Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 20을 초과해야 합니다.");
-            return false;
-        }
-        else
-        {
-            return towerUpgradeData.currentLevel[(int)type] < towerUpgradeData.maxLevel;
-        }
+        return true;
     }
 
     public void Upgrade(TowerUpgradeType type)

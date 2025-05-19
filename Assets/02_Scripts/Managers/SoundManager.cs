@@ -10,14 +10,14 @@ public class SoundManager : Singleton<SoundManager>
 
     [Header("Object Pool Settings")]
     [SerializeField] private int poolSize = 30;
-    [SerializeField] private int maxPoolSize = 100;   // 풀에서 허용할 최대 AudioSource 수
+    [SerializeField] private int maxPoolSize = 60;
 
     // 이름 → 클립 매핑
     private Dictionary<string, AudioClip> soundDict;
 
     // SFX용 AudioSource 풀
     private Queue<AudioSource> audioSourcePool;
-    private int currentPoolCapacity;  // 현재 생성된 AudioSource 개수
+    private int currentPoolCapacity;
 
     // BGM 전용 AudioSource
     private AudioSource bgmPlayer;
@@ -47,7 +47,7 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Start()
     {
-        // 메뉴/시작 씬용 기본 BGM
+        // 기본 메뉴 BGM
         PlayBGM("PianoInstrumental1", loop: true);
     }
 
@@ -60,30 +60,43 @@ public class SoundManager : Singleton<SoundManager>
         bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 0.3f);
         masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 0.3f);
 
-        // AudioClip 딕셔너리 생성
+        // 클립 딕셔너리 초기화
         soundDict = new Dictionary<string, AudioClip>();
         foreach (var clip in audioClips)
             soundDict[clip.name] = clip;
 
-        // BGM 전용 AudioSource
+        // BGM 전용 AudioSource 생성
         bgmPlayer = gameObject.AddComponent<AudioSource>();
         bgmPlayer.playOnAwake = false;
+        bgmPlayer.loop = true;
+        bgmPlayer.pitch = 1f;
+        bgmPlayer.volume = bgmVolume * masterVolume;
 
-        // SFX용 풀 생성
+        // SFX 풀 생성
         audioSourcePool = new Queue<AudioSource>();
         for (int i = 0; i < poolSize; i++)
         {
-            var src = gameObject.AddComponent<AudioSource>();
-            src.playOnAwake = false;
+            var src = CreateNewAudioSource();
             src.enabled = false;
             audioSourcePool.Enqueue(src);
         }
         currentPoolCapacity = poolSize;
 
-        // 초기 볼륨 적용
+        // 초기 볼륨 세팅
         SetMasterVolume(masterVolume);
         SetBGMVolume(bgmVolume);
         SetSFXVolume(sfxVolume);
+    }
+
+    // AudioSource 기본 세팅 함수
+    private AudioSource CreateNewAudioSource()
+    {
+        var src = gameObject.AddComponent<AudioSource>();
+        src.playOnAwake = false;
+        src.loop = false;
+        src.pitch = 1f;
+        src.volume = sfxVolume * masterVolume;
+        return src;
     }
 
     // ────────────────────────────────────────────
@@ -97,29 +110,25 @@ public class SoundManager : Singleton<SoundManager>
             return;
         }
 
-        AudioSource src = null;
-
+        AudioSource src;
         if (audioSourcePool.Count > 0)
         {
-            // 풀에 남아있는 AudioSource 사용
             src = audioSourcePool.Dequeue();
         }
         else if (currentPoolCapacity < maxPoolSize)
         {
-            // 최대치 미만일 때 새로 생성
-            src = gameObject.AddComponent<AudioSource>();
-            src.playOnAwake = false;
+            src = CreateNewAudioSource();
             currentPoolCapacity++;
         }
         else
         {
-            // 최대치 도달 시 재생 스킵
-            Debug.LogWarning($"[SoundManager] 최대 SFX 소스 수({maxPoolSize})에 도달했습니다. 스킵: {soundName}");
+            Debug.LogWarning($"[SoundManager] Max pool ({maxPoolSize}) reached. Skipping {soundName}");
             return;
         }
 
         src.clip = clip;
         src.volume = sfxVolume * masterVolume;
+        src.pitch = 1f;
         src.loop = false;
         src.enabled = true;
         src.Play();
@@ -129,7 +138,10 @@ public class SoundManager : Singleton<SoundManager>
     private IEnumerator ReturnToPool(AudioSource src, float delay)
     {
         yield return new WaitForSeconds(delay);
+        src.Stop();
         src.enabled = false;
+        src.loop = false;
+        src.pitch = 1f;
         audioSourcePool.Enqueue(src);
     }
 
@@ -143,13 +155,15 @@ public class SoundManager : Singleton<SoundManager>
 
         if (loopSource == null)
         {
-            loopSource = gameObject.AddComponent<AudioSource>();
-            loopSource.playOnAwake = false;
+            loopSource = CreateNewAudioSource();
             loopSource.loop = true;
         }
 
         loopSource.clip = clip;
         loopSource.volume = sfxVolume * masterVolume;
+        loopSource.pitch = 1f;
+        loopSource.loop = true;
+        loopSource.enabled = true;
         loopSource.Play();
     }
 
@@ -159,7 +173,12 @@ public class SoundManager : Singleton<SoundManager>
     public void StopSFXLoop()
     {
         if (loopSource != null && loopSource.isPlaying)
+        {
             loopSource.Stop();
+            loopSource.enabled = false;
+            loopSource.loop = false;
+            loopSource.pitch = 1f;
+        }
     }
 
     // ────────────────────────────────────────────
@@ -169,18 +188,15 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (loopSource != null
             && loopSource.isPlaying
-            && loopSource.clip != null
             && loopSource.clip.name == soundName)
         {
-            loopSource.Stop();
+            StopSFXLoop();
         }
     }
 
-    // 파라미터 없는 호출용 오버로드
     public void StopSFX()
     {
-        if (loopSource != null && loopSource.isPlaying)
-            loopSource.Stop();
+        StopSFXLoop();
     }
 
     // ────────────────────────────────────────────
@@ -202,6 +218,7 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.clip = clip;
         bgmPlayer.loop = loop;
         bgmPlayer.volume = bgmVolume * masterVolume;
+        bgmPlayer.pitch = 1f;
         bgmPlayer.Play();
     }
 
@@ -231,21 +248,26 @@ public class SoundManager : Singleton<SoundManager>
         sfxVolume = Mathf.Clamp01(vol);
         PlayerPrefs.SetFloat("SFX_VOLUME", sfxVolume);
         PlayerPrefs.Save();
+        if (loopSource != null)
+            loopSource.volume = sfxVolume * masterVolume;
     }
 
     public void SetBGMVolume(float vol)
     {
         bgmVolume = Mathf.Clamp01(vol);
-        bgmPlayer.volume = bgmVolume * masterVolume;
         PlayerPrefs.SetFloat("BGM_VOLUME", bgmVolume);
         PlayerPrefs.Save();
+        bgmPlayer.volume = bgmVolume * masterVolume;
     }
 
     public void SetMasterVolume(float vol)
     {
         masterVolume = Mathf.Clamp01(vol);
-        bgmPlayer.volume = bgmVolume * masterVolume;
         PlayerPrefs.SetFloat("MASTER_VOLUME", masterVolume);
         PlayerPrefs.Save();
+
+        bgmPlayer.volume = bgmVolume * masterVolume;
+        if (loopSource != null)
+            loopSource.volume = sfxVolume * masterVolume;
     }
 }

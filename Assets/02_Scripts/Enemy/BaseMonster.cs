@@ -668,25 +668,19 @@ public class BaseMonster : MonoBehaviour
     //넉백 적용
     public void ApplyKnockBack(float distance, float speed, Vector2 attackerPosition)
     {
-        Vector2 knockbackDir = -previousDirection;
+        Vector2 direction = ((Vector2)transform.position - attackerPosition).normalized;
 
-        if (knockbackDir == Vector2.zero)
-            knockbackDir = -transform.up; // 예비 기본값 설정
+        Vector2 targetPosition = (Vector2)transform.position + direction * distance;
 
-        Vector2 targetPosition = (Vector2)transform.position + knockbackDir.normalized * distance;
-
-        //float duration = distance / speed;
-
-        transform.DOKill(); // 기존 Tween 중단
-        transform.DOMove(targetPosition, speed)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(() =>
+        transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            if(!Physics2D.OverlapCircle(this.transform.position, AttackRange, targetLayer))
             {
-                if (!Physics2D.OverlapCircle(transform.position, AttackRange, targetLayer))
-                {
-                    isAttack = false;
-                }
-            });
+                isAttack = false;
+            }
+        });
+
+
     }
 
     public bool IsFirstHit()

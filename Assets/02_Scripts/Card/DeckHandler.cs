@@ -12,6 +12,7 @@ public class DeckHandler : MonoBehaviour
     public Vector2 dragStartPos;
     public Vector2 dragEndPos;
     float dragDistance;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("HighLight")]
     [SerializeField] private Card highlightedCard = null;
@@ -335,4 +336,15 @@ public class DeckHandler : MonoBehaviour
         rect.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
     }
 
+    public void HideUI()
+    {
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public void OpenUI()
+    {
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+    }
 }

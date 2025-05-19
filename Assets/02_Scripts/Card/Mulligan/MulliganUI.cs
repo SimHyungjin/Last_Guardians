@@ -246,6 +246,7 @@ public class MulliganUI : MonoBehaviour
     {
         Utils.Shuffle(MyCardList);
         ShowCardSelect(MyCardList, 3);
+        TowerManager.Instance.hand.HideUI();
         Time.timeScale = 0f;
     }
 
@@ -265,6 +266,7 @@ public class MulliganUI : MonoBehaviour
 
         ClearUI();
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
+        TowerManager.Instance.hand.OpenUI();
         gameObject.SetActive(false);
         Time.timeScale = 1f;
         MaxSelectedCards = 1;

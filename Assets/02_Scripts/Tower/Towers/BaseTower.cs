@@ -150,7 +150,9 @@ public abstract class BaseTower : MonoBehaviour
             Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMaskData.tower);
             if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
+
                 Debug.Log("Tower Touch Start");
+                TowerManager.Instance.towerbuilder.OnAttackRangeCircle(TowerManager.Instance.towerbuilder.PostionArray(curPos), towerData);
                 isClicked = true;
                 hasTriggeredHold = false;
                 if (holdCheckCoroutine != null) StopCoroutine(holdCheckCoroutine);
@@ -170,6 +172,7 @@ public abstract class BaseTower : MonoBehaviour
         if (this == null) return;
         if (isClicked)
         {
+            TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
             if (!hasTriggeredHold)
             {
                 isClicked = false;
@@ -178,7 +181,6 @@ public abstract class BaseTower : MonoBehaviour
             else
             {
                 isClicked = false;
-                TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
                 TowerManager.Instance.towerbuilder.ChangeTowerDontMove(this);
                 TowerManager.Instance.EndInteraction(InteractionState.TowerMoving);
                 if (TowerManager.Instance.towerbuilder.CanTowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition()))
@@ -202,6 +204,7 @@ public abstract class BaseTower : MonoBehaviour
         if (isClicked)
         {
             hasTriggeredHold = true;
+            TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
             TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
             TowerManager.Instance.StartInteraction(InteractionState.TowerMoving);
             Debug.Log("Hold Activated");

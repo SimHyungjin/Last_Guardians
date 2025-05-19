@@ -10,8 +10,7 @@ public class TrapObjectKnockbackEffect : MonoBehaviour,ITrapEffect
     {
         if (Utils.ShouldApplyEffect(target, towerData,bossImmunebuff))
         {
-            Debug.Log($"[TrapObjectStunEffect] {target.name} 스턴 적용 {towerData.TowerIndex} {adaptedTrapObjectData.effectValue}");
-            target.ApplyKnockBack(0.5f, 0.5f, this.transform.position);
+            target.ApplyKnockBack(0.3f, 0.5f, this.transform.position);
         }
     }
 }

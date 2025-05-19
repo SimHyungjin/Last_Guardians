@@ -139,7 +139,6 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
             BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
-            SoundManager.Instance.PlaySFX("BossAlarm");
             monster.Setup(data);
             monster.Target = Target;
             //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];

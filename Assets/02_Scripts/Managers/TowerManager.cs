@@ -89,7 +89,7 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (CurrentState == endState)
             CurrentState = InteractionState.None;
-        Time.timeScale = 1f;
+        Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
 
@@ -118,7 +118,6 @@ public class TowerManager : Singleton<TowerManager>
     public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
     {
         yield return null;
-
         Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMaskData.trapObject);
 
         foreach (var hit in hits)

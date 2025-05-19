@@ -81,11 +81,8 @@ public class SoundManager : Singleton<SoundManager>
     // 1È¸ Àç»ý SFX
     public void PlaySFX(string soundName)
     {
-
-        Debug.Log($"PlaySFXLoop called with '{soundName}'");
         if (!soundDict.TryGetValue(soundName, out var clip))
         {
-            Debug.LogError($"SoundManager ¢º clip not found: {soundName}");
             return;
         }
 

@@ -427,7 +427,6 @@ public class BaseMonster : MonoBehaviour
         float calculatedDamage = amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
         float finalDamage = trueDamage ? amount : calculatedDamage;
 
-        Debug.Log($"포탑이 주는 데미지{amount}, 실제로 받은 데미지 {finalDamage}");
 
         if (CurrentHP <= 0 && !isDead)
         {

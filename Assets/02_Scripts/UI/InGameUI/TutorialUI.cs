@@ -81,10 +81,18 @@ public class TutorialUI : MonoBehaviour
             PlayerPrefs.SetInt("InGameTutorial", 1);
 
         if(this.gameObject.name == "UpgradeTutorial")
+        {
             PlayerPrefs.SetInt("UpgradeTutorial", 1);
+            MainSceneManager.Instance.ShowPanel("TowerUpgrade");
+        }
+            
 
         if(this.gameObject.name == "EquipTutorial")
+        {
             PlayerPrefs.SetInt("EquipTutorial", 1);
+            MainSceneManager.Instance.ShowPanel("InventoryGroup");
+        }
+            
 
         gameObject.SetActive(false);
         if(GameManager.Instance.GetSceneName() == "GameScene")

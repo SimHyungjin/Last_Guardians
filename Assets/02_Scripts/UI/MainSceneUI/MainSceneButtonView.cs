@@ -34,10 +34,11 @@ public class MainSceneButtonView : MonoBehaviour
         inventoryBtn.onClick.AddListener(() =>
         {
             mainSceneManager.LoadInventory(mainSceneManager.canvas);
+
+            if (PlayerPrefs.GetInt("EquipTutorial") != 1)
+                mainSceneManager.ShowPanel("EquipTutorial", null, false);
+            else mainSceneManager.ShowPanel("InventoryGroup");
             
-            mainSceneManager.ShowPanel("InventoryGroup");
-            if(PlayerPrefs.GetInt("EquipTutorial")!=1)
-                mainSceneManager.ShowPanel("EquipTutorial",null,false);
         });
 
         bookBtn.onClick.AddListener(() =>
@@ -52,9 +53,10 @@ public class MainSceneButtonView : MonoBehaviour
 
         TowerUpgradeBtn.onClick.AddListener(() =>
         {
-            mainSceneManager.ShowPanel("TowerUpgrade");
+            
             if (PlayerPrefs.GetInt("UpgradeTutorial") != 1)
                 mainSceneManager.ShowPanel("UpgradeTutorial", null, false);
+            else mainSceneManager.ShowPanel("TowerUpgrade");
         });
     
         idleBtn.onClick.AddListener(() =>

@@ -163,16 +163,7 @@ public class BuffTower : BaseTower
         {
             Debug.Log($"hit = {hit}");
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
-            Debug.Log($"otherTrap = {otherTrap}");
-            if (otherTrap != null)
-            {
-                Debug.Log("트랩발견 버프줄게");
-                towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
-            }
-            else 
-            {
-                Debug.Log("트랩없음");
-            }
+            if (otherTrap != null) towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
         }
     }
 

@@ -34,7 +34,6 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
         if (EnviromentManager.Instance.WeatherState.GetCurrentState() is FogWeather)
         {
             addWeatherValue = 0.15f;
-            Debug.Log("안개라서 방깍 추가적용중");
         }
         else
         {

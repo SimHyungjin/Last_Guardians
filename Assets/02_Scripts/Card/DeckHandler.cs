@@ -116,19 +116,16 @@ public class DeckHandler : MonoBehaviour
         if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
 
-            Debug.Log($"[DeckHandler] MoveCardEnd called. card: {card.TowerIndex} 카드 손에서 놨다.");
             if (dragDistance < Deadzone)
             {
-                Debug.Log($"[DeckHandler] 가까이에서 놨다.");
                 dragEndPos = InputManager.Instance.GetTouchPosition();
                 UnHighlightCard();
             }
             else
             {
-                Debug.Log($"[DeckHandler] 멀리서 놨다.");
                 TowerManager.Instance.towerbuilder.ChangeCardDontMove();
-                Destroy(ghostTower);
-                ghostTower = null;
+                //Destroy(ghostTower);
+                //ghostTower = null;
                 StartCoroutine(TowerManager.Instance.towerbuilder.CanConstructCoroutine(
                                 InputManager.Instance.GetTouchWorldPosition(),
                                 (canPlace) =>
@@ -143,13 +140,11 @@ public class DeckHandler : MonoBehaviour
                                     }
                                     else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))
                                     {
-                                        Debug.Log("합성시작");
                                         TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
                                         UseCard();
                                     }
                                     else
                                     {
-                                        Debug.Log("건설 불가");
                                         highlightedCard.gameObject.SetActive(true);
                                         highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
                                         UnHighlightCard();
@@ -162,7 +157,6 @@ public class DeckHandler : MonoBehaviour
         }
         else if(TowerManager.Instance.CanStartInteraction())
         {
-            Debug.Log($"[DeckHandler] 카드 하이라이트 시작");
             HighlightCard(card);
             TowerManager.Instance.StartInteraction(InteractionState.CardMoving);
         }

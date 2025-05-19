@@ -49,12 +49,10 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
             if (environmentEffect.IsFireBoosted())
             {
                 addObtacleValue = 1.20f;
-                Debug.Log("비오는날 화염이 적용되었습니다.");
             }
             else
             {
                 addObtacleValue = 1f;
-                Debug.Log("화염이 적용되지 않았습니다.");
             }
         }
         else
@@ -62,12 +60,10 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
             if (environmentEffect.IsFireBoosted())
             {
                 addObtacleValue = 1.25f;
-                Debug.Log("화염이 적용되었습니다.");
             }
             else
             {
                 addObtacleValue = 1f;
-                Debug.Log("화염이 적용되지 않았습니다.");
             }
         }
     }

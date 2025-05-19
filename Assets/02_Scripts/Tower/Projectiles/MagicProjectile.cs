@@ -73,7 +73,6 @@ public class MagicProjectile : ProjectileBase
             if (target != null)
             {
                 target.TakeDamage(adaptedTower.attackPower, penetration);
-                Debug.Log($"방관적용중{penetration}");
                 //이펙트적용부분
                 if (effects == null)
                 {

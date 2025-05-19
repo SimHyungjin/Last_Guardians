@@ -10,12 +10,14 @@ public class SoundManager : Singleton<SoundManager>
 
     [Header("Object Pool Settings")]
     [SerializeField] private int poolSize = 30;
+    [SerializeField] private int maxPoolSize = 100;   // 풀에서 허용할 최대 AudioSource 수
 
     // 이름 → 클립 매핑
     private Dictionary<string, AudioClip> soundDict;
 
     // SFX용 AudioSource 풀
     private Queue<AudioSource> audioSourcePool;
+    private int currentPoolCapacity;  // 현재 생성된 AudioSource 개수
 
     // BGM 전용 AudioSource
     private AudioSource bgmPlayer;
@@ -76,6 +78,7 @@ public class SoundManager : Singleton<SoundManager>
             src.enabled = false;
             audioSourcePool.Enqueue(src);
         }
+        currentPoolCapacity = poolSize;
 
         // 초기 볼륨 적용
         SetMasterVolume(masterVolume);
@@ -94,9 +97,26 @@ public class SoundManager : Singleton<SoundManager>
             return;
         }
 
-        var src = audioSourcePool.Count > 0
-            ? audioSourcePool.Dequeue()
-            : gameObject.AddComponent<AudioSource>();
+        AudioSource src = null;
+
+        if (audioSourcePool.Count > 0)
+        {
+            // 풀에 남아있는 AudioSource 사용
+            src = audioSourcePool.Dequeue();
+        }
+        else if (currentPoolCapacity < maxPoolSize)
+        {
+            // 최대치 미만일 때 새로 생성
+            src = gameObject.AddComponent<AudioSource>();
+            src.playOnAwake = false;
+            currentPoolCapacity++;
+        }
+        else
+        {
+            // 최대치 도달 시 재생 스킵
+            Debug.LogWarning($"[SoundManager] 최대 SFX 소스 수({maxPoolSize})에 도달했습니다. 스킵: {soundName}");
+            return;
+        }
 
         src.clip = clip;
         src.volume = sfxVolume * masterVolume;
@@ -147,7 +167,6 @@ public class SoundManager : Singleton<SoundManager>
     // ────────────────────────────────────────────
     public void StopSFX(string soundName)
     {
-        // 루프 재생 중인 SFX와 이름이 일치하면 중지
         if (loopSource != null
             && loopSource.isPlaying
             && loopSource.clip != null
@@ -175,7 +194,6 @@ public class SoundManager : Singleton<SoundManager>
             return;
         }
 
-        // 같은 설정으로 이미 재생 중이면 무시
         if (bgmPlayer.clip == clip
             && bgmPlayer.loop == loop
             && bgmPlayer.isPlaying)

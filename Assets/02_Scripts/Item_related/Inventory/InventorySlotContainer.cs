@@ -14,7 +14,7 @@ public class InventorySlotContainer : MonoBehaviour
 
     private Inventory inventory;
     private Equipment equipment;
-    private SelectionController selectionController;
+    private ItemSelectionController selectionController;
 
     private void Awake()
     {
@@ -26,7 +26,8 @@ public class InventorySlotContainer : MonoBehaviour
         var mainSceneManager = MainSceneManager.Instance;
         inventory = mainSceneManager.inventory;
         equipment = mainSceneManager.equipment;
-        selectionController = mainSceneManager.inventoryGroup.itemConnecter.selectionController;
+        selectionController = mainSceneManager.inventoryManager.inventorySelectionController;
+        Display();
 
         inventory.OnInventoryChanged += () => Display(inventory.GetFilteredView());
     }
@@ -61,8 +62,10 @@ public class InventorySlotContainer : MonoBehaviour
     /// 슬롯을 표시합니다. 슬롯에 아이템을 바인딩합니다.
     /// </summary>
     /// <param name="items"></param>
-    public void Display(IReadOnlyList<ItemInstance> items)
+    public void Display(IReadOnlyList<ItemInstance> items = null)
     {
+        if (inventory.GetAll() == null) return;
+        if (items == null) items = inventory.GetFilteredView();
         int targetCount = Mathf.Max(baseSlotCount, Mathf.CeilToInt(items.Count / (float)slotBlockSize) * slotBlockSize);
         CreateSlotCount(targetCount);
 
@@ -91,7 +94,7 @@ public class InventorySlotContainer : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
-        if (selectionController == null) return;
+        if (inventory.GetAll() == null || selectionController == null) return;
         foreach (var slot in slots)
         {
             var instance = slot.GetData();

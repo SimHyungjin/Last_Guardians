@@ -449,7 +449,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 32
@@ -2508,10 +2508,10 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 4
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131039
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4171,7 +4171,7 @@ Canvas:
   m_GameObject: {fileID: 1323261138}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 59739165}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -4713,7 +4713,7 @@ Canvas:
   m_GameObject: {fileID: 1470163981}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 59739165}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -5054,10 +5054,10 @@ RectTransform:
   - {fileID: 522574593}
   m_Father: {fileID: 1470163982}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2340, y: 1080}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1718408734
 MonoBehaviour:
@@ -35976,6 +35976,7 @@ GameObject:
   - component: {fileID: 7412724946107542454}
   - component: {fileID: 1330025099501580764}
   - component: {fileID: 8443900041979646538}
+  - component: {fileID: 8443900041979646539}
   m_Layer: 5
   m_Name: DeckCanvas
   m_TagString: Untagged
@@ -44182,6 +44183,7 @@ MonoBehaviour:
   maxAngle: 30
   dragStartPos: {x: 0, y: 0}
   dragEndPos: {x: 0, y: 0}
+  canvasGroup: {fileID: 8443900041979646539}
   highlightedCard: {fileID: 0}
   ghostTowerPrefab: {fileID: 5264751662875054854, guid: 76266401e31b0524db458938fc11d39b, type: 3}
 --- !u!114 &8029508657113084980
@@ -46357,6 +46359,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8443900041979646539
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6414771613280789979}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &8447551867340425869
 MonoBehaviour:
   m_ObjectHideFlags: 0

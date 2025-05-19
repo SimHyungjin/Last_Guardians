@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class AnalyticsLogger
 {
-    public static bool IsServiceOn = false;
+    public static bool IsServiceOn = true;
 
     public static bool ShouldSkipAnalytics()
     {

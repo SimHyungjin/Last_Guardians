@@ -68,22 +68,17 @@ public class Utils
 
     public static bool ShouldApplyEffect(BaseMonster target,TowerData towerData, bool bossImmunebuff)
     {
-        Debug.Log($"[ShouldApplyEffect]스턴보스테스트 {target.name} {towerData.TowerIndex} {towerData.SpecialEffect} {towerData.EffectTarget}{towerData.BossImmune}");
 
         if (bossImmunebuff)
         {
-            Debug.Log($"[ShouldApplyEffect] {bossImmunebuff} 보스 이뮨버프 적용중 면역");
             return true; 
         }
 
-        Debug.Log($"[ShouldApplyEffect]스턴보스테스트 {target.name} {towerData.TowerIndex} {towerData.SpecialEffect} {towerData.EffectTarget}{towerData.BossImmune}");
 
         if (towerData.BossImmune && (target.MonsterData.MonsterType == MonType.Boss || target.MonsterData.MonsterType==MonType.Bounty))
         {
-            Debug.Log($"[ShouldApplyEffect] {target.name} 보스 면역");
             return false;
         }
-        Debug.Log($"[ShouldApplyEffect] {target.name}{target.MonsterData.MonsterType} 보스 면역 아님");
         return true;
     }
 

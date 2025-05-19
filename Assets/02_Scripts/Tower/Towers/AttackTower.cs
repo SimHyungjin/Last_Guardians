@@ -206,7 +206,6 @@ public class AttackTower : BaseTower
     void Attack()
     {
         if (disable) return;
-        Debug.Log($"[BaseTower]공격력 {adaptedTowerData.attackPower} ");
         //bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
         int modifyProjectileCount = ModifyProjectileCount();
@@ -236,7 +235,6 @@ public class AttackTower : BaseTower
 
     private void HandleTargetDeath()
     {
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격대상 사망");
         target = null;
         lastCheckTime = Time.time;
         currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;

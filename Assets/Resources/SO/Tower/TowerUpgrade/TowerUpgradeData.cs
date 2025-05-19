@@ -10,7 +10,7 @@ public class SerializableTowerUpgradeData
     public int usedMasteryPoint;
 
     public int towerPoint;
-
+    public int SumOfLevelUP;
     public List<int> currentLevel;
     // 생성자
     public SerializableTowerUpgradeData(TowerUpgradeData towerUpgradeData)
@@ -19,6 +19,7 @@ public class SerializableTowerUpgradeData
         currentMasteryPoint = towerUpgradeData.currentMasteryPoint;
         usedMasteryPoint = towerUpgradeData.usedMasteryPoint;
         towerPoint = towerUpgradeData.towerPoint;
+        SumOfLevelUP = towerUpgradeData.SumOfLevelUP;
         currentLevel = new List<int>(towerUpgradeData.currentLevel);
     }
 }
@@ -53,6 +54,8 @@ public class TowerUpgradeData : ScriptableObject
 
     public List<int> currentLevel;
     public int maxLevel = 3;
+    public int SumOfLevelUP = 0;
+
     [Header("설명스크립트")]
     public string[] description;
 
@@ -86,6 +89,7 @@ public class TowerUpgradeData : ScriptableObject
                 currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
                 usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
                 towerPoint = save.towerUpgradedata.towerPoint;
+                SumOfLevelUP = save.towerUpgradedata.SumOfLevelUP;
                 currentLevel = new List<int>(save.towerUpgradedata.currentLevel);
             }
         }
@@ -112,7 +116,7 @@ public class TowerUpgradeData : ScriptableObject
     public void GetTowerPoint()
     {
         towerPoint++;
-        if (totalMasteryPoint >= 30)
+        if (totalMasteryPoint >= 60)
         {
             towerPoint = 0;
             return; 

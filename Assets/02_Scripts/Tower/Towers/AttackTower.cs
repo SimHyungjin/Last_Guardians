@@ -228,7 +228,6 @@ public class AttackTower : BaseTower
                 SoundManager.Instance.PlaySFX("LunchArrow");
                 break;
             default:
-                Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");
                 break;
         }
     }
@@ -333,10 +332,8 @@ public class AttackTower : BaseTower
     /// <param name="buff"></param>
     public void AttackPowerBuff(float buff)
     {
-        Debug.Log("버프타워설치");
         if((float)1+buff> attackPowerBuff) attackPowerBuff = (float)1 + buff;
         CalculateDamage();
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
     public void RemoveAttackPowerBuff()
     {
@@ -387,7 +384,6 @@ public class AttackTower : BaseTower
     public void BossImmuneBuff()
     {
         adaptedTowerData.bossImmunebuff = true;
-        Debug.Log($"[BaseTower] {towerData.TowerName} 보스 면역 증가: {adaptedTowerData.bossImmunebuff}");
     }
 
 
@@ -400,17 +396,14 @@ public class AttackTower : BaseTower
 
     public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
     {
-        Debug.Log($"버프받음,environmentEffect={environmentEffect}");
         if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage)
         {
             this.environmentEffect.isBuffAffectedByFire = true;
-            Debug.Log("버프타워중에 불옆에있는 타워가있음");
         }
 
         if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow)
         {
             this.environmentEffect.isBuffAffectedByWater = true;
-            Debug.Log("버프타워중에 물옆에있는 타워가있음");
         }
         bool found = false;
         if (buffTowerIndex.Contains(towerIndex)) return;

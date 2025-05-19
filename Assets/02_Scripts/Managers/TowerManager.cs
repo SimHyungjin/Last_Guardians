@@ -83,7 +83,6 @@ public class TowerManager : Singleton<TowerManager>
     public void StartInteraction(InteractionState newState)
     {
         CurrentState = newState;
-        Debug.Log($"Interaction started: {newState}");
     }
 
     public void EndInteraction(InteractionState endState)
@@ -91,7 +90,6 @@ public class TowerManager : Singleton<TowerManager>
         if (CurrentState == endState)
             CurrentState = InteractionState.None;
         Time.timeScale = 1f;
-        Debug.Log($"Interaction ended: {endState}");
     }
 
 
@@ -129,7 +127,6 @@ public class TowerManager : Singleton<TowerManager>
             if (trapObject != null)
             {
                 trapObject.CanPlant();
-                Debug.Log(trapObject.transform);
             }
         }
     }
@@ -141,7 +138,6 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (Towers == null)
         {
-            Debug.LogWarning("Towers 리스트가 null입니다.");
             return;
         }
         foreach (var tower in Towers)
@@ -157,7 +153,6 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (Towers == null)
         {
-            Debug.LogWarning("Towers 리스트가 null입니다.");
             return;
         }
         foreach (var tower in Towers)
@@ -170,7 +165,6 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (Towers == null)
         {
-            Debug.LogWarning("Towers 리스트가 null입니다.");
             return;
         }
         foreach (var tower in Towers)

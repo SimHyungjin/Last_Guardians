@@ -17,6 +17,9 @@ public class InGameManager : Singleton<InGameManager>
     public Canvas DamageUICanvas { get; private set; }
 
     private Transform target;
+
+    public int TimeScale { get; private set; } = 1;
+
     private Canvas damageUICanvasPrefab;
 
     [SerializeField] private MulliganUI mulliganUI;
@@ -208,5 +211,13 @@ public class InGameManager : Singleton<InGameManager>
     public double GetMaxExp()
     {
         return maxExp;
+    }
+
+    public void SetTimeScale()
+    {
+        if(TimeScale==3) TimeScale = 1;
+        else TimeScale++;
+
+        Time.timeScale = TimeScale;
     }
 }

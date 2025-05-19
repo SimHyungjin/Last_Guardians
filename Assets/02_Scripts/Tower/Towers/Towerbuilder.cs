@@ -69,7 +69,7 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeCardDontMove()
     {
         Debug.Log("ChangeCardDontMove");
-        Time.timeScale = 1f;
+        Time.timeScale = InGameManager.Instance.TimeScale;
         lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
         EndAttackRangeCircle();
         isCardMoving = false;

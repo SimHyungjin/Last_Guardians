@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOptionUI : MonoBehaviour
 {
@@ -6,7 +7,9 @@ public class GameOptionUI : MonoBehaviour
     public GameObject optionPanel;
     public GameObject homePanel;
     public GameObject bookPanel;
-
+    public Button gameSpeedButton;
+    public Sprite[] gameSpeedButtonImages;
+    private int gameSpeedIndex = 0;
     private bool isOptionPanelOpen;
     private bool isHomePanelOpen;
     private bool isBookPanelOpen;
@@ -27,10 +30,16 @@ public class GameOptionUI : MonoBehaviour
         isBookPanelOpen = false;
         bookPanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
-        Time.timeScale = 1;
+        Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
-   
+    public void ChangeGameSpeed()
+    {
+        InGameManager.Instance.SetTimeScale();
+        gameSpeedButton.GetComponent<Image>().sprite = gameSpeedButtonImages[InGameManager.Instance.TimeScale-1];
+
+    }
+
     public void OpenOption()
     {
         bool next = !optionSlot.activeSelf;
@@ -53,7 +62,7 @@ public class GameOptionUI : MonoBehaviour
         isOptionPanelOpen = false;
         optionPanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
-        Time.timeScale = 1;
+        Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
     public void OpenHomePanel()
@@ -72,6 +81,6 @@ public class GameOptionUI : MonoBehaviour
         isHomePanelOpen = false;
         homePanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
-        Time.timeScale = 1;
+        Time.timeScale = InGameManager.Instance.TimeScale;
     }
 }

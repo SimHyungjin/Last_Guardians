@@ -268,7 +268,7 @@ public class MulliganUI : MonoBehaviour
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
         TowerManager.Instance.hand.OpenUI();
         gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        Time.timeScale = InGameManager.Instance.TimeScale;
         MaxSelectedCards = 1;
         
         if (InGameManager.Instance.exp >= InGameManager.Instance.GetMaxExp())

@@ -26,8 +26,8 @@ MonoBehaviour:
   elementType: 6
   specialEffect: 8
   effectChance: 1
-  effectDuration: 5
-  effectValue: 0
+  effectDuration: 3
+  effectValue: 0.3
   effectTarget: 1
   effectTargetCount: 0
   bossImmune: 1

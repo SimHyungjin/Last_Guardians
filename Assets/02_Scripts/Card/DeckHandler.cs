@@ -114,6 +114,7 @@ public class DeckHandler : MonoBehaviour
     public void MoveCardEnd(Card card)
     {
         TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
+        TowerManager.Instance.towerbuilder.EndCannotConstruct();
         if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
 

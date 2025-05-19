@@ -27,6 +27,7 @@ public class Towerbuilder : MonoBehaviour
 
     [Header("타워설치")]
     public SpriteRenderer attackRangeCircle;
+    public SpriteRenderer cannotConstruct;
     private Dictionary<Vector2, bool> constructCache;
 
     private float lastCheckTime = 0f;
@@ -293,6 +294,7 @@ public class Towerbuilder : MonoBehaviour
                         {
                             ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(0f, 1f, 0f, 0.3f);
+                            EndCannotConstruct();
                             OnAttackRangeCircle(
                                 currentTile,
                                 TowerManager.Instance.GetTowerData(
@@ -321,6 +323,7 @@ public class Towerbuilder : MonoBehaviour
                             );
                             ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(0f, 1f, 0f, 0.3f);
+                            EndCannotConstruct();
                             OnAttackRangeCircle(
                                 currentTile,
                                 TowerManager.Instance.GetTowerData(
@@ -335,6 +338,7 @@ public class Towerbuilder : MonoBehaviour
                         {
                             ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(1f, 0f, 0f, 0.3f);
+                            OnCannotConstruct(currentTile);
                             EndAttackRangeCircle();
                         }
                     }
@@ -457,5 +461,15 @@ public class Towerbuilder : MonoBehaviour
     public void EndAttackRangeCircle()
     {
         attackRangeCircle.gameObject.SetActive(false);
+    }
+
+    public void OnCannotConstruct(Vector2 constructPos)
+    {
+        cannotConstruct.transform.position = constructPos;
+        cannotConstruct.gameObject.SetActive(true);
+    }
+    public void EndCannotConstruct()
+    {
+        cannotConstruct.gameObject.SetActive(false);
     }
 }

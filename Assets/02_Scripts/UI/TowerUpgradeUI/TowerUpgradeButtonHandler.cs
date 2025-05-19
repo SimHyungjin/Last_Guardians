@@ -47,7 +47,7 @@ public class TowerUpgradeButtonHandler : MonoBehaviour,
         if (!isButtonHeld) return;
         isButtonHeld = false;
         
-        SoundManager.Instance.StopSFXLoop();
+        
         OnButtonHeld?.Invoke(clickedButton, isButtonHeld);
         clickedButton = null;
     }

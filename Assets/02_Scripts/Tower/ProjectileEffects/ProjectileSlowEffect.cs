@@ -36,7 +36,6 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
         if (EnviromentManager.Instance.Season == Season.winter)
         {
             addObstacleValue = 0f;
-            Debug.Log("겨울이라서 물속성이 적용되지 않았습니다.");
         }
         else
         {
@@ -44,24 +43,20 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
                 if (environmentEffect.IsWaterBoosted())
                 {
                     addObstacleValue = 0.6f;
-                    Debug.Log("비오는날 물속성이 적용되었습니다.");
                 }
                 else
                 {
                     addObstacleValue = 0f;
-                    Debug.Log("물속성이 적용되지 않았습니다.");
                 }
             else
             {
                 if (environmentEffect.IsWaterBoosted())
                 {
                     addObstacleValue = 0.3f;
-                    Debug.Log("물속성이 적용되었습니다.");
                 }
                 else
                 {
                     addObstacleValue = 0f;
-                    Debug.Log("물속성이 적용되지 않았습니다.");
                 }
             }
         }

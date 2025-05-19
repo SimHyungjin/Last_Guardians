@@ -44,8 +44,8 @@ PlayerSettings:
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1170
   defaultScreenHeight: 540
-  defaultScreenWidthWeb: 2340
-  defaultScreenHeightWeb: 1080
+  defaultScreenWidthWeb: 1560
+  defaultScreenHeightWeb: 720
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 1
   unsupportedMSAAFallback: 0
@@ -160,7 +160,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.MakeShortWorkof.Last_Guardians
-    Standalone: com.DefaultCompany.2DProject
+    Standalone: com.MakeShortWorkof.Last-Guardians
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -779,7 +779,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   webGLInitialMemorySize: 32
-  webGLMaximumMemorySize: 2048
+  webGLMaximumMemorySize: 4096
   webGLMemoryGrowthMode: 2
   webGLMemoryLinearGrowthStep: 16
   webGLMemoryGeometricGrowthStep: 0.2

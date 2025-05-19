@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// MainSceneManager는 메인 씬의 UI를 관리하는 싱글톤 클래스입니다.
@@ -19,6 +20,11 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public TutorialUI UpgradeTutorial;
     private void Awake()
     {
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            Destroy(gameObject);
+            return;
+        }
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();

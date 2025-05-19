@@ -18,7 +18,6 @@ public class GameOptionUI : MonoBehaviour
         isBookPanelOpen = true;
         bookPanel.SetActive(true);
         optionSlot.SetActive(false);
-        TowerManager.Instance.hand.gameObject.SetActive(false);
         Time.timeScale = 0;
     }
     public void CloseBook()
@@ -26,13 +25,13 @@ public class GameOptionUI : MonoBehaviour
         if (!isBookPanelOpen) return;
         isBookPanelOpen = false;
         bookPanel.SetActive(false);
-        TowerManager.Instance.hand.gameObject.SetActive(true);
         Time.timeScale = 1;
     }
 
    
     public void OpenOption()
     {
+        
         bool next = !optionSlot.activeSelf;
         optionSlot.SetActive(next);
     }
@@ -44,7 +43,6 @@ public class GameOptionUI : MonoBehaviour
         isOptionPanelOpen = true;
         optionPanel.SetActive(true);
         optionSlot.SetActive(false);
-        TowerManager.Instance.hand.gameObject.SetActive(false);
         Time.timeScale = 0;
     }
     public void CloseOptionPanel()
@@ -52,7 +50,6 @@ public class GameOptionUI : MonoBehaviour
         if (!isOptionPanelOpen) return;
         isOptionPanelOpen = false;
         optionPanel.SetActive(false);
-        TowerManager.Instance.hand.gameObject.SetActive(true);
         Time.timeScale = 1;
     }
 
@@ -63,7 +60,6 @@ public class GameOptionUI : MonoBehaviour
         isHomePanelOpen = true;
         homePanel.SetActive(true);
         optionSlot.SetActive(false);
-        TowerManager.Instance.hand.gameObject.SetActive(false);
         Time.timeScale = 0;
     }
     public void CloseHomePanel()
@@ -71,7 +67,6 @@ public class GameOptionUI : MonoBehaviour
         if (!isHomePanelOpen) return;
         isHomePanelOpen = false;
         homePanel.SetActive(false);
-        TowerManager.Instance.hand.gameObject.SetActive(true);
         Time.timeScale = 1;
     }
 }

@@ -33,15 +33,12 @@ public class Towerbuilder : MonoBehaviour
     private float checkCooldown = 0.01f;
     private Vector2 lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
 
-    // ← 추가: InGameManager에서 캐싱된 Tilemap 참조
     private Tilemap obstacleTilemap;
 
     private void Start()
     {
         towerCombinationData = TowerManager.Instance.towerCombinationData;
         constructCache = new Dictionary<Vector2, bool>();
-
-        // ← 추가: 타일맵 참조 가져오기
         obstacleTilemap = InGameManager.Instance.ObstacleTilemap;
     }
 
@@ -94,23 +91,23 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 CombinePos = PostionArray(curPos);
         if (cheakedTower == null) return;
+        ClearConstructCache();
         int combineTowerIndex = towerCombinationData.TryCombine(
             clikedTower.towerData.TowerIndex,
             cheakedTower.towerData.TowerIndex
         );
-
         TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
         Destroy(clikedTower.gameObject);
         clikedTower = null;
-        ClearConstructCache();
     }
 
     public void CardToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
         if (cheakedTower == null) return;
+        ClearConstructCache();
         int combineTowerIndex = towerCombinationData.TryCombine(
             TowerManager.Instance.hand.HighlightedIndex,
             cheakedTower.towerData.TowerIndex
@@ -118,7 +115,6 @@ public class Towerbuilder : MonoBehaviour
         TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
-        ClearConstructCache();
     }
 
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
@@ -169,7 +165,6 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 constructPos = PostionArray(curPos);
 
-        // ← 추가: 해당 셀의 룰타일 제거
         if (obstacleTilemap != null)
         {
             Vector3Int cell = obstacleTilemap.WorldToCell(constructPos);
@@ -177,7 +172,7 @@ public class Towerbuilder : MonoBehaviour
             obstacleTilemap.RefreshTile(cell);
         }
         SoundManager.Instance.PlaySFX("TowerBuild");
-        // 기존 타워 생성 로직
+
         GameObject go = Instantiate(
             towerPrefab,
             constructPos,

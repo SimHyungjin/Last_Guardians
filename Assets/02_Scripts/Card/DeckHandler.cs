@@ -127,8 +127,8 @@ public class DeckHandler : MonoBehaviour
             {
                 Debug.Log($"[DeckHandler] 멀리서 놨다.");
                 TowerManager.Instance.towerbuilder.ChangeCardDontMove();
-                Destroy(ghostTower);
-                ghostTower = null;
+                //Destroy(ghostTower);
+                //ghostTower = null;
                 StartCoroutine(TowerManager.Instance.towerbuilder.CanConstructCoroutine(
                                 InputManager.Instance.GetTouchWorldPosition(),
                                 (canPlace) =>

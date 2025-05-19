@@ -14,6 +14,7 @@ public class InventoryUIManager : MonoBehaviour
 
     public InventoryUIButtonView inventoryUIButtonView;
 
+    private InventoryManager inventoryManager;
 
     public void Init()
     {
@@ -21,6 +22,7 @@ public class InventoryUIManager : MonoBehaviour
         upgradePopupController.Init();
         sellPopupController.Init();
         inventoryUIButtonView.Init();
+        inventoryManager = MainSceneManager.Instance.inventoryManager;
     }
 
     private void OnEnable()
@@ -29,15 +31,15 @@ public class InventoryUIManager : MonoBehaviour
         upgradePopupController.Close();
         sellPopupController.Close();
         inventoryUIButtonView.RefreshGoods();
+        if(inventoryManager == null ) return;
+        inventoryManager.inventorySelectionController.ClearSelect();
+        inventoryManager.inventorySelectionController.ClearSelects();
+        inventoryManager.inventorySlotContainer.Refresh();
+        
     }
 
     public void OpenPopup(PopupType popupType)
     {
-        //if ((popupType == PopupType.Item && itemPopupController.IsOpen) ||
-        //    (popupType == PopupType.Upgrade && upgradePopupController.IsOpen) ||
-        //    (popupType == PopupType.Sell && sellPopupController.IsOpen))
-        //    return;
-
         itemPopupController.Close();
         upgradePopupController.Close();
         sellPopupController.Close();
@@ -48,6 +50,7 @@ public class InventoryUIManager : MonoBehaviour
                 itemPopupController.Open();
                 break;
             case PopupType.Upgrade:
+                if (inventoryManager.inventorySlotContainer == null || inventoryManager.inventorySelectionController.selectedData == null) break;
                 upgradePopupController.Open();
                 break;
             case PopupType.Sell:

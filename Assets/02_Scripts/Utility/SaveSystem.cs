@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using UnityEngine;
-using UnityEngine.AI;
-using static UnityEditor.Progress;
 
 [System.Serializable]
 public class SaveData
@@ -147,8 +144,8 @@ public static class SaveSystem
 
     public static void SaveGame()
     {
-        SaveInventoryData(); 
-        SaveEquipData();     
+        SaveInventoryData();
+        SaveEquipData();
         SaveInventoryGoods();
         SaveTowerUpgradeData(MainSceneManager.Instance.TowerUpgrade);
     }
@@ -210,7 +207,7 @@ public static class SaveSystem
             Debug.LogWarning("[SaveSystem] 타워 업그레이드 데이터 없음, 로드 스킵");
             return;
         }
-        if (towerUpgrade==null)
+        if (towerUpgrade == null)
         {
             Debug.LogWarning("towerUpgrade없음");
         }

@@ -11,19 +11,24 @@ public class SoundManager : Singleton<SoundManager>
     [Header("Object Pool Settings")]
     [SerializeField] private int poolSize = 30;
 
+    // 이름 → 클립 매핑
     private Dictionary<string, AudioClip> soundDict;
+
+    // SFX용 AudioSource 풀
     private Queue<AudioSource> audioSourcePool;
+
+    // BGM 전용 AudioSource
     private AudioSource bgmPlayer;
 
-    // 루프 재생 전용 AudioSource
+    // SFX 루프 전용 AudioSource
     private AudioSource loopSource;
 
-    // 볼륨 값(0~1)
+    // 볼륨 값 (0~1)
     private float sfxVolume;
     private float bgmVolume;
     private float masterVolume;
 
-    // 입력 시스템 (클릭 사운드용)
+    // 클릭 사운드 바인딩용 InputSystem
     private PointerInput pointerInput;
     private PointerInput.PointerActions pointerAction;
 
@@ -31,7 +36,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         Init();
 
-        // InputSystem으로 클릭 사운드 바인딩
+        // 클릭 사운드 바인딩
         pointerInput = new PointerInput();
         pointerAction = pointerInput.Pointer;
         pointerInput.Enable();
@@ -40,29 +45,29 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Start()
     {
-        PlayBGM("beanfeast");
+        // 메뉴/시작 씬용 기본 BGM
+        PlayBGM("PianoInstrumental1", loop: true);
     }
 
     private void Init()
     {
         DontDestroyOnLoad(gameObject);
 
-        // 볼륨 불러오기
+        // 저장된 볼륨 불러오기
         sfxVolume = PlayerPrefs.GetFloat("SFX_VOLUME", 0.3f);
         bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 0.3f);
         masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 0.3f);
 
-        // 클립 딕셔너리
+        // AudioClip 딕셔너리 생성
         soundDict = new Dictionary<string, AudioClip>();
         foreach (var clip in audioClips)
             soundDict[clip.name] = clip;
 
-        // BGM 오디오소스
+        // BGM 전용 AudioSource
         bgmPlayer = gameObject.AddComponent<AudioSource>();
-        bgmPlayer.loop = true;
         bgmPlayer.playOnAwake = false;
 
-        // SFX 풀
+        // SFX용 풀 생성
         audioSourcePool = new Queue<AudioSource>();
         for (int i = 0; i < poolSize; i++)
         {
@@ -72,24 +77,24 @@ public class SoundManager : Singleton<SoundManager>
             audioSourcePool.Enqueue(src);
         }
 
-        // 초기 볼륨 반영
+        // 초기 볼륨 적용
         SetMasterVolume(masterVolume);
         SetBGMVolume(bgmVolume);
         SetSFXVolume(sfxVolume);
     }
 
-    // 1회 재생 SFX
+    // ────────────────────────────────────────────
+    // SFX: 단발 재생
+    // ────────────────────────────────────────────
     public void PlaySFX(string soundName)
     {
-
-        Debug.Log($"PlaySFXLoop called with '{soundName}'");
         if (!soundDict.TryGetValue(soundName, out var clip))
         {
-            Debug.LogError($"SoundManager ▶ clip not found: {soundName}");
+            Debug.LogError($"[SoundManager] SFX clip not found: {soundName}");
             return;
         }
 
-        AudioSource src = audioSourcePool.Count > 0
+        var src = audioSourcePool.Count > 0
             ? audioSourcePool.Dequeue()
             : gameObject.AddComponent<AudioSource>();
 
@@ -101,7 +106,16 @@ public class SoundManager : Singleton<SoundManager>
         StartCoroutine(ReturnToPool(src, clip.length));
     }
 
-    // 루프 재생 SFX 시작
+    private IEnumerator ReturnToPool(AudioSource src, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        src.enabled = false;
+        audioSourcePool.Enqueue(src);
+    }
+
+    // ────────────────────────────────────────────
+    // SFX: 루프 재생 시작
+    // ────────────────────────────────────────────
     public void PlaySFXLoop(string soundName)
     {
         if (loopSource != null && loopSource.isPlaying) return;
@@ -119,37 +133,81 @@ public class SoundManager : Singleton<SoundManager>
         loopSource.Play();
     }
 
-    // 루프 재생 SFX 중지
+    // ────────────────────────────────────────────
+    // SFX: 루프 재생 중지
+    // ────────────────────────────────────────────
     public void StopSFXLoop()
     {
         if (loopSource != null && loopSource.isPlaying)
             loopSource.Stop();
     }
 
-    private IEnumerator ReturnToPool(AudioSource src, float delay)
+    // ────────────────────────────────────────────
+    // 기존 StopSFX 호출 호환용
+    // ────────────────────────────────────────────
+    public void StopSFX(string soundName)
     {
-        yield return new WaitForSeconds(delay);
-        src.enabled = false;
-        audioSourcePool.Enqueue(src);
+        // 루프 재생 중인 SFX와 이름이 일치하면 중지
+        if (loopSource != null
+            && loopSource.isPlaying
+            && loopSource.clip != null
+            && loopSource.clip.name == soundName)
+        {
+            loopSource.Stop();
+        }
     }
 
-    // BGM
-    public void PlayBGM(string bgmName)
+    // 파라미터 없는 호출용 오버로드
+    public void StopSFX()
     {
-        if (!soundDict.TryGetValue(bgmName, out var clip)) return;
-        if (bgmPlayer.clip == clip) return;
+        if (loopSource != null && loopSource.isPlaying)
+            loopSource.Stop();
+    }
+
+    // ────────────────────────────────────────────
+    // BGM: 재생 (loop=true 기본)
+    // ────────────────────────────────────────────
+    public void PlayBGM(string bgmName, bool loop = true)
+    {
+        if (!soundDict.TryGetValue(bgmName, out var clip))
+        {
+            Debug.LogError($"[SoundManager] BGM clip not found: {bgmName}");
+            return;
+        }
+
+        // 같은 설정으로 이미 재생 중이면 무시
+        if (bgmPlayer.clip == clip
+            && bgmPlayer.loop == loop
+            && bgmPlayer.isPlaying)
+            return;
+
         bgmPlayer.clip = clip;
-        bgmPlayer.loop = true;
+        bgmPlayer.loop = loop;
         bgmPlayer.volume = bgmVolume * masterVolume;
         bgmPlayer.Play();
     }
 
     public void StopBGM()
     {
-        if (bgmPlayer.isPlaying) bgmPlayer.Stop();
+        if (bgmPlayer.isPlaying)
+            bgmPlayer.Stop();
     }
 
+    // ────────────────────────────────────────────
+    // BGM 재생 상태/길이 조회
+    // ────────────────────────────────────────────
+    public bool IsBgmPlaying() => bgmPlayer.isPlaying;
+
+    public float GetBgmLength(string bgmName)
+    {
+        return soundDict.TryGetValue(bgmName, out var clip)
+            ? clip.length
+            : 0f;
+    }
+
+    // ────────────────────────────────────────────
     // 볼륨 설정
+    // ────────────────────────────────────────────
     public void SetSFXVolume(float vol)
     {
         sfxVolume = Mathf.Clamp01(vol);

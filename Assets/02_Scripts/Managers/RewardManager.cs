@@ -37,7 +37,7 @@ public class RewardManager : Singleton<RewardManager>
         int maxGold = 100 * wave;
         int result = Random.Range(minGold, maxGold + 1);
 
-        SaveSystem.SaveGoldReward(result);
+        SaveSystem.SaveGetGold(result);
         return result;
     }
     #endregion
@@ -54,7 +54,7 @@ public class RewardManager : Singleton<RewardManager>
         float roll = Random.Range(0f, 100f);
 
         int stoneCount = (roll <= dropChance) ? maxStone : minStone;
-        SaveSystem.SaveUpgradeStonedReward(stoneCount);
+        SaveSystem.SaveGetUpgradeStone(stoneCount);
 
         return stoneCount;
     }
@@ -85,7 +85,7 @@ public class RewardManager : Singleton<RewardManager>
 
             var picked = candidates[Random.Range(0, candidates.Count)];
             result.Add(picked.ItemIndex);
-            SaveSystem.SaveEquipReward(picked.ItemIndex);
+            SaveSystem.SaveGetItem(GameManager.Instance.ItemManager.GetItemInstanceByIndex(picked.ItemIndex));
         }
 
         return result;

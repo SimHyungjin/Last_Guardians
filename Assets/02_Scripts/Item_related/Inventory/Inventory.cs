@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public enum InventorySortType
 {
-    GradeDescending,
-    NameAscending,
+    Grade,
+    Name,
     Recent
 }
 /// <summary>
@@ -14,9 +14,16 @@ public class Inventory
 {
     private List<ItemInstance> inventory = new();
 
-    private InventorySortType currentSortType = InventorySortType.GradeDescending;
+    private InventorySortType currentSortType = InventorySortType.Grade;
     private List<ItemType> currentFilter = new() { ItemType.Equipment };
     private List<EquipType> currentEquipFilter = new() { EquipType.Count };
+
+    private Dictionary<InventorySortType, bool> sortDirections = new()
+    {
+        { InventorySortType.Grade, true },
+        { InventorySortType.Name, false },
+        { InventorySortType.Recent, true }
+    };
 
     public event Action OnInventoryChanged;
 
@@ -58,15 +65,18 @@ public class Inventory
                 if (existing.Count <= 0) inventory.Remove(existing);
             }
         }
-        else inventory.Remove(item);
+        else
+        {
+            var target = inventory.Find(i => i.UniqueID == item.UniqueID);
+            if (target != null) inventory.Remove(target);
+        }
 
         if (updateUI) OnInventoryChanged?.Invoke();
     }
 
-    public void SetSortType(InventorySortType sortType)
+    public void ClearAll()
     {
-        if (currentSortType == sortType) return;
-        currentSortType = sortType;
+        inventory.Clear();
         OnInventoryChanged?.Invoke();
     }
 
@@ -82,11 +92,57 @@ public class Inventory
         OnInventoryChanged?.Invoke();
     }
 
-    public void ClearAll()
+    public void SetSortType(InventorySortType type, bool isDescending)
     {
-        inventory.Clear();
+        currentSortType = type;
+        sortDirections[type] = isDescending;
         OnInventoryChanged?.Invoke();
     }
+
+    public bool GetSortDirection(InventorySortType type)
+    {
+        return sortDirections.TryGetValue(type, out var dir) && dir;
+    }
+
+
+    private Comparison<ItemInstance> GetComparison(InventorySortType sortType, bool descending)
+    {
+        Comparison<ItemInstance> cmp = sortType switch
+        {
+            InventorySortType.Grade => (a, b) => a.Data.ItemGrade.CompareTo(b.Data.ItemGrade),
+            InventorySortType.Name => (a, b) => string.Compare(a.Data.ItemName, b.Data.ItemName, StringComparison.Ordinal),
+            InventorySortType.Recent => (a, b) => a.UniqueID.CompareTo(b.UniqueID),
+            _ => (a, b) => 0
+        };
+
+        return descending ? (a, b) => -cmp(a, b) : cmp;
+    }
+
+    private void MultiSort(List<ItemInstance> list)
+    {
+        List<InventorySortType> priorities = new();
+
+        foreach (InventorySortType type in Enum.GetValues(typeof(InventorySortType)))
+        {
+            if (type == currentSortType)
+                priorities.Insert(0, type);
+            else
+                priorities.Add(type);
+        }
+
+        list.Sort((a, b) =>
+        {
+            foreach (var type in priorities)
+            {
+                var cmp = GetComparison(type, GetSortDirection(type));
+                int result = cmp(a, b);
+                if (result != 0)
+                    return result;
+            }
+            return 0;
+        });
+    }
+
     /// <summary>
     /// 인벤토리의 필터링된 뷰를 반환합니다. 필터링된 아이템을 정렬합니다.
     /// </summary>
@@ -94,19 +150,7 @@ public class Inventory
     public IReadOnlyList<ItemInstance> GetFilteredView()
     {
         List<ItemInstance> viewList = FilterList();
-        switch (currentSortType)
-        {
-            case InventorySortType.GradeDescending:
-                viewList.Sort((a, b) => b.Data.ItemGrade.CompareTo(a.Data.ItemGrade));
-                break;
-            case InventorySortType.NameAscending:
-                viewList.Sort((a, b) => string.Compare(a.Data.ItemName, b.Data.ItemName, StringComparison.Ordinal));
-                break;
-            case InventorySortType.Recent:
-                viewList.Reverse();
-                break;
-        }
-
+        MultiSort(viewList);
         return viewList;
     }
 

@@ -37,7 +37,6 @@ public class HoldSoundButton : MonoBehaviour,
     {
         if (!isHeld) return;
         isHeld = false;
-        Debug.Log($"HoldSoundButton: ReleaseHold on {gameObject.name}");
-        SoundManager.Instance.StopSFXLoop();
+       
     }
 }

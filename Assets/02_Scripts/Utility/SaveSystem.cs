@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 [System.Serializable]
 public class SaveData
@@ -31,155 +34,123 @@ public static class SaveSystem
 {
     private static string SavePath => Application.persistentDataPath + "/save.json";
 
-    public static void SaveEquipReward(int itemIndex)
-    {
-        Debug.Log($"[SaveSystem] SaveEquipReward 실행 - itemIndex: {itemIndex}");
 
+    private static void ModifySaveData(Action<SaveData> modifier)
+    {
         if (!File.Exists(SavePath))
         {
             File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
-            Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
         }
 
         string json = File.ReadAllText(SavePath);
         var save = JsonUtility.FromJson<SaveData>(json);
 
-        int generateUniqueID = System.Guid.NewGuid().GetHashCode();
-
-        save.inventory.Add(new ItemInstanceSave{itemIndex = itemIndex,uniqueID = generateUniqueID});
-        Debug.Log($"[SaveSystem] 아이템 추가 - uniqueID: {generateUniqueID}");
-
-        string newJson = JsonUtility.ToJson(save, true);
-        File.WriteAllText(SavePath, newJson);
-    }
-
-    public static void SaveEquipReward(ItemInstance instance)
-    {
-        Debug.Log($"[SaveSystem] SaveEquipReward 실행 - itemIndex: {instance.Data.ItemIndex}");
-
-        if (!File.Exists(SavePath))
-            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
-
-        string json = File.ReadAllText(SavePath);
-        var save = JsonUtility.FromJson<SaveData>(json);
-
-        save.inventory.Add(new ItemInstanceSave
-        {
-            itemIndex = instance.Data.ItemIndex,
-            uniqueID = instance.UniqueID
-        });
-
-        Debug.Log($"[SaveSystem] 아이템 추가 - uniqueID: {instance.UniqueID}");
+        modifier?.Invoke(save);
 
         File.WriteAllText(SavePath, JsonUtility.ToJson(save, true));
     }
 
-    public static void RemoveEquip(int uniqueID)
+    public static void SaveGetItem(ItemInstance instance)
     {
-        Debug.Log($"[SaveSystem] RemoveEquipReward 실행 - uniqueID: {uniqueID}");
-        if (!File.Exists(SavePath))
+        ModifySaveData(save =>
         {
-            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
-            Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
-        }
-        string json = File.ReadAllText(SavePath);
-        var save = JsonUtility.FromJson<SaveData>(json);
-        save.inventory.RemoveAll(item => item.uniqueID == uniqueID);
-        Debug.Log($"[SaveSystem] 아이템 제거 - uniqueID: {uniqueID}");
-        string newJson = JsonUtility.ToJson(save, true);
-        File.WriteAllText(SavePath, newJson);
+            save.inventory.Add(new ItemInstanceSave
+            {
+                itemIndex = instance.Data.ItemIndex,
+                uniqueID = instance.UniqueID
+            });
+        });
     }
 
-    public static void SaveGoldReward(int gold)
+    public static void SaveGetGold(int gold)
     {
-        Debug.Log($"[SaveSystem] SaveGoldReward 실행 - 추가 골드: {gold}");
-
-        if (!File.Exists(SavePath))
+        ModifySaveData(save =>
         {
-            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
-            Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
-        }
-
-        string json = File.ReadAllText(SavePath);
-        var save = JsonUtility.FromJson<SaveData>(json);
-
-        save.gold += gold;
-        Debug.Log($"[SaveSystem] 총 골드: {save.gold}");
-
-        string newJson = JsonUtility.ToJson(save, true);
-        File.WriteAllText(SavePath, newJson);
+            save.gold += gold;
+        });
     }
 
-    public static void SaveUpgradeStonedReward(int upgradeStone)
+    public static void SaveGetUpgradeStone(int upgradestones)
     {
-        Debug.Log($"[SaveSystem] SaveUpgradeStonedReward 실행 - 추가 강화석: {upgradeStone}");
-
-        if (!File.Exists(SavePath))
+        ModifySaveData(save =>
         {
-            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
-            Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
-        }
+            save.upgradeStones += upgradestones;
+        });
+    }
 
-        string json = File.ReadAllText(SavePath);
-        var save = JsonUtility.FromJson<SaveData>(json);
+    public static void SaveRemoveEquip(int uniqueID)
+    {
+        ModifySaveData(save =>
+        {
+            save.inventory.RemoveAll(item => item.uniqueID == uniqueID);
+            save.equipped.RemoveAll(equip => equip.uniqueID == uniqueID);
+        });
+    }
 
-        save.upgradeStones += upgradeStone;
-        Debug.Log($"[SaveSystem] 총 강화석: {save.upgradeStones}");
+    public static void SaveRemoveItem(int uniqueID)
+    {
+        ModifySaveData(save =>
+        {
+            save.inventory.RemoveAll(item => item.uniqueID == uniqueID);
+        });
+    }
 
-        string newJson = JsonUtility.ToJson(save, true);
-        File.WriteAllText(SavePath, newJson);
+    public static void SaveEquipData()
+    {
+
+        ModifySaveData(save =>
+        {
+            save.equipped.Clear();
+            foreach (var item in MainSceneManager.Instance.equipment.GetEquipped())
+            {
+                save.equipped.Add(new EquippedItemSave
+                {
+                    equipType = item.Key,
+                    uniqueID = item.Value.UniqueID
+                });
+            }
+        });
+    }
+
+    public static void SaveInventoryData()
+    {
+        ModifySaveData(save =>
+        {
+            save.inventory.Clear();
+            foreach (var item in MainSceneManager.Instance.inventory.GetAll())
+            {
+                save.inventory.Add(new ItemInstanceSave
+                {
+                    itemIndex = item.Data.ItemIndex,
+                    uniqueID = item.UniqueID
+                });
+            }
+        });
+    }
+
+    public static void SaveInventoryGoods()
+    {
+        ModifySaveData(save =>
+        {
+            save.gold = GameManager.Instance.gold;
+            save.upgradeStones = GameManager.Instance.upgradeStones;
+        });
     }
 
     public static void SaveTowerUpgradeData(TowerUpgrade towerUpgrade)
     {
-        Debug.Log("[SaveSystem] SaveTowerUpgradeData 실행");
-
-        if (!File.Exists(SavePath))
+        ModifySaveData(save =>
         {
-            File.WriteAllText(SavePath, JsonUtility.ToJson(new SaveData(), true));
-            Debug.Log("[SaveSystem] save.json이 없어서 새로 생성함.");
-        }
-
-        string json = File.ReadAllText(SavePath);
-        SaveData save = JsonUtility.FromJson<SaveData>(json);
-        SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(towerUpgrade.towerUpgradeData);
-        save.towerUpgradedata = towerUpgradeData;
-        string newJson = JsonUtility.ToJson(save, true);
-        File.WriteAllText(SavePath, newJson);
-        Debug.Log("[SaveSystem] 타워 업그레이드 데이터 저장 완료");
+            save.towerUpgradedata = new SerializableTowerUpgradeData(towerUpgrade.towerUpgradeData);
+        });
     }
+
     public static void SaveGame()
     {
-        Debug.Log("[SaveSystem] SaveGame 실행");
-
-        var save = new SaveData();
-
-        var inventory = MainSceneManager.Instance.inventory;
-        var equipment = MainSceneManager.Instance.equipment;
-        var towerUpgrade = MainSceneManager.Instance.TowerUpgrade;
-
-        foreach (var item in inventory.GetAll())
-        {
-            save.inventory.Add(new ItemInstanceSave { itemIndex = item.Data.ItemIndex, uniqueID = item.UniqueID });
-            Debug.Log($"[SaveSystem] 인벤토리 저장 - index: {item.Data.ItemIndex}, uniqueID: {item.UniqueID}");
-        }
-
-        foreach (var kvp in equipment.GetEquipped())
-        {
-            save.equipped.Add(new EquippedItemSave { equipType = kvp.Key, uniqueID = kvp.Value.UniqueID });
-            Debug.Log($"[SaveSystem] 장비 저장 - {kvp.Key} : uniqueID: {kvp.Value.UniqueID}");
-        }
-        
-        SerializableTowerUpgradeData towerUpgradeData = new SerializableTowerUpgradeData(towerUpgrade.towerUpgradeData);
-        save.towerUpgradedata = towerUpgradeData;
-        
-        save.gold = GameManager.Instance.gold;
-        save.upgradeStones = GameManager.Instance.upgradeStones;
-        Debug.Log($"[SaveSystem] 골드: {save.gold}, 강화석: {save.upgradeStones}");
-
-        string json = JsonUtility.ToJson(save, true);
-        File.WriteAllText(SavePath, json);
-        Debug.Log("[SaveSystem] 저장 완료 → " + SavePath);
+        SaveInventoryData(); 
+        SaveEquipData();     
+        SaveInventoryGoods();
+        SaveTowerUpgradeData(MainSceneManager.Instance.TowerUpgrade);
     }
 
     public static void LoadGame()

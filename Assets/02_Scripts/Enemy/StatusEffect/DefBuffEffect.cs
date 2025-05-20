@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class DefBuffEffect : StatusEffect
 {
     public DefBuffEffect(float amount, float duration) : base(amount, duration)

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EvasionBuffEffect : StatusEffect
 {
     public EvasionBuffEffect(float amount, float duration) : base(amount, duration)

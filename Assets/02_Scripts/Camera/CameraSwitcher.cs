@@ -37,7 +37,7 @@ public class CameraSwitcher : MonoBehaviour
             focusCam.Priority = 10;
             freeCam.Priority = 0;
             focusCamBoundary.InvalidateCache();
-            if(focusCoroutine != null)
+            if (focusCoroutine != null)
             {
                 StopCoroutine(focusCoroutine);
                 focusCoroutine = null;

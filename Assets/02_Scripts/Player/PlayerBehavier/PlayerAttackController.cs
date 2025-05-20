@@ -68,7 +68,6 @@ public class PlayerAttackController : MonoBehaviour
 
             if (hits.Length == 0)
             {
-                //Debug.LogWarning("몬스터를 찾지 못하였습니다");
             }
             else
             {
@@ -163,7 +162,7 @@ public class PlayerAttackController : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos()
     {
-        if (player == null) return; 
+        if (player == null) return;
 
         // 감지 범위 (빨간 원)
         Gizmos.color = Color.red;

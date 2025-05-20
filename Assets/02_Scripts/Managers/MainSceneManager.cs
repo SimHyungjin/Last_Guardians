@@ -28,7 +28,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
-        TowerUpgrade=Resources.Load<TowerUpgrade>("UI/MainScene/TowerUpgrade");
+        TowerUpgrade = Resources.Load<TowerUpgrade>("UI/MainScene/TowerUpgrade");
         EquipTutorial = Resources.Load<TutorialUI>("UI/MainScene/EquipTutorial");
         UpgradeTutorial = Resources.Load<TutorialUI>("UI/MainScene/UpgradeTutorial");
 
@@ -133,7 +133,7 @@ public class MainSceneManager : Singleton<MainSceneManager>
         var groupObj = Utils.InstantiatePrefabFromResource("UI/MainScene/InventoryGroup", obj.transform);
         inventoryManager = groupObj.GetComponent<InventoryManager>();
         inventoryManager.Init();
-        
+
         panelMap["InventoryGroup"] = groupObj;
     }
 }

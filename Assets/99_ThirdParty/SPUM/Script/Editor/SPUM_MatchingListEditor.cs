@@ -1,6 +1,6 @@
-using UnityEngine;
-using UnityEditor;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(SPUM_MatchingList))]
 public class SPUM_MatchingListEditor : Editor
@@ -30,29 +30,29 @@ public class SPUM_MatchingListEditor : Editor
             SortByName(matchingList);
         }
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Index",GUILayout.Width(20));
-        EditorGUILayout.LabelField("UnitType",GUILayout.Width(50));
-        EditorGUILayout.LabelField("PartType",GUILayout.Width(50));
-        EditorGUILayout.LabelField("PartSubType",GUILayout.Width(50));
-        EditorGUILayout.LabelField("Direction",GUILayout.Width(50));
-        EditorGUILayout.LabelField("Structure",GUILayout.Width(100));
-        EditorGUILayout.LabelField("ItemPath",GUILayout.Width(40));
+        EditorGUILayout.LabelField("Index", GUILayout.Width(20));
+        EditorGUILayout.LabelField("UnitType", GUILayout.Width(50));
+        EditorGUILayout.LabelField("PartType", GUILayout.Width(50));
+        EditorGUILayout.LabelField("PartSubType", GUILayout.Width(50));
+        EditorGUILayout.LabelField("Direction", GUILayout.Width(50));
+        EditorGUILayout.LabelField("Structure", GUILayout.Width(100));
+        EditorGUILayout.LabelField("ItemPath", GUILayout.Width(40));
         EditorGUILayout.LabelField("Renderer", GUILayout.Width(80));
-        EditorGUILayout.LabelField("Color",GUILayout.Width(50));
+        EditorGUILayout.LabelField("Color", GUILayout.Width(50));
         EditorGUILayout.EndHorizontal();
 
         for (int i = 0; i < matchingList.matchingTables.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
-            matchingList.matchingTables[i].Index = EditorGUILayout.IntField(matchingList.matchingTables[i].Index,GUILayout.Width(20));
-            matchingList.matchingTables[i].UnitType = EditorGUILayout.TextField(matchingList.matchingTables[i].UnitType,GUILayout.Width(50));
-            matchingList.matchingTables[i].PartType = EditorGUILayout.TextField(matchingList.matchingTables[i].PartType,GUILayout.Width(50));
-            matchingList.matchingTables[i].PartSubType = EditorGUILayout.TextField(matchingList.matchingTables[i].PartSubType,GUILayout.Width(50));
-            matchingList.matchingTables[i].Dir = EditorGUILayout.TextField(matchingList.matchingTables[i].Dir,GUILayout.Width(50));
-            matchingList.matchingTables[i].Structure = EditorGUILayout.TextField(matchingList.matchingTables[i].Structure,GUILayout.Width(100));
-            matchingList.matchingTables[i].ItemPath = EditorGUILayout.TextField(matchingList.matchingTables[i].ItemPath,GUILayout.Width(40));
+            matchingList.matchingTables[i].Index = EditorGUILayout.IntField(matchingList.matchingTables[i].Index, GUILayout.Width(20));
+            matchingList.matchingTables[i].UnitType = EditorGUILayout.TextField(matchingList.matchingTables[i].UnitType, GUILayout.Width(50));
+            matchingList.matchingTables[i].PartType = EditorGUILayout.TextField(matchingList.matchingTables[i].PartType, GUILayout.Width(50));
+            matchingList.matchingTables[i].PartSubType = EditorGUILayout.TextField(matchingList.matchingTables[i].PartSubType, GUILayout.Width(50));
+            matchingList.matchingTables[i].Dir = EditorGUILayout.TextField(matchingList.matchingTables[i].Dir, GUILayout.Width(50));
+            matchingList.matchingTables[i].Structure = EditorGUILayout.TextField(matchingList.matchingTables[i].Structure, GUILayout.Width(100));
+            matchingList.matchingTables[i].ItemPath = EditorGUILayout.TextField(matchingList.matchingTables[i].ItemPath, GUILayout.Width(40));
             matchingList.matchingTables[i].renderer = (SpriteRenderer)EditorGUILayout.ObjectField(matchingList.matchingTables[i].renderer, typeof(SpriteRenderer), true, GUILayout.Width(80));
-            matchingList.matchingTables[i].Color = (Color32)EditorGUILayout.ColorField(matchingList.matchingTables[i].Color,GUILayout.Width(50));
+            matchingList.matchingTables[i].Color = (Color32)EditorGUILayout.ColorField(matchingList.matchingTables[i].Color, GUILayout.Width(50));
             GUI.enabled = i > 0;
             if (GUILayout.Button("▲", GUILayout.Width(20)))
             {
@@ -79,9 +79,9 @@ public class SPUM_MatchingListEditor : Editor
         }
         if (GUILayout.Button("Find All Renderer Component"))
         {
-            if(EditorUtility.DisplayDialog("Warrning",  "Warning: Data mapping table is being initialized.", "OK","Cancel"))
+            if (EditorUtility.DisplayDialog("Warrning", "Warning: Data mapping table is being initialized.", "OK", "Cancel"))
             {
-                if(EditorUtility.DisplayDialog("Warrning",   "Are you sure you want to proceed?", "Yes","No"))
+                if (EditorUtility.DisplayDialog("Warrning", "Are you sure you want to proceed?", "Yes", "No"))
                 {
                     Debug.Log("초기화됨");
                     matchingList.LoadItems();

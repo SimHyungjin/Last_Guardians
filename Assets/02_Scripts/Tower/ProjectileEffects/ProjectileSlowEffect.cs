@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileSlowEffect : MonoBehaviour, IEffect
@@ -11,7 +9,7 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
         IsWater(environmentEffect);
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
-            target.ApplySlowdown(adaptedTowerData.effectValue+ addObstacleValue, adaptedTowerData.effectDuration);
+            target.ApplySlowdown(adaptedTowerData.effectValue + addObstacleValue, adaptedTowerData.effectDuration);
         }
     }
 
@@ -22,7 +20,7 @@ public class ProjectileSlowEffect : MonoBehaviour, IEffect
         {
             if (Random.value < chance)
             {
-                target.ApplySlowdown(towerData.EffectValue+ addObstacleValue, towerData.EffectDuration);
+                target.ApplySlowdown(towerData.EffectValue + addObstacleValue, towerData.EffectDuration);
             }
         }
     }

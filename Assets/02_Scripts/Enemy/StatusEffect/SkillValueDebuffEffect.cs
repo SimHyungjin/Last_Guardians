@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
 public class SkillValueDebuffEffect : StatusEffect
 {
     public SkillValueDebuffEffect(float amount, float duration) : base(amount, duration)

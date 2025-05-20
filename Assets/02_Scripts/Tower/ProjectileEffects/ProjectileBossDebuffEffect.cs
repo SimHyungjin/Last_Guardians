@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
 {
-    ///////////============================πÊæÓ∑¬∞®º“==============================/////////////////////
+    ///////////============================Î∞©Ïñ¥Î†•Í∞êÏÜå==============================/////////////////////
     public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
@@ -13,7 +11,7 @@ public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedAttackTowerData adaptedTowerData ,float chance,EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {

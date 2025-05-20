@@ -1,12 +1,10 @@
-using UnityEngine;
-
 public class TowerBuffAddProjectileComponent : ITowerBuff
 {
     public void ApplyBuffToTower(BaseTower tower, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)
     {
         if (tower is AttackTower attackTower)
         {
-            attackTower.AddEffect(data.towerIndex,environmentEffect);
+            attackTower.AddEffect(data.towerIndex, environmentEffect);
         }
         else if (tower is BuffTower buffTower)
         {

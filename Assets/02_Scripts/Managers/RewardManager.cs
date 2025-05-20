@@ -21,13 +21,9 @@ public class RewardManager : Singleton<RewardManager>
             return;
         }
 
-        Debug.Log($"[RewardManager] 웨이브 {wave} 보상 지급 시작");
-
         Gold = CalculateGold(wave);
         Stone = CalculateStone(wave);
         EquipIndices = CalculateEquips(wave);
-
-        Debug.Log($"[RewardManager] 골드: {Gold}, 강화석: {Stone}, 장비 개수: {EquipIndices.Count}");
     }
 
     #region 골드 보상 (50*wave ~ 100*wave)

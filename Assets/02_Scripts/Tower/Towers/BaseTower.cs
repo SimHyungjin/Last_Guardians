@@ -1,12 +1,7 @@
 using DG.Tweening;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class EnvironmentEffect
@@ -23,9 +18,9 @@ public class EnvironmentEffect
         isBuffAffectedByWater = false;
         isBuffAffectedByFire = false;
     }
-    public bool IsFireBoosted()=> isNearFire || isBuffAffectedByFire;
+    public bool IsFireBoosted() => isNearFire || isBuffAffectedByFire;
 
-    public bool IsWaterBoosted()=> isNearWater || isBuffAffectedByWater;
+    public bool IsWaterBoosted() => isNearWater || isBuffAffectedByWater;
 
 }
 
@@ -43,7 +38,7 @@ public abstract class BaseTower : MonoBehaviour
     [Header("타워 외관")]
     protected Animator animator;
     private GradeStar gradeStar;
-    [SerializeField]private TextMeshPro towerNameText;
+    [SerializeField] private TextMeshPro towerNameText;
 
     Vector2 curPos;
 
@@ -60,7 +55,7 @@ public abstract class BaseTower : MonoBehaviour
     /// <param name="_towerData"></param>
     public virtual void Init(TowerData _towerData)
     {
-        towerUpgradeData= Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
+        towerUpgradeData = Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
         towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         sprite = GetComponent<SpriteRenderer>();
@@ -106,7 +101,7 @@ public abstract class BaseTower : MonoBehaviour
             }
             if (basePlantedObstacle != null)
             {
-                if(EnviromentManager.Instance.Obstacles.Contains(basePlantedObstacle))
+                if (EnviromentManager.Instance.Obstacles.Contains(basePlantedObstacle))
                     EnviromentManager.Instance.Obstacles.Remove(basePlantedObstacle);
                 Destroy(basePlantedObstacle.gameObject);
             }
@@ -126,14 +121,14 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
-        
+
     protected virtual void Update()
     {
 
     }
 
     ///////////=====================터치관련=====================================/////////////////////
-    
+
     /// <summary>
     /// 터치시 호출된다.
     /// 일반터치와 홀드터치로 나뉘어져있다.
@@ -227,7 +222,7 @@ public abstract class BaseTower : MonoBehaviour
         TowerManager.Instance.RemoveTower(this);
     }
     protected virtual void OnDestroy()
-    {   
+    {
         if (TowerManager.Instance.gameObject.activeInHierarchy)
         {
             TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));

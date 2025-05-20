@@ -1,7 +1,7 @@
 // TowerUpgradeButtonHandler.cs
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class TowerUpgradeButtonHandler : MonoBehaviour,
@@ -9,7 +9,7 @@ public class TowerUpgradeButtonHandler : MonoBehaviour,
     IPointerUpHandler,
     IPointerExitHandler
 {
-    [Tooltip("´©¸£°í ÀÖ´Â µ¿¾È ¹İº¹ Àç»ıÇÒ È¿°úÀ½ ÀÌ¸§")]
+    [Tooltip("ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ ë°˜ë³µ ì¬ìƒí•  íš¨ê³¼ìŒ ì´ë¦„")]
     public string holdSoundName = "Upgrade";
 
     private Button clickedButton;
@@ -25,9 +25,9 @@ public class TowerUpgradeButtonHandler : MonoBehaviour,
         if (clickedButton != null && clickedButton.interactable)
         {
             isButtonHeld = true;
-           
+
             SoundManager.Instance.PlaySFXLoop(holdSoundName);
-           
+
             OnButtonHeld?.Invoke(clickedButton, isButtonHeld);
         }
     }
@@ -46,8 +46,8 @@ public class TowerUpgradeButtonHandler : MonoBehaviour,
     {
         if (!isButtonHeld) return;
         isButtonHeld = false;
-        
-        
+
+
         OnButtonHeld?.Invoke(clickedButton, isButtonHeld);
         clickedButton = null;
     }

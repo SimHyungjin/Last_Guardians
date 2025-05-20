@@ -5,7 +5,7 @@ public class PopupBase : MonoBehaviour
 {
     public bool IsInit = false;
     public bool IsOpen => gameObject.activeSelf;
-    public virtual void NeedInit() 
+    public virtual void NeedInit()
     {
         if (IsInit == false)
         {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -25,7 +23,7 @@ public abstract class StatusEffect
     public virtual void UpdateEffect(BaseMonster target, float time)
     {
         Duration -= time;
-        if(Duration <= 0)
+        if (Duration <= 0)
         {
             RemoveEffect(target);
         }

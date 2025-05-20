@@ -19,6 +19,6 @@ public class AttackRangedMulti : IAttackBehavior
 
     public void ShowRange()
     {
-        
+
     }
 }

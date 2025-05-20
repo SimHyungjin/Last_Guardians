@@ -63,7 +63,7 @@ public class DeckHandler : MonoBehaviour
                     ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
                 }
             }
-            else if(ghostTower != null)
+            else if (ghostTower != null)
             {
                 TowerManager.Instance.towerbuilder.ChangeCardDontMove();
                 highlightedCard.gameObject.SetActive(true);
@@ -71,7 +71,7 @@ public class DeckHandler : MonoBehaviour
             }
         }
     }
-    
+
     /// <summary>
     /// 덱에 카드위치 정렬
     /// </summary>
@@ -94,7 +94,7 @@ public class DeckHandler : MonoBehaviour
 
     public void MoveCardStart(Card card)
     {
-        if (isHighlighting&&card.TowerIndex==highlightedIndex)
+        if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
             isDragging = true;
             dragStartPos = InputManager.Instance.GetTouchPosition();
@@ -138,11 +138,11 @@ public class DeckHandler : MonoBehaviour
                                         Debug.Log("타워설치 가능");
                                         TowerManager.Instance.towerbuilder.TowerConstruct(
                                         InputManager.Instance.GetTouchWorldPosition(),
-                                        highlightedIndex                                        
+                                        highlightedIndex
                                         );
-                                        UseCard(); 
+                                        UseCard();
                                     }
-                                    else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))
+                                    else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(), highlightedIndex))
                                     {
                                         Debug.Log("타워합성 가능");
                                         TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
@@ -161,7 +161,7 @@ public class DeckHandler : MonoBehaviour
             }
             isDragging = false;
         }
-        else if(TowerManager.Instance.CanStartInteraction())
+        else if (TowerManager.Instance.CanStartInteraction())
         {
             HighlightCard(card);
             TowerManager.Instance.StartInteraction(InteractionState.CardMoving);
@@ -220,7 +220,7 @@ public class DeckHandler : MonoBehaviour
             UpdateLayout();
             rect = card.GetComponent<RectTransform>();
         }
-        else 
+        else
         {
             card.subtractStack();
             card.ShowStack();
@@ -241,15 +241,15 @@ public class DeckHandler : MonoBehaviour
 
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic)
-            .OnComplete(() => {handRect.anchoredPosition = originalPosition - new Vector2(0, 100f); });
-        
+            .OnComplete(() => { handRect.anchoredPosition = originalPosition - new Vector2(0, 100f); });
+
     }
     /// <summary>
     /// 중간에 카드 동작을 취소하는 메서드
     /// </summary>
     public void CancleCard()
     {
-        if(isDragging) isDragging = false;
+        if (isDragging) isDragging = false;
         TowerManager.Instance.towerbuilder.ChangeCardDontMove();
         Destroy(ghostTower);
         highlightedCard.gameObject.SetActive(true);
@@ -261,7 +261,7 @@ public class DeckHandler : MonoBehaviour
     /// </summary>
     public void UnHighlightCard()
     {
-        bool stackExists=false;
+        bool stackExists = false;
         foreach (Card card in cards)
         {
             if (card.TowerIndex == highlightedIndex)
@@ -299,7 +299,7 @@ public class DeckHandler : MonoBehaviour
     {
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(originalPosition, 0.3f).SetEase(Ease.OutCubic)
-            .OnComplete(() => { handRect.anchoredPosition = originalPosition;});
+            .OnComplete(() => { handRect.anchoredPosition = originalPosition; });
         highlightedCard = null;
         highlightedIndex = -1;
         highlightedOrder = -1;
@@ -324,7 +324,7 @@ public class DeckHandler : MonoBehaviour
     /// <param name="index"></param>
     /// <param name="totalCount"></param>
     /// <param name="rect"></param>
-    private void GetCardLayout(int index, int totalCount,RectTransform rect)
+    private void GetCardLayout(int index, int totalCount, RectTransform rect)
     {
         float dynamicMaxAngle = Mathf.Min(9f * (totalCount - 1), 36f);
         float angleStep = (totalCount > 1) ? (dynamicMaxAngle * 2) / (totalCount - 1) : 0f;

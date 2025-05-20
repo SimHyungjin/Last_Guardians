@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerProjectile : MonoBehaviour,IPoolable
+public class PlayerProjectile : MonoBehaviour, IPoolable
 {
     [SerializeField] Sprite arrowSprite;
     [SerializeField] Sprite magicSprite;
@@ -66,7 +66,7 @@ public class PlayerProjectile : MonoBehaviour,IPoolable
         damage = _damage;
         isMulti = _isMulti;
         direction = (targetPos - (Vector2)transform.position).normalized;
-        if(!isMulti)
+        if (!isMulti)
         {
             spriteRenderer.sprite = arrowSprite;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

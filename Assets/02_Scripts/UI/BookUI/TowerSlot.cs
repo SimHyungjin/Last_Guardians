@@ -1,7 +1,7 @@
 // TowerSlot.cs
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class TowerSlot : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class TowerSlot : MonoBehaviour
     }
 
     /// <summary>
-    /// ½½·Ô¿¡ Å¸¿ö µ¥ÀÌÅÍ¸¦ ¼¼ÆÃÇÕ´Ï´Ù.
+    /// ìŠ¬ë¡¯ì— íƒ€ì›Œ ë°ì´í„°ë¥¼ ì„¸íŒ…í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetData(TowerData data)
     {
@@ -33,7 +33,7 @@ public class TowerSlot : MonoBehaviour
             return;
         }
 
-        // ¡ç ¿©±â¸¸ º¯°æ
+        // â† ì—¬ê¸°ë§Œ ë³€ê²½
         icon.sprite = TowerIconContainer.Instance.GetSprite(data.TowerIndex);
         nameText.text = data.TowerName;
     }

@@ -1,12 +1,8 @@
-using NavMeshPlus.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using Unity.AI.Navigation;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
@@ -27,7 +23,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public List<BaseMonster> AlliveMonsters { get; private set; }
     public MonsterWaveData nowWave { get; private set; }
     public EXPBead EXPBeadPrefab { get; private set; }
-    public List<MonsterData> BountyMonsterList {  get; private set; }
+    public List<MonsterData> BountyMonsterList { get; private set; }
     public float BountySpwanCoolTime { get; private set; }
     public int BossKillCount { get; set; }
     public float SpawnTimer { get; set; }
@@ -40,12 +36,12 @@ public class MonsterManager : Singleton<MonsterManager>
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
     private int alliveCount = 0;
-    public int RemainMonsterCount {  get; private set; }
+    public int RemainMonsterCount { get; private set; }
     public int MonsterKillCount { get; set; }
     public int EXPCount { get; set; } = 0;
 
     public int Catalysis { get; private set; }
-    public float CatalysisValue {  get; private set; }
+    public float CatalysisValue { get; private set; }
     public int EffectTransfer { get; private set; }
     public float EffectTransferUpgradeValue { get; private set; }
 
@@ -72,7 +68,6 @@ public class MonsterManager : Singleton<MonsterManager>
         if (currentWaveIndex >= WaveDatas.Count)
         {
             currentWaveIndex = 0;
-            Debug.Log("모든 웨이브 완료");
             //yield break;
             StartCoroutine(StartNextWave());
         }
@@ -89,9 +84,8 @@ public class MonsterManager : Singleton<MonsterManager>
             EnviromentManager.Instance.WeatherState.SetWeather(); // 다음 날씨 시작
             InGameManager.Instance.UpdateWeatherInfo();
         }
-            
 
-        Debug.Log($"웨이브 {nowWave.WaveIndex} 시작");
+
         InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
 
         yield return SpawnMonsters(nowWave);
@@ -113,7 +107,7 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         for (int i = 0; i < wave.Monster1Value; i++)
         {
-            SpawnMonster(wave.Monster1ID,wave.WaveIndex);
+            SpawnMonster(wave.Monster1ID, wave.WaveIndex);
             yield return new WaitForSeconds(wave.MonsterSpawnInterval);
         }
         for (int i = 0; i < wave.Monster2Value; i++)
@@ -137,7 +131,6 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         if (!monsterDataDict.TryGetValue(monsterIndex, out var data))
         {
-            Debug.LogWarning($"MonsterData 없음! ID: {monsterIndex}");
             return;
         }
 
@@ -183,7 +176,7 @@ public class MonsterManager : Singleton<MonsterManager>
     }
 
     public void SpawnBounty(int index)
-    {   
+    {
         if (index >= 201 && index <= 300)
         {
             MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
@@ -196,7 +189,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public BaseMonster SummonMonster(int index, Vector2 pos)
     {
-        
+
         MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == index);
         NormalEnemy monster = PoolManager.Instance.SpawnbyPrefabName(NormalPrefab);
         if (monster.agent != null)
@@ -243,17 +236,15 @@ public class MonsterManager : Singleton<MonsterManager>
             if (InGameManager.Instance.PlayerHP <= 0)
                 return;
 
-            Debug.Log("웨이브 클리어");
 
             currentWaveIndex++;
 
-           
+
             if (currentWaveIndex > MaxWave)
             {
                 MaxWave = currentWaveIndex;
                 PlayerPrefs.SetInt("IdleMaxWave", MaxWave);
                 PlayerPrefs.Save();
-                Debug.Log($"[최고 웨이브] {MaxWave}");
             }
 
             spawnCount = 0;
@@ -298,7 +289,6 @@ public class MonsterManager : Singleton<MonsterManager>
     public void ForceAddWave()
     {
         currentWaveIndex++;
-        Debug.Log($"[테스트] 현재 웨이브 → {currentWaveIndex}");
     }
 
 }

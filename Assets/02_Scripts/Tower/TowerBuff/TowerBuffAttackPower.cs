@@ -5,7 +5,7 @@ public class TowerBuffAttackPower : ITowerBuff
         if (tower is AttackTower attackTower)
         {
             AttackTower buffedattackTower = tower.GetComponent<AttackTower>();
-            if(buffedattackTower!=null) buffedattackTower.AttackPowerBuff(data.effectValue);
+            if (buffedattackTower != null) buffedattackTower.AttackPowerBuff(data.effectValue);
         }
     }
     public void ApplyBuffToTrap(TrapObject trap, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect)

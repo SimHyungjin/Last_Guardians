@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,7 +37,7 @@ public class ItemPopupUI : PopupBase
         equipmentSlotContainer = mainSceneManager.inventoryManager.equipmentSlotContainer;
         inventorySlotContainer = mainSceneManager.inventoryManager.inventorySlotContainer;
 
-        
+
 
         equipButton.onClick.AddListener(OnClickEquip);
         unequipButton.onClick.AddListener(OnClickUnEquip);
@@ -62,7 +61,7 @@ public class ItemPopupUI : PopupBase
     {
         gameObject.SetActive(active);
         icon.gameObject.SetActive(active);
-        if(!active)
+        if (!active)
         {
             itemName.text = string.Empty;
             description.text = string.Empty;

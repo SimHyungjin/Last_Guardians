@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleCry : MonsterSkillBase
@@ -9,9 +7,9 @@ public class BattleCry : MonsterSkillBase
     {
         // 범위 선택
         collider2Ds = Utils.OverlapCircleAllSorted(caster.transform.position, skillData.SkillRange / 2f, LayerMask.GetMask("Monster"));
-        foreach(Collider2D collider in collider2Ds)
+        foreach (Collider2D collider in collider2Ds)
         {
-            if(collider.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
+            if (collider.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
             {
                 //속도버프
                 baseMonster.ApplySpeedBuff(baseMonster.CurrentSkillValue, skillData.Duration);
@@ -19,5 +17,5 @@ public class BattleCry : MonsterSkillBase
         }
     }
 
-    
+
 }

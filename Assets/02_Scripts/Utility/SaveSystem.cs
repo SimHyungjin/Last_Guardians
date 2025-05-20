@@ -154,11 +154,8 @@ public static class SaveSystem
     {
         if (!File.Exists(SavePath))
         {
-            Debug.LogWarning("[SaveSystem] 저장 파일 없음, 로드 스킵");
             return;
         }
-
-        Debug.Log("[SaveSystem] LoadGame 실행");
 
         string json = File.ReadAllText(SavePath);
         var save = JsonUtility.FromJson<SaveData>(json);
@@ -169,7 +166,6 @@ public static class SaveSystem
         var towerUpgrade = MainSceneManager.Instance.TowerUpgrade;
 
         inventory.ClearAll();
-        Debug.Log("[SaveSystem] 인벤토리 초기화");
 
         Dictionary<int, ItemInstance> loadedMap = new();
 
@@ -178,7 +174,6 @@ public static class SaveSystem
             var instance = itemManager.GetItemInstanceByIndex(itemSave.itemIndex);
             if (instance == null)
             {
-                Debug.LogWarning($"[SaveSystem] 잘못된 아이템 인덱스: {itemSave.itemIndex}, 무시함");
                 continue;
             }
 
@@ -186,7 +181,6 @@ public static class SaveSystem
             inventory.AddItem(instance, 1, false);
             loadedMap[instance.UniqueID] = instance;
 
-            Debug.Log($"[SaveSystem] 인벤토리 로드 - index: {itemSave.itemIndex}, uniqueID: {itemSave.uniqueID}");
         }
 
         foreach (var equipSave in save.equipped)
@@ -194,26 +188,19 @@ public static class SaveSystem
             if (loadedMap.TryGetValue(equipSave.uniqueID, out var instance))
             {
                 equipment.Equip(instance, false);
-                Debug.Log($"[SaveSystem] 장비 로드 - {equipSave.equipType} : uniqueID: {equipSave.uniqueID}");
-            }
-            else
-            {
-                Debug.LogWarning($"[SaveSystem] 장비 로드 실패 - uniqueID {equipSave.uniqueID} 를 인벤토리에서 찾을 수 없음");
             }
         }
 
         if (save.towerUpgradedata == null)
         {
-            Debug.LogWarning("[SaveSystem] 타워 업그레이드 데이터 없음, 로드 스킵");
             return;
         }
         if (towerUpgrade == null)
         {
-            Debug.LogWarning("towerUpgrade없음");
         }
         if (towerUpgrade.towerUpgradeData == null)
         {
-            Debug.LogWarning("towerUpgradeData없음");
+
         }
         else
         {
@@ -226,6 +213,5 @@ public static class SaveSystem
 
         GameManager.Instance.gold = save.gold;
         GameManager.Instance.upgradeStones = save.upgradeStones;
-        Debug.Log($"[SaveSystem] 최종 상태 적용 - 골드: {save.gold}, 강화석: {save.upgradeStones}");
     }
 }

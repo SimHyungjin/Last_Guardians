@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialUI : MonoBehaviour
 {
@@ -52,7 +50,7 @@ public class TutorialUI : MonoBehaviour
     {
         if (isTransitioning) return;
 
-        if (currentPage-1 >= 0)
+        if (currentPage - 1 >= 0)
         {
             currentPage--;
             ShowPage(currentPage);
@@ -76,26 +74,25 @@ public class TutorialUI : MonoBehaviour
 
     private void EndTutorial()
     {
-        //Debug.Log($"{this.gameObject.name}");
         if (this.gameObject.name == "InGameTutorial")
             PlayerPrefs.SetInt("InGameTutorial", 1);
 
-        if(this.gameObject.name == "UpgradeTutorial")
+        if (this.gameObject.name == "UpgradeTutorial")
         {
             PlayerPrefs.SetInt("UpgradeTutorial", 1);
             MainSceneManager.Instance.ShowPanel("TowerUpgrade");
         }
-            
 
-        if(this.gameObject.name == "EquipTutorial")
+
+        if (this.gameObject.name == "EquipTutorial")
         {
             PlayerPrefs.SetInt("EquipTutorial", 1);
             MainSceneManager.Instance.ShowPanel("InventoryGroup");
         }
-            
+
 
         gameObject.SetActive(false);
-        if(GameManager.Instance.GetSceneName() == "GameScene")
+        if (GameManager.Instance.GetSceneName() == "GameScene")
             InGameManager.Instance.MuliigunStart();
     }
 }

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
 {
-    ///////////======================µµÆ®µ¥¹ÌÁö ÀÌÆåÆ®====================================/////////////////////
+    ///////////======================ë„íŠ¸ë°ë¯¸ì§€ ì´í™íŠ¸====================================/////////////////////
     float addObtacleValue = 0f;
     public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
@@ -39,7 +37,7 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
     }
 
     /// <summary>
-    /// ºÒ Àå¾Ö¹° ±ÙÃ³¿¡ ÀÖÀ»¶§ Àû¿ëµÇ´Â ·ÎÁ÷
+    /// ë¶ˆ ì¥ì• ë¬¼ ê·¼ì²˜ì— ìˆì„ë•Œ ì ìš©ë˜ëŠ” ë¡œì§
     /// </summary>
     /// <param name="environmentEffect"></param>
     public void IsFire(EnvironmentEffect environmentEffect)

@@ -31,7 +31,6 @@ public class Upgrade
         {
             var upgradedData = GetSuccessItem(instance);
             upgradedInstance = upgradedData;
-            Debug.Log($"Upgrade success: {instance.Data.ItemName}");
             return true;
         }
         else
@@ -52,19 +51,16 @@ public class Upgrade
         rule = upgradeRules.Find(x => x.sourceGrade == data.ItemGrade);
         if (rule == null)
         {
-            Debug.Log("No upgrade rule found");
             return false;
         }
 
         if (GameManager.Instance.gold < rule.requiredGold)
         {
-            Debug.Log("Not enough gold");
             return false;
         }
 
         if (GameManager.Instance.upgradeStones < rule.requiredUpgradeStones)
         {
-            Debug.Log("Not enough upgrade stones");
             return false;
         }
 
@@ -102,12 +98,10 @@ public class Upgrade
     {
         if (rule.failureEffect == UpgradeFailureEffect.Downgrade)
         {
-            Debug.Log("Upgrade failed, downgraded");
             return GameManager.Instance.ItemManager.GetItemInstanceByIndex(data.ItemIndex - 100);
         }
         else
         {
-            Debug.Log("Upgrade failed");
             return new ItemInstance(data);
         }
     }

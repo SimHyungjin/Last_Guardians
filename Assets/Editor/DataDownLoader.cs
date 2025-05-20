@@ -1,14 +1,11 @@
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.IO;
-using Newtonsoft.Json.Linq;
-using System.Linq;
-using System;
-using UnityEngine.InputSystem;
-using Unity.VisualScripting;
 using UnityEngine.U2D;
 
 
@@ -20,7 +17,7 @@ public class SheetDownButton : Editor
         base.OnInspectorGUI();
 
         DataDownLoader fnc = (DataDownLoader)target;
-    
+
         if (GUILayout.Button("Download CombinationData"))
         {
             fnc.StartCombinationDataDownload(true);
@@ -141,14 +138,9 @@ public class DataDownLoader : MonoBehaviour
         {
 
             JObject row = (JObject)jsonData[i];
-            foreach (var prop in row.Properties())
-            {
-                Debug.Log($"Key: '{prop.Name}', Value: '{prop.Value}'");
-            }
             int result = int.TryParse(row["fusionIndex"]?.ToString(), out int parsedResult) ? parsedResult : default;
             int ingredient1 = int.TryParse(row["tower_material1"]?.ToString(), out int parsedIngredient1) ? parsedIngredient1 : default;
             int ingredient2 = int.TryParse(row["tower_material2"]?.ToString(), out int parsedIngredient2) ? parsedIngredient2 : default;
-            Debug.Log($"result: {result}, ingredient1: {ingredient1}, ingredient2: {ingredient2}");
             towerCombinationData.SetData(result, ingredient1, ingredient2);
         }
 #if UNITY_EDITOR
@@ -203,7 +195,7 @@ public class DataDownLoader : MonoBehaviour
             float Lv2 = float.TryParse(row["Lv2"]?.ToString(), out float parsedLv2) ? parsedLv2 : default;
 
             float Lv3 = float.TryParse(row["Lv3"]?.ToString(), out float parsedLv3) ? parsedLv3 : default;
-            towerUpgradeValueSO.SetData(index, UpgradeName,Lv0, Lv1, Lv2, Lv3);
+            towerUpgradeValueSO.SetData(index, UpgradeName, Lv0, Lv1, Lv2, Lv3);
         }
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(towerCombinationData);
@@ -659,7 +651,7 @@ public class DataDownLoader : MonoBehaviour
 
         for (int i = 0; i < jsonData.Count; i++)
         {
-            JObject row = (JObject)jsonData[i];           
+            JObject row = (JObject)jsonData[i];
             int towerIndex = int.TryParse(row["towerIndex"]?.ToString(), out int parsedTowerIndex) ? parsedTowerIndex : default;
             string towerName = row["towerName"]?.ToString() ?? string.Empty;
             float attackPower = float.TryParse(row["attackPower"]?.ToString(), out float parsedAttackPower) ? parsedAttackPower : default;
@@ -699,7 +691,7 @@ public class DataDownLoader : MonoBehaviour
                 RenameTowerDataScriptableObjectFile(data, dataname);
             }
 
-            data.SetData(towerGhostPrefabs,towerAtlas,towerIndex, towerName, attackPower, attackSpeed, attackRange, towerType, projectileType, elementType,
+            data.SetData(towerGhostPrefabs, towerAtlas, towerIndex, towerName, attackPower, attackSpeed, attackRange, towerType, projectileType, elementType,
                         specialEffect, effectChance, effectDuration, effectValue, effectTarget, effectTargetCount,
                         bossImmune, upgradeLevel, towerDescription);
             EditorUtility.SetDirty(data);
@@ -807,7 +799,7 @@ public class DataDownLoader : MonoBehaviour
             int itemIndex = int.TryParse(row["itemIndex"]?.ToString(), out int parsedItemIndex) ? parsedItemIndex : default;
             string itemName = row["itemName"]?.ToString() ?? string.Empty;
             string itemDescript = row["itemDescript"]?.ToString() ?? string.Empty;
-            string rawType = row["itemType"]?.ToString().Replace(" ", "") ?? ""; 
+            string rawType = row["itemType"]?.ToString().Replace(" ", "") ?? "";
             ItemType itemType = Enum.TryParse(rawType, true, out ItemType parsedType)
                 ? parsedType
                 : ItemType.Equipment;
@@ -915,7 +907,7 @@ public class DataDownLoader : MonoBehaviour
 
     /// /////////////장비 테이블 // // // // // // // //
 
-    const string URL_EquipData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=959097333"; 
+    const string URL_EquipData = "https://docs.google.com/spreadsheets/d/1WV9YaIFWGZ6o0EonAEMNsEbMHrbqGUoJgYVA3oZbQFQ/export?format=tsv&gid=959097333";
 
     public void StartEquipDataDownload(bool renameFiles)
     {
@@ -930,7 +922,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 41, startCol:10 , endCol: 20);
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 41, startCol: 10, endCol: 20);
             JArray jsonData = JArray.Parse(json);
             ApplyEquipDataToSO(jsonData, renameFiles);
         }
@@ -973,7 +965,7 @@ public class DataDownLoader : MonoBehaviour
             ItemData matchedItem = itemDataSO.Find(item => item.ItemIndex == equipIndex);
             if (matchedItem != null)
             {
-                data.ApplyBaseItemData(matchedItem); 
+                data.ApplyBaseItemData(matchedItem);
             }
             else
             {
@@ -992,7 +984,7 @@ public class DataDownLoader : MonoBehaviour
             AssetDatabase.SaveAssets();
 
             equipDataSO.Add(data);
-            itemDataSO.Add(data); 
+            itemDataSO.Add(data);
         }
 
         AssetDatabase.Refresh();
@@ -1017,7 +1009,7 @@ public class DataDownLoader : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             string tsvText = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsvText, startRow: 2,endRow:121, startCol: 15, endCol: 23); // 보상 영역만
+            string json = ConvertTSVToJson(tsvText, startRow: 2, endRow: 121, startCol: 15, endCol: 23); // 보상 영역만
             JArray jsonData = JArray.Parse(json);
             ApplyRewardDataToSO(jsonData, renameFiles);
         }
@@ -1067,7 +1059,7 @@ public class DataDownLoader : MonoBehaviour
 
 
 
-   
+
 
 
 

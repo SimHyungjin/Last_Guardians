@@ -1,19 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class BlastZone : MonoBehaviour
 {
-    ///////////==========================BlastProjectÆø¹ß½Ã ¹Ù´Ú¿¡ Ç¥½ÃµÇ´Â ÀåÆÇ================================/////////////////////
+    ///////////==========================BlastProjectí­ë°œì‹œ ë°”ë‹¥ì— í‘œì‹œë˜ëŠ” ì¥íŒ================================/////////////////////
 
-    public void Init(TowerData towerData,Transform _blastpos)
+    public void Init(TowerData towerData, Transform _blastpos)
     {
         Utils.GetColor(towerData, GetComponent<SpriteRenderer>());
         StartCoroutine(BlastEffect());
-        Debug.Log($"Æø¹ßÀ§Ä¡ {_blastpos}");
+        Debug.Log($"í­ë°œìœ„ì¹˜ {_blastpos}");
         transform.position = _blastpos.position;
-        Debug.Log($"»ı¼ºÀ§Ä¡ {transform.position}");
+        Debug.Log($"ìƒì„±ìœ„ì¹˜ {transform.position}");
     }
     private IEnumerator BlastEffect()
     {
@@ -27,6 +25,6 @@ public class BlastZone : MonoBehaviour
         PoolManager.Instance.Despawn<BlastZone>(this);
     }
 
-        
+
 }
 

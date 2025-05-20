@@ -7,7 +7,7 @@ public interface IPlayerBuff<T>
 {
     float? Value { get; }
     float Duration { get; }
-    
+
     void Apply(T playerData);
     void Remove(T playerData);
     //bool IsStrongerThan(IPlayerBuff<T> other);

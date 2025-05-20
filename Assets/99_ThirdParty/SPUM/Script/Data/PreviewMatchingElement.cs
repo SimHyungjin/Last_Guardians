@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
@@ -13,6 +13,6 @@ public class PreviewMatchingElement
     public string Structure;
     public string ItemPath;
     public int MaskIndex;
-	public Image image;
+    public Image image;
     public Color Color;
 }

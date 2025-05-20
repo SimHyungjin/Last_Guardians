@@ -34,18 +34,18 @@ public enum ElementType
 }
 public enum SpecialEffect
 {
-    DotDamage, 
-    Slow, 
-    MultyTarget, 
-    ChainAttack, 
-    Stun, 
-    BossDamage, 
-    BossDebuff, 
-    DefReduc, 
-    Knockback, 
-    Buff, 
-    AttackPower, 
-    AttackSpeed, 
+    DotDamage,
+    Slow,
+    MultyTarget,
+    ChainAttack,
+    Stun,
+    BossDamage,
+    BossDebuff,
+    DefReduc,
+    Knockback,
+    Buff,
+    AttackPower,
+    AttackSpeed,
     Summon,
     Silence,
     Critical,
@@ -53,15 +53,15 @@ public enum SpecialEffect
 }
 public enum EffectTarget
 {
-    Single,     
-    All,       
-    Multiple,  
-    BossOnly,   
-    Towers  
+    Single,
+    All,
+    Multiple,
+    BossOnly,
+    Towers
 }
 
 [CreateAssetMenu(fileName = "NewTower", menuName = "Data/BaseTower Data", order = 1)]
-public class TowerData: ScriptableObject
+public class TowerData : ScriptableObject
 {
     [Header("타워 외관")]
     [SerializeField] public GameObject towerGhostPrefab;
@@ -106,7 +106,7 @@ public class TowerData: ScriptableObject
     public string TowerDescription => towerDescription;
 
 
-    public void SetData(GameObject towerGhostPrefab,SpriteAtlas towerAtlas, int towerIndex, string towerName, float attackPower, float attackSpeed,
+    public void SetData(GameObject towerGhostPrefab, SpriteAtlas towerAtlas, int towerIndex, string towerName, float attackPower, float attackSpeed,
                         float attackRange, TowerType towerType, ProjectileType projectileType, ElementType elementType,
                         SpecialEffect specialEffect, float effectChance, float effectDuration,
                         float effectValue, EffectTarget effectTarget, int effectTargetCount,

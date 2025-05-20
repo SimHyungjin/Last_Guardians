@@ -1,9 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
 public class SPUM_PaginationManager : MonoBehaviour
 {
     public GameObject itemPrefab;
@@ -25,7 +24,7 @@ public class SPUM_PaginationManager : MonoBehaviour
     private int itemsPerPage = 10;
     public GameObject PreviewPanel;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     void Start()
     {
         LoadPrefabs();
@@ -48,8 +47,8 @@ public class SPUM_PaginationManager : MonoBehaviour
             int prefabIndex = kvp.Key;
             SPUM_Prefabs savedPrefab = kvp.Value;
             Debug.Log(savedPrefab._code + " " + savedPrefab.EditChk);
-            if(!savedPrefab.EditChk) continue;
-            bool needsConversion = savedPrefab._version < SPUM_Manager._version || 
+            if (!savedPrefab.EditChk) continue;
+            bool needsConversion = savedPrefab._version < SPUM_Manager._version ||
                                 !SPUM_Manager.ValidateSpumFile(savedPrefab).Item2.Count.Equals(0) || savedPrefab.EditChk;
 
             if (needsConversion)
@@ -74,7 +73,7 @@ public class SPUM_PaginationManager : MonoBehaviour
                     var UnitType = savedPrefab.UnitType.Equals("") ? "Unit" : savedPrefab.UnitType;
                     SPUM_Manager.SetUnitConverter(UnitType);
                     var newPrefab = SPUM_Manager.SaveConvertPrefabs(savedPrefab);
-                    
+
                     SPUM_Manager.MoveOldPrefabBackup(savedPrefab);
                     convertedPrefabs.Add(newPrefab);
                     indicesToRemove.Add(prefabIndex);
@@ -116,13 +115,13 @@ public class SPUM_PaginationManager : MonoBehaviour
     {
         List<SPUM_Prefabs> updatedPrefabs = new List<SPUM_Prefabs>();
         List<int> indicesToRemove = new List<int>();
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         foreach (var kvp in sortedItems)
         {
             int prefabIndex = kvp.Key;
             SPUM_Prefabs savedPrefab = kvp.Value;
-        
-            if(!savedPrefab.EditChk) continue;
+
+            if (!savedPrefab.EditChk) continue;
             // 프리셋 적용
             savedPrefab.spumPackages = preset.Packages;
             savedPrefab.PopulateAnimationLists();
@@ -137,13 +136,13 @@ public class SPUM_PaginationManager : MonoBehaviour
             // updatedPrefabs.Add(newPrefab);
             // indicesToRemove.Add(prefabIndex);
             Debug.Log(savedPrefab._code);
-            
+
             EditorUtility.SetDirty(savedPrefab);
         }
-            AssetDatabase.SaveAssets();
+        AssetDatabase.SaveAssets();
 
-            #endif
- 
+#endif
+
         // 이전 프리팹 제거 및 새 프리팹 추가
         // foreach (int index in indicesToRemove)
         // {
@@ -159,7 +158,8 @@ public class SPUM_PaginationManager : MonoBehaviour
         DisplayPage();
     }
 
-    public void LoadPrefabs(){
+    public void LoadPrefabs()
+    {
         LoadItems();
         DisplayPage();
 
@@ -167,7 +167,7 @@ public class SPUM_PaginationManager : MonoBehaviour
     }
     void LoadItems()
     {
-        if(sortedItems.Count> 0) return;
+        if (sortedItems.Count > 0) return;
         sortedItems.Clear();
         deletedIndexes.Clear();
         nextAvailableIndex = 0;
@@ -212,164 +212,170 @@ public class SPUM_PaginationManager : MonoBehaviour
         SelectAllToggleButton.isOn = false;
 
         int startIndex = (currentPage - 1) * itemsPerPage;
-        int endIndex = Mathf.Min(startIndex + itemsPerPage, sortedItems.Count); 
+        int endIndex = Mathf.Min(startIndex + itemsPerPage, sortedItems.Count);
         int i = 0;
         foreach (var kvp in sortedItems)
         {
             if (i >= startIndex && i < endIndex)
             {
 
-            GameObject PreviewElement = Instantiate(itemPrefab, contentParent);
-            Text UnitName = PreviewElement.GetComponentInChildren<Text>();
-            SPUM_Prefabs PreviewData = PreviewElement.GetComponentInChildren<SPUM_Prefabs>(); 
-            SPUM_Prefabs SavedPrefab = kvp.Value;
-            int prefabIndex = kvp.Key;
-            PreviewData.spumPackages = SavedPrefab.spumPackages;
-            PreviewData.ImageElement = SavedPrefab.ImageElement;
+                GameObject PreviewElement = Instantiate(itemPrefab, contentParent);
+                Text UnitName = PreviewElement.GetComponentInChildren<Text>();
+                SPUM_Prefabs PreviewData = PreviewElement.GetComponentInChildren<SPUM_Prefabs>();
+                SPUM_Prefabs SavedPrefab = kvp.Value;
+                int prefabIndex = kvp.Key;
+                PreviewData.spumPackages = SavedPrefab.spumPackages;
+                PreviewData.ImageElement = SavedPrefab.ImageElement;
 
-            var UnitType = SavedPrefab.UnitType.Equals("") ? "Unit" : SavedPrefab.UnitType;
+                var UnitType = SavedPrefab.UnitType.Equals("") ? "Unit" : SavedPrefab.UnitType;
 
-            foreach (Transform child in PreviewData.transform)
-            {
-                child.gameObject.SetActive(child.name.Contains(UnitType));
-            }
-            var anim = PreviewData.GetComponentInChildren<Animator>();
-            PreviewData._anim = anim;
-   
-            var matchingTables = PreviewElement.GetComponentsInChildren<SPUM_MatchingList>();
-            bool isInvalidPath = false;
-            var allMatchingElements = matchingTables.SelectMany(mt => mt.matchingTables).ToList();
-            foreach (var matchingElement in allMatchingElements)
-            {
-                var matchingTypeElement = SavedPrefab.ImageElement.FirstOrDefault(ie => 
-                (ie.UnitType == matchingElement.UnitType)
-                && (ie.PartType == matchingElement.PartType)
-                //&& ie.Index == matchingElement.Index
-                && (ie.Dir == matchingElement.Dir)
-                && (ie.Structure == matchingElement.Structure) 
-                && ie.PartSubType == matchingElement.PartSubType
-                );
-                //Debug.Log(matchingTypeElement != null);
-                if (matchingTypeElement != null)
+                foreach (Transform child in PreviewData.transform)
                 {
-                    var LoadSprite = SPUM_Manager.LoadSpriteFromMultiple(matchingTypeElement.ItemPath , matchingTypeElement.Structure);
-                    isInvalidPath = LoadSprite == null;
-                    matchingElement.renderer.sprite = LoadSprite;
-                    matchingElement.renderer.maskInteraction = (SpriteMaskInteraction)matchingTypeElement.MaskIndex;
-                    matchingElement.renderer.color = matchingTypeElement.Color; 
-                    matchingElement.ItemPath = matchingTypeElement.ItemPath;
-                    matchingElement.MaskIndex = matchingTypeElement.MaskIndex;
-                    matchingElement.Color = matchingTypeElement.Color;
+                    child.gameObject.SetActive(child.name.Contains(UnitType));
                 }
-            }
-            var ButtonPanel = PreviewElement.GetComponentInChildren<SPUM_LoadPrefabPanel>();
-            ButtonPanel.UnitCodeText.text = SavedPrefab._code;
+                var anim = PreviewData.GetComponentInChildren<Animator>();
+                PreviewData._anim = anim;
 
-            ButtonPanel.CheckedButton.isOn = SavedPrefab.EditChk;
-            ButtonPanel.CheckedButton.onValueChanged.AddListener((On) => {
-                SavedPrefab.EditChk = On;
-            });
-            SelectAllToggleButton.onValueChanged.AddListener((On) => {
+                var matchingTables = PreviewElement.GetComponentsInChildren<SPUM_MatchingList>();
+                bool isInvalidPath = false;
+                var allMatchingElements = matchingTables.SelectMany(mt => mt.matchingTables).ToList();
+                foreach (var matchingElement in allMatchingElements)
+                {
+                    var matchingTypeElement = SavedPrefab.ImageElement.FirstOrDefault(ie =>
+                    (ie.UnitType == matchingElement.UnitType)
+                    && (ie.PartType == matchingElement.PartType)
+                    //&& ie.Index == matchingElement.Index
+                    && (ie.Dir == matchingElement.Dir)
+                    && (ie.Structure == matchingElement.Structure)
+                    && ie.PartSubType == matchingElement.PartSubType
+                    );
+                    //Debug.Log(matchingTypeElement != null);
+                    if (matchingTypeElement != null)
+                    {
+                        var LoadSprite = SPUM_Manager.LoadSpriteFromMultiple(matchingTypeElement.ItemPath, matchingTypeElement.Structure);
+                        isInvalidPath = LoadSprite == null;
+                        matchingElement.renderer.sprite = LoadSprite;
+                        matchingElement.renderer.maskInteraction = (SpriteMaskInteraction)matchingTypeElement.MaskIndex;
+                        matchingElement.renderer.color = matchingTypeElement.Color;
+                        matchingElement.ItemPath = matchingTypeElement.ItemPath;
+                        matchingElement.MaskIndex = matchingTypeElement.MaskIndex;
+                        matchingElement.Color = matchingTypeElement.Color;
+                    }
+                }
+                var ButtonPanel = PreviewElement.GetComponentInChildren<SPUM_LoadPrefabPanel>();
+                ButtonPanel.UnitCodeText.text = SavedPrefab._code;
+
+                ButtonPanel.CheckedButton.isOn = SavedPrefab.EditChk;
+                ButtonPanel.CheckedButton.onValueChanged.AddListener((On) =>
+                {
+                    SavedPrefab.EditChk = On;
+                });
+                SelectAllToggleButton.onValueChanged.AddListener((On) =>
+                {
+                    if (ButtonPanel != null && ButtonPanel.CheckedButton != null)
+                    {
+                        ButtonPanel.CheckedButton.isOn = On;
+                    }
+                });
+                BatchModeButton.onValueChanged.AddListener((On) =>
+                {
+                    if (ButtonPanel != null && ButtonPanel.CheckedButton != null)
+                    {
+                        ButtonPanel.CheckedButton.gameObject.SetActive(On);
+                        ButtonPanel.DeleteButton.gameObject.SetActive(!On);
+                        ButtonPanel.SelectButton.gameObject.SetActive(!On);
+                        CloseButton.gameObject.SetActive(!On);
+                    }
+                });
                 if (ButtonPanel != null && ButtonPanel.CheckedButton != null)
                 {
-                    ButtonPanel.CheckedButton.isOn = On;
+                    ButtonPanel.CheckedButton.gameObject.SetActive(BatchModeButton.isOn);
+                    ButtonPanel.DeleteButton.gameObject.SetActive(!BatchModeButton.isOn);
+                    ButtonPanel.SelectButton.gameObject.SetActive(!BatchModeButton.isOn);
                 }
-            });
-            BatchModeButton.onValueChanged.AddListener((On) => {
-                if (ButtonPanel != null && ButtonPanel.CheckedButton != null)
+                ButtonPanel.SelectButton.onClick.AddListener(() =>
                 {
-                    ButtonPanel.CheckedButton.gameObject.SetActive(On);
-                    ButtonPanel.DeleteButton.gameObject.SetActive(!On);
-                    ButtonPanel.SelectButton.gameObject.SetActive(!On);
-                    CloseButton.gameObject.SetActive(!On);
-                }
-            });
-            if (ButtonPanel != null && ButtonPanel.CheckedButton != null)
-            {
-                ButtonPanel.CheckedButton.gameObject.SetActive(BatchModeButton.isOn);
-                ButtonPanel.DeleteButton.gameObject.SetActive(!BatchModeButton.isOn);
-                ButtonPanel.SelectButton.gameObject.SetActive(!BatchModeButton.isOn);
-            }
-            ButtonPanel.SelectButton.onClick.AddListener(()=>
-            {
-                SPUM_Manager.EditPrefab = SavedPrefab;
-                SPUM_Manager.UIManager.LoadButtonSet(true);
-                SPUM_Manager.ItemLoadButtonActive(SavedPrefab.ImageElement);
-                SPUM_Manager.ItemResetAll();
-                SPUM_Manager.SetSprite(SavedPrefab.ImageElement);
-                SPUM_Manager.SetType(SavedPrefab.UnitType);
-                SPUM_Manager.PreviewPrefab.spumPackages = SavedPrefab.spumPackages;
-                
-                SPUM_Manager.PreviewPrefab._version = SavedPrefab._version;
-                SPUM_Manager.PreviewPrefab._code = SavedPrefab._code;
-                SPUM_Manager.UIManager._loadObjCanvas.SetActive(false);
+                    SPUM_Manager.EditPrefab = SavedPrefab;
+                    SPUM_Manager.UIManager.LoadButtonSet(true);
+                    SPUM_Manager.ItemLoadButtonActive(SavedPrefab.ImageElement);
+                    SPUM_Manager.ItemResetAll();
+                    SPUM_Manager.SetSprite(SavedPrefab.ImageElement);
+                    SPUM_Manager.SetType(SavedPrefab.UnitType);
+                    SPUM_Manager.PreviewPrefab.spumPackages = SavedPrefab.spumPackages;
 
-                SPUM_Manager.animationManager.PlayFirstAnimation();
-            });
+                    SPUM_Manager.PreviewPrefab._version = SavedPrefab._version;
+                    SPUM_Manager.PreviewPrefab._code = SavedPrefab._code;
+                    SPUM_Manager.UIManager._loadObjCanvas.SetActive(false);
 
-            ButtonPanel.DeleteButton.onClick.AddListener(()=> {
-                DeleteUnit(prefabIndex, SavedPrefab);
-                SPUM_Manager.DeleteUnit(SavedPrefab);
-                DisplayPage();
-            });
-            bool isOldVersion =  SavedPrefab._version < SPUM_Manager._version;
-            
-            bool isInvalidClipPath = false;
-            var ClipList = SavedPrefab.spumPackages.SelectMany(package => package.SpumAnimationData).ToList();
-            
-            foreach (var clip in ClipList)
-            {
-                isInvalidClipPath = SPUM_Manager.ValidateAnimationClips(clip);
-                if(!isInvalidClipPath) break;
-            }
+                    SPUM_Manager.animationManager.PlayFirstAnimation();
+                });
 
-            bool IsActive = isOldVersion || isInvalidPath || !isInvalidClipPath;
-            ButtonPanel.ConvertButton.transform.parent.gameObject.SetActive(IsActive);
-            ButtonPanel.SelectButton.image.enabled = !IsActive;
-
-
-            ButtonPanel.ConvertButton.onClick.AddListener(()=> {
-                SPUM_Manager.MissingPackageNames.Clear();
-                var tupple = SPUM_Manager.ValidateSpumFile(SavedPrefab);
-                SPUM_Manager.DebugList.Clear();
-                SPUM_Manager.UIManager.ConvertView.PrefabVersion.text = $"Prefab Version {SavedPrefab._version}";
-
-                
-                switch (tupple.Item1)
+                ButtonPanel.DeleteButton.onClick.AddListener(() =>
                 {
-                    case 2:
-                        Debug.Log("2.0 Convert");
-                        var data = SPUM_Manager.ReSyncSpumElementDataList(tupple.Item2);
-                        SPUM_Manager.DebugList.AddRange(data);
-                       
-
-                    break;
-                    case 1:
-                        Debug.Log("1.0 Convert");
-                        var data2 = tupple.Item2;
-                        SPUM_Manager.DebugList.AddRange(data2);
-                    break;
-                    default:
-                    break;
-                }
-                SPUM_Manager.SetUnitConverter(UnitType);
-                var DistinctPackageList = SPUM_Manager.MissingPackageNames.Distinct().ToList();
-                ConvertAllButton.interactable = IsActive;
-                SPUM_Manager.UIManager.ConvertView.Convert.interactable = DistinctPackageList.Count.Equals(0);
-
-                SPUM_Manager.UIManager.ConvertView.Convert.onClick.AddListener(()=>{
-                    var newPrefab = SPUM_Manager.SaveConvertPrefabs(SavedPrefab);
-                    SPUM_Manager.MoveOldPrefabBackup(SavedPrefab);
-                    //Debug.Log();
                     DeleteUnit(prefabIndex, SavedPrefab);
-                    Debug.Log(newPrefab);
-                    AddNewPrefab(newPrefab);
+                    SPUM_Manager.DeleteUnit(SavedPrefab);
                     DisplayPage();
+                });
+                bool isOldVersion = SavedPrefab._version < SPUM_Manager._version;
+
+                bool isInvalidClipPath = false;
+                var ClipList = SavedPrefab.spumPackages.SelectMany(package => package.SpumAnimationData).ToList();
+
+                foreach (var clip in ClipList)
+                {
+                    isInvalidClipPath = SPUM_Manager.ValidateAnimationClips(clip);
+                    if (!isInvalidClipPath) break;
+                }
+
+                bool IsActive = isOldVersion || isInvalidPath || !isInvalidClipPath;
+                ButtonPanel.ConvertButton.transform.parent.gameObject.SetActive(IsActive);
+                ButtonPanel.SelectButton.image.enabled = !IsActive;
+
+
+                ButtonPanel.ConvertButton.onClick.AddListener(() =>
+                {
+                    SPUM_Manager.MissingPackageNames.Clear();
+                    var tupple = SPUM_Manager.ValidateSpumFile(SavedPrefab);
+                    SPUM_Manager.DebugList.Clear();
+                    SPUM_Manager.UIManager.ConvertView.PrefabVersion.text = $"Prefab Version {SavedPrefab._version}";
+
+
+                    switch (tupple.Item1)
+                    {
+                        case 2:
+                            Debug.Log("2.0 Convert");
+                            var data = SPUM_Manager.ReSyncSpumElementDataList(tupple.Item2);
+                            SPUM_Manager.DebugList.AddRange(data);
+
+
+                            break;
+                        case 1:
+                            Debug.Log("1.0 Convert");
+                            var data2 = tupple.Item2;
+                            SPUM_Manager.DebugList.AddRange(data2);
+                            break;
+                        default:
+                            break;
+                    }
+                    SPUM_Manager.SetUnitConverter(UnitType);
+                    var DistinctPackageList = SPUM_Manager.MissingPackageNames.Distinct().ToList();
+                    ConvertAllButton.interactable = IsActive;
+                    SPUM_Manager.UIManager.ConvertView.Convert.interactable = DistinctPackageList.Count.Equals(0);
+
+                    SPUM_Manager.UIManager.ConvertView.Convert.onClick.AddListener(() =>
+                    {
+                        var newPrefab = SPUM_Manager.SaveConvertPrefabs(SavedPrefab);
+                        SPUM_Manager.MoveOldPrefabBackup(SavedPrefab);
+                        //Debug.Log();
+                        DeleteUnit(prefabIndex, SavedPrefab);
+                        Debug.Log(newPrefab);
+                        AddNewPrefab(newPrefab);
+                        DisplayPage();
                     });
-                
-                PreviewPanel.SetActive(true);
-                //LoadPrefabs();
-            });
+
+                    PreviewPanel.SetActive(true);
+                    //LoadPrefabs();
+                });
             }
             i++;
             if (i >= endIndex) break;
@@ -400,5 +406,5 @@ public class SPUM_PaginationManager : MonoBehaviour
             DisplayPage();
         }
     }
-    #endif
+#endif
 }

@@ -265,7 +265,9 @@ public class TrapObject : MonoBehaviour
                 if (monster == null) continue;
                 for (int i = 0; i < buffTowerIndex.Count; i++)
                 {
-                    trapEffectList[i].Apply(monster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
+                    if (trapEffectList[i] != null && effectTypeMap.ContainsKey(TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect))
+                        trapEffectList[i].Apply(monster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
+                    else continue;
                 }
 
             }

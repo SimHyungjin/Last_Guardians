@@ -49,6 +49,7 @@ public class MonsterManager : Singleton<MonsterManager>
     public int EffectTransfer { get; private set; }
     public float EffectTransferUpgradeValue { get; private set; }
 
+    private Dictionary<int, MonsterData> monsterDataDict;
     private void Start()
     {
         AlliveMonsters = new List<BaseMonster>();
@@ -56,6 +57,7 @@ public class MonsterManager : Singleton<MonsterManager>
         InitMonsters();
         //AnimationConnect.AddAnimationEvent(normalAnim);
         //AnimationConnect.AddAnimationEvent(horseAnim);
+        CacheMonsterData();
 
         MaxWave = PlayerPrefs.GetInt("IdleMaxWave", 0);
     }
@@ -97,6 +99,16 @@ public class MonsterManager : Singleton<MonsterManager>
         //StartCoroutine(StartNextWave());
     }
 
+    private void CacheMonsterData()
+    {
+        monsterDataDict = new Dictionary<int, MonsterData>();
+        foreach (var data in MonsterDatas)
+        {
+            if (!monsterDataDict.ContainsKey(data.MonsterIndex))
+                monsterDataDict.Add(data.MonsterIndex, data);
+        }
+    }
+
     private IEnumerator SpawnMonsters(MonsterWaveData wave)
     {
         for (int i = 0; i < wave.Monster1Value; i++)
@@ -123,42 +135,31 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private void SpawnMonster(int monsterIndex, int waveLevel)
     {
-        if(monsterIndex >=0 && monsterIndex <= 100)
+        if (!monsterDataDict.TryGetValue(monsterIndex, out var data))
         {
-            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
-            NormalEnemy monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
-            monster.Setup(data);
-            monster.Target = Target;
-            //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            AlliveMonsters.Add(monster);
-            alliveCount++;
-            spawnCount++;
-            //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
+            Debug.LogWarning($"MonsterData 없음! ID: {monsterIndex}");
+            return;
         }
-        else if(monsterIndex >= 101 && monsterIndex <=200)
+
+        BaseMonster monster = null;
+
+        if (monsterIndex >= 0 && monsterIndex <= 100)
         {
-            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
-            BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
-            monster.Setup(data);
-            monster.Target = Target;
-            //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
-            AlliveMonsters.Add(monster);
-            alliveCount++;
-            spawnCount++;
-            //Debug.Log($"몬스터 ID : {monster.GetMonsterID()}");
+            monster = PoolManager.Instance.Spawn(NormalPrefab, spawnPoint[waveLevel % 2]);
         }
-        else if(monsterIndex >= 201 && monsterIndex <=300)
+        else if (monsterIndex >= 101 && monsterIndex <= 300)
         {
-            MonsterData data = MonsterDatas.Find(a => a.MonsterIndex == monsterIndex);
-            BossMonster monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
+            monster = PoolManager.Instance.Spawn(BossPrefab, spawnPoint[waveLevel % 2]);
+        }
+
+        if (monster != null)
+        {
             monster.Setup(data);
             monster.Target = Target;
-            //monster.Target = waveLevel % 2 == 0 ? target[0] : target[1];
             AlliveMonsters.Add(monster);
             alliveCount++;
             spawnCount++;
         }
-        
     }
     public void StartSpawnTimer()
     {

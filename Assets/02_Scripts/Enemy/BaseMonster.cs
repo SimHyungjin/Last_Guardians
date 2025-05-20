@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class BaseMonster : MonoBehaviour
@@ -300,8 +298,10 @@ public class BaseMonster : MonoBehaviour
     private void Move()
     {
         AnimationConnect.StartMoveAnimation();
-        if(agent.destination != Target.position)
+        if (!agent.hasPath || agent.pathStatus != NavMeshPathStatus.PathComplete)
+        {
             agent.SetDestination(Target.position);
+        }
     }
 
     //공격 시작

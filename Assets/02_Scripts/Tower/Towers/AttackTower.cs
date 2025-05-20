@@ -153,8 +153,7 @@ public class AttackTower : BaseTower
 
     void FindTarget()
     {
-        hits = Physics2D.OverlapCircleAll(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
-
+        hits = Utils.OverlapCircleAllSorted(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
         float closestDist = float.MaxValue;
         Transform closest = null;
 

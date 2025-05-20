@@ -269,9 +269,9 @@ public class Towerbuilder : MonoBehaviour
             {
                 if (cheakedTower != null)
                 {
-                    Color c = cheakedTower.GetComponent<SpriteRenderer>().color;
-                    c.a = 1f;
-                    cheakedTower.GetComponent<SpriteRenderer>().color = c;
+                        Color c = cheakedTower.GetComponent<SpriteRenderer>().color;
+                        c.a = 1f;
+                        cheakedTower.GetComponent<SpriteRenderer>().color = c;
                     cheakedTower = null;
                     GetSprite(TowerManager.Instance.hand.HighlightedIndex);
                 }
@@ -285,8 +285,11 @@ public class Towerbuilder : MonoBehaviour
                     {
                         if (canPlace)
                         {
-                            ghostTower.GetComponent<SpriteRenderer>().color =
+                            if (ghostTower != null)
+                            {
+                                ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(0f, 1f, 0f, 0.3f);
+                            }
                             EndCannotConstruct();
                             OnAttackRangeCircle(
                                 currentTile,
@@ -314,8 +317,11 @@ public class Towerbuilder : MonoBehaviour
                                     cheakedTower.towerData.TowerIndex
                                 )
                             );
-                            ghostTower.GetComponent<SpriteRenderer>().color =
+                            if (ghostTower != null)
+                            {
+                                ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(0f, 1f, 0f, 0.3f);
+                            }
                             EndCannotConstruct();
                             OnAttackRangeCircle(
                                 currentTile,

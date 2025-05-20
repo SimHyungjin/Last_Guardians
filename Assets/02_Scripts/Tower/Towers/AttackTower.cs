@@ -86,7 +86,7 @@ public class AttackTower : BaseTower
     private float lastCheckTime = 0f;
     public ProjectileFactory projectileFactory;
     private BaseMonster currentTargetMonster;
-
+    Collider2D[] hits;
     [Header("버프")]
     public AdaptedAttackTowerData adaptedTowerData;
     List<int> buffTowerIndex;
@@ -115,6 +115,7 @@ public class AttackTower : BaseTower
     {
 
         base.Init(data);
+        hits=new Collider2D[10];
         adaptedTowerData = new AdaptedAttackTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount(),towerData.EffectValue,towerData.EffectDuration);
         CalculateDamage();
         OnPlatform();
@@ -152,7 +153,7 @@ public class AttackTower : BaseTower
 
     void FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
+        hits = Physics2D.OverlapCircleAll(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
 
         float closestDist = float.MaxValue;
         Transform closest = null;

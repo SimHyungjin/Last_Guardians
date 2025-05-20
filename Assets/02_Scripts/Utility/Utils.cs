@@ -16,7 +16,6 @@ public class Utils
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null)
         {
-            Debug.LogError($"리소시스 패스 확인 필요 : {path}");
             return default;
         }
 
@@ -43,7 +42,6 @@ public class Utils
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null)
         {
-            Debug.LogError($"리소시스 패스 확인 필요: {path}");
             return null;
         }
         GameObject go = Object.Instantiate(prefab, parent);
@@ -66,16 +64,16 @@ public class Utils
     }
 
 
-    public static bool ShouldApplyEffect(BaseMonster target,TowerData towerData, bool bossImmunebuff)
+    public static bool ShouldApplyEffect(BaseMonster target, TowerData towerData, bool bossImmunebuff)
     {
 
         if (bossImmunebuff)
         {
-            return true; 
+            return true;
         }
 
 
-        if (towerData.BossImmune && (target.MonsterData.MonsterType == MonType.Boss || target.MonsterData.MonsterType==MonType.Bounty))
+        if (towerData.BossImmune && (target.MonsterData.MonsterType == MonType.Boss || target.MonsterData.MonsterType == MonType.Bounty))
         {
             return false;
         }
@@ -105,7 +103,7 @@ public class Utils
         return spriteIndex;
     }
 
-    public static int GetAnimatorindex(int towerIndex) 
+    public static int GetAnimatorindex(int towerIndex)
     {
         int spriteIndex;
         if (towerIndex > 49 && towerIndex < 99)

@@ -1,14 +1,14 @@
 #if UNITY_EDITOR
 
-using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(MapPrefabsGenerator))]
 public class MapPrefabsGeneratorEditor : Editor
 {
-    string inputCode = "1000000001066005551106600000000000200"; // ±âº»°ª
+    string inputCode = "1000000001066005551106600000000000200"; // ê¸°ë³¸ê°’
 
     public override void OnInspectorGUI()
     {
@@ -17,12 +17,12 @@ public class MapPrefabsGeneratorEditor : Editor
         MapPrefabsGenerator fnc = (MapPrefabsGenerator)target;
 
         GUILayout.Space(10);
-        GUILayout.Label("Àå¾Ö¹° ¹èÄ¡ ½Ãµå ÀÔ·Â (37ÀÚ¸®)", EditorStyles.boldLabel);
+        GUILayout.Label("ì¥ì• ë¬¼ ë°°ì¹˜ ì‹œë“œ ì…ë ¥ (37ìë¦¬)", EditorStyles.boldLabel);
         inputCode = EditorGUILayout.TextField("Seed Code", inputCode);
 
         if (inputCode.Length != 37)
         {
-            EditorGUILayout.HelpBox("½Ãµå´Â 37ÀÚ¸® ¼ıÀÚ·Î ÀÔ·ÂÇØ¾ß ÇÕ´Ï´Ù.", MessageType.Warning);
+            EditorGUILayout.HelpBox("ì‹œë“œëŠ” 37ìë¦¬ ìˆ«ìë¡œ ì…ë ¥í•´ì•¼ í•©ë‹ˆë‹¤.", MessageType.Warning);
         }
 
         if (GUILayout.Button("Start Generate"))
@@ -33,7 +33,7 @@ public class MapPrefabsGeneratorEditor : Editor
             }
             else
             {
-                Debug.LogError("½Ãµå´Â ¹İµå½Ã 37ÀÚ¸®¿©¾ß ÇÕ´Ï´Ù.");
+                Debug.LogError("ì‹œë“œëŠ” ë°˜ë“œì‹œ 37ìë¦¬ì—¬ì•¼ í•©ë‹ˆë‹¤.");
             }
         }
     }
@@ -84,7 +84,7 @@ public class MapPrefabsGenerator : MonoBehaviour
     {
         if (code.Length != 37)
         {
-            Debug.LogError("ÄÚµå´Â ¹İµå½Ã 37ÀÚ¸®¿©¾ß ÇÕ´Ï´Ù.");
+            Debug.LogError("ì½”ë“œëŠ” ë°˜ë“œì‹œ 37ìë¦¬ì—¬ì•¼ í•©ë‹ˆë‹¤.");
             return;
         }
 
@@ -109,7 +109,7 @@ public class MapPrefabsGenerator : MonoBehaviour
 
         if (positions == null || positions.Count != 36)
         {
-            Debug.LogError("Àß¸øµÈ ±¸¿ªÀÌ°Å³ª ÁÂÇ¥ °³¼ö°¡ 36°³°¡ ¾Æ´Õ´Ï´Ù.");
+            Debug.LogError("ì˜ëª»ëœ êµ¬ì—­ì´ê±°ë‚˜ ì¢Œí‘œ ê°œìˆ˜ê°€ 36ê°œê°€ ì•„ë‹™ë‹ˆë‹¤.");
             return;
         }
 
@@ -134,7 +134,7 @@ public class MapPrefabsGenerator : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("ObstacleComponent°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogWarning("ObstacleComponentê°€ ì—†ìŠµë‹ˆë‹¤.");
             }
         }
 

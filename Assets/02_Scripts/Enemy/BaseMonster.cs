@@ -13,12 +13,12 @@ public class BaseMonster : MonoBehaviour
     public MonsterData MonsterData { get; private set; }
     public MonsterSkillBase MonsterSkillBaseData { get; private set; }
 
-   
+
     //몬스터 스탯관련
     public float ResultHP { get; private set; }
     public float CurrentHP { get; set; }
     public float DeBuffSpeedModifier { get; set; } = 0f;
-    public float BuffSpeedModifier {  get; set; } = 0f;
+    public float BuffSpeedModifier { get; set; } = 0f;
     public float CurrentSpeed { get; set; } = 1f;
     public float ResultDef { get; private set; }
     public float CurrentDef { get; set; } = 1f;
@@ -104,7 +104,7 @@ public class BaseMonster : MonoBehaviour
     {
         this.MonsterData = data;
         //DestroyAllChildren(prefabSlot);
-        if(currentPrefab != null)
+        if (currentPrefab != null)
             PoolManager.Instance.DespawnbyPrefabName(currentPrefab);
         //currentPrefab = Instantiate(MonsterData.Prefab,prefabSlot);
         currentPrefab = PoolManager.Instance.SpawnbyPrefabName(MonsterData.Prefab, prefabSlot);
@@ -141,7 +141,7 @@ public class BaseMonster : MonoBehaviour
         AnimationConnect.Animator = currentPrefab.GetComponentInChildren<Animator>();
         AnimationConnect.BaseMonster = null;
         AnimationConnect.BaseMonster = this;
-        
+
         originalColors.Clear();
         spriteRenderers.Clear();
         spriteRenderers = currentPrefab.GetComponentsInChildren<SpriteRenderer>().ToList();
@@ -169,13 +169,12 @@ public class BaseMonster : MonoBehaviour
             CurrentDef = ResultDef;
         }
 
-        //Debug.Log($"몬스터 최대체력 : {ResultHP} 방어력 : {ResultDef}");
-            
+
         //CurrentDef = MonsterData.MonsterDef;
         AttackTimer = 0f;
         agent.isStopped = false;
         agent.speed = MonsterData.MonsterSpeed;
-        
+
         isAttack = false;
         firstHit = false;
         colorCoroutine = null;
@@ -190,7 +189,6 @@ public class BaseMonster : MonoBehaviour
         {
             MonsterSkillBaseData = MonsterManager.Instance.MonsterSkillDatas.Find(a => a.skillData.SkillIndex == MonsterData.MonsterSkillID);
             SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
-            Debug.Log($"{MonsterData.MonsterName} : {MonsterSkillBaseData.skillData.SkillName} 가지고 있음");
         }
 
         effectHandler.ClearAllEffect();
@@ -232,7 +230,7 @@ public class BaseMonster : MonoBehaviour
     //스탯 적용
     public void ApplyStatus()
     {
-        CurrentSpeed = MonsterData.MonsterSpeed * (1 + BuffSpeedModifier) * (1-DeBuffSpeedModifier);
+        CurrentSpeed = MonsterData.MonsterSpeed * (1 + BuffSpeedModifier) * (1 - DeBuffSpeedModifier);
         agent.speed = CurrentSpeed;
         CurrentDef = ResultDef * (1 + BuffDefModifier) * (1 - DeBuffDefModifier);
         if (MonsterData.HasSkill)
@@ -250,7 +248,7 @@ public class BaseMonster : MonoBehaviour
         if (!isAttack && !isSturn)
             Move();
 
-        if(!isAttack && Physics2D.OverlapCircle(this.transform.position,AttackRange,targetLayer))
+        if (!isAttack && Physics2D.OverlapCircle(this.transform.position, AttackRange, targetLayer))
         {
             isAttack = true;
             agent.SetDestination(transform.position);
@@ -293,7 +291,7 @@ public class BaseMonster : MonoBehaviour
             directionHoldTimer = 0f;
             previousDirection = currentDirection;
         }
-    }   
+    }
 
     private void Move()
     {
@@ -309,7 +307,7 @@ public class BaseMonster : MonoBehaviour
     {
         AnimationConnect.StartAttackAnimation();
         agent.isStopped = true;
-        agent.speed = 0f;   
+        agent.speed = 0f;
     }
 
     //어택 애니메이션에서 호출됨
@@ -328,7 +326,7 @@ public class BaseMonster : MonoBehaviour
 
     public virtual void RangeAttack()
     {
-        
+
         //타입별 몬스터에서 구현
 
     }
@@ -354,23 +352,23 @@ public class BaseMonster : MonoBehaviour
         if (!isDisable)
         {
             //데미지받아서 죽은게 아니라면
-            if(this is BossMonster) TowerManager.Instance.ApplyBossSlayer();
+            if (this is BossMonster) TowerManager.Instance.ApplyBossSlayer();
             MonsterManager.Instance.MonsterKillCount++;
-            EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab,InGameManager.Instance.transform);
+            EXPBead bead = PoolManager.Instance.Spawn<EXPBead>(MonsterManager.Instance.EXPBeadPrefab, InGameManager.Instance.transform);
             bead.Init(MonsterData.Exp, this.transform);
             PoolManager.Instance.Despawn<SPUM_Prefabs>(currentPrefab);
             TowerManager.Instance.towerUpgradeData.GetTowerPoint();
-            
-            if(MonsterManager.Instance.EffectTransfer>=1 && Random.Range(0f,1f)<=MonsterManager.Instance.EffectTransferUpgradeValue)
+
+            if (MonsterManager.Instance.EffectTransfer >= 1 && Random.Range(0f, 1f) <= MonsterManager.Instance.EffectTransferUpgradeValue)
                 DebuffTransition();
         }
     }
 
     private void DebuffTransition()
     {
-        foreach(var monster in Utils.OverlapCircleAllSorted(this.transform.position, 2f, LayerMaskData.monster))
+        foreach (var monster in Utils.OverlapCircleAllSorted(this.transform.position, 2f, LayerMaskData.monster))
         {
-            if(monster.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
+            if (monster.TryGetComponent<BaseMonster>(out BaseMonster baseMonster))
             {
                 //if(baseMonster.effectHandler.IsInEffect())
                 baseMonster.AdaptStatusEffectsInList(effectHandler.GetStatusEffects());
@@ -386,16 +384,14 @@ public class BaseMonster : MonoBehaviour
                 effect.Duration = effect.OriginDuration;
                 effect.ApplyEffect(this);
                 this.effectHandler.AddEffect(effect);
-                Debug.Log($"효과 전이됨 name : {effect}, amount : {effect.Amount}, duration : {effect.Duration}");
             }
             else
             {
                 effect.UpdateEffectTime(Mathf.Max(effect.Amount, effectHandler.GetEffect(effect).Amount), Mathf.Max(effect.Duration, effectHandler.GetEffect(effect).OriginDuration), this);
-                Debug.Log($"효과 전이갱신됨 name : {effect}, amount : {Mathf.Max(effect.Amount, effectHandler.GetEffect(effect).Amount)}, duration : {Mathf.Max(effect.Duration, effectHandler.GetEffect(effect).OriginDuration)}");
             }
         }
     }
-    
+
     protected virtual void MonsterSkill()
     {
         //실구현은 상속받는곳에서
@@ -404,7 +400,7 @@ public class BaseMonster : MonoBehaviour
     //데미지 받을 떄 호출되는 함수
     public virtual void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {
-        if(EvasionRate != -1f)
+        if (EvasionRate != -1f)
         {
             if (Random.Range(0f, 1f) * 100 < EvasionRate * 100)
             {
@@ -420,7 +416,7 @@ public class BaseMonster : MonoBehaviour
         else
         {
             CurrentHP -= amount * (1 - CurrentDef * (1 - penetration) / (CurrentDef * (1 - penetration) + DefConstant));
-            if(MonsterManager.Instance.Catalysis>=1)
+            if (MonsterManager.Instance.Catalysis >= 1)
                 effectHandler.AllDebuffTimerPlus(MonsterManager.Instance.CatalysisValue);
         }
 
@@ -433,7 +429,7 @@ public class BaseMonster : MonoBehaviour
             AnimationConnect.StartDeathAnimaiton();
             isDead = true;
         }
-        
+
         //피격시 몬스터 색 변경
         if (this.gameObject.activeSelf)
         {
@@ -457,7 +453,7 @@ public class BaseMonster : MonoBehaviour
             yield return blinkSeconds;
             for (int j = 0; j < spriteRenderers.Count; j++)
             {
-                
+
                 spriteRenderers[j].color = originalColors[j];
             }
             //spriteRenderers.color = originalColors;
@@ -469,7 +465,7 @@ public class BaseMonster : MonoBehaviour
     //도트 데미지 적용
     public void DotDamage(float amount, float duration)
     {
-        if(!effectHandler.IsInEffect(dotDamage))
+        if (!effectHandler.IsInEffect(dotDamage))
         {
             dotDamage = new DotDamageEffect(amount, duration);
             effectHandler.AddEffect(dotDamage);
@@ -498,7 +494,7 @@ public class BaseMonster : MonoBehaviour
         if (!effectHandler.IsInEffect(sturn))
         {
             sturn = new SturnEffect(amount, duration);
-            effectHandler.AddEffect(sturn);    
+            effectHandler.AddEffect(sturn);
         }
         else
         {
@@ -607,7 +603,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            evasionBuff.UpdateEffectTime(amount,duration, this);
+            evasionBuff.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -626,7 +622,7 @@ public class BaseMonster : MonoBehaviour
         }
         else
         {
-            skillValueDebuff.UpdateEffectTime(amount,duration, this);
+            skillValueDebuff.UpdateEffectTime(amount, duration, this);
         }
     }
 
@@ -674,7 +670,7 @@ public class BaseMonster : MonoBehaviour
 
         transform.DOMove(targetPosition, speed).SetEase(Ease.OutQuad).OnComplete(() =>
         {
-            if(!Physics2D.OverlapCircle(this.transform.position, AttackRange, targetLayer))
+            if (!Physics2D.OverlapCircle(this.transform.position, AttackRange, targetLayer))
             {
                 isAttack = false;
             }

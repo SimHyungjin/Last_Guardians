@@ -1,7 +1,6 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class CameraMove : MonoBehaviour
@@ -33,10 +32,10 @@ public class CameraMove : MonoBehaviour
         if (InputManager.Instance.IsTouchOverUI()) return;
 
         Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
-        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player")) && !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower"))&& TowerManager.Instance.CanStartInteraction())
+        if (!Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Player")) && !Physics2D.OverlapPoint(curPos, LayerMask.GetMask("Tower")) && TowerManager.Instance.CanStartInteraction())
         {
             if (onCamMove) return;
-                onCamMove = true;
+            onCamMove = true;
 
             lastTouchWorldPos = curPos;
 

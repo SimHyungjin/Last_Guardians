@@ -9,7 +9,7 @@ public class SpumPackage : ICloneable
     public string Path;
     public string Version;
     public string CreationDate;
-    public List<SpumAnimationClip> SpumAnimationData =  new List<SpumAnimationClip>();
+    public List<SpumAnimationClip> SpumAnimationData = new List<SpumAnimationClip>();
     public List<SpumTextureData> SpumTextureData = new List<SpumTextureData>();
     public object Clone()
     {

@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 public class SoonsoonData
 {
@@ -21,14 +21,14 @@ public class SoonsoonData
         }
     }
 
-    private SoonsoonData(){}
+    private SoonsoonData() { }
 
 
     [Serializable]
     public class SoonData
     {
         public string Version; // 매니저 버전
-        public List<Dictionary<string,string>> packageList = new List<Dictionary<string,string>>(); // 패키지 버전
+        public List<Dictionary<string, string>> packageList = new List<Dictionary<string, string>>(); // 패키지 버전
         //public List<Dictionary<string,bool>> SelectedPackageInfo = new List<Dictionary<string, bool>>();
         public List<string> _savedColorList = new List<string>(); // 작업 중인 색상 저장 
     }
@@ -64,8 +64,8 @@ public class SoonsoonData
     {
         var b = new BinaryFormatter();
         var m = new MemoryStream();
-        b.Serialize(m , _soonData2);
-        PlayerPrefs.SetString("SoonsoonSave2",Convert.ToBase64String(m.GetBuffer())); 
+        b.Serialize(m, _soonData2);
+        PlayerPrefs.SetString("SoonsoonSave2", Convert.ToBase64String(m.GetBuffer()));
     }
 
     public IEnumerator LoadData()
@@ -75,7 +75,7 @@ public class SoonsoonData
         {
             LoadProcess();
         }
-        catch( System.Exception e)
+        catch (System.Exception e)
         {
             Debug.Log(" Failed to load Data...");
             Debug.Log(e.ToString());
@@ -87,7 +87,7 @@ public class SoonsoonData
     {
         Debug.Log("Trying Loading data ...");
 
-        if(!PlayerPrefs.HasKey("SoonsoonSave2"))
+        if (!PlayerPrefs.HasKey("SoonsoonSave2"))
         {
             Debug.Log("You don't use save data yet.");
         }
@@ -95,14 +95,14 @@ public class SoonsoonData
         {
             string _str = PlayerPrefs.GetString("SoonsoonSave2");
 
-            if( _str.Length > 0)
+            if (_str.Length > 0)
             {
                 string _tmpStr = PlayerPrefs.GetString("SoonsoonSave2");
-                if(!string.IsNullOrEmpty(_tmpStr)) 
+                if (!string.IsNullOrEmpty(_tmpStr))
                 {
                     var b = new BinaryFormatter();
                     var m = new MemoryStream(Convert.FromBase64String(_tmpStr));
-                    _soonData2 = (SoonData) b.Deserialize(m);
+                    _soonData2 = (SoonData)b.Deserialize(m);
                     Debug.Log("Load Successful!!");
                 }
             }
@@ -121,9 +121,9 @@ public class SoonsoonData
         //         tList.Add(_spumManager._textureList[i]._packageNameList[j], _spumManager._textureList[i]._packageList[j]);
         //     }
         //     SoonsoonData.instance._soonData2.packageList.Add(tList);
-            
+
         // }
-        
+
         // SaveData();
         // #endif
     }

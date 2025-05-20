@@ -8,7 +8,7 @@ public class EffectChangeSprite : MonoBehaviour
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        if (spriteRenderer != null )
+        if (spriteRenderer != null)
             spriteRenderer.enabled = false;
     }
 
@@ -17,7 +17,7 @@ public class EffectChangeSprite : MonoBehaviour
     /// </summary>
     public void ShowSquare(string spritePath, Vector2 center, float sizeX, float sizeY)
     {
-        if(spriteRenderer != null) spriteRenderer.enabled = true;
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
 
         Sprite sprite = Resources.Load<Sprite>(spritePath);
         if (sprite == null)

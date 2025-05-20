@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BountyPanelUI : MonoBehaviour
@@ -9,7 +7,7 @@ public class BountyPanelUI : MonoBehaviour
 
     private void Awake()
     {
-        for(int i =0; i < MonsterManager.Instance.BountyMonsterList.Count; i++)
+        for (int i = 0; i < MonsterManager.Instance.BountyMonsterList.Count; i++)
         {
             SpawnBountyMonster btn = Instantiate(bountyMonsterBtn, content);
             btn.Init(MonsterManager.Instance.BountyMonsterList[i]);

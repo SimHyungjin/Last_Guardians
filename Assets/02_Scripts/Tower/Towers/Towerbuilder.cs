@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Tilemaps;   
+using UnityEngine.Tilemaps;
 
 public class Towerbuilder : MonoBehaviour
 {
@@ -62,14 +62,12 @@ public class Towerbuilder : MonoBehaviour
     ///////////=====================상태변환=====================================/////////////////////
     public void ChangeCardMove()
     {
-        Debug.Log("ChangeCardMove");
         Time.timeScale = 0.2f;
         isCardMoving = true;
     }
 
     public void ChangeCardDontMove()
     {
-        Debug.Log("ChangeCardDontMove");
         Time.timeScale = InGameManager.Instance.TimeScale;
         lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
         EndAttackRangeCircle();
@@ -78,7 +76,6 @@ public class Towerbuilder : MonoBehaviour
 
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
-        Debug.Log("ChangeTowerMove");
         Time.timeScale = 0.2f;
         clikedTower = _cilkedTower;
         isTowerMoving = true;
@@ -86,7 +83,6 @@ public class Towerbuilder : MonoBehaviour
 
     public void ChangeTowerDontMove(BaseTower _cilkedTower)
     {
-        Debug.Log("ChangeTowerDontMove");
         clikedTower = _cilkedTower;
         isTowerMoving = false;
     }
@@ -128,13 +124,11 @@ public class Towerbuilder : MonoBehaviour
 
         if (constructCache.TryGetValue(constructPos, out bool cachedResult))
         {
-            Debug.Log($"[캐시] 타일 검사 결과: {cachedResult}");
             callback?.Invoke(cachedResult);
             yield break;
         }
         if (IsAnyObjectOnTile(constructPos))
         {
-            Debug.Log("타일에 충돌체있음");
             callback?.Invoke(false);
             yield break;
         }
@@ -154,7 +148,6 @@ public class Towerbuilder : MonoBehaviour
             );
             if (!pathValid || path.status != NavMeshPathStatus.PathComplete)
             {
-                Debug.Log("경로가 없음");
                 allPathsExist = false;
                 break;
             }
@@ -435,7 +428,7 @@ public class Towerbuilder : MonoBehaviour
     {
         float scaleMultiplier = 1f;
         int AttackRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
-        float Upgradescale= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
+        float Upgradescale = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
         Collider2D[] hits = Physics2D.OverlapPointAll(
             constructPos,
             LayerMaskData.platform
@@ -451,8 +444,8 @@ public class Towerbuilder : MonoBehaviour
         attackRangeCircle.transform.position = constructPos;
         attackRangeCircle.transform.localScale =
             new Vector3(
-                towerData.AttackRange * scaleMultiplier* Upgradescale,
-                towerData.AttackRange * scaleMultiplier* Upgradescale,
+                towerData.AttackRange * scaleMultiplier * Upgradescale,
+                towerData.AttackRange * scaleMultiplier * Upgradescale,
                 1
             );
         attackRangeCircle.gameObject.SetActive(true);

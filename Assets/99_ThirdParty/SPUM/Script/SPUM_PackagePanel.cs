@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SPUM_PackagePanel : MonoBehaviour
@@ -8,10 +8,10 @@ public class SPUM_PackagePanel : MonoBehaviour
     public Text PackageTitle;
     public SPUM_PackageElement spumPackageElement;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
 
     // 패키지에 있는 클립 정보 생성
-    public void CreatePackageUI(SpumPackage packageData, SPUM_AnimationManager manager) 
+    public void CreatePackageUI(SpumPackage packageData, SPUM_AnimationManager manager)
     {
         PackageTitle.text = packageData.Name;
         CreatePackageElementButton(packageData, manager);
@@ -27,32 +27,32 @@ public class SPUM_PackagePanel : MonoBehaviour
         var selectedType = manager.SelectedType;
         foreach (var clip in spumPackageElements)
         {
-            if(!clip.StateType.Equals(selectedType)) continue;
-            if(!clip.UnitType.Equals(manager.unit.UnitType)) continue;
+            if (!clip.StateType.Equals(selectedType)) continue;
+            if (!clip.UnitType.Equals(manager.unit.UnitType)) continue;
             var element = Instantiate(spumPackageElement, Parent);
             element.AnimName.text = clip.Name.Replace(".anim", "");
             element.SelectButton.isOn = clip.HasData;
             element.PlayButton.onClick.AddListener(
-                ()=>
+                () =>
                 {
-                    manager.PlayAnimation( clip);
+                    manager.PlayAnimation(clip);
                     manager.CurrentPlayClip = clip.ClipPath;
                 }
             );
-            element.SelectButton.onValueChanged.AddListener( 
-                (value) => 
+            element.SelectButton.onValueChanged.AddListener(
+                (value) =>
                 {
                     clip.HasData = value;
                 }
             );
         }
 
-        if(Parent.childCount.Equals(1)) Destroy(gameObject);
+        if (Parent.childCount.Equals(1)) Destroy(gameObject);
 
         spumPackageElement.gameObject.SetActive(false);
 
         var rectTransform = transform.parent.GetComponent<RectTransform>();
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
-    #endif
+#endif
 }

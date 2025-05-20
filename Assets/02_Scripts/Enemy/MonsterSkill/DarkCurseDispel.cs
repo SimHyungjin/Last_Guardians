@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DarkCurseDispel : MonsterSkillBase
@@ -17,5 +15,5 @@ public class DarkCurseDispel : MonsterSkillBase
         }
     }
 
-   
+
 }

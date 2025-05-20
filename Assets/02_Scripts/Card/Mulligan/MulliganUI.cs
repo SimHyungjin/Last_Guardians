@@ -1,5 +1,3 @@
-using Newtonsoft.Json.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -52,7 +50,7 @@ public class MulliganUI : MonoBehaviour
         {
             UpdateTimer();
         }
-        
+
     }
 
     //카드선택 남은시간 타이머
@@ -174,7 +172,7 @@ public class MulliganUI : MonoBehaviour
             EndMulligan();
         }
 
-       
+
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 
@@ -191,9 +189,9 @@ public class MulliganUI : MonoBehaviour
         AnalyticsLogger.LogTowerSelect(MyCardList);
 
         InGameManager.Instance.GameStart();
-        
+
     }
-    
+
     //타이머 다 됐을때 카드 자동선택
     private void AutoSelectCard()
     {
@@ -270,7 +268,7 @@ public class MulliganUI : MonoBehaviour
         gameObject.SetActive(false);
         Time.timeScale = InGameManager.Instance.TimeScale;
         MaxSelectedCards = 1;
-        
+
         if (InGameManager.Instance.exp >= InGameManager.Instance.GetMaxExp())
         {
             InGameManager.Instance.LevelUp();

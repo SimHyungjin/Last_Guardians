@@ -1,8 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -27,7 +23,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     protected Coroutine lifeTimeCoroutine;
     protected Rigidbody2D rb;
     protected float penetration;
-    [SerializeField]protected SpriteAtlas projectileAtlas;
+    [SerializeField] protected SpriteAtlas projectileAtlas;
 
     public BaseMonster OriginTarget { get; set; }
 
@@ -45,7 +41,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
         //    PoolManager.Instance.Despawn(this);
         //}
     }
-    public virtual void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTower, List<int> _effectslist,EnvironmentEffect _environmentEffect) 
+    public virtual void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTower, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
 
         rb = GetComponent<Rigidbody2D>();
@@ -58,7 +54,7 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
     public virtual void OnSpawn()
     {
         if (rb != null)
-           rb.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
         OriginTarget = null;
     }
 
@@ -86,6 +82,6 @@ public abstract class ProjectileBase : MonoBehaviour, IPoolable, IProjectile
 
     public TowerData GetTowerData()
     { return towerData; }
-    protected virtual void ProjectileMove(){}
+    protected virtual void ProjectileMove() { }
 }
 

@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class FogWeather : IWeatherState
 {
     PlayerBuffAttackRange playerAttackRange = new PlayerBuffAttackRange(-0.25f, 0.2f);
-    
+
     public void Enter()
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Fog"));
@@ -54,7 +49,7 @@ public class StrongWindWeather : IWeatherState
     public void Exit()
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Wind"));
-        particle.gameObject.SetActive (false);
+        particle.gameObject.SetActive(false);
         foreach (BaseTower tower in TowerManager.Instance.Towers)
         {
             AttackTower attackTower = tower as AttackTower;
@@ -72,7 +67,7 @@ public class StrongWindWeather : IWeatherState
 
 public class RainWeather : IWeatherState
 {
-    
+
     public void Enter()
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Rain"));
@@ -134,7 +129,7 @@ public class DroughtWeather : IWeatherState
 public class SnowWeather : IWeatherState
 {
     PlayerBuffMoveSpeed playerBuffMoveSpeed = new PlayerBuffMoveSpeed(0.3f, 0.2f, true);
-    
+
     public void Enter()
     {
         ParticleSystem particle = EnviromentManager.Instance.Particles.Find(a => a.gameObject.name.Contains("FX_Snow"));

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class SPUM_AssetHelper : AssetPostprocessor
 {
-    
+
     public static void OnPostprocessAllAssets(
         string[] importedAssets,
         string[] deletedAssets,
@@ -18,7 +18,7 @@ public class SPUM_AssetHelper : AssetPostprocessor
         foreach (string asset in importedAssets)
         {
             //Debug.Log(asset);
-        
+
             if (asset.Contains("Assets/SPUM/ReadMe"))// || ContainsPattern(asset))
             {
                 ShowHelpWindow(asset);
@@ -49,7 +49,7 @@ public class HelpWindow : EditorWindow
     {
         "SPUM_PackageImporter.cs",  // 삭제하지 않을 파일
     };
- 
+
     private List<string> excludedDirectories = new List<string>
     {
         "Assets/SPUM/Basic_Resources/Package/",  // 삭제하지 않을 디렉토리
@@ -64,7 +64,7 @@ public class HelpWindow : EditorWindow
     public static void ShowWindow(string assetName)
     {
         HelpWindow window = GetWindow<HelpWindow>("SPUM PIXEL UNIT MAKER");
-        
+
         window.assetName = assetName;
         window.helpImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/SPUM//Basic_Resources/Package/Image/HelpImage.png");
         if (window.helpImage != null)
@@ -144,7 +144,7 @@ public class HelpWindow : EditorWindow
         contentRect = GUILayoutUtility.GetRect(content, style, GUILayout.ExpandWidth(true));
         EditorGUI.LabelField(contentRect, content, style);
 
-        
+
         Vector2 mousePos = Event.current.mousePosition;
         mousePos.y += scrollPosition.y;
 
@@ -161,8 +161,8 @@ public class HelpWindow : EditorWindow
                 }
             }
         }
-                
-        
+
+
         //  var linkTexture = new Texture2D(1, 1);
         //  linkTexture.SetPixel(0, 0, Color.blue);
         //  linkTexture.Apply();
@@ -173,12 +173,14 @@ public class HelpWindow : EditorWindow
             if (IsPositionInLink(mousePos, link, contentRect))
             {
                 EditorGUIUtility.AddCursorRect(contentRect, MouseCursor.Link);
-            }else{
+            }
+            else
+            {
                 EditorGUIUtility.AddCursorRect(contentRect, MouseCursor.Arrow);
             }
-           
+
             //GUI.DrawTexture(linkRect, linkTexture);
-            
+
         }
         GUILayout.EndScrollView();
         if (GUILayout.Button("OK"))
@@ -192,13 +194,13 @@ public class HelpWindow : EditorWindow
         styles.fontSize = 20;
         if (GUILayout.Button("Clean Install LocalPath Package ", styles, GUILayout.Height(60)))
         {
-            if(EditorUtility.DisplayDialog("Warrning",  "All Spum paths except for the one below will be deleted. \n" + 
+            if (EditorUtility.DisplayDialog("Warrning", "All Spum paths except for the one below will be deleted. \n" +
             excludedDirectories[0] + "\n"
             + excludedDirectories[1] + "\n"
             + excludedDirectories[2] + "\n"
-            , "OK","Cancel"))
+            , "OK", "Cancel"))
             {
-                if(EditorUtility.DisplayDialog("Warrning",   "Are you sure you want to proceed?", "Yes","No"))
+                if (EditorUtility.DisplayDialog("Warrning", "Are you sure you want to proceed?", "Yes", "No"))
                 {
                     DeleteAllExceptExcluded();
                     ImportNewPackage();
@@ -305,7 +307,7 @@ public class HelpWindow : EditorWindow
     {
         // 경로를 절대 경로로 변환하여 비교
         string fullPath = Path.GetFullPath(path).Replace("\\", "/");
-        
+
         // 제외할 파일 또는 디렉토리인 경우 true 반환
         bool isExcludedFile = excludedFiles.Exists(file => Path.GetFullPath(file).Replace("\\", "/") == fullPath);
         bool isExcludedDirectory = excludedDirectories.Exists(dir => fullPath.StartsWith(Path.GetFullPath(dir).Replace("\\", "/")));
@@ -313,48 +315,49 @@ public class HelpWindow : EditorWindow
         return isExcludedFile || isExcludedDirectory;
     }
     [MenuItem("SPUM/Clean Install")]
-    public static void ShowPackage(){
-string directoryPath = @"Assets/SPUM/";
-
-string pattern = @"ReadMe\s*[-\s]*([\d\.]+)\.txt$";
-
-var files = Directory.GetFiles(directoryPath, "ReadMe*.txt");
-foreach (var item in files )
-{
-    Debug.Log(item);
-}
-var matchedFiles = files
-    .Select(file => new
+    public static void ShowPackage()
     {
-        FileName = file,
-        Match = Regex.Match(Path.GetFileName(file), pattern)
-    })
-    .Where(x => x.Match.Success)
-    .Select(x => new
-    {
-        FileName = x.FileName,
-        Version = new System.Version(x.Match.Groups[1].Value.Trim())  
-    })
-    .ToList();
+        string directoryPath = @"Assets/SPUM/";
 
-foreach (var file in matchedFiles)
-{
-    Debug.Log($"Matched File: {file.FileName}, Version: {file.Version}");
-}
+        string pattern = @"ReadMe\s*[-\s]*([\d\.]+)\.txt$";
 
-var maxVersionFile = matchedFiles
-    .OrderByDescending(x => x.Version)
-    .FirstOrDefault();
+        var files = Directory.GetFiles(directoryPath, "ReadMe*.txt");
+        foreach (var item in files)
+        {
+            Debug.Log(item);
+        }
+        var matchedFiles = files
+            .Select(file => new
+            {
+                FileName = file,
+                Match = Regex.Match(Path.GetFileName(file), pattern)
+            })
+            .Where(x => x.Match.Success)
+            .Select(x => new
+            {
+                FileName = x.FileName,
+                Version = new System.Version(x.Match.Groups[1].Value.Trim())
+            })
+            .ToList();
 
-if (maxVersionFile != null)
-{
-    Debug.Log($"Highest Version File: {maxVersionFile.FileName}");
-    ShowWindow(maxVersionFile.FileName);
-}
-else
-{
-    Debug.Log("No matching ReadMe files found.");
-}
+        foreach (var file in matchedFiles)
+        {
+            Debug.Log($"Matched File: {file.FileName}, Version: {file.Version}");
+        }
+
+        var maxVersionFile = matchedFiles
+            .OrderByDescending(x => x.Version)
+            .FirstOrDefault();
+
+        if (maxVersionFile != null)
+        {
+            Debug.Log($"Highest Version File: {maxVersionFile.FileName}");
+            ShowWindow(maxVersionFile.FileName);
+        }
+        else
+        {
+            Debug.Log("No matching ReadMe files found.");
+        }
     }
     private void ImportNewPackage()
     {
@@ -371,31 +374,34 @@ else
 
         string highestNumberFile = files
             .FirstOrDefault(file => Regex.IsMatch(Path.GetFileName(file), $"SPUM{maxNumber}\\.unitypackage$"));
-        if(string.IsNullOrEmpty(highestNumberFile)){
+        if (string.IsNullOrEmpty(highestNumberFile))
+        {
             Debug.Log("No path exists.");
             return;
         }
         AssetDatabase.ImportPackage(highestNumberFile, false);
         Debug.Log($"Imported: {highestNumberFile}");
     }
-    private void ImportStorePackage(){
+    private void ImportStorePackage()
+    {
         string assetStorePath = ""; // = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), @"Unity\Asset Store-5.x\soonsoon\Textures Materials2D Characters\2D Pixel Unit Maker - SPUM.unitypackage");
-        //string assetStorePath;
+                                    //string assetStorePath;
 
-        
+
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
             // Windows 
-            assetStorePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), 
+            assetStorePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData),
                                          @"Unity\Asset Store-5.x\soonsoon\Textures Materials2D Characters\2D Pixel Unit Maker - SPUM.unitypackage");
         }
         else if (Application.platform == RuntimePlatform.OSXEditor)
         {
             // macOS 
-            assetStorePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), 
+            assetStorePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),
                                           @"Library\Asset Store-5.x\soonsoon\Textures Materials2D Characters\2D Pixel Unit Maker - SPUM.unitypackage");
         }
-        if(string.IsNullOrEmpty(assetStorePath)){
+        if (string.IsNullOrEmpty(assetStorePath))
+        {
             Debug.Log("No path exists.");
             return;
         }

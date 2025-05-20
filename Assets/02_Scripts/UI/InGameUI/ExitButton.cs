@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening.Core.Easing;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class ExitButton : MonoBehaviour
 {

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,7 +68,7 @@ public class WeatherState
         {
             return;
         }
-            
+
         currentState?.Exit();
         currentState = newState;
         currentState.Enter();

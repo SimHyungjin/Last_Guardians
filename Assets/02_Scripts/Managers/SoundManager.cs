@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class SoundManager : Singleton<SoundManager>
 {
@@ -12,25 +11,25 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private int poolSize = 30;
     [SerializeField] private int maxPoolSize = 60;
 
-    // ÀÌ¸§ ¡æ Å¬¸³ ¸ÅÇÎ
+    // ì´ë¦„ â†’ í´ë¦½ ë§¤í•‘
     private Dictionary<string, AudioClip> soundDict;
 
-    // SFX¿ë AudioSource Ç®
+    // SFXìš© AudioSource í’€
     private Queue<AudioSource> audioSourcePool;
     private int currentPoolCapacity;
 
-    // BGM Àü¿ë AudioSource
+    // BGM ì „ìš© AudioSource
     private AudioSource bgmPlayer;
 
-    // SFX ·çÇÁ Àü¿ë AudioSource
+    // SFX ë£¨í”„ ì „ìš© AudioSource
     private AudioSource loopSource;
 
-    // º¼·ı °ª (0~1)
+    // ë³¼ë¥¨ ê°’ (0~1)
     private float sfxVolume;
     private float bgmVolume;
     private float masterVolume;
 
-    // Å¬¸¯ »ç¿îµå ¹ÙÀÎµù¿ë InputSystem
+    // í´ë¦­ ì‚¬ìš´ë“œ ë°”ì¸ë”©ìš© InputSystem
     private PointerInput pointerInput;
     private PointerInput.PointerActions pointerAction;
 
@@ -38,7 +37,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         Init();
 
-        // Å¬¸¯ »ç¿îµå ¹ÙÀÎµù
+        // í´ë¦­ ì‚¬ìš´ë“œ ë°”ì¸ë”©
         pointerInput = new PointerInput();
         pointerAction = pointerInput.Pointer;
         pointerInput.Enable();
@@ -47,7 +46,7 @@ public class SoundManager : Singleton<SoundManager>
 
     private void Start()
     {
-        // ±âº» ¸Ş´º BGM
+        // ê¸°ë³¸ ë©”ë‰´ BGM
         PlayBGM("PianoInstrumental1", loop: true);
     }
 
@@ -55,24 +54,24 @@ public class SoundManager : Singleton<SoundManager>
     {
         DontDestroyOnLoad(gameObject);
 
-        // ÀúÀåµÈ º¼·ı ºÒ·¯¿À±â
+        // ì €ì¥ëœ ë³¼ë¥¨ ë¶ˆëŸ¬ì˜¤ê¸°
         sfxVolume = PlayerPrefs.GetFloat("SFX_VOLUME", 0.3f);
         bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 0.3f);
         masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 0.3f);
 
-        // Å¬¸³ µñ¼Å³Ê¸® ÃÊ±âÈ­
+        // í´ë¦½ ë”•ì…”ë„ˆë¦¬ ì´ˆê¸°í™”
         soundDict = new Dictionary<string, AudioClip>();
         foreach (var clip in audioClips)
             soundDict[clip.name] = clip;
 
-        // BGM Àü¿ë AudioSource »ı¼º
+        // BGM ì „ìš© AudioSource ìƒì„±
         bgmPlayer = gameObject.AddComponent<AudioSource>();
         bgmPlayer.playOnAwake = false;
         bgmPlayer.loop = true;
         bgmPlayer.pitch = 1f;
         bgmPlayer.volume = bgmVolume * masterVolume;
 
-        // SFX Ç® »ı¼º
+        // SFX í’€ ìƒì„±
         audioSourcePool = new Queue<AudioSource>();
         for (int i = 0; i < poolSize; i++)
         {
@@ -82,13 +81,13 @@ public class SoundManager : Singleton<SoundManager>
         }
         currentPoolCapacity = poolSize;
 
-        // ÃÊ±â º¼·ı ¼¼ÆÃ
+        // ì´ˆê¸° ë³¼ë¥¨ ì„¸íŒ…
         SetMasterVolume(masterVolume);
         SetBGMVolume(bgmVolume);
         SetSFXVolume(sfxVolume);
     }
 
-    // AudioSource ±âº» ¼¼ÆÃ ÇÔ¼ö
+    // AudioSource ê¸°ë³¸ ì„¸íŒ… í•¨ìˆ˜
     private AudioSource CreateNewAudioSource()
     {
         var src = gameObject.AddComponent<AudioSource>();
@@ -99,9 +98,9 @@ public class SoundManager : Singleton<SoundManager>
         return src;
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // SFX: ´Ü¹ß Àç»ı
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // SFX: ë‹¨ë°œ ì¬ìƒ
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public void PlaySFX(string soundName)
     {
         if (!soundDict.TryGetValue(soundName, out var clip))
@@ -145,9 +144,9 @@ public class SoundManager : Singleton<SoundManager>
         audioSourcePool.Enqueue(src);
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // SFX: ·çÇÁ Àç»ı ½ÃÀÛ
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // SFX: ë£¨í”„ ì¬ìƒ ì‹œì‘
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public void PlaySFXLoop(string soundName)
     {
         if (loopSource != null && loopSource.isPlaying) return;
@@ -167,9 +166,9 @@ public class SoundManager : Singleton<SoundManager>
         loopSource.Play();
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // SFX: ·çÇÁ Àç»ı ÁßÁö
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // SFX: ë£¨í”„ ì¬ìƒ ì¤‘ì§€
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public void StopSFXLoop()
     {
         if (loopSource != null && loopSource.isPlaying)
@@ -181,9 +180,9 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // ±âÁ¸ StopSFX È£Ãâ È£È¯¿ë
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ê¸°ì¡´ StopSFX í˜¸ì¶œ í˜¸í™˜ìš©
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public void StopSFX(string soundName)
     {
         if (loopSource != null
@@ -199,9 +198,9 @@ public class SoundManager : Singleton<SoundManager>
         StopSFXLoop();
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // BGM: Àç»ı (loop=true ±âº»)
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // BGM: ì¬ìƒ (loop=true ê¸°ë³¸)
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public void PlayBGM(string bgmName, bool loop = true)
     {
         if (!soundDict.TryGetValue(bgmName, out var clip))
@@ -228,9 +227,9 @@ public class SoundManager : Singleton<SoundManager>
             bgmPlayer.Stop();
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // BGM Àç»ı »óÅÂ/±æÀÌ Á¶È¸
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // BGM ì¬ìƒ ìƒíƒœ/ê¸¸ì´ ì¡°íšŒ
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public bool IsBgmPlaying() => bgmPlayer.isPlaying;
 
     public float GetBgmLength(string bgmName)
@@ -240,9 +239,9 @@ public class SoundManager : Singleton<SoundManager>
             : 0f;
     }
 
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
-    // º¼·ı ¼³Á¤
-    // ¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ë³¼ë¥¨ ì„¤ì •
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     public void SetSFXVolume(float vol)
     {
         sfxVolume = Mathf.Clamp01(vol);

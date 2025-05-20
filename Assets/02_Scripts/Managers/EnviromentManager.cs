@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public enum Season
 {
@@ -27,7 +25,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
     private List<GameObject> secondObjectTemplates = new();
     private List<GameObject> thirdObjectTemplates = new();
     private List<GameObject> fourthObjectTemplates = new();
-    
+
     //맵 프리팹
     public List<GameObject> MapPrefabs { get; private set; } = new();
 
@@ -49,8 +47,8 @@ public class EnviromentManager : Singleton<EnviromentManager>
         WeatherState.WeatherListInit(EnviromentManager.Instance.Season);
         InitTempleats();
 
-        GameObject firstTemp = Instantiate(firstObjectTemplates[0],this.transform);
-        GameObject scecondTemp = Instantiate(secondObjectTemplates[0],this.transform);
+        GameObject firstTemp = Instantiate(firstObjectTemplates[0], this.transform);
+        GameObject scecondTemp = Instantiate(secondObjectTemplates[0], this.transform);
         GameObject thridTemp = Instantiate(thirdObjectTemplates[0], this.transform);
         GameObject fourthTemp = Instantiate(fourthObjectTemplates[0], this.transform);
 
@@ -59,7 +57,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
         Obstacles.AddRange(thridTemp.GetComponentsInChildren<BaseObstacle>());
         Obstacles.AddRange(fourthTemp.GetComponentsInChildren<BaseObstacle>());
 
-        foreach(BaseObstacle obstacle in Obstacles)
+        foreach (BaseObstacle obstacle in Obstacles)
         {
             obstacle.Init(Season);
         }
@@ -93,7 +91,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
 
     }
 
-   
+
     IEnumerator StateUpdate()
     {
         while (true)
@@ -101,7 +99,7 @@ public class EnviromentManager : Singleton<EnviromentManager>
             WeatherState.Update();
             yield return waitForSeconds;
         }
-        
+
     }
 
     //템플릿 불러오기

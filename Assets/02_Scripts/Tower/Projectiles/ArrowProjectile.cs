@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 public class ArrowProjectile : ProjectileBase
 {
@@ -14,9 +12,9 @@ public class ArrowProjectile : ProjectileBase
     /// <param name="_adaptedTowerData"></param>
     /// <param name="_effectslist"></param>
     /// <param name="_environmentEffect"></param>
-    public override void Init(TowerData _towerData,AdaptedAttackTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    public override void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTowerData, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
-        base.Init(_towerData, _adaptedTowerData, _effectslist,_environmentEffect);
+        base.Init(_towerData, _adaptedTowerData, _effectslist, _environmentEffect);
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
     }
@@ -66,7 +64,7 @@ public class ArrowProjectile : ProjectileBase
                 return;
 
             hasHit = true;
-         
+
             target.TakeDamage(adaptedTower.attackPower, penetration);
             //이펙트적용부분
             if (effects != null && effects.Count > 0)

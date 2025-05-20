@@ -12,7 +12,7 @@ public class MatchingElement
     public string Structure;
     public string ItemPath;
     public int MaskIndex;
-	public SpriteRenderer renderer;
+    public SpriteRenderer renderer;
     public Color32 Color;
 }
 public class SPUM_MatchingList : MonoBehaviour
@@ -26,10 +26,10 @@ public class SPUM_MatchingList : MonoBehaviour
         foreach (SpriteRenderer sr in spriteRenderers)
         {
             var item = new MatchingElement();
-            item.Structure = System.Text.RegularExpressions.Regex.Replace(sr.name,@"[^a-zA-Z가-힣\s]", "");
+            item.Structure = System.Text.RegularExpressions.Regex.Replace(sr.name, @"[^a-zA-Z가-힣\s]", "");
             item.renderer = sr;
             item.Color = Color.white;
-            Text +=item.Structure+"\n";
+            Text += item.Structure + "\n";
             matchingTables.Add(item);
         }
         Debug.Log(Text);

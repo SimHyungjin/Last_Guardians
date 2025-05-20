@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
-    ///////////=====================º¸½º¹ÌÀû¿ë ¹æ¾î·Â°¨¼Ò=====================================/////////////////////
+    ///////////=====================ë³´ìŠ¤ë¯¸ì ìš© ë°©ì–´ë ¥ê°ì†Œ=====================================/////////////////////
     float addWeatherValue = 0f;
     public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
@@ -27,7 +25,7 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
         }
     }
     /// <summary>
-    /// ¾È°³³¯¾¾ÀÏ¶§ Ãß°¡ ¹æ¾î·Â °¨¼Ò
+    /// ì•ˆê°œë‚ ì”¨ì¼ë•Œ ì¶”ê°€ ë°©ì–´ë ¥ ê°ì†Œ
     /// </summary>
     public void isFog()
     {

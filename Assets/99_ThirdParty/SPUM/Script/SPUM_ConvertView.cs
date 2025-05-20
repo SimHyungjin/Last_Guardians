@@ -13,7 +13,7 @@ public class SPUM_ConvertView : MonoBehaviour
     public GameObject WarningEyeText;
     void Start()
     {
-        Cancel.onClick.AddListener(()=> gameObject.SetActive(false));
+        Cancel.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
     void OnDisable()

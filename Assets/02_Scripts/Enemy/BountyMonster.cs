@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BountyMonster : BaseMonster
 {
-    public override void TakeDamage(float amount, float penetration =0, bool trueDamage = false)
+    public override void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {
         base.TakeDamage(amount, penetration, trueDamage);
         DamageText damageText = PoolManager.Instance.Spawn<DamageText>(InGameManager.Instance.DamageTextPrefab);

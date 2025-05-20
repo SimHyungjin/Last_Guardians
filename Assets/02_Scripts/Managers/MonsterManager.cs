@@ -137,7 +137,6 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         if (!monsterDataDict.TryGetValue(monsterIndex, out var data))
         {
-            Debug.LogWarning($"MonsterData 없음! ID: {monsterIndex}");
             return;
         }
 

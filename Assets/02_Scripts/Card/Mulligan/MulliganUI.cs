@@ -216,7 +216,6 @@ public class MulliganUI : MonoBehaviour
 
         if (availableCards.Count == 0)
         {
-            Debug.Log("자동 선택 카드 부족");
             return;
         }
 
@@ -255,7 +254,6 @@ public class MulliganUI : MonoBehaviour
     {
         if (selectedCard.Count != MaxSelectedCards)
         {
-            Debug.Log($"카드 {MaxSelectedCards}개 선택되지 않음");
             return;
         }
 

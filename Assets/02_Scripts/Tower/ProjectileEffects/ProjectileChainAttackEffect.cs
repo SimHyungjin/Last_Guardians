@@ -50,10 +50,8 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
     /// <param name="adaptedTowerData"></param>
     private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedAttackTowerData adaptedTowerData)
     {
-        Debug.Log($"[ChainAttack] ChainShot called. TowerData: {ownerTowerData.TowerIndex}");
         float angleStep = 10f;
         int additionalCount = ownerTowerData.EffectTargetCount;
-        Debug.Log($"[ChainAttack] additionalCount: {additionalCount}");
         Vector2 origin = transform.position;
         Vector2 forward = transform.right;
 

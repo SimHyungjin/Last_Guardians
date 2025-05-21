@@ -8,9 +8,11 @@ public class MulliganUI : MonoBehaviour
 {
     [SerializeField] private MulliganCard CardPrefab;
     [SerializeField] private TextMeshProUGUI desTextPrefab;
+    [SerializeField] private TextMeshProUGUI attackablePrefab;
     [SerializeField] private SpriteAtlas atlas;
     [SerializeField] private Transform parent;
     [SerializeField] private Transform descriptionTransfrom;
+    [SerializeField] private Transform attackableTransfrom;
     [SerializeField] private Button okBtn;
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
@@ -83,8 +85,11 @@ public class MulliganUI : MonoBehaviour
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
             TextMeshProUGUI des = Instantiate(desTextPrefab, descriptionTransfrom);
+            TextMeshProUGUI attackable = Instantiate(attackablePrefab, attackableTransfrom);
             card.Init(dataList[i].TowerIndex);
             des.text = dataList[i].TowerDescription;
+            if (dataList[i].AttackPower > 0) attackable.text = "(공격가능)";
+            else attackable.text = "";
             card.Btn.onClick.AddListener(() => AddSelectCardList(card));
         }
     }
@@ -149,6 +154,7 @@ public class MulliganUI : MonoBehaviour
     {
         DestroyAllChildren(parent);
         DestroyAllChildren(descriptionTransfrom);
+        DestroyAllChildren(attackableTransfrom);
         selectedCard.Clear();
     }
 

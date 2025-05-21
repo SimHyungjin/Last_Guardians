@@ -22,7 +22,6 @@ public class EffectChangeSprite : MonoBehaviour
         Sprite sprite = Resources.Load<Sprite>(spritePath);
         if (sprite == null)
         {
-            Debug.LogWarning("스프라이트 로드 실패: " + spritePath);
             return;
         }
 
@@ -41,7 +40,6 @@ public class EffectChangeSprite : MonoBehaviour
         Sprite sprite = Resources.Load<Sprite>(spritePath);
         if (sprite == null)
         {
-            Debug.LogWarning("스프라이트 로드 실패: " + spritePath);
             return;
         }
 

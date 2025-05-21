@@ -32,9 +32,6 @@ public class GameManager : Singleton<GameManager>
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 120;
-        PlayerPrefs.SetInt("InGameTutorial",0);
-        PlayerPrefs.SetInt("EquipTutorial", 0);
-        PlayerPrefs.SetInt("UpgradeTutorial", 0);
     }
 
     private void OnEnable()

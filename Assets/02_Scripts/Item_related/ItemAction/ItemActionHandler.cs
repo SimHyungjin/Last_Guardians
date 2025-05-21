@@ -38,12 +38,12 @@ public class ItemActionHandler : MonoBehaviour
 
         bool isEquipped = equipment.IsEquipped(selectItem);
 
-        if (isEquipped) equipment.UnEquip(selectItem);
+        if (isEquipped) equipment.UnEquip(selectItem, false);
 
-        inventory.RemoveItem(selectItem);
-        inventory.AddItem(result);
+        inventory.RemoveItem(selectItem,1,false);
+        inventory.AddItem(result,1, false);
 
-        if (isEquipped) equipment.Equip(result);
+        if (isEquipped) equipment.Equip(result,false);
 
         SaveSystem.SaveEquipData();
         SaveSystem.SaveInventoryData();

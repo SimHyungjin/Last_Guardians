@@ -66,6 +66,11 @@ public class Upgrade
 
         return true;
     }
+
+    public bool CanUpgrade(ItemData data)
+    {
+        return CanUpgrade(data, out _);
+    }
     /// <summary>
     /// 업그레이드에 필요한 자원을 소비합니다. 업그레이드 규칙에 따라 자원을 차감합니다.
     /// </summary>

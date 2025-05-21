@@ -27,7 +27,8 @@ public class EXPBead : MonoBehaviour
         yield return new WaitForSeconds(disTime);
         disappearCorutine = null;
         //경험치 반만 획득
-        InGameManager.Instance.GetExp((int)EXP / 2);
+        if(!InGameManager.Instance.isGameOver)
+            InGameManager.Instance.GetExp((int)EXP / 2);
         PoolManager.Instance.Despawn<EXPBead>(this);
     }
 
@@ -39,7 +40,7 @@ public class EXPBead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Time.timeScale == 0 || isCollected)
+        if (Time.timeScale == 0 || isCollected || InGameManager.Instance.isGameOver)
             return;
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))

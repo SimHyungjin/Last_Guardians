@@ -18,9 +18,9 @@ public class InventoryUIManager : MonoBehaviour
 
     public void Init()
     {
-        itemPopupController.Init();
-        upgradePopupController.Init();
-        sellPopupController.Init();
+        itemPopupController.NeedInit();
+        upgradePopupController.NeedInit();
+        sellPopupController.NeedInit();
         inventoryUIButtonView.Init();
         inventoryManager = MainSceneManager.Instance.inventoryManager;
     }

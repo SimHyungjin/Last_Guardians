@@ -31,6 +31,13 @@ public class TutorialUI : MonoBehaviour
         ShowPage(currentPage);
     }
 
+    private void OnEnable()
+    {
+        currentPage = 0;
+        //nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "시작하기";
+        ShowPage(currentPage);
+    }
+
     private void NextPage()
     {
         if (isTransitioning) return;
@@ -92,7 +99,13 @@ public class TutorialUI : MonoBehaviour
 
 
         gameObject.SetActive(false);
-        if (GameManager.Instance.GetSceneName() == "GameScene")
+        if (GameManager.Instance.GetSceneName() == "GameScene" && PlayerPrefs.GetInt("InGameTutorial") == 0)
             InGameManager.Instance.MuliigunStart();
+        else
+        {
+            Time.timeScale = InGameManager.Instance.TimeScale;
+            TowerManager.Instance.hand.gameObject.SetActive(true);
+        }
+            
     }
 }

@@ -45,8 +45,6 @@ public class ProjectileFactory : MonoBehaviour
             {
                 projectileMap.Add(entry.type, entry.prefab);
             }
-            else
-                Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
     }
     /// <summary>

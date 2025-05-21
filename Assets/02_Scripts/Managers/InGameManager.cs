@@ -71,7 +71,6 @@ public class InGameManager : Singleton<InGameManager>
         DateTime now = DateTime.Now;
         GameManager.Instance.NowTime = now.Minute;
         EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
-
         // 맵 동적 생성
         if (EnviromentManager.Instance.Season != Season.winter)
             map = Instantiate(MapPrefabs[0], mapSlot.transform);

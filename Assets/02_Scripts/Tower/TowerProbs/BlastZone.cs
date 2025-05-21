@@ -9,9 +9,7 @@ public class BlastZone : MonoBehaviour
     {
         Utils.GetColor(towerData, GetComponent<SpriteRenderer>());
         StartCoroutine(BlastEffect());
-        Debug.Log($"폭발위치 {_blastpos}");
         transform.position = _blastpos.position;
-        Debug.Log($"생성위치 {transform.position}");
     }
     private IEnumerator BlastEffect()
     {

@@ -6,7 +6,10 @@
 [팀원소개](#팀원소개)<br>
 [프레임워크](#프레임워크)<br>
 [플레이방법](#플레이-방법)<br>
+[주요기술](#주요-기술)<br>
 [주요기능](#주요-기능)<br>
+[주요기술](#주요-기술)<br>
+[트러블슈팅](#트러블-슈팅)<br>
 
 <br>
 
@@ -83,7 +86,24 @@
 <br><br>
 [목차로](#목차)<br>
 
+
+## 주요 기술
+
+<br><br>
+[목차로](#목차)<br>
+
 ## 주요 기능
+
+- Scriptable Object
+- Singleton
+- CustomizeEditor
+- UnityWebRequest
+- Newtonsoft.Json
+- FSM
+- InputSystem
+- Factory Pattern
+- Interface 기반 다형성
+- DIP (Dependency Inversion Principle)
 
 ### &emsp;마을
 
@@ -130,4 +150,34 @@
 
 
 <br><br> 
+[목차로](#목차)<br>
+
+
+## 기능 구현
+<details><summary> 타워설치</summary>
+히히설치!
+</details>
+
+<details><summary> 타워/트랩/투사체 스킬</summary>
+히히스킬!
+</details>
+
+<details><summary> 타워상호작용</summary>
+히히상호작용!
+</details>
+
+<br><br>
+[목차로](#목차)<br>
+
+## 트러블 슈팅
+<details><summary>길막힘</summary>
+히히길막힘!
+</details>
+
+<details><summary>네브매쉬 모서리</summary>
+히히모서리!
+</details>
+
+
+<br><br>
 [목차로](#목차)<br>

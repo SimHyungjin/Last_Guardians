@@ -11,6 +11,8 @@ public class TutorialUI : MonoBehaviour
     [SerializeField] private Button skipButton;
     [SerializeField] private CanvasGroup canvasGroup;
 
+    
+
     [System.Serializable]
     public struct TutorialPage
     {
@@ -99,13 +101,12 @@ public class TutorialUI : MonoBehaviour
 
 
         gameObject.SetActive(false);
-        if (GameManager.Instance.GetSceneName() == "GameScene" && PlayerPrefs.GetInt("InGameTutorial") == 0)
+        if (GameManager.Instance.GetSceneName() == "GameScene" && InGameManager.Instance.isTutorial)
             InGameManager.Instance.MuliigunStart();
-        else
+        else if(GameManager.Instance.GetSceneName() == "GameScene")
         {
             Time.timeScale = InGameManager.Instance.TimeScale;
             TowerManager.Instance.hand.gameObject.SetActive(true);
         }
-            
     }
 }

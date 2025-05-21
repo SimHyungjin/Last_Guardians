@@ -13,7 +13,7 @@ public class PopupBase : MonoBehaviour
             Init();
         }
     }
-    public virtual void Init() { IsInit = true; }
+    public virtual void Init() {}
     public virtual void Open()
     {
         NeedInit();

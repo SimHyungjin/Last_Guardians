@@ -1,13 +1,26 @@
 using System;
+using System.Collections;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
+enum UpgradeResultType 
+{   
+    Success, 
+    Same,
+    Downgrade 
+}
 
 public class UpgradePopupUI : PopupBase
 {
     [SerializeField] private Slot currentSlot;
     [SerializeField] private Slot upgradeSlot;
+
+    [SerializeField] private GameObject upgradeEffectObj;
+    [SerializeField] private Image upgradeEffectImage;
+    [SerializeField] private Image crashEffectImage;
 
     [SerializeField] private TextMeshProUGUI upgradeResultText;
 
@@ -25,22 +38,34 @@ public class UpgradePopupUI : PopupBase
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button cancelButton;
 
-
+    private EquipmentSlotContainer equipmentSlotContainer;
+    private InventorySlotContainer inventorySlotContainer;
     private ItemActionHandler actionHandler;
     private ItemSelectionController selectionController;
+    private Upgrade upgrade;
 
     ItemInstance currentData;
     ItemInstance upgradeData;
+    ItemInstance updateData;
 
     public Action onUpgradeAction;
 
     public override void Init()
     {
         var inventoryManager = MainSceneManager.Instance.inventoryManager;
+        equipmentSlotContainer = inventoryManager.equipmentSlotContainer;
+        inventorySlotContainer = inventoryManager.inventorySlotContainer;
         actionHandler = inventoryManager.itemActionHandler;
         selectionController = inventoryManager.inventorySelectionController;
+        upgrade = MainSceneManager.Instance.upgrade;
+
+
+        upgradeButton.onClick.RemoveListener(OnUpgradeClick);
         upgradeButton.onClick.AddListener(OnUpgradeClick);
-        cancelButton.onClick.AddListener(() => Close());
+
+        cancelButton.onClick.RemoveAllListeners();
+        cancelButton.onClick.AddListener(Close);
+
         RefreshText();
     }
 
@@ -92,10 +117,7 @@ public class UpgradePopupUI : PopupBase
             upgradeResultText.text = "최종 형태입니다.";
             return;
         }
-        upgradeButton.interactable = true;
-        var upgradeSystem = MainSceneManager.Instance.upgrade;
-        var rule = upgradeSystem.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currentData.Data.ItemGrade);
-
+        var rule = upgrade.GetUpgradeRules().FirstOrDefault(x => x.sourceGrade == currentData.Data.ItemGrade);
         if (rule == null)
         {
             EmptyText();
@@ -117,6 +139,8 @@ public class UpgradePopupUI : PopupBase
         upgradeResultText.text = $"{currentData.Data.ItemGrade} → {upgradeData.Data.ItemGrade}\n성공확률 : {rule.successRate}%";
         gold.text = rule.requiredGold.ToString();
         stone.text = rule.requiredUpgradeStones.ToString();
+        if (upgrade.CanUpgrade(currentData.Data)) upgradeButton.interactable = true;
+        else upgradeButton.interactable = false;
     }
 
     private void EmptyText()
@@ -166,9 +190,54 @@ public class UpgradePopupUI : PopupBase
 
     private void OnUpgradeClick()
     {
-        var data = actionHandler.Upgrade(currentData);
-        selectionController.SetSelected(data);
-        SetData(data);
+        updateData = actionHandler.Upgrade(currentData);
+
+        Color color = Color.white;
+        switch (upgradeData.Data.ItemGrade)
+        {
+            case ItemGrade.Normal: color = upgradeSlot.normalColor; break;
+            case ItemGrade.Rare: color = upgradeSlot.rareColor; break;
+            case ItemGrade.Unique: color = upgradeSlot.uniqueColor; break;
+            case ItemGrade.Hero: color = upgradeSlot.heroColor; break;
+            case ItemGrade.Legend: color = upgradeSlot.legendColor; break;
+        }
+
+        bool isSuccess = updateData.Data.ItemGrade > currentData.Data.ItemGrade; 
+        float targetFill = isSuccess ? 1f : 0.3f + UnityEngine.Random.Range(0, 5) * 0.1f;
+
+        StartCoroutine(SetEffectCoroutine(isSuccess, targetFill, color));
+    }
+
+    IEnumerator SetEffectCoroutine(bool success, float targetFill, Color color)
+    {
+        upgradeEffectImage.fillAmount = 0;
+        upgradeEffectImage.color = color;
+        upgradeEffectObj.gameObject.SetActive(true);
+
+        float fillDuration = targetFill;
+        float pauseDuration = 1f - targetFill;
+
+        float timer = 0f;
+
+        while (timer < fillDuration)
+        {
+            timer += Time.deltaTime;
+            float t = Mathf.Clamp01(timer / fillDuration);
+            upgradeEffectImage.fillAmount = Mathf.Lerp(0f, targetFill, t);
+            if(!success && timer > targetFill && !crashEffectImage.gameObject.activeSelf) crashEffectImage.gameObject.SetActive(true);
+            yield return null;
+        }
+        if (pauseDuration > 0)
+            yield return new WaitForSeconds(pauseDuration);
+        yield return new WaitForSeconds(0.2f);
+        crashEffectImage.gameObject.SetActive(false);
+        upgradeEffectObj.gameObject.SetActive(false);
+
+        selectionController.SetSelected(updateData);
+        SetData(updateData);
+        equipmentSlotContainer.BindAll();
+        equipmentSlotContainer.Refresh();
+        inventorySlotContainer.Display();
         RefreshText();
 
         onUpgradeAction?.Invoke();

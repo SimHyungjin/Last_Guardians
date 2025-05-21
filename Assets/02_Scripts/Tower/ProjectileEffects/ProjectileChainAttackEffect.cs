@@ -8,18 +8,18 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
         //주변에 스플레시 대미지
         if (towerData.EffectTargetCount == 0)
         {
-            if (towerData.EffectTarget == EffectTarget.All)
-            {
-                target.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
-            }
-            else
-            {
-                BossMonster bossMonster = target.GetComponent<BossMonster>();
-                if (bossMonster != null)
-                {
-                    bossMonster.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
-                }
-            }
+            //if (towerData.EffectTarget == EffectTarget.All)
+            //{
+            //    target.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
+            //}
+            //else
+            //{
+            //    BossMonster bossMonster = target.GetComponent<BossMonster>();
+            //    if (bossMonster != null)
+            //    {
+            //        bossMonster.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
+            //    }
+            //}
         }
         //피격시 피격위치에서 추가탄환 발사
         else

@@ -14,7 +14,6 @@ public class BlastProjectile : ProjectileBase
     private bool canHit = false;
     private float Totaldistance;
     private bool hasHit = false;
-
     /// <summary>
     /// 타워의 데이터와 적응된 타워의 데이터, 효과 리스트, 환경 효과를 초기화합니다.
     /// </summary>
@@ -28,6 +27,7 @@ public class BlastProjectile : ProjectileBase
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
         explosionRadius = 1f * TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectRange].levels[TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectRange]];
+
     }
 
     public override void Update()
@@ -113,6 +113,7 @@ public class BlastProjectile : ProjectileBase
             {
                 count++;
                 if (effects == null) break;
+                if(towerData.SpecialEffect==SpecialEffect.ChainAttack)monster.TakeDamage(adaptedTower.attackPower*adaptedTower.effectValue, penetration);
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;

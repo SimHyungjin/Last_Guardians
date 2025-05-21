@@ -84,7 +84,6 @@ public class BlastProjectile : ProjectileBase
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (hasHit && !canHit) return;
-        hasHit = true;
         canHit = false;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {

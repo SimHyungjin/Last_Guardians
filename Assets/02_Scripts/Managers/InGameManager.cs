@@ -18,6 +18,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private Transform target;
 
+    public bool isTutorial = true;
+
     public float TimeScale { get; private set; } = 1;
 
     private Canvas damageUICanvasPrefab;

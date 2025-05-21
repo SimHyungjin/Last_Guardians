@@ -95,6 +95,7 @@ public class GameOptionUI : MonoBehaviour
     {
         SoundManager.Instance.PlaySFX("PopUp");
         if (tutorialPanel.gameObject.activeSelf) return;
+        InGameManager.Instance.isTutorial = false;
         isTutoOpen = true;
         tutorialPanel.SetActive(true);
         optionSlot.SetActive(false);

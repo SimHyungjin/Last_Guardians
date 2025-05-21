@@ -7,12 +7,14 @@ public class GameOptionUI : MonoBehaviour
     public GameObject optionPanel;
     public GameObject homePanel;
     public GameObject bookPanel;
+    public GameObject tutorialPanel;
     public Button gameSpeedButton;
     public Sprite[] gameSpeedButtonImages;
     private int gameSpeedIndex = 0;
     private bool isOptionPanelOpen;
     private bool isHomePanelOpen;
     private bool isBookPanelOpen;
+    private bool isTutoOpen;
 
     public void OpenBook()
     {
@@ -87,5 +89,16 @@ public class GameOptionUI : MonoBehaviour
         homePanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
         Time.timeScale = InGameManager.Instance.TimeScale;
+    }
+
+    public void OpenTutorial()
+    {
+        SoundManager.Instance.PlaySFX("PopUp");
+        if (tutorialPanel.gameObject.activeSelf) return;
+        isTutoOpen = true;
+        tutorialPanel.SetActive(true);
+        optionSlot.SetActive(false);
+        TowerManager.Instance.hand.gameObject.SetActive(false);
+        Time.timeScale = 0;
     }
 }

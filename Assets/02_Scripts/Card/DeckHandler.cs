@@ -125,7 +125,6 @@ public class DeckHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("타워설치 시퀀스 시작");
                 TowerManager.Instance.towerbuilder.ChangeCardDontMove();
                 //Destroy(ghostTower);
                 //ghostTower = null;
@@ -135,7 +134,6 @@ public class DeckHandler : MonoBehaviour
                                 {
                                     if (canPlace)
                                     {
-                                        Debug.Log("타워설치 가능");
                                         TowerManager.Instance.towerbuilder.TowerConstruct(
                                         InputManager.Instance.GetTouchWorldPosition(),
                                         highlightedIndex
@@ -144,13 +142,11 @@ public class DeckHandler : MonoBehaviour
                                     }
                                     else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(), highlightedIndex))
                                     {
-                                        Debug.Log("타워합성 가능");
                                         TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
                                         UseCard();
                                     }
                                     else
                                     {
-                                        Debug.Log("타워합성,설치 불가능");
                                         highlightedCard.gameObject.SetActive(true);
                                         highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
                                         UnHighlightCard();

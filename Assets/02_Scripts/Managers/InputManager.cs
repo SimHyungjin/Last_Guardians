@@ -49,9 +49,9 @@ public class InputManager : Singleton<InputManager>
 #if UNITY_EDITOR
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 
+#else
     if (EventSystem.current == null)
         return false;
-#else
         PointerEventData eventData = new PointerEventData(EventSystem.current);
     eventData.position = pointerInput.Pointer.Position.ReadValue<Vector2>();
 

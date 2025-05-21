@@ -8,7 +8,6 @@ public class ProjectileStunEffect : MonoBehaviour, IEffect
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             target.ApplySturn(adaptedTowerData.effectValue, adaptedTowerData.effectDuration);
-            Debug.Log($"[Apply] {target.name} 스턴 적용");
         }
     }
 
@@ -19,7 +18,6 @@ public class ProjectileStunEffect : MonoBehaviour, IEffect
             if (Random.value < chance)
             {
                 target.ApplySturn(adaptedTowerData.effectDuration, adaptedTowerData.effectValue);
-                Debug.Log($"[Apply] {target.name} 스턴 적용");
             }
         }
     }

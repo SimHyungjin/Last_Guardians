@@ -107,7 +107,6 @@ public class EffectHandler : MonoBehaviour
         foreach (var effect in effects)
         {
             effect.Duration = duration + effect.Duration;
-            Debug.Log($"디버프 시간 늘어남 {effect}, 늘어난시간 : {duration} 최종 시간 : {effect.Duration}");
         }
     }
 

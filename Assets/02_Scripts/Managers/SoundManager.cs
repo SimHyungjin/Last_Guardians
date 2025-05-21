@@ -105,7 +105,6 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (!soundDict.TryGetValue(soundName, out var clip))
         {
-            Debug.LogError($"[SoundManager] SFX clip not found: {soundName}");
             return;
         }
 
@@ -121,7 +120,6 @@ public class SoundManager : Singleton<SoundManager>
         }
         else
         {
-            Debug.LogWarning($"[SoundManager] Max pool ({maxPoolSize}) reached. Skipping {soundName}");
             return;
         }
 
@@ -205,7 +203,6 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (!soundDict.TryGetValue(bgmName, out var clip))
         {
-            Debug.LogError($"[SoundManager] BGM clip not found: {bgmName}");
             return;
         }
 

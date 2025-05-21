@@ -145,8 +145,6 @@ public abstract class BaseTower : MonoBehaviour
             Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMaskData.tower);
             if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
-
-                Debug.Log("Tower Touch Start");
                 TowerManager.Instance.towerbuilder.OnAttackRangeCircle(TowerManager.Instance.towerbuilder.PostionArray(curPos), towerData);
                 isClicked = true;
                 hasTriggeredHold = false;
@@ -202,13 +200,11 @@ public abstract class BaseTower : MonoBehaviour
             TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
             TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
             TowerManager.Instance.StartInteraction(InteractionState.TowerMoving);
-            Debug.Log("Hold Activated");
         }
     }
 
     private void ShowTowerName()
     {
-        Debug.Log("Show Tower Name");
         if (towerNameText != null)
         {
             towerNameText.gameObject.SetActive(true);
@@ -275,11 +271,9 @@ public abstract class BaseTower : MonoBehaviour
             switch (plantedEffect.obstacleType)
             {
                 case ObstacleType.Water:
-                    Debug.Log("설치위치옆에 물있음");
                     environmentEffect.isNearWater = true;
                     break;
                 case ObstacleType.Fire:
-                    Debug.Log("설치위치옆에 불있음");
                     environmentEffect.isNearFire = true;
                     break;
 

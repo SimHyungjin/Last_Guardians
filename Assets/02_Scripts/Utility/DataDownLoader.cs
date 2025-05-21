@@ -127,7 +127,6 @@ public class DataDownLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError("데이터 가져오기 실패: " + www.error);
         }
     }
 
@@ -171,7 +170,7 @@ public class DataDownLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError("데이터 가져오기 실패: " + www.error);
+            
         }
     }
 

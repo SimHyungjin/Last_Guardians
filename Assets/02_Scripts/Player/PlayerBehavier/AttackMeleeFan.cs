@@ -57,7 +57,7 @@ public class AttackMeleeFan : IAttackBehavior
         EffectIndicator prefab = Resources.Load<EffectIndicator>("Effect/EffectIndicator");
         EffectIndicator effectIndicator = PoolManager.Instance.Spawn(prefab);
 
-        Vector2 direction = (targetPos -(Vector2)attackController.transform.position).normalized;
+        Vector2 direction = (targetPos - (Vector2)attackController.transform.position).normalized;
         effectIndicator.effectChangeMesh.ShowFan(attackController.transform.position, direction, player.attackRange * 4, angle);
     }
 }

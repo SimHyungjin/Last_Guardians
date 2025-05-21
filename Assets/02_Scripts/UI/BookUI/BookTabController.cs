@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BookTabController : MonoBehaviour
 {
-    public GameObject towerBookPanel;     
-    public GameObject towerComboPanel;    
+    public GameObject towerBookPanel;
+    public GameObject towerComboPanel;
 
     void Start()
     {
-        ShowTowerBook(); 
+        ShowTowerBook();
     }
 
     public void ShowTowerBook()

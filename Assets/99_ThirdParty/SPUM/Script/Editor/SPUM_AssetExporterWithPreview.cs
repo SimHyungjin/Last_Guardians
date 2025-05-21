@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 public class SPUM_AssetExporterWithPreview : EditorWindow
 {
@@ -32,12 +32,12 @@ public class SPUM_AssetExporterWithPreview : EditorWindow
     void OnEnable()
     {
         RefreshFolderStates();
-        
+
         SetDefaultAsset();
     }
     void OnGUI()
     {
-        GUILayout.Label("Assets to Export", EditorStyles.boldLabel,GUILayout.ExpandWidth(true));
+        GUILayout.Label("Assets to Export", EditorStyles.boldLabel, GUILayout.ExpandWidth(true));
 
         if (GUILayout.Button("Select be Exported Addon Folder"))
         {
@@ -51,7 +51,7 @@ public class SPUM_AssetExporterWithPreview : EditorWindow
         {
             EditorGUILayout.BeginHorizontal();
 
-           
+
 
             if (folderInfos.TryGetValue(folder, out FolderInfo info))
             {
@@ -74,57 +74,58 @@ public class SPUM_AssetExporterWithPreview : EditorWindow
 
         EditorGUILayout.Space();
 
-    GUILayout.Label("Required Asset", EditorStyles.boldLabel);
-    if (GUILayout.Button("Default asset files selected for the package"))
-    {
-        SetDefaultAsset();
-    }
-    defaultAssetsScrollPosition = EditorGUILayout.BeginScrollView(defaultAssetsScrollPosition);
-    foreach (var folder in DefualtAssetStates.Keys.ToList())
-    {
-        EditorGUILayout.BeginHorizontal();
-
-        EditorGUILayout.LabelField(folder, EditorStyles.wordWrappedLabel);
-        bool isChecked = EditorGUILayout.Toggle(DefualtAssetStates[folder], GUILayout.Width(20));
-
-        EditorGUILayout.EndHorizontal();
-
-        if (isChecked != DefualtAssetStates[folder])
+        GUILayout.Label("Required Asset", EditorStyles.boldLabel);
+        if (GUILayout.Button("Default asset files selected for the package"))
         {
-            DefualtAssetStates[folder] = isChecked;
-            UpdateAssetsToExport();
+            SetDefaultAsset();
         }
-    }
+        defaultAssetsScrollPosition = EditorGUILayout.BeginScrollView(defaultAssetsScrollPosition);
+        foreach (var folder in DefualtAssetStates.Keys.ToList())
+        {
+            EditorGUILayout.BeginHorizontal();
 
-    EditorGUILayout.EndScrollView();
+            EditorGUILayout.LabelField(folder, EditorStyles.wordWrappedLabel);
+            bool isChecked = EditorGUILayout.Toggle(DefualtAssetStates[folder], GUILayout.Width(20));
+
+            EditorGUILayout.EndHorizontal();
+
+            if (isChecked != DefualtAssetStates[folder])
+            {
+                DefualtAssetStates[folder] = isChecked;
+                UpdateAssetsToExport();
+            }
+        }
+
+        EditorGUILayout.EndScrollView();
 
         if (GUILayout.Button("Export Package"))
         {
             ExportPackage();
         }
     }
-void SetDefaultAsset(){
-    DefaultExport.Clear();
-    string[] array = new string[] {
-        "Assets/SPUM/Resources/Addons/Legacy", 
+    void SetDefaultAsset()
+    {
+        DefaultExport.Clear();
+        string[] array = new string[] {
+        "Assets/SPUM/Resources/Addons/Legacy",
         "Assets/SPUM/Basic_Resources/Animator",
         "Assets/SPUM/Basic_Resources/Materials",
         "Assets/SPUM/Basic_Resources/Ect",
         "Assets/SPUM/Script/Data",
         "Assets/SPUM/Sample"
     };
-    DefaultExport.AddRange(array);
-    
-    foreach (string asset in array)
-    {
-        if (!DefualtAssetStates.ContainsKey(asset))
+        DefaultExport.AddRange(array);
+
+        foreach (string asset in array)
         {
-            DefualtAssetStates[asset] = true;
+            if (!DefualtAssetStates.ContainsKey(asset))
+            {
+                DefualtAssetStates[asset] = true;
+            }
         }
+
+        UpdateAssetsToExport();
     }
-    
-    UpdateAssetsToExport();
-}
     void RefreshSelectedAssets()
     {
         assetsToExport.Clear();

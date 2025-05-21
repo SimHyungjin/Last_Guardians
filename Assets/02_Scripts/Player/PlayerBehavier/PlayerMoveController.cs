@@ -76,6 +76,6 @@ public class PlayerMoveController : MonoBehaviour
     public void SetCanMove(bool value)
     {
         canMove = value;
-        if(!value) agent.ResetPath();
+        if (!value) agent.ResetPath();
     }
 }

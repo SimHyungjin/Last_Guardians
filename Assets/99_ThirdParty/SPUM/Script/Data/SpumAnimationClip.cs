@@ -17,10 +17,10 @@ public class SpumAnimationClip : ICloneable
             index = this.index,
             Name = this.Name,
             StateType = this.StateType,
-            ClipPath= this.ClipPath,
+            ClipPath = this.ClipPath,
             HasData = this.HasData,
             UnitType = this.UnitType,
-            SubCategory= this.SubCategory
+            SubCategory = this.SubCategory
         };
     }
 }

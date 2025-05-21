@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
 public class TowerCombinationRule
 {
-    public int result;      
-    public int ingredient1; 
+    public int result;
+    public int ingredient1;
     public int ingredient2;
 
     public TowerCombinationRule(int result, int ingredient1, int ingredient2)
@@ -16,7 +15,7 @@ public class TowerCombinationRule
         this.ingredient1 = ingredient1;
         this.ingredient2 = ingredient2;
     }
-    // µÎ Àç·á°¡ ¼ø¼­¿¡ »ó°ü¾øÀÌ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎÇÏ´Â ¸Ş¼­µå
+    // ë‘ ì¬ë£Œê°€ ìˆœì„œì— ìƒê´€ì—†ì´ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
     public bool Matches(int ing1, int ing2)
     {
         return (ingredient1 == ing1 && ingredient2 == ing2) ||
@@ -34,10 +33,10 @@ public class TowerCombinationData : ScriptableObject
         combinationRules.Add(towerCombinationRule);
     }
     // <summary>
-    // µÎ Àç·á¸¦ Á¶ÇÕÇÏ¿© °á°ú Å¸¿ö ÀÎµ¦½º¸¦ ¹İÈ¯
-    // ÇÕ¼º °¡´ÉÇÑ ±ÔÄ¢ÀÌ ¾øÀ¸¸é -1À» ¹İÈ¯
+    // ë‘ ì¬ë£Œë¥¼ ì¡°í•©í•˜ì—¬ ê²°ê³¼ íƒ€ì›Œ ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜
+    // í•©ì„± ê°€ëŠ¥í•œ ê·œì¹™ì´ ì—†ìœ¼ë©´ -1ì„ ë°˜í™˜
     // </summary>
-        public int TryCombine(int ing1, int ing2)
+    public int TryCombine(int ing1, int ing2)
     {
         foreach (var rule in combinationRules)
         {

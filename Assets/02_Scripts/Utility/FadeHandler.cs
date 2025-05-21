@@ -1,29 +1,29 @@
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class FadeHandler : MonoBehaviour, IPointerClickHandler
 {
-    [Header("Blink ¼³Á¤")]
-    public bool enableBlink = false;      // ±ôºıÀÓ »ç¿ë ¿©ºÎ
-    [Tooltip("±ôºıÀÓ 1È¸ ÁÖ±â(ÃÊ)")]
+    [Header("Blink ì„¤ì •")]
+    public bool enableBlink = false;      // ê¹œë¹¡ì„ ì‚¬ìš© ì—¬ë¶€
+    [Tooltip("ê¹œë¹¡ì„ 1íšŒ ì£¼ê¸°(ì´ˆ)")]
     public float blinkDuration = 1f;
 
-    [Header("Fade ¼³Á¤")]
-    public bool enableFade = false;       // ÆäÀÌµå »ç¿ë ¿©ºÎ
-    [Tooltip("ÆäÀÌµå ½Ã°£(ÃÊ)")]
+    [Header("Fade ì„¤ì •")]
+    public bool enableFade = false;       // í˜ì´ë“œ ì‚¬ìš© ì—¬ë¶€
+    [Tooltip("í˜ì´ë“œ ì‹œê°„(ì´ˆ)")]
     public float fadeDuration = 1f;
-    [Tooltip("¿©±â¿¡ FadeImage ¿ÀºêÁ§Æ®ÀÇ CanvasGroupÀ» µå·¡±×ÇÏ¼¼¿ä")]
+    [Tooltip("ì—¬ê¸°ì— FadeImage ì˜¤ë¸Œì íŠ¸ì˜ CanvasGroupì„ ë“œë˜ê·¸í•˜ì„¸ìš”")]
     public CanvasGroup targetCanvasGroup;
 
-    [Header("Å¬¸¯ Áï½Ã ·Îµå")]
+    [Header("í´ë¦­ ì¦‰ì‹œ ë¡œë“œ")]
     public bool directLoadOnClick = false;
     public string directSceneName;
 
-    [Header("Å¬¸¯ ¡æ ÆäÀÌµå ÈÄ ·Îµå")]
+    [Header("í´ë¦­ â†’ í˜ì´ë“œ í›„ ë¡œë“œ")]
     public bool fadeLoadOnClick = false;
     public string fadeSceneName;
 
@@ -32,22 +32,22 @@ public class FadeHandler : MonoBehaviour, IPointerClickHandler
 
     void Awake()
     {
-        // ÆäÀÌµå ±â´ÉÀ» ¾´´Ù¸é CanvasGroup ¼¼ÆÃ
+        // í˜ì´ë“œ ê¸°ëŠ¥ì„ ì“´ë‹¤ë©´ CanvasGroup ì„¸íŒ…
         if (enableFade)
             SetupCanvasGroup();
     }
 
     void Start()
     {
-        // ±ôºıÀÓ ±â´ÉÀ» ¾´´Ù¸é Blink Æ®À© ¼³Á¤
+        // ê¹œë¹¡ì„ ê¸°ëŠ¥ì„ ì“´ë‹¤ë©´ Blink íŠ¸ìœˆ ì„¤ì •
         if (enableBlink)
             SetupBlink();
     }
 
     /// <summary>
-    /// targetCanvasGroup ÀÌ Inspector¿¡¼­ ÇÒ´çµÇ¾î ÀÖÀ¸¸é ±×°É ¾²°í,
-    /// ¾øÀ¸¸é ÀÚ±â ÀÚ½Å(GetComponent)¿¡¼­ Ã£¾Æ¼­ ¼¼ÆÃ.
-    /// Alpha´Â ½ÃÀÛ ½Ã ¿ÏÀü Åõ¸í(0)À¸·Î.
+    /// targetCanvasGroup ì´ Inspectorì—ì„œ í• ë‹¹ë˜ì–´ ìˆìœ¼ë©´ ê·¸ê±¸ ì“°ê³ ,
+    /// ì—†ìœ¼ë©´ ìê¸° ìì‹ (GetComponent)ì—ì„œ ì°¾ì•„ì„œ ì„¸íŒ….
+    /// AlphaëŠ” ì‹œì‘ ì‹œ ì™„ì „ íˆ¬ëª…(0)ìœ¼ë¡œ.
     /// </summary>
     void SetupCanvasGroup()
     {
@@ -55,7 +55,7 @@ public class FadeHandler : MonoBehaviour, IPointerClickHandler
             ? targetCanvasGroup
             : GetComponent<CanvasGroup>();
 
-        // ¸¸¾à ±×·¡µµ null ÀÌ¸é Ãß°¡ »ı¼º
+        // ë§Œì•½ ê·¸ë˜ë„ null ì´ë©´ ì¶”ê°€ ìƒì„±
         if (_cg == null)
             _cg = gameObject.AddComponent<CanvasGroup>();
 
@@ -65,8 +65,8 @@ public class FadeHandler : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// Blink¿ë Æ®À© ¼¼ÆÃ.
-    /// ÆäÀÌµåµµ °°ÀÌ ¾²¸é CanvasGroup À¸·Î, ¾Æ´Ï¸é Image ÄÄÆ÷³ÍÆ®·Î Ã³¸®.
+    /// Blinkìš© íŠ¸ìœˆ ì„¸íŒ….
+    /// í˜ì´ë“œë„ ê°™ì´ ì“°ë©´ CanvasGroup ìœ¼ë¡œ, ì•„ë‹ˆë©´ Image ì»´í¬ë„ŒíŠ¸ë¡œ ì²˜ë¦¬.
     /// </summary>
     void SetupBlink()
     {
@@ -88,7 +88,7 @@ public class FadeHandler : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // IPointerClickHandler: Å¬¸¯ ÆÇ³Ú µî¿¡ ºÙÀÌ¸é ÀüÃ¼¿µ¿ª Å¬¸¯ ½Ã È£ÃâµË´Ï´Ù.
+    // IPointerClickHandler: í´ë¦­ íŒë„¬ ë“±ì— ë¶™ì´ë©´ ì „ì²´ì˜ì—­ í´ë¦­ ì‹œ í˜¸ì¶œë©ë‹ˆë‹¤.
     public void OnPointerClick(PointerEventData eventData)
     {
         if (directLoadOnClick)
@@ -101,7 +101,7 @@ public class FadeHandler : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // UI Button OnClick() ¿ë Á÷Á¢ ¸Ş¼­µå
+    // UI Button OnClick() ìš© ì§ì ‘ ë©”ì„œë“œ
     public void OnClickDirectLoad()
     {
         SceneManager.LoadScene(directSceneName);
@@ -113,14 +113,14 @@ public class FadeHandler : MonoBehaviour, IPointerClickHandler
     }
 
     /// <summary>
-    /// ½ÇÁ¦ ÆäÀÌµå ¾Æ¿ô ÈÄ ¾À ÀüÈ¯ Ã³¸®.
-    /// targetCanvasGroup.alpha 0¡æ1
+    /// ì‹¤ì œ í˜ì´ë“œ ì•„ì›ƒ í›„ ì”¬ ì „í™˜ ì²˜ë¦¬.
+    /// targetCanvasGroup.alpha 0â†’1
     /// </summary>
     public void StartFadeAndLoad(string scene)
     {
         if (enableFade && _cg != null)
         {
-            // Blocks Raycasts ÄÑÁà¼­ Å¬¸¯ ¸·±â
+            // Blocks Raycasts ì¼œì¤˜ì„œ í´ë¦­ ë§‰ê¸°
             _cg.blocksRaycasts = true;
             _cg.interactable = true;
 

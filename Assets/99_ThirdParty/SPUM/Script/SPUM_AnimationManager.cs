@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using UnityEditor;
 
@@ -17,7 +16,7 @@ public class SPUM_AnimationManager : MonoBehaviour
     [SerializeField] Text slidertimeLineInfo;
     [SerializeField] Text timeLineText;
     [SerializeField] Text playSpeedText;
-    
+
     public SPUM_Prefabs unit => SPUM_Manager.PreviewPrefab;
     public Transform StatePanel;
     public Button StateButtonPrefab;
@@ -41,11 +40,13 @@ public class SPUM_AnimationManager : MonoBehaviour
     [Header("Manager")]
     public SPUM_Manager SPUM_Manager;
 
-    #if UNITY_EDITOR
-    public void ScrollContentReset(){
+#if UNITY_EDITOR
+    public void ScrollContentReset()
+    {
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
     }
-    public void PlayAnimation(SpumAnimationClip currentPlayClip){
+    public void PlayAnimation(SpumAnimationClip currentPlayClip)
+    {
         Animator animator = unit._anim;
         var PlayState = $"{currentPlayClip.StateType}";
         animator.Rebind();
@@ -62,24 +63,25 @@ public class SPUM_AnimationManager : MonoBehaviour
     AnimationClip LoadAnimationClip(string clipPath)
     {
         AnimationClip clip = Resources.Load<AnimationClip>(clipPath.Replace(".anim", ""));
-        
+
         if (clip == null)
         {
             Debug.LogWarning($"Failed to load animation clip '{clipPath}'.");
         }
-        
+
         return clip;
     }
-    public void CloseAnimationPanels(){
+    public void CloseAnimationPanels()
+    {
         spumAnimationStatePanel.gameObject.SetActive(false);
         spumAnimationPackagePanel.gameObject.SetActive(false);
     }
-    
+
     void InitAnimator()
     {
         Animator animator = unit._anim;
         animatorOverrideController = new AnimatorOverrideController();
-        animatorOverrideController.runtimeAnimatorController= animator.runtimeAnimatorController;
+        animatorOverrideController.runtimeAnimatorController = animator.runtimeAnimatorController;
 
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
 
@@ -88,7 +90,7 @@ public class SPUM_AnimationManager : MonoBehaviour
             animatorOverrideController[clip.name] = clip;
         }
 
-        animator.runtimeAnimatorController= animatorOverrideController;
+        animator.runtimeAnimatorController = animatorOverrideController;
     }
     public void InitializeDropdown()
     {
@@ -109,15 +111,18 @@ public class SPUM_AnimationManager : MonoBehaviour
         CreateSpumAnimationTypeButton();
         AnimationControllerPanel.Init(unit);
 
-        spumAnimationStatePanel.CloseButton.onClick.AddListener( ()=>{
+        spumAnimationStatePanel.CloseButton.onClick.AddListener(() =>
+        {
             spumAnimationStatePanel.gameObject.SetActive(false);
-            } );
-        spumAnimationPackagePanel.CloseButton.onClick.AddListener( ()=>{
+        });
+        spumAnimationPackagePanel.CloseButton.onClick.AddListener(() =>
+        {
 
             spumAnimationStatePanel.CreateStateButton(this);
             spumAnimationPackagePanel.gameObject.SetActive(false);
-            } );
-        spumAnimationStatePanel.ResetButton.onClick.AddListener(()=>{
+        });
+        spumAnimationStatePanel.ResetButton.onClick.AddListener(() =>
+        {
             //AllResetIndex();
             ResetSelectedStateTypeIndex();
             // 새로 패널 그리기
@@ -126,13 +131,16 @@ public class SPUM_AnimationManager : MonoBehaviour
         });
         InitPreviewUnitPackage();
         LoadPresetLst();
-        AddPresetButton.onClick.AddListener(()=> { 
-            Debug.Log("PresetAdd"); 
+        AddPresetButton.onClick.AddListener(() =>
+        {
+            Debug.Log("PresetAdd");
             AddPreset();
-            
-            });
-        PresetTogle.onValueChanged.AddListener((On)=> {
-            if(On) {
+
+        });
+        PresetTogle.onValueChanged.AddListener((On) =>
+        {
+            if (On)
+            {
                 LoadPresetLst();
             }
         });
@@ -145,7 +153,7 @@ public class SPUM_AnimationManager : MonoBehaviour
         {
             Destroy(element.gameObject);
         }
-        if(SPUM_PresetData == null) return;
+        if (SPUM_PresetData == null) return;
         var filteredPresets = FilterPresetsByUnitType(unit.UnitType);
 
         foreach (var presetData in filteredPresets)
@@ -165,7 +173,8 @@ public class SPUM_AnimationManager : MonoBehaviour
         var filteredPresets = SPUM_PresetData.Presets.Where(p => p.UnitType == unitType).ToList();
         return filteredPresets;
     }
-    public void AddPreset(){
+    public void AddPreset()
+    {
         var Preset = Instantiate(PresetPrefab, PresetContent);
         SPUM_Preset presetData = new SPUM_Preset
         {
@@ -192,13 +201,13 @@ public class SPUM_AnimationManager : MonoBehaviour
     }
     public void SavePresetData(SPUM_Preset presetData)
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         SPUM_PresetData.Presets.Add(presetData);
         EditorUtility.SetDirty(SPUM_PresetData);
         AssetDatabase.SaveAssets();
         LoadPresetLst();
         Debug.Log("Preset saved: " + presetData.PresetName);
-        #endif
+#endif
     }
     public void DeletePresetData(string name)
     {
@@ -219,24 +228,25 @@ public class SPUM_AnimationManager : MonoBehaviour
     {
         unit.spumPackages = preset.Packages;
         PresetTogle.isOn = false;
-        PlayFirstAnimation() ;
+        PlayFirstAnimation();
     }
-    public void PlayFirstAnimation() 
+    public void PlayFirstAnimation()
     {
         var clip = unit.spumPackages
             .SelectMany(package => package.SpumAnimationData)
-            .FirstOrDefault(data => 
-                data.StateType.Equals("IDLE", System.StringComparison.OrdinalIgnoreCase) && 
-                data.HasData && 
-                data.index == 0 && 
+            .FirstOrDefault(data =>
+                data.StateType.Equals("IDLE", System.StringComparison.OrdinalIgnoreCase) &&
+                data.HasData &&
+                data.index == 0 &&
                 data.UnitType.Equals(unit.UnitType));
-        if (clip == null) {
+        if (clip == null)
+        {
             Debug.LogWarning("package data error");
-            unit.spumPackages  = SPUM_Manager.GetSpumLegacyData();
+            unit.spumPackages = SPUM_Manager.GetSpumLegacyData();
             return;
         }
         PlayAnimation(clip);
-    } 
+    }
 
 
     void CreateSpumAnimationTypeButton()
@@ -244,37 +254,39 @@ public class SPUM_AnimationManager : MonoBehaviour
         var UnitStateData = unit.spumPackages;
 
         spumAnimationStatePanel.AddClipButton.onClick.RemoveAllListeners();
-       
-        foreach (string state in  SPUM_Manager.StateList)
+
+        foreach (string state in SPUM_Manager.StateList)
         {
             var StateButton = Instantiate(StateButtonPrefab, StatePanel);
             StateButton.GetComponentInChildren<Text>().text = state;
 
             var stateType = state;
-            StateButton.onClick.AddListener( () => 
+            StateButton.onClick.AddListener(() =>
             {
                 SelectedType = stateType;
                 spumAnimationPackagePanel.gameObject.SetActive(false);
                 spumAnimationStatePanel.gameObject.SetActive(true);
                 spumAnimationStatePanel.CreateStateButton(this);
-            } );
+            });
         }
 
         // 클립 추가 버튼 데이터 할당
-        spumAnimationStatePanel.AddClipButton.onClick.AddListener( () =>
+        spumAnimationStatePanel.AddClipButton.onClick.AddListener(() =>
         {
             spumAnimationPackagePanel.gameObject.SetActive(true);
             spumAnimationPackagePanel.CreateSpumAnimationPackagePanel(this);
-      
+
         });
     }
 
-    public void RefreshStatePanel(){
+    public void RefreshStatePanel()
+    {
         spumAnimationStatePanel.CreateStateButton(this);
-        
+
     }
-    public void InitPreviewUnitPackage(){
-        unit.spumPackages =  SPUM_Manager.GetSpumLegacyData();
+    public void InitPreviewUnitPackage()
+    {
+        unit.spumPackages = SPUM_Manager.GetSpumLegacyData();
         ResetSelectedStateTypeIndex();
         PlayFirstAnimation();
     }
@@ -296,21 +308,21 @@ public class SPUM_AnimationManager : MonoBehaviour
                 }
             }
         }
-SpumPackage legacyPackage = null;
+        SpumPackage legacyPackage = null;
 
-foreach (var package in UnitPackagesData)
-{
-    if (package.Name.Trim().Equals("Legacy", StringComparison.OrdinalIgnoreCase))
-    {
-        legacyPackage = package;
-        break;
-    }
-}
+        foreach (var package in UnitPackagesData)
+        {
+            if (package.Name.Trim().Equals("Legacy", StringComparison.OrdinalIgnoreCase))
+            {
+                legacyPackage = package;
+                break;
+            }
+        }
         //var legacyPackage = UnitPackagesData.Where(p => p.Name.Trim().Equals("Legacy", StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
         if (legacyPackage != null)
         {
             var relevantClips = legacyPackage.SpumAnimationData
-                .Where(clipData => 
+                .Where(clipData =>
                     clipData.StateType.Equals(SelectedType) &&
                     clipData.UnitType.Equals(unit.UnitType))
                 .ToList();
@@ -322,22 +334,23 @@ foreach (var package in UnitPackagesData)
             }
         }
     }
-    public void IndexSawp(int clipindex, int dir){
-        if(clipindex == 0  && dir < 0) return;
+    public void IndexSawp(int clipindex, int dir)
+    {
+        if (clipindex == 0 && dir < 0) return;
 
         var UnitPackagesData = unit.spumPackages;
         var filteredClips = UnitPackagesData
         .SelectMany(package => package.SpumAnimationData)
         .Where(clip => clip.StateType.Equals(SelectedType) && clip.HasData && clip.UnitType.Equals(unit.UnitType)).OrderBy(clip => clip.index).ToList();
-        
+
 
         int currentIndex = clipindex;
         int swapTargetIndex = clipindex + dir;
-        if(swapTargetIndex == filteredClips.Count) return;
+        if (swapTargetIndex == filteredClips.Count) return;
         //Debug.Log($"{currentIndex}==>{swapTargetIndex} {filteredClips.Count}");
         filteredClips[currentIndex].index = swapTargetIndex;
         filteredClips[swapTargetIndex].index = currentIndex;
         RefreshStatePanel();
     }
-    #endif
+#endif
 }

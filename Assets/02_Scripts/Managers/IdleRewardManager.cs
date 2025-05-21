@@ -30,17 +30,17 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     protected void Awake()
     {
-      
+
         DontDestroyOnLoad(gameObject);
 
-        // ÀÌÀü ¼¼¼Ç »óÅÂ ·Îµå
+        // ì´ì „ ì„¸ì…˜ ìƒíƒœ ë¡œë“œ
         sessionStartTime = DateTime.Parse(
             PlayerPrefs.GetString("IdleSessionStart", DateTime.Now.ToString()));
         pendingGold = PlayerPrefs.GetInt("IdlePendingGold", 0);
         pendingStone = PlayerPrefs.GetInt("IdlePendingStone", 0);
         rewardCount = PlayerPrefs.GetInt("IdleRewardCount", 0);
 
-        // Áï½Ã ¹é±×¶ó¿îµå Å¸ÀÌ¸Ó ½ÃÀÛ
+        // ì¦‰ì‹œ ë°±ê·¸ë¼ìš´ë“œ íƒ€ì´ë¨¸ ì‹œì‘
         StartCoroutine(IdleTimerLoop());
     }
 
@@ -55,12 +55,12 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
 
     private void ProcessRewards()
     {
-        // ¾ó¸¶³ª ¸¹Àº °£°İÀÌ Áö³µ´ÂÁö °è»ê
+        // ì–¼ë§ˆë‚˜ ë§ì€ ê°„ê²©ì´ ì§€ë‚¬ëŠ”ì§€ ê³„ì‚°
         int totalIntervals = Mathf.FloorToInt(
             (float)TotalElapsed.TotalMinutes / REWARD_INTERVAL_MINUTES
         );
 
-        // ¾ÆÁ÷ Áö±ŞµÇÁö ¾ÊÀº °£°İ¸¸Å­ º¸»ó ºÎ¿©
+        // ì•„ì§ ì§€ê¸‰ë˜ì§€ ì•Šì€ ê°„ê²©ë§Œí¼ ë³´ìƒ ë¶€ì—¬
         while (rewardCount < totalIntervals)
         {
             GrantReward();
@@ -98,12 +98,12 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
     {
         if (pendingGold == 0 && pendingStone == 0) return;
 
-        // ½ÇÁ¦ Áö±Ş
+        // ì‹¤ì œ ì§€ê¸‰
         GameManager.Instance.gold += pendingGold;
         GameManager.Instance.upgradeStones += pendingStone;
         SoundManager.Instance.PlaySFX("Reward");
 
-        // ÃÊ±âÈ­
+        // ì´ˆê¸°í™”
         pendingGold = 0;
         pendingStone = 0;
         accumulatedStone = 0f;
@@ -111,7 +111,7 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
         rewardCount = 0;
         PlayerPrefs.SetInt("IdleRewardCount", 0);
 
-        // ÀúÀå
+        // ì €ì¥
         SaveAll();
         SaveSystem.SaveGame();
     }
@@ -132,7 +132,7 @@ public class IdleRewardManager : Singleton<IdleRewardManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AutoStartTimer()
     {
-        
+
         var _ = Instance;
     }
 

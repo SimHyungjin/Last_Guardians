@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEditer : MonoBehaviour
@@ -7,7 +5,7 @@ public class CardEditer : MonoBehaviour
     public DeckHandler handCardLayout;
 
     public void AddOne()
-    {handCardLayout.AddCard(1); }
+    { handCardLayout.AddCard(1); }
     public void AddTwo()
     { handCardLayout.AddCard(2); }
     public void AddThree()

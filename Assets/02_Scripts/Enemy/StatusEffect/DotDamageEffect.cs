@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class DotDamageEffect : StatusEffect
 {
     private float tickTime = 0.5f; // 데미지 들어가는 주기
-    private float timer; 
+    private float timer;
 
     public DotDamageEffect(float duration, float damage) : base(duration, damage)
     {
@@ -15,7 +11,7 @@ public class DotDamageEffect : StatusEffect
 
     public override void UpdateEffect(BaseMonster target, float time)
     {
-        base.UpdateEffect(target,time);
+        base.UpdateEffect(target, time);
         if (!IsOver)
         {
             timer -= time;
@@ -25,7 +21,7 @@ public class DotDamageEffect : StatusEffect
                 timer = tickTime;
             }
         }
-        
+
     }
     public override void ApplyEffect(BaseMonster target)
     {

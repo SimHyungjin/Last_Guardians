@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileCriticalEffect : MonoBehaviour, IEffect
 {
-    ///////////==========================≈©∏Æ∆ºƒ√ √ﬂ∞°µ•πÃ¡ˆ================================/////////////////////
+    ///////////==========================ÌÅ¨Î¶¨Ìã∞Ïª¨ Ï∂îÍ∞ÄÎç∞ÎØ∏ÏßÄ================================/////////////////////
     public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         target.TakeDamage(adaptedTowerData.attackPower * (adaptedTowerData.effectValue - 1));
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance,EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
         if (Random.value < chance)
-            target.TakeDamage(adaptedTowerData.attackPower*(adaptedTowerData.effectValue -1));
+            target.TakeDamage(adaptedTowerData.attackPower * (adaptedTowerData.effectValue - 1));
     }
 }

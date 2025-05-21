@@ -1,11 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [System.Serializable]
-public class TowerUpgrade :MonoBehaviour
+public class TowerUpgrade : MonoBehaviour
 {
     public TowerUpgradeData towerUpgradeData;
     private void Start()
@@ -71,7 +68,6 @@ public class TowerUpgrade :MonoBehaviour
             }
             else
             {
-                Debug.Log("업그레이드 실패");
                 return;
             }
             SaveSystem.SaveTowerUpgradeData(this);

@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class SpumTextureData: ICloneable
+public class SpumTextureData : ICloneable
 {
     public string Name; // 메인 텍스쳐 이름
     public string UnitType; // 유닛 타입
@@ -16,7 +16,7 @@ public class SpumTextureData: ICloneable
             Name = this.Name,
             UnitType = this.UnitType,
             PartType = this.PartType,
-            SubType= this.SubType,
+            SubType = this.SubType,
             PartSubType = this.PartSubType,
             Path = this.Path
         };

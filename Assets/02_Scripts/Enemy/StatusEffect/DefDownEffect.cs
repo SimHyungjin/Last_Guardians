@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class DefDownEffect : StatusEffect
 {
     public DefDownEffect(float amount, float duration) : base(amount, duration)

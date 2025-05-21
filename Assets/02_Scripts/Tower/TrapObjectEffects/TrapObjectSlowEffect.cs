@@ -1,24 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
+public class TrapObjectSlowEffect : MonoBehaviour, ITrapEffect
 {
-    ///////////==========================½½·Î¿ì ÀÌÆåÆ®================================/////////////////////
+    ///////////==========================ìŠ¬ë¡œìš° ì´í™íŠ¸================================/////////////////////
 
     private float addObstacleValue = 0f;
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
         if (Utils.ShouldApplyEffect(target, towerData, bossImmunebuff))
         {
             IsWater(environmentEffect);
             target.ApplySlowdown(adaptedTrapObjectData.effectValue + addObstacleValue, adaptedTrapObjectData.effectDuration);
-            Debug.Log($"[Apply] {target.name} ½½·Î¿ì ÀÌÆåÆ® Àû¿ëµÊ Å¸¿öÀÎµ¦½º : {towerData.TowerName},{towerData.EffectValue + addObstacleValue},{towerData.EffectDuration}");
+            Debug.Log($"[Apply] {target.name} ìŠ¬ë¡œìš° ì´í™íŠ¸ ì ìš©ë¨ íƒ€ì›Œì¸ë±ìŠ¤ : {towerData.TowerName},{towerData.EffectValue + addObstacleValue},{towerData.EffectDuration}");
         }
     }
 
     /// <summary>
-    /// °èÀı¿¡ µû¶ó ¹°¼Ó¼º Àû¿ë
+    /// ê³„ì ˆì— ë”°ë¼ ë¬¼ì†ì„± ì ìš©
     /// </summary>
     /// <param name="environmentEffect"></param>
     private void IsWater(EnvironmentEffect environmentEffect)
@@ -26,7 +24,7 @@ public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
         if (EnviromentManager.Instance.Season == Season.winter)
         {
             addObstacleValue = 0f;
-            Debug.Log("°Ü¿ïÀÌ¶ó¼­ ¹°¼Ó¼ºÀÌ Àû¿ëµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.Log("ê²¨ìš¸ì´ë¼ì„œ ë¬¼ì†ì„±ì´ ì ìš©ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
         else
         {
@@ -34,24 +32,24 @@ public class TrapObjectSlowEffect : MonoBehaviour,ITrapEffect
                 if (environmentEffect.IsWaterBoosted())
                 {
                     addObstacleValue = 0.6f;
-                    Debug.Log("ºñ¿À´Â³¯ ¹°¼Ó¼ºÀÌ Àû¿ëµÇ¾ú½À´Ï´Ù.");
+                    Debug.Log("ë¹„ì˜¤ëŠ”ë‚  ë¬¼ì†ì„±ì´ ì ìš©ë˜ì—ˆìŠµë‹ˆë‹¤.");
                 }
                 else
                 {
                     addObstacleValue = 0f;
-                    Debug.Log("¹°¼Ó¼ºÀÌ Àû¿ëµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                    Debug.Log("ë¬¼ì†ì„±ì´ ì ìš©ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
                 }
             else
             {
                 if (environmentEffect.IsWaterBoosted())
                 {
                     addObstacleValue = 0.3f;
-                    Debug.Log("¹°¼Ó¼ºÀÌ Àû¿ëµÇ¾ú½À´Ï´Ù.");
+                    Debug.Log("ë¬¼ì†ì„±ì´ ì ìš©ë˜ì—ˆìŠµë‹ˆë‹¤.");
                 }
                 else
                 {
                     addObstacleValue = 0f;
-                    Debug.Log("¹°¼Ó¼ºÀÌ Àû¿ëµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                    Debug.Log("ë¬¼ì†ì„±ì´ ì ìš©ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
                 }
             }
         }

@@ -31,11 +31,11 @@ public class InventoryUIManager : MonoBehaviour
         upgradePopupController.Close();
         sellPopupController.Close();
         inventoryUIButtonView.RefreshGoods();
-        if(inventoryManager == null ) return;
+        if (inventoryManager == null) return;
         inventoryManager.inventorySelectionController.ClearSelect();
         inventoryManager.inventorySelectionController.ClearSelects();
         inventoryManager.inventorySlotContainer.Refresh();
-        
+
     }
 
     public void OpenPopup(PopupType popupType)

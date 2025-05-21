@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum EquipType
@@ -24,25 +22,25 @@ public enum AttackType
 [CreateAssetMenu(fileName = "NewEquip", menuName = "Data/Equip Data", order = 1)]
 public class EquipData : ItemData
 {
-    [field : Header("장비 능력치")]
-    [field : SerializeField] public int equipIndex { get; private set; }
-    [field : SerializeField] public EquipType equipType { get; private set; }
-    [field : SerializeField] public AttackType attackType { get; private set; }
-    [field : SerializeField] public float attackPower { get; private set; }
-    [field : SerializeField] public float attackSpeed { get; private set; }
-    [field : SerializeField] public float moveSpeed { get; private set; }
-    [field : SerializeField] public float criticalChance { get; private set; }
-    [field : SerializeField] public float criticalDamage { get; private set; }
-    [field : SerializeField] public float penetration { get; private set; }
-    [field : SerializeField] public float attackRange { get; private set; }
-    [field : SerializeField] public int specialEffectID { get; private set; }
-    [field : SerializeField] public ItemData linkedItem { get; private set; }
+    [field: Header("장비 능력치")]
+    [field: SerializeField] public int equipIndex { get; private set; }
+    [field: SerializeField] public EquipType equipType { get; private set; }
+    [field: SerializeField] public AttackType attackType { get; private set; }
+    [field: SerializeField] public float attackPower { get; private set; }
+    [field: SerializeField] public float attackSpeed { get; private set; }
+    [field: SerializeField] public float moveSpeed { get; private set; }
+    [field: SerializeField] public float criticalChance { get; private set; }
+    [field: SerializeField] public float criticalDamage { get; private set; }
+    [field: SerializeField] public float penetration { get; private set; }
+    [field: SerializeField] public float attackRange { get; private set; }
+    [field: SerializeField] public int specialEffectID { get; private set; }
+    [field: SerializeField] public ItemData linkedItem { get; private set; }
 
     public ItemData LinkedItem => linkedItem;
 
 
 
-    
+
 
     public void SetEquipData(
     int equipIndex,
@@ -75,7 +73,7 @@ public class EquipData : ItemData
 #if UNITY_EDITOR
         if (linkedItem != null)
         {
-            
+
             SetData(
                 linkedItem.ItemIndex,
                 linkedItem.ItemName,
@@ -84,7 +82,7 @@ public class EquipData : ItemData
                 linkedItem.ItemGrade,
                 linkedItem.ItemStackLimit,
                 linkedItem.ItemDropRate,
-                linkedItem.ItemSellPrice, 
+                linkedItem.ItemSellPrice,
                 linkedItem.ItemApartPrice
             );
         }

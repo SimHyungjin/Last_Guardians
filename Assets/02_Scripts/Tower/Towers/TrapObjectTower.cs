@@ -1,30 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class TrapObjectTower : BaseTower
 {
-    [Header("¿ÀºêÁ§Æ®Å¸¿ö µ¥ÀÌÅÍ")]
+    [Header("ì˜¤ë¸Œì íŠ¸íƒ€ì›Œ ë°ì´í„°")]
     [SerializeField] private GameObject trapObjcetPrefab;
     private List<TrapObject> traps = new();
 
 
     private Vector2[] offsets = new Vector2[]
     {
-        new Vector2(0, 1),       // À§
-        new Vector2(-1, -1),     // ÁÂÇÏ´Ü
-        new Vector2(1, -1)       // ¿ìÇÏ´Ü
+        new Vector2(0, 1),       // ìœ„
+        new Vector2(-1, -1),     // ì¢Œí•˜ë‹¨
+        new Vector2(1, -1)       // ìš°í•˜ë‹¨
     };
 
     /// <summary>
-    /// ÁöÁ¤µÈ À§Ä¡¿¡ ¿ÀºêÁ§Æ® Æ®·¦À» ¼³Ä¡
+    /// ì§€ì •ëœ ìœ„ì¹˜ì— ì˜¤ë¸Œì íŠ¸ íŠ¸ë©ì„ ì„¤ì¹˜
     /// </summary>
     /// <param name="data"></param>
     public override void Init(TowerData data)
     {
         base.Init(data);
-        trapObjcetPrefab=TowerManager.Instance.TrapObjectPrefab;
+        trapObjcetPrefab = TowerManager.Instance.TrapObjectPrefab;
         for (int i = 0; i < offsets.Length; i++)
         {
             Vector2 worldPos = (Vector2)transform.position + offsets[i];
@@ -57,7 +55,7 @@ public class TrapObjectTower : BaseTower
 
 
     /// <summary>
-    /// ÆÄ±«½Ã Æ®·¦ ¿ÀºêÁ§Æ®¸¦ ¸ğµÎ ÆÄ±«
+    /// íŒŒê´´ì‹œ íŠ¸ë© ì˜¤ë¸Œì íŠ¸ë¥¼ ëª¨ë‘ íŒŒê´´
     /// </summary>
     protected override void OnDestroy()
     {

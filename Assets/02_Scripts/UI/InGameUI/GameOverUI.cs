@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
@@ -57,7 +55,7 @@ public class GameOverUI : MonoBehaviour
         }
         else
         {
-           
+
             var firstData = GameManager.Instance
                 .ItemManager
                 .GetItemInstanceByIndex(equips[0])
@@ -65,14 +63,14 @@ public class GameOverUI : MonoBehaviour
             rewardEquipImage.gameObject.SetActive(true);
             rewardEquipImage.sprite = firstData.Icon;
 
-            
+
             var coloredNames = equips.Select(idx =>
             {
                 var data = GameManager.Instance
                     .ItemManager
                     .GetItemInstanceByIndex(idx)
                     .Data;
-                
+
                 string hex = GradeColorHex.TryGetValue(data.ItemGrade, out var c) ? c : "#000000";
                 return $"<color={hex}>{data.ItemName}</color>";
             });

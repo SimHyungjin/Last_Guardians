@@ -63,10 +63,10 @@ public class ItemData : ScriptableObject
     //    {
     //        EquipData equipData = (EquipData)target;
 
-            
+
     //        EditorGUILayout.LabelField("Item Name", equipData.ItemName);
 
-           
+
     //        DrawDefaultInspector();
     //    }
     //}

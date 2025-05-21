@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class TowerCombinationPanel : MonoBehaviour
 {
@@ -29,7 +27,7 @@ public class TowerCombinationPanel : MonoBehaviour
             }
         }
 
-        Debug.Log("ÇØ´ç Å¸¿öÀÇ Á¶ÇÕ½ÄÀÌ Á¸ÀçÇÏÁö ¾ÊÀ½");
+        Debug.Log("í•´ë‹¹ íƒ€ì›Œì˜ ì¡°í•©ì‹ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
     }
 
     private TowerData FindTowerData(int index)

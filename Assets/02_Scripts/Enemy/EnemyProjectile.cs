@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class EnemyProjectile : ProjectileBase
 {
-    public MonsterData Data {  get; set; }
+    public MonsterData Data { get; set; }
     public BaseMonster BaseMonster { get; set; }
 
     private SpriteRenderer spriteRenderer;
@@ -72,7 +70,7 @@ public class EnemyProjectile : ProjectileBase
             {
                 InGameManager.Instance.TakeDmage(BaseMonster.SecondHitDamage);
             }
-            
+
             PoolManager.Instance.Despawn(this);
         }
     }

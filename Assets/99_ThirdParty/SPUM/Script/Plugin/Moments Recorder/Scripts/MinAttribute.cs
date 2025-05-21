@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2015 Thomas Hourdel
  *
  * This software is provided 'as-is', without any express or implied
@@ -25,13 +25,13 @@ using UnityEngine;
 
 namespace Moments
 {
-	public sealed class MinAttribute : PropertyAttribute
-	{
-		public readonly float min;
+    public sealed class MinAttribute : PropertyAttribute
+    {
+        public readonly float min;
 
-		public MinAttribute(float min)
-		{
-			this.min = min;
-		}
-	}
+        public MinAttribute(float min)
+        {
+            this.min = min;
+        }
+    }
 }

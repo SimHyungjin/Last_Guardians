@@ -31,7 +31,7 @@ public class ItemManager
     /// <returns></returns>
     public ItemInstance GetItemInstanceByIndex(int index)
     {
-        return itemDatas.TryGetValue(index, out var data)? new ItemInstance(data): null;
+        return itemDatas.TryGetValue(index, out var data) ? new ItemInstance(data) : null;
     }
 
     public ReadOnlyDictionary<int, ItemData> ItemDatas() => readonlyItemDatas;

@@ -1,9 +1,6 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -18,7 +15,7 @@ public class Card : MonoBehaviour
 
 
     public GameObject towerGhostPrefab;
-    
+
 
     public event Action<Card> onClicked;
     public event Action<Card> onClickEnd;
@@ -38,14 +35,14 @@ public class Card : MonoBehaviour
         GetComponent<Image>().sprite = atlas.GetSprite($"Card_{index}");
         stack = 1;
         ShowStack();
-        if(EnviromentManager.Instance.Season==Season.winter)
+        if (EnviromentManager.Instance.Season == Season.winter)
         {
             text.color = Color.black;
         }
     }
     /// <summary>
-    /// Ä«µå¿¡ Å¬¸¯ÀÌ µé¾î¿ÔÀ»¶§
-    /// µ¦ÇÚµé·¯¿¡°Ô ¸Ş¼¼Áö¸¦ º¸³½´Ù.
+    /// ì¹´ë“œì— í´ë¦­ì´ ë“¤ì–´ì™”ì„ë•Œ
+    /// ë±í•¸ë“¤ëŸ¬ì—ê²Œ ë©”ì„¸ì§€ë¥¼ ë³´ë‚¸ë‹¤.
     /// </summary>
     /// <param name="ctx"></param>
     public void OnTouchStart(InputAction.CallbackContext ctx)
@@ -94,7 +91,7 @@ public class Card : MonoBehaviour
     {
         if (stack > 1)
         {
-            text.text = "X"+stack.ToString();
+            text.text = "X" + stack.ToString();
         }
         else
         {
@@ -105,9 +102,9 @@ public class Card : MonoBehaviour
     {
         stack++;
     }
-    
+
     public void subtractStack()
     {
         stack--;
-    }   
+    }
 }

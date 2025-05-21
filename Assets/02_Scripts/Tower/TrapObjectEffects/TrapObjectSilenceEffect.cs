@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
 public class TrapObjectSilenceEffect : ITrapEffect
 {
-    ///////////==========================ƒßπ¨ ¿Ã∆Â∆Æ================================/////////////////////
+    ///////////==========================Ïπ®Î¨µ Ïù¥ÌéôÌä∏================================/////////////////////
 
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff,EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
-        if(target.MonsterData.MonsterType==MonType.Boss) target= target.GetComponent<BossMonster>();
+        if (target.MonsterData.MonsterType == MonType.Boss) target = target.GetComponent<BossMonster>();
     }
 }

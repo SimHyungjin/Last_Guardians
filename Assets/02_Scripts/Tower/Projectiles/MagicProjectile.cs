@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class MagicProjectile : ProjectileBase
@@ -102,7 +100,7 @@ public class MagicProjectile : ProjectileBase
     {
         yield return null;
         float animLength = animator.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(animLength-0.01f);
+        yield return new WaitForSeconds(animLength - 0.01f);
         GetComponent<SpriteRenderer>().enabled = false;
         PoolManager.Instance.Despawn<MagicProjectile>(this);
     }

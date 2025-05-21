@@ -47,7 +47,7 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    
+
     public string GetSceneName()
     {
         return SceneManager.GetActiveScene().name;
@@ -65,6 +65,6 @@ public class GameManager : Singleton<GameManager>
     {
         yield return null;
         SaveSystem.LoadGame();
-        
+
     }
 }

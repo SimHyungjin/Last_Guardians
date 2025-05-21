@@ -96,7 +96,6 @@ public class TrapObject : MonoBehaviour
         this.towerData = towerData;
         adaptedTrapObjectData = new AdaptedTrapObjectData(towerData.TowerIndex, towerData.EffectValue, towerData.EffectDuration);
         cooldownTime = adaptedTrapObjectData.coolTime;
-        Debug.Log(cooldownTime);
         creationTime = Time.time;
         environmentEffect = new EnvironmentEffect();
         buffTowerIndex = new List<int>();
@@ -141,7 +140,6 @@ public class TrapObject : MonoBehaviour
     /// </summary>
     public void CanPlant()
     {
-        Debug.Log("CanPlant돌아가는중");
         Vector2 pos = PostionArray();
         Collider2D[] blockHits = Physics2D.OverlapPointAll(pos, LayerMaskData.buildBlockTrap);
         foreach (var hit in blockHits)
@@ -172,11 +170,9 @@ public class TrapObject : MonoBehaviour
             switch (plantedEffect.obstacleType)
             {
                 case ObstacleType.Water:
-                    Debug.Log("설치위치옆에 물있음");
                     environmentEffect.isNearWater = true;
                     break;
                 case ObstacleType.Fire:
-                    Debug.Log("설치위치옆에 불있음");
                     environmentEffect.isNearFire = true;
                     break;
 
@@ -202,7 +198,6 @@ public class TrapObject : MonoBehaviour
             TrapObject other = hit.GetComponent<TrapObject>();
             if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
             {
-                Debug.Log($"충돌체있음{other}");
                 ChageState(TrapObjectState.CantActive);
                 checkOverlapCoroutine = null;
                 yield break;
@@ -428,11 +423,9 @@ public class TrapObject : MonoBehaviour
             switch (plantedEffect.obstacleType)
             {
                 case ObstacleType.Water:
-                    Debug.Log("설치위치옆에 물있음");
                     environmentEffect.isNearWater = true;
                     break;
                 case ObstacleType.Fire:
-                    Debug.Log("설치위치옆에 불있음");
                     environmentEffect.isNearFire = true;
                     break;
 
@@ -451,7 +444,6 @@ public class TrapObject : MonoBehaviour
 
     public void ChageState(TrapObjectState trapObjectState)
     {
-        Debug.Log($"상태변경{trapObjectState}");
         currentState = trapObjectState;
         switch (trapObjectState)
         {

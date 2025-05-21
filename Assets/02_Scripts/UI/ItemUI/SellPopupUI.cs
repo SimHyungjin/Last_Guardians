@@ -122,4 +122,9 @@ public class SellPopupUI : PopupBase
 
         onSellAction?.Invoke();
     }
+
+    private void OnDestroy()
+    {
+        selectionController.selectSlotListAction -= RefreshSellPopupUI;
+    }
 }

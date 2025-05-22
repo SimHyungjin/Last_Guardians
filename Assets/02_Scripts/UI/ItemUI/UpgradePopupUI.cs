@@ -38,6 +38,7 @@ public class UpgradePopupUI : PopupBase
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button cancelButton;
 
+    [SerializeField] private EquipmentUIText equipmentUIText;
     private EquipmentSlotContainer equipmentSlotContainer;
     private InventorySlotContainer inventorySlotContainer;
     private ItemActionHandler actionHandler;
@@ -235,6 +236,7 @@ public class UpgradePopupUI : PopupBase
 
         selectionController.SetSelected(updateData);
         SetData(updateData);
+        equipmentUIText.UpdateText();
         equipmentSlotContainer.BindAll();
         equipmentSlotContainer.Refresh();
         inventorySlotContainer.Display();

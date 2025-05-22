@@ -12721,6 +12721,7 @@ MonoBehaviour:
   stone: {fileID: 5705706781982111724}
   upgradeButton: {fileID: 849925211325345783}
   cancelButton: {fileID: 4727080038164771839}
+  equipmentUIText: {fileID: 5671787749815347948}
 --- !u!1 &8546153958216826708
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,7 @@ public class GameOptionUI : MonoBehaviour
         isBookPanelOpen = false;
         bookPanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
+        TowerManager.Instance.EndInteraction(InteractionState.Pause);
         Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
@@ -50,7 +52,20 @@ public class GameOptionUI : MonoBehaviour
     public void OpenOption()
     {
         bool next = !optionSlot.activeSelf;
-        optionSlot.SetActive(next);
+        SoundManager.Instance.PlaySFX("PopUp");
+        if (next)
+        {
+            optionSlot.SetActive(next);
+            Time.timeScale = 0;
+            TowerManager.Instance.StartInteraction(InteractionState.Pause);
+        }
+        else
+        {
+            optionSlot.SetActive(next);
+            Time.timeScale = InGameManager.Instance.TimeScale;
+            TowerManager.Instance.EndInteraction(InteractionState.Pause);
+        }
+        
     }
 
     public void OpenOptionPanel()
@@ -69,6 +84,7 @@ public class GameOptionUI : MonoBehaviour
         isOptionPanelOpen = false;
         optionPanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
+        TowerManager.Instance.EndInteraction(InteractionState.Pause);
         Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
@@ -88,6 +104,7 @@ public class GameOptionUI : MonoBehaviour
         isHomePanelOpen = false;
         homePanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
+        TowerManager.Instance.EndInteraction(InteractionState.Pause);
         Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
@@ -100,6 +117,7 @@ public class GameOptionUI : MonoBehaviour
         tutorialPanel.SetActive(true);
         optionSlot.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(false);
+        TowerManager.Instance.EndInteraction(InteractionState.Pause);
         Time.timeScale = 0;
     }
 }

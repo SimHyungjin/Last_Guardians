@@ -210,8 +210,9 @@ BaseTower에 자식들인 타워를 SO를 받아서 동적 생성
 </details>
 
 <details><summary> 몬스터 상태이상 적용</summary>
-<img src="https://github.com/user-attachments/assets/ee37d0b7-c2ed-4718-8956-b78f204430f5" width="300" height="400"><br>
-상태이상
+<img src="https://github.com/user-attachments/assets/ee37d0b7-c2ed-4718-8956-b78f204430f5" width="400" height="500"><br>
+각각의 상태이상 클래스는 StatusEffect를 상속받고 AffectEffect로 효과적용 RemoveEffect로 효과제거를 한다.
+각각의 몬스터에 EffectHandler를 붙인뒤 EffectHandler가 현재 몬스터의 StatusEffect의 List를 가지고 각각의 Effect를 타이머로 돌려서 관리한다
 </details>
 
 <br><br>

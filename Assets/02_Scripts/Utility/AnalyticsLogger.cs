@@ -4,7 +4,7 @@ using Unity.Services.Core;
 
 public static class AnalyticsLogger
 {
-    public static bool IsServiceOn = true;
+    public static bool IsServiceOn = false;
 
     public static bool ShouldSkipAnalytics()
     {

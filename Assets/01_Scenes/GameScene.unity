@@ -429,11 +429,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25950c4103e2b2448adfddb232e7b081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 80933638}
-  blocker: {fileID: 7637651004826477961}
   icon: {fileID: 1102110679}
   nameText: {fileID: 629994806}
   descText: {fileID: 711277271}
+  panelContainer: {fileID: 80933638}
+  closeButton: {fileID: 2457268218049336613}
 --- !u!1 &98788407
 GameObject:
   m_ObjectHideFlags: 0
@@ -32383,6 +32383,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d05acee1c5001224cb8969004e73d4e0, type: 3}
   - {fileID: 1279620907, guid: 61fff07a09e4ca443a71a9d1d3183a54, type: 3}
   - {fileID: 959671282, guid: 61fff07a09e4ca443a71a9d1d3183a54, type: 3}
+  openBookButton: {fileID: 0}
+  closeBookButton: {fileID: 0}
 --- !u!222 &5896633241229824439
 CanvasRenderer:
   m_ObjectHideFlags: 0

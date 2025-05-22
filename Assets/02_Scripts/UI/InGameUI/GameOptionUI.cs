@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameOptionUI : MonoBehaviour
 {
+    [Header("Assign in Inspector")]
     public GameObject optionSlot;
     public GameObject optionPanel;
     public GameObject homePanel;
@@ -11,6 +12,8 @@ public class GameOptionUI : MonoBehaviour
     public GameObject tutorialPanel;
     public Button gameSpeedButton;
     public Sprite[] gameSpeedButtonImages;
+    public Button openBookButton;
+    public Button closeBookButton;
 
     private int gameSpeedIndex = 0;
     private bool isOptionPanelOpen;
@@ -18,10 +21,7 @@ public class GameOptionUI : MonoBehaviour
     private bool isBookPanelOpen;
     private bool isTutoOpen;
 
-    private void Awake()
-    {
-        // 필요 시 버튼 리스너 초기화
-    }
+  
 
     public void OpenBook()
     {
@@ -62,7 +62,6 @@ public class GameOptionUI : MonoBehaviour
         bool next = !optionSlot.activeSelf;
         SoundManager.Instance.PlaySFX("PopUp");
         optionSlot.SetActive(next);
-
         if (next)
         {
             Time.timeScale = 0;
@@ -80,7 +79,6 @@ public class GameOptionUI : MonoBehaviour
         SoundManager.Instance.PlaySFX("PopUp");
         if (isOptionPanelOpen) return;
         isOptionPanelOpen = true;
-
         optionPanel.SetActive(true);
         optionSlot.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(false);
@@ -91,7 +89,6 @@ public class GameOptionUI : MonoBehaviour
     {
         if (!isOptionPanelOpen) return;
         isOptionPanelOpen = false;
-
         optionPanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
         TowerManager.Instance.EndInteraction(InteractionState.Pause);
@@ -103,7 +100,6 @@ public class GameOptionUI : MonoBehaviour
         SoundManager.Instance.PlaySFX("PopUp");
         if (isHomePanelOpen) return;
         isHomePanelOpen = true;
-
         homePanel.SetActive(true);
         optionSlot.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(false);
@@ -114,7 +110,6 @@ public class GameOptionUI : MonoBehaviour
     {
         if (!isHomePanelOpen) return;
         isHomePanelOpen = false;
-
         homePanel.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(true);
         TowerManager.Instance.EndInteraction(InteractionState.Pause);
@@ -126,7 +121,6 @@ public class GameOptionUI : MonoBehaviour
         SoundManager.Instance.PlaySFX("PopUp");
         if (isTutoOpen) return;
         isTutoOpen = true;
-
         tutorialPanel.SetActive(true);
         optionSlot.SetActive(false);
         TowerManager.Instance.hand.gameObject.SetActive(false);

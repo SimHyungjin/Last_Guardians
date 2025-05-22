@@ -1,44 +1,51 @@
-// InfoSidePanelUI.cs
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems;
 
-public class InfoSidePanelUI : MonoBehaviour, IPointerClickHandler
+public class InfoSidePanelUI : MonoBehaviour
 {
     public static InfoSidePanelUI Instance { get; private set; }
-    [SerializeField] private GameObject panel;
-    [SerializeField] private GameObject blocker;
+
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descText;
+    [SerializeField] private GameObject panelContainer;
+    [SerializeField] private Button closeButton;
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-        panel.SetActive(false);
-        blocker.SetActive(false);
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        panelContainer.SetActive(false);
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(Hide);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     public void Show(TowerData data)
     {
+        if (!panelContainer) return;
+
         icon.sprite = TowerIconContainer.Instance.GetSprite(data.TowerIndex);
         nameText.text = data.TowerName;
         descText.text = data.TowerDescription;
-        blocker.SetActive(true);
-        panel.SetActive(true);
+        panelContainer.SetActive(true);
     }
 
     public void Hide()
     {
-        panel.SetActive(false);
-        blocker.SetActive(false);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Hide();
-        InGameCombinationUI.Instance.HideAndReset();
+        if (!panelContainer) return;
+        panelContainer.SetActive(false);
     }
 }

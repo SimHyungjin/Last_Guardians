@@ -33,6 +33,9 @@ public class MulliganUI : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
+
         selectedCard = new List<MulliganCard>();
         MyCardIndexList = new List<int>();
         MyCardList = new List<TowerData>();
@@ -40,8 +43,6 @@ public class MulliganUI : MonoBehaviour
 
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
-
-        //초기 카드 섞기
 
         Utils.Shuffle(elementalDataList);
         Utils.Shuffle(standardDataList);

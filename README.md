@@ -89,11 +89,6 @@
 
 ## 주요 기술
 
-<br><br>
-[목차로](#목차)<br>
-
-## 주요 기능
-
 - Scriptable Object
 - Singleton
 - CustomizeEditor
@@ -105,18 +100,25 @@
 - Interface 기반 다형성
 - DIP (Dependency Inversion Principle)
 
+<br><br>
+[목차로](#목차)<br>
+
+## 주요 기능
+
 ### &emsp;마을
 
-#### &emsp;&emsp;아이템상점
-<img src="https://github.com/user-attachments/assets/a19d1ab1-9bbf-419e-a044-9f03db64f02e" width="800" height="400"/>
-   
+#### &emsp;&emsp;아이템인벤토리
+<img src="https://github.com/user-attachments/assets/a19d1ab1-9bbf-419e-a044-9f03db64f02e" width="800" height="400"/><br>
+- 장비 강화와 판매/분해를 할수 있는 아이템 인벤토리
 
 #### &emsp;&emsp;타워업그레이드
-<img src="https://github.com/user-attachments/assets/1776f366-de0a-4ea5-a257-5f49c15f2356" width="800" height="400"/>
+<img src="https://github.com/user-attachments/assets/1776f366-de0a-4ea5-a257-5f49c15f2356" width="800" height="400"/><br>
+- 마스터리포인트를 사용하여 타워에 강력한 업그레이드를 줄 수 있는 업그레이드 시스템
 
 #### &emsp;&emsp;방치보상
 
-<img src="https://github.com/user-attachments/assets/2d859c73-4bb5-43e0-8bda-188ef21de5b3" width="800" height="400"/>
+<img src="https://github.com/user-attachments/assets/2d859c73-4bb5-43e0-8bda-188ef21de5b3" width="800" height="400"/><br>
+- 접속중, 미접속중 상관없이 쌓여가는 방치보상
 
 <br>
 
@@ -126,27 +128,39 @@
 #### &emsp;&emsp;멀리건(초기카드선택)
 
 
-<img src="https://github.com/user-attachments/assets/83d16d1f-874b-4a20-9ddd-14b63ceb6ea5" width="800" height="400"/>
-
+<img src="https://github.com/user-attachments/assets/83d16d1f-874b-4a20-9ddd-14b63ceb6ea5" width="800" height="400"/><br>
+- 게임 중 사용할 타워들을 골라 시작하는 멀리건 시스템
 
 #### &emsp;&emsp;타워설치
 
-<img src="https://github.com/user-attachments/assets/919ea827-803d-4a0d-83fd-d28c6f45b1be" width="800" height="400"/>
+<img src="https://github.com/user-attachments/assets/919ea827-803d-4a0d-83fd-d28c6f45b1be" width="800" height="400"/><br>
+- 손에 보유한 카드를 사용해 타워설치, 타워 조합
 
 #### &emsp;&emsp;레벨업
 
+<img src="https://github.com/user-attachments/assets/c1b4b830-b05d-4766-a89b-8c3a155ec380" width="800" height="400"/><br>
+- 몬스터를 처치해 레벨업, 카드획득
 
-<img src="https://github.com/user-attachments/assets/c1b4b830-b05d-4766-a89b-8c3a155ec380" width="800" height="400"/>
+
+#### &emsp;&emsp;계절/날씨 시스템
+
+<br>
+-시간과 웨이브에 따른 다양한 효과를 가진 날씨 시스템
 
 #### &emsp;&emsp;현상금소환
 
 
-<img src="https://github.com/user-attachments/assets/91d5bb2a-bd0e-42a3-8b85-1d26de7c29e1" width="800" height="400"/>
+<img src="https://github.com/user-attachments/assets/91d5bb2a-bd0e-42a3-8b85-1d26de7c29e1" width="800" height="400"/><br>
+
+-추가보상을 제공하는 소환가능한 현상금몬스터
 
 #### &emsp;&emsp;게임종료
  
  
-<img src="https://github.com/user-attachments/assets/268c2e94-5a8c-46e1-8f9f-e52276977be6" width="800" height="400"/>
+<img src="https://github.com/user-attachments/assets/268c2e94-5a8c-46e1-8f9f-e52276977be6" width="800" height="400"/><br>
+
+-게임 종료시 클리어한 웨이브에따라 보상을 받을수있다.
+
 
 
 <br><br> 
@@ -155,15 +169,36 @@
 
 ## 기능 구현
 <details><summary> 타워설치</summary>
-히히설치!
+
+<img src="https://github.com/user-attachments/assets/4531016c-300e-46d1-a6bc-d27a9c5f786b" width="400" height="500"><br>
+
+InputSystem에서 현재 클릭위치 좌표를 받아온이후 wolrd좌표로 변환이후 스냅하여 해당 타일에 설치가능여부 판단(설치가능여부는 시작지점부터 끝지점까지 navmesh가 이어지는지)<br>
+검사 이후 설치 가능이면 해당 좌표에 타워설치<br>
+
+<img src="https://github.com/user-attachments/assets/41240dfa-c3ab-487f-9591-6c1abdc95041" width="500" height="370"><br>
+
+
+타워는 TowerPrefab 하나로 구성<br>
+BaseTower에 자식들인 타워를 SO를 받아서 동적 생성
 </details>
 
 <details><summary> 타워/트랩/투사체 스킬</summary>
-히히스킬!
+
+<img src="https://github.com/user-attachments/assets/b597ad67-eceb-415c-a3a0-d6fb356b780f" width="500" height="430"><br>
+
+타워에서 발사시 Factory를 통해 프로젝타일 생성후 발사<br>
+투사체의 외형과 효과는 각각 투사체에서 생성시 Init함수를 통해 설정<br>
+투사체에 관련된 효과(슬로우,화염,스턴 등)은 Effects라는 Interface를 통해 관리<br>
+하나의 프로젝타일에 여러 효과를 중첩/확장 가능<br>
+
 </details>
 
 <details><summary> 타워상호작용</summary>
 히히상호작용!
+</details>
+
+<details><summary> 데이터SO와 데이터다운로더</summary>
+히히 데이터!
 </details>
 
 <br><br>
@@ -176,6 +211,17 @@
 
 <details><summary>네브매쉬 모서리</summary>
 히히모서리!
+</details>
+
+<details><summary>프레임드랍과 최적화</summary>
+히히최적화!
+</details>
+
+<details><summary>앱플레이어 UI 글씨 문제</summary>
+<img src="https://github.com/user-attachments/assets/7b02f6d4-35a2-4e01-864d-cd805da16512" width="800" height="400"/>
+<br>
+UI환경에서 피격효과에 쉐이더를 적용했더니 알파값이 0이된 쉐이더가 UI글씨를 가리는 문제 발생<br> 
+쉐이더는 메인카메라로, UI는 UI전용 카메라를 배치하여 쉐이더가 UI를 가리지 않게 설정해 해결
 </details>
 
 

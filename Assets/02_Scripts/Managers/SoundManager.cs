@@ -24,6 +24,9 @@ public class SoundManager : Singleton<SoundManager>
     // SFX 루프 전용 AudioSource
     private AudioSource loopSource;
 
+    // 클릭 전용 AudioSource (풀과 무관하게 재생)
+    private AudioSource clickSource;
+
     // 볼륨 값 (0~1)
     private float sfxVolume;
     private float bgmVolume;
@@ -36,6 +39,12 @@ public class SoundManager : Singleton<SoundManager>
     private void Awake()
     {
         Init();
+
+        // 클릭 전용 AudioSource 생성
+        clickSource = gameObject.AddComponent<AudioSource>();
+        clickSource.playOnAwake = false;
+        clickSource.loop = false;
+        clickSource.volume = sfxVolume * masterVolume;
 
         // 클릭 사운드 바인딩
         pointerInput = new PointerInput();
@@ -99,15 +108,21 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     // ────────────────────────────────────────────
-    // SFX: 단발 재생
+    // SFX: 단발 재생 (풀 또는 클릭 전용)
     // ────────────────────────────────────────────
     public void PlaySFX(string soundName)
     {
         if (!soundDict.TryGetValue(soundName, out var clip))
+            return;
+
+        // 클릭음이면 전용 AudioSource로 즉시 재생
+        if (soundName == "ClickSound")
         {
+            clickSource.PlayOneShot(clip, sfxVolume * masterVolume);
             return;
         }
 
+        // 그 외 SFX는 풀을 사용
         AudioSource src;
         if (audioSourcePool.Count > 0)
         {
@@ -120,6 +135,7 @@ public class SoundManager : Singleton<SoundManager>
         }
         else
         {
+            // 풀도 꽉 찼으면 재생하지 않음
             return;
         }
 
@@ -202,9 +218,7 @@ public class SoundManager : Singleton<SoundManager>
     public void PlayBGM(string bgmName, bool loop = true)
     {
         if (!soundDict.TryGetValue(bgmName, out var clip))
-        {
             return;
-        }
 
         if (bgmPlayer.clip == clip
             && bgmPlayer.loop == loop
@@ -246,6 +260,8 @@ public class SoundManager : Singleton<SoundManager>
         PlayerPrefs.Save();
         if (loopSource != null)
             loopSource.volume = sfxVolume * masterVolume;
+        if (clickSource != null)
+            clickSource.volume = sfxVolume * masterVolume;
     }
 
     public void SetBGMVolume(float vol)
@@ -265,5 +281,7 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.volume = bgmVolume * masterVolume;
         if (loopSource != null)
             loopSource.volume = sfxVolume * masterVolume;
+        if (clickSource != null)
+            clickSource.volume = sfxVolume * masterVolume;
     }
 }

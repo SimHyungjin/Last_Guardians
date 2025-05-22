@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MulliganUI : MonoBehaviour
 {
+    public static MulliganUI Instance { get; private set; }
     [SerializeField] private MulliganCard CardPrefab;
     [SerializeField] private TextMeshProUGUI desTextPrefab;
     [SerializeField] private TextMeshProUGUI attackablePrefab;
@@ -277,5 +278,9 @@ public class MulliganUI : MonoBehaviour
         {
             InGameManager.Instance.LevelUp();
         }
+    }
+    public List<TowerData> GetSelectedCards()
+    {
+        return new List<TowerData>(MyCardList);
     }
 }

@@ -29,7 +29,7 @@ public class EquipmentUIText : MonoBehaviour
         UpdateText(null);
     }
 
-    private void UpdateText(ItemInstance instance)
+    public void UpdateText(ItemInstance instance = null)
     {
         var info = equipment.InfoToPlayer();
         string attackType = info.attackType switch

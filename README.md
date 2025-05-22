@@ -194,18 +194,26 @@ BaseTower에 자식들인 타워를 SO를 받아서 동적 생성
 </details>
 
 <details><summary> 타워상호작용</summary>
-히히상호작용!
+<img src="https://github.com/user-attachments/assets/69b3ac48-660f-4459-a538-483e89be57ea" width="450" height="450"><br>
+
+타워(오브젝트 트랩)설치 시 주변과 상호작용<br>
+상호작용은 버프타워와 장애물 중 일부(물,불,플랫폼)과 발생한다.<br>
+버프타워 설치 시 ```OverlapCircleAll``` 을통해 주변 타워와 상호작용<br>
+버프타워 해제 시 주변타워를 ```OverlapCircleAll```로 스캔한 이후 버프를 받던 타워들이 버프를 해제하고 주변버프타워를 재 스캔하여 재적용(버프는 인덱스로 저장)<br>
+장애물 주변에 설치 시 장애물 주변에 미리 설치된 탐지체에게 탐지되어 버프적용<br>
+장애물 파괴시 주변타워에게 버프타워 해제과정과 유사한 방식으로 적용
 </details>
 
 <details><summary> 데이터SO와 데이터다운로더</summary>
-히히 데이터!
+<img src="https://github.com/user-attachments/assets/27871b70-d1b9-45f8-9f80-c5c7995de0d8" width="300" height="400"><br>
+게임 내에서 사용되는 데이터들을 GoogleSheet로 정리한 후 에디터를 통해 받아와 SO파일로 자동 생성 후 관리
 </details>
 
 <br><br>
 [목차로](#목차)<br>
 
 ## 트러블 슈팅
-<details><summary>길막힘</summary>
+<details><summary>타워설치 검사 길막힘</summary>
 히히길막힘!
 </details>
 

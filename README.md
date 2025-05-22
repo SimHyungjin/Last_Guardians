@@ -209,6 +209,11 @@ BaseTower에 자식들인 타워를 SO를 받아서 동적 생성
 게임 내에서 사용되는 데이터들을 GoogleSheet로 정리한 후 에디터를 통해 받아와 SO파일로 자동 생성 후 관리
 </details>
 
+<details><summary> 몬스터 상태이상 적용</summary>
+<img src="https://github.com/user-attachments/assets/ee37d0b7-c2ed-4718-8956-b78f204430f5" width="300" height="400"><br>
+상태이상
+</details>
+
 <br><br>
 [목차로](#목차)<br>
 

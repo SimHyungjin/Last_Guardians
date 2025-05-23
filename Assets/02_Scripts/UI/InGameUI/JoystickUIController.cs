@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+public enum InputMode { Swipe, Joystick }
+
 public class JoystickUIController : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     [SerializeField] private RectTransform joystickBase;

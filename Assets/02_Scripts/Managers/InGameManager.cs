@@ -86,8 +86,12 @@ public class InGameManager : Singleton<InGameManager>
         target = map.transform.Find("Center");
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
+
+
         MuliigunStart();
         //mulliganUI.StartSelectCard();
+
+        TutorialManager.Instance?.ChangeStep(TutorialStep.GameStart);
     }
 
     public void GetExp(float exp)
@@ -219,5 +223,16 @@ public class InGameManager : Singleton<InGameManager>
         else if (TimeScale == 1) TimeScale = 1.5f;
 
         Time.timeScale = TimeScale;
+    }
+
+    /////////////////튜토리얼////////////////////
+    
+    public void MulliganPause()
+    {
+        mulliganUI.OffTime();
+    }
+    public void MulliganResume()
+    {
+        mulliganUI.OnTime();
     }
 }

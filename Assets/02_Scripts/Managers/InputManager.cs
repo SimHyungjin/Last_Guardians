@@ -60,6 +60,18 @@ public class InputManager : Singleton<InputManager>
     return results.Count > 0;
 #endif
     }
+
+    /// <summary>
+    /// 현재 터치(또는 마우스)가 눌린 상태인지 여부
+    /// </summary>
+    public bool IsTouching()
+    {
+#if UNITY_EDITOR
+        return Mouse.current.leftButton.isPressed;
+#else
+    return Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed;
+#endif
+    }
     /// <summary>
     /// 터치를 시작할 때와 끝날 때의 콜백을 바인딩합니다.
     /// </summary>

@@ -24,6 +24,7 @@ public class InGameManager : Singleton<InGameManager>
 
     private Canvas damageUICanvasPrefab;
 
+    [field:SerializeField] public JoystickUIController joystickUIController { get; private set; }
     [SerializeField] private MulliganUI mulliganUI;
     [SerializeField] private Image playerHPbar;
     [SerializeField] private TextMeshProUGUI playerHPText;

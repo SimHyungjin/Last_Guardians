@@ -37,7 +37,7 @@ public class PlayerInputHandler : MonoBehaviour
     private void OnDestroy()
     {
         inputManager.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
-        joystickUI.OnDirectionTick += OnJoysticMove;
+        joystickUI.OnDirectionTick -= OnJoysticMove;
         joystickUI.ChangeStyle -= SetInputMode;
     }
 

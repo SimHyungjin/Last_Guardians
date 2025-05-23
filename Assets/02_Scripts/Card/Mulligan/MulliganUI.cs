@@ -14,6 +14,7 @@ public class MulliganUI : MonoBehaviour
     [SerializeField] private Transform descriptionTransfrom;
     [SerializeField] private Transform attackableTransfrom;
     [SerializeField] private Button okBtn;
+    [SerializeField] private Outline okBtnOutline;
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI remianCardNumText;
@@ -101,6 +102,8 @@ public class MulliganUI : MonoBehaviour
         {
             selectedCard.Remove(card);
             card.Outline.enabled = false;
+            okBtnOutline.enabled = false;
+            remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
         }
         else
         {
@@ -111,6 +114,9 @@ public class MulliganUI : MonoBehaviour
             }
             selectedCard.Add(card);
             card.Outline.enabled = true;
+            remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
+            if (MaxSelectedCards == selectedCard.Count)
+                okBtnOutline.enabled = true;
         }
     }
 
@@ -178,7 +184,7 @@ public class MulliganUI : MonoBehaviour
             EndMulligan();
         }
 
-
+        okBtnOutline.enabled = false;
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 

@@ -1507,6 +1507,7 @@ GameObject:
   - component: {fileID: 522574595}
   - component: {fileID: 522574594}
   - component: {fileID: 522574596}
+  - component: {fileID: 522574597}
   m_Layer: 5
   m_Name: OKBtn
   m_TagString: Untagged
@@ -1616,6 +1617,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &522574597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522574592}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: -10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &553802024
 GameObject:
   m_ObjectHideFlags: 0
@@ -3991,6 +4007,7 @@ MonoBehaviour:
   descriptionTransfrom: {fileID: 1356276589}
   attackableTransfrom: {fileID: 1335384588}
   okBtn: {fileID: 522574596}
+  okBtnOutline: {fileID: 522574597}
   cardNum: 3
   timerText: {fileID: 226623256}
   remianCardNumText: {fileID: 1811564636}

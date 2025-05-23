@@ -26,9 +26,6 @@ public class TutorialUI : MonoBehaviour
             PlayerPrefs.SetInt("EquipTutorial", 1);
             MainSceneManager.Instance.ShowPanel("InventoryGroup");
         }
-
-
         gameObject.SetActive(false);
-       
     }
 }

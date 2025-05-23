@@ -1,5 +1,7 @@
 public class PlayerManager
 {
+    public PlayerInputStyle playerInputStyle { get; private set; }
+
     public PlayerStatus playerStatus { get; private set; }
     public EquipmentStat equipmentStat { get; private set; }
     public PlayerHandler playerHandler { get; private set; }
@@ -28,5 +30,10 @@ public class PlayerManager
         playerStatus.SetStatus();
         playerHandler.weaponHandler.SetWeapon(playerStatus.attackType, equipmentStat.icon);
         playerHandler.Init(playerStatus);
+    }
+
+    public void ChangeInputStyle(PlayerInputStyle style)
+    {
+        playerInputStyle = style;
     }
 }

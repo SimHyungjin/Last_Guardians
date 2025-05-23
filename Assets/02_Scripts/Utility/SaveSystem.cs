@@ -11,6 +11,7 @@ public class SaveData
     public SerializableTowerUpgradeData towerUpgradedata;
     public int gold;
     public int upgradeStones;
+    public PlayerInputStyle playerInputStyle = PlayerInputStyle.Swipe;
 }
 
 [System.Serializable]
@@ -31,7 +32,6 @@ public static class SaveSystem
 {
     private static string SavePath => Application.persistentDataPath + "/save.json";
 
-
     private static void ModifySaveData(Action<SaveData> modifier)
     {
         if (!File.Exists(SavePath))
@@ -45,6 +45,14 @@ public static class SaveSystem
         modifier?.Invoke(save);
 
         File.WriteAllText(SavePath, JsonUtility.ToJson(save, true));
+    }
+
+    public static void SaveInputStyle(PlayerInputStyle inputStyle)
+    {
+        ModifySaveData(save =>
+        {
+            save.playerInputStyle = inputStyle;
+        });
     }
 
     public static void SaveGetItem(ItemInstance instance)
@@ -213,5 +221,6 @@ public static class SaveSystem
 
         GameManager.Instance.gold = save.gold;
         GameManager.Instance.upgradeStones = save.upgradeStones;
+        GameManager.Instance.PlayerManager.ChangeInputStyle(save.playerInputStyle);
     }
 }

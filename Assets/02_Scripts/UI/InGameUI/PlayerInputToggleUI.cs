@@ -21,6 +21,7 @@ public class PlayerInputToggleUI : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.Instance.PlayerManager.ChangeInputStyle(CurrentMode);
+        SaveSystem.SaveInputStyle(CurrentMode);
     }
     private void OnToggleClicked()
     {

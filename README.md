@@ -238,6 +238,32 @@ UI환경에서 피격효과에 쉐이더를 적용했더니 알파값이 0이된
 쉐이더는 메인카메라로, UI는 UI전용 카메라를 배치하여 쉐이더가 UI를 가리지 않게 설정해 해결
 </details>
 
+<details><summary>플레이어 이동 방식 추가 문제</summary>
+
+- 상황:
+기존에는 드래그 후 터치 해제로 목적지를 설정하고, NavMeshAgent를 통해 자동 이동하도록 구성됨.<br> 
+조이스틱 방식도 추가하면서, 처음엔 Rigidbody.MovePosition() 또는 transform.position += 같은 일반적인 위치 이동 방식을 사용하려고 했음.<br> 
+- 문제점:
+NavMeshAgent.speed와 일반적인 Vector3 이동(속도 speed)이 같은 수치(ex. 2f)를 사용하더라도 실제 체감 속도가 일치하지 않음.<br> 
+이로 인해 조이스틱 이동 시 시각적/체감적 속도가 다르게 느껴졌고, 실제 스텟과는 일관성 없는 이동 경험이 발생함.<br> 
+- 원인 분석
+NavMeshAgent는 내부적으로 가속도, 회전 속도, 경로 보정 등 다양한 요소를 포함하여 이동 속도를 계산함<br> 
+반면, Rigidbody나 Transform 이동은 단순히 speed * Time.deltaTime 만큼만 이동하므로 체감 속도가 더 빠르거나 느려질 수 있음<br> 
+같은 값(speed = 2f)을 넣어도 이동 시스템 자체가 다르므로 속도는 정확히 일치하지 않음<br> 
+- 해결 시도
+Rigidbody.MovePosition() 기반 조이스틱 이동 / agent.speed와 체감 속도 불일치<br> 
+transform.position += direction * speed * Time.deltaTime / 더 빠르게 움직임<br> 
+NavMeshAgent를 계속 활용하되 조이스틱 입력으로 SetDestination 갱신 / 문제가 없어 보여 선택<br> 
+- 최종 적용 방식
+조이스틱 입력으로 매 프레임 짧은 거리(0.5f)의 목적지를 계산하여 SetDestination() 호출<br> 
+agent.speed를 그대로 활용하므로 스탯 기반 이동 속도 반영이 일관적<br> 
+기존 드래그 이동과 동일한 NavMeshAgent 기반으로 이동 방식 통일<br> 
+- 장점 및 의도
+NavMeshAgent의 속도/회전/장애물 회피 등 기존 이동 시스템과 완전히 일치,<br> 
+이동 속도 디버프 등 스탯 기반 로직 수정 없이 일관된 적용 가능<br> 
+드래그 / 조이스틱 등 다양한 입력 방식에서도 하나의 이동 시스템으로 통일<br> 
+
+</details>
 
 <br><br>
 [목차로](#목차)<br>

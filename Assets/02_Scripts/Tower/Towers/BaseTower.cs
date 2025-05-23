@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class EnvironmentEffect
@@ -138,6 +139,7 @@ public abstract class BaseTower : MonoBehaviour
     /// <param name="ctx"></param>
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (this == null) return;
         if (!isClicked)
         {

@@ -156,18 +156,4 @@ public class PlayerAttackController : MonoBehaviour
 
         return damage;
     }
-
-    /// <summary>
-    /// 공격 범위 뷰에서 시각화합니다.
-    /// </summary>
-    private void OnDrawGizmos()
-    {
-        if (player == null) return;
-
-        // 감지 범위 (빨간 원)
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, player.attackRange * 2);
-
-        Gizmos.color = new Color(1f, 0f, 0f, 0.4f); // 반투명 빨간색
-    }
 }

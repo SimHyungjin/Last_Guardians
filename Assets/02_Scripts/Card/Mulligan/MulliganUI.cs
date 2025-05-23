@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MulliganUI : MonoBehaviour
 {
+    public static MulliganUI Instance { get; private set; }
     [SerializeField] private MulliganCard CardPrefab;
     [SerializeField] private TextMeshProUGUI desTextPrefab;
     [SerializeField] private TextMeshProUGUI attackablePrefab;
@@ -14,6 +15,7 @@ public class MulliganUI : MonoBehaviour
     [SerializeField] private Transform descriptionTransfrom;
     [SerializeField] private Transform attackableTransfrom;
     [SerializeField] private Button okBtn;
+    [SerializeField] private Outline okBtnOutline;
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI remianCardNumText;
@@ -32,6 +34,9 @@ public class MulliganUI : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
+
         selectedCard = new List<MulliganCard>();
         MyCardIndexList = new List<int>();
         MyCardList = new List<TowerData>();
@@ -39,8 +44,6 @@ public class MulliganUI : MonoBehaviour
 
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
-
-        //초기 카드 섞기
 
         Utils.Shuffle(elementalDataList);
         Utils.Shuffle(standardDataList);
@@ -101,6 +104,8 @@ public class MulliganUI : MonoBehaviour
         {
             selectedCard.Remove(card);
             card.Outline.enabled = false;
+            okBtnOutline.enabled = false;
+            remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
         }
         else
         {
@@ -111,6 +116,9 @@ public class MulliganUI : MonoBehaviour
             }
             selectedCard.Add(card);
             card.Outline.enabled = true;
+            remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
+            if (MaxSelectedCards == selectedCard.Count)
+                okBtnOutline.enabled = true;
         }
     }
 
@@ -178,7 +186,7 @@ public class MulliganUI : MonoBehaviour
             EndMulligan();
         }
 
-
+        okBtnOutline.enabled = false;
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 
@@ -277,5 +285,9 @@ public class MulliganUI : MonoBehaviour
         {
             InGameManager.Instance.LevelUp();
         }
+    }
+    public List<TowerData> GetSelectedCards()
+    {
+        return new List<TowerData>(MyCardList);
     }
 }

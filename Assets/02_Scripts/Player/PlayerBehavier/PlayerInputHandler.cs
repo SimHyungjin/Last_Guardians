@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,11 +9,20 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerInputHandler : MonoBehaviour
 {
-    private PlayerHandler playercontroller;
+    private bool isJoystickMode = false;
+    private JoystickUIController joystickUI;
+    private PlayerMoveController moveController;
+
+    private InputManager inputManager;
 
     private void Awake()
     {
-        playercontroller = GetComponent<PlayerHandler>();
+        moveController = GetComponent<PlayerMoveController>();
+        inputManager = InputManager.Instance;
+        joystickUI = InGameManager.Instance.joystickUIController;
+
+        joystickUI.OnDirectionTick += OnJoysticMove;
+        joystickUI.ChangeState += SetInputMode;
     }
 
     /// <summary>
@@ -20,11 +30,14 @@ public class PlayerInputHandler : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
+        inputManager.BindTouchPressed(OnTouchStart, OnTouchEnd);
     }
+
     private void OnDestroy()
     {
-        InputManager.Instance?.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        inputManager.UnBindTouchPressed(OnTouchStart, OnTouchEnd);
+        joystickUI.OnDirectionTick += OnJoysticMove;
+        joystickUI.ChangeState -= SetInputMode;
     }
 
     /// <summary>
@@ -33,24 +46,37 @@ public class PlayerInputHandler : MonoBehaviour
     /// <param name="ctx">입력 컨텍스트</param>
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
-#else
-        if (Input.touchCount > 0 && EventSystem.current != null &&
-            EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
-#endif
-
-        Vector2 curPos = InputManager.Instance.GetTouchWorldPosition();
-
-        var hits = Physics2D.OverlapPointAll(curPos, LayerMask.GetMask("Player"));
-        if (hits.Length > 0)
+        if(!IsPointerOverUI() && !isJoystickMode)
         {
-            playercontroller.moveController.SwipeStart();
+            Vector2 curPos = inputManager.GetTouchWorldPosition();
+            var hits = Physics2D.OverlapPointAll(curPos, LayerMask.GetMask("Player"));
+            if (hits.Length > 0)
+            {
+                moveController.SwipeStart();
+            }
         }
     }
-
+    private void OnJoysticMove(Vector2 inputDir)
+    {
+        if(isJoystickMode)
+            moveController.SetJoystickInput(inputDir);
+    }
     private void OnTouchEnd(InputAction.CallbackContext ctx)
     {
-        playercontroller.moveController.SwipeStop();
+        moveController.SwipeStop();
+    }
+
+    private bool IsPointerOverUI()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+        return EventSystem.current.IsPointerOverGameObject();
+#else
+        return Input.touchCount > 0 && EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+#endif
+    }
+
+    public void SetInputMode(bool useJoystick)
+    {
+        isJoystickMode = useJoystick;
     }
 }

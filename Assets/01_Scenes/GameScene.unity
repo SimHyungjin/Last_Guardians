@@ -1080,8 +1080,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 223496552}
-  - component: {fileID: 223496554}
   - component: {fileID: 223496553}
+  - component: {fileID: 223496554}
   m_Layer: 5
   m_Name: MoveToggleButton
   m_TagString: Untagged
@@ -1177,9 +1177,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 223496551}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e440c35f128f13408418165d8f5e8df, type: 3}
+  m_Script: {fileID: 11500000, guid: 4590ad51841857b49a43f56ff5b8565d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joystickUIController: {fileID: 1135405070}
   handle: {fileID: 1526017469}
   slideArea: {fileID: 57650761}
   slideAreaSecond: {fileID: 1513834821}
@@ -4626,7 +4627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1135405069
 RectTransform:
   m_ObjectHideFlags: 0

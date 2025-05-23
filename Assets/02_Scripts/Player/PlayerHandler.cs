@@ -33,7 +33,6 @@ public class PlayerHandler : MonoBehaviour
     {
         player = _player;
 
-        playerInputHandler.Init();
         moveController.Init();
         attackController.Init();
 

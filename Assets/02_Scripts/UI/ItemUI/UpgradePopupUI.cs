@@ -23,7 +23,7 @@ public class UpgradePopupUI : PopupBase
     [SerializeField] private Image crashEffectImage;
 
     [SerializeField] private TextMeshProUGUI upgradeResultText;
-
+    [SerializeField] private TextMeshProUGUI downgradeText;
     [SerializeField] private TextMeshProUGUI attackPower;
     [SerializeField] private TextMeshProUGUI attackSpeed;
     [SerializeField] private TextMeshProUGUI attackRange;
@@ -138,6 +138,12 @@ public class UpgradePopupUI : PopupBase
         SetStatText(moveSpeed, before.moveSpeed, after.moveSpeed, "이동속도");
 
         upgradeResultText.text = $"{currentData.Data.ItemGrade} → {upgradeData.Data.ItemGrade}\n성공확률 : {rule.successRate}%";
+
+        if (upgradeData.Data.ItemGrade == ItemGrade.Legend || upgradeData.Data.ItemGrade == ItemGrade.Hero)
+            downgradeText.gameObject.SetActive(true);
+        else
+            downgradeText.gameObject.SetActive(false);
+
         gold.text = rule.requiredGold.ToString();
         stone.text = rule.requiredUpgradeStones.ToString();
         if (upgrade.CanUpgrade(currentData.Data)) upgradeButton.interactable = true;
@@ -148,7 +154,7 @@ public class UpgradePopupUI : PopupBase
     {
         upgradeButton.interactable = false;
         upgradeSlot.gameObject.SetActive(false);
-
+        downgradeText.gameObject.SetActive(false);
         upgradeResultText.text = "";
         SetStatText(attackPower, 0, 0, "공격력");
         SetStatText(attackSpeed, 0, 0, "공격 속도");

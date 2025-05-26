@@ -124,7 +124,6 @@ public class TutorialHandler : MonoBehaviour
             {
                 PlayerPrefs.SetInt("InGameTutorial", 1);
                 tutorialState = TutorialState.Roading;
-                Debug.Log("튜토리얼 종료 클릭");
                 SceneLoader.LoadSceneWithFade("GameScene", true);
             }
         }

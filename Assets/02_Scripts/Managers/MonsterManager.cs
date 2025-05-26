@@ -32,7 +32,6 @@ public class MonsterManager : Singleton<MonsterManager>
     public Action spawnAction;
 
     public int currentWaveIndex { get; private set; } = 0;
-    public int WaveLevel { get; private set; } = 0;
     private int currentWaveMonsterCount = 0;
     private int spawnCount = 0;
     private int alliveCount = 0;
@@ -44,6 +43,10 @@ public class MonsterManager : Singleton<MonsterManager>
     public float CatalysisValue { get; private set; }
     public int EffectTransfer { get; private set; }
     public float EffectTransferUpgradeValue { get; private set; }
+
+    public int WaveLevel { get; private set; } = 0;
+
+    public float WaveCycle { get ; private set; } = 1f
 
     private Dictionary<int, MonsterData> monsterDataDict;
     private void Start()
@@ -65,11 +68,11 @@ public class MonsterManager : Singleton<MonsterManager>
 
     private IEnumerator StartNextWave()
     {
-        if (currentWaveIndex >= WaveDatas.Count)
+        if (currentWaveIndex == WaveDatas.Count)
         {
             currentWaveIndex = 0;
+            WaveCycle++;
             //yield break;
-            StartCoroutine(StartNextWave());
         }
 
         WaveLevel++;
@@ -86,7 +89,7 @@ public class MonsterManager : Singleton<MonsterManager>
         }
 
 
-        InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
+        InGameManager.Instance.SetWaveInfoText(WaveLevel, RemainMonsterCount);
 
         yield return SpawnMonsters(nowWave);
 
@@ -211,7 +214,7 @@ public class MonsterManager : Singleton<MonsterManager>
         spawnCount++;
         RemainMonsterCount++;
         currentWaveMonsterCount++;
-        InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
+        InGameManager.Instance.SetWaveInfoText(WaveLevel, RemainMonsterCount);
 
         return monster;
     }
@@ -229,7 +232,7 @@ public class MonsterManager : Singleton<MonsterManager>
             AlliveMonsters.Remove(monster);
         }
 
-        InGameManager.Instance.SetWaveInfoText(nowWave.WaveIndex, RemainMonsterCount);
+        InGameManager.Instance.SetWaveInfoText(WaveLevel, RemainMonsterCount);
 
         if (IsWaveComplete())
         {
@@ -239,10 +242,9 @@ public class MonsterManager : Singleton<MonsterManager>
 
             currentWaveIndex++;
 
-
             if (currentWaveIndex > MaxWave)
             {
-                MaxWave = currentWaveIndex;
+                MaxWave = WaveLevel;
                 PlayerPrefs.SetInt("IdleMaxWave", MaxWave);
                 PlayerPrefs.Save();
             }
@@ -285,10 +287,6 @@ public class MonsterManager : Singleton<MonsterManager>
         CatalysisValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Catalysis].levels[Catalysis];
         EffectTransfer = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectTransfer];
         EffectTransferUpgradeValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectTransfer].levels[EffectTransfer];
-    }
-    public void ForceAddWave()
-    {
-        currentWaveIndex++;
     }
 
 }

@@ -95,6 +95,7 @@ public class BaseMonster : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.updatePosition = false;
         effectHandler = GetComponent<EffectHandler>();
         blinkSeconds = new WaitForSeconds(blinkInterval);
     }
@@ -246,7 +247,14 @@ public class BaseMonster : MonoBehaviour
         FlipMonsterbyDirection();
 
         if (!isAttack && !isSturn)
+        {
             Move();
+        }
+
+        if (agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            transform.position = agent.nextPosition;
+        }
 
         if (!isAttack && Physics2D.OverlapCircle(this.transform.position, AttackRange, targetLayer))
         {

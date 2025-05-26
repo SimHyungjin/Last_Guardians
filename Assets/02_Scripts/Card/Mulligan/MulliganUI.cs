@@ -120,7 +120,10 @@ public class MulliganUI : MonoBehaviour
             card.Outline.enabled = true;
             remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
             if (MaxSelectedCards == selectedCard.Count)
+            {
                 okBtnOutline.enabled = true;
+                TutorialManager.Instance?.ChangeStep(TutorialStep.MulliganSelect);
+            }
         }
     }
 
@@ -176,12 +179,13 @@ public class MulliganUI : MonoBehaviour
             Utils.Shuffle(elementalDataList);
             ShowCardSelect(elementalDataList, cardNum);
             MaxSelectedCards = 1;
-
+            TutorialManager.Instance?.ChangeStep(TutorialStep.MulliganEnd);
         }
         else if (count == 2)
         {
             ShowCardSelect(standardDataList, cardNum + 1);
             MaxSelectedCards = 2;
+            TutorialManager.Instance?.ChangeStep(TutorialStep.MulliganEnd);
         }
         else
         {
@@ -262,6 +266,8 @@ public class MulliganUI : MonoBehaviour
         okBtnOutline.enabled = false;
         TowerManager.Instance.hand.HideUI();
         Time.timeScale = 0f;
+        if (MaxSelectedCards == 2) TutorialManager.Instance?.ChangeStep(TutorialStep.CardSelect);
+        //else TutorialManager.Instance?.ChangeStep(TutorialStep.LevelUpSelect);
     }
 
     //선택한 카드 패로
@@ -282,6 +288,7 @@ public class MulliganUI : MonoBehaviour
         TowerManager.Instance.hand.OpenUI();
         gameObject.SetActive(false);
         Time.timeScale = InGameManager.Instance.TimeScale;
+        if (MaxSelectedCards == 2) Invoke("ExecuteAfterDelay", 0.5f);
         MaxSelectedCards = 1;
 
         if (InGameManager.Instance.exp >= InGameManager.Instance.GetMaxExp())
@@ -303,5 +310,10 @@ public class MulliganUI : MonoBehaviour
     public void OnTime()
     {
         isTimerOn = true;
+    }
+
+    private void ExecuteAfterDelay()
+    {
+        TutorialManager.Instance?.ChangeStep(TutorialStep.WaveStart);
     }
 }

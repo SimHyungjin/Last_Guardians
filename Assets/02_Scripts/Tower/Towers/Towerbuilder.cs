@@ -201,6 +201,7 @@ public class Towerbuilder : MonoBehaviour
             tower.Init(data);
         }
         ClearConstructCache();
+        TutorialManager.Instance?.ChangeStep(TutorialStep.Construct);
     }
 
     public void ClearConstructCache()

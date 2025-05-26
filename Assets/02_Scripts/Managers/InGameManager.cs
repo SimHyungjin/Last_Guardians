@@ -18,7 +18,6 @@ public class InGameManager : Singleton<InGameManager>
 
     private Transform target;
 
-    public bool isTutorial = true;
 
     public float TimeScale { get; private set; } = 1;
 
@@ -90,7 +89,6 @@ public class InGameManager : Singleton<InGameManager>
 
         MuliigunStart();
         //mulliganUI.StartSelectCard();
-
         TutorialManager.Instance?.ChangeStep(TutorialStep.GameStart);
     }
 
@@ -149,6 +147,12 @@ public class InGameManager : Singleton<InGameManager>
         UpdateHP();
         if (PlayerHP <= 0)
         {
+            if (TutorialManager.Instance != null)
+            {
+                PlayerHP = 100;
+                UpdateHP();
+                return;
+            }
             isDie = true;
             GameOver();
         }

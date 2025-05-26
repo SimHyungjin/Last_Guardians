@@ -45,23 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d3b65d8a0b27ac4abddd80181235cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steps:
-  - triggerName: GameStart
-    OnStep:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 8762550218748705826}
-          m_TargetAssemblyTypeName: TutorialHandler, Assembly-CSharp
-          m_MethodName: GameStart
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  tutorialHandeler: {fileID: 0}
 --- !u!114 &8762550218748705826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,3 +58,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11395771c28a940489ecc677b45bed4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialCanvas: {fileID: 0}
+  cutoutBaseMaterial: {fileID: 2100000, guid: 25c26e913e1a31542bed4e332a804e26, type: 2}
+  cutoutObject: {fileID: 0}
+  dialogueText: {fileID: 0}
+  typingSpeed: 0.05
+  dialogPos:
+  - {fileID: 0}
+  - {fileID: 0}
+  tutorialState: 0
+  tutorialStep: 0
+  MulligunStep: 0
+  virtualCamera: {fileID: 0}

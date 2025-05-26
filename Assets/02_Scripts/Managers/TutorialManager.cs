@@ -6,15 +6,21 @@ public class TutorialManager : MonoBehaviour
 
     //[SerializeField] private TutorialStep[] steps;
     private int currentIndex = 0;
-    public TutorialHandler tutorialHandeler; 
+    public TutorialHandler tutorialHandler; 
     private void Awake()
     {
         Instance = this;
-        tutorialHandeler = GetComponent<TutorialHandler>();
+        tutorialHandler = GetComponent<TutorialHandler>();
     }
     public void ChangeStep(TutorialStep tutorialStep)
     {
-        tutorialHandeler.ChangeStep(tutorialStep);
+        tutorialHandler.ChangeStep(tutorialStep);
+    }
+
+    private void OnDestroy()
+    {
+        tutorialHandler = null;
+        Instance = null;
     }
     //public void TryTrigger(string name)
     //{

@@ -94,7 +94,7 @@ public class DeckHandler : MonoBehaviour
 
     public void MoveCardStart(Card card)
     {
-        if (!isHighlighting)
+        if (!isHighlighting&& TowerManager.Instance.CanStartInteraction())
         {
             HighlightCard(card);
             TowerManager.Instance.StartInteraction(InteractionState.CardMoving);

@@ -27,7 +27,9 @@ public class MainSceneButtonView : MonoBehaviour
 
         startBtn.onClick.AddListener(() =>
         {
-            SceneLoader.LoadSceneWithFade("TutorialScene", true, ToGameScene);
+            if (PlayerPrefs.GetInt("InGameTutorial")!=1)
+            { SceneLoader.LoadSceneWithFade("TutorialScene", true, ToGameScene); }
+            SceneLoader.LoadSceneWithFade("GameScene", true, ToGameScene);
         });
 
         inventoryBtn.onClick.AddListener(() =>

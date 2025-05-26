@@ -18,10 +18,11 @@ public class InGameManager : Singleton<InGameManager>
 
     private Transform target;
 
-
     public float TimeScale { get; private set; } = 1;
 
     private Canvas damageUICanvasPrefab;
+
+    public GameObject Line {  get; private set; }
 
     [field:SerializeField] public JoystickUIController joystickUIController { get; private set; }
     [SerializeField] private MulliganUI mulliganUI;
@@ -78,14 +79,14 @@ public class InGameManager : Singleton<InGameManager>
         else
             map = Instantiate(MapPrefabs[1], mapSlot.transform);
 
-
+        Line = map.transform.Find("Line").gameObject;
+        Line.SetActive(false);
         ObstacleTilemap = map.GetComponentInChildren<Tilemap>();
 
         // 기존 로직
         target = map.transform.Find("Center");
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
-
 
         MuliigunStart();
         //mulliganUI.StartSelectCard();

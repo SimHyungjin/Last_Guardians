@@ -63,12 +63,14 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeCardMove()
     {
         Time.timeScale = 0.2f;
+        InGameManager.Instance.Line.SetActive(true);
         isCardMoving = true;
     }
 
     public void ChangeCardDontMove()
     {
         Time.timeScale = InGameManager.Instance.TimeScale;
+        InGameManager.Instance.Line.SetActive(false);
         lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
         EndAttackRangeCircle();
         isCardMoving = false;
@@ -77,6 +79,7 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
         Time.timeScale = 0.2f;
+        InGameManager.Instance.Line.SetActive(true);
         clikedTower = _cilkedTower;
         isTowerMoving = true;
     }
@@ -84,6 +87,7 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeTowerDontMove(BaseTower _cilkedTower)
     {
         clikedTower = _cilkedTower;
+        InGameManager.Instance.Line.SetActive(false);
         isTowerMoving = false;
     }
 

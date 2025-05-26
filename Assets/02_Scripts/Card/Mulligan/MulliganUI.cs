@@ -53,8 +53,6 @@ public class MulliganUI : MonoBehaviour
     {
         if (isTimerOn)
         {
-            Debug.Log("타이머 작동중");
-            Debug.Log(isTimerOn);
             UpdateTimer();
         }
 
@@ -304,7 +302,6 @@ public class MulliganUI : MonoBehaviour
     //////////////////////튜토리얼/////////////////////
     public void OffTime()
     {
-        Debug.Log("OffTime");
         isTimerOn = false;
     }
     public void OnTime()

@@ -46,7 +46,7 @@ public class MonsterManager : Singleton<MonsterManager>
 
     public int WaveLevel { get; private set; } = 0;
 
-    public float WaveCycle { get ; private set; } = 1f
+    public float WaveCycle { get; private set; } = 1f;
 
     private Dictionary<int, MonsterData> monsterDataDict;
     private void Start()

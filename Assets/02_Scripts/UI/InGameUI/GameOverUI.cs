@@ -34,7 +34,7 @@ public class GameOverUI : MonoBehaviour
     private void OnEnable()
     {
         // 1) 보상 계산
-        int wave = MonsterManager.Instance.nowWave.WaveIndex;
+        int wave = MonsterManager.Instance.WaveLevel;
         RewardManager.Instance.GiveRewardForWave(wave);
 
         // 2) 결과 텍스트 세팅

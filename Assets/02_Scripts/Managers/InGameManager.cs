@@ -187,7 +187,7 @@ public class InGameManager : Singleton<InGameManager>
         gameoverUI.gameObject.SetActive(true);
         TowerManager.Instance.towerUpgradeData.Save();
 
-        AnalyticsLogger.LogWaveEnd(isDie, MonsterManager.Instance.nowWave.WaveIndex);
+        AnalyticsLogger.LogWaveEnd(isDie, MonsterManager.Instance.WaveLevel);
         Time.timeScale = 0f;
     }
 

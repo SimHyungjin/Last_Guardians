@@ -18,6 +18,7 @@ public class PlayerMoveController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
+        agent.updatePosition = false;
         agent.updateRotation = false;
         agent.updatePosition = true;
     }
@@ -29,6 +30,11 @@ public class PlayerMoveController : MonoBehaviour
     public void Init()
     {
         agent.speed = GameManager.Instance.PlayerManager.playerStatus.moveSpeed;
+    }
+
+    private void FixedUpdate()
+    {
+        transform.position = agent.nextPosition;
     }
 
     private void LateUpdate()

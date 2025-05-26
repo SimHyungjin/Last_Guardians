@@ -11,7 +11,6 @@ public class TrapObjectSlowEffect : MonoBehaviour, ITrapEffect
         {
             IsWater(environmentEffect);
             target.ApplySlowdown(adaptedTrapObjectData.effectValue + addObstacleValue, adaptedTrapObjectData.effectDuration);
-            Debug.Log($"[Apply] {target.name} 슬로우 이펙트 적용됨 타워인덱스 : {towerData.TowerName},{towerData.EffectValue + addObstacleValue},{towerData.EffectDuration}");
         }
     }
 
@@ -24,7 +23,6 @@ public class TrapObjectSlowEffect : MonoBehaviour, ITrapEffect
         if (EnviromentManager.Instance.Season == Season.winter)
         {
             addObstacleValue = 0f;
-            Debug.Log("겨울이라서 물속성이 적용되지 않았습니다.");
         }
         else
         {
@@ -32,24 +30,20 @@ public class TrapObjectSlowEffect : MonoBehaviour, ITrapEffect
                 if (environmentEffect.IsWaterBoosted())
                 {
                     addObstacleValue = 0.6f;
-                    Debug.Log("비오는날 물속성이 적용되었습니다.");
                 }
                 else
                 {
                     addObstacleValue = 0f;
-                    Debug.Log("물속성이 적용되지 않았습니다.");
                 }
             else
             {
                 if (environmentEffect.IsWaterBoosted())
                 {
                     addObstacleValue = 0.3f;
-                    Debug.Log("물속성이 적용되었습니다.");
                 }
                 else
                 {
                     addObstacleValue = 0f;
-                    Debug.Log("물속성이 적용되지 않았습니다.");
                 }
             }
         }

@@ -10,12 +10,18 @@ public class JoystickUIController : MonoBehaviour, IPointerDownHandler, IDragHan
     [SerializeField] private float maxDistance = 100f;
     [SerializeField] private float repeatRate = 0.02f;
 
+    private PlayerInputStyle playerInputStyle;
     public Action<Vector2> OnDirectionTick;
-    public Action<bool> ChangeState;
+    public Action<PlayerInputStyle> ChangeStyle;
 
     private Vector2 currentDirection = Vector2.zero;
     private Coroutine moveLoop;
 
+    private void Awake()
+    {
+        playerInputStyle = GameManager.Instance.PlayerManager.playerInputStyle;
+        SetVisible(playerInputStyle);
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         UpdateHandlePosition(eventData);
@@ -79,10 +85,17 @@ public class JoystickUIController : MonoBehaviour, IPointerDownHandler, IDragHan
         }
     }
 
-    public void SetVisible()
+    public void SetVisible(PlayerInputStyle style)
     {
-        bool active = gameObject.activeSelf;
-        gameObject.SetActive(!active);
-        ChangeState?.Invoke(!active);
+        playerInputStyle = style;
+        if (playerInputStyle == PlayerInputStyle.Swipe)
+        {
+            gameObject.SetActive(false);
+        }
+        else if (playerInputStyle == PlayerInputStyle.Joystick)
+        {
+            gameObject.SetActive(true);
+        }
+        ChangeStyle?.Invoke(playerInputStyle);
     }
 }

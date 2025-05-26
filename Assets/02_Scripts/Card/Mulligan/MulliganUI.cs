@@ -257,6 +257,7 @@ public class MulliganUI : MonoBehaviour
     {
         Utils.Shuffle(MyCardList);
         ShowCardSelect(MyCardList, 3);
+        okBtnOutline.enabled = false;
         TowerManager.Instance.hand.HideUI();
         Time.timeScale = 0f;
     }

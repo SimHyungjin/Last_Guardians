@@ -18,11 +18,11 @@ MonoBehaviour:
   waveStartDelay: 4
   monsterSpawnInterval: 0.4
   monster1ID: 1
-  monster1Value: 15
+  monster1Value: 14
   monster2ID: 2
-  monster2Value: 25
+  monster2Value: 23
   monster3ID: 3
-  monster3Value: 35
+  monster3Value: 32
   monster4ID: 0
   monster4Value: 0
-  bossMultiplier: 1.17
+  bossMultiplier: 1.33

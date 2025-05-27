@@ -25,9 +25,9 @@ MonoBehaviour:
   projectileType: 2
   elementType: 5
   specialEffect: 4
-  effectChance: 1
+  effectChance: 0.25
   effectDuration: 4
-  effectValue: 0.25
+  effectValue: 0
   effectTarget: 2
   effectTargetCount: 3
   bossImmune: 1

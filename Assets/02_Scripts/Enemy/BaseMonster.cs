@@ -110,6 +110,8 @@ public class BaseMonster : MonoBehaviour
         currentPrefab = PoolManager.Instance.SpawnbyPrefabName(MonsterData.Prefab, prefabSlot);
         currentPrefab.transform.SetParent(prefabSlot);
 
+        agent.enabled = true;
+
         if (this.transform.position.x < 0)
         {
             this.transform.localScale = leftScale;
@@ -351,6 +353,8 @@ public class BaseMonster : MonoBehaviour
             spriteRenderers[i].color = originalColors[i];
         MonsterManager.Instance.OnMonsterDeath(this);
         OnMonsterDeathAction?.Invoke();
+        agent.ResetPath();
+        agent.enabled = false;
         if (!isDisable)
         {
             //데미지받아서 죽은게 아니라면

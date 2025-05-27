@@ -7,7 +7,6 @@ public class ProjectileStunEffect : MonoBehaviour, IEffect
     {
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
-            Debug.Log($"Applying stun effect to {target.MonsterData.MonsterName} with value {adaptedTowerData.effectValue} and duration {adaptedTowerData.effectDuration}");
             target.ApplySturn(adaptedTowerData.effectDuration);
         }
     }
@@ -18,7 +17,7 @@ public class ProjectileStunEffect : MonoBehaviour, IEffect
         {
             if (Random.value < chance)
             {
-                target.ApplySturn(adaptedTowerData.effectValue);
+                target.ApplySturn(adaptedTowerData.effectDuration);
             }
         }
     }

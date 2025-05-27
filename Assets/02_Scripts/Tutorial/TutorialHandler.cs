@@ -53,6 +53,7 @@ public enum TutorialState
 public enum TutorialStep
 {
     None,
+    TutorialStart,
     GameStart,
     MulliganStart,
     MulliganSelect,
@@ -93,7 +94,14 @@ public class TutorialHandler : MonoBehaviour
     public CinemachineVirtualCamera virtualCamera;
     float currentSize;
 
+    [Header("½ºÅµ")]
+    public GameObject skipPopup;
+    public Button skipPopupButton;
+    public Button skipButton;
+    public Button cancleButton;
+
     public Image TutorialPannel;
+
     private void Awake()
     {
         cutout= new Material(cutoutBaseMaterial);
@@ -104,6 +112,11 @@ public class TutorialHandler : MonoBehaviour
         graphicRaycaster.enabled = true;
         MulligunStep = 0;
         tutoriaDialogue.init();
+
+        skipPopup.SetActive(true);
+        skipPopupButton.onClick.AddListener(SkipPopup);
+        cancleButton.onClick.AddListener(SkipPopup);
+        skipButton.onClick.AddListener(SkipTutorial);
     }
 
     void Update()
@@ -152,6 +165,8 @@ public class TutorialHandler : MonoBehaviour
         this.tutorialStep = tutorialStep;
         switch (tutorialStep)
         {
+            case TutorialStep.TutorialStart:
+                break;
             case TutorialStep.GameStart:
                 GameStart();
                 break;
@@ -405,50 +420,41 @@ public class TutorialHandler : MonoBehaviour
         isTyping = false;
     }
 
+   //////////////////////////////////////½ºÅµ////////////////////////////////////////
+   public void SkipPopup()
+    {
+        skipPopup.SetActive(!skipPopup.activeSelf);
+        if (skipPopup.activeSelf)
+        {
+            skipPopupButton.enabled = false;
+            cancleButton.enabled = true;
+        }
+        else
+        {
+            ChangeStep(TutorialStep.TutorialStart);
+            cancleButton.enabled = false;
+            skipPopupButton.enabled = true;
+        }
+
+        if (tutorialStep == TutorialStep.TutorialStart)
+        { 
+            ChangeStep(TutorialStep.GameStart);
+            GameStart(); 
+        }
+    }
+   
+    public void SkipTutorial()
+    {
+        PlayerPrefs.SetInt("InGameTutorial", 1);
+        tutorialState = TutorialState.Roading;
+        SceneLoader.LoadSceneWithFade("GameScene", true);
+    }
+
+
     private void OnDisable()
     {
         if(typingCoroutine!=null)
         StopCoroutine(typingCoroutine);
     }
-    //private IEnumerator TypeText(int dialogNum)
-    //{
-    //    yield return new WaitForSeconds(0.3f);
-    //    isTyping = true;
-    //    fullText = "";
-    //    fullText += tutoriaDialogue.text[dialogNum];
-    //    string currentText = "";
-
-    //    yield return new WaitUntil(() => !Input.GetMouseButton(0));
-
-    //    for (int i = 0; i < fullText.Length; i++)
-    //    {
-    //        if (Input.GetMouseButtonDown(0))
-    //        {
-    //            dialogueText.text = fullText;
-    //            break;
-    //        }
-
-    //        currentText += fullText[i];
-    //        dialogueText.text = currentText;
-
-    //        yield return new WaitForSeconds(typingSpeed);
-    //    }
-    //    switch(tutorialStep)
-    //    {
-    //        case TutorialStep.GameStart:
-    //            dialogueText.text += "\n" + tutoriaDialogue.text[0];
-    //            ChangeState(TutorialState.isWaiting);
-    //            break;
-    //        case TutorialStep.MulliganStart:
-    //            graphicRaycaster.enabled = false;
-    //            break;
-    //        case TutorialStep.MulliganSelect:
-    //            graphicRaycaster.enabled = false;
-    //            break;
-    //        case TutorialStep.MulliganEnd:
-    //            graphicRaycaster.enabled = false;
-    //            break;
-    //    }
-    //    isTyping = false;
-    //}
+   
 }

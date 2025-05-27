@@ -152,8 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ecfb7d11340d1749ad86d595f747fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryGroup: {fileID: 0}
+  inventoryManager: {fileID: 0}
   TowerUpgrade: {fileID: 0}
+  EquipTutorial: {fileID: 0}
+  UpgradeTutorial: {fileID: 0}
 --- !u!4 &1009567942
 Transform:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager Instance { get; private set; }
-
     //[SerializeField] private TutorialStep[] steps;
     private int currentIndex = 0;
     public TutorialHandler tutorialHandler; 

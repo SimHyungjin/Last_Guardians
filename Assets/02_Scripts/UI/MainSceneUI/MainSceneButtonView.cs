@@ -9,7 +9,7 @@ public class MainSceneButtonView : MonoBehaviour
     [SerializeField] private Button soundOptionBtn;
     [SerializeField] private Button idleBtn;
     [SerializeField] private Button TowerUpgradeBtn;
-
+    [SerializeField] private Button TutorialButton;
 
     [SerializeField] private IdleRewardPopupUI idlePopup;
 
@@ -22,7 +22,7 @@ public class MainSceneButtonView : MonoBehaviour
         idleBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         TowerUpgradeBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         startBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("FadeOut"));
-
+        TutorialButton.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
 
 
         startBtn.onClick.AddListener(() =>
@@ -64,7 +64,14 @@ public class MainSceneButtonView : MonoBehaviour
         {
             mainSceneManager.ShowPanel("IdleRewardPopup");
         });
+
+        TutorialButton.onClick.AddListener(() =>
+        {
+                SceneLoader.LoadSceneWithFade("TutorialScene", true, ToGameScene);
+        });
     }
+
+   
 
     private void ToGameScene()
     {

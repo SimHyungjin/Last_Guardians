@@ -90,7 +90,7 @@ public class InGameManager : Singleton<InGameManager>
 
         MuliigunStart();
         //mulliganUI.StartSelectCard();
-        TutorialManager.Instance?.ChangeStep(TutorialStep.GameStart);
+        TutorialManager.Instance?.ChangeStep(TutorialStep.TutorialStart);
     }
 
     public void GetExp(float exp)

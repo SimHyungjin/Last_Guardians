@@ -260,9 +260,27 @@ public class TrapObject : MonoBehaviour
                 if (monster == null) continue;
                 for (int i = 0; i < buffTowerIndex.Count; i++)
                 {
-                    if (trapEffectList[i] != null && effectTypeMap.ContainsKey(TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect))
-                        trapEffectList[i].Apply(monster, TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
-                    else continue;
+                    if (i >= 0 && i < trapEffectList.Count && i < buffTowerIndex.Count)
+                    {
+                        if (trapEffectList[i] != null && effectTypeMap.ContainsKey(TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect))
+                        {
+                            trapEffectList[i].Apply(
+                                monster,
+                                TowerManager.Instance.GetTowerData(buffTowerIndex[i]),
+                                TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]),
+                                bossImmunebuff,
+                                environmentEffect
+                            );
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($"Invalid index {i} or buffTowerIndex[i] out of range.");
+                    }
                 }
 
             }

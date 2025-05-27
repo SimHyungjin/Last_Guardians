@@ -88,8 +88,6 @@ public class TrapObject : MonoBehaviour
 
     private float EmergencyResponseBuff = 1f;
 
-    private float maxbuffRadius = 5f;
-
     private bool disable = false;
     public void Init(TowerData towerData)
     {
@@ -414,7 +412,7 @@ public class TrapObject : MonoBehaviour
     /// </summary>
     private void ScanBuffTower()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, TowerManager.Instance.maxbuffRadius, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {

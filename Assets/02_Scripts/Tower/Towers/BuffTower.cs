@@ -81,6 +81,7 @@ public class BuffTower : BaseTower
         ScanBuffTower();
         ApplyBuffOnPlacement();
         OnPlatform();
+        TowerManager.Instance.maxbuffRadius = Mathf.Max(TowerManager.Instance.maxbuffRadius, adaptedBuffTowerData.attackRange);
     }
 
     protected override void Update()

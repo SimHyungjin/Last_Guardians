@@ -43,7 +43,6 @@ public abstract class BaseTower : MonoBehaviour
 
     Vector2 curPos;
 
-    protected float maxbuffRadius = 5f;
     protected bool disable;
 
     private float touchTime = 0.5f;
@@ -245,7 +244,7 @@ public abstract class BaseTower : MonoBehaviour
     /// </summary>
     protected void ScanBuffTower()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, TowerManager.Instance.maxbuffRadius, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {

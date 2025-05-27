@@ -28,6 +28,7 @@ public class TowerManager : Singleton<TowerManager>
     public List<BaseTower> Towers;
     public Sprite[] TowerIcons;
 
+    public float maxbuffRadius=8f;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
     private void OnEnable()

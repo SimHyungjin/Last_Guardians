@@ -88,7 +88,6 @@ public class MonsterManager : Singleton<MonsterManager>
             InGameManager.Instance.UpdateWeatherInfo();
         }
 
-
         InGameManager.Instance.SetWaveInfoText(WaveLevel, RemainMonsterCount);
 
         yield return SpawnMonsters(nowWave);

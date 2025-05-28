@@ -31,7 +31,10 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
                     ChainShot(target, ownerTowerData, adaptedTowerData);
             }
             else
+            {
                 ChainShot(target, ownerTowerData, adaptedTowerData);
+                Debug.Log($"넘어가는 데이터 데미지{adaptedTowerData.attackPower}넘어가는 데이터 벨류{adaptedTowerData.effectValue}");
+            }
         }
     }
 
@@ -96,6 +99,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
                     blastProjectile.transform.position = spawnPosition;
                     blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
                     blastProjectile.Init(ownerTowerData, adaptedTowerData, effectsubself, null);
+                    Debug.Log($"넘어가는 데이터 데미지2{adaptedTowerData.attackPower}넘어가는 데이터 벨류2{adaptedTowerData.effectValue}");
                     TowerManager.Instance.projectileFactory.AddAllEffects(blastProjectile, effectsubself);
                     blastProjectile.Launch(origin + dir * 0.3f);
                     break;

@@ -42,6 +42,7 @@ public class AdaptedAttackTowerData
         buffTowerIndex = new List<int>();
         this.attackSpeed = baseattackSpeed;
         this.effectValue = baseEffectValue;
+        this.attackPower = baseAttackPower;
     }
 
     //////////////////////////////////////////업그레이드////////////////////////////////////////////////

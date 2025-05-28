@@ -72,6 +72,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # third party 
-/[Aa]ssets/[Tt]hirdParty
+/[Aa]ssets/99_[Tt]hirdParty
 #Resources
 /[Aa]ssets/[Rr]esources

@@ -13,6 +13,10 @@ public class ProjectileStunEffect : MonoBehaviour, IEffect
 
     public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
+        if (target == null)
+        {
+            return; 
+        }
         if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
             if (Random.value < chance)

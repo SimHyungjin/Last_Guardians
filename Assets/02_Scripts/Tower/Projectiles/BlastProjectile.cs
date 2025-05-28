@@ -122,9 +122,13 @@ public class BlastProjectile : ProjectileBase
                     if (effects[i] == null) continue;
                     if (i >= 0 && i < effectslist.Count && i < effects.Count)
                     {
+                        if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectTargetCount!=0&&count> TowerManager.Instance.GetTowerData(effectslist[i]).EffectTargetCount)
+                        {
+                            continue;
+                        }
                         if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f)
                         {
-                            effects[i].Apply(target,
+                             effects[i].Apply(monster,
                                              TowerManager.Instance.GetTowerData(effectslist[i]),
                                              TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]),
                                              TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance,
@@ -135,7 +139,7 @@ public class BlastProjectile : ProjectileBase
                             effects[i].Apply(monster,
                                              TowerManager.Instance.GetTowerData(effectslist[i]),
                                              TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]),
-                                             environmentEffect);
+                                             environmentEffect);           
                         }
                     }
                     else

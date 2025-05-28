@@ -66,13 +66,10 @@ public class Utils
 
     public static bool ShouldApplyEffect(BaseMonster target, TowerData towerData, bool bossImmunebuff)
     {
-
         if (bossImmunebuff)
         {
             return true;
         }
-
-
         if (towerData.BossImmune && (target.MonsterData.MonsterType == MonType.Boss || target.MonsterData.MonsterType == MonType.Bounty))
         {
             return false;

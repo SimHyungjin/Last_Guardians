@@ -222,6 +222,13 @@ BaseTower에 자식들인 타워를 SO를 받아서 동적 생성
 각각의 몬스터에 EffectHandler를 붙인뒤 EffectHandler가 현재 몬스터의 StatusEffect의 List를 가지고 각각의 Effect를 타이머로 돌려서 관리한다
 </details>
 
+<details><summary> 계절 / 날씨 시스템</summary>
+<img src="https://github.com/user-attachments/assets/5e531514-8c4d-4133-a3d2-00becd186b5b" width="400" height="500"><br>
+계절은 게임 진입시 시간에 따라 결정된다
+ 날씨는 상태패턴으로 구현했으며, 해당하는 날씨에 따라 각각의 효과가 부여된다.
+ 날씨는 5웨이브마다 가중치기반 랜덤으로 변경되며 가중치 랜덤은 누적확률값 방식을 사용했다.
+</details>
+
 <br><br>
 [목차로](#목차)<br>
 

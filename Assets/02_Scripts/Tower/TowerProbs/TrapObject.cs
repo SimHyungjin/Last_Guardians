@@ -277,7 +277,6 @@ public class TrapObject : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogError($"Invalid index {i} or buffTowerIndex[i] out of range.");
                     }
                 }
 

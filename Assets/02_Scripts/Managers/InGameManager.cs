@@ -98,8 +98,8 @@ public class InGameManager : Singleton<InGameManager>
         this.exp += exp;
         UpdateExp();
         SoundManager.Instance.PlaySFX("EXP");
-        //if (this.exp >= maxExp)
-            //LevelUp();
+        if (this.exp >= maxExp)
+            LevelUp();
     }
 
     public void LevelUp()

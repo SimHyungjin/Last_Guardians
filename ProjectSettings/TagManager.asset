@@ -22,8 +22,8 @@ TagManager:
   - Platform
   - ObstacleZone
   - ObstacleTrap
-  - 
-  - 
+  - DamageUI
+  - Projectile
   - 
   - 
   - 

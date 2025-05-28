@@ -10,7 +10,7 @@ public static class SceneLoader
 
     public static void LoadScene(string sceneName, Action beforeSceneLoad = null, Action afterSceneLoad = null)
     {
-        if(isLoading) return;
+        if (isLoading) return;
         isLoading = true;
 
         beforeSceneLoad?.Invoke();
@@ -23,7 +23,7 @@ public static class SceneLoader
 
     public static void LoadSceneWithFade(string sceneName, bool selectFadeOut, Action beforeSceneLoad = null, Action afterSceneLoad = null)
     {
-        if(isLoading) return;
+        if (isLoading) return;
         isLoading = true;
         beforeSceneLoad?.Invoke();
 

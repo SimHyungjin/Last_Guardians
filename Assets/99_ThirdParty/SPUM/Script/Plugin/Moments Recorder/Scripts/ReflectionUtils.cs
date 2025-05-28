@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2015 Thomas Hourdel
  *
  * This software is provided 'as-is', without any express or implied
@@ -21,68 +21,68 @@
  *    distribution.
  */
 
-using UnityEngine;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using UnityEngine;
 
 namespace Moments
 {
-	public class ReflectionUtils<T> where T : class, new()
-	{
-		readonly T _Instance;
+    public class ReflectionUtils<T> where T : class, new()
+    {
+        readonly T _Instance;
 
-		public ReflectionUtils(T instance)
-		{
-			_Instance = instance;
-		}
+        public ReflectionUtils(T instance)
+        {
+            _Instance = instance;
+        }
 
-		public string GetFieldName<U>(Expression<Func<T, U>> fieldAccess)
-		{
-			MemberExpression memberExpression = fieldAccess.Body as MemberExpression;
+        public string GetFieldName<U>(Expression<Func<T, U>> fieldAccess)
+        {
+            MemberExpression memberExpression = fieldAccess.Body as MemberExpression;
 
-			if (memberExpression != null)
-				return memberExpression.Member.Name;
+            if (memberExpression != null)
+                return memberExpression.Member.Name;
 
-			throw new InvalidOperationException("Member expression expected");
-		}
+            throw new InvalidOperationException("Member expression expected");
+        }
 
-		public FieldInfo GetField(string fieldName)
-		{
-			return typeof(T).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-		}
+        public FieldInfo GetField(string fieldName)
+        {
+            return typeof(T).GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+        }
 
-		public A GetAttribute<A>(FieldInfo field) where A : Attribute
-		{
-			return (A)Attribute.GetCustomAttribute(field, typeof(A));
-		}
+        public A GetAttribute<A>(FieldInfo field) where A : Attribute
+        {
+            return (A)Attribute.GetCustomAttribute(field, typeof(A));
+        }
 
-		// MinAttribute
-		public void ConstrainMin<U>(Expression<Func<T, U>> fieldAccess, float value)
-		{
-			FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
-			fieldInfo.SetValue(_Instance, Mathf.Max(value, GetAttribute<MinAttribute>(fieldInfo).min));
-		}
+        // MinAttribute
+        public void ConstrainMin<U>(Expression<Func<T, U>> fieldAccess, float value)
+        {
+            FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
+            fieldInfo.SetValue(_Instance, Mathf.Max(value, GetAttribute<MinAttribute>(fieldInfo).min));
+        }
 
-		public void ConstrainMin<U>(Expression<Func<T, U>> fieldAccess, int value)
-		{
-			FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
-			fieldInfo.SetValue(_Instance, (int)Mathf.Max(value, GetAttribute<MinAttribute>(fieldInfo).min));
-		}
+        public void ConstrainMin<U>(Expression<Func<T, U>> fieldAccess, int value)
+        {
+            FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
+            fieldInfo.SetValue(_Instance, (int)Mathf.Max(value, GetAttribute<MinAttribute>(fieldInfo).min));
+        }
 
-		// RangeAttribute
-		public void ConstrainRange<U>(Expression<Func<T, U>> fieldAccess, float value)
-		{
-			FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
-			RangeAttribute attr = GetAttribute<RangeAttribute>(fieldInfo);
-			fieldInfo.SetValue(_Instance, Mathf.Clamp(value, attr.min, attr.max));
-		}
+        // RangeAttribute
+        public void ConstrainRange<U>(Expression<Func<T, U>> fieldAccess, float value)
+        {
+            FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
+            RangeAttribute attr = GetAttribute<RangeAttribute>(fieldInfo);
+            fieldInfo.SetValue(_Instance, Mathf.Clamp(value, attr.min, attr.max));
+        }
 
-		public void ConstrainRange<U>(Expression<Func<T, U>> fieldAccess, int value)
-		{
-			FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
-			RangeAttribute attr = GetAttribute<RangeAttribute>(fieldInfo);
-			fieldInfo.SetValue(_Instance, (int)Mathf.Clamp(value, attr.min, attr.max));
-		}
-	}
+        public void ConstrainRange<U>(Expression<Func<T, U>> fieldAccess, int value)
+        {
+            FieldInfo fieldInfo = GetField(GetFieldName(fieldAccess));
+            RangeAttribute attr = GetAttribute<RangeAttribute>(fieldInfo);
+            fieldInfo.SetValue(_Instance, (int)Mathf.Clamp(value, attr.min, attr.max));
+        }
+    }
 }

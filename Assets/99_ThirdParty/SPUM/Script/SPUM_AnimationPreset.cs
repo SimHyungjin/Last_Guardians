@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +20,7 @@ public class SPUM_AnimationPreset : MonoBehaviour
 
     public SPUM_AnimationManager animationManager;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public void Init(SPUM_Preset preset, SPUM_AnimationManager manager)
     {
         animationManager = manager;
@@ -33,46 +32,53 @@ public class SPUM_AnimationPreset : MonoBehaviour
         animPreset = preset;
         //spumPackages = preset.Packages;
 
-        Delete.onClick.AddListener(() => {
+        Delete.onClick.AddListener(() =>
+        {
             Debug.Log("Delete!");
             manager.DeletePresetData(Name);
             OnDestroy();
         });
-        InputSave.onClick.AddListener(()=> {
+        InputSave.onClick.AddListener(() =>
+        {
             manager.EditPresetData(Name, inputName.text);
         });
 
-        inputName.onEndEdit.AddListener((value)=> {
+        inputName.onEndEdit.AddListener((value) =>
+        {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 manager.EditPresetData(Name, inputName.text);
             }
-            
+
         });
-        ApplyPreset.onClick.AddListener(() => {
+        ApplyPreset.onClick.AddListener(() =>
+        {
             Debug.Log("ApplyPreset " + animPreset.PresetName);
             manager.ApplyPreset(animPreset);
 
         });
-        OK.onClick.AddListener(() => {
+        OK.onClick.AddListener(() =>
+        {
             //manager.EditPresetData(PresetName.text, PresetName.text);
             manager.ApplyPreset(animPreset);
 
         });
     }
-    
+
     void Start()
     {
         inputName.onValueChanged.AddListener(
             (word) => inputName.text = Regex.Replace(word, @"[^0-9a-zA-Z가-힣]", "")
         );
-        EditName.onClick.AddListener(()=>{
+        EditName.onClick.AddListener(() =>
+        {
             NamePanel.SetActive(false);
             NameEditPanel.SetActive(true);
             Debug.Log("Edit Name");
         });
 
-        InputSave.onClick.AddListener(()=>{
+        InputSave.onClick.AddListener(() =>
+        {
             NamePanel.SetActive(true);
             NameEditPanel.SetActive(false);
         });
@@ -86,5 +92,5 @@ public class SPUM_AnimationPreset : MonoBehaviour
         OK.onClick.RemoveAllListeners();
         ApplyPreset.onClick.RemoveAllListeners();
     }
-    #endif
+#endif
 }

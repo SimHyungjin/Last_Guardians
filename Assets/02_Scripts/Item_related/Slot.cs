@@ -12,12 +12,17 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Image equipEffect;
     [SerializeField] private Image gradeEffect;
 
+    public Color normalColor = new Color(1f, 1f, 1f);
+    public Color rareColor = new Color(0.2f, 0.6f, 1f);
+    public Color uniqueColor = new Color(0.7f, 0.3f, 1f);
+    public Color heroColor = new Color(1f, 0.5f, 0.1f);
+    public Color legendColor = new Color(1f, 0.84f, 0f);
+
     private ItemInstance data;
 
     public void SetData(ItemInstance newData)
     {
         data = newData;
-        icon.sprite = data?.Data?.Icon;
         Refresh();
     }
 
@@ -32,12 +37,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void Refresh()
     {
-        if (data == null)
+        if (data == null || data.Data == null)
         {
             Clear();
             return;
         }
-
+        icon.sprite = data.Data.Icon;
         SetIcon(true);
         SetGradeEffect();
     }
@@ -58,29 +63,42 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         switch (data.Data.ItemGrade)
         {
             case ItemGrade.Normal:
-                gradeEffect.color = new Color(1f, 1f, 1f);
+                gradeEffect.color = normalColor;
                 break;
             case ItemGrade.Rare:
-                gradeEffect.color = new Color(0.2f, 0.6f, 1f);
+                gradeEffect.color = rareColor;
                 break;
             case ItemGrade.Unique:
-                gradeEffect.color = new Color(0.7f, 0.3f, 1f);
+                gradeEffect.color = uniqueColor;
                 break;
             case ItemGrade.Hero:
-                gradeEffect.color = new Color(1f, 0.5f, 0.1f);
+                gradeEffect.color = heroColor;
                 break;
             case ItemGrade.Legend:
-                gradeEffect.color = new Color(1f, 0.84f, 0f);
+                gradeEffect.color = legendColor;
                 break;
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (data == null) return;
-        SelectionController selectionController = MainSceneManager.Instance.inventoryGroup.itemConnecter.selectionController;
-        if(selectionController.selectionMode == SelectionMode.Single)selectionController.SelectSlot(this);
-        else selectionController.SelectSlotList(this);
+        InventoryManager inventoryManager = MainSceneManager.Instance.inventoryManager;
+        if (data == null || inventoryManager == null) return;
+
+        if (inventoryManager.inventorySelectionController.selectionMode == SelectionMode.Single)
+        {
+            inventoryManager.inventorySelectionController.SetSelected(this);
+            //if (inventoryManager.inventoryUIManager.upgradePopupController.IsOpen)
+            //{
+            //    inventoryManager.inventoryUIManager.OpenPopup(PopupType.Upgrade);
+            //    return;
+            //}
+            inventoryManager.inventoryUIManager.OpenPopup(PopupType.Item);
+        }
+        else
+        {
+            inventoryManager.inventorySelectionController.SelectSlotList(this);
+        }
     }
 
     public ItemInstance GetData() => data;

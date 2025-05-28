@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
-public class TowerUpgrade :MonoBehaviour
+public class TowerUpgrade : MonoBehaviour
 {
     public TowerUpgradeData towerUpgradeData;
     private void Start()
@@ -14,33 +12,37 @@ public class TowerUpgrade :MonoBehaviour
     }
     public bool CanUpgrade(TowerUpgradeType type)
     {
-        if (towerUpgradeData.currentMasteryPoint <= 0)
-        {
-            Debug.Log("마스터리 포인트가 부족합니다.");
-            return false;
-        }
         if (towerUpgradeData.currentLevel[(int)type] >= towerUpgradeData.maxLevel)
         {
-            Debug.Log("업그레이드 최대 레벨에 도달했습니다.");
             return false;
         }
-        if ((type == TowerUpgradeType.Penetration || type == TowerUpgradeType.ContinuousAttack ||
-            type==TowerUpgradeType.Catalysis||type==TowerUpgradeType.EffectTransfer) 
-            && towerUpgradeData.usedMasteryPoint < 10)
+        if (IsTier3(type))
         {
-            Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 10을 초과해야 합니다.");
+            if (towerUpgradeData.SumOfLevelUP < 20)
+            {
+                return false;
+            }
+            if (towerUpgradeData.currentMasteryPoint < 5)
+            {
+                return false;
+            }
+        }
+        else if (IsTier2(type))
+        {
+            if (towerUpgradeData.SumOfLevelUP < 10)
+            {
+                return false;
+            }
+            if (towerUpgradeData.currentMasteryPoint < 2)
+            {
+                return false;
+            }
+        }
+        else if (towerUpgradeData.currentMasteryPoint <= 0)
+        {
             return false;
         }
-        if ((type == TowerUpgradeType.CombetMastery||type==TowerUpgradeType.MultipleAttack||type==TowerUpgradeType.BossSlayer)
-            && towerUpgradeData.usedMasteryPoint < 20)
-        {
-            Debug.Log("해당 업그레이드를 진행하려면 사용 마스터리 포인트가 20을 초과해야 합니다.");
-            return false;
-        }
-        else
-        {
-            return towerUpgradeData.currentLevel[(int)type] < towerUpgradeData.maxLevel;
-        }
+        return true;
     }
 
     public void Upgrade(TowerUpgradeType type)
@@ -48,8 +50,26 @@ public class TowerUpgrade :MonoBehaviour
         if (CanUpgrade(type))
         {
             towerUpgradeData.currentLevel[(int)type]++;
-            towerUpgradeData.usedMasteryPoint += 1;
-            towerUpgradeData.currentMasteryPoint--;
+            towerUpgradeData.SumOfLevelUP++;
+            if (IsTier1(type))
+            {
+                towerUpgradeData.usedMasteryPoint += 1;
+                towerUpgradeData.currentMasteryPoint -= 1;
+            }
+            else if (IsTier2(type))
+            {
+                towerUpgradeData.usedMasteryPoint += 2;
+                towerUpgradeData.currentMasteryPoint -= 2;
+            }
+            else if (IsTier3(type))
+            {
+                towerUpgradeData.usedMasteryPoint += 5;
+                towerUpgradeData.currentMasteryPoint -= 5;
+            }
+            else
+            {
+                return;
+            }
             SaveSystem.SaveTowerUpgradeData(this);
 
             AnalyticsLogger.LogTowerUpgrade(towerUpgradeData);
@@ -64,9 +84,35 @@ public class TowerUpgrade :MonoBehaviour
         {
             towerUpgradeData.currentLevel[i] = 0;
         }
+        towerUpgradeData.SumOfLevelUP = 0;
         towerUpgradeData.usedMasteryPoint = 0;
         towerUpgradeData.currentMasteryPoint = towerUpgradeData.totalMasteryPoint;
         SaveSystem.SaveTowerUpgradeData(this);
+    }
+
+    private bool IsTier1(TowerUpgradeType type)
+    {
+        return type == TowerUpgradeType.AttackPower ||
+               type == TowerUpgradeType.AttackSpeed ||
+               type == TowerUpgradeType.AttackRange ||
+               type == TowerUpgradeType.EffectValue ||
+               type == TowerUpgradeType.EffectDuration ||
+               type == TowerUpgradeType.EffectRange;
+    }
+    private bool IsTier2(TowerUpgradeType type)
+    {
+        return type == TowerUpgradeType.Penetration ||
+               type == TowerUpgradeType.ContinuousAttack ||
+               type == TowerUpgradeType.Catalysis ||
+               type == TowerUpgradeType.EffectTransfer;
+    }
+
+    private bool IsTier3(TowerUpgradeType type)
+    {
+        return type == TowerUpgradeType.CombetMastery ||
+               type == TowerUpgradeType.MultipleAttack ||
+               type == TowerUpgradeType.BossSlayer ||
+               type == TowerUpgradeType.Emergencyresponse;
     }
 }
 

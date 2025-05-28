@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEditor;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 public class SPUM_FolderStructureCloner : EditorWindow
 {
@@ -18,7 +18,7 @@ public class SPUM_FolderStructureCloner : EditorWindow
     }
     public void InitFolderStructure()
     {
-        var input = 
+        var input =
 @"NewAddon|true
 -0_Unit|true
 --0_Sprite|true
@@ -94,7 +94,7 @@ public class SPUM_FolderStructureCloner : EditorWindow
     }
     private void OnGUI()
     {
-        
+
         GUILayout.Label("Select a folder and Load Structure.", EditorStyles.boldLabel);
         GUILayout.Space(10);
         if (GUILayout.Button("Copy the folder structure"))
@@ -115,7 +115,7 @@ public class SPUM_FolderStructureCloner : EditorWindow
         GUILayout.Space(10);
         GUILayout.Label("Quickly create with a basic folder structure.", EditorStyles.boldLabel);
         GUILayout.Space(10);
-        
+
         if (GUILayout.Button("Quick Create"))
         {
             InitFolderStructure();
@@ -270,7 +270,7 @@ public class SPUM_FolderStructureCloner : EditorWindow
         foreach (SpriteRenderer sr in spriteRenderers)
         {
             spriteRendererNames.Add(sr.name);
-            Text += sr.name + " / (" + sr.sortingOrder +")\n";
+            Text += sr.name + " / (" + sr.sortingOrder + ")\n";
         }
         Debug.Log(Text);
         // 리스트 출력
@@ -299,7 +299,8 @@ public class SPUM_FolderStructureCloner : EditorWindow
         string Text = "";
         foreach (var tr in transforms)
         {
-            if(tr.name.Contains("P_") || tr.name.Contains("Pivot_")){
+            if (tr.name.Contains("P_") || tr.name.Contains("Pivot_"))
+            {
                 Text += tr.name + "\n";
             }
         }

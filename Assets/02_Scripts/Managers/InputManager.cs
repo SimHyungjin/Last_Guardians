@@ -48,16 +48,28 @@ public class InputManager : Singleton<InputManager>
     {
 #if UNITY_EDITOR
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+
 #else
     if (EventSystem.current == null)
         return false;
-
-    PointerEventData eventData = new PointerEventData(EventSystem.current);
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
     eventData.position = pointerInput.Pointer.Position.ReadValue<Vector2>();
 
     var results = new List<RaycastResult>();
     EventSystem.current.RaycastAll(eventData, results);
     return results.Count > 0;
+#endif
+    }
+
+    /// <summary>
+    /// 현재 터치(또는 마우스)가 눌린 상태인지 여부
+    /// </summary>
+    public bool IsTouching()
+    {
+#if UNITY_EDITOR
+        return Mouse.current.leftButton.isPressed;
+#else
+    return Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed;
 #endif
     }
     /// <summary>

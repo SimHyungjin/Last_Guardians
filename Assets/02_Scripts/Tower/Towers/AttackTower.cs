@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 [Serializable]
 public class AdaptedAttackTowerData
@@ -27,10 +23,10 @@ public class AdaptedAttackTowerData
 
     [Header("타워버프")]
     public bool bossImmunebuff;
-    public  List<int> buffTowerIndex;
+    public List<int> buffTowerIndex;
 
 
-    public AdaptedAttackTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange, int projectileCount, float effectValue ,float effectDuration)
+    public AdaptedAttackTowerData(int towerIndex, float attackPower, float attackSpeed, float attackRange, int projectileCount, float effectValue, float effectDuration)
     {
         this.towerIndex = towerIndex;
         this.baseAttackPower = attackPower;
@@ -46,6 +42,7 @@ public class AdaptedAttackTowerData
         buffTowerIndex = new List<int>();
         this.attackSpeed = baseattackSpeed;
         this.effectValue = baseEffectValue;
+        this.attackPower = baseAttackPower;
     }
 
     //////////////////////////////////////////업그레이드////////////////////////////////////////////////
@@ -86,7 +83,7 @@ public class AttackTower : BaseTower
     private float lastCheckTime = 0f;
     public ProjectileFactory projectileFactory;
     private BaseMonster currentTargetMonster;
-
+    Collider2D[] hits;
     [Header("버프")]
     public AdaptedAttackTowerData adaptedTowerData;
     List<int> buffTowerIndex;
@@ -105,7 +102,7 @@ public class AttackTower : BaseTower
     private float bossSlayerBuff = 1f;
     private float EmergencyResponseBuff = 1f;
     private bool ContinuousAttack = false;
-    
+
     /// <summary>
     /// 초기화 함수
     /// 자기 자신의 이펙트를 저장한다.
@@ -115,7 +112,9 @@ public class AttackTower : BaseTower
     {
 
         base.Init(data);
-        adaptedTowerData = new AdaptedAttackTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount(),towerData.EffectValue,towerData.EffectDuration);
+        hits = new Collider2D[10];
+        adaptedTowerData = new AdaptedAttackTowerData(towerData.TowerIndex, towerData.AttackPower, towerData.AttackSpeed, towerData.AttackRange, projectileCount(), towerData.EffectValue, towerData.EffectDuration);
+        CalculateDamage();
         OnPlatform();
         projectileFactory = FindObjectOfType<ProjectileFactory>();
         buffTowerIndex = new List<int>();
@@ -138,9 +137,9 @@ public class AttackTower : BaseTower
             FindTarget();
             if (projectileFactory == null || towerData == null)
             {
-                return;  
+                return;
             }
-            if(target!=null)Attack();
+            if (target != null) Attack();
         }
     }
 
@@ -151,8 +150,7 @@ public class AttackTower : BaseTower
 
     void FindTarget()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
-
+        hits = Utils.OverlapCircleAllSorted(transform.position, adaptedTowerData.attackRange / 2, LayerMaskData.monster);
         float closestDist = float.MaxValue;
         Transform closest = null;
 
@@ -173,9 +171,9 @@ public class AttackTower : BaseTower
                 return;
             }
         }
-        else 
+        else
         {
-            if(ContinuousAttack)
+            if (ContinuousAttack)
             {
                 StopContinuousAttack();
             }
@@ -185,7 +183,7 @@ public class AttackTower : BaseTower
             currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
         }
         target = closest;
-        if(target!=null)currentTargetMonster = target.GetComponent<BaseMonster>();
+        if (target != null) currentTargetMonster = target.GetComponent<BaseMonster>();
         if (currentTargetMonster != null)
         {
             currentTargetMonster.OnMonsterDeathAction += HandleTargetDeath;
@@ -206,7 +204,6 @@ public class AttackTower : BaseTower
     void Attack()
     {
         if (disable) return;
-        Debug.Log($"[BaseTower]공격력 {adaptedTowerData.attackPower} ");
         //bool shouldMultyShot = isMultyTarget && UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance;
         if (target == null || !IsInRange(target.position)) return;
         int modifyProjectileCount = ModifyProjectileCount();
@@ -229,14 +226,12 @@ public class AttackTower : BaseTower
                 SoundManager.Instance.PlaySFX("LunchArrow");
                 break;
             default:
-                Debug.LogError($"[BaseTower] {towerData.TowerName} 공격타입 없음");
                 break;
         }
     }
 
     private void HandleTargetDeath()
     {
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격대상 사망");
         target = null;
         lastCheckTime = Time.time;
         currentTargetMonster.OnMonsterDeathAction -= HandleTargetDeath;
@@ -262,7 +257,7 @@ public class AttackTower : BaseTower
     {
         ContinuousAttack = true;
         int ContinuousAttackupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.ContinuousAttack];
-        ContinuousAttackBuff= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.ContinuousAttack].levels[ContinuousAttackupgradeLevel];
+        ContinuousAttackBuff = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.ContinuousAttack].levels[ContinuousAttackupgradeLevel];
         CalculateDamage();
     }
     void StopContinuousAttack()
@@ -276,7 +271,7 @@ public class AttackTower : BaseTower
     {
         int BossSlayerupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.BossSlayer];
         float bossSlayerBuffvalue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.BossSlayer].levels[BossSlayerupgradeLevel];
-        bossSlayerBuff = 1+(bossSlayerBuffvalue*Mathf.Min(MonsterManager.Instance.BossKillCount,10));
+        bossSlayerBuff = 1 + (bossSlayerBuffvalue * Mathf.Min(MonsterManager.Instance.BossKillCount, 10));
         CalculateDamage();
     }
 
@@ -287,7 +282,7 @@ public class AttackTower : BaseTower
     /// <returns></returns>
     private int projectileCount()
     {
-        if(towerData.EffectTarget==EffectTarget.Multiple)
+        if (towerData.EffectTarget == EffectTarget.Multiple)
         {
             return towerData.EffectTargetCount;
         }
@@ -310,7 +305,7 @@ public class AttackTower : BaseTower
 
         return UnityEngine.Random.Range(0f, 1f) < towerData.EffectChance
             ? adaptedTowerData.projectileCount
-            : adaptedTowerData.projectileCount - (towerData.EffectTargetCount-1);
+            : adaptedTowerData.projectileCount - (towerData.EffectTargetCount - 1);
     }
 
     public override void ApplyEmergencyResponse()
@@ -318,7 +313,7 @@ public class AttackTower : BaseTower
         base.ApplyEmergencyResponse();
         int emergencyResponseLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.Emergencyresponse];
         EmergencyResponseBuff = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.Emergencyresponse].levels[emergencyResponseLevel];
-        adaptedTowerData.effectValue = adaptedTowerData.baseEffectValue* EmergencyResponseBuff;
+        adaptedTowerData.effectValue = adaptedTowerData.baseEffectValue * EmergencyResponseBuff;
     }
 
     public override void RemoveEmergencyResponse()
@@ -335,10 +330,8 @@ public class AttackTower : BaseTower
     /// <param name="buff"></param>
     public void AttackPowerBuff(float buff)
     {
-        Debug.Log("버프타워설치");
-        if((float)1+buff> attackPowerBuff) attackPowerBuff = (float)1 + buff;
+        if ((float)1 + buff > attackPowerBuff) attackPowerBuff = (float)1 + buff;
         CalculateDamage();
-        Debug.Log($"[BaseTower] {towerData.TowerName} 공격력 증가: {adaptedTowerData.attackPower}");
     }
     public void RemoveAttackPowerBuff()
     {
@@ -352,7 +345,7 @@ public class AttackTower : BaseTower
     {
         if (isSpeedBuffed && isWindBuffed) windSpeedBuff = 1.2f;
         else windSpeedBuff = 1f;
-        float totalBuff = attackSpeedBuff * windBuff* windSpeedBuff;
+        float totalBuff = attackSpeedBuff * windBuff * windSpeedBuff;
         adaptedTowerData.attackSpeed = adaptedTowerData.baseattackSpeed / totalBuff;
     }
     public void AttackSpeedBuff(float buff)
@@ -389,7 +382,6 @@ public class AttackTower : BaseTower
     public void BossImmuneBuff()
     {
         adaptedTowerData.bossImmunebuff = true;
-        Debug.Log($"[BaseTower] {towerData.TowerName} 보스 면역 증가: {adaptedTowerData.bossImmunebuff}");
     }
 
 
@@ -400,19 +392,16 @@ public class AttackTower : BaseTower
     }
 
 
-    public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
+    public void AddEffect(int towerIndex, EnvironmentEffect environmentEffect)
     {
-        Debug.Log($"버프받음,environmentEffect={environmentEffect}");
         if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage)
         {
             this.environmentEffect.isBuffAffectedByFire = true;
-            Debug.Log("버프타워중에 불옆에있는 타워가있음");
         }
 
         if (environmentEffect.isNearWater && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.Slow)
         {
             this.environmentEffect.isBuffAffectedByWater = true;
-            Debug.Log("버프타워중에 물옆에있는 타워가있음");
         }
         bool found = false;
         if (buffTowerIndex.Contains(towerIndex)) return;
@@ -445,9 +434,9 @@ public class AttackTower : BaseTower
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
         foreach (var hit in hits)
         {
-            if(EnviromentManager.Instance.Season==Season.winter)adaptedTowerData.attackRange = towerData.AttackRange*1.1f;
+            if (EnviromentManager.Instance.Season == Season.winter) adaptedTowerData.attackRange = towerData.AttackRange * 1.1f;
             else
-            adaptedTowerData.attackRange = towerData.AttackRange*1.15f;
+                adaptedTowerData.attackRange = towerData.AttackRange * 1.15f;
             return;
         }
     }

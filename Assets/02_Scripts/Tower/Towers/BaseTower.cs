@@ -1,10 +1,6 @@
 using DG.Tweening;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -23,9 +19,9 @@ public class EnvironmentEffect
         isBuffAffectedByWater = false;
         isBuffAffectedByFire = false;
     }
-    public bool IsFireBoosted()=> isNearFire || isBuffAffectedByFire;
+    public bool IsFireBoosted() => isNearFire || isBuffAffectedByFire;
 
-    public bool IsWaterBoosted()=> isNearWater || isBuffAffectedByWater;
+    public bool IsWaterBoosted() => isNearWater || isBuffAffectedByWater;
 
 }
 
@@ -43,11 +39,10 @@ public abstract class BaseTower : MonoBehaviour
     [Header("타워 외관")]
     protected Animator animator;
     private GradeStar gradeStar;
-    [SerializeField]private TextMeshPro towerNameText;
+    [SerializeField] private TextMeshPro towerNameText;
 
     Vector2 curPos;
 
-    protected float maxbuffRadius = 5f;
     protected bool disable;
 
     private float touchTime = 0.5f;
@@ -60,7 +55,7 @@ public abstract class BaseTower : MonoBehaviour
     /// <param name="_towerData"></param>
     public virtual void Init(TowerData _towerData)
     {
-        towerUpgradeData= Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
+        towerUpgradeData = Resources.Load<TowerUpgradeData>("SO/Tower/TowerUpgrade/TowerUpgrade");
         towerData = _towerData;
         InputManager.Instance?.BindTouchPressed(OnTouchStart, OnTouchEnd);
         sprite = GetComponent<SpriteRenderer>();
@@ -102,13 +97,11 @@ public abstract class BaseTower : MonoBehaviour
             PlantedEffect plantedEffect = hit.GetComponent<PlantedEffect>();
             if (trapObject != null)
             {
-                Debug.Log("설치위치에 트랩있음 다부신다");
                 trapObject.ChageState(TrapObjectState.CantActive);
             }
             if (basePlantedObstacle != null)
             {
-                Debug.Log("설치위치에 장애물있음 다부신다");
-                if(EnviromentManager.Instance.Obstacles.Contains(basePlantedObstacle))
+                if (EnviromentManager.Instance.Obstacles.Contains(basePlantedObstacle))
                     EnviromentManager.Instance.Obstacles.Remove(basePlantedObstacle);
                 Destroy(basePlantedObstacle.gameObject);
             }
@@ -117,11 +110,9 @@ public abstract class BaseTower : MonoBehaviour
                 switch (plantedEffect.obstacleType)
                 {
                     case ObstacleType.Water:
-                        Debug.Log("설치위치옆에 물있음");
                         environmentEffect.isNearWater = true;
                         break;
                     case ObstacleType.Fire:
-                        Debug.Log("설치위치옆에 불있음");
                         environmentEffect.isNearFire = true;
                         break;
 
@@ -130,14 +121,14 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
-        
+
     protected virtual void Update()
     {
 
     }
 
     ///////////=====================터치관련=====================================/////////////////////
-    
+
     /// <summary>
     /// 터치시 호출된다.
     /// 일반터치와 홀드터치로 나뉘어져있다.
@@ -147,6 +138,7 @@ public abstract class BaseTower : MonoBehaviour
     /// <param name="ctx"></param>
     private void OnTouchStart(InputAction.CallbackContext ctx)
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (this == null) return;
         if (!isClicked)
         {
@@ -154,7 +146,7 @@ public abstract class BaseTower : MonoBehaviour
             Collider2D hit = Physics2D.OverlapPoint(curPos, LayerMaskData.tower);
             if (hit != null && hit.gameObject == this.gameObject && TowerManager.Instance.CanStartInteraction())
             {
-                Debug.Log("Tower Touch Start");
+                TowerManager.Instance.towerbuilder.OnAttackRangeCircle(TowerManager.Instance.towerbuilder.PostionArray(curPos), towerData);
                 isClicked = true;
                 hasTriggeredHold = false;
                 if (holdCheckCoroutine != null) StopCoroutine(holdCheckCoroutine);
@@ -174,6 +166,7 @@ public abstract class BaseTower : MonoBehaviour
         if (this == null) return;
         if (isClicked)
         {
+            TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
             if (!hasTriggeredHold)
             {
                 isClicked = false;
@@ -182,7 +175,6 @@ public abstract class BaseTower : MonoBehaviour
             else
             {
                 isClicked = false;
-                TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
                 TowerManager.Instance.towerbuilder.ChangeTowerDontMove(this);
                 TowerManager.Instance.EndInteraction(InteractionState.TowerMoving);
                 if (TowerManager.Instance.towerbuilder.CanTowerToTowerCombine(InputManager.Instance.GetTouchWorldPosition()))
@@ -206,15 +198,14 @@ public abstract class BaseTower : MonoBehaviour
         if (isClicked)
         {
             hasTriggeredHold = true;
+            TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
             TowerManager.Instance.towerbuilder.ChangeTowerMove(this);
             TowerManager.Instance.StartInteraction(InteractionState.TowerMoving);
-            Debug.Log("Hold Activated");
         }
     }
 
     private void ShowTowerName()
     {
-        Debug.Log("Show Tower Name");
         if (towerNameText != null)
         {
             towerNameText.gameObject.SetActive(true);
@@ -228,7 +219,7 @@ public abstract class BaseTower : MonoBehaviour
         TowerManager.Instance.RemoveTower(this);
     }
     protected virtual void OnDestroy()
-    {   
+    {
         if (TowerManager.Instance.gameObject.activeInHierarchy)
         {
             TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
@@ -253,7 +244,7 @@ public abstract class BaseTower : MonoBehaviour
     /// </summary>
     protected void ScanBuffTower()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, TowerManager.Instance.maxbuffRadius, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -281,11 +272,9 @@ public abstract class BaseTower : MonoBehaviour
             switch (plantedEffect.obstacleType)
             {
                 case ObstacleType.Water:
-                    Debug.Log("설치위치옆에 물있음");
                     environmentEffect.isNearWater = true;
                     break;
                 case ObstacleType.Fire:
-                    Debug.Log("설치위치옆에 불있음");
                     environmentEffect.isNearFire = true;
                     break;
 

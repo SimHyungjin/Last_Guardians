@@ -5,7 +5,7 @@ public class PlayerBaseStatSO
     public string playerDescription = "기본 캐릭터";
 
     public AttackType attackType = AttackType.Melee;
-    public float AttackPower = 20; 
+    public float AttackPower = 20;
     public float AttackSpeed = 1f;
     public float AttackRange = 1.2f;
     public float MoveSpeed = 2;

@@ -1,9 +1,5 @@
 using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +10,7 @@ public class SpawnBountyMonster : MonoBehaviour // 현상금 몬스터 UI
     [SerializeField] private Image spawnCoolTimer;
     private TextMeshProUGUI spawnText;
     private int spawnIndex;
-    
+
 
     private void Awake()
     {
@@ -39,7 +35,7 @@ public class SpawnBountyMonster : MonoBehaviour // 현상금 몬스터 UI
     //현상금 몬스터 소환
     private void SpwanBountyMonster()
     {
-        if(MonsterManager.Instance != null && MonsterManager.Instance.SpawnTimer <= 0f)
+        if (MonsterManager.Instance != null && MonsterManager.Instance.SpawnTimer <= 0f)
         {
             MonsterManager.Instance.SpawnBounty(spawnIndex);
             MonsterManager.Instance.StartSpawnTimer();

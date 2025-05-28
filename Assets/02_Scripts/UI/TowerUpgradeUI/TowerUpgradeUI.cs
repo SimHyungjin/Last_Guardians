@@ -1,29 +1,26 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
-using System;
-using UnityEngine.EventSystems;
 
 public class TowerUpgradeUI : MonoBehaviour
 {
-    [Header("µ•¿Ã≈Õ")]
+    [Header("Îç∞Ïù¥ÌÑ∞")]
     public TowerUpgrade towerUpgrade;
     [SerializeField] private TextMeshProUGUI currentMasteryPoint;
 
-    [Header("º≥∏Ì√¢")]
+    [Header("ÏÑ§Î™ÖÏ∞Ω")]
     [SerializeField] private GameObject descriptionPanel;
     [SerializeField] private TextMeshProUGUI descriptionTitleText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
-    [Header("æ˜±◊∑π¿ÃµÂ πˆ∆∞")]
+    [Header("ÏóÖÍ∑∏Î†àÏù¥Îìú Î≤ÑÌäº")]
     [SerializeField] private List<Button> buttons;
     [SerializeField] private List<TextMeshProUGUI> level;
     [SerializeField] private Image fillBox;
 
-    [Header("∏Æº¬ πˆ∆∞")]
+    [Header("Î¶¨ÏÖã Î≤ÑÌäº")]
     bool isResetPanelActive = false;
     [SerializeField] private Button resetEntryButton;
     [SerializeField] private Image resetPannel;
@@ -64,7 +61,6 @@ public class TowerUpgradeUI : MonoBehaviour
         {
             if (isButtonHeld)
             {
-                Debug.Log("Button Hold Time: " + buttonHoldTime);
                 buttonHoldTime += Time.deltaTime;
                 if (buttonHoldTime >= 0.5f && currentButtonIndex != -1)
                 {
@@ -96,11 +92,11 @@ public class TowerUpgradeUI : MonoBehaviour
             {
                 SetButtonActive(button, true);
             }
-            else if (towerUpgrade.towerUpgradeData.usedMasteryPoint >= 10 && IsTier2(type))
+            else if (towerUpgrade.towerUpgradeData.SumOfLevelUP >= 10 && IsTier2(type))
             {
                 SetButtonActive(button, true);
             }
-            else if (towerUpgrade.towerUpgradeData.usedMasteryPoint >= 20 && IsTier3(type))
+            else if (towerUpgrade.towerUpgradeData.SumOfLevelUP >= 20 && IsTier3(type))
             {
                 SetButtonActive(button, true);
             }
@@ -121,7 +117,7 @@ public class TowerUpgradeUI : MonoBehaviour
 
         }
     }
-  
+
     private void HandleButtonHeld(Button button, bool isHeld)
     {
 
@@ -199,7 +195,7 @@ public class TowerUpgradeUI : MonoBehaviour
         {
             button.GetComponent<Image>().color = Color.white;
             level[index].gameObject.SetActive(true);
-            String levelText = "Lv.  "+ towerUpgrade.towerUpgradeData.currentLevel[index].ToString();
+            String levelText = "Lv.  " + towerUpgrade.towerUpgradeData.currentLevel[index].ToString();
             level[index].text = levelText;
         }
         else
@@ -211,13 +207,12 @@ public class TowerUpgradeUI : MonoBehaviour
 
     public void ShowDescription(int index)
     {
-        Debug.Log("Button Clicked: " + (TowerUpgradeType)index);
         TowerUpgradeType type = (TowerUpgradeType)index;
         descriptionTitleText.text = type.ToString();
         descriptionText.text = towerUpgrade.towerUpgradeData.description[index];
 
         descriptionPanel.transform.SetParent(buttons[index].transform);
-        descriptionPanel.transform.localPosition = new Vector3(0,150,0);
+        descriptionPanel.transform.localPosition = new Vector3(0, 150, 0);
         descriptionPanel.SetActive(true);
     }
 

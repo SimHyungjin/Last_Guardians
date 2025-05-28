@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// MainSceneManager는 메인 씬의 UI를 관리하는 싱글톤 클래스입니다.
@@ -13,16 +14,21 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public Inventory inventory;
     public Equipment equipment;
     public Upgrade upgrade;
-    public InventoryGroup inventoryGroup;
+    public InventoryManager inventoryManager;
     public TowerUpgrade TowerUpgrade;
     public TutorialUI EquipTutorial;
     public TutorialUI UpgradeTutorial;
     private void Awake()
     {
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            Destroy(gameObject);
+            return;
+        }
         inventory ??= new();
         equipment ??= new();
         upgrade ??= new();
-        TowerUpgrade=Resources.Load<TowerUpgrade>("UI/MainScene/TowerUpgrade");
+        TowerUpgrade = Resources.Load<TowerUpgrade>("UI/MainScene/TowerUpgrade");
         EquipTutorial = Resources.Load<TutorialUI>("UI/MainScene/EquipTutorial");
         UpgradeTutorial = Resources.Load<TutorialUI>("UI/MainScene/UpgradeTutorial");
 
@@ -122,12 +128,12 @@ public class MainSceneManager : Singleton<MainSceneManager>
     public void LoadInventory(GameObject obj)
     {
         if (panelMap.ContainsKey("InventoryGroup")) return;
+        upgrade.Init();
 
         var groupObj = Utils.InstantiatePrefabFromResource("UI/MainScene/InventoryGroup", obj.transform);
-        inventoryGroup = groupObj.GetComponent<InventoryGroup>();
+        inventoryManager = groupObj.GetComponent<InventoryManager>();
+        inventoryManager.Init();
 
-        upgrade.Init();
-        inventoryGroup.Init();
         panelMap["InventoryGroup"] = groupObj;
     }
 }

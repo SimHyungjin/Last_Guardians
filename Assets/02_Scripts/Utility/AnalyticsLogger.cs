@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
-using UnityEngine;
 
 public static class AnalyticsLogger
 {
@@ -30,7 +29,6 @@ public static class AnalyticsLogger
 
             AnalyticsService.Instance.RecordEvent(customEvent);
         }
-        Debug.Log("LogTowerSelect Complete");
     }
 
     public static void LogTowerUpgrade(TowerUpgradeData data)
@@ -45,7 +43,6 @@ public static class AnalyticsLogger
             customEvent.Add("Towerupgrade_Level", data.currentLevel[i]);
             AnalyticsService.Instance.RecordEvent(customEvent);
         }
-        Debug.Log("LogTowerUpgrade Complete");
     }
 
     public static void LogWaveEnd(bool isGameOver, int wave)
@@ -57,7 +54,6 @@ public static class AnalyticsLogger
         customEvent.Add("Gameover_Wave", wave);
 
         AnalyticsService.Instance.RecordEvent(customEvent);
-        Debug.Log("LogWaveEnd Complete");
     }
 
     public static void LogUserEquip(int index, int wave)
@@ -67,6 +63,5 @@ public static class AnalyticsLogger
         customEvent.Add("Item_Index", index);
         customEvent.Add("User_Wave", wave);
         AnalyticsService.Instance.RecordEvent(customEvent);
-        Debug.Log("LogUserEquip Complete");
     }
 }

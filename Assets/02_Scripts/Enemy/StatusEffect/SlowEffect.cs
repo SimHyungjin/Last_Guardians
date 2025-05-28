@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class SlowEffect : StatusEffect
 {
     public SlowEffect(float amount, float duration) : base(amount, duration)

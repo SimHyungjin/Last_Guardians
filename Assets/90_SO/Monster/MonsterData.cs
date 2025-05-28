@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum MonType
@@ -16,7 +14,7 @@ public enum MonAttackPattern
     Support
 }
 
-[CreateAssetMenu(fileName = "New Monster Data",menuName = "Data/Monster Data")]
+[CreateAssetMenu(fileName = "New Monster Data", menuName = "Data/Monster Data")]
 public class MonsterData : ScriptableObject
 {
     [SerializeField] private int monsterIndex;
@@ -50,7 +48,7 @@ public class MonsterData : ScriptableObject
     public SPUM_Prefabs Prefab => prefab;
 
 
-    public void SetData(int monsterIndex, string monsterName, float monsterHP,float monsterSpeed, int monsterDamage, float monsterDef, int exp, string monsterDescription, MonType monsterType, bool hasSkill, int monsterSkillID, MonAttackPattern attackPattern)
+    public void SetData(int monsterIndex, string monsterName, float monsterHP, float monsterSpeed, int monsterDamage, float monsterDef, int exp, string monsterDescription, MonType monsterType, bool hasSkill, int monsterSkillID, MonAttackPattern attackPattern)
     {
         this.monsterIndex = monsterIndex;
         this.monsterName = monsterName;

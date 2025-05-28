@@ -1,61 +1,59 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
+public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
 {
     public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
-        //ÁÖº¯¿¡ ½ºÇÃ·¹½Ã ´ë¹ÌÁö
+        //ì£¼ë³€ì— ìŠ¤í”Œë ˆì‹œ ëŒ€ë¯¸ì§€
         if (towerData.EffectTargetCount == 0)
         {
-            if (towerData.EffectTarget == EffectTarget.All)
-            {
-                target.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
-            }
-            else
-            {
-                BossMonster bossMonster = target.GetComponent<BossMonster>();
-                if (bossMonster != null)
-                {
-                    bossMonster.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
-                }
-            }
+            //if (towerData.EffectTarget == EffectTarget.All)
+            //{
+            //    target.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
+            //}
+            //else
+            //{
+            //    BossMonster bossMonster = target.GetComponent<BossMonster>();
+            //    if (bossMonster != null)
+            //    {
+            //        bossMonster.TakeDamage(adaptedTowerData.attackPower * adaptedTowerData.effectValue);
+            //    }
+            //}
         }
-        //ÇÇ°İ½Ã ÇÇ°İÀ§Ä¡¿¡¼­ Ãß°¡ÅºÈ¯ ¹ß»ç
+        //í”¼ê²©ì‹œ í”¼ê²©ìœ„ì¹˜ì—ì„œ ì¶”ê°€íƒ„í™˜ ë°œì‚¬
         else
         {
             TowerData ownerTowerData = this.gameObject.GetComponent<ProjectileBase>().GetTowerData();
-            if(ownerTowerData.EffectTarget==EffectTarget.BossOnly)
+            if (ownerTowerData.EffectTarget == EffectTarget.BossOnly)
             {
                 if (target.MonsterData.MonsterType == MonType.Boss)
                     ChainShot(target, ownerTowerData, adaptedTowerData);
             }
             else
+            {
                 ChainShot(target, ownerTowerData, adaptedTowerData);
+            }
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData,AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
     {
 
     }
 
     /// <summary>
-    /// Ãß°¡ÅºÈ¯ ¹ß»ç·ÎÁ÷
-    /// ±âÁ¸ÀÇ Projectile¿¡¼­ Ãß°¡·Î ¹ß»çÇÏµÇ ChainAttackRffect¸¦ Á¦°ÅÇÏ°í ¹ß»ç(¹«ÇÑÁõ½Ä ¹æÁö)
-    /// ºí·¡½ºÅÍµµ ±¸ÇöµÇ¾îÀÖÀ¸³ª »ç¿ëÇÏÁö ¾Ê¾Æ¼­ ÁÖ¼®Ã³¸®
+    /// ì¶”ê°€íƒ„í™˜ ë°œì‚¬ë¡œì§
+    /// ê¸°ì¡´ì˜ Projectileì—ì„œ ì¶”ê°€ë¡œ ë°œì‚¬í•˜ë˜ ChainAttackRffectë¥¼ ì œê±°í•˜ê³  ë°œì‚¬(ë¬´í•œì¦ì‹ ë°©ì§€)
+    /// ë¸”ë˜ìŠ¤í„°ë„ êµ¬í˜„ë˜ì–´ìˆìœ¼ë‚˜ ì‚¬ìš©í•˜ì§€ ì•Šì•„ì„œ ì£¼ì„ì²˜ë¦¬
     /// </summary>
     /// <param name="target"></param>
     /// <param name="ownerTowerData"></param>
     /// <param name="adaptedTowerData"></param>
     private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedAttackTowerData adaptedTowerData)
     {
-        Debug.Log($"[ChainAttack] ChainShot called. TowerData: {ownerTowerData.TowerIndex}");
         float angleStep = 10f;
         int additionalCount = ownerTowerData.EffectTargetCount;
-        Debug.Log($"[ChainAttack] additionalCount: {additionalCount}");
         Vector2 origin = transform.position;
         Vector2 forward = transform.right;
 
@@ -89,7 +87,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour,IEffect
                     magicprojectile.OriginTarget = target;
                     magicprojectile.transform.position = spawnPosition;
                     magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself,null);
+                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself, null);
                     TowerManager.Instance.projectileFactory.AddAllEffects(magicprojectile, effectsubself);
                     magicprojectile.Launch(origin + dir * 10f);
                     break;

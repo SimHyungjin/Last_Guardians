@@ -27,9 +27,9 @@ MonoBehaviour:
   specialEffect: 8
   effectChance: 1
   effectDuration: 3
-  effectValue: 0
+  effectValue: 0.3
   effectTarget: 1
-  effectTargetCount: 1
+  effectTargetCount: 0
   bossImmune: 1
   upgradeLevel: 1
   towerDescription: "\uBC18\uACBD \uB0B4 \uBC18\uB300 \uBC29\uD5A5\uC73C\uB85C \uC774\uB3D9\uD558\uB294

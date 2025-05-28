@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EffectHandler : MonoBehaviour
@@ -17,7 +15,7 @@ public class EffectHandler : MonoBehaviour
     {
         float time = Time.deltaTime;
 
-        for(int i = effects.Count - 1; i >= 0; i--)
+        for (int i = effects.Count - 1; i >= 0; i--)
         {
             var effect = effects[i];
             effect.UpdateEffect(baseMonster, time);
@@ -34,9 +32,9 @@ public class EffectHandler : MonoBehaviour
         //중복처리
         var existEffect = effects.Find(a => a.GetType() == effect.GetType());
 
-        if(existEffect != null)
+        if (existEffect != null)
         {
-            if(existEffect.Amount != effect.Amount)
+            if (existEffect.Amount != effect.Amount)
             {
                 existEffect.Amount = Mathf.Max(existEffect.Amount, effect.Amount);
             }
@@ -71,7 +69,7 @@ public class EffectHandler : MonoBehaviour
     // 모든상태이상 제거
     public void ClearAllEffect()
     {
-        foreach(var effect in effects)
+        foreach (var effect in effects)
         {
             effect.RemoveEffect(baseMonster);
         }
@@ -83,7 +81,7 @@ public class EffectHandler : MonoBehaviour
     {
         for (int i = effects.Count - 1; i >= 0; i--)
         {
-            if(effects[i].BuffDeBuff == BuffDeBuff.Buff)
+            if (effects[i].BuffDeBuff == BuffDeBuff.Buff)
             {
                 effects[i].RemoveEffect(baseMonster);
                 effects.RemoveAt(i);
@@ -106,10 +104,9 @@ public class EffectHandler : MonoBehaviour
 
     public void AllDebuffTimerPlus(float duration)
     {
-        foreach(var effect in effects)
+        foreach (var effect in effects)
         {
             effect.Duration = duration + effect.Duration;
-            Debug.Log($"디버프 시간 늘어남 {effect}, 늘어난시간 : {duration} 최종 시간 : {effect.Duration}");
         }
     }
 
@@ -120,8 +117,8 @@ public class EffectHandler : MonoBehaviour
 
     public StatusEffect GetEffect(StatusEffect effect)
     {
-        if(effects.Contains(effect))
-            return effects.Find(a=>a.Equals(effect));
+        if (effects.Contains(effect))
+            return effects.Find(a => a.Equals(effect));
         else return effect;
     }
 }

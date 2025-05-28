@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class HoldSoundButton : MonoBehaviour,
@@ -8,26 +8,26 @@ public class HoldSoundButton : MonoBehaviour,
     IPointerUpHandler,
     IPointerExitHandler
 {
-    [Tooltip("´©¸£°í ÀÖ´Â µ¿¾È ¹İº¹ Àç»ıÇÒ È¿°úÀ½ ÀÌ¸§")]
+    [Tooltip("ëˆ„ë¥´ê³  ìˆëŠ” ë™ì•ˆ ë°˜ë³µ ì¬ìƒí•  íš¨ê³¼ìŒ ì´ë¦„")]
     public string holdSoundName = "Upgrade";
 
     private bool isHeld = false;
 
-    // ¹öÆ°À» ´©¸£´Â ¼ø°£¸¶´Ù È£Ãâ
+    // ë²„íŠ¼ì„ ëˆ„ë¥´ëŠ” ìˆœê°„ë§ˆë‹¤ í˜¸ì¶œ
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"HoldSoundButton: OnPointerDown on {gameObject.name}");
+
         isHeld = true;
         SoundManager.Instance.PlaySFXLoop(holdSoundName);
     }
 
-    // ¹öÆ°¿¡¼­ ¼ÕÀ» ¶¿ ¶§
+    // ë²„íŠ¼ì—ì„œ ì†ì„ ë—„ ë•Œ
     public void OnPointerUp(PointerEventData eventData)
     {
         ReleaseHold();
     }
 
-    // ¹öÆ° ¿µ¿ª ¹ÛÀ¸·Î µå·¡±×µÇ¾î ³ª°¬À» ¶§
+    // ë²„íŠ¼ ì˜ì—­ ë°–ìœ¼ë¡œ ë“œë˜ê·¸ë˜ì–´ ë‚˜ê°”ì„ ë•Œ
     public void OnPointerExit(PointerEventData eventData)
     {
         ReleaseHold();
@@ -37,7 +37,10 @@ public class HoldSoundButton : MonoBehaviour,
     {
         if (!isHeld) return;
         isHeld = false;
-        Debug.Log($"HoldSoundButton: ReleaseHold on {gameObject.name}");
-        SoundManager.Instance.StopSFXLoop();
+
+        // ì—¬ê¸°ì„œ ë£¨í”„ ì¬ìƒì„ ë°˜ë“œì‹œ ì¤‘ì§€
+        SoundManager.Instance.StopSFX();
+
+
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,34 +9,37 @@ public class MainSceneButtonView : MonoBehaviour
     [SerializeField] private Button soundOptionBtn;
     [SerializeField] private Button idleBtn;
     [SerializeField] private Button TowerUpgradeBtn;
-
+    [SerializeField] private Button TutorialButton;
 
     [SerializeField] private IdleRewardPopupUI idlePopup;
 
     public void Init(MainSceneManager mainSceneManager)
     {
-        
+
         inventoryBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         bookBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         soundOptionBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         idleBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         TowerUpgradeBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
         startBtn.onClick.AddListener(() => SoundManager.Instance.PlaySFX("FadeOut"));
-
+        TutorialButton.onClick.AddListener(() => SoundManager.Instance.PlaySFX("PopUp"));
 
 
         startBtn.onClick.AddListener(() =>
         {
+            if (PlayerPrefs.GetInt("InGameTutorial")!=1)
+            { SceneLoader.LoadSceneWithFade("TutorialScene", true, ToGameScene); }
             SceneLoader.LoadSceneWithFade("GameScene", true, ToGameScene);
         });
 
         inventoryBtn.onClick.AddListener(() =>
         {
             mainSceneManager.LoadInventory(mainSceneManager.canvas);
-            
-            mainSceneManager.ShowPanel("InventoryGroup");
-            if(PlayerPrefs.GetInt("EquipTutorial")!=1)
-                mainSceneManager.ShowPanel("EquipTutorial",null,false);
+
+            if (PlayerPrefs.GetInt("EquipTutorial") != 1)
+                mainSceneManager.ShowPanel("EquipTutorial", null, false);
+            else mainSceneManager.ShowPanel("InventoryGroup");
+
         });
 
         bookBtn.onClick.AddListener(() =>
@@ -52,16 +54,24 @@ public class MainSceneButtonView : MonoBehaviour
 
         TowerUpgradeBtn.onClick.AddListener(() =>
         {
-            mainSceneManager.ShowPanel("TowerUpgrade");
+
             if (PlayerPrefs.GetInt("UpgradeTutorial") != 1)
                 mainSceneManager.ShowPanel("UpgradeTutorial", null, false);
+            else mainSceneManager.ShowPanel("TowerUpgrade");
         });
-    
+
         idleBtn.onClick.AddListener(() =>
-        {                  
+        {
             mainSceneManager.ShowPanel("IdleRewardPopup");
         });
+
+        TutorialButton.onClick.AddListener(() =>
+        {
+                SceneLoader.LoadSceneWithFade("TutorialScene", true, ToGameScene);
+        });
     }
+
+   
 
     private void ToGameScene()
     {

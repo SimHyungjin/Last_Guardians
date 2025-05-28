@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class AnimationConnect : MonoBehaviour //몬스터 프리팹 애니메이션 컨트롤러
 {

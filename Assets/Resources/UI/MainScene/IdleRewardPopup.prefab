@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2084773761, guid: f5d95d11b9309374e927f09f5a701970, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 099e03fd55f926c40bf627e9bff63361, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -575,7 +575,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1685624775, guid: f5d95d11b9309374e927f09f5a701970, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c998e22cd0dd814c816a3e238964d42, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -814,14 +814,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e710d51823374d24d99849b5513bce41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 4535736174392179552}
   goldText: {fileID: 5816332775054798421}
   stoneText: {fileID: 8185207042680151134}
   elapsedTimeText: {fileID: 9058835999911596033}
   nextRewardText: {fileID: 5572594726906257021}
   claimButton: {fileID: 4277926117965762264}
   closeButton: {fileID: 2376995767156513038}
-  screenBlocker: {fileID: 7779154903426537337}
 --- !u!1 &6300984033454021991
 GameObject:
   m_ObjectHideFlags: 0

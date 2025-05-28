@@ -21,13 +21,9 @@ public class RewardManager : Singleton<RewardManager>
             return;
         }
 
-        Debug.Log($"[RewardManager] 웨이브 {wave} 보상 지급 시작");
-
         Gold = CalculateGold(wave);
         Stone = CalculateStone(wave);
         EquipIndices = CalculateEquips(wave);
-
-        Debug.Log($"[RewardManager] 골드: {Gold}, 강화석: {Stone}, 장비 개수: {EquipIndices.Count}");
     }
 
     #region 골드 보상 (50*wave ~ 100*wave)
@@ -37,7 +33,7 @@ public class RewardManager : Singleton<RewardManager>
         int maxGold = 100 * wave;
         int result = Random.Range(minGold, maxGold + 1);
 
-        SaveSystem.SaveGoldReward(result);
+        SaveSystem.SaveGetGold(result);
         return result;
     }
     #endregion
@@ -54,7 +50,7 @@ public class RewardManager : Singleton<RewardManager>
         float roll = Random.Range(0f, 100f);
 
         int stoneCount = (roll <= dropChance) ? maxStone : minStone;
-        SaveSystem.SaveUpgradeStonedReward(stoneCount);
+        SaveSystem.SaveGetUpgradeStone(stoneCount);
 
         return stoneCount;
     }
@@ -85,7 +81,7 @@ public class RewardManager : Singleton<RewardManager>
 
             var picked = candidates[Random.Range(0, candidates.Count)];
             result.Add(picked.ItemIndex);
-            SaveSystem.SaveEquipReward(picked.ItemIndex);
+            SaveSystem.SaveGetItem(GameManager.Instance.ItemManager.GetItemInstanceByIndex(picked.ItemIndex));
         }
 
         return result;

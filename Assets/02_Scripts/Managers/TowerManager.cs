@@ -1,7 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
 
 public enum InteractionState
 {
@@ -28,6 +28,7 @@ public class TowerManager : Singleton<TowerManager>
     public List<BaseTower> Towers;
     public Sprite[] TowerIcons;
 
+    public float maxbuffRadius=8f;
     public InteractionState CurrentState { get; private set; } = InteractionState.None;
 
     private void OnEnable()
@@ -44,15 +45,15 @@ public class TowerManager : Singleton<TowerManager>
 
     public AdaptedBuffTowerData GetAdaptedBuffTowerData(int index)
     {
-        TowerData towerdata =towerDataMap.TryGetValue(index, out var data) ? data : null;
-        AdaptedBuffTowerData adaptedBuffTowerData = new AdaptedBuffTowerData(index,towerdata.EffectValue,towerdata.AttackRange,towerdata.EffectDuration);
+        TowerData towerdata = towerDataMap.TryGetValue(index, out var data) ? data : null;
+        AdaptedBuffTowerData adaptedBuffTowerData = new AdaptedBuffTowerData(index, towerdata.EffectValue, towerdata.AttackRange, towerdata.EffectDuration);
         return adaptedBuffTowerData;
     }
     public AdaptedAttackTowerData GetAdaptedAttackTowerData(int index)
     {
         TowerData towerdata = towerDataMap.TryGetValue(index, out var data) ? data : null;
-        AdaptedAttackTowerData adaptedAttackTowerData = 
-            new AdaptedAttackTowerData(index, towerdata.AttackPower, towerdata.AttackSpeed, towerdata.AttackRange,towerdata.EffectTargetCount,towerdata.EffectValue,towerdata.EffectDuration);
+        AdaptedAttackTowerData adaptedAttackTowerData =
+            new AdaptedAttackTowerData(index, towerdata.AttackPower, towerdata.AttackSpeed, towerdata.AttackRange, towerdata.EffectTargetCount, towerdata.EffectValue, towerdata.EffectDuration);
         return adaptedAttackTowerData;
     }
     public AdaptedTrapObjectData GetAdaptedTrapObjectData(int index)
@@ -73,7 +74,7 @@ public class TowerManager : Singleton<TowerManager>
             return null;
     }
 
-    ///////////=========================»óÅÂÀüÈ¯=================================/////////////////////
+    ///////////=========================ìƒíƒœì „í™˜=================================/////////////////////
 
     public bool CanStartInteraction()
     {
@@ -83,20 +84,18 @@ public class TowerManager : Singleton<TowerManager>
     public void StartInteraction(InteractionState newState)
     {
         CurrentState = newState;
-        Debug.Log($"Interaction started: {newState}");
     }
 
     public void EndInteraction(InteractionState endState)
     {
         if (CurrentState == endState)
             CurrentState = InteractionState.None;
-        Time.timeScale = 1f;
-        Debug.Log($"Interaction ended: {endState}");
+        Time.timeScale = InGameManager.Instance.TimeScale;
     }
 
 
 
-    ///////////============================Å¸¿ö ¸®½ºÆ® °ü¸®¿ë==============================/////////////////////
+    ///////////============================íƒ€ì›Œ ë¦¬ìŠ¤íŠ¸ ê´€ë¦¬ìš©==============================/////////////////////
 
     public void AddTower(BaseTower tower)
     {
@@ -108,19 +107,18 @@ public class TowerManager : Singleton<TowerManager>
         Towers.Remove(tower);
     }
 
-    ///////////============================±âÅ¸ ¸Ş¼­µå==============================/////////////////////
+    ///////////============================ê¸°íƒ€ ë©”ì„œë“œ==============================/////////////////////
 
     /// <summary>
-    /// Å¸¿ö ÆÄ±«ÈÄ ´ÙÀ½ ÇÁ·¹ÀÓ¿¡ È£ÃâµÇ´Â ¸Ş¼­µå
-    /// ¿ÀºêÁ§Æ®°¡ ÆÄ±« ÈÄ È£ÃâÇØÁÙ ¼ö ÀÖ´Â À§Ä¡°¡ ¾ø¾î¼­ Å¸¿ö¸Å´ÏÀú¿¡¼­ °ü¸®
-    /// Å¸¿ö À§Ä¡ÀÇ Æ®·¦¿ÀºêÁ§Æ®°¡ÀÖÀ¸¸é ´Ù½Ã ¼³Ä¡ÇÒ ¼ö ÀÖµµ·Ï ÇØÁÜ
+    /// íƒ€ì›Œ íŒŒê´´í›„ ë‹¤ìŒ í”„ë ˆì„ì— í˜¸ì¶œë˜ëŠ” ë©”ì„œë“œ
+    /// ì˜¤ë¸Œì íŠ¸ê°€ íŒŒê´´ í›„ í˜¸ì¶œí•´ì¤„ ìˆ˜ ìˆëŠ” ìœ„ì¹˜ê°€ ì—†ì–´ì„œ íƒ€ì›Œë§¤ë‹ˆì €ì—ì„œ ê´€ë¦¬
+    /// íƒ€ì›Œ ìœ„ì¹˜ì˜ íŠ¸ë©ì˜¤ë¸Œì íŠ¸ê°€ìˆìœ¼ë©´ ë‹¤ì‹œ ì„¤ì¹˜í•  ìˆ˜ ìˆë„ë¡ í•´ì¤Œ
     /// </summary>
     /// <param name="destroyedPos"></param>
     /// <returns></returns>
     public IEnumerator NotifyTrapObjectNextFrame(Vector2 destroyedPos)
     {
         yield return null;
-
         Collider2D[] hits = Physics2D.OverlapPointAll(destroyedPos, LayerMaskData.trapObject);
 
         foreach (var hit in hits)
@@ -129,24 +127,22 @@ public class TowerManager : Singleton<TowerManager>
             if (trapObject != null)
             {
                 trapObject.CanPlant();
-                Debug.Log(trapObject.transform);
             }
         }
     }
 
     /// <summary>
-    /// Å¸¿ö°¡ º¸½º ½½·¹ÀÌ¾î ¹öÇÁ¸¦ Àû¿ëÇÏ´Â ¸Ş¼­µå
+    /// íƒ€ì›Œê°€ ë³´ìŠ¤ ìŠ¬ë ˆì´ì–´ ë²„í”„ë¥¼ ì ìš©í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     public void ApplyBossSlayer()
     {
         if (Towers == null)
         {
-            Debug.LogWarning("Towers ¸®½ºÆ®°¡ nullÀÔ´Ï´Ù.");
             return;
         }
         foreach (var tower in Towers)
         {
-            if (tower is AttackTower attackTower) 
+            if (tower is AttackTower attackTower)
             {
                 attackTower.BossSlayerBuff();
             }
@@ -157,7 +153,6 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (Towers == null)
         {
-            Debug.LogWarning("Towers ¸®½ºÆ®°¡ nullÀÔ´Ï´Ù.");
             return;
         }
         foreach (var tower in Towers)
@@ -170,7 +165,6 @@ public class TowerManager : Singleton<TowerManager>
     {
         if (Towers == null)
         {
-            Debug.LogWarning("Towers ¸®½ºÆ®°¡ nullÀÔ´Ï´Ù.");
             return;
         }
         foreach (var tower in Towers)

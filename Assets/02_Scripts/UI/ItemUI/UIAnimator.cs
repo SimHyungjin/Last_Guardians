@@ -21,7 +21,6 @@ public class UIAnimator : MonoBehaviour
         }
         if (sprites.Length == 0)
         {
-            Debug.LogWarning("No sprites assigned to UIAnimator.");
             enabled = false;
         }
     }

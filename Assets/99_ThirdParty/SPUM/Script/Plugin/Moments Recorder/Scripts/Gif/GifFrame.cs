@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2015 Thomas Hourdel
  *
  * This software is provided 'as-is', without any express or implied
@@ -25,10 +25,10 @@ using UnityEngine;
 
 namespace Moments.Encoder
 {
-	public class GifFrame
-	{
-		public int Width;
-		public int Height;
-		public Color32[] Data;
-	}
+    public class GifFrame
+    {
+        public int Width;
+        public int Height;
+        public Color32[] Data;
+    }
 }

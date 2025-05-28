@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using UnityEngine.Tilemaps;   
 
 public class InGameManager : Singleton<InGameManager>
 {
@@ -17,8 +17,14 @@ public class InGameManager : Singleton<InGameManager>
     public Canvas DamageUICanvas { get; private set; }
 
     private Transform target;
+
+    public float TimeScale { get; private set; } = 1;
+
     private Canvas damageUICanvasPrefab;
 
+    public GameObject Line {  get; private set; }
+
+    [field:SerializeField] public JoystickUIController joystickUIController { get; private set; }
     [SerializeField] private MulliganUI mulliganUI;
     [SerializeField] private Image playerHPbar;
     [SerializeField] private TextMeshProUGUI playerHPText;
@@ -30,11 +36,10 @@ public class InGameManager : Singleton<InGameManager>
     [SerializeField] private GameOverUI gameoverUI;
     [SerializeField] private TextMeshProUGUI weatherInfo;
     [SerializeField] private GameObject mapSlot;
-    [SerializeField] private GameObject tutorial;
     [SerializeField] private HitEffectUI hitEffectUI;
 
     public List<GameObject> MapPrefabs { get; private set; } = new();
-    public Tilemap ObstacleTilemap { get; private set; }  
+    public Tilemap ObstacleTilemap { get; private set; }
 
     public int level;
     public float exp;
@@ -68,24 +73,24 @@ public class InGameManager : Singleton<InGameManager>
         DateTime now = DateTime.Now;
         GameManager.Instance.NowTime = now.Minute;
         EnviromentManager.Instance.SetSeason(GameManager.Instance.NowTime);
-
         // 맵 동적 생성
         if (EnviromentManager.Instance.Season != Season.winter)
             map = Instantiate(MapPrefabs[0], mapSlot.transform);
         else
             map = Instantiate(MapPrefabs[1], mapSlot.transform);
 
-       
+        Line = map.transform.Find("Line").gameObject;
+        Line.SetActive(false);
         ObstacleTilemap = map.GetComponentInChildren<Tilemap>();
 
         // 기존 로직
         target = map.transform.Find("Center");
         MonsterManager.Instance.Target = target;
         TowerManager.Instance.towerbuilder.targetPosition = target;
-        if(PlayerPrefs.GetInt("InGameTutorial")!=1)
-            tutorial.gameObject.SetActive(true);
-        else MuliigunStart();
+
+        MuliigunStart();
         //mulliganUI.StartSelectCard();
+        TutorialManager.Instance?.ChangeStep(TutorialStep.TutorialStart);
     }
 
     public void GetExp(float exp)
@@ -107,10 +112,10 @@ public class InGameManager : Singleton<InGameManager>
         levelText.text = $"Lv {level}";
         SoundManager.Instance.PlaySFX("LevelUp");
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
-        if(TowerManager.Instance.hand.IsHighlighting)TowerManager.Instance.hand.CancleCard();
+        if (TowerManager.Instance.hand.IsHighlighting) TowerManager.Instance.hand.CancleCard();
         mulliganUI.gameObject.SetActive(true);
         mulliganUI.LevelUPSelect();
-        
+
     }
 
     private void InItTowerData()
@@ -127,7 +132,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         MonsterManager.Instance.GameStart();
         GetExp((float)maxExp);
-      
+
     }
 
     public void AddCardTOHand(int index)
@@ -143,10 +148,16 @@ public class InGameManager : Singleton<InGameManager>
         UpdateHP();
         if (PlayerHP <= 0)
         {
+            if (TutorialManager.Instance != null)
+            {
+                PlayerHP = 100;
+                UpdateHP();
+                return;
+            }
             isDie = true;
             GameOver();
         }
-            
+
     }
 
     private void PrefabInit()
@@ -163,19 +174,20 @@ public class InGameManager : Singleton<InGameManager>
         if (gameoverUI.gameObject.activeSelf) return;
         isGameOver = true;
 
-        foreach(var tower in TowerManager.Instance.Towers)
+        foreach (var tower in TowerManager.Instance.Towers)
         {
-            if(tower is AttackTower)
+            if (tower is AttackTower)
             {
                 tower.OnDisabled();
             }
         }
         MonsterManager.Instance.StopAllCoroutines();
         TowerManager.Instance.StartInteraction(InteractionState.Pause);
+        TowerManager.Instance.hand.gameObject.SetActive(false);
         gameoverUI.gameObject.SetActive(true);
         TowerManager.Instance.towerUpgradeData.Save();
 
-        AnalyticsLogger.LogWaveEnd(isDie,MonsterManager.Instance.nowWave.WaveIndex);
+        AnalyticsLogger.LogWaveEnd(isDie, MonsterManager.Instance.WaveLevel);
         Time.timeScale = 0f;
     }
 
@@ -207,5 +219,25 @@ public class InGameManager : Singleton<InGameManager>
     public double GetMaxExp()
     {
         return maxExp;
+    }
+
+    public void SetTimeScale()
+    {
+        if (TimeScale == 2.5) TimeScale = 1f;
+        else if (TimeScale == 1.5) TimeScale = 2.5f;
+        else if (TimeScale == 1) TimeScale = 1.5f;
+
+        Time.timeScale = TimeScale;
+    }
+
+    /////////////////튜토리얼////////////////////
+    
+    public void MulliganPause()
+    {
+        mulliganUI.OffTime();
+    }
+    public void MulliganResume()
+    {
+        mulliganUI.OnTime();
     }
 }

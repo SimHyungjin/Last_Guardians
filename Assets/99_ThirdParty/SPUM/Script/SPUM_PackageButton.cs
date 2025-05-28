@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 
@@ -12,7 +9,7 @@ public class SPUM_PackageButton : MonoBehaviour
     public Toggle PackageToggleButton;
     public SPUM_UIManager _Manager;
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     void Start()
     {
         PackageToggleButton.GetComponent<SPUM_PackageButton>();
@@ -24,13 +21,15 @@ public class SPUM_PackageButton : MonoBehaviour
         _title.text = PackageName;
         _index = index;
 
-        PackageToggleButton.onValueChanged.AddListener((On) => {
+        PackageToggleButton.onValueChanged.AddListener((On) =>
+        {
             Debug.Log(PackageName + " " + On);
-            if(_Manager.SpritePackagesFilterList.TryGetValue(PackageName, out bool value)){
+            if (_Manager.SpritePackagesFilterList.TryGetValue(PackageName, out bool value))
+            {
                 _Manager.SpritePackagesFilterList[PackageName] = On;
                 button.DrawItem();
             }
         });
     }
-    #endif
+#endif
 }

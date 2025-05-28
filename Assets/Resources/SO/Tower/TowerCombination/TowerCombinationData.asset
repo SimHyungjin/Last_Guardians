@@ -48,7 +48,7 @@ MonoBehaviour:
     ingredient2: 5
   - result: 22
     ingredient1: 3
-    ingredient2: 5
+    ingredient2: 6
   - result: 23
     ingredient1: 4
     ingredient2: 5

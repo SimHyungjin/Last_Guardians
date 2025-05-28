@@ -1,10 +1,10 @@
-using UnityEngine;
-using UnityEditor;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System;
-using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(SPUM_Manager))]
 public class SPUM_AnimationManagerEditor : Editor
@@ -38,8 +38,8 @@ public class SPUM_AnimationManagerEditor : Editor
         Debug.Log("Index" + jsonFileArray.Length);
         foreach (var asset in jsonFileArray)
         {
-            if(!asset.name.Contains("Index")) continue;
-            if(!asset) continue;
+            if (!asset.name.Contains("Index")) continue;
+            if (!asset) continue;
             Debug.Log(asset);
             var Package = JsonUtility.FromJson<SpumPackage>(asset.ToString());
             target.spumPackages.Add(Package);
@@ -54,7 +54,7 @@ public class SPUM_AnimationManagerEditor : Editor
         string DataPath = folderPath;
         string directory = Path.GetDirectoryName(DataPath);
         var directoryArray = DataPath.Split("/");
-        string packageName = directoryArray[directoryArray.Length-1];
+        string packageName = directoryArray[directoryArray.Length - 1];
         spumPackageData.Name = packageName;
         spumPackageData.Path = directory;
         spumPackageData.CreationDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -70,29 +70,31 @@ public class SPUM_AnimationManagerEditor : Editor
                 var pathArray = path.Split("/");
                 int PathCount = pathArray.Length;
                 Debug.Log(PathCount);
-                if(PathCount.Equals(9)) {
-                    string name = pathArray[pathArray.Length-1]; // 클립 이름
-                    string type = Regex.Replace(pathArray[pathArray.Length-2], @"[^a-zA-Z가-힣\s]", ""); //타입 폴더
-                    string unitType = Regex.Replace(pathArray[pathArray.Length-4], @"[^a-zA-Z가-힣\s]", ""); //타입 폴더
+                if (PathCount.Equals(9))
+                {
+                    string name = pathArray[pathArray.Length - 1]; // 클립 이름
+                    string type = Regex.Replace(pathArray[pathArray.Length - 2], @"[^a-zA-Z가-힣\s]", ""); //타입 폴더
+                    string unitType = Regex.Replace(pathArray[pathArray.Length - 4], @"[^a-zA-Z가-힣\s]", ""); //타입 폴더
                     var clipData = new SpumAnimationClip();
                     clipData.Name = name;
                     clipData.StateType = type.ToUpper();
-                    clipData.UnitType = unitType; 
+                    clipData.UnitType = unitType;
                     var clippath = Path.GetRelativePath($"Assets/SPUM/Resources/", path);
                     clipData.ClipPath = clippath;
                     spumPackageData.SpumAnimationData.Add(clipData);
-                } 
-                else if(PathCount.Equals(10)){
-                    string name = pathArray[pathArray.Length-1]; // 클립 이름
-                    string type = Regex.Replace(pathArray[pathArray.Length-3],@"[^a-zA-Z가-힣\s]", ""); // 스테이트 타입 폴더
-                    string unitType =  Regex.Replace(pathArray[pathArray.Length-5], @"[^a-zA-Z가-힣\s]", ""); //유닛 타입 폴더
-                    string SubCategory =Regex.Replace(pathArray[pathArray.Length-2], @"[^a-zA-Z가-힣\s]", "");
+                }
+                else if (PathCount.Equals(10))
+                {
+                    string name = pathArray[pathArray.Length - 1]; // 클립 이름
+                    string type = Regex.Replace(pathArray[pathArray.Length - 3], @"[^a-zA-Z가-힣\s]", ""); // 스테이트 타입 폴더
+                    string unitType = Regex.Replace(pathArray[pathArray.Length - 5], @"[^a-zA-Z가-힣\s]", ""); //유닛 타입 폴더
+                    string SubCategory = Regex.Replace(pathArray[pathArray.Length - 2], @"[^a-zA-Z가-힣\s]", "");
                     var clipData = new SpumAnimationClip();
                     clipData.Name = name;
                     clipData.StateType = type.ToUpper();
                     clipData.SubCategory = SubCategory;
                     Debug.Log(unitType);
-                    clipData.UnitType = unitType; 
+                    clipData.UnitType = unitType;
                     var clippath = Path.GetRelativePath($"Assets/SPUM/Resources/", path);
                     clipData.ClipPath = clippath;
                     spumPackageData.SpumAnimationData.Add(clipData);
@@ -122,17 +124,17 @@ public class SPUM_AnimationManagerEditor : Editor
                     // public string PartType; // 장비 타입
                     // public string SubType;
                     // public string Path;
-                    var t= AssetDatabase.GetAssetPath(sprite);
+                    var t = AssetDatabase.GetAssetPath(sprite);
 
-                    var SpritePath = t.Replace($"Assets/SPUM/Resources/", ""); 
+                    var SpritePath = t.Replace($"Assets/SPUM/Resources/", "");
                     var pathArray = SpritePath.Split("/");
-                     
+
                     // 0_Unit\0_Sprite\4_Helmet\Normal_Helmet1.png
                     var textureData = new SpumTextureData();
-                    textureData.Name =  texture.name;
+                    textureData.Name = texture.name;
                     textureData.UnitType = Regex.Replace(pathArray[2], @"[^a-zA-Z가-힣\s]", "");
                     textureData.PartType = Regex.Replace(pathArray[4], @"[^a-zA-Z가-힣\s]", "");
-                    textureData.SubType =  sprite.name; 
+                    textureData.SubType = sprite.name;
                     List<string> conditionTypes = new List<string> { "Front", "Body", "Horse", "Left", "Right", "Back" };
                     var filteredCondition = !conditionTypes.Contains(sprite.name);
                     sprite.name = sprites.Length.Equals(2) && filteredCondition ? texture.name : sprite.name;
@@ -141,17 +143,17 @@ public class SPUM_AnimationManagerEditor : Editor
                     textureData.PartSubType = pathArray.Length.Equals(7) ? Regex.Replace(pathArray[5], @"[^a-zA-Z가-힣\s]", "") : "";
                     textureData.Path = Regex.Replace(SpritePath, @"\..*", "");
                     spumPackageData.SpumTextureData.Add(textureData);
-                    
+
                 }
             }
         }
-        if(spumPackageData.SpumTextureData.Count.Equals(0) && spumPackageData.SpumAnimationData.Count.Equals(0)) return;
+        if (spumPackageData.SpumTextureData.Count.Equals(0) && spumPackageData.SpumAnimationData.Count.Equals(0)) return;
         string json = JsonUtility.ToJson(spumPackageData, true);
-        
+
         if (!string.IsNullOrEmpty(folderPath))
         {
             string normalizedPath = json.Replace("\\\\", "/");
-            File.WriteAllText(folderPath+"/Index.json", normalizedPath);
+            File.WriteAllText(folderPath + "/Index.json", normalizedPath);
             AssetDatabase.Refresh();
             Debug.Log("JSON file created at: " + directory);
         }

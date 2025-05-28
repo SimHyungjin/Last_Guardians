@@ -1,8 +1,5 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class BlastProjectile : ProjectileBase
@@ -13,24 +10,25 @@ public class BlastProjectile : ProjectileBase
     public BaseMonster target;
     private Tweener moveTween;
 
-    private float explosionRadius; // Æø¹ß ¹İ°æ
+    private float explosionRadius; // í­ë°œ ë°˜ê²½
     private bool canHit = false;
     private float Totaldistance;
     private bool hasHit = false;
-
+    Collider2D[] hits;
     /// <summary>
-    /// Å¸¿öÀÇ µ¥ÀÌÅÍ¿Í ÀûÀÀµÈ Å¸¿öÀÇ µ¥ÀÌÅÍ, È¿°ú ¸®½ºÆ®, È¯°æ È¿°ú¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// íƒ€ì›Œì˜ ë°ì´í„°ì™€ ì ì‘ëœ íƒ€ì›Œì˜ ë°ì´í„°, íš¨ê³¼ ë¦¬ìŠ¤íŠ¸, í™˜ê²½ íš¨ê³¼ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     /// <param name="_towerData"></param>
     /// <param name="_adaptedTowerData"></param>
     /// <param name="_effectslist"></param>
     /// <param name="_environmentEffect"></param>
-    public override void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTowerData,List<int> _effectslist, EnvironmentEffect _environmentEffect)
+    public override void Init(TowerData _towerData, AdaptedAttackTowerData _adaptedTowerData, List<int> _effectslist, EnvironmentEffect _environmentEffect)
     {
         base.Init(_towerData, _adaptedTowerData, _effectslist, _environmentEffect);
         string spritename = $"{towerData.ElementType}{towerData.ProjectileType}";
         GetComponent<SpriteRenderer>().sprite = projectileAtlas.GetSprite(spritename);
         explosionRadius = 1f * TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectRange].levels[TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectRange]];
+        hits = new Collider2D[20];
     }
 
     public override void Update()
@@ -41,15 +39,14 @@ public class BlastProjectile : ProjectileBase
 
         if (!canHit && ratio >= 0.7f)
         {
-            Debug.Log("canHit");
             canHit = true;
         }
     }
 
     /// <summary>
-    /// Æ÷¹°¼± ±ËÀûÀ» µû¶ó ¹ß»ç
-    /// ¿ŞÂÊ,¿À¸¥ÂÊ±¸ºĞÇÏ¿© Ç×»ó À§ÂÊÀ¸·Î ÈÖ°Ô
-    /// µµÂøÁöÁ¡¿¡ µµÂøÇÏ¸é Æø¹ß
+    /// í¬ë¬¼ì„  ê¶¤ì ì„ ë”°ë¼ ë°œì‚¬
+    /// ì™¼ìª½,ì˜¤ë¥¸ìª½êµ¬ë¶„í•˜ì—¬ í•­ìƒ ìœ„ìª½ìœ¼ë¡œ íœ˜ê²Œ
+    /// ë„ì°©ì§€ì ì— ë„ì°©í•˜ë©´ í­ë°œ
     /// </summary>
     protected override void ProjectileMove()
     {
@@ -82,34 +79,32 @@ public class BlastProjectile : ProjectileBase
     }
 
     /// <summary>
-    /// ¹ß»çÀÌÈÄ¿¡ ÀÏÁ¤ °Å¸® ÀÌ»ó ÀÌµ¿ÇßÀ» ¶§ Ãæµ¹°¡´É
+    /// ë°œì‚¬ì´í›„ì— ì¼ì • ê±°ë¦¬ ì´ìƒ ì´ë™í–ˆì„ ë•Œ ì¶©ëŒê°€ëŠ¥
     /// </summary>
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hasHit&&!canHit) return;
-        hasHit = true;
+        if (hasHit && !canHit) return;
         canHit = false;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Monster"))
         {
             hasHit = true;
             BaseMonster target = collision.GetComponent<BaseMonster>();
             moveTween.Kill();
-            target.TakeDamage(adaptedTower.attackPower,penetration);
+            target.TakeDamage(adaptedTower.attackPower, penetration);
             Explode();
         }
     }
 
     /// <summary>
-    /// Æø¹ß½Ã ¹üÀ§³» ¸ó½ºÅÍ¿¡°Ô µ¥¹ÌÁö¿Í ÀÌÆåÆ® Àû¿ë
+    /// í­ë°œì‹œ ë²”ìœ„ë‚´ ëª¬ìŠ¤í„°ì—ê²Œ ë°ë¯¸ì§€ì™€ ì´í™íŠ¸ ì ìš©
     /// </summary>
     private void Explode()
     {
-        Debug.Log("Æø¹ß");
         SoundManager.Instance.PlaySFX("HitBlast");
         blastEffectInstance = PoolManager.Instance.Spawn<BlastZone>(blastEffect);
         blastEffectInstance.Init(towerData, this.transform);
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explosionRadius/2, LayerMaskData.monster);
+        hits = Utils.OverlapCircleAllSorted(transform.position, explosionRadius / 2, LayerMaskData.monster);
         int count = 0;
         foreach (var hit in hits)
         {
@@ -118,15 +113,41 @@ public class BlastProjectile : ProjectileBase
             {
                 count++;
                 if (effects == null) break;
+                if (towerData.SpecialEffect == SpecialEffect.ChainAttack)
+                { 
+                    monster.TakeDamage(adaptedTower.attackPower * adaptedTower.effectValue, penetration); 
+                }
                 for (int i = 0; i < effects.Count; i++)
                 {
                     if (effects[i] == null) continue;
-                    if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f) effects[i].Apply(target, TowerManager.Instance.GetTowerData(effectslist[i]),TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]) ,TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance, environmentEffect);
-                    else effects[i].Apply(monster, TowerManager.Instance.GetTowerData(effectslist[i]), TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]), environmentEffect);
+                    if (i >= 0 && i < effectslist.Count && i < effects.Count)
+                    {
+                        if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectTargetCount!=0&&count> TowerManager.Instance.GetTowerData(effectslist[i]).EffectTargetCount)
+                        {
+                            continue;
+                        }
+                        if (TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance < 1.0f)
+                        {
+                             effects[i].Apply(monster,
+                                             TowerManager.Instance.GetTowerData(effectslist[i]),
+                                             TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]),
+                                             TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance,
+                                             environmentEffect);
+                        }
+                        else
+                        {
+                            effects[i].Apply(monster,
+                                             TowerManager.Instance.GetTowerData(effectslist[i]),
+                                             TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]),
+                                             environmentEffect);           
+                        }
+                    }
+                    else
+                    {
+                    }
                 }
             }
         }
-        Debug.Log($"Æø¹ß¹üÀ§¾È¿¡ ¸ó½ºÅÍ {count}");
         OnDespawn();
         PoolManager.Instance.Despawn<BlastProjectile>(this);
     }
@@ -142,6 +163,6 @@ public class BlastProjectile : ProjectileBase
         base.OnDespawn();
         target = null;
         //effect = null;
-        if(effects!=null) effects.Clear();
-    }  
+        if (effects != null) effects.Clear();
+    }
 }

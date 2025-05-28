@@ -18,6 +18,7 @@ public class PlayerMoveController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
+        agent.updatePosition = false;
         agent.updateRotation = false;
         agent.updatePosition = true;
     }
@@ -29,6 +30,11 @@ public class PlayerMoveController : MonoBehaviour
     public void Init()
     {
         agent.speed = GameManager.Instance.PlayerManager.playerStatus.moveSpeed;
+    }
+
+    private void FixedUpdate()
+    {
+        transform.position = agent.nextPosition;
     }
 
     private void LateUpdate()
@@ -73,9 +79,28 @@ public class PlayerMoveController : MonoBehaviour
         moveCoroutine = null;
     }
 
+    #region Joystick 이동
+    public void SetJoystickInput(Vector2 inputDir)
+    {
+        if (!canMove || inputDir.sqrMagnitude < 0.01f)
+        {
+            agent.ResetPath();
+            playerView.OnIdle();
+            return;
+        }
+
+        Vector3 worldDir = new Vector3(inputDir.x, inputDir.y, 0).normalized;
+        Vector3 moveTarget = transform.position + worldDir * 0.5f;
+
+        agent.SetDestination(moveTarget);
+        playerView.OnMove();
+        playerView.UpdateMoveDirection(worldDir);
+    }
+    #endregion
+
     public void SetCanMove(bool value)
     {
         canMove = value;
-        if(!value) agent.ResetPath();
+        if (!value) agent.ResetPath();
     }
 }

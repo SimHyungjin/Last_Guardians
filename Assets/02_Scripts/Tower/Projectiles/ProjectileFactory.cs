@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 public interface IEffect
 {
-    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData,EnvironmentEffect environmentEffect);
-    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance,EnvironmentEffect environmentEffect);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect);
 }
 
 public class ProjectileFactory : MonoBehaviour
@@ -45,8 +45,6 @@ public class ProjectileFactory : MonoBehaviour
             {
                 projectileMap.Add(entry.type, entry.prefab);
             }
-            else
-                Debug.LogWarning($"[ProjectileFactory] 중복된 projectileType: {entry.type}");
         }
     }
     /// <summary>
@@ -87,7 +85,7 @@ public class ProjectileFactory : MonoBehaviour
             projectile.transform.position = launchPos;
             if (shotCount == 1)
             {
-                projectile.transform.rotation = Quaternion.identity; 
+                projectile.transform.rotation = Quaternion.identity;
             }
             else
             {
@@ -124,7 +122,7 @@ public class ProjectileFactory : MonoBehaviour
     /// </summary>
     /// <param name="projectile"></param>
     /// <param name="buffTowerIndex"></param>
-    public void AddAllEffects(ProjectileBase projectile,List<int> buffTowerIndex)
+    public void AddAllEffects(ProjectileBase projectile, List<int> buffTowerIndex)
     {
         var go = projectile.gameObject;
         var effectList = new List<TowerData>();
@@ -152,8 +150,8 @@ public class ProjectileFactory : MonoBehaviour
         foreach (var data in effectList)
         {
             if (!effectTypeMap.TryGetValue(data.SpecialEffect, out var effectType)) continue;
-                var effect = go.AddComponent(effectType) as IEffect;
-                finalEffects.Add(effectType, effect);
+            var effect = go.AddComponent(effectType) as IEffect;
+            finalEffects.Add(effectType, effect);
 
         }
         projectile.effects?.Clear();

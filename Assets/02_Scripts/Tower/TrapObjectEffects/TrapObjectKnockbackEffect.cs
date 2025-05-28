@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapObjectKnockbackEffect : MonoBehaviour,ITrapEffect
+public class TrapObjectKnockbackEffect : MonoBehaviour, ITrapEffect
 {
-    ///////////==========================≥ÀπÈ ¿Ã∆Â∆Æ================================/////////////////////
+    ///////////==========================ÎÑâÎ∞± Ïù¥ÌéôÌä∏================================/////////////////////
 
-    public void Apply(BaseMonster target,TowerData towerData, AdaptedTrapObjectData adaptedTowerData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect)
     {
-        if (Utils.ShouldApplyEffect(target, towerData,bossImmunebuff))
+        if (Utils.ShouldApplyEffect(target, towerData, bossImmunebuff))
         {
-            target.ApplyKnockBack(0.5f, 0.5f, this.transform.position);
+
+            target.ApplyKnockBack(adaptedTrapObjectData.effectValue, adaptedTrapObjectData.effectValue, this.transform.position);
         }
     }
 }

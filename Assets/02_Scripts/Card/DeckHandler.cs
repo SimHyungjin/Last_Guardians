@@ -12,6 +12,7 @@ public class DeckHandler : MonoBehaviour
     public Vector2 dragStartPos;
     public Vector2 dragEndPos;
     float dragDistance;
+    [SerializeField] private CanvasGroup canvasGroup;
 
     [Header("HighLight")]
     [SerializeField] private Card highlightedCard = null;
@@ -62,7 +63,7 @@ public class DeckHandler : MonoBehaviour
                     ghostTower.transform.position = InputManager.Instance.GetTouchWorldPosition();
                 }
             }
-            else if(ghostTower != null)
+            else if (ghostTower != null)
             {
                 TowerManager.Instance.towerbuilder.ChangeCardDontMove();
                 highlightedCard.gameObject.SetActive(true);
@@ -70,7 +71,7 @@ public class DeckHandler : MonoBehaviour
             }
         }
     }
-    
+
     /// <summary>
     /// 덱에 카드위치 정렬
     /// </summary>
@@ -93,7 +94,12 @@ public class DeckHandler : MonoBehaviour
 
     public void MoveCardStart(Card card)
     {
-        if (isHighlighting&&card.TowerIndex==highlightedIndex)
+        if (!isHighlighting&& TowerManager.Instance.CanStartInteraction())
+        {
+            HighlightCard(card);
+            TowerManager.Instance.StartInteraction(InteractionState.CardMoving);
+        }
+        if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
             isDragging = true;
             dragStartPos = InputManager.Instance.GetTouchPosition();
@@ -113,22 +119,20 @@ public class DeckHandler : MonoBehaviour
     public void MoveCardEnd(Card card)
     {
         TowerManager.Instance.towerbuilder.EndAttackRangeCircle();
+        TowerManager.Instance.towerbuilder.EndCannotConstruct();
         if (isHighlighting && card.TowerIndex == highlightedIndex)
         {
 
-            Debug.Log($"[DeckHandler] MoveCardEnd called. card: {card.TowerIndex} 카드 손에서 놨다.");
             if (dragDistance < Deadzone)
             {
-                Debug.Log($"[DeckHandler] 가까이에서 놨다.");
                 dragEndPos = InputManager.Instance.GetTouchPosition();
                 UnHighlightCard();
             }
             else
             {
-                Debug.Log($"[DeckHandler] 멀리서 놨다.");
                 TowerManager.Instance.towerbuilder.ChangeCardDontMove();
-                Destroy(ghostTower);
-                ghostTower = null;
+                //Destroy(ghostTower);
+                //ghostTower = null;
                 StartCoroutine(TowerManager.Instance.towerbuilder.CanConstructCoroutine(
                                 InputManager.Instance.GetTouchWorldPosition(),
                                 (canPlace) =>
@@ -137,19 +141,17 @@ public class DeckHandler : MonoBehaviour
                                     {
                                         TowerManager.Instance.towerbuilder.TowerConstruct(
                                         InputManager.Instance.GetTouchWorldPosition(),
-                                        highlightedIndex                                        
+                                        highlightedIndex
                                         );
-                                        UseCard(); // 카드 사용 처리
+                                        UseCard();
                                     }
-                                    else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(),highlightedIndex))
+                                    else if (TowerManager.Instance.towerbuilder.CanCardToTowerCombine(InputManager.Instance.GetTouchWorldPosition(), highlightedIndex))
                                     {
-                                        Debug.Log("합성시작");
                                         TowerManager.Instance.towerbuilder.CardToTowerCombine(InputManager.Instance.GetTouchWorldPosition());
                                         UseCard();
                                     }
                                     else
                                     {
-                                        Debug.Log("건설 불가");
                                         highlightedCard.gameObject.SetActive(true);
                                         highlightedCard.transform.position = InputManager.Instance.GetTouchPosition();
                                         UnHighlightCard();
@@ -160,12 +162,11 @@ public class DeckHandler : MonoBehaviour
             }
             isDragging = false;
         }
-        else if(TowerManager.Instance.CanStartInteraction())
-        {
-            Debug.Log($"[DeckHandler] 카드 하이라이트 시작");
-            HighlightCard(card);
-            TowerManager.Instance.StartInteraction(InteractionState.CardMoving);
-        }
+        //else if (TowerManager.Instance.CanStartInteraction())
+        //{
+        //    HighlightCard(card);
+        //    TowerManager.Instance.StartInteraction(InteractionState.CardMoving);
+        //}
     }
 
     /// <summary>
@@ -220,7 +221,7 @@ public class DeckHandler : MonoBehaviour
             UpdateLayout();
             rect = card.GetComponent<RectTransform>();
         }
-        else 
+        else
         {
             card.subtractStack();
             card.ShowStack();
@@ -241,15 +242,15 @@ public class DeckHandler : MonoBehaviour
 
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(handRect.anchoredPosition - new Vector2(0, 100f), 0.3f).SetEase(Ease.OutCubic)
-            .OnComplete(() => {handRect.anchoredPosition = originalPosition - new Vector2(0, 100f); });
-        
+            .OnComplete(() => { handRect.anchoredPosition = originalPosition - new Vector2(0, 100f); });
+
     }
     /// <summary>
     /// 중간에 카드 동작을 취소하는 메서드
     /// </summary>
     public void CancleCard()
     {
-        if(isDragging) isDragging = false;
+        if (isDragging) isDragging = false;
         TowerManager.Instance.towerbuilder.ChangeCardDontMove();
         Destroy(ghostTower);
         highlightedCard.gameObject.SetActive(true);
@@ -261,7 +262,7 @@ public class DeckHandler : MonoBehaviour
     /// </summary>
     public void UnHighlightCard()
     {
-        bool stackExists=false;
+        bool stackExists = false;
         foreach (Card card in cards)
         {
             if (card.TowerIndex == highlightedIndex)
@@ -299,7 +300,7 @@ public class DeckHandler : MonoBehaviour
     {
         RectTransform handRect = GetComponent<RectTransform>();
         handRect.DOAnchorPos(originalPosition, 0.3f).SetEase(Ease.OutCubic)
-            .OnComplete(() => { handRect.anchoredPosition = originalPosition;});
+            .OnComplete(() => { handRect.anchoredPosition = originalPosition; });
         highlightedCard = null;
         highlightedIndex = -1;
         highlightedOrder = -1;
@@ -324,7 +325,7 @@ public class DeckHandler : MonoBehaviour
     /// <param name="index"></param>
     /// <param name="totalCount"></param>
     /// <param name="rect"></param>
-    private void GetCardLayout(int index, int totalCount,RectTransform rect)
+    private void GetCardLayout(int index, int totalCount, RectTransform rect)
     {
         float dynamicMaxAngle = Mathf.Min(9f * (totalCount - 1), 36f);
         float angleStep = (totalCount > 1) ? (dynamicMaxAngle * 2) / (totalCount - 1) : 0f;
@@ -337,4 +338,15 @@ public class DeckHandler : MonoBehaviour
         rect.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
     }
 
+    public void HideUI()
+    {
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public void OpenUI()
+    {
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+    }
 }

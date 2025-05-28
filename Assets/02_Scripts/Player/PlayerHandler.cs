@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
-    public PlayerStatus player {  get; private set; }
+    public PlayerStatus player { get; private set; }
 
     public PlayerInputHandler playerInputHandler { get; private set; }
     public PlayerMoveController moveController { get; private set; }
@@ -21,7 +21,7 @@ public class PlayerHandler : MonoBehaviour
         playerInputHandler = GetComponentInChildren<PlayerInputHandler>();
         moveController = GetComponent<PlayerMoveController>();
         attackController = GetComponent<PlayerAttackController>();
-        
+
         playerBuffHandler = GetComponent<PlayerBuffHandler>();
         playerObstacleDebuff = GetComponentInChildren<PlayerObstacleDebuff>();
 
@@ -33,10 +33,9 @@ public class PlayerHandler : MonoBehaviour
     {
         player = _player;
 
-        playerInputHandler.Init();
         moveController.Init();
         attackController.Init();
-        
+
         playerBuffHandler.Init();
         playerObstacleDebuff.Init();
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossMonster : BaseMonster
@@ -7,6 +5,7 @@ public class BossMonster : BaseMonster
     private void OnEnable()
     {
         TowerManager.Instance.ApplyEmergencyResponse();
+        SoundManager.Instance.PlaySFX("BossAlarm");
     }
     public override void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {
@@ -53,9 +52,7 @@ public class BossMonster : BaseMonster
     }
 
     protected override void MonsterSkill()
-    {
-        //스킬사용
-        Debug.Log($"{MonsterData.name} {MonsterSkillBaseData.skillData.name} 사용");
+    {       
         MonsterSkillBaseData.UseSkill(this);
         SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }

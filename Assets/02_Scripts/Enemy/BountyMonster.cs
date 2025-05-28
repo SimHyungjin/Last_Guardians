@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BountyMonster : BaseMonster
 {
-    public override void TakeDamage(float amount, float penetration =0, bool trueDamage = false)
+    public override void TakeDamage(float amount, float penetration = 0, bool trueDamage = false)
     {
         base.TakeDamage(amount, penetration, trueDamage);
         DamageText damageText = PoolManager.Instance.Spawn<DamageText>(InGameManager.Instance.DamageTextPrefab);
@@ -37,7 +35,6 @@ public class BountyMonster : BaseMonster
 
     protected override void MonsterSkill()
     {
-        Debug.Log($"{MonsterData.name} {MonsterSkillBaseData.skillData.name} 사용");
         MonsterSkillBaseData.UseSkill(this);
         SkillTimer = MonsterSkillBaseData.skillData.SkillCoolTime;
     }

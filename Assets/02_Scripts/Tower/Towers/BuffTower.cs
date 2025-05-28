@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -47,13 +46,13 @@ public class AdaptedBuffTowerData
         float combetMasteryValue = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.CombetMastery].levels[buffEffectCombetMastery];
         baseEffectValue *= combetMasteryValue;
         attackRange *= combetMasteryValue;
-        coolTime =coolTime / combetMasteryValue;
+        coolTime = coolTime / combetMasteryValue;
     }
 
 }
 public interface ITowerBuff
 {
-    void ApplyBuffToTower(BaseTower tower, AdaptedBuffTowerData data,EnvironmentEffect environmentEffect);
+    void ApplyBuffToTower(BaseTower tower, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect);
     void ApplyBuffToTrap(TrapObject trap, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect);
     void ApplyDebuff(BaseMonster monster, AdaptedBuffTowerData data, EnvironmentEffect environmentEffect);
 }
@@ -82,12 +81,13 @@ public class BuffTower : BaseTower
         ScanBuffTower();
         ApplyBuffOnPlacement();
         OnPlatform();
+        TowerManager.Instance.maxbuffRadius = Mathf.Max(TowerManager.Instance.maxbuffRadius, adaptedBuffTowerData.attackRange);
     }
 
     protected override void Update()
     {
         base.Update();
-        if (towerData.EffectTarget == EffectTarget.All&&Time.time - lastCheckTime < adaptedBuffTowerData.coolTime) return;
+        if (towerData.EffectTarget == EffectTarget.All && Time.time - lastCheckTime < adaptedBuffTowerData.coolTime) return;
         {
             if (buffTowerIndex.Count > 0 && towerData.EffectTarget == EffectTarget.All && !disable) ApplyDebuffOnPlacementOnBuff();
             if (towerData.EffectTarget == EffectTarget.All && !disable) ApplyDebuffOnPlacement();
@@ -97,9 +97,9 @@ public class BuffTower : BaseTower
 
     private void BuffSelect(TowerData data)
     {
-        if(data.EffectTarget == EffectTarget.Towers)
+        if (data.EffectTarget == EffectTarget.Towers)
         {
-            switch(data.SpecialEffect)
+            switch (data.SpecialEffect)
             {
                 case SpecialEffect.AttackPower:
                     towerBuff = new TowerBuffAttackPower();
@@ -112,9 +112,9 @@ public class BuffTower : BaseTower
                     break;
             }
         }
-        if(data.EffectTarget == EffectTarget.All)
+        if (data.EffectTarget == EffectTarget.All)
         {
-            switch(data.SpecialEffect)
+            switch (data.SpecialEffect)
             {
                 case SpecialEffect.DotDamage:
                     monsterDebuff = new TowerBuffMonsterDotDamage();
@@ -134,7 +134,7 @@ public class BuffTower : BaseTower
         switch (TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect)
         {
             case SpecialEffect.DotDamage:
-                buff = new TowerBuffMonsterDotDamage();         
+                buff = new TowerBuffMonsterDotDamage();
                 break;
             case SpecialEffect.Slow:
                 buff = new TowerBuffMonsterSlow();
@@ -152,33 +152,22 @@ public class BuffTower : BaseTower
 
         foreach (var hit in hits)
         {
-            Debug.Log($"hit = {hit}");
             BaseTower otherTower = hit.GetComponent<BaseTower>();
             if (otherTower != null && otherTower != this)
             {
-                towerBuff.ApplyBuffToTower(otherTower, adaptedBuffTowerData,environmentEffect);
+                towerBuff.ApplyBuffToTower(otherTower, adaptedBuffTowerData, environmentEffect);
             }
-        }     
+        }
         foreach (var hit in hits)
         {
-            Debug.Log($"hit = {hit}");
             TrapObject otherTrap = hit.GetComponent<TrapObject>();
-            Debug.Log($"otherTrap = {otherTrap}");
-            if (otherTrap != null)
-            {
-                Debug.Log("트랩발견 버프줄게");
-                towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
-            }
-            else 
-            {
-                Debug.Log("트랩없음");
-            }
+            if (otherTrap != null) towerBuff.ApplyBuffToTrap(otherTrap, adaptedBuffTowerData, environmentEffect);
         }
     }
 
     private void ApplyDebuffOnPlacement()
     {
-        if(towerData.EffectTarget != EffectTarget.All) return;
+        if (towerData.EffectTarget != EffectTarget.All) return;
         animator.SetTrigger("TowerActive");
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.monster);
 
@@ -202,9 +191,8 @@ public class BuffTower : BaseTower
             BaseMonster otherMonster = hit.GetComponent<BaseMonster>();
             if (otherMonster != null && otherMonster != this)
             {
-                for(int i=0; i<buffMonterDebuffs.Count();i++)
+                for (int i = 0; i < buffMonterDebuffs.Count(); i++)
                 {
-                    Debug.Log($"buffTowerIndex.Count = {buffTowerIndex.Count}, buffMonterDebuffs.Count = {buffMonterDebuffs.Count}");
                     buffMonterDebuffs[i].ApplyDebuff(otherMonster, TowerManager.Instance.GetAdaptedBuffTowerData(buffTowerIndex[i]), environmentEffect);
                 }
             }
@@ -215,7 +203,7 @@ public class BuffTower : BaseTower
         ApplyBuffOnPlacement();
     }
 
-    public void AddEffect(int towerIndex,EnvironmentEffect environmentEffect)
+    public void AddEffect(int towerIndex, EnvironmentEffect environmentEffect)
     {
         if (environmentEffect.isNearFire && TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect == SpecialEffect.DotDamage) this.environmentEffect.isBuffAffectedByFire = true;
         else this.environmentEffect.isBuffAffectedByFire = false;
@@ -277,10 +265,10 @@ public class BuffTower : BaseTower
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position, LayerMaskData.platform);
         foreach (var hit in hits)
-        {            
-            if(EnviromentManager.Instance.Season==Season.winter)
+        {
+            if (EnviromentManager.Instance.Season == Season.winter)
             {
-                adaptedBuffTowerData.attackRange = towerData.AttackRange*1.1f;
+                adaptedBuffTowerData.attackRange = towerData.AttackRange * 1.1f;
             }
             else
                 adaptedBuffTowerData.attackRange = towerData.AttackRange * 1.15f;

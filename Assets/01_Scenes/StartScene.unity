@@ -538,7 +538,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -799,27 +799,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 8287263b28efb9e4c889e4f86447918d, type: 3}
-  - {fileID: 8300000, guid: 39fcdc8fca983504f85b25051c8f3669, type: 3}
-  - {fileID: 8300000, guid: b317145c36dea2246bf00d890b901dda, type: 3}
-  - {fileID: 8300000, guid: 6d29874f828575c4c9784b8d93bedb09, type: 3}
-  - {fileID: 8300000, guid: 9c6f37f22b6371144a73a9780942e643, type: 3}
-  - {fileID: 8300000, guid: 8c61e5957e9eb284d979e9b7f01a5f98, type: 3}
-  - {fileID: 8300000, guid: 2cd5ba5a6454ebc4a8797b1ea53d94b1, type: 3}
-  - {fileID: 8300000, guid: 3e7174a39fa438648b3bc506fcc471bc, type: 3}
-  - {fileID: 8300000, guid: bf9a7e360dab9e849993de13c339653f, type: 3}
-  - {fileID: 8300000, guid: 89f7cec28bebe8149bea577040359499, type: 3}
-  - {fileID: 8300000, guid: dde4dbc54bb349141b572924a0e34202, type: 3}
-  - {fileID: 8300000, guid: 2430536c1c5dfa447ad3bd0630416350, type: 3}
-  - {fileID: 8300000, guid: fb36c0020709fbd4ca25e74294a1d8f4, type: 3}
-  - {fileID: 8300000, guid: 9f8bf73f42872a64db9cb5ec2e43c63c, type: 3}
-  - {fileID: 8300000, guid: 866219b59c28c7b41821b404bb16ed45, type: 3}
-  - {fileID: 8300000, guid: 99b61eccf3e490040b7cb1e6d90a1882, type: 3}
-  - {fileID: 8300000, guid: 1703cf073e761a544a95972add7ba2fa, type: 3}
-  - {fileID: 8300000, guid: 372915e76fb84a149a8402a3c6e6c895, type: 3}
-  - {fileID: 8300000, guid: 1579352079d91344ebcfe4aa4b0c2a0f, type: 3}
-  - {fileID: 8300000, guid: 014b4020a639e064a9255e45a03a6d17, type: 3}
+  - {fileID: 8300000, guid: c1a9ab77dcbb6d44d8c2d234465059b6, type: 3}
+  - {fileID: 8300000, guid: b6b595c8663019f4c90a3cc2856ea617, type: 3}
+  - {fileID: 8300000, guid: 4b20dd6923e2ae64ab65802d3ca8e9e3, type: 3}
+  - {fileID: 8300000, guid: 237d25b40041cff448a69d6680f8589e, type: 3}
+  - {fileID: 8300000, guid: eee0a5c3c04a4d546bba95a0089c2055, type: 3}
+  - {fileID: 8300000, guid: abdc874d7514b154f8c358847c283343, type: 3}
+  - {fileID: 8300000, guid: 9d3c56b6b4789804f9e92287f82e73c9, type: 3}
+  - {fileID: 8300000, guid: 2821791e85a461f4cb9f3613777bbe7f, type: 3}
+  - {fileID: 8300000, guid: 69db6c73b350db4489a92f4ffb680373, type: 3}
+  - {fileID: 8300000, guid: ba8518ae0977a8b48970a37d84f25d66, type: 3}
+  - {fileID: 8300000, guid: 61f4d6d1d00b5a844adca09b9e9ad7bd, type: 3}
+  - {fileID: 8300000, guid: 357dad34897d9e0408bff8ff432956ad, type: 3}
+  - {fileID: 8300000, guid: ca14639e3db957540be19a60963df1aa, type: 3}
+  - {fileID: 8300000, guid: 108d10c98a299c049bc8600d218d40a6, type: 3}
+  - {fileID: 8300000, guid: b1b60d7d99028fb479e58d388c2b7aa2, type: 3}
+  - {fileID: 8300000, guid: d5fcd86c02ba32d42872f8f471fae7e0, type: 3}
+  - {fileID: 8300000, guid: bacbdb8b6f8f81f4cad886c6c2d32d18, type: 3}
+  - {fileID: 8300000, guid: 09cc03a4270139341905a351f587e288, type: 3}
+  - {fileID: 8300000, guid: d5cf70321281be944a7c723b5815c41f, type: 3}
+  - {fileID: 8300000, guid: fc63b1246140a7b4baaffc879acc39a2, type: 3}
+  - {fileID: 8300000, guid: 765a1528315ecaf4abac0a2d5686a995, type: 3}
+  - {fileID: 8300000, guid: becc2864b20ecab4b9eb422696453c8e, type: 3}
+  - {fileID: 8300000, guid: f4c54879a9063614ba53b3fb5d00b084, type: 3}
   poolSize: 30
+  maxPoolSize: 60
 --- !u!4 &1324375181
 Transform:
   m_ObjectHideFlags: 0
@@ -847,6 +851,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4857d32880cf09945b5738c73b85dd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuBgm: PianoInstrumental1
+  gameSceneBgms:
+  - PianoInstrumental8
+  - PianoInstrumental6
+  - PianoInstrumental5
+  - PianoInstrumental4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

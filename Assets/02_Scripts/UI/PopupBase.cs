@@ -5,7 +5,7 @@ public class PopupBase : MonoBehaviour
 {
     public bool IsInit = false;
     public bool IsOpen => gameObject.activeSelf;
-    public virtual void NeedInit() 
+    public virtual void NeedInit()
     {
         if (IsInit == false)
         {
@@ -13,11 +13,10 @@ public class PopupBase : MonoBehaviour
             Init();
         }
     }
-    public virtual void Init() { }
+    public virtual void Init() {}
     public virtual void Open()
     {
         NeedInit();
-        if (IsOpen) return;
         gameObject.SetActive(true);
         StartCoroutine(OpenedCoroutine());
     }
@@ -30,7 +29,6 @@ public class PopupBase : MonoBehaviour
 
     public virtual void Close()
     {
-        if (!IsOpen) return;
         gameObject.SetActive(false);
         Closed();
     }

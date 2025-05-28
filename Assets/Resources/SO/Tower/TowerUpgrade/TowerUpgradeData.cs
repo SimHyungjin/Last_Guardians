@@ -10,15 +10,16 @@ public class SerializableTowerUpgradeData
     public int usedMasteryPoint;
 
     public int towerPoint;
-
+    public int SumOfLevelUP;
     public List<int> currentLevel;
-    // »ı¼ºÀÚ
+    // ìƒì„±ì
     public SerializableTowerUpgradeData(TowerUpgradeData towerUpgradeData)
     {
         totalMasteryPoint = towerUpgradeData.totalMasteryPoint;
         currentMasteryPoint = towerUpgradeData.currentMasteryPoint;
         usedMasteryPoint = towerUpgradeData.usedMasteryPoint;
         towerPoint = towerUpgradeData.towerPoint;
+        SumOfLevelUP = towerUpgradeData.SumOfLevelUP;
         currentLevel = new List<int>(towerUpgradeData.currentLevel);
     }
 }
@@ -44,7 +45,7 @@ public enum TowerUpgradeType
 [CreateAssetMenu(fileName = "TowerUpgrade", menuName = "Data/TowerUpgrade Data")]
 public class TowerUpgradeData : ScriptableObject
 {
-    [Header("¸¶½ºÅÍ¸® Æ÷ÀÎÆ®")]
+    [Header("ë§ˆìŠ¤í„°ë¦¬ í¬ì¸íŠ¸")]
     public int totalMasteryPoint;
     public int currentMasteryPoint;
     public int usedMasteryPoint;
@@ -53,7 +54,9 @@ public class TowerUpgradeData : ScriptableObject
 
     public List<int> currentLevel;
     public int maxLevel = 3;
-    [Header("¼³¸í½ºÅ©¸³Æ®")]
+    public int SumOfLevelUP = 0;
+
+    [Header("ì„¤ëª…ìŠ¤í¬ë¦½íŠ¸")]
     public string[] description;
 
     public void Init()
@@ -62,12 +65,11 @@ public class TowerUpgradeData : ScriptableObject
         currentMasteryPoint = 0;
         usedMasteryPoint = 0;
         towerPoint = 0;
-        currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        currentLevel = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         string savePath = Application.persistentDataPath + "/save.json";
         if (!File.Exists(savePath))
         {
             File.WriteAllText(savePath, JsonUtility.ToJson(this, true));
-            Debug.Log("[TowerUpgradeData] save.jsonÀÌ ¾ø¾î¼­ »õ·Î »ı¼ºÇÔ.");
         }
         else
         {
@@ -86,6 +88,7 @@ public class TowerUpgradeData : ScriptableObject
                 currentMasteryPoint = save.towerUpgradedata.currentMasteryPoint;
                 usedMasteryPoint = save.towerUpgradedata.usedMasteryPoint;
                 towerPoint = save.towerUpgradedata.towerPoint;
+                SumOfLevelUP = save.towerUpgradedata.SumOfLevelUP;
                 currentLevel = new List<int>(save.towerUpgradedata.currentLevel);
             }
         }
@@ -97,7 +100,6 @@ public class TowerUpgradeData : ScriptableObject
         if (!File.Exists(savePath))
         {
             File.WriteAllText(savePath, JsonUtility.ToJson(this, true));
-            Debug.Log("[TowerUpgradeData] save.jsonÀÌ ¾ø¾î¼­ »õ·Î »ı¼ºÇÔ.");
         }
         else
         {
@@ -112,10 +114,10 @@ public class TowerUpgradeData : ScriptableObject
     public void GetTowerPoint()
     {
         towerPoint++;
-        if (totalMasteryPoint >= 30)
+        if (totalMasteryPoint >= 60)
         {
             towerPoint = 0;
-            return; 
+            return;
         }
         if (towerPoint > 99)
         {
@@ -126,24 +128,24 @@ public class TowerUpgradeData : ScriptableObject
     }
 }
 
-//[Header("°ø°İ¸¶½ºÅÍ¸®")]
-//[Header("Æ¼¾î1")]
+//[Header("ê³µê²©ë§ˆìŠ¤í„°ë¦¬")]
+//[Header("í‹°ì–´1")]
 //public int attackPowerUpgrade;
 //public int attackSpeedUpgrade;
 //public int attackRangeUpgrade;
-//[Header("Æ¼¾î2")]
+//[Header("í‹°ì–´2")]
 //public int penetrationUpgrade;
 //public int continuousAttackUpgrade;
-//[Header("Æ¼¾î3")]
+//[Header("í‹°ì–´3")]
 //public int combetMasteryUpgrade;
 //public int multipleAttackUpgrade;
 //public int bossSlayerUpgrade;
 
-//[Header("È¿°ú¸¶½ºÅÍ¸®")]
-//[Header("Æ¼¾î1")]
+//[Header("íš¨ê³¼ë§ˆìŠ¤í„°ë¦¬")]
+//[Header("í‹°ì–´1")]
 //public int effectValueUpgrade;
 //public int effectDurationUpgrade;
 //public int effectRangeUpgrade;
-//[Header("Æ¼¾î2")]
+//[Header("í‹°ì–´2")]
 //public int catalysisUpgrade;
 //public int effecttransferUpgrade;

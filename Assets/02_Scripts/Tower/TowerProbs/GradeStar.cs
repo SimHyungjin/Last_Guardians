@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GradeStar : MonoBehaviour
 {
-    ///////////==========================Å¸¿öÀÇ ÇÕ¼º ·¹º§¿¡ µû¸¥ º°Ç¥½Ã================================/////////////////////
+    ///////////==========================íƒ€ì›Œì˜ í•©ì„± ë ˆë²¨ì— ë”°ë¥¸ ë³„í‘œì‹œ================================/////////////////////
 
     public int grade;
     public Sprite[] Stars;
@@ -13,6 +11,6 @@ public class GradeStar : MonoBehaviour
     {
         grade = _grade;
         gradeStar = GetComponent<SpriteRenderer>();
-        gradeStar.sprite = Stars[grade-1];
+        gradeStar.sprite = Stars[grade - 1];
     }
 }

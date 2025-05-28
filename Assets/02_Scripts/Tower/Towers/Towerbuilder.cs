@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Tilemaps;   
+using UnityEngine.Tilemaps;
 
 public class Towerbuilder : MonoBehaviour
 {
@@ -27,21 +27,19 @@ public class Towerbuilder : MonoBehaviour
 
     [Header("타워설치")]
     public SpriteRenderer attackRangeCircle;
+    public SpriteRenderer cannotConstruct;
     private Dictionary<Vector2, bool> constructCache;
 
     private float lastCheckTime = 0f;
     private float checkCooldown = 0.01f;
     private Vector2 lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
 
-    // ← 추가: InGameManager에서 캐싱된 Tilemap 참조
     private Tilemap obstacleTilemap;
 
     private void Start()
     {
         towerCombinationData = TowerManager.Instance.towerCombinationData;
         constructCache = new Dictionary<Vector2, bool>();
-
-        // ← 추가: 타일맵 참조 가져오기
         obstacleTilemap = InGameManager.Instance.ObstacleTilemap;
     }
 
@@ -65,12 +63,14 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeCardMove()
     {
         Time.timeScale = 0.2f;
+        InGameManager.Instance.Line.SetActive(true);
         isCardMoving = true;
     }
 
     public void ChangeCardDontMove()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = InGameManager.Instance.TimeScale;
+        InGameManager.Instance.Line.SetActive(false);
         lastCheckedTile = new Vector2Int(int.MinValue, int.MinValue);
         EndAttackRangeCircle();
         isCardMoving = false;
@@ -79,6 +79,7 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeTowerMove(BaseTower _cilkedTower)
     {
         Time.timeScale = 0.2f;
+        InGameManager.Instance.Line.SetActive(true);
         clikedTower = _cilkedTower;
         isTowerMoving = true;
     }
@@ -86,6 +87,7 @@ public class Towerbuilder : MonoBehaviour
     public void ChangeTowerDontMove(BaseTower _cilkedTower)
     {
         clikedTower = _cilkedTower;
+        InGameManager.Instance.Line.SetActive(false);
         isTowerMoving = false;
     }
 
@@ -94,23 +96,23 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 CombinePos = PostionArray(curPos);
         if (cheakedTower == null) return;
+        ClearConstructCache();
         int combineTowerIndex = towerCombinationData.TryCombine(
             clikedTower.towerData.TowerIndex,
             cheakedTower.towerData.TowerIndex
         );
-
         TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
         Destroy(clikedTower.gameObject);
         clikedTower = null;
-        ClearConstructCache();
     }
 
     public void CardToTowerCombine(Vector2 curPos)
     {
         Vector2 CombinePos = PostionArray(curPos);
         if (cheakedTower == null) return;
+        ClearConstructCache();
         int combineTowerIndex = towerCombinationData.TryCombine(
             TowerManager.Instance.hand.HighlightedIndex,
             cheakedTower.towerData.TowerIndex
@@ -118,7 +120,6 @@ public class Towerbuilder : MonoBehaviour
         TowerConstruct(CombinePos, combineTowerIndex);
         Destroy(cheakedTower.gameObject);
         cheakedTower = null;
-        ClearConstructCache();
     }
 
     public IEnumerator CanConstructCoroutine(Vector2 curPos, Action<bool> callback)
@@ -127,18 +128,17 @@ public class Towerbuilder : MonoBehaviour
 
         if (constructCache.TryGetValue(constructPos, out bool cachedResult))
         {
-            Debug.Log($"[캐시] 타일 검사 결과: {cachedResult}");
             callback?.Invoke(cachedResult);
             yield break;
         }
         if (IsAnyObjectOnTile(constructPos))
         {
-            Debug.Log("타일에 충돌체있음");
             callback?.Invoke(false);
             yield break;
         }
 
         GameObject dummyTower = Instantiate(dummyTowerPrefab, constructPos, Quaternion.identity);
+        yield return null;
         yield return null;
         bool allPathsExist = true;
         NavMeshPath path = new NavMeshPath();
@@ -152,7 +152,6 @@ public class Towerbuilder : MonoBehaviour
             );
             if (!pathValid || path.status != NavMeshPathStatus.PathComplete)
             {
-                Debug.Log("경로가 없음");
                 allPathsExist = false;
                 break;
             }
@@ -169,7 +168,6 @@ public class Towerbuilder : MonoBehaviour
     {
         Vector2 constructPos = PostionArray(curPos);
 
-        // ← 추가: 해당 셀의 룰타일 제거
         if (obstacleTilemap != null)
         {
             Vector3Int cell = obstacleTilemap.WorldToCell(constructPos);
@@ -177,7 +175,7 @@ public class Towerbuilder : MonoBehaviour
             obstacleTilemap.RefreshTile(cell);
         }
         SoundManager.Instance.PlaySFX("TowerBuild");
-        // 기존 타워 생성 로직
+
         GameObject go = Instantiate(
             towerPrefab,
             constructPos,
@@ -188,7 +186,6 @@ public class Towerbuilder : MonoBehaviour
         TowerData data = TowerManager.Instance.GetTowerData(towerIndex);
         if (data == null)
         {
-            Debug.LogError($"[TowerConstruct] TowerData를 불러올 수 없습니다: {towerIndex}");
             return;
         }
 
@@ -208,6 +205,7 @@ public class Towerbuilder : MonoBehaviour
             tower.Init(data);
         }
         ClearConstructCache();
+        TutorialManager.Instance?.ChangeStep(TutorialStep.Construct);
     }
 
     public void ClearConstructCache()
@@ -276,9 +274,9 @@ public class Towerbuilder : MonoBehaviour
             {
                 if (cheakedTower != null)
                 {
-                    Color c = cheakedTower.GetComponent<SpriteRenderer>().color;
-                    c.a = 1f;
-                    cheakedTower.GetComponent<SpriteRenderer>().color = c;
+                        Color c = cheakedTower.GetComponent<SpriteRenderer>().color;
+                        c.a = 1f;
+                        cheakedTower.GetComponent<SpriteRenderer>().color = c;
                     cheakedTower = null;
                     GetSprite(TowerManager.Instance.hand.HighlightedIndex);
                 }
@@ -292,8 +290,12 @@ public class Towerbuilder : MonoBehaviour
                     {
                         if (canPlace)
                         {
-                            ghostTower.GetComponent<SpriteRenderer>().color =
+                            if (ghostTower != null)
+                            {
+                                ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(0f, 1f, 0f, 0.3f);
+                            }
+                            EndCannotConstruct();
                             OnAttackRangeCircle(
                                 currentTile,
                                 TowerManager.Instance.GetTowerData(
@@ -320,8 +322,12 @@ public class Towerbuilder : MonoBehaviour
                                     cheakedTower.towerData.TowerIndex
                                 )
                             );
-                            ghostTower.GetComponent<SpriteRenderer>().color =
+                            if (ghostTower != null)
+                            {
+                                ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(0f, 1f, 0f, 0.3f);
+                            }
+                            EndCannotConstruct();
                             OnAttackRangeCircle(
                                 currentTile,
                                 TowerManager.Instance.GetTowerData(
@@ -336,6 +342,7 @@ public class Towerbuilder : MonoBehaviour
                         {
                             ghostTower.GetComponent<SpriteRenderer>().color =
                                 new Color(1f, 0f, 0f, 0.3f);
+                            OnCannotConstruct(currentTile);
                             EndAttackRangeCircle();
                         }
                     }
@@ -432,7 +439,7 @@ public class Towerbuilder : MonoBehaviour
     {
         float scaleMultiplier = 1f;
         int AttackRangeupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.AttackRange];
-        float Upgradescale= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
+        float Upgradescale = TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.AttackRange].levels[AttackRangeupgradeLevel];
         Collider2D[] hits = Physics2D.OverlapPointAll(
             constructPos,
             LayerMaskData.platform
@@ -448,8 +455,8 @@ public class Towerbuilder : MonoBehaviour
         attackRangeCircle.transform.position = constructPos;
         attackRangeCircle.transform.localScale =
             new Vector3(
-                towerData.AttackRange * scaleMultiplier* Upgradescale,
-                towerData.AttackRange * scaleMultiplier* Upgradescale,
+                towerData.AttackRange * scaleMultiplier * Upgradescale,
+                towerData.AttackRange * scaleMultiplier * Upgradescale,
                 1
             );
         attackRangeCircle.gameObject.SetActive(true);
@@ -458,5 +465,15 @@ public class Towerbuilder : MonoBehaviour
     public void EndAttackRangeCircle()
     {
         attackRangeCircle.gameObject.SetActive(false);
+    }
+
+    public void OnCannotConstruct(Vector2 constructPos)
+    {
+        cannotConstruct.transform.position = constructPos;
+        cannotConstruct.gameObject.SetActive(true);
+    }
+    public void EndCannotConstruct()
+    {
+        cannotConstruct.gameObject.SetActive(false);
     }
 }

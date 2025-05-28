@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class AdaptedTrapObjectData
@@ -14,7 +14,7 @@ public class AdaptedTrapObjectData
     public float effectDuration;
 
 
-    public AdaptedTrapObjectData(int towerIndex, float effectValue,float effectDuration)
+    public AdaptedTrapObjectData(int towerIndex, float effectValue, float effectDuration)
     {
         this.towerIndex = towerIndex;
         this.baseEffectValue = effectValue;
@@ -25,7 +25,7 @@ public class AdaptedTrapObjectData
         this.effectValue = baseEffectValue;
     }
 
-    //////////////////////////////////////////¾÷±×·¹ÀÌµå////////////////////////////////////////////////
+    //////////////////////////////////////////ì—…ê·¸ë ˆì´ë“œ////////////////////////////////////////////////
     public void Upgrade()
     {
         int buffEffectValueupgradeLevel = TowerManager.Instance.towerUpgradeData.currentLevel[(int)TowerUpgradeType.EffectValue];
@@ -52,11 +52,11 @@ public class AdaptedTrapObjectData
 
 public interface ITrapEffect
 {
-    public void Apply(BaseMonster target,TowerData towerData ,AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect);
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedTrapObjectData adaptedTrapObjectData, bool bossImmunebuff, EnvironmentEffect environmentEffect);
 }
 public enum TrapObjectState
 {
-    CantActive, 
+    CantActive,
     Ready,
     Triggered,
     Cooldown
@@ -88,17 +88,17 @@ public class TrapObject : MonoBehaviour
 
     private float EmergencyResponseBuff = 1f;
 
-    private float maxbuffRadius = 5f;
-
-    private bool disable = false;  
-    public  void Init(TowerData towerData)
+    private bool disable = false;
+    public void Init(TowerData towerData)
     {
         this.towerData = towerData;
-        adaptedTrapObjectData = new AdaptedTrapObjectData(towerData.TowerIndex, towerData.EffectValue,towerData.EffectDuration);
+        adaptedTrapObjectData = new AdaptedTrapObjectData(towerData.TowerIndex, towerData.EffectValue, towerData.EffectDuration);
+        cooldownTime = adaptedTrapObjectData.coolTime;
         creationTime = Time.time;
         environmentEffect = new EnvironmentEffect();
         buffTowerIndex = new List<int>();
-        trapEffectList= new List<ITrapEffect>();
+        trapEffectList = new List<ITrapEffect>();
+        bossImmunebuff = false;
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
@@ -108,7 +108,7 @@ public class TrapObject : MonoBehaviour
         ScanBuffTower();
         CanPlant();
     }
-    private  void Update()
+    private void Update()
     {
         if (currentState == TrapObjectState.Cooldown)
         {
@@ -122,7 +122,7 @@ public class TrapObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Æ®·¦¿¡ Àû¿ëµÇ´Â ÀÌÆÑÆ® ¸®½ºÆ®
+    /// íŠ¸ë©ì— ì ìš©ë˜ëŠ” ì´íŒ©íŠ¸ ë¦¬ìŠ¤íŠ¸
     /// </summary>
     private static readonly Dictionary<SpecialEffect, Type> effectTypeMap = new()
     {
@@ -134,7 +134,7 @@ public class TrapObject : MonoBehaviour
     };
 
     /// <summary>
-    /// ¼³Ä¡ °¡´É¿©ºÎ ÆÇº°
+    /// ì„¤ì¹˜ ê°€ëŠ¥ì—¬ë¶€ íŒë³„
     /// </summary>
     public void CanPlant()
     {
@@ -168,11 +168,9 @@ public class TrapObject : MonoBehaviour
             switch (plantedEffect.obstacleType)
             {
                 case ObstacleType.Water:
-                    Debug.Log("¼³Ä¡À§Ä¡¿·¿¡ ¹°ÀÖÀ½");
                     environmentEffect.isNearWater = true;
                     break;
                 case ObstacleType.Fire:
-                    Debug.Log("¼³Ä¡À§Ä¡¿·¿¡ ºÒÀÖÀ½");
                     environmentEffect.isNearFire = true;
                     break;
 
@@ -180,11 +178,11 @@ public class TrapObject : MonoBehaviour
         }
 
         Collider2D[] trapHits = Physics2D.OverlapPointAll(pos, LayerMaskData.trapObject);
-        checkOverlapCoroutine=StartCoroutine(CheckTrapOverlap(trapHits));
+        checkOverlapCoroutine = StartCoroutine(CheckTrapOverlap(trapHits));
     }
 
     /// <summary>
-    /// Æ®·¦ ¿ÀºêÁ§Æ®°¡ °ãÄ¡´ÂÁö Ã¼Å©ÇÏ´Â ÄÚ·çÆ¾ °¡Àå ¸ÕÀú »ı¼ºµÈ Æ®·¦È°¼ºÈ­µÈ´Ù.
+    /// íŠ¸ë© ì˜¤ë¸Œì íŠ¸ê°€ ê²¹ì¹˜ëŠ”ì§€ ì²´í¬í•˜ëŠ” ì½”ë£¨í‹´ ê°€ì¥ ë¨¼ì € ìƒì„±ëœ íŠ¸ë©í™œì„±í™”ëœë‹¤.
     /// </summary>
     /// <param name="trapHits"></param>
     /// <returns></returns>
@@ -198,9 +196,8 @@ public class TrapObject : MonoBehaviour
             TrapObject other = hit.GetComponent<TrapObject>();
             if (other != null && other.creationTime < this.creationTime && other.currentState != TrapObjectState.CantActive)
             {
-                Debug.Log($"Ãæµ¹Ã¼ÀÖÀ½{other}");
                 ChageState(TrapObjectState.CantActive);
-                checkOverlapCoroutine= null;
+                checkOverlapCoroutine = null;
                 yield break;
             }
         }
@@ -221,7 +218,7 @@ public class TrapObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Æ®·¦¿¡ ¸ó½ºÅÍ°¡ ´ê¾ÒÀ»¶§ È£ÃâµÈ´Ù.
+    /// íŠ¸ë©ì— ëª¬ìŠ¤í„°ê°€ ë‹¿ì•˜ì„ë•Œ í˜¸ì¶œëœë‹¤.
     /// </summary>
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
@@ -242,8 +239,8 @@ public class TrapObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Æ®·¦ÀÌÆÑÆ® Àû¿ë
-    /// ÀÏÁ¤½Ã°£µ¿¾È ÀÌÆÑÆ®Àû¿ë ÈÄ ÄğÅ¸ÀÓÀ¸·Î ÀüÈ¯ 
+    /// íŠ¸ë©ì´íŒ©íŠ¸ ì ìš©
+    /// ì¼ì •ì‹œê°„ë™ì•ˆ ì´íŒ©íŠ¸ì ìš© í›„ ì¿¨íƒ€ì„ìœ¼ë¡œ ì „í™˜ 
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
@@ -251,7 +248,7 @@ public class TrapObject : MonoBehaviour
     {
         float elapsed = 0f;
         float applyInterval = 0.1f;
-
+        yield return new WaitForSeconds(0.5f);
         while (elapsed < towerData.EffectDuration)
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedTrapObjectData.attackRange, LayerMaskData.monster);
@@ -259,9 +256,28 @@ public class TrapObject : MonoBehaviour
             {
                 BaseMonster monster = hit.GetComponent<BaseMonster>();
                 if (monster == null) continue;
-                for(int i=0;i< buffTowerIndex.Count;i++)
+                for (int i = 0; i < buffTowerIndex.Count; i++)
                 {
-                    trapEffectList[i].Apply(monster,TowerManager.Instance.GetTowerData(buffTowerIndex[i]), TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]), bossImmunebuff, environmentEffect);
+                    if (i >= 0 && i < trapEffectList.Count && i < buffTowerIndex.Count)
+                    {
+                        if (trapEffectList[i] != null && effectTypeMap.ContainsKey(TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect))
+                        {
+                            trapEffectList[i].Apply(
+                                monster,
+                                TowerManager.Instance.GetTowerData(buffTowerIndex[i]),
+                                TowerManager.Instance.GetAdaptedTrapObjectData(buffTowerIndex[i]),
+                                bossImmunebuff,
+                                environmentEffect
+                            );
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                    }
                 }
 
             }
@@ -276,7 +292,7 @@ public class TrapObject : MonoBehaviour
     }
 
     /// <summary>
-    /// Æ®·¾¿¡ Àû¿ëµÇ´Â ÀÌÆÑÆ® Ãß°¡
+    /// íŠ¸ë ™ì— ì ìš©ë˜ëŠ” ì´íŒ©íŠ¸ ì¶”ê°€
     /// </summary>
     /// <param name="index"></param>
     public void AddTrapEffect(int index)
@@ -372,7 +388,7 @@ public class TrapObject : MonoBehaviour
         disable = false;
     }
 
-    ///////////==========================»óÅÂÃÊ±âÈ­ ÇÔ¼öµé================================/////////////////////
+    ///////////==========================ìƒíƒœì´ˆê¸°í™” í•¨ìˆ˜ë“¤================================/////////////////////
 
     public void DestroyBuffTower()
     {
@@ -382,7 +398,7 @@ public class TrapObject : MonoBehaviour
 
     private void ClearAllbuff()
     {
-       
+
         buffTowerIndex.Clear();
         trapEffectList.Clear();
         RemoveBossImmuneBuff();
@@ -391,11 +407,11 @@ public class TrapObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹öÇÁÅ¸¿ö¸¦ ½ºÄµÇÏ¿© ¹öÇÁ¸¦ ÀçÀû¿ëÇÑ´Ù.
+    /// ë²„í”„íƒ€ì›Œë¥¼ ìŠ¤ìº”í•˜ì—¬ ë²„í”„ë¥¼ ì¬ì ìš©í•œë‹¤.
     /// </summary>
     private void ScanBuffTower()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, maxbuffRadius, LayerMaskData.tower);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, TowerManager.Instance.maxbuffRadius, LayerMaskData.tower);
 
         foreach (var hit in hits)
         {
@@ -408,7 +424,7 @@ public class TrapObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ÁÖº¯¿¡ Àå¾Ö¹°µéÀ» ½ºÄµÇÏ¿© ¹öÇÁ¸¦ ÀçÀû¿ëÇÑ´Ù.
+    /// ì£¼ë³€ì— ì¥ì• ë¬¼ë“¤ì„ ìŠ¤ìº”í•˜ì—¬ ë²„í”„ë¥¼ ì¬ì ìš©í•œë‹¤.
     /// </summary>
     public void ScanPlantedObstacle()
     {
@@ -422,11 +438,9 @@ public class TrapObject : MonoBehaviour
             switch (plantedEffect.obstacleType)
             {
                 case ObstacleType.Water:
-                    Debug.Log("¼³Ä¡À§Ä¡¿·¿¡ ¹°ÀÖÀ½");
                     environmentEffect.isNearWater = true;
                     break;
                 case ObstacleType.Fire:
-                    Debug.Log("¼³Ä¡À§Ä¡¿·¿¡ ºÒÀÖÀ½");
                     environmentEffect.isNearFire = true;
                     break;
 
@@ -454,7 +468,6 @@ public class TrapObject : MonoBehaviour
                 break;
             case TrapObjectState.Ready:
                 animator.enabled = true;
-                CanPlant();
                 OnActive();
                 break;
             case TrapObjectState.Triggered:
@@ -479,6 +492,6 @@ public class TrapObject : MonoBehaviour
             StopCoroutine(activeEffectCoroutine);
             activeEffectCoroutine = null;
         }
-        if (isActiveAndEnabled)TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
+        if (isActiveAndEnabled) TowerManager.Instance.StartCoroutine(TowerManager.Instance.NotifyTrapObjectNextFrame(transform.position));
     }
 }

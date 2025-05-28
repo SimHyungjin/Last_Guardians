@@ -31,7 +31,6 @@ public class Upgrade
         {
             var upgradedData = GetSuccessItem(instance);
             upgradedInstance = upgradedData;
-            Debug.Log($"Upgrade success: {instance.Data.ItemName}");
             return true;
         }
         else
@@ -52,23 +51,25 @@ public class Upgrade
         rule = upgradeRules.Find(x => x.sourceGrade == data.ItemGrade);
         if (rule == null)
         {
-            Debug.Log("No upgrade rule found");
             return false;
         }
 
         if (GameManager.Instance.gold < rule.requiredGold)
         {
-            Debug.Log("Not enough gold");
             return false;
         }
 
         if (GameManager.Instance.upgradeStones < rule.requiredUpgradeStones)
         {
-            Debug.Log("Not enough upgrade stones");
             return false;
         }
 
         return true;
+    }
+
+    public bool CanUpgrade(ItemData data)
+    {
+        return CanUpgrade(data, out _);
     }
     /// <summary>
     /// 업그레이드에 필요한 자원을 소비합니다. 업그레이드 규칙에 따라 자원을 차감합니다.
@@ -78,8 +79,8 @@ public class Upgrade
     {
         GameManager.Instance.gold -= rule.requiredGold;
         GameManager.Instance.upgradeStones -= rule.requiredUpgradeStones;
-        SaveSystem.SaveGoldReward(-rule.requiredGold);
-        SaveSystem.SaveUpgradeStonedReward(-rule.requiredUpgradeStones);
+        SaveSystem.SaveGetGold(-rule.requiredGold);
+        SaveSystem.SaveGetUpgradeStone(-rule.requiredUpgradeStones);
     }
     /// <summary>
     /// 업그레이드 성공 시 업그레이드된 아이템을 반환합니다. 업그레이드 규칙에 따라 업그레이드된 아이템을 찾습니다.
@@ -102,12 +103,10 @@ public class Upgrade
     {
         if (rule.failureEffect == UpgradeFailureEffect.Downgrade)
         {
-            Debug.Log("Upgrade failed, downgraded");
             return GameManager.Instance.ItemManager.GetItemInstanceByIndex(data.ItemIndex - 100);
         }
         else
         {
-            Debug.Log("Upgrade failed");
             return new ItemInstance(data);
         }
     }

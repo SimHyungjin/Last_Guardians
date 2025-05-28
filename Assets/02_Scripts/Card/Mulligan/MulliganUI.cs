@@ -1,5 +1,3 @@
-using Newtonsoft.Json.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,12 +6,16 @@ using UnityEngine.UI;
 
 public class MulliganUI : MonoBehaviour
 {
+    public static MulliganUI Instance { get; private set; }
     [SerializeField] private MulliganCard CardPrefab;
     [SerializeField] private TextMeshProUGUI desTextPrefab;
+    [SerializeField] private TextMeshProUGUI attackablePrefab;
     [SerializeField] private SpriteAtlas atlas;
     [SerializeField] private Transform parent;
     [SerializeField] private Transform descriptionTransfrom;
+    [SerializeField] private Transform attackableTransfrom;
     [SerializeField] private Button okBtn;
+    [SerializeField] private Outline okBtnOutline;
     [SerializeField] private int cardNum = 3;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI remianCardNumText;
@@ -32,6 +34,9 @@ public class MulliganUI : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
+
         selectedCard = new List<MulliganCard>();
         MyCardIndexList = new List<int>();
         MyCardList = new List<TowerData>();
@@ -39,8 +44,6 @@ public class MulliganUI : MonoBehaviour
 
         elementalDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Elemental);
         standardDataList = InGameManager.Instance.TowerDatas.FindAll(a => a.TowerType == TowerType.Standard);
-
-        //초기 카드 섞기
 
         Utils.Shuffle(elementalDataList);
         Utils.Shuffle(standardDataList);
@@ -52,7 +55,7 @@ public class MulliganUI : MonoBehaviour
         {
             UpdateTimer();
         }
-        
+
     }
 
     //카드선택 남은시간 타이머
@@ -85,8 +88,11 @@ public class MulliganUI : MonoBehaviour
         {
             MulliganCard card = Instantiate(CardPrefab, parent);
             TextMeshProUGUI des = Instantiate(desTextPrefab, descriptionTransfrom);
+            TextMeshProUGUI attackable = Instantiate(attackablePrefab, attackableTransfrom);
             card.Init(dataList[i].TowerIndex);
             des.text = dataList[i].TowerDescription;
+            if (dataList[i].AttackPower > 0) attackable.text = "(공격가능)";
+            else attackable.text = "";
             card.Btn.onClick.AddListener(() => AddSelectCardList(card));
         }
     }
@@ -98,6 +104,8 @@ public class MulliganUI : MonoBehaviour
         {
             selectedCard.Remove(card);
             card.Outline.enabled = false;
+            okBtnOutline.enabled = false;
+            remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
         }
         else
         {
@@ -108,6 +116,12 @@ public class MulliganUI : MonoBehaviour
             }
             selectedCard.Add(card);
             card.Outline.enabled = true;
+            remianCardNumText.text = "선택해야 하는 카드 수 : " + (MaxSelectedCards - selectedCard.Count);
+            if (MaxSelectedCards == selectedCard.Count)
+            {
+                okBtnOutline.enabled = true;
+                TutorialManager.Instance?.ChangeStep(TutorialStep.MulliganSelect);
+            }
         }
     }
 
@@ -151,6 +165,7 @@ public class MulliganUI : MonoBehaviour
     {
         DestroyAllChildren(parent);
         DestroyAllChildren(descriptionTransfrom);
+        DestroyAllChildren(attackableTransfrom);
         selectedCard.Clear();
     }
 
@@ -162,19 +177,20 @@ public class MulliganUI : MonoBehaviour
             Utils.Shuffle(elementalDataList);
             ShowCardSelect(elementalDataList, cardNum);
             MaxSelectedCards = 1;
-
+            TutorialManager.Instance?.ChangeStep(TutorialStep.MulliganEnd);
         }
         else if (count == 2)
         {
             ShowCardSelect(standardDataList, cardNum + 1);
             MaxSelectedCards = 2;
+            TutorialManager.Instance?.ChangeStep(TutorialStep.MulliganEnd);
         }
         else
         {
             EndMulligan();
         }
 
-       
+        okBtnOutline.enabled = false;
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
     }
 
@@ -191,9 +207,9 @@ public class MulliganUI : MonoBehaviour
         AnalyticsLogger.LogTowerSelect(MyCardList);
 
         InGameManager.Instance.GameStart();
-        
+
     }
-    
+
     //타이머 다 됐을때 카드 자동선택
     private void AutoSelectCard()
     {
@@ -216,7 +232,6 @@ public class MulliganUI : MonoBehaviour
 
         if (availableCards.Count == 0)
         {
-            Debug.Log("자동 선택 카드 부족");
             return;
         }
 
@@ -246,7 +261,11 @@ public class MulliganUI : MonoBehaviour
     {
         Utils.Shuffle(MyCardList);
         ShowCardSelect(MyCardList, 3);
+        okBtnOutline.enabled = false;
+        TowerManager.Instance.hand.HideUI();
         Time.timeScale = 0f;
+        if (MaxSelectedCards == 2) TutorialManager.Instance?.ChangeStep(TutorialStep.CardSelect);
+        //else TutorialManager.Instance?.ChangeStep(TutorialStep.LevelUpSelect);
     }
 
     //선택한 카드 패로
@@ -254,7 +273,6 @@ public class MulliganUI : MonoBehaviour
     {
         if (selectedCard.Count != MaxSelectedCards)
         {
-            Debug.Log($"카드 {MaxSelectedCards}개 선택되지 않음");
             return;
         }
 
@@ -265,13 +283,34 @@ public class MulliganUI : MonoBehaviour
 
         ClearUI();
         remianCardNumText.text = "선택해야 하는 카드 수 : " + MaxSelectedCards;
+        TowerManager.Instance.hand.OpenUI();
         gameObject.SetActive(false);
-        Time.timeScale = 1f;
+        Time.timeScale = InGameManager.Instance.TimeScale;
+        if (MaxSelectedCards == 2) Invoke("ExecuteAfterDelay", 0.5f);
         MaxSelectedCards = 1;
-        
+
         if (InGameManager.Instance.exp >= InGameManager.Instance.GetMaxExp())
         {
             InGameManager.Instance.LevelUp();
         }
+    }
+    public List<TowerData> GetSelectedCards()
+    {
+        return new List<TowerData>(MyCardList);
+    }
+
+    //////////////////////튜토리얼/////////////////////
+    public void OffTime()
+    {
+        isTimerOn = false;
+    }
+    public void OnTime()
+    {
+        isTimerOn = true;
+    }
+
+    private void ExecuteAfterDelay()
+    {
+        TutorialManager.Instance?.ChangeStep(TutorialStep.WaveStart);
     }
 }

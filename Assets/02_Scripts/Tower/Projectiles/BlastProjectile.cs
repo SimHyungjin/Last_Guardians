@@ -132,14 +132,14 @@ public class BlastProjectile : ProjectileBase
                                              TowerManager.Instance.GetTowerData(effectslist[i]),
                                              TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]),
                                              TowerManager.Instance.GetTowerData(effectslist[i]).EffectChance,
-                                             environmentEffect);
+                                             environmentEffect, adaptedTower.bossImmunebuff);
                         }
                         else
                         {
                             effects[i].Apply(monster,
                                              TowerManager.Instance.GetTowerData(effectslist[i]),
                                              TowerManager.Instance.GetAdaptedAttackTowerData(effectslist[i]),
-                                             environmentEffect);           
+                                             environmentEffect, adaptedTower.bossImmunebuff);           
                         }
                     }
                     else

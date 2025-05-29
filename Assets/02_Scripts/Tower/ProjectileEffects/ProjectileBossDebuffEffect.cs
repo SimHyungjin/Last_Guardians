@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
 {
     ///////////============================방어력감소==============================/////////////////////
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect, bool bossImmune)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {
@@ -11,7 +11,7 @@ public class ProjectileBossDebuffEffect : MonoBehaviour, IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffectm, bool bossImmune)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {

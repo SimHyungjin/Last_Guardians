@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 public interface IEffect
 {
-    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect);
-    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect,bool bossImmune);
+    void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect, bool bossImmune);
 }
 
 public class ProjectileFactory : MonoBehaviour

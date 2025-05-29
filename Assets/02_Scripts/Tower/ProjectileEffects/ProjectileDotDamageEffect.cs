@@ -4,20 +4,20 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
 {
     ///////////======================도트데미지 이펙트====================================/////////////////////
     float addObtacleValue = 0f;
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect, bool bossImmune)
     {
         IsFire(environmentEffect);
         if (target.MonsterData.MonsterType == MonType.Boss && towerData.EffectTarget == EffectTarget.BossOnly)
         {
             target.DotDamage(adaptedTowerData.effectValue, adaptedTowerData.effectDuration * addObtacleValue);
         }
-        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
+        else if (Utils.ShouldApplyEffect(target, towerData, bossImmune))
         {
             target.DotDamage(adaptedTowerData.effectValue, adaptedTowerData.effectDuration * addObtacleValue);
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect, bool bossImmune)
     {
         IsFire(environmentEffect);
         if (target.MonsterData.MonsterType == MonType.Boss && towerData.EffectTarget == EffectTarget.BossOnly)
@@ -27,7 +27,7 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
                 target.DotDamage(adaptedTowerData.effectValue, adaptedTowerData.effectDuration * addObtacleValue);
             }
         }
-        else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
+        else if (Utils.ShouldApplyEffect(target, towerData, bossImmune))
         {
             if (Random.value < chance)
             {

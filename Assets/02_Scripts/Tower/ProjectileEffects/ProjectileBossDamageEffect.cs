@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProjectileBossDamageEffect : MonoBehaviour, IEffect
 {
     ///////////=====================보스추가데미지=====================================/////////////////////
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect, bool bossImmune)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {
@@ -11,7 +11,7 @@ public class ProjectileBossDamageEffect : MonoBehaviour, IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect, bool bossImmune)
     {
         if (target.MonsterData.MonsterType == MonType.Boss)
         {

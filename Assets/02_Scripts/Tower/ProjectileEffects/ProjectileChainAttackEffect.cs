@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
 {
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect, bool bossImmune)
     {
         //주변에 스플레시 대미지
         if (towerData.EffectTargetCount == 0)
@@ -37,7 +37,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect, bool bossImmune)
     {
 
     }

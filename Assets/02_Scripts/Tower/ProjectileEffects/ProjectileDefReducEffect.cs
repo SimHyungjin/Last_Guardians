@@ -4,18 +4,18 @@ public class ProjectileDefReducEffect : MonoBehaviour, IEffect
 {
     ///////////=====================보스미적용 방어력감소=====================================/////////////////////
     float addWeatherValue = 0f;
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect, bool bossImmune)
     {
-        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
+        if (Utils.ShouldApplyEffect(target, towerData, bossImmune))
         {
             isFog();
             target.ApplyReducionDef(adaptedTowerData.effectValue + addWeatherValue, adaptedTowerData.effectDuration);
         }
     }
 
-    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect)
+    public void Apply(BaseMonster target, TowerData towerData, AdaptedAttackTowerData adaptedTowerData, float chance, EnvironmentEffect environmentEffect, bool bossImmune)
     {
-        if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
+        if (Utils.ShouldApplyEffect(target, towerData, bossImmune))
         {
             isFog();
             if (Random.value < chance)

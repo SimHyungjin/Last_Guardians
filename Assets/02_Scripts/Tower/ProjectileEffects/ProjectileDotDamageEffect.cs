@@ -9,11 +9,11 @@ public class ProjectileDotDamageEffect : MonoBehaviour, IEffect
         IsFire(environmentEffect);
         if (target.MonsterData.MonsterType == MonType.Boss && towerData.EffectTarget == EffectTarget.BossOnly)
         {
-            target.DotDamage(towerData.EffectValue, towerData.EffectDuration * addObtacleValue);
+            target.DotDamage(adaptedTowerData.effectValue, adaptedTowerData.effectDuration * addObtacleValue);
         }
         else if (Utils.ShouldApplyEffect(target, towerData, adaptedTowerData.bossImmunebuff))
         {
-            target.DotDamage(towerData.EffectValue, towerData.EffectDuration * addObtacleValue);
+            target.DotDamage(adaptedTowerData.effectValue, adaptedTowerData.effectDuration * addObtacleValue);
         }
     }
 

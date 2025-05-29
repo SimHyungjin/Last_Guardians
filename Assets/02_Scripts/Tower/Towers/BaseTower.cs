@@ -249,7 +249,7 @@ public abstract class BaseTower : MonoBehaviour
         foreach (var hit in hits)
         {
             BuffTower otherTower = hit.GetComponent<BuffTower>();
-            if (otherTower != null && otherTower != this)
+            if (otherTower != null && otherTower != this && Vector2.Distance(otherTower.gameObject.transform.position,this.gameObject.transform.position)<=otherTower.adaptedBuffTowerData.attackRange)
             {
                 otherTower.ReApplyBuff();
             }

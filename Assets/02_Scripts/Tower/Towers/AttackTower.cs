@@ -73,7 +73,6 @@ public class AdaptedAttackTowerData
         effectDuration *= TowerManager.Instance.towerUpgradeValueData.towerUpgradeValues[(int)TowerUpgradeType.EffectDuration].levels[EffectDurationLevel];
 
     }
-
 }
 public class AttackTower : BaseTower
 {
@@ -86,7 +85,7 @@ public class AttackTower : BaseTower
     Collider2D[] hits;
     [Header("버프")]
     public AdaptedAttackTowerData adaptedTowerData;
-    List<int> buffTowerIndex;
+    [SerializeField]List<int> buffTowerIndex;
     //private bool Disable;
 
     [Header("공격속도")]
@@ -381,6 +380,7 @@ public class AttackTower : BaseTower
     }
     public void BossImmuneBuff()
     {
+        
         adaptedTowerData.bossImmunebuff = true;
     }
 
@@ -409,6 +409,7 @@ public class AttackTower : BaseTower
         {
             if (TowerManager.Instance.GetTowerData(buffTowerIndex[i]).SpecialEffect == TowerManager.Instance.GetTowerData(towerIndex).SpecialEffect)
             {
+
                 var existing = TowerManager.Instance.GetTowerData(buffTowerIndex[i]);
                 if (existing.EffectValue < TowerManager.Instance.GetTowerData(towerIndex).EffectValue)
                 {
@@ -443,7 +444,8 @@ public class AttackTower : BaseTower
     public override void DestroyBuffTower()
     {
         ClearAllbuff();
-        ScanBuffTower();
+        Invoke("ScanBuffTower", 0.1f);
+        //ScanBuffTower();
     }
 
     private void ClearAllbuff()
@@ -453,6 +455,8 @@ public class AttackTower : BaseTower
         RemoveAttackPowerBuff();
         RemoveAttackSpeedBuff();
         buffTowerIndex.Clear();
+        adaptedTowerData.buffTowerIndex.Clear();
         buffTowerIndex.Add(towerData.TowerIndex);
+        adaptedTowerData.buffTowerIndex.Add(towerData.TowerIndex);
     }
 }

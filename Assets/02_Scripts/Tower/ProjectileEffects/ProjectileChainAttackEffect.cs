@@ -28,11 +28,11 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
             if (ownerTowerData.EffectTarget == EffectTarget.BossOnly)
             {
                 if (target.MonsterData.MonsterType == MonType.Boss)
-                    ChainShot(target, ownerTowerData, adaptedTowerData);
+                    ChainShot(target, ownerTowerData, adaptedTowerData, environmentEffect);
             }
             else
             {
-                ChainShot(target, ownerTowerData, adaptedTowerData);
+                ChainShot(target, ownerTowerData, adaptedTowerData, environmentEffect);
             }
         }
     }
@@ -50,7 +50,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
     /// <param name="target"></param>
     /// <param name="ownerTowerData"></param>
     /// <param name="adaptedTowerData"></param>
-    private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedAttackTowerData adaptedTowerData)
+    private void ChainShot(BaseMonster target, TowerData ownerTowerData, AdaptedAttackTowerData adaptedTowerData, EnvironmentEffect environmentEffect)
     {
         float angleStep = 10f;
         int additionalCount = ownerTowerData.EffectTargetCount;
@@ -87,7 +87,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
                     magicprojectile.OriginTarget = target;
                     magicprojectile.transform.position = spawnPosition;
                     magicprojectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself, null);
+                    magicprojectile.Init(ownerTowerData, adaptedTowerData, effectsubself, environmentEffect);
                     TowerManager.Instance.projectileFactory.AddAllEffects(magicprojectile, effectsubself);
                     magicprojectile.Launch(origin + dir * 10f);
                     break;
@@ -97,7 +97,7 @@ public class ProjectileChainAttackEffect : MonoBehaviour, IEffect
                     blastProjectile.OriginTarget = target;
                     blastProjectile.transform.position = spawnPosition;
                     blastProjectile.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, dir));
-                    blastProjectile.Init(ownerTowerData, adaptedTowerData, effectsubself, null);
+                    blastProjectile.Init(ownerTowerData, adaptedTowerData, effectsubself, environmentEffect);
                     TowerManager.Instance.projectileFactory.AddAllEffects(blastProjectile, effectsubself);
                     blastProjectile.Launch(origin + dir * 0.3f);
                     break;

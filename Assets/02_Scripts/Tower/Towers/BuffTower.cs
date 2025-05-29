@@ -107,6 +107,9 @@ public class BuffTower : BaseTower
                 case SpecialEffect.AttackSpeed:
                     towerBuff = new TowerBuffAttackSpeed();
                     break;
+                case SpecialEffect.Buff:
+                    towerBuff = new TowerBuffBossImmuneDelBuff();
+                    break;
                 default:
                     towerBuff = new TowerBuffAddProjectileComponent();
                     break;
@@ -227,7 +230,6 @@ public class BuffTower : BaseTower
                 break;
             }
         }
-
         if (!found)
         {
             buffTowerIndex.Add(towerIndex);
@@ -304,6 +306,7 @@ public class BuffTower : BaseTower
 
     protected override void OnDestroy()
     {
+        Debug.Log("BuffTower OnDestroy");
         if (towerData.EffectTarget != EffectTarget.Towers) return;
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, adaptedBuffTowerData.attackRange / 2, LayerMaskData.tower);

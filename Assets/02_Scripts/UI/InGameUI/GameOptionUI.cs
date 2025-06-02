@@ -52,6 +52,8 @@ public class GameOptionUI : MonoBehaviour
 
     public void ChangeGameSpeed()
     {
+        if (optionSlot.gameObject.activeSelf)
+            return;
         InGameManager.Instance.SetTimeScale();
         gameSpeedIndex = (gameSpeedIndex + 1) % gameSpeedButtonImages.Length;
         gameSpeedButton.GetComponent<Image>().sprite = gameSpeedButtonImages[gameSpeedIndex];
